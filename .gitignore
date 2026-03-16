@@ -1,0 +1,14 @@
+# Build output
+build/
+Builds/
+build_out.txt
+build_stderr.txt
+build_stdout.txt
+
+# Runtime log — regenerated on every session
+whatdbg.log
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake

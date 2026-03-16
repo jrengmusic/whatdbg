@@ -1,0 +1,17 @@
+**********************************************************************
+** Visual Studio 2026 Developer Command Prompt v18.4.0
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+--- CL compile ---
+Microsoft (R) C/C++ Optimizing Compiler Version 19.50.35726 for x64
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+hello.cpp
+Microsoft (R) Incremental Linker Version 14.50.35726.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/debug 
+/out:hello.exe 
+hello.obj 
+BUILD_EXIT=0
