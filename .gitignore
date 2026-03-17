@@ -12,3 +12,6 @@ whatdbg.log
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
+
+# Reference codebases — local research only, not tracked
+references/
