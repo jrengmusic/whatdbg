@@ -403,7 +403,16 @@ bool DbgEngSession::launch (const std::string& program,
             {
                 isHasTarget = true;
                 isWaitingForConfig = true;
-                fprintf (stderr, "WHATDBG: symbol engine should be initialized\n");
+
+                // Force-load all module symbols NOW.  dbgeng uses deferred
+                // symbol loading by default (SYMOPT_DEFERRED_LOADS is ON).
+                // Without /f, PDBs are not read until explicitly demanded —
+                // but GetOffsetByLine does NOT trigger demand-loading.
+                // setBreakpoints runs AFTER launch returns, so symbols must
+                // be ready before tryResolve calls GetOffsetByLine.
+                symbolsPtr->Reload ("/f");
+
+                fprintf (stderr, "WHATDBG: symbol engine initialized — symbols force-loaded\n");
             }
             else
             {
@@ -479,7 +488,7 @@ void DbgEngSession::reloadSymbols ()
 {
     fprintf (stderr, "WHATDBG: reloading symbols for all modules...\n");
 
-    HRESULT hr { symbolsPtr->Reload ("") };
+    HRESULT hr { symbolsPtr->Reload ("/f") };
     fprintf (stderr, "WHATDBG: Reload result hr=0x%08lX\n",
         static_cast<unsigned long> (hr));
 }

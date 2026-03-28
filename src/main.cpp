@@ -147,13 +147,20 @@ int main ()
 
     // Step 6 — Main event loop.
     //
-    // Three states (Phase 2: always Idle — no target launched yet):
-    //   Idle    — no target attached; WaitForEvent returns E_UNEXPECTED immediately.
-    //   Running — target executing; WaitForEvent polls with kWaitForEventTimeoutMs.
-    //   Stopped — target broken in; commands processed, then WaitForEvent resumes.
+    // Execution states:
+    //   Idle    — no target attached; skip WaitForEvent entirely.
+    //   Running — target executing; call WaitForEvent to poll for events.
+    //   Stopped — target stopped at user breakpoint; DO NOT call WaitForEvent
+    //             (it resumes the target).  Only resume on continue/step.
+    //
+    // CRITICAL: WaitForEvent on a stopped target RESUMES execution.
+    // dbgeng calls ContinueDebugEvent internally.  We must not call
+    // WaitForEvent unless the target is actually running.
     //
     // All COM calls (dispatch, WaitForEvent) happen on this thread.
     // The IO thread only touches the CommandQueue.
+
+    bool isTargetStopped { false };
 
     while (dispatcher.isRunning () == true)
     {
@@ -165,6 +172,15 @@ int main ()
 
             auto response { dispatcher.dispatch (*cmd) };
             protocol.writeMessage (std::cout, response);
+
+            // Commands that resume the target clear the stopped flag so
+            // WaitForEvent is called again on the next loop iteration.
+            if (command == "continue" or command == "next"
+                or command == "stepIn" or command == "stepOut"
+                or command == "configurationDone")
+            {
+                isTargetStopped = false;
+            }
 
             // Send the initialized event immediately after the initialize
             // response.  nvim-dap waits for this event before sending
@@ -183,13 +199,18 @@ int main ()
         // E_UNEXPECTED = no targets; expected in Idle state.
         // E_PENDING    = exit interrupt issued.
         // All return codes are handled by callbacks or are expected non-errors.
-        if (isDbgengReady == true and session.hasTarget () == true)
+        if (isDbgengReady == true and session.hasTarget () == true
+            and isTargetStopped == false
+            and session.isWaitingForConfiguration () == false)
         {
-            // WaitForEvent must be called even while waiting for configuration.
-            // After CreateProcess, dbgeng queues module load events and the
-            // initial breakpoint.  If we skip WaitForEvent, those events are
-            // never processed and the symbol engine stays in a "partially
-            // initialized" state — GetOffsetByLine returns E_UNEXPECTED.
+            // Only call WaitForEvent when the target is RUNNING.
+            //
+            // WaitForEvent on a stopped target resumes execution (dbgeng calls
+            // ContinueDebugEvent internally).  We must skip it when:
+            //   - isTargetStopped: target at user breakpoint, waiting for continue/step
+            //   - isWaitingForConfiguration: target at initial breakpoint, waiting for
+            //     configurationDone.  Symbols are force-loaded in launch(), so
+            //     setBreakpoints resolves immediately — no WaitForEvent needed.
             HRESULT hr { session.control ()->WaitForEvent (0, kWaitForEventTimeoutMs) };
 
             if (hr != S_OK and hr != S_FALSE and hr != E_UNEXPECTED and hr != E_PENDING)
@@ -198,58 +219,73 @@ int main ()
                     static_cast<unsigned long> (hr));
             }
 
-            // After WaitForEvent: if new modules loaded, re-resolve pending breakpoints.
+            // After WaitForEvent: check for pending events in priority order.
             //
-            // LoadModule now returns DEBUG_STATUS_BREAK when pending BPs exist, so
-            // WaitForEvent returns S_OK with execStatus == DEBUG_STATUS_BREAK — the
-            // target is already stopped here.  No SetInterrupt polling needed.
+            // 1. Breakpoint stop — emit stopped event, discard module load flag.
+            // 2. Module load — re-resolve pending breakpoints, resume target.
+            // 3. Process exit — emit exited + terminated events.
             //
-            // Steps:
-            //   1. consumeModuleLoadFlag() — clears the flag set by LoadModule callback.
-            //   2. Check execStatus — only resolve if the target is actually stopped.
-            //   3. Reload("") — flush the dbgeng symbol engine for newly loaded modules.
-            //      GetOffsetByLine returns E_UNEXPECTED if called before the symbol
-            //      engine has finished parsing the PDB; Reload("") blocks until ready.
-            //   4. onModuleLoad — retry GetOffsetByLine + AddBreakpoint2 for all pending.
-            //   5. Resume — SetExecutionStatus(GO) unless waiting for configurationDone.
-            if (eventCb != nullptr and eventCb->consumeModuleLoadFlag () == true)
+            // If a breakpoint fires in the same WaitForEvent cycle as a module
+            // load, the breakpoint wins — the target stays stopped.
+            if (eventCb != nullptr)
             {
-                auto* bpMgr { dispatcher.breakpointManager () };
+                auto stoppedBody { eventCb->consumeBreakpointStop () };
 
-                if (bpMgr != nullptr and bpMgr->hasPending () == true)
+                if (stoppedBody.has_value () == true)
                 {
-                    ULONG execStatus { 0 };
-                    session.control ()->GetExecutionStatus (&execStatus);
+                    protocol.writeMessage (std::cout,
+                        dap::makeEvent ("stopped", *stoppedBody));
 
-                    if (execStatus == DEBUG_STATUS_BREAK)
+                    isTargetStopped = true;
+                    eventCb->consumeModuleLoadFlag ();
+                }
+                else if (eventCb->consumeModuleLoadFlag () == true)
+                {
+                    auto* bpMgr { dispatcher.breakpointManager () };
+
+                    if (bpMgr != nullptr and bpMgr->hasPending () == true)
                     {
-                        // Flush the symbol engine — ensures the PDB for the newly
-                        // loaded module is fully parsed before GetOffsetByLine is called.
-                        HRESULT hrReload { session.symbols ()->Reload ("") };
-                        fprintf (stderr,
-                                "WHATDBG: Reload(\"\") hr=0x%08lX — resolving pending breakpoints\n",
-                                static_cast<unsigned long> (hrReload));
+                        ULONG execStatus { 0 };
+                        session.control ()->GetExecutionStatus (&execStatus);
 
-                        auto events { bpMgr->onModuleLoad ("*") };
-                        for (const auto& evt : events)
+                        if (execStatus == DEBUG_STATUS_BREAK)
                         {
-                            protocol.writeMessage (std::cout, evt);
+                            HRESULT hrReload { session.symbols ()->Reload ("/f") };
+                            fprintf (stderr,
+                                    "WHATDBG: Reload(\"/f\") hr=0x%08lX — resolving pending breakpoints\n",
+                                    static_cast<unsigned long> (hrReload));
+
+                            auto events { bpMgr->onModuleLoad ("*") };
+                            for (const auto& evt : events)
+                            {
+                                protocol.writeMessage (std::cout, evt);
+                            }
+
+                            if (session.isWaitingForConfiguration () == false)
+                            {
+                                session.control ()->SetExecutionStatus (DEBUG_STATUS_GO);
+                            }
                         }
-
-                        // Resume execution unless we are still in the configuration
-                        // window (between launch and configurationDone).
-                        if (session.isWaitingForConfiguration () == false)
+                        else
                         {
-                            session.control ()->SetExecutionStatus (DEBUG_STATUS_GO);
+                            fprintf (stderr,
+                                    "WHATDBG: module load flag set but target not stopped "
+                                    "(execStatus=%lu) — BPs remain pending\n",
+                                    static_cast<unsigned long> (execStatus));
                         }
                     }
-                    else
+                }
+
+                auto exitCode { eventCb->consumeExitEvent () };
+
+                if (exitCode.has_value () == true)
+                {
+                    protocol.writeMessage (std::cout, dap::makeEvent ("exited",
                     {
-                        fprintf (stderr,
-                                "WHATDBG: module load flag set but target not stopped "
-                                "(execStatus=%lu) — BPs remain pending\n",
-                                static_cast<unsigned long> (execStatus));
-                    }
+                        { "exitCode", *exitCode }
+                    }));
+
+                    protocol.writeMessage (std::cout, dap::makeEvent ("terminated"));
                 }
             }
         }

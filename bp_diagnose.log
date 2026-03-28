@@ -1,0 +1,100 @@
+[     0 ms] LOG OPENED
+[     0 ms] SECTION: bp_diagnose starting
+[     0 ms] SECTION: target file = bp_test_target.cpp  target line = 26
+[     0 ms] SECTION: target exe = C:\Users\jreng\Documents\Poems\dev\whatdbg\Builds\Ninja\bp_test_target.exe
+[     0 ms] SECTION: initializing DbgEngSession
+[   109 ms] SECTION: session.initialize() → OK
+[   109 ms] SECTION: registering callbacks
+[   109 ms] SECTION: SetEventCallbacks → hr=0x00000000
+[   109 ms] SECTION: launching C:\Users\jreng\Documents\Poems\dev\whatdbg\Builds\Ninja\bp_test_target.exe
+[   109 ms] CALLBACK: ChangeEngineState — flags=0x00000800 arg=0x0
+[   140 ms] SECTION: CreateProcess2 → hr=0x00000000
+[   140 ms] SECTION: WaitForEvent (initial loader breakpoint)
+[   140 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x1
+[   172 ms] CALLBACK: ChangeEngineState — flags=0x00000400 arg=0x0
+[   172 ms] CALLBACK: SessionStatus — status=0
+[   172 ms] CALLBACK: ChangeDebuggeeState — flags=0xFFFFFFFF arg=0x0
+[   172 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x100000006
+[   172 ms] CALLBACK: ChangeEngineState — flags=0x00000001 arg=0x0
+[   172 ms] CALLBACK: ChangeDebuggeeState — flags=0xFFFFFFFF arg=0x0
+[   172 ms] CALLBACK: CreateProcess — base=0x7FF659110000 name=bp_test_target image=bp_test_target.exe
+[   172 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x1
+[   172 ms] CALLBACK: ChangeSymbolState — flags=0x00000001 arg=0x7FF936480000
+[   172 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x100000006
+[   172 ms] CALLBACK: ChangeEngineState — flags=0x00000001 arg=0x0
+[   172 ms] CALLBACK: ChangeDebuggeeState — flags=0xFFFFFFFF arg=0x0
+[   172 ms] CALLBACK: LoadModule — base=0x7FF936480000 name=ntdll image=ntdll.dll
+[   172 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x1
+[   172 ms] CALLBACK: ChangeSymbolState — flags=0x00000001 arg=0x7FF935A50000
+[   172 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x100000006
+[   172 ms] CALLBACK: ChangeEngineState — flags=0x00000001 arg=0x0
+[   172 ms] CALLBACK: ChangeDebuggeeState — flags=0xFFFFFFFF arg=0x0
+[   172 ms] CALLBACK: LoadModule — base=0x7FF935A50000 name=KERNEL32 image=C:\WINDOWS\System32\KERNEL32.DLL
+[   172 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x1
+[   172 ms] CALLBACK: ChangeSymbolState — flags=0x00000001 arg=0x7FF933370000
+[   172 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x100000006
+[   172 ms] CALLBACK: ChangeEngineState — flags=0x00000001 arg=0x0
+[   172 ms] CALLBACK: ChangeDebuggeeState — flags=0xFFFFFFFF arg=0x0
+[   172 ms] CALLBACK: LoadModule — base=0x7FF933370000 name=KERNELBASE image=C:\WINDOWS\System32\KERNELBASE.dll
+[   172 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x1
+[   203 ms] CALLBACK: ChangeSymbolState — flags=0x00000001 arg=0x7FF92FFC0000
+[   203 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x100000006
+[   203 ms] CALLBACK: ChangeEngineState — flags=0x00000001 arg=0x0
+[   203 ms] CALLBACK: ChangeDebuggeeState — flags=0xFFFFFFFF arg=0x0
+[   203 ms] CALLBACK: LoadModule — base=0x7FF92FFC0000 name=apphelp image=C:\WINDOWS\SYSTEM32\apphelp.dll
+[   203 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x1
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x100000006
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000001 arg=0x1
+[   218 ms] CALLBACK: ChangeDebuggeeState — flags=0xFFFFFFFF arg=0x0
+[   218 ms] CALLBACK: CreateThread — start=0x7FF9364F5B10
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x1
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x100000006
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000001 arg=0x2
+[   218 ms] CALLBACK: ChangeDebuggeeState — flags=0xFFFFFFFF arg=0x0
+[   218 ms] CALLBACK: CreateThread — start=0x7FF9364F5B10
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x1
+[   218 ms] CALLBACK: ChangeSymbolState — flags=0x00000001 arg=0x7FF92B7B0000
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x100000006
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000001 arg=0x0
+[   218 ms] CALLBACK: ChangeDebuggeeState — flags=0xFFFFFFFF arg=0x0
+[   218 ms] CALLBACK: LoadModule — base=0x7FF92B7B0000 name=VCRUNTIME140D image=C:\WINDOWS\SYSTEM32\VCRUNTIME140D.dll
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x1
+[   218 ms] CALLBACK: ChangeSymbolState — flags=0x00000001 arg=0x7FF929430000
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x100000006
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000001 arg=0x1
+[   218 ms] CALLBACK: ChangeDebuggeeState — flags=0xFFFFFFFF arg=0x0
+[   218 ms] CALLBACK: LoadModule — base=0x7FF929430000 name=ucrtbased image=C:\WINDOWS\SYSTEM32\ucrtbased.dll
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x1
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x100000006
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000001 arg=0x3
+[   218 ms] CALLBACK: ChangeDebuggeeState — flags=0xFFFFFFFF arg=0x0
+[   218 ms] CALLBACK: CreateThread — start=0x7FF9364F5B10
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x1
+[   218 ms] CALLBACK: ChangeDebuggeeState — flags=0x00000001 arg=0x10
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x100000006
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000001 arg=0x0
+[   218 ms] CALLBACK: ChangeDebuggeeState — flags=0xFFFFFFFF arg=0x0
+[   218 ms] CALLBACK: Exception — initial INT3 (code=0x80000003 firstChance=1) → BREAK
+[   218 ms] CALLBACK: ChangeEngineState — flags=0x00000010 arg=0x6
+[   218 ms] SECTION: initial WaitForEvent → hr=0x00000000 execStatus=6
+[   218 ms] SECTION: setting source path: C:\Users\jreng\Documents\Poems\dev\whatdbg\src
+[   218 ms] CALLBACK: ChangeSymbolState — flags=0x00000008 arg=0x0
+[   218 ms] SECTION: AppendSourcePath → hr=0x00000000
+[   218 ms] CALLBACK: ChangeSymbolState — flags=0x00000003 arg=0x0
+[   218 ms] CALLBACK: ChangeSymbolState — flags=0x00000001 arg=0x7FF936480000
+[   218 ms] SECTION: Reload → hr=0x00000000
+[   218 ms] SECTION: TEST A — GetOffsetByLine
+[   218 ms] TEST A: GetOffsetByLine bp_test_target.cpp:26 → offset=0x0000000000000000 (hr=0x80004005)
+[   218 ms] RESULT: TEST A: FAIL
+[   218 ms] SECTION: cleanup — DetachProcesses
+[   234 ms] SECTION: DetachProcesses → hr=0x00000000
+[   234 ms] SECTION: session shutdown complete
+[   234 ms] SECTION: === SUMMARY ===
+[   234 ms] RESULT: TEST A (GetOffsetByLine):     FAIL
+[   234 ms] RESULT: TEST B (AddBreakpoint2):      FAIL
+[   234 ms] RESULT: TEST C (verify state):        FAIL
+[   234 ms] RESULT: TEST D (resume + WaitFor):    FAIL
+[   234 ms] RESULT: TEST E (callback fired):      FAIL
+[   234 ms] RESULT: TEST F (thread state):        SKIP/FAIL
+[   234 ms] RESULT: OVERALL: FAIL — see individual results above
+[   234 ms] LOG CLOSED

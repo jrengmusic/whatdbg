@@ -53,3 +53,36 @@ target_link_libraries(whatdbg_smoke PRIVATE
     ole32.lib
     oleaut32.lib
 )
+
+# ---------------------------------------------------------------------------
+# bp_test_target — tiny breakpoint test victim
+# ---------------------------------------------------------------------------
+
+add_executable(bp_test_target
+    src/bp_test_target.cpp
+)
+
+# ---------------------------------------------------------------------------
+# bp_diagnose — standalone breakpoint lifecycle diagnostic
+#
+# Launches bp_test_target.exe, sets a breakpoint, resumes, checks if it fires.
+# Logs everything to bp_diagnose.log. Zero DAP involvement.
+#
+# Usage: bp_diagnose.exe (finds bp_test_target.exe in same directory)
+# ---------------------------------------------------------------------------
+
+add_executable(bp_diagnose
+    src/bp_diagnose.cpp
+    src/DbgEngSession.cpp
+)
+
+target_include_directories(bp_diagnose PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/third_party
+)
+
+target_link_libraries(bp_diagnose PRIVATE
+    dbgeng.lib
+    ole32.lib
+    oleaut32.lib
+)

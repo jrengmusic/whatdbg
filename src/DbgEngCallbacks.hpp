@@ -91,6 +91,9 @@ public:
     // Main loop calls this after WaitForEvent to know if pending BPs should be re-resolved.
     bool consumeModuleLoadFlag ();
 
+    std::optional<nlohmann::json> consumeBreakpointStop ();
+    std::optional<int>            consumeExitEvent ();
+
 private:
     DapProtocol&           protocol;
     BreakpointManager*     breakpointManager { nullptr };
@@ -98,6 +101,8 @@ private:
     DbgEngSession*         session { nullptr };
     std::atomic<bool>      hasNewModuleLoaded { false };
     bool                   isInitialBreakpointSeen { false };
+    std::optional<nlohmann::json> pendingStoppedBody {};
+    std::optional<int>            pendingExitCode {};
     ULONG                  refCount { 1 };
 };
 

@@ -131,6 +131,20 @@ bool EventCallbacks::consumeModuleLoadFlag ()
     return hasNewModuleLoaded.exchange (false);
 }
 
+std::optional<nlohmann::json> EventCallbacks::consumeBreakpointStop ()
+{
+    auto result { std::move (pendingStoppedBody) };
+    pendingStoppedBody.reset ();
+    return result;
+}
+
+std::optional<int> EventCallbacks::consumeExitEvent ()
+{
+    auto result { pendingExitCode };
+    pendingExitCode.reset ();
+    return result;
+}
+
 // ---------------------------------------------------------------------------
 // IUnknown
 // ---------------------------------------------------------------------------
@@ -191,8 +205,6 @@ HRESULT STDMETHODCALLTYPE EventCallbacks::Breakpoint (PDEBUG_BREAKPOINT bp)
 
     if (breakpointManager != nullptr and bp != nullptr)
     {
-        // QueryInterface to IDebugBreakpoint2 — the callback delivers
-        // PDEBUG_BREAKPOINT (IDebugBreakpoint*); we need IDebugBreakpoint2.
         IDebugBreakpoint2* bp2 { nullptr };
 
         HRESULT hrQi { bp->QueryInterface (__uuidof (IDebugBreakpoint2),
@@ -207,11 +219,7 @@ HRESULT STDMETHODCALLTYPE EventCallbacks::Breakpoint (PDEBUG_BREAKPOINT bp)
                 systemObjects->GetCurrentThreadId (&threadId);
             }
 
-            nlohmann::json stoppedBody {
-                breakpointManager->onBreakpointHit (bp2, threadId) };
-
-            protocol.writeMessage (std::cout,
-                dap::makeEvent ("stopped", stoppedBody));
+            pendingStoppedBody = breakpointManager->onBreakpointHit (bp2, threadId);
 
             bp2->Release ();
         }
@@ -338,12 +346,7 @@ HRESULT STDMETHODCALLTYPE EventCallbacks::ExitProcess (ULONG exitCode)
         session->clearTarget ();
     }
 
-    protocol.writeMessage (std::cout, dap::makeEvent ("exited",
-    {
-        { "exitCode", static_cast<int> (exitCode) }
-    }));
-
-    protocol.writeMessage (std::cout, dap::makeEvent ("terminated"));
+    pendingExitCode = static_cast<int> (exitCode);
 
     return DEBUG_STATUS_NO_CHANGE;
 }

@@ -111,6 +111,82 @@
 
 ## SPRINT HISTORY
 
+## Sprint 2 — Fix Breakpoints: Deferred Events, Symbol Loading, Execution State
+
+**Date:** 2026-03-28 — 2026-03-29
+**Agents:** COUNSELOR (primary), Pathfinder, Researcher, Engineer, Auditor
+
+---
+
+### Problems Solved
+
+**Problem 1 — DAP events emitted from inside dbgeng callbacks**
+
+`Breakpoint()` and `ExitProcess()` callbacks wrote DAP events to stdout during `WaitForEvent`. The main loop had no knowledge of these events, causing race conditions with the module load handler (which could resume the target immediately after a breakpoint stop).
+
+**Fix:** Deferred event emission. Callbacks store state in `std::optional` fields (`pendingStoppedBody`, `pendingExitCode`). Main loop consumes them after `WaitForEvent` returns via `consumeBreakpointStop()` / `consumeExitEvent()`, with priority: breakpoint > module load > exit.
+
+**Problem 2 — `Reload("")` does not force-load deferred symbols**
+
+dbgeng uses deferred symbol loading by default (`SYMOPT_DEFERRED_LOADS`). `Reload("")` only reloads already-loaded symbols — it skips modules whose PDBs were never demanded. `GetOffsetByLine` does not trigger demand-loading, so it returned `E_FAIL` for valid source files.
+
+**Confirmed by:** standalone `bp_diagnose` harness — all 6 tests FAIL with `Reload("")`, all 6 PASS with `Reload("/f")`.
+
+**Fix:** `Reload("/f")` (force flag) in `launch()` after initial WaitForEvent, and in the module load handler. Symbols are now loaded before `setBreakpoints` runs.
+
+**Problem 3 — `WaitForEvent` resumes a stopped target**
+
+`WaitForEvent` on a stopped target calls `ContinueDebugEvent` internally — it resumes execution. The main loop called `WaitForEvent` unconditionally every 100ms, so after a breakpoint hit and stopped event emission, the next iteration immediately resumed the target. The breakpoint fired again, and eventually the target crashed with unhandled `EXCEPTION_BREAKPOINT` (exit code 0x80000003).
+
+**Fix:** `isTargetStopped` flag in main loop. Set `true` when stopped event emitted. Cleared by `continue`/`next`/`stepIn`/`stepOut`/`configurationDone`. `WaitForEvent` skipped when `isTargetStopped == true` or `isWaitingForConfiguration() == true`.
+
+### Files Modified (5 total)
+
+- `src/DbgEngCallbacks.hpp` — added `pendingStoppedBody` (`std::optional<json>`), `pendingExitCode` (`std::optional<int>`), `consumeBreakpointStop()`, `consumeExitEvent()` public methods
+- `src/DbgEngCallbacks.cpp` — `Breakpoint()`: stores result in `pendingStoppedBody` instead of writing to stdout; `ExitProcess()`: stores exit code in `pendingExitCode` instead of writing to stdout; added consume method implementations
+- `src/DbgEngSession.cpp` — `launch()`: added `Reload("/f")` after initial WaitForEvent to force-load all symbols; `reloadSymbols()`: `Reload("")` → `Reload("/f")`
+- `src/main.cpp` — post-WaitForEvent restructured with priority event dispatch (breakpoint > module load > exit); added `isTargetStopped` execution state gate; `WaitForEvent` skipped when target stopped or waiting for configuration; `Reload("")` → `Reload("/f")` in module load handler
+- `CMakeLists.txt` — added `bp_test_target` and `bp_diagnose` build targets
+
+### New Files (diagnostic, not production)
+
+- `src/bp_test_target.cpp` — tiny breakpoint test victim (known function at known line)
+- `src/bp_diagnose.cpp` — standalone dbgeng breakpoint lifecycle diagnostic (6 tests, logs to file)
+
+### Alignment Check
+
+- [x] LIFESTAR principles followed (Lean: minimal changes; Explicit: execution states documented; SSOT: event emission in one place)
+- [x] NAMING-CONVENTION.md adhered (consumeBreakpointStop, consumeExitEvent, isTargetStopped — semantic names)
+- [x] ARCHITECTURAL-MANIFESTO.md principles applied (no manual boolean flags — used std::optional; no early returns; positive checks)
+
+### Acceptance Criteria Met
+
+1. Set breakpoint in JUCE standalone .exe (END, MainComponent.cpp:70) — verified
+2. Launch via `launch` request — verified
+3. Breakpoint hits — nvim-dap cursor moves to correct source line — verified
+4. No crash — verified (both whatdbg and END survive)
+5. `stopped` event received with correct `threadId` and `hitBreakpointIds` — verified
+6. Stack trace with source resolution — verified
+7. Continue from breakpoint — verified
+8. Disconnect without crashing target — verified
+
+### Technical Debt / Follow-up
+
+- Setting breakpoints while target is running not supported (requires SetInterrupt → set → resume)
+- `scopes`/`variables` handlers are stubs — can't inspect variables yet
+- Stack frames in JUCE framework files may report out-of-range line numbers (nvim-dap warning)
+- OutputDebugString forwarding not wired (Phase 5 — `Output2` with `DEBUG_OUTPUT_DEBUGGEE`)
+- `bp_diagnose` and `bp_test_target` are diagnostic tools, not production — consider .gitignore or separate target
+- dbgeng.dll version pinning not implemented — System32 version works for now but may vary across machines
+- nvim DAP config (`adapters.lua`, `configurations.lua`) has commented-out gdb adapter for testing — restore or remove after validation
+
+### Nvim Config Changes (non-destructive, testing only)
+
+- `~/.config/nvim/lua/dap/adapters.lua` — gdb adapter block commented out, whatdbg serves standalone + plugin
+- `~/.config/nvim/lua/dap/configurations.lua` — `standalone_adapter` changed from `gdb` to `whatdbg` on Windows
+
+---
+
 ## Sprint 1 — DAP Adapter Foundation: Breakpoint Resolution + Symbol Engine
 
 **Date:** 2026-03-17
