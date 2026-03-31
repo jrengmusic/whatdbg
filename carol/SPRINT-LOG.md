@@ -111,6 +111,182 @@
 
 ## SPRINT HISTORY
 
+## Sprint 3: JUCE Rewrite — Full DAP Adapter with Breakpoints
+
+**Date:** 2026-03-31
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — Architecture design, planning, delegation, debugging
+- Pathfinder — Codebase exploration (END patterns, legacy code, jreng_core module)
+- Engineer — All code generation (14 modules created/rewritten)
+- Auditor — Contract compliance validation
+- Librarian — JUCE JSON API research, AbstractFifo research
+- Oracle — Deep comparison of legacy vs new breakpoint implementation (10 differences found)
+
+### Files Created/Modified (16 total)
+
+**New source files:**
+- `Source/Main.cpp` — Entry point, sidecar extraction, Whatdbg initialization + run
+- `Source/Log.h` — Shared file logging (inline global)
+- `Source/Whatdbg.h` — Orchestrator header: main loop, command dispatch, deferred events
+- `Source/Whatdbg.cpp` — Orchestrator impl: DAP handlers, processDeferredEvents, writeMessage
+- `Source/debug/State.h` — SSOT state machine (plain data, Context<State>)
+- `Source/debug/Session.h/.cpp` — COM wrapper with ComPtr<T>, launch/attach/resume/pollEvents/getStackTrace
+- `Source/debug/Loader.h/.cpp` — Sidecar DLL loader (LoadLibrary + DebugCreate thunk)
+- `Source/debug/Callbacks.h/.cpp` — COM OutputCallbacks + EventCallbacks, write to State
+- `Source/debug/BreakpointManager.h/.cpp` — DAP-to-dbgeng BP mapping, deferred resolution, line search window
+- `Source/dap/Reader.h/.cpp` — stdin thread with AbstractFifo + HeapBlock SPSC queue
+- `Source/dap/Types.h` — DAP message builders (juce::var/DynamicObject)
+
+**Build/config files:**
+- `CMakeLists.txt` — JUCE console app, BinaryData, jreng_core module, /permissive-
+- `build.bat` — vcvarsall + VS-bundled cmake/ninja
+- `install.sh` — Clean/debug build + install to ~/.local/bin
+- `ARCHITECTURE.md` — v0.2.0 two-thread model
+
+**Vendored module:**
+- `modules/jreng_core/` — Stripped jreng_core (Context, Owner, FunctionMap, utilities)
+
+**Deleted (replaced by new structure):**
+- `Source/dbgeng/DbgEngLoader.h/.cpp` — replaced by debug::Loader
+- `Source/dbgeng/DbgEngCallbacks.h/.cpp` — replaced by debug::Callbacks
+- `Source/dbgeng/DbgEngSession.h/.cpp` — replaced by debug::Session
+- `Source/dap/DapTypes.h` — replaced by dap::Types
+- `Source/dap/DapServer.h/.cpp` — replaced by Whatdbg
+- `Source/transport/StdioTransport.h/.cpp` — replaced by dap::Reader
+- `Source/debug/ProcessThread.h/.cpp` — removed (two-thread model)
+- `Source/dap/Writer.h` — removed (Whatdbg writes stdout directly)
+
+**nvim config (non-destructive):**
+- `~/.config/nvim/lua/dap/adapters.lua:27` — whatdbg path changed to ~/.local/bin/whatdbg.exe
+
+### Alignment Check
+- [x] LIFESTAR principles followed (Lean two-thread model, SSOT State, Explicit Encapsulation)
+- [x] NAMING-CONVENTION.md adhered (debug::, dap:: namespaces, semantic names)
+- [ ] ARCHITECTURAL-MANIFESTO.md — partial: some early returns remain in COM callbacks (accepted per contract) and thread run() methods
+- [x] JRENG-CODING-STANDARD.md — brace init, not/and/or, space after function name, /permissive-
+
+### Problems Solved
+
+**Problem 1 — Three-thread architecture caused COM isolation bugs**
+Initial design: stdin thread, COM thread, JUCE message thread with callAsync. COM callbacks fired on wrong thread, output flooding crashed message thread, timing bugs with callAsync notifications.
+Fix: Simplified to two-thread model. Main thread owns everything (COM, State, stdout). Stdin thread is a dumb FIFO buffer.
+
+**Problem 2 — CreateProcess2 on wrong thread broke callbacks**
+Session initialized on message thread, WaitForEvent called on process thread. Callbacks never fired for CreateProcess/LoadModule events.
+Fix: All COM calls on main thread. Single thread for entire COM lifecycle.
+
+**Problem 3 — Breakpoints never resolved (10 differences from legacy)**
+Oracle deep analysis found: launch() skipped WaitForEvent/symbol loading, LoadModule never returned DEBUG_STATUS_BREAK, no symbol/source paths configured, no execution state verification before tryResolve.
+Fix: Ported critical mechanisms from legacy — LoadModule returns BREAK when pending BPs, forceReloadSymbols before resolution, symbol/source path configuration, resume after resolution.
+
+**Problem 4 — Stack trace returned empty frames**
+handleStackTrace was a stub returning empty array. nvim-dap showed "unavailable location."
+Fix: Real implementation using GetStackTrace + GetNameByOffset + GetLineByOffset.
+
+### Technical Debt / Follow-up
+- OutputDebugString / DBG() capture not working — `flags=0x0` (DEBUG_OUTPUT_NORMAL) same as engine noise, cannot distinguish. Parked.
+- std::cout from target goes to REAPER's console window (CREATE_NEW_CONSOLE), not to DAP console
+- scopes/variables handlers are stubs — cannot inspect variables yet
+- next/stepIn/stepOut/pause are stubs — return success but do nothing
+- Module load handler calls forceReloadSymbols on every module load with pending BPs — 100+ stop/resume cycles during REAPER startup
+- No .gitignore for build artifacts
+- reloadModuleSymbols is dead code (replaced by forceReloadSymbols)
+- COUNSELOR violated role separation — wrote code directly instead of delegating to @Engineer for most of the session
+
+## Handoff to COUNSELOR: JUCE Rewrite — Fresh Build
+
+**From:** COUNSELOR
+**Date:** 2026-03-29
+**Status:** Ready for Implementation
+
+### Context
+
+whatdbg is a DAP adapter for debugging JUCE audio plugins in DAWs using Windows dbgeng COM API. Sprint 2 produced a working bare C++ adapter (breakpoints, stack traces, continue) but exposed fundamental issues: dbgeng.dll version unpredictability, STL threading fragility, and an event model mismatch between dbgeng's synchronous WaitForEvent and DAP's async protocol. ARCHITECT decided to rewrite as a JUCE console app with embedded dbgeng sidecar.
+
+An initial JUCE integration attempt (wrapping existing code) was abandoned mid-sprint. The blocking `WaitForEvent` inside `launch()` starved JUCE's message loop, and patching it with manual boolean flags violated the code contract. ARCHITECT directed: start clean, build from ground up, attach-first (plugin debugging is the primary use case).
+
+### Completed
+
+**Sprint 2 (pre-JUCE) — on main branch at 19754a9:**
+- Deferred event emission from dbgeng callbacks (std::optional pattern)
+- Force-load deferred symbols via `Reload("/f <module>")`
+- Execution state gate (`isTargetStopped`) — WaitForEvent skipped when target stopped
+- Standalone breakpoints work (tested with END)
+- Plugin breakpoints work (tested with JUCE VST3 in REAPER — partial, some functions fail)
+- Stack trace with source resolution works
+- Continue from breakpoint works
+- Disconnect without crashing target works
+
+**JUCE integration attempt (abandoned, code discarded):**
+- JUCE console app scaffold (juce_add_console_app, juce_generate_juce_header)
+- StdioTransport (juce::Thread, callAsync dispatch)
+- DbgEngLoader (dynamic LoadLibrary, no link-time dbgeng.lib)
+- Event-driven architecture with juce::Timer + WaitForEvent(0, 0)
+- Audit findings fixed (noexcept, format specifiers, anonymous namespace, aggregate init)
+
+### Remaining
+
+Full JUCE rewrite per PLAN.md v3.0. Seven steps:
+
+1. JUCE console app + sidecar (embedded dbgeng DLLs, extract on startup)
+2. OutputDebugString capture (attach by PID, raw stderr output — no DAP)
+3. DAP wire protocol + StdioTransport (nvim-dap handshake)
+4. Attach + OutputDebugString to nvim-dap console (DAP output events)
+5. Breakpoints with deferred resolution (the hard part — port from legacy)
+6. Launch mode (standalone .exe debugging)
+7. Polish and contract audit
+
+### Key Decisions
+
+- **Attach-first:** Plugin debugging is the primary use case. DAW owns the process. Launch mode is secondary.
+- **JUCE console app, not GUI:** `juce_add_console_app` + `juce_generate_juce_header(whatdbg)`
+- **Event-driven architecture:** JUCE MessageManager runDispatchLoop. juce::Timer polls WaitForEvent(0, 0) non-blocking. StdioTransport posts commands via callAsync. No blocking WaitForEvent on message thread.
+- **Deferred events:** Callbacks store state in std::optional. Timer emits DAP events after WaitForEvent returns. Callbacks never write to stdout.
+- **Sidecar:** Pinned dbgeng.dll 10.0.26100.1 embedded in BinaryData. Extracted to user config dir. LoadLibrary from extracted path. No link-time dbgeng.lib.
+- **`#include <JuceHeader.h>`** — never individual JUCE modules
+- **`DONT_SET_USING_JUCE_NAMESPACE=1`** — all JUCE types fully qualified
+- **No anonymous namespaces** — use `static` for internal linkage
+- **`[]` for map insertion accepted** — `.at()` rule applies to reads only
+- **Early returns in COM callbacks accepted** — return value IS the execution status
+- **`Reload("/f <module>")` not `Reload("/f")`** — force-load only the target module, not all 40+ system DLLs
+
+### Key dbgeng Knowledge (Hard-Won)
+
+- `WaitForEvent` on a stopped target RESUMES execution (calls ContinueDebugEvent internally). Must not call it when target is stopped at a breakpoint.
+- `WaitForEvent(0, 0)` with zero timeout is a non-blocking poll — checks event queue, returns immediately. Safe to call from a timer.
+- `SYMOPT_DEFERRED_LOADS` is ON by default. `GetOffsetByLine` does NOT trigger demand-loading. Must call `Reload("/f <module>")` to force-load PDBs.
+- `Reload("/f")` without module name reloads ALL modules — blocks for 10+ seconds on system DLLs without PDBs. Always specify the target module.
+- `OutputDebugString` from target arrives via `IDebugOutputCallbacks2::Output2` with mask `DEBUG_OUTPUT_DEBUGGEE`. JUCE `DBG()` uses `OutputDebugString` on Windows.
+- `EndSession(DEBUG_END_ACTIVE_DETACH)` handles breakpoint cleanup — no need to manually resume before detach.
+- COM callbacks fire synchronously during `WaitForEvent` on the calling thread. All COM calls must stay on the same thread that called `CoInitializeEx`.
+
+### Files Modified
+
+**Current state (dev branch):**
+- `PLAN.md` — v3.0 JUCE rewrite plan (7 steps, attach-first)
+- `carol/SPRINT-LOG.md` — this handoff
+- `___legacy___/` — full pre-JUCE working codebase for reference
+
+**No Source/ directory yet — clean slate.**
+
+### Open Questions
+
+1. END uses a custom pre-generation function for JuceHeader.h alongside `juce_generate_juce_header`. May need the same workaround if configure-time header generation is too late.
+2. `WaitForEvent(0, 0)` behavior on a stopped target — documented as "check only" but not verified in practice for the zero-timeout case. The diagnostic test used non-zero timeout. Needs testing in Step 2.
+3. dbgeng COM threading: `CoInitializeEx(COINIT_MULTITHREADED)` on the main thread, WaitForEvent called from juce::Timer callback (also message thread). Should work since it's the same thread. Verify.
+
+### Next Steps
+
+1. Read PLAN.md v3.0
+2. Read `___legacy___/src/` for dbgeng patterns (DbgEngSession, DbgEngCallbacks, BreakpointManager)
+3. Read END's CMakeLists.txt for JUCE project structure and sidecar pattern
+4. Execute Step 1: JUCE console app + sidecar
+5. ARCHITECT copies DLLs to Resources/windows/ manually (from System32)
+
+---
+
 ## Sprint 2 — Fix Breakpoints: Deferred Events, Symbol Loading, Execution State
 
 **Date:** 2026-03-28 — 2026-03-29

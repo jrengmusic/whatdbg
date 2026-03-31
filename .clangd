@@ -1,0 +1,11 @@
+CompileFlags:
+  CompilationDatabase: C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/
+  Add:
+    - -D_WIN32=1
+    - -DJUCE_WINDOWS=1
+    - -DJUCE_MAC=0
+    - -DJUCE_IOS=0
+    - -DJUCE_LINUX=0
+Diagnostics:
+  MissingIncludes: None
+  UnusedIncludes: None

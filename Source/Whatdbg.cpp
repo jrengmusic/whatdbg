@@ -1,0 +1,355 @@
+#include "Whatdbg.h"
+#include "Log.h"
+
+#include <iostream>
+#include <fcntl.h>
+#include <io.h>
+
+static constexpr ULONG kPollTimeoutMs { 50 };
+
+Whatdbg::Whatdbg ()
+    : breakpointManager { session }
+{
+}
+
+bool Whatdbg::initialize (const juce::File& sidecarDir) noexcept
+{
+    // Set stdout to binary mode for DAP framing
+    _setmode (_fileno (stdout), _O_BINARY);
+
+    return session.initialize (sidecarDir);
+}
+
+void Whatdbg::run ()
+{
+    reader.start ();
+    logWrite ("[Whatdbg] main loop started\n");
+
+    while (isRunning)
+    {
+        // 1. Drain FIFO — process all pending DAP commands
+        juce::var message;
+
+        while (reader.tryPop (message))
+        {
+            handleCommand (message);
+        }
+
+        // 2. Poll dbgeng events (skip when target stopped or idle)
+        if (state.executionState == debug::ExecutionState::running
+            or state.executionState == debug::ExecutionState::launching)
+        {
+            session.pollEvents (kPollTimeoutMs);
+        }
+
+        // 3. Process deferred events
+        processDeferredEvents ();
+
+        // 4. Yield when idle (no target)
+        if (state.executionState == debug::ExecutionState::idle)
+        {
+            juce::Thread::sleep (10);
+        }
+    }
+
+    reader.stop ();
+    session.shutdown ();
+    logWrite ("[Whatdbg] main loop ended\n");
+}
+
+void Whatdbg::handleCommand (const juce::var& message)
+{
+    const juce::String type { message["type"].toString () };
+
+    if (type == "request")
+    {
+        const juce::String command { message["command"].toString () };
+        const int seq { static_cast<int> (message["seq"]) };
+        logWrite ("[Whatdbg] command=%s seq=%d\n", command.toRawUTF8 (), seq);
+
+        if      (command == "initialize")        handleInitialize (message);
+        else if (command == "launch")            handleLaunch (message);
+        else if (command == "attach")            handleAttach (message);
+        else if (command == "configurationDone") handleConfigurationDone (message);
+        else if (command == "disconnect")        handleDisconnect (message);
+        else if (command == "terminate")         handleDisconnect (message);
+        else if (command == "setBreakpoints")    handleSetBreakpoints (message);
+        else if (command == "threads")           handleThreads (message);
+        else if (command == "stackTrace")        handleStackTrace (message);
+        else if (command == "scopes")            handleScopes (message);
+        else if (command == "variables")         handleVariables (message);
+        else if (command == "continue")          handleContinue (message);
+        else if (command == "next"
+              or command == "stepIn"
+              or command == "stepOut"
+              or command == "pause")
+        {
+            sendResponse (dap::makeResponse (seq, command, true));
+        }
+        else
+        {
+            sendResponse (dap::makeErrorResponse (seq, command, "Unknown command"));
+        }
+    }
+}
+
+void Whatdbg::handleInitialize (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+    sendResponse (dap::makeResponse (seq, "initialize", true, dap::makeCapabilities ()));
+    sendEvent (dap::makeEvent ("initialized"));
+}
+
+void Whatdbg::handleLaunch (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+    const juce::var& args { request["arguments"] };
+    const juce::String program { dap::getString (args, "program") };
+
+    logWrite ("[Whatdbg] launch: %s\n", program.toRawUTF8 ());
+
+    const bool isLaunched { session.launch (program) };
+
+    if (isLaunched)
+    {
+        // Configure symbol search — srv* enables Microsoft symbol server
+        session.appendSymbolPath ("srv*");
+
+        // Configure source path from DAP arguments if provided
+        const juce::String cwd { dap::getString (args, "cwd") };
+
+        if (cwd.isNotEmpty ())
+        {
+            session.appendSourcePath (cwd.replace ("/", "\\"));
+            session.appendSymbolPath (cwd.replace ("/", "\\"));
+        }
+
+        state.executionState = debug::ExecutionState::launching;
+        sendResponse (dap::makeResponse (seq, "launch", true));
+    }
+    else
+    {
+        sendResponse (dap::makeErrorResponse (seq, "launch", "Failed to launch process"));
+    }
+}
+
+void Whatdbg::handleAttach (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+    const juce::var& args { request["arguments"] };
+    const ULONG pid { static_cast<ULONG> (static_cast<int> (args["pid"])) };
+
+    logWrite ("[Whatdbg] attach: pid=%lu\n", pid);
+
+    const bool isAttached { session.attach (pid) };
+
+    if (isAttached)
+    {
+        // Configure symbol search — srv* enables Microsoft symbol server
+        session.appendSymbolPath ("srv*");
+
+        // Configure source path from DAP arguments if provided
+        const juce::String cwd { dap::getString (args, "cwd") };
+
+        if (cwd.isNotEmpty ())
+        {
+            session.appendSourcePath (cwd.replace ("/", "\\"));
+            session.appendSymbolPath (cwd.replace ("/", "\\"));
+        }
+
+        state.executionState = debug::ExecutionState::launching;
+        sendResponse (dap::makeResponse (seq, "attach", true));
+    }
+    else
+    {
+        sendResponse (dap::makeErrorResponse (seq, "attach", "Failed to attach"));
+    }
+}
+
+void Whatdbg::handleConfigurationDone (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+    isConfigurationDone = true;
+
+    if (state.executionState == debug::ExecutionState::stopped)
+    {
+        session.resume ();
+        state.executionState = debug::ExecutionState::running;
+        logWrite ("[Whatdbg] resumed after configurationDone\n");
+    }
+
+    sendResponse (dap::makeResponse (seq, "configurationDone", true));
+}
+
+void Whatdbg::handleDisconnect (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+
+    sendResponse (dap::makeResponse (seq, request["command"].toString (), true));
+    isRunning = false;
+}
+
+void Whatdbg::handleSetBreakpoints (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+    const juce::var& args { request["arguments"] };
+    const juce::var& source { args["source"] };
+    const juce::String sourcePath { dap::getString (source, "path") };
+    const juce::var& requestedBps { args["breakpoints"] };
+
+    logWrite ("[Whatdbg] setBreakpoints: %s (%d breakpoints)\n",
+              sourcePath.toRawUTF8 (),
+              requestedBps.isArray () ? requestedBps.getArray ()->size () : 0);
+
+    juce::Array<juce::var> resultBps { breakpointManager.handleSetBreakpoints (sourcePath, requestedBps) };
+
+    auto* body { new juce::DynamicObject () };
+    body->setProperty ("breakpoints", juce::var (resultBps));
+    sendResponse (dap::makeResponse (seq, "setBreakpoints", true, juce::var (body)));
+}
+
+void Whatdbg::handleThreads (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+
+    auto* thread { new juce::DynamicObject () };
+    thread->setProperty ("id", 1);
+    thread->setProperty ("name", "Main Thread");
+
+    juce::Array<juce::var> threads;
+    threads.add (juce::var (thread));
+
+    auto* body { new juce::DynamicObject () };
+    body->setProperty ("threads", juce::var { threads });
+    sendResponse (dap::makeResponse (seq, "threads", true, juce::var (body)));
+}
+
+void Whatdbg::handleStackTrace (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+
+    juce::Array<juce::var> frames { session.getStackTrace (50) };
+
+    auto* body { new juce::DynamicObject () };
+    body->setProperty ("stackFrames", juce::var { frames });
+    body->setProperty ("totalFrames", frames.size ());
+    sendResponse (dap::makeResponse (seq, "stackTrace", true, juce::var (body)));
+}
+
+void Whatdbg::handleScopes (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+
+    auto* body { new juce::DynamicObject () };
+    body->setProperty ("scopes", juce::var { juce::Array<juce::var> {} });
+    sendResponse (dap::makeResponse (seq, "scopes", true, juce::var (body)));
+}
+
+void Whatdbg::handleVariables (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+
+    auto* body { new juce::DynamicObject () };
+    body->setProperty ("variables", juce::var { juce::Array<juce::var> {} });
+    sendResponse (dap::makeResponse (seq, "variables", true, juce::var (body)));
+}
+
+void Whatdbg::handleContinue (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+
+    session.resume ();
+    state.executionState = debug::ExecutionState::running;
+
+    auto* body { new juce::DynamicObject () };
+    body->setProperty ("allThreadsContinued", true);
+    sendResponse (dap::makeResponse (seq, "continue", true, juce::var (body)));
+}
+
+void Whatdbg::processDeferredEvents ()
+{
+    // Initial breakpoint: resume if configurationDone already received
+    if (state.isInitialBreakSeen
+        and state.executionState == debug::ExecutionState::stopped
+        and isConfigurationDone)
+    {
+        session.resume ();
+        state.executionState = debug::ExecutionState::running;
+        state.isInitialBreakSeen = false;
+        logWrite ("[Whatdbg] resumed after initial breakpoint\n");
+    }
+
+    // Breakpoint hit — emit stopped event
+    if (state.hasBreakpointHit)
+    {
+        state.hasBreakpointHit = false;
+
+        juce::var stoppedBody { breakpointManager.onBreakpointHit (
+            state.breakpointEngineId, state.breakpointThreadId) };
+
+        sendEvent (dap::makeEvent ("stopped", stoppedBody));
+        logWrite ("[Whatdbg] breakpoint hit, emitted stopped event\n");
+    }
+
+    // Module load with pending breakpoints — resolve
+    if (state.hasNewModuleLoaded)
+    {
+        state.hasNewModuleLoaded = false;
+
+        if (breakpointManager.hasPending ())
+        {
+            session.forceReloadSymbols ();
+            juce::Array<juce::var> events { breakpointManager.onModuleLoad () };
+
+            if (not events.isEmpty ())
+            {
+                for (const auto& event : events)
+                {
+                    sendEvent (event);
+                }
+
+                logWrite ("[Whatdbg] resolved %d pending BPs after module load\n", events.size ());
+            }
+
+            // Resume target (LoadModule returned DEBUG_STATUS_BREAK)
+            session.resume ();
+            state.executionState = debug::ExecutionState::running;
+        }
+    }
+
+    // Process exit
+    if (state.hasProcessExited)
+    {
+        state.hasProcessExited = false;
+
+        auto* exitBody { new juce::DynamicObject () };
+        exitBody->setProperty ("exitCode", state.processExitCode);
+        sendEvent (dap::makeEvent ("exited", juce::var (exitBody)));
+        sendEvent (dap::makeEvent ("terminated"));
+
+        state.executionState = debug::ExecutionState::exited;
+    }
+}
+
+void Whatdbg::writeMessage (const juce::var& message) noexcept
+{
+    const juce::String jsonBody { juce::JSON::toString (message, true) };
+    const juce::CharPointer_UTF8 utf8 { jsonBody.toUTF8 () };
+    const size_t byteCount { strlen (utf8.getAddress ()) };
+
+    const std::string header { "Content-Length: " + std::to_string (byteCount) + "\r\n\r\n" };
+
+    std::cout.write (header.data (), static_cast<std::streamsize> (header.size ()));
+    std::cout.write (utf8.getAddress (), static_cast<std::streamsize> (byteCount));
+    std::cout.flush ();
+}
+
+void Whatdbg::sendResponse (const juce::var& response) noexcept
+{
+    writeMessage (response);
+}
+
+void Whatdbg::sendEvent (const juce::var& event) noexcept
+{
+    writeMessage (event);
+}
