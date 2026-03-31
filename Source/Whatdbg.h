@@ -33,6 +33,10 @@ private:
     void handleScopes (const juce::var& request);
     void handleVariables (const juce::var& request);
     void handleContinue (const juce::var& request);
+    void handleNext (const juce::var& request);
+    void handleStepIn (const juce::var& request);
+    void handleStepOut (const juce::var& request);
+    void handlePause (const juce::var& request);
 
     // ── Deferred event processing ──────────────────────────────────────
     void processDeferredEvents ();
@@ -50,6 +54,7 @@ private:
 
     bool isRunning          { true };
     bool isConfigurationDone { false };
+    bool isStepPending { false };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Whatdbg)
 };

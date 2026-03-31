@@ -48,6 +48,7 @@ bool Session::initialize (const juce::File& sidecarDir) noexcept
                     if (symbols != nullptr)
                     {
                         symbols->AddSymbolOptions (SYMOPT_LOAD_LINES);
+                        control->SetCodeLevel (DEBUG_LEVEL_SOURCE);
                     }
 
                     control->AddEngineOptions (DEBUG_ENGOPT_INITIAL_BREAK);
@@ -252,6 +253,38 @@ HRESULT Session::loadModuleSymbols (const juce::String& imageName) noexcept
     }
 
     return result;
+}
+
+void Session::stepOver () noexcept
+{
+    if (control != nullptr)
+    {
+        control->SetExecutionStatus (DEBUG_STATUS_STEP_OVER);
+    }
+}
+
+void Session::stepInto () noexcept
+{
+    if (control != nullptr)
+    {
+        control->SetExecutionStatus (DEBUG_STATUS_STEP_INTO);
+    }
+}
+
+void Session::stepOut () noexcept
+{
+    if (control != nullptr)
+    {
+        control->Execute (DEBUG_OUTCTL_IGNORE, "gu", DEBUG_EXECUTE_NOT_LOGGED);
+    }
+}
+
+void Session::interrupt () noexcept
+{
+    if (control != nullptr)
+    {
+        control->SetInterrupt (DEBUG_INTERRUPT_ACTIVE);
+    }
 }
 
 void Session::appendSymbolPath (const juce::String& path) noexcept

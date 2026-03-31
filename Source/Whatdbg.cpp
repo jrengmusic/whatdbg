@@ -39,7 +39,28 @@ void Whatdbg::run ()
         if (state.executionState == debug::ExecutionState::running
             or state.executionState == debug::ExecutionState::launching)
         {
-            session.pollEvents (kPollTimeoutMs);
+            HRESULT pollResult { session.pollEvents (kPollTimeoutMs) };
+            if (pollResult == S_OK)
+            {
+                logWrite ("[Whatdbg] WaitForEvent returned S_OK\n");
+
+                if (isStepPending
+                    and not state.hasBreakpointHit
+                    and not state.hasStepCompleted
+                    and not state.hasNewModuleLoaded
+                    and not state.hasProcessExited)
+                {
+                    state.hasStepCompleted = true;
+                    state.executionState = debug::ExecutionState::stopped;
+                    isStepPending = false;
+                    logWrite ("[Whatdbg] step completed (detected from WaitForEvent)\n");
+                }
+            }
+            else if (pollResult != S_FALSE)
+            {
+                logWrite ("[Whatdbg] WaitForEvent returned hr=0x%08lX\n",
+                          static_cast<unsigned long> (pollResult));
+            }
         }
 
         // 3. Process deferred events
@@ -79,13 +100,10 @@ void Whatdbg::handleCommand (const juce::var& message)
         else if (command == "scopes")            handleScopes (message);
         else if (command == "variables")         handleVariables (message);
         else if (command == "continue")          handleContinue (message);
-        else if (command == "next"
-              or command == "stepIn"
-              or command == "stepOut"
-              or command == "pause")
-        {
-            sendResponse (dap::makeResponse (seq, command, true));
-        }
+        else if (command == "next")          handleNext (message);
+        else if (command == "stepIn")        handleStepIn (message);
+        else if (command == "stepOut")       handleStepOut (message);
+        else if (command == "pause")         handlePause (message);
         else
         {
             sendResponse (dap::makeErrorResponse (seq, command, "Unknown command"));
@@ -175,6 +193,7 @@ void Whatdbg::handleConfigurationDone (const juce::var& request)
     {
         session.resume ();
         state.executionState = debug::ExecutionState::running;
+        state.isInitialBreakSeen = false;
         logWrite ("[Whatdbg] resumed after configurationDone\n");
     }
 
@@ -260,10 +279,55 @@ void Whatdbg::handleContinue (const juce::var& request)
 
     session.resume ();
     state.executionState = debug::ExecutionState::running;
+    isStepPending = false;
 
     auto* body { new juce::DynamicObject () };
     body->setProperty ("allThreadsContinued", true);
     sendResponse (dap::makeResponse (seq, "continue", true, juce::var (body)));
+}
+
+void Whatdbg::handleNext (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+
+    session.stepOver ();
+    state.executionState = debug::ExecutionState::running;
+    isStepPending = true;
+    logWrite ("[Whatdbg] next issued\n");
+
+    sendResponse (dap::makeResponse (seq, "next", true));
+}
+
+void Whatdbg::handleStepIn (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+
+    session.stepInto ();
+    state.executionState = debug::ExecutionState::running;
+    isStepPending = true;
+    logWrite ("[Whatdbg] stepIn issued\n");
+
+    sendResponse (dap::makeResponse (seq, "stepIn", true));
+}
+
+void Whatdbg::handleStepOut (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+
+    session.stepOut ();
+    state.executionState = debug::ExecutionState::running;
+    isStepPending = true;
+
+    sendResponse (dap::makeResponse (seq, "stepOut", true));
+}
+
+void Whatdbg::handlePause (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+
+    session.interrupt ();
+
+    sendResponse (dap::makeResponse (seq, "pause", true));
 }
 
 void Whatdbg::processDeferredEvents ()
@@ -272,7 +336,8 @@ void Whatdbg::processDeferredEvents ()
     if (state.isInitialBreakSeen
         and state.executionState == debug::ExecutionState::stopped
         and isConfigurationDone
-        and not state.hasBreakpointHit)
+        and not state.hasBreakpointHit
+        and not state.hasStepCompleted)
     {
         session.resume ();
         state.executionState = debug::ExecutionState::running;
@@ -290,6 +355,20 @@ void Whatdbg::processDeferredEvents ()
 
         sendEvent (dap::makeEvent ("stopped", stoppedBody));
         logWrite ("[Whatdbg] breakpoint hit, emitted stopped event\n");
+    }
+
+    // Step completed — emit stopped event
+    if (state.hasStepCompleted)
+    {
+        state.hasStepCompleted = false;
+
+        auto* body { new juce::DynamicObject () };
+        body->setProperty ("reason",            "step");
+        body->setProperty ("threadId",          1);
+        body->setProperty ("allThreadsStopped", true);
+
+        sendEvent (dap::makeEvent ("stopped", juce::var (body)));
+        logWrite ("[Whatdbg] step completed, emitted stopped event\n");
     }
 
     // Module load with pending breakpoints — resolve

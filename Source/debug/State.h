@@ -33,6 +33,9 @@ public:
     ULONG breakpointEngineId    { 0 };
     ULONG breakpointThreadId    { 0 };
 
+    // Step completion: flag for DAP stopped event with reason "step"
+    bool hasStepCompleted { false };
+
     // Module load: flag for deferred BP resolution
     bool hasNewModuleLoaded { false };
     juce::String lastLoadedModuleName;

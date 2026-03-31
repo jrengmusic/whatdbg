@@ -150,6 +150,10 @@ HRESULT EventCallbacks::Breakpoint (PDEBUG_BREAKPOINT bp)
 
 HRESULT EventCallbacks::Exception (PEXCEPTION_RECORD64 exception, ULONG firstChance)
 {
+    logWrite ("WHATDBG: Exception code=0x%08lX firstChance=%lu\n",
+              static_cast<unsigned long> (exception->ExceptionCode),
+              static_cast<unsigned long> (firstChance));
+
     HRESULT result { DEBUG_STATUS_NO_CHANGE };
 
     if (not State::getContext ()->isInitialBreakSeen
@@ -162,6 +166,12 @@ HRESULT EventCallbacks::Exception (PEXCEPTION_RECORD64 exception, ULONG firstCha
     else if (exception->ExceptionCode == MS_VC_EXCEPTION)
     {
         result = DEBUG_STATUS_GO_NOT_HANDLED;
+    }
+    else if (exception->ExceptionCode == EXCEPTION_SINGLE_STEP)
+    {
+        State::getContext ()->hasStepCompleted = true;
+        State::getContext ()->executionState = ExecutionState::stopped;
+        result = DEBUG_STATUS_BREAK;
     }
     else if (firstChance != 0)
     {

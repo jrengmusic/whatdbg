@@ -111,6 +111,65 @@
 
 ## SPRINT HISTORY
 
+## Sprint 6: Stepping (next, stepIn, stepOut, pause)
+
+**Date:** 2026-04-01
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — Planning, log analysis, deferred event priority debugging, delegation
+- Pathfinder — Initial codebase state discovery
+- Engineer — All code changes across 6 files
+- Auditor — Verified stepping implementation, found 2 critical priority ordering issues
+- Librarian — dbgeng stepping API research (SetExecutionStatus, SetCodeLevel, ld, Execute, EXCEPTION_SINGLE_STEP)
+- Researcher — dbgeng per-module Reload syntax research
+
+### Files Modified (8 total)
+
+- `.gitignore` — Created: `Builds/` and `*.log`
+- `ARCHITECTURE.md:65` — Doc fix: `juce::HeapBlock<juce::var>` corrected to `std::vector<juce::var>` (non-trivial type needs proper construction)
+- `Source/debug/State.h:36-39` — Added `hasStepCompleted`, `lastLoadedModuleName`, `lastLoadedImageName` fields
+- `Source/debug/Session.h:50-59` — Replaced `forceReloadSymbols()` with `loadModuleSymbols(imageName)`; added `stepOver()`, `stepInto()`, `stepOut()`, `interrupt()`; added `SetCodeLevel(DEBUG_LEVEL_SOURCE)` in initialize
+- `Source/debug/Session.cpp:50-51,238-288` — `SetCodeLevel(DEBUG_LEVEL_SOURCE)` at init; `loadModuleSymbols` uses `.reload /f` via `control->Execute` with `quoted()` basename; `stepOver/stepInto` use `SetExecutionStatus`; `stepOut` uses `Execute("gu")`; `interrupt` uses `SetInterrupt`
+- `Source/debug/Callbacks.cpp:151-171,209-227` — Exception: added `EXCEPTION_SINGLE_STEP` branch (unused — source-level stepping doesn't fire it), added exception code diagnostic logging; LoadModule: captures `imageName`, stores in State, early return eliminated
+- `Source/Whatdbg.h:36-40` — Added `handleNext/handleStepIn/handleStepOut/handlePause` declarations; added `isStepPending` member
+- `Source/Whatdbg.cpp` — Four stepping handlers wired to dispatch; step completion detected from WaitForEvent S_OK + isStepPending; deferred event priority: BP hit before step completion; `isInitialBreakSeen` cleared in `handleConfigurationDone`; `and not state.hasBreakpointHit` + `and not state.hasStepCompleted` guards on initial break handler
+
+### Alignment Check
+- [x] LIFESTAR principles followed (Lean: no unnecessary abstractions, SSOT: step state in one place, Explicit: isStepPending flag with clear lifecycle)
+- [x] NAMING-CONVENTION.md adhered (stepOver, stepInto, stepOut, interrupt, isStepPending, hasStepCompleted — semantic verbs/booleans)
+- [x] ARCHITECTURAL-MANIFESTO.md applied (no early returns, no workarounds, no poking internals)
+- [x] JRENG-CODING-STANDARD.md — brace init, not/and/or, quoted(), const before type
+
+### Problems Solved
+
+**Problem 1 — Per-module symbol reload (from Sprint 5)**
+`Reload("/f")` global reload replaced with per-module `.reload /f <basename>` via `IDebugControl::Execute`. Three failed approaches: `Reload("/f ntdll")` (E_INVALIDARG — needs extension), `ld` via Execute (S_OK but doesn't force PDB parsing), `Reload("/f <full_path>")` (E_FAIL for paths with spaces/`!`). Final: `.reload /f` + `basename.quoted()` via Execute — S_OK, PDBs load, BPs resolve.
+
+**Problem 2 — `!` in module names breaks dbgeng command parsing**
+"JRENG! Filter Strip" has `!` (module/symbol delimiter). `ld JRENG! Filter Strip` → parsed as module "JRENG" + symbol "Filter Strip". Fix: `juce::String::quoted()`.
+
+**Problem 3 — EXCEPTION_SINGLE_STEP does not fire for source-level stepping**
+Librarian research said it would. It doesn't. Source-level stepping (`SetCodeLevel(DEBUG_LEVEL_SOURCE)` + `STEP_OVER`/`STEP_INTO`) uses internal breakpoints. WaitForEvent returns S_OK without calling any callback. Fix: detect step completion by checking `isStepPending` + WaitForEvent S_OK + no other callback flags set.
+
+**Problem 4 — WaitForEvent on stopped target resumes execution (Sprint 2 bug, resurfaced)**
+After step completed, target stopped. Code didn't detect it → called WaitForEvent again → resumed target → endless S_OK loop. Fix: step completion detection sets `executionState = stopped` and clears `isStepPending`, preventing further WaitForEvent calls.
+
+**Problem 5 — `isInitialBreakSeen` never cleared**
+`handleConfigurationDone` resumed target after initial INT3 but didn't clear `isInitialBreakSeen`. The deferred initial break handler's conditions never aligned to clear it. On subsequent BP hits, the handler fired on the next iteration (after `hasBreakpointHit` was consumed) and resumed the target. Fix: clear `isInitialBreakSeen` in `handleConfigurationDone` when resuming from stopped state.
+
+**Problem 6 — Deferred event priority: initial break resumes after real BP hit**
+Same root cause as Problem 5. The guard `and not state.hasBreakpointHit` only protects within a single `processDeferredEvents` call. On the next call, `hasBreakpointHit` is already cleared → initial break handler fires. Fix combined with Problem 5 — clearing `isInitialBreakSeen` eliminates the stale flag.
+
+### Technical Debt / Follow-up
+- `EXCEPTION_SINGLE_STEP` branch in Callbacks.cpp is dead code — source-level stepping never fires it. Keep for now (instruction-level stepping would use it)
+- Exception code diagnostic logging in Callbacks.cpp — remove after stepping is stable
+- WaitForEvent S_OK diagnostic logging in Whatdbg.cpp — remove after stepping is stable
+- OutputDebugString / DBG() capture parked — flags=0x0 same as engine noise
+- scopes/variables stubs — cannot inspect variables
+- stepOut (`gu`) and pause (`SetInterrupt`) untested — only next (F10) confirmed working
+- Log.h global FILE* — functional, no action needed
+
 ## Sprint 5: Module Load Storm Fix + .gitignore
 
 **Date:** 2026-03-31
