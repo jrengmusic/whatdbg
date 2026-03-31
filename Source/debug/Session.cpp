@@ -283,7 +283,7 @@ void Session::interrupt () noexcept
 {
     if (control != nullptr)
     {
-        control->SetInterrupt (DEBUG_INTERRUPT_ACTIVE);
+        control->SetInterrupt (DEBUG_INTERRUPT_EXIT);
     }
 }
 

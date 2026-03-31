@@ -55,6 +55,28 @@ void Whatdbg::run ()
                     isStepPending = false;
                     logWrite ("[Whatdbg] step completed (detected from WaitForEvent)\n");
                 }
+
+                if (isPausePending
+                    and not state.hasBreakpointHit
+                    and not state.hasStepCompleted
+                    and not state.hasNewModuleLoaded
+                    and not state.hasProcessExited)
+                {
+                    state.executionState = debug::ExecutionState::stopped;
+                    isPausePending = false;
+
+                    auto* body { new juce::DynamicObject () };
+                    body->setProperty ("reason",            "pause");
+                    body->setProperty ("threadId",          1);
+                    body->setProperty ("allThreadsStopped", true);
+
+                    sendEvent (dap::makeEvent ("stopped", juce::var (body)));
+                    logWrite ("[Whatdbg] pause completed, emitted stopped event\n");
+                }
+            }
+            else if (pollResult == S_FALSE and isPausePending)
+            {
+                logWrite ("[Whatdbg] WaitForEvent timeout (pause pending)\n");
             }
             else if (pollResult != S_FALSE)
             {
@@ -280,6 +302,7 @@ void Whatdbg::handleContinue (const juce::var& request)
     session.resume ();
     state.executionState = debug::ExecutionState::running;
     isStepPending = false;
+    isPausePending = false;
 
     auto* body { new juce::DynamicObject () };
     body->setProperty ("allThreadsContinued", true);
@@ -326,6 +349,7 @@ void Whatdbg::handlePause (const juce::var& request)
     const int seq { static_cast<int> (request["seq"]) };
 
     session.interrupt ();
+    isPausePending = true;
 
     sendResponse (dap::makeResponse (seq, "pause", true));
 }

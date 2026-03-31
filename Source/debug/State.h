@@ -22,6 +22,7 @@ public:
     // ── Execution ──────────────────────────────────────────────────────
     ExecutionState executionState { ExecutionState::idle };
     bool isInitialBreakSeen { false };
+    bool isInitialBreakHandled { false };
     int processExitCode { 0 };
 
     // ── Deferred events (set by COM callbacks, consumed by main loop) ──

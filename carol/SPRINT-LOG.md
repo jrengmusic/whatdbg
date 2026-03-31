@@ -111,10 +111,67 @@
 
 ## SPRINT HISTORY
 
-## Sprint 6: Stepping (next, stepIn, stepOut, pause)
+## Sprint 6: Stepping + Module Load Storm Fix
 
 **Date:** 2026-04-01
 **Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — Planning, log analysis, deferred event debugging, research coordination, delegation
+- Pathfinder — Codebase state discovery, build artifact identification, nvim keymap location
+- Engineer — All code changes across 8 files
+- Auditor — Verified stepping implementation (found 2 critical priority ordering issues)
+- Librarian — dbgeng stepping API research, dbgeng Reload per-module syntax, SetInterrupt threading model
+- Researcher — dbgeng per-module Reload syntax, DAP pause implementation patterns (Ghidra, DbgShell)
+
+### Files Modified (10 total)
+
+- `.gitignore` — Created: `Builds/` and `*.log`
+- `ARCHITECTURE.md:65` — Doc fix: `juce::HeapBlock<juce::var>` → `std::vector<juce::var>` (non-trivial type)
+- `Source/debug/State.h` — Added `isInitialBreakHandled`, `hasStepCompleted`, `lastLoadedModuleName`, `lastLoadedImageName`
+- `Source/debug/Session.h` — `forceReloadSymbols` → `loadModuleSymbols(imageName)`; added `stepOver`, `stepInto`, `stepOut`, `interrupt`
+- `Source/debug/Session.cpp` — `SetCodeLevel(DEBUG_LEVEL_SOURCE)` at init; `loadModuleSymbols` via `control->Execute(".reload /f")` with `quoted()` basename; step/interrupt implementations
+- `Source/debug/Callbacks.cpp` — Exception: `isInitialBreakHandled` permanent flag distinguishes initial INT3 from user interrupt; `EXCEPTION_SINGLE_STEP` branch (dead — source stepping doesn't fire it); diagnostic exception code logging; LoadModule: captures `imageName`, early return eliminated
+- `Source/Whatdbg.h` — `handleNext/handleStepIn/handleStepOut/handlePause` declarations; `isStepPending`, `isPausePending` members
+- `Source/Whatdbg.cpp` — Four stepping handlers; step completion detected from WaitForEvent S_OK + isStepPending; pause detection from WaitForEvent S_OK + isPausePending; `isInitialBreakSeen` cleared in configurationDone; deferred event priority guards (`and not hasBreakpointHit`, `and not hasStepCompleted`); diagnostic WaitForEvent logging
+- `~/.config/nvim/lua/core/keymaps.lua` — `<leader>dO` → `<leader>dx` for step out (no shift)
+
+### Alignment Check
+- [x] LIFESTAR principles followed (Lean: no unnecessary abstractions, SSOT: step/pause state in one place, Explicit: isStepPending/isPausePending with clear lifecycle)
+- [x] NAMING-CONVENTION.md adhered (stepOver, stepInto, stepOut, interrupt, isStepPending, isPausePending, isInitialBreakHandled)
+- [x] ARCHITECTURAL-MANIFESTO.md applied (no early returns, no workarounds)
+- [x] JRENG-CODING-STANDARD.md — brace init, not/and/or, quoted(), const before type
+
+### Problems Solved
+
+**Problem 1 — Module load storm: global Reload("/f") on every module load**
+Replaced with per-module `.reload /f <basename>` via `IDebugControl::Execute`. Three failed approaches before success: `Reload("/f ntdll")` (E_INVALIDARG), `ld` via Execute (S_OK but no PDB parsing), `Reload("/f <full_path>")` (E_FAIL for special chars). Final: `.reload /f` + `basename.quoted()` via Execute.
+
+**Problem 2 — `!` in module names breaks dbgeng command parsing**
+"JRENG! Filter Strip" `!` parsed as module/symbol delimiter. Fix: `juce::String::quoted()`.
+
+**Problem 3 — EXCEPTION_SINGLE_STEP does not fire for source-level stepping**
+Source-level stepping (`SetCodeLevel(DEBUG_LEVEL_SOURCE)`) uses internal breakpoints, not CPU single-step. WaitForEvent returns S_OK without callback. Fix: detect step completion via `isStepPending` + WaitForEvent S_OK + no other callback flags.
+
+**Problem 4 — WaitForEvent on stopped target resumes execution (Sprint 2 bug resurfaced)**
+After step completed, code didn't detect stop → called WaitForEvent again → resumed target. Fix: step detection sets `executionState = stopped`.
+
+**Problem 5 — `isInitialBreakSeen` never cleared, resumes target after real BP hit**
+`handleConfigurationDone` resumed after initial INT3 but didn't clear flag. Subsequent BP hits triggered stale initial break handler on next iteration. Fix: clear `isInitialBreakSeen` in configurationDone.
+
+**Problem 6 — `SetInterrupt` for pause does not work from same thread as WaitForEvent**
+`SetInterrupt(ACTIVE)` and `SetInterrupt(EXIT)` both fail when called between WaitForEvent calls. Confirmed by Ghidra source, Microsoft DbgShell: SetInterrupt must be called from a different thread while WaitForEvent is BLOCKED. Requires architectural change (Option A) or `DebugBreakProcess` workaround (Option B).
+
+**Problem 7 — User interrupt EXCEPTION_BREAKPOINT re-triggers initial break handler**
+After `isInitialBreakSeen` cleared, any `EXCEPTION_BREAKPOINT` re-matches the initial break check. Fix: `isInitialBreakHandled` permanent flag — set once, never cleared.
+
+### Technical Debt / Follow-up
+- **PAUSE NON-FUNCTIONAL** — `SetInterrupt` incompatible with single-thread polling architecture. Requires either: (A) dedicated engine thread with `WaitForEvent(INFINITE)` + SetInterrupt from main thread, or (B) `DebugBreakProcess` via stored process handle. ARCHITECT to decide.
+- `EXCEPTION_SINGLE_STEP` branch in Callbacks.cpp is dead code — keep for now (instruction-level stepping would use it)
+- Diagnostic logging in Callbacks.cpp (exception codes) and Whatdbg.cpp (WaitForEvent S_OK, pause timeout) — remove after stable
+- OutputDebugString / DBG() capture parked — flags=0x0 same as engine noise
+- scopes/variables stubs — cannot inspect variables
+- stepOut reports reason "breakpoint" (internal BP engineId=10000) instead of "step" — cosmetic
 
 ### Agents Participated
 - COUNSELOR — Planning, log analysis, deferred event priority debugging, delegation

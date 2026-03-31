@@ -156,10 +156,16 @@ HRESULT EventCallbacks::Exception (PEXCEPTION_RECORD64 exception, ULONG firstCha
 
     HRESULT result { DEBUG_STATUS_NO_CHANGE };
 
-    if (not State::getContext ()->isInitialBreakSeen
+    if (not State::getContext ()->isInitialBreakHandled
         and exception->ExceptionCode == EXCEPTION_BREAKPOINT)
     {
+        State::getContext ()->isInitialBreakHandled = true;
         State::getContext ()->isInitialBreakSeen = true;
+        State::getContext ()->executionState = ExecutionState::stopped;
+        result = DEBUG_STATUS_BREAK;
+    }
+    else if (exception->ExceptionCode == EXCEPTION_BREAKPOINT)
+    {
         State::getContext ()->executionState = ExecutionState::stopped;
         result = DEBUG_STATUS_BREAK;
     }

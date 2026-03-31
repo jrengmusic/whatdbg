@@ -54,7 +54,8 @@ private:
 
     bool isRunning          { true };
     bool isConfigurationDone { false };
-    bool isStepPending { false };
+    bool isStepPending  { false };
+    bool isPausePending { false };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Whatdbg)
 };
