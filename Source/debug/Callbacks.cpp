@@ -207,18 +207,26 @@ HRESULT EventCallbacks::ExitProcess (ULONG exitCode)
 }
 
 HRESULT EventCallbacks::LoadModule (ULONG64 /*imageFileHandle*/, ULONG64 /*baseOffset*/,
-                                    ULONG /*moduleSize*/, PCSTR moduleName, PCSTR /*imageName*/,
+                                    ULONG /*moduleSize*/, PCSTR moduleName, PCSTR imageName,
                                     ULONG /*checkSum*/, ULONG /*timeDateStamp*/)
 {
     auto* state { State::getContext () };
     state->hasNewModuleLoaded = true;
-    logWrite ("WHATDBG: LoadModule: %s\n", moduleName != nullptr ? moduleName : "(null)");
+    state->lastLoadedModuleName = moduleName != nullptr ? juce::String (moduleName) : juce::String ();
+    state->lastLoadedImageName = imageName != nullptr ? juce::String (imageName) : juce::String ();
+    logWrite ("WHATDBG: LoadModule: %s (%s)\n",
+              moduleName != nullptr ? moduleName : "(null)",
+              imageName != nullptr ? imageName : "(null)");
 
     // Stop the target when pending BPs exist so main loop can safely resolve
-    if (state->hasPendingBreakpoints)
-        return DEBUG_STATUS_BREAK;
+    HRESULT result { DEBUG_STATUS_NO_CHANGE };
 
-    return DEBUG_STATUS_NO_CHANGE;
+    if (state->hasPendingBreakpoints)
+    {
+        result = DEBUG_STATUS_BREAK;
+    }
+
+    return result;
 }
 
 HRESULT EventCallbacks::UnloadModule (PCSTR /*imageBaseName*/, ULONG64 /*baseOffset*/)

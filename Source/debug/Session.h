@@ -47,8 +47,8 @@ public:
     // Remove a breakpoint by engine ID.
     HRESULT removeBreakpoint (ULONG engineId) noexcept;
 
-    // Force-reload all symbols globally (".reload /f").
-    HRESULT forceReloadSymbols () noexcept;
+    // Force-reload symbols for a specific module (".reload /f <imageName>").
+    HRESULT loadModuleSymbols (const juce::String& imageName) noexcept;
 
     void appendSymbolPath (const juce::String& path) noexcept;
     void appendSourcePath (const juce::String& path) noexcept;

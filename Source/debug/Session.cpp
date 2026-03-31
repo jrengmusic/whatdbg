@@ -234,14 +234,21 @@ HRESULT Session::removeBreakpoint (ULONG engineId) noexcept
     return result;
 }
 
-HRESULT Session::forceReloadSymbols () noexcept
+
+HRESULT Session::loadModuleSymbols (const juce::String& imageName) noexcept
 {
     HRESULT result { E_FAIL };
 
-    if (symbols != nullptr)
+    if (control != nullptr)
     {
-        result = symbols->Reload ("/f");
-        logWrite ("WHATDBG: Reload(\"/f\") hr=0x%08lX\n", static_cast<unsigned long> (result));
+        const juce::String basename { juce::File (imageName).getFileName () };
+        const juce::String command { ".reload /f " + basename.quoted () };
+        result = control->Execute (DEBUG_OUTCTL_IGNORE,
+                                   command.toRawUTF8 (),
+                                   DEBUG_EXECUTE_NOT_LOGGED);
+        logWrite ("WHATDBG: .reload /f %s hr=0x%08lX\n",
+                  basename.toRawUTF8 (),
+                  static_cast<unsigned long> (result));
     }
 
     return result;

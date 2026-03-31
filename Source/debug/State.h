@@ -35,6 +35,8 @@ public:
 
     // Module load: flag for deferred BP resolution
     bool hasNewModuleLoaded { false };
+    juce::String lastLoadedModuleName;
+    juce::String lastLoadedImageName;
 
     // Pending breakpoints: flag for LoadModule to decide whether to break
     bool hasPendingBreakpoints { false };

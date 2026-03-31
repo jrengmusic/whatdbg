@@ -111,6 +111,61 @@
 
 ## SPRINT HISTORY
 
+## Sprint 5: Module Load Storm Fix + .gitignore
+
+**Date:** 2026-03-31
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — Planning, delegation, log analysis, research coordination
+- Pathfinder — Codebase state discovery, build artifact identification
+- Engineer — All code changes (State.h, Callbacks.cpp, Session.h/.cpp, Whatdbg.cpp, .gitignore)
+- Auditor — Contract compliance verification (found pre-existing early return in LoadModule)
+- Researcher — dbgeng `IDebugSymbols::Reload` per-module syntax research
+- Librarian — dbgeng symbol reload API research (`ld`, `Execute`, `GetModuleParameters`)
+
+### Files Modified (7 total)
+
+- `.gitignore` — Created: `Builds/` and `*.log`
+- `ARCHITECTURE.md:65` — Doc fix: `juce::HeapBlock<juce::var>` corrected to `std::vector<juce::var>` with rationale (non-trivial type needs proper construction)
+- `Source/debug/State.h:37-39` — Added `lastLoadedModuleName` and `lastLoadedImageName` fields for per-module symbol reload
+- `Source/debug/Callbacks.cpp:209-227` — LoadModule: captures `imageName` parameter, stores both module name and image name in State; pre-existing early return eliminated (positive-check pattern)
+- `Source/debug/Session.h:50-51` — `forceReloadSymbols()` replaced with `loadModuleSymbols(const juce::String& imageName)`
+- `Source/debug/Session.cpp:238-252` — Per-module reload via `control->Execute(".reload /f <basename.quoted()>")` — uses `IDebugControl::Execute` instead of `IDebugSymbols::Reload` to support module names with spaces and `!`
+- `Source/Whatdbg.cpp:272-274,301` — Breakpoint hit priority over initial breakpoint resume (`and not state.hasBreakpointHit`); calls `loadModuleSymbols(state.lastLoadedImageName)` instead of `forceReloadSymbols()`
+
+### Alignment Check
+- [x] LIFESTAR principles followed (Lean: targeted reload not global, SSOT: module name in State, Explicit: imageName passed through API)
+- [x] NAMING-CONVENTION.md adhered (lastLoadedModuleName, lastLoadedImageName, loadModuleSymbols — semantic names)
+- [x] ARCHITECTURAL-MANIFESTO.md applied (no early returns, no workarounds)
+- [x] JRENG-CODING-STANDARD.md — brace init, not/and/or, .quoted(), const before type
+
+### Problems Solved
+
+**Problem 1 — Module load storm: 100+ global symbol reloads during REAPER startup**
+`Reload("/f")` force-reloaded ALL module symbols on every LoadModule event with pending BPs. Each call blocked for seconds. Fix: per-module reload using `control->Execute(".reload /f <basename.quoted()>")`. Three failed approaches before success:
+- `symbols->Reload("/f ntdll")` — E_INVALIDARG (missing `.dll` extension)
+- `ld moduleName` via Execute — S_OK but doesn't force PDB parsing (only loads deferred export symbols)
+- `symbols->Reload("/f <full_path>")` — E_FAIL for paths with spaces and `!`
+- Final: `.reload /f` via `IDebugControl::Execute` with `juce::String::quoted()` for module basename with extension — S_OK, PDB loaded, BPs resolve
+
+**Problem 2 — `!` in module names breaks dbgeng command parsing**
+"JRENG! Filter Strip" contains `!` (module/symbol delimiter in dbgeng). `ld JRENG! Filter Strip` parsed as module "JRENG" + symbol "Filter Strip". Fix: `juce::String::quoted()` wraps module name in double quotes.
+
+**Problem 3 — Deferred event priority: initial breakpoint resumes target after real BP hit**
+`processDeferredEvents` processed initial breakpoint handler before breakpoint hit handler. When both flags were set, initial handler resumed the target, then BP handler emitted stopped event — but target was already running. Fix: added `and not state.hasBreakpointHit` guard to initial breakpoint handler.
+
+**Problem 4 — ARCHITECTURE.md FIFO doc mismatch**
+Doc said `juce::HeapBlock<juce::var>`, code uses `std::vector<juce::var>`. Code is correct — `juce::var` is non-trivial (has constructor/destructor), `HeapBlock` allocates raw memory which would require placement new. Doc updated.
+
+### Technical Debt / Follow-up
+- OutputDebugString / DBG() capture parked — flags=0x0 same as engine noise
+- scopes/variables stubs — cannot inspect variables
+- next/stepIn/stepOut/pause stubs — return success but do nothing
+- `forceReloadSymbols` dead code removed; `lastLoadedModuleName` in State kept for logging but not currently used by reload path
+- Log.h uses global FILE* (practical but not ideal)
+- Sprint 1/2 handoff key decision "Reload('/f <module>') not Reload('/f')" is now outdated — actual syntax is `.reload /f <basename.quoted()>` via Execute
+
 ## Sprint 4: Polish — Contract Audit and Cleanup
 
 **Date:** 2026-03-31

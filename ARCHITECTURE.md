@@ -62,7 +62,7 @@ whatdbg is a DAP (Debug Adapter Protocol) adapter for debugging JUCE audio plugi
 ### FIFO
 
 - `juce::AbstractFifo` — lock-free SPSC index manager
-- `juce::HeapBlock<juce::var>` — flat backing storage, single allocation
+- `std::vector<juce::var>` — backing storage, pre-sized to capacity (juce::var is non-trivial, needs proper construction — HeapBlock would require manual placement new)
 - 64 slots (generous for DAP burst of 5-6 messages)
 - Only shared data structure between threads
 

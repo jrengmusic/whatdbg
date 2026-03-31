@@ -271,7 +271,8 @@ void Whatdbg::processDeferredEvents ()
     // Initial breakpoint: resume if configurationDone already received
     if (state.isInitialBreakSeen
         and state.executionState == debug::ExecutionState::stopped
-        and isConfigurationDone)
+        and isConfigurationDone
+        and not state.hasBreakpointHit)
     {
         session.resume ();
         state.executionState = debug::ExecutionState::running;
@@ -298,7 +299,7 @@ void Whatdbg::processDeferredEvents ()
 
         if (breakpointManager.hasPending ())
         {
-            session.forceReloadSymbols ();
+            session.loadModuleSymbols (state.lastLoadedImageName);
             juce::Array<juce::var> events { breakpointManager.onModuleLoad () };
 
             if (not events.isEmpty ())
