@@ -111,6 +111,59 @@
 
 ## SPRINT HISTORY
 
+## Sprint 4: Polish — Contract Audit and Cleanup
+
+**Date:** 2026-03-31
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — Planning, delegation
+- Engineer — Temporary diagnostic removal, dead code removal
+- Auditor — Full codebase contract audit (16 files, 7 severity categories)
+- Machinist — Mechanical fixes for all audit violations
+- Pathfinder — nvim-dap sign investigation, END font fallback research
+- Librarian — nvim-dap sign placement internals, AbstractFifo research
+
+### Files Modified (7 total)
+
+**Source fixes:**
+- `Source/dap/Types.h` — `std::atomic<int>` replaced with plain `static int` (main-thread-only, no atomics per architecture)
+- `Source/debug/Session.h` — Removed dead getters (`getClient`, `getControl`, `getSymbols`)
+- `Source/debug/Session.cpp` — Early returns eliminated (positive-check pattern), `[]` replaced with `.at()` in getStackTrace
+- `Source/debug/Callbacks.cpp` — Fixed `ULONG const` to `const ULONG`, `else if (firstChance)` to explicit `!= 0`, removed verbose Output2 logging
+- `Source/debug/BreakpointManager.cpp` — Removed 7 redundant `== true`/`== false` comparisons
+- `Source/Whatdbg.cpp` — Removed `[DAP OUT]` wire log diagnostic
+
+**External (non-whatdbg):**
+- `~/.config/nvim/lua/dap/dapui_config.lua:127` — DapStopped sign glyph changed from `→` (U+2192, missing in terminal font) to `>>` (ASCII); temporary sign_debug listener removed
+- `~/Documents/Poems/dev/end/DEBT.md` — Bug report: font fallback missing for Arrows block (U+2190-U+21FF)
+
+### Alignment Check
+- [x] LIFESTAR principles followed (Lean: dead code removed, SSOT: no duplicated state, Explicit: no poking internals)
+- [x] NAMING-CONVENTION.md adhered (`has*` prefix approved by ARCHITECT for event flags)
+- [x] ARCHITECTURAL-MANIFESTO.md applied (no atomics except FIFO, no JUCE message thread)
+- [x] JRENG-CODING-STANDARD.md — const placement, explicit checks, .at() access, no redundant comparisons
+
+### Problems Solved
+
+**Problem 1 — DapStopped sign invisible**
+The `→` glyph (U+2192) was not rendering in END's terminal. Sign was placed correctly by nvim-dap but character was blank due to missing font fallback for the Arrows Unicode block. Diagnosed by tracing nvim-dap sign placement chain, adding debug listener, confirming sign IS placed with correct priority. Fixed by changing glyph to ASCII `>>`. Filed bug report to END's DEBT.md.
+
+**Problem 2 — threadId: 0 in stopped event**
+Breakpoint hit emitted `"threadId": 0` which is invalid. nvim-dap requires positive integer. Fixed by setting breakpointThreadId to 1 (matches handleThreads single-thread response).
+
+**Problem 3 — Contract violations across 5 files**
+Auditor found: 4 early returns, 2 unchecked subscript operators, 2 East-const, 1 implicit int-to-bool, 1 unnecessary atomic, 7 redundant boolean comparisons, 3 dead getters. All fixed by Machinist.
+
+### Technical Debt / Follow-up
+- OutputDebugString / DBG() capture parked — flags=0x0 same as engine noise
+- scopes/variables stubs — cannot inspect variables
+- next/stepIn/stepOut/pause stubs — return success but do nothing
+- Module load: forceReloadSymbols on every load with pending BPs (100+ stop/resume cycles)
+- No .gitignore for build artifacts
+- Log.h uses global FILE* (practical but not ideal)
+- FIFO backing is std::vector, ARCHITECTURE.md says HeapBlock (doc needs update or code needs change)
+
 ## Sprint 3: JUCE Rewrite — Full DAP Adapter with Breakpoints
 
 **Date:** 2026-03-31

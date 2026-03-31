@@ -1461,8 +1461,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-a7j9v3"
-      binary: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-a7j9v3"
+      source: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-qjy0p7"
+      binary: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-qjy0p7"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
       CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -1471,11 +1471,11 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-a7j9v3'
+        Change Dir: 'C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-qjy0p7'
         
-        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_f7d90
-        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo -D_MBCS  /DWIN32 /D_WINDOWS  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_f7d90.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_f7d90.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_f7d90.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_f7d90.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_f7d90.exe /implib:cmTC_f7d90.lib /pdb:cmTC_f7d90.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_9eb05
+        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo -D_MBCS  /DWIN32 /D_WINDOWS  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_9eb05.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_9eb05.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_9eb05.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_9eb05.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_9eb05.exe /implib:cmTC_9eb05.lib /pdb:cmTC_9eb05.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
         
       exitCode: 0
   -
@@ -1515,8 +1515,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-u5ez0x"
-      binary: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-u5ez0x"
+      source: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-lywpuf"
+      binary: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-lywpuf"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -1526,11 +1526,11 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-u5ez0x'
+        Change Dir: 'C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-lywpuf'
         
-        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_450b8
-        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_450b8.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_450b8.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_450b8.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_450b8.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_450b8.exe /implib:cmTC_450b8.lib /pdb:cmTC_450b8.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_7d18c
+        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_7d18c.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_7d18c.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_7d18c.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_7d18c.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_7d18c.exe /implib:cmTC_7d18c.lib /pdb:cmTC_7d18c.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
         
       exitCode: 0
   -
@@ -1580,10 +1580,10 @@ events:
       stdout: |
         Change Dir: 'C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/CMakeFiles/CMakeTmp'
         
-        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_d219d
-        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_d219d.dir\\juce_runtime_arch_detection.cpp.obj /FdCMakeFiles\\cmTC_d219d.dir\\ /FS -c C:\\Users\\jreng\\Documents\\Poems\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp
-        FAILED: CMakeFiles/cmTC_d219d.dir/juce_runtime_arch_detection.cpp.obj 
-        C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_d219d.dir\\juce_runtime_arch_detection.cpp.obj /FdCMakeFiles\\cmTC_d219d.dir\\ /FS -c C:\\Users\\jreng\\Documents\\Poems\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp
+        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_ca3b5
+        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_ca3b5.dir\\juce_runtime_arch_detection.cpp.obj /FdCMakeFiles\\cmTC_ca3b5.dir\\ /FS -c C:\\Users\\jreng\\Documents\\Poems\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp
+        FAILED: CMakeFiles/cmTC_ca3b5.dir/juce_runtime_arch_detection.cpp.obj 
+        C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_ca3b5.dir\\juce_runtime_arch_detection.cpp.obj /FdCMakeFiles\\cmTC_ca3b5.dir\\ /FS -c C:\\Users\\jreng\\Documents\\Poems\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp
         C:\\Users\\jreng\\Documents\\Poems\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp(56): fatal error C1189: #error:  JUCE_ARCH x86_64
         ninja: build stopped: subcommand failed.
         

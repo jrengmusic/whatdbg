@@ -138,12 +138,12 @@ void Session::resume () noexcept
 
 HRESULT Session::pollEvents (ULONG timeoutMs) noexcept
 {
-    if (control != nullptr)
-    {
-        return control->WaitForEvent (0, timeoutMs);
-    }
+    HRESULT result { E_FAIL };
 
-    return E_FAIL;
+    if (control != nullptr)
+        result = control->WaitForEvent (0, timeoutMs);
+
+    return result;
 }
 
 void Session::shutdown () noexcept
@@ -234,20 +234,6 @@ HRESULT Session::removeBreakpoint (ULONG engineId) noexcept
     return result;
 }
 
-HRESULT Session::reloadModuleSymbols (const juce::String& moduleName) noexcept
-{
-    HRESULT result { E_FAIL };
-
-    if (symbols != nullptr)
-    {
-        const juce::String reloadCommand { "/f " + moduleName };
-        result = symbols->Reload (reloadCommand.toRawUTF8 ());
-        logWrite ("WHATDBG: Reload(\"%s\") hr=0x%08lX\n", reloadCommand.toRawUTF8 (), static_cast<unsigned long> (result));
-    }
-
-    return result;
-}
-
 HRESULT Session::forceReloadSymbols () noexcept
 {
     HRESULT result { E_FAIL };
@@ -283,70 +269,70 @@ juce::Array<juce::var> Session::getStackTrace (int maxFrames) noexcept
 {
     juce::Array<juce::var> frames;
 
-    if (control == nullptr or symbols == nullptr)
-        return frames;
-
-    static constexpr int kMaxStackFrames { 128 };
-    const int frameCount { juce::jmin (maxFrames, kMaxStackFrames) };
-
-    std::vector<DEBUG_STACK_FRAME> stackFrames (static_cast<size_t> (frameCount));
-    ULONG framesFilled { 0 };
-
-    const HRESULT hr { control->GetStackTrace (
-        0, 0, 0,
-        stackFrames.data (),
-        static_cast<ULONG> (frameCount),
-        &framesFilled) };
-
-    if (SUCCEEDED (hr))
+    if (control != nullptr and symbols != nullptr)
     {
-        for (ULONG i { 0 }; i < framesFilled; ++i)
+        static constexpr int kMaxStackFrames { 128 };
+        const int frameCount { juce::jmin (maxFrames, kMaxStackFrames) };
+
+        std::vector<DEBUG_STACK_FRAME> stackFrames (static_cast<size_t> (frameCount));
+        ULONG framesFilled { 0 };
+
+        const HRESULT hr { control->GetStackTrace (
+            0, 0, 0,
+            stackFrames.data (),
+            static_cast<ULONG> (frameCount),
+            &framesFilled) };
+
+        if (SUCCEEDED (hr))
         {
-            auto* frame { new juce::DynamicObject () };
-            frame->setProperty ("id", static_cast<int> (i));
-            frame->setProperty ("name", "frame");
-
-            // Resolve function name
-            char nameBuffer[512] {};
-            ULONG nameSize { 0 };
-            ULONG64 displacement { 0 };
-
-            const HRESULT nameResult { symbols->GetNameByOffset (
-                stackFrames[i].InstructionOffset,
-                nameBuffer,
-                sizeof (nameBuffer),
-                &nameSize,
-                &displacement) };
-
-            if (SUCCEEDED (nameResult))
+            for (ULONG i { 0 }; i < framesFilled; ++i)
             {
-                frame->setProperty ("name", juce::String (nameBuffer));
+                auto* frame { new juce::DynamicObject () };
+                frame->setProperty ("id", static_cast<int> (i));
+                frame->setProperty ("name", "frame");
+
+                // Resolve function name
+                char nameBuffer[512] {};
+                ULONG nameSize { 0 };
+                ULONG64 displacement { 0 };
+
+                const HRESULT nameResult { symbols->GetNameByOffset (
+                    stackFrames.at (static_cast<size_t> (i)).InstructionOffset,
+                    nameBuffer,
+                    sizeof (nameBuffer),
+                    &nameSize,
+                    &displacement) };
+
+                if (SUCCEEDED (nameResult))
+                {
+                    frame->setProperty ("name", juce::String (nameBuffer));
+                }
+
+                // Resolve source location
+                char fileBuffer[1024] {};
+                ULONG fileSize { 0 };
+                ULONG line { 0 };
+
+                const HRESULT lineResult { symbols->GetLineByOffset (
+                    stackFrames.at (static_cast<size_t> (i)).InstructionOffset,
+                    &line,
+                    fileBuffer,
+                    sizeof (fileBuffer),
+                    &fileSize,
+                    nullptr) };
+
+                if (SUCCEEDED (lineResult))
+                {
+                    auto* source { new juce::DynamicObject () };
+                    source->setProperty ("name", juce::File (juce::String (fileBuffer)).getFileName ());
+                    source->setProperty ("path", juce::String (fileBuffer).replace ("\\", "/"));
+                    frame->setProperty ("source", juce::var (source));
+                    frame->setProperty ("line", static_cast<int> (line));
+                    frame->setProperty ("column", 1);
+                }
+
+                frames.add (juce::var (frame));
             }
-
-            // Resolve source location
-            char fileBuffer[1024] {};
-            ULONG fileSize { 0 };
-            ULONG line { 0 };
-
-            const HRESULT lineResult { symbols->GetLineByOffset (
-                stackFrames[i].InstructionOffset,
-                &line,
-                fileBuffer,
-                sizeof (fileBuffer),
-                &fileSize,
-                nullptr) };
-
-            if (SUCCEEDED (lineResult))
-            {
-                auto* source { new juce::DynamicObject () };
-                source->setProperty ("name", juce::File (juce::String (fileBuffer)).getFileName ());
-                source->setProperty ("path", juce::String (fileBuffer));
-                frame->setProperty ("source", juce::var (source));
-                frame->setProperty ("line", static_cast<int> (line));
-                frame->setProperty ("column", 1);
-            }
-
-            frames.add (juce::var (frame));
         }
     }
 

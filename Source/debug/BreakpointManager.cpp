@@ -34,7 +34,7 @@ BreakpointManager::BreakpointManager (Session& session)
 
 bool BreakpointManager::hasPending () const noexcept
 {
-    return pending.isEmpty () == false;
+    return not pending.isEmpty ();
 }
 
 // ---------------------------------------------------------------------------
@@ -232,7 +232,7 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
             {
                 const BreakpointInfo& info { breakpoints.at (existingDapId) };
 
-                if (info.hasEngineId == true)
+                if (info.hasEngineId)
                 {
                     session.removeBreakpoint (info.engineId);
                     engineToDap.erase (info.engineId);
@@ -282,14 +282,14 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
         auto* bpObj { new juce::DynamicObject () };
         bpObj->setProperty ("id", static_cast<int> (dapId));
 
-        if (isReuse == true and breakpoints.count (dapId) > 0)
+        if (isReuse and breakpoints.count (dapId) > 0)
         {
             // Already tracked — return current state unchanged.
             const BreakpointInfo& existing { breakpoints.at (dapId) };
             bpObj->setProperty ("verified", existing.isVerified);
             bpObj->setProperty ("line",     static_cast<int> (existing.line));
 
-            if (existing.isVerified == false)
+            if (not existing.isVerified)
             {
                 bpObj->setProperty ("message",
                     "WHATDBG: could not resolve breakpoint at "
@@ -311,7 +311,7 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
             info.line       = result.isSuccess ? result.resolvedLine : static_cast<ULONG> (line);
             info.isVerified = result.isSuccess;
 
-            if (result.isSuccess == true)
+            if (result.isSuccess)
             {
                 info.hasEngineId      = true;
                 info.engineId         = result.engineId;
@@ -341,7 +341,7 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
             bpObj->setProperty ("verified", result.isSuccess);
             bpObj->setProperty ("line",     static_cast<int> (info.line));
 
-            if (result.isSuccess == false)
+            if (not result.isSuccess)
             {
                 bpObj->setProperty ("message",
                     "WHATDBG: pending — module not loaded for "
@@ -383,7 +383,7 @@ juce::Array<juce::var> BreakpointManager::onModuleLoad ()
         // (stored that way by handleSetBreakpoints).
         const ResolveResult result { tryResolve (pend.sourcePath, pend.line) };
 
-        if (result.isSuccess == true)
+        if (result.isSuccess)
         {
             // Fix up engineToDap with the real dapId.
             engineToDap[result.engineId] = pend.dapId;

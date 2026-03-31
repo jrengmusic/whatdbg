@@ -6,8 +6,8 @@ namespace dap
 
 inline int nextSeq () noexcept
 {
-    static std::atomic<int> seq { 1 };
-    return seq.fetch_add (1, std::memory_order_relaxed);
+    static int seq { 1 };
+    return seq++;
 }
 
 inline juce::var makeResponse (int requestSeq,

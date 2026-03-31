@@ -33,10 +33,6 @@ public:
     // Detach and clean up.
     void shutdown () noexcept;
 
-    IDebugClient5*  getClient ()  const noexcept { return client.Get (); }
-    IDebugControl4* getControl () const noexcept { return control.Get (); }
-    IDebugSymbols3* getSymbols () const noexcept { return symbols.Get (); }
-
     // ── Breakpoint API (used by BreakpointManager) ─────────────────────
 
     // Resolve source:line to an address. Returns S_OK on success.
@@ -50,9 +46,6 @@ public:
 
     // Remove a breakpoint by engine ID.
     HRESULT removeBreakpoint (ULONG engineId) noexcept;
-
-    // Force-load symbols for a specific module.
-    HRESULT reloadModuleSymbols (const juce::String& moduleName) noexcept;
 
     // Force-reload all symbols globally (".reload /f").
     HRESULT forceReloadSymbols () noexcept;

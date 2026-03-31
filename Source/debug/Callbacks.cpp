@@ -19,7 +19,7 @@ ULONG OutputCallbacks::AddRef ()
 
 ULONG OutputCallbacks::Release ()
 {
-    ULONG const remaining { --refCount };
+    const ULONG remaining { --refCount };
     return remaining;
 }
 
@@ -74,12 +74,7 @@ HRESULT OutputCallbacks::Output2 (ULONG which, ULONG flags, ULONG64 /*arg*/, PCW
 {
     const bool isTextOrDml { which == DEBUG_OUTCB_TEXT or which == DEBUG_OUTCB_DML };
 
-    if (isTextOrDml)
-    {
-        const juce::String str { text };
-        logWrite ("[Output2] flags=0x%lX: %s", flags, str.toRawUTF8 ());
-    }
-
+    juce::ignoreUnused (flags, text, isTextOrDml);
     return S_OK;
 }
 
@@ -94,7 +89,7 @@ ULONG EventCallbacks::AddRef ()
 
 ULONG EventCallbacks::Release ()
 {
-    ULONG const remaining { --refCount };
+    const ULONG remaining { --refCount };
     return remaining;
 }
 
@@ -144,7 +139,7 @@ HRESULT EventCallbacks::Breakpoint (PDEBUG_BREAKPOINT bp)
 
         state->hasBreakpointHit = true;
         state->breakpointEngineId = engineId;
-        state->breakpointThreadId = 0;  // TODO: get real thread ID later
+        state->breakpointThreadId = 1;  // hardcoded: single-thread model, matches handleThreads
         state->executionState = ExecutionState::stopped;
 
         logWrite ("WHATDBG: Breakpoint hit, engineId=%lu\n", engineId);
@@ -168,7 +163,7 @@ HRESULT EventCallbacks::Exception (PEXCEPTION_RECORD64 exception, ULONG firstCha
     {
         result = DEBUG_STATUS_GO_NOT_HANDLED;
     }
-    else if (firstChance)
+    else if (firstChance != 0)
     {
         result = DEBUG_STATUS_GO_NOT_HANDLED;
     }
