@@ -72,8 +72,10 @@ int main (int argc, char* argv[])
     if (not configDir.exists ())
         configDir.createDirectory ();
 
+#if JUCE_DEBUG
     const juce::File logPath { configDir.getChildFile (kLogFileName) };
     g_logFile = fopen (logPath.getFullPathName ().toRawUTF8 (), "w");
+#endif
 
     logWrite ("WHATDBG: started\n");
 
@@ -105,11 +107,13 @@ int main (int argc, char* argv[])
 
     logWrite ("WHATDBG: exit code %d\n", exitCode);
 
+#if JUCE_DEBUG
     if (g_logFile != nullptr)
     {
         fclose (g_logFile);
         g_logFile = nullptr;
     }
+#endif
 
     return exitCode;
 }

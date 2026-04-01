@@ -41,6 +41,15 @@ bool BreakpointManager::hasPending () const noexcept
 }
 
 // ---------------------------------------------------------------------------
+// BreakpointManager::isUserBreakpoint
+// ---------------------------------------------------------------------------
+
+bool BreakpointManager::isUserBreakpoint (ULONG engineId) const noexcept
+{
+    return engineToDap.count (engineId) > 0;
+}
+
+// ---------------------------------------------------------------------------
 // BreakpointManager::tryResolve
 // ---------------------------------------------------------------------------
 

@@ -449,17 +449,34 @@ void Whatdbg::processDeferredEvents ()
         logWrite ("[Whatdbg] resumed after initial breakpoint\n");
     }
 
-    // Breakpoint hit — emit stopped event
+    // Breakpoint hit — check if it's a user BP or an internal BP (e.g., stepOut's "gu")
     if (state.hasBreakpointHit)
     {
         state.hasBreakpointHit = false;
 
-        juce::var stoppedBody { breakpointManager.onBreakpointHit (
-            state.breakpointEngineId, state.breakpointThreadId) };
+        if (isStepPending and not breakpointManager.isUserBreakpoint (state.breakpointEngineId))
+        {
+            // Internal breakpoint from stepOut ("gu") — treat as step completion
+            isStepPending = false;
 
-        sendEvent (dap::makeEvent ("stopped", stoppedBody));
-        resetVariablesState ();
-        logWrite ("[Whatdbg] breakpoint hit, emitted stopped event\n");
+            DynObj body { new juce::DynamicObject () };
+            body->setProperty ("reason",            "step");
+            body->setProperty ("threadId",          1);
+            body->setProperty ("allThreadsStopped", true);
+
+            sendEvent (dap::makeEvent ("stopped", juce::var (body)));
+            resetVariablesState ();
+            logWrite ("[Whatdbg] stepOut completed (internal BP), emitted stopped event\n");
+        }
+        else
+        {
+            juce::var stoppedBody { breakpointManager.onBreakpointHit (
+                state.breakpointEngineId, state.breakpointThreadId) };
+
+            sendEvent (dap::makeEvent ("stopped", stoppedBody));
+            resetVariablesState ();
+            logWrite ("[Whatdbg] breakpoint hit, emitted stopped event\n");
+        }
     }
 
     // Step completed — emit stopped event

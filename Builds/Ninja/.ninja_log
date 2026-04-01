@@ -38,3 +38,14 @@
 132	2064	7967482090736728	CMakeFiles/whatdbg_App.dir/Source/debug/Session.cpp.obj	b0a6d6d294ccbbfd
 2065	2395	7967482110057874	whatdbg_App_artefacts/Debug/whatdbg.exe	d9ec7141c85884f3
 34	106	7967482190071992	C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/cmake.verify_globs	16b28f04c914a2c5
+50	271	7967521114282606	C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/cmake.verify_globs	16b28f04c914a2c5
+339	2532	7967521117171503	CMakeFiles/whatdbg_App.dir/Source/dap/Reader.cpp.obj	106a630da6962119
+359	2786	7967521117378758	CMakeFiles/whatdbg_App.dir/Source/debug/Callbacks.cpp.obj	157c0abc6be629e7
+366	2871	7967521117440811	CMakeFiles/whatdbg_App.dir/Source/debug/Session.cpp.obj	b0a6d6d294ccbbfd
+323	2933	7967521117011246	CMakeFiles/whatdbg_App.dir/Source/Main.cpp.obj	947bd8b1e2033442
+333	3009	7967521117107796	CMakeFiles/whatdbg_App.dir/Source/Whatdbg.cpp.obj	5f453fe51b12f722
+350	3130	7967521117276444	CMakeFiles/whatdbg_App.dir/Source/debug/BreakpointManager.cpp.obj	e46cd14365700ab3
+3131	3723	7967521145094254	whatdbg_App_artefacts/Debug/whatdbg.exe	d9ec7141c85884f3
+62	194	7967524908937284	C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/cmake.verify_globs	16b28f04c914a2c5
+250	3130	7967524910806200	CMakeFiles/whatdbg_App.dir/Source/debug/Session.cpp.obj	b0a6d6d294ccbbfd
+3132	3551	7967524939622120	whatdbg_App_artefacts/Debug/whatdbg.exe	d9ec7141c85884f3

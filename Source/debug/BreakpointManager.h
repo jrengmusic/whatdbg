@@ -50,6 +50,9 @@ public:
 
     bool hasPending () const noexcept;
 
+    // Returns true if engineId belongs to a user-set breakpoint (in engineToDap).
+    bool isUserBreakpoint (ULONG engineId) const noexcept;
+
 private:
     ResolveResult tryResolve (const juce::String& windowsPath, ULONG requestedLine) noexcept;
 

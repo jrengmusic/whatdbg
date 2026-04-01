@@ -111,6 +111,60 @@
 
 ## SPRINT HISTORY
 
+## Sprint 10: Polish — stepOut fix, pretty-printing, debug-only logging
+
+**Date:** 2026-04-01
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — Planning, research coordination, delegation, direct edits (early return fix, diagnostic logging add/remove, Log.h guard, Main.cpp guard)
+- Pathfinder — stepOut breakpoint detection flow analysis
+- Researcher — Pretty-printing research (NatVis, IDebugSymbolGroup2, IDebugDataSpaces4, Debugger Data Model, MSVC STL layouts, juce::String internals)
+- Engineer — stepOut reason fix (isUserBreakpoint + processDeferredEvents routing), pretty-print implementation (4 type formatters), value formatting improvements (0n strip, pointer truncation, composite empty)
+
+### Files Modified (5 total)
+
+- `Source/Log.h` — Wrapped `g_logFile` and `logWrite` in `#if JUCE_DEBUG`; Release builds get no-op `logWrite`
+- `Source/Main.cpp:75-77,110-114` — `fopen`/`fclose` of log file guarded with `#if JUCE_DEBUG`
+- `Source/debug/Session.h:85` — Added `IDebugDataSpaces4` ComPtr member for target memory reading
+- `Source/debug/Session.cpp:11-62,64-427,529-534,600-605` — `IDebugDataSpaces4` QI'd in initialize, added to isInitialized/shutdown; `formatSymbolValue` enhanced (0n anywhere, pointer type truncation, composite empty); 4 static helpers (`readTargetString`, `parseHexAddress`, `findChildByName`, `getChildValueText`); `prettyPrint` with 4 type formatters (juce::String, std::string, std::unique_ptr, std::vector); pretty-print hooked into both `getLocals` and `getVariableChildren`; compiler-generated symbol filter (`<` prefix)
+- `Source/debug/BreakpointManager.h:52` + `Source/debug/BreakpointManager.cpp:47-50` — Added `isUserBreakpoint(ULONG)` method
+- `Source/Whatdbg.cpp:452-475` — Breakpoint hit block routes internal BPs (stepOut `gu`) through step-completion path when `isStepPending` and engineId is not user-registered
+
+### Alignment Check
+- [x] BLESSED principles followed (SSOT: type formatters in one static function; Bound: temporary symbol groups created/released per prettyPrint call; Lean: shared helpers; Explicit: named constants, no magic numbers)
+- [x] NAMES.md adhered (readTargetString, parseHexAddress, findChildByName, prettyPrint, isUserBreakpoint — semantic names)
+- [x] MANIFESTO.md applied (early return in prettyPrint fixed to positive-check wrapper)
+- [x] JRENG-CODING-STANDARD.md — brace init, not/and/or, const before type
+
+### Problems Solved
+
+**Problem 1 — stepOut reports reason "breakpoint" instead of "step"**
+`gu` (step out) plants an internal breakpoint at the return address. `Breakpoint` callback fires with an unknown engineId, sets `hasBreakpointHit`. The step detection block (`isStepPending + no other flags`) doesn't fire because `hasBreakpointHit` is true. Fix: added `isUserBreakpoint(engineId)` to BreakpointManager. In processDeferredEvents, when `hasBreakpointHit` and `isStepPending` and NOT a user BP → emit `reason: "step"` instead.
+
+**Problem 2 — dbgeng value formatting not human-readable**
+`GetSymbolValueText` returns `0n877`, `0x00000000\`addr class Type *`, `class juce::String`. Fix: `formatSymbolValue` strips `0n` prefix before digits anywhere in string, removes backticks, truncates pointer trailing type, shows empty for composite types.
+
+**Problem 3 — Compiler-generated symbols visible**
+MSVC generates `<begin>$L0`, `<end>$L0`, `<range>$L0` for range-for loops. Fix: filter by `symbolName.startsWithChar('<')` in both getLocals and getVariableChildren.
+
+**Problem 4 — No pretty-printing for common types**
+`IDebugSymbolGroup2::GetSymbolValueText` is NatVis-unaware — shows raw type names. Fix: Tier 1 type-specific formatters via `GetSymbolTypeName` matching + child expansion + `ReadMultiByteStringVirtual`. Four formatters: juce::String (text→data→char*), std::string (SSO-aware _Buf/_Ptr), std::unique_ptr (address or "null"), std::vector (size from _Myfirst/_Mylast pointer diff + element type size).
+
+**Problem 5 — File logging active in Release builds**
+`logWrite` with `vfprintf` and `fopen`/`fclose` ran in all builds. Fix: `#if JUCE_DEBUG` guard around `g_logFile`, `logWrite`, `fopen`, `fclose`. Release gets inline no-op.
+
+### Technical Debt / Follow-up
+- `fopen`/`fclose` raw C I/O — should be `juce::FileLogger` (logged, deferred)
+- `logWrite` vs `juce::Logger::writeToLog` inconsistency in BreakpointManager.cpp
+- Early returns in Types.h and BreakpointManager.cpp::tryResolve
+- No expression evaluation (DAP `evaluate` request)
+- No multi-thread scope selection
+- Symbol group created fresh per prettyPrint call — double cost for pretty-printed variables
+- `leakDetector` members visible in variable expansion
+- Tier 2 NatVis via Debugger Data Model deferred
+- dap-repl routing limitation (nvim-dap-ui #306)
+
 ## Sprint 9: Variable Inspection (scopes + variables + expansion)
 
 **Date:** 2026-04-01

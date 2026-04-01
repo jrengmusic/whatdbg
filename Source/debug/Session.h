@@ -79,9 +79,10 @@ private:
     OutputCallbacks  outputCallbacks;
     EventCallbacks   eventCallbacks;
 
-    Microsoft::WRL::ComPtr<IDebugClient5>  client;
-    Microsoft::WRL::ComPtr<IDebugControl4> control;
-    Microsoft::WRL::ComPtr<IDebugSymbols3> symbols;
+    Microsoft::WRL::ComPtr<IDebugClient5>     client;
+    Microsoft::WRL::ComPtr<IDebugControl4>    control;
+    Microsoft::WRL::ComPtr<IDebugSymbols3>    symbols;
+    Microsoft::WRL::ComPtr<IDebugDataSpaces4> dataSpaces;
 
     bool isComOwned { false };
 

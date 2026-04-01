@@ -1,5 +1,8 @@
 #pragma once
 #include <JuceHeader.h>
+
+#if JUCE_DEBUG
+
 #include <cstdio>
 #include <cstdarg>
 
@@ -18,3 +21,9 @@ inline void logWrite (const char* format, ...) noexcept
         fflush (g_logFile);
     }
 }
+
+#else
+
+inline void logWrite (const char*, ...) noexcept {}
+
+#endif
