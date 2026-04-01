@@ -8,6 +8,60 @@ namespace debug
 
 using DynObj = juce::ReferenceCountedObjectPtr<juce::DynamicObject>;
 
+static juce::String formatSymbolValue (const juce::String& rawValue) noexcept
+{
+    juce::String result { rawValue };
+
+    // Clean 64-bit pointer backtick: "0x00000000`10db01b0" → "0x0000000010db01b0"
+    result = result.replace ("`", "");
+
+    // Strip dbgeng decimal prefix "0n" when followed by a digit (anywhere in string).
+    // "0n877" → "877", "mid (0n2)" → "mid (2)"
+    int searchPos { 0 };
+    while (searchPos < result.length () - 2)
+    {
+        const int found { result.indexOf (searchPos, "0n") };
+
+        if (found < 0)
+        {
+            searchPos = result.length ();
+        }
+        else
+        {
+            const int charAfter { found + 2 };
+
+            if (charAfter < result.length () and juce::CharacterFunctions::isDigit (result[charAfter]))
+            {
+                result = result.substring (0, found) + result.substring (charAfter);
+            }
+            else
+            {
+                searchPos = found + 2;
+            }
+        }
+    }
+
+    // Pointer with trailing type: "0x0000000010550c30 class Foo *" → "0x0000000010550c30"
+    if (result.startsWith ("0x"))
+    {
+        const int spacePos { result.indexOf (" ") };
+
+        if (spacePos > 0)
+        {
+            result = result.substring (0, spacePos);
+        }
+    }
+
+    // Composite type echoed as value: "class juce::String" or "struct Foo" → empty
+    // The type column already identifies it; expand triangle indicates expandability.
+    if (result.startsWith ("class ") or result.startsWith ("struct "))
+    {
+        result = "";
+    }
+
+    return result;
+}
+
 Session::~Session ()
 {
     shutdown ();
@@ -427,6 +481,144 @@ juce::Array<juce::var> Session::getStackTrace (int maxFrames) noexcept
     }
 
     return frames;
+}
+
+juce::Array<juce::var> Session::getLocals (int frameIndex) noexcept
+{
+    juce::Array<juce::var> variables;
+
+    if (symbols != nullptr)
+    {
+        const HRESULT scopeResult { symbols->SetScopeFrameByIndex (static_cast<ULONG> (frameIndex)) };
+
+        if (SUCCEEDED (scopeResult))
+        {
+            IDebugSymbolGroup2* group { nullptr };
+            const HRESULT groupResult { symbols->GetScopeSymbolGroup2 (
+                DEBUG_SCOPE_GROUP_ALL, nullptr, &group) };
+
+            if (SUCCEEDED (groupResult) and group != nullptr)
+            {
+                static constexpr int kSymbolNameSize  { 256 };
+                static constexpr int kSymbolTypeSize  { 256 };
+                static constexpr int kSymbolValueSize { 512 };
+
+                ULONG count { 0 };
+                group->GetNumberSymbols (&count);
+
+                for (ULONG i { 0 }; i < count; ++i)
+                {
+                    DEBUG_SYMBOL_PARAMETERS params {};
+                    const HRESULT paramResult { group->GetSymbolParameters (i, 1, &params) };
+
+                    if (SUCCEEDED (paramResult) and params.ParentSymbol == DEBUG_ANY_ID)
+                    {
+                        char nameBuffer[kSymbolNameSize] {};
+                        group->GetSymbolName (i, nameBuffer, kSymbolNameSize, nullptr);
+
+                        const juce::String symbolName { nameBuffer };
+
+                        if (not symbolName.startsWithChar ('<'))
+                        {
+                            char typeBuffer[kSymbolTypeSize] {};
+                            group->GetSymbolTypeName (i, typeBuffer, kSymbolTypeSize, nullptr);
+
+                            char valueBuffer[kSymbolValueSize] {};
+                            const HRESULT valueResult { group->GetSymbolValueText (i, valueBuffer, kSymbolValueSize, nullptr) };
+
+                            DynObj var { new juce::DynamicObject () };
+                            const juce::String formattedValue { SUCCEEDED (valueResult) ? formatSymbolValue (juce::String (valueBuffer)) : juce::String ("<unavailable>") };
+                            var->setProperty ("name",        juce::String (nameBuffer));
+                            var->setProperty ("value",       formattedValue);
+                            var->setProperty ("type",        juce::String (typeBuffer));
+                            var->setProperty ("symbolIndex", static_cast<int> (i));
+                            var->setProperty ("hasChildren", params.SubElements > 0);
+
+                            variables.add (juce::var (var));
+                        }
+                    }
+                }
+
+                group->Release ();
+            }
+
+            symbols->ResetScope ();
+        }
+    }
+
+    return variables;
+}
+
+juce::Array<juce::var> Session::getVariableChildren (int frameIndex, int symbolIndex) noexcept
+{
+    juce::Array<juce::var> variables;
+
+    if (symbols != nullptr)
+    {
+        const HRESULT scopeResult { symbols->SetScopeFrameByIndex (static_cast<ULONG> (frameIndex)) };
+
+        if (SUCCEEDED (scopeResult))
+        {
+            IDebugSymbolGroup2* group { nullptr };
+            const HRESULT groupResult { symbols->GetScopeSymbolGroup2 (
+                DEBUG_SCOPE_GROUP_ALL, nullptr, &group) };
+
+            if (SUCCEEDED (groupResult) and group != nullptr)
+            {
+                static constexpr int kSymbolNameSize  { 256 };
+                static constexpr int kSymbolTypeSize  { 256 };
+                static constexpr int kSymbolValueSize { 512 };
+
+                const ULONG parentIndex { static_cast<ULONG> (symbolIndex) };
+                const HRESULT expandResult { group->ExpandSymbol (parentIndex, TRUE) };
+
+                if (SUCCEEDED (expandResult))
+                {
+                    ULONG count { 0 };
+                    group->GetNumberSymbols (&count);
+
+                    for (ULONG i { 0 }; i < count; ++i)
+                    {
+                        DEBUG_SYMBOL_PARAMETERS params {};
+                        const HRESULT paramResult { group->GetSymbolParameters (i, 1, &params) };
+
+                        if (SUCCEEDED (paramResult) and params.ParentSymbol == parentIndex)
+                        {
+                            char nameBuffer[kSymbolNameSize] {};
+                            group->GetSymbolName (i, nameBuffer, kSymbolNameSize, nullptr);
+
+                            const juce::String symbolName { nameBuffer };
+
+                            if (not symbolName.startsWithChar ('<'))
+                            {
+                                char typeBuffer[kSymbolTypeSize] {};
+                                group->GetSymbolTypeName (i, typeBuffer, kSymbolTypeSize, nullptr);
+
+                                char valueBuffer[kSymbolValueSize] {};
+                                const HRESULT valueResult { group->GetSymbolValueText (i, valueBuffer, kSymbolValueSize, nullptr) };
+
+                                DynObj var { new juce::DynamicObject () };
+                                const juce::String formattedValue { SUCCEEDED (valueResult) ? formatSymbolValue (juce::String (valueBuffer)) : juce::String ("<unavailable>") };
+                                var->setProperty ("name",        juce::String (nameBuffer));
+                                var->setProperty ("value",       formattedValue);
+                                var->setProperty ("type",        juce::String (typeBuffer));
+                                var->setProperty ("symbolIndex", static_cast<int> (i));
+                                var->setProperty ("hasChildren", params.SubElements > 0);
+
+                                variables.add (juce::var (var));
+                            }
+                        }
+                    }
+                }
+
+                group->Release ();
+            }
+
+            symbols->ResetScope ();
+        }
+    }
+
+    return variables;
 }
 
 } // namespace debug

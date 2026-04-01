@@ -67,6 +67,13 @@ public:
     // Stack trace — returns frames as DAP-formatted juce::var array
     juce::Array<juce::var> getStackTrace (int maxFrames) noexcept;
 
+    // Get local variables at the given frame index.
+    // Returns array of {name, value, type, variablesReference, symbolIndex} objects.
+    juce::Array<juce::var> getLocals (int frameIndex) noexcept;
+
+    // Get children of an expanded variable at the given frame and symbol index.
+    juce::Array<juce::var> getVariableChildren (int frameIndex, int symbolIndex) noexcept;
+
 private:
     Loader           loader;
     OutputCallbacks  outputCallbacks;

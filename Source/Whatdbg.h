@@ -1,5 +1,6 @@
 #pragma once
 #include <JuceHeader.h>
+#include <unordered_map>
 #include "debug/State.h"
 #include "debug/Session.h"
 #include "debug/Callbacks.h"
@@ -56,6 +57,13 @@ private:
     bool isConfigurationDone { false };
     bool isStepPending  { false };
     bool isPausePending { false };
+
+    // ── Variable inspection ───────────────────────────────────────────
+    int nextVariablesRef { 1 };
+    // Maps variablesReference → (frameIndex, symbolIndex). symbolIndex -1 = top-level locals.
+    std::unordered_map<int, std::pair<int, int>> variablesRefMap;
+
+    void resetVariablesState () noexcept;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Whatdbg)
 };

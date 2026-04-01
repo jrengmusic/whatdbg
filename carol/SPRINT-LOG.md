@@ -111,6 +111,53 @@
 
 ## SPRINT HISTORY
 
+## Sprint 9: Variable Inspection (scopes + variables + expansion)
+
+**Date:** 2026-04-01
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — Planning, research coordination, delegation, one role violation (direct edit, corrected)
+- Pathfinder — Current scopes/variables stubs, DAP flow analysis
+- Librarian — dbgeng variable inspection API research (IDebugSymbolGroup2, SetScopeFrameByIndex, ExpandSymbol, GetSymbolValueText, symbol parameters, threading)
+- Engineer — Variable inspection implementation (getLocals, getVariableChildren, handleScopes, handleVariables, variablesReference registry, formatSymbolValue, compiler symbol filter)
+
+### Files Modified (4 total)
+
+- `Source/debug/Session.h:68-72` — Added `getLocals (int frameIndex)` and `getVariableChildren (int frameIndex, int symbolIndex)` declarations
+- `Source/debug/Session.cpp:11-62,485-549,554-620` — Added `formatSymbolValue` static helper (backtick strip, `0n` decimal prefix removal, pointer type truncation, composite type empty value); `getLocals` — sets scope frame, creates symbol group, enumerates top-level symbols with `ParentSymbol == DEBUG_ANY_ID`, filters compiler-generated `<` symbols; `getVariableChildren` — same pattern with `ExpandSymbol` and `ParentSymbol == parentIndex` filter
+- `Source/Whatdbg.h:60-64` — Added `#include <unordered_map>`, `nextVariablesRef` counter, `variablesRefMap` registry, `resetVariablesState()` declaration
+- `Source/Whatdbg.cpp:76,289-369,396,411` — `resetVariablesState` clears registry on every stop event (pause, breakpoint, step); `handleScopes` returns "Locals" scope with variablesReference from registry; `handleVariables` dispatches to `getLocals` (symbolIndex == -1) or `getVariableChildren`, assigns child variablesReferences for expandable symbols
+
+### Alignment Check
+- [x] BLESSED principles followed (SSOT: variablesRefMap is the single registry for all references; Bound: symbol group created and released per request, no leaked COM objects; Lean: formatSymbolValue is one shared function; Explicit: named constants for buffer sizes; Encapsulation: Session owns symbol enumeration, Whatdbg owns DAP mapping)
+- [x] NAMES.md adhered (getLocals, getVariableChildren, formatSymbolValue, variablesRefMap, nextVariablesRef, resetVariablesState — semantic names)
+- [x] MANIFESTO.md applied (no early returns, positive nested checks throughout)
+- [x] JRENG-CODING-STANDARD.md — brace init, not/and/or, const before type, space after function name, named constants
+
+### Problems Solved
+
+**Problem 1 — scopes/variables stubs returned empty arrays**
+handleScopes and handleVariables were stubs since Sprint 3. Implemented using `IDebugSymbolGroup2` via `GetScopeSymbolGroup2` (already on `IDebugSymbols3` which was QI'd). `SetScopeFrameByIndex` maps DAP frameId directly to dbgeng frame index.
+
+**Problem 2 — Struct/class expansion**
+DAP `variablesReference` scheme: integer registry (`std::unordered_map<int, std::pair<int, int>>`) maps ref → (frameIndex, symbolIndex). Scope ref uses symbolIndex -1 for top-level locals. Child refs registered on demand when `SubElements > 0`. Registry reset on every stop event. `ExpandSymbol` called per-request on fresh symbol group — no cross-request state contamination.
+
+**Problem 3 — dbgeng value format not human-readable**
+`GetSymbolValueText` returns raw debugger notation: `0n877` (decimal), `0x00000000\`10db01b0` (backtick 64-bit), `0x... class Foo *` (pointer + type). `formatSymbolValue` cleans all three: strips `0n` before digits anywhere in string, removes backticks, truncates pointer type suffix. Composite types (`class X`, `struct Y`) show empty value — type column and expand triangle provide the information.
+
+**Problem 4 — Compiler-generated range-for symbols visible**
+MSVC generates `<begin>$L0`, `<end>$L0`, `<range>$L0` for range-based for loops. Filtered out by skipping symbols whose name starts with `<` in both `getLocals` and `getVariableChildren`.
+
+### Technical Debt / Follow-up
+- No pretty-printing for JUCE types (juce::String shows internal members, not string content)
+- No expression evaluation (DAP `evaluate` request — getValue(), paramID access)
+- Symbol group created fresh per request — acceptable but could be cached with `Update` parameter for stepping performance
+- `IDebugSystemObjects` not QI'd — multi-thread scope selection not supported (single-thread hardcoded)
+- Pre-existing early returns in Types.h and BreakpointManager.cpp
+- Diagnostic logging removal — Step 11
+- `leakDetector` members visible in expansion — could filter by name pattern
+
 ## Sprint 8: OutputDebugString Capture + DapStopped Sign
 
 **Date:** 2026-04-01

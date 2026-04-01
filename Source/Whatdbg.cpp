@@ -73,6 +73,7 @@ void Whatdbg::run ()
                     body->setProperty ("allThreadsStopped", true);
 
                     sendEvent (dap::makeEvent ("stopped", juce::var (body)));
+                    resetVariablesState ();
                     logWrite ("[Whatdbg] pause completed, emitted stopped event\n");
                 }
             }
@@ -286,21 +287,85 @@ void Whatdbg::handleStackTrace (const juce::var& request)
     sendResponse (dap::makeResponse (seq, "stackTrace", true, juce::var (body)));
 }
 
+void Whatdbg::resetVariablesState () noexcept
+{
+    nextVariablesRef = 1;
+    variablesRefMap.clear ();
+}
+
 void Whatdbg::handleScopes (const juce::var& request)
 {
-    const int seq { static_cast<int> (request["seq"]) };
+    const int seq     { static_cast<int> (request["seq"]) };
+    const int frameId { static_cast<int> (request["arguments"]["frameId"]) };
+
+    const int localsRef { nextVariablesRef++ };
+    variablesRefMap[localsRef] = { frameId, -1 };
+
+    DynObj localsScope { new juce::DynamicObject () };
+    localsScope->setProperty ("name",               "Locals");
+    localsScope->setProperty ("variablesReference",  localsRef);
+    localsScope->setProperty ("expensive",           false);
+
+    juce::Array<juce::var> scopes;
+    scopes.add (juce::var (localsScope));
 
     DynObj body { new juce::DynamicObject () };
-    body->setProperty ("scopes", juce::var { juce::Array<juce::var> {} });
+    body->setProperty ("scopes", juce::var { scopes });
     sendResponse (dap::makeResponse (seq, "scopes", true, juce::var (body)));
 }
 
 void Whatdbg::handleVariables (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
+    const int ref { static_cast<int> (request["arguments"]["variablesReference"]) };
+
+    juce::Array<juce::var> dapVariables;
+
+    if (variablesRefMap.count (ref) > 0)
+    {
+        const auto& entry       { variablesRefMap.at (ref) };
+        const int   frameIndex  { entry.first };
+        const int   symbolIndex { entry.second };
+
+        juce::Array<juce::var> rawVars;
+
+        if (symbolIndex < 0)
+        {
+            rawVars = session.getLocals (frameIndex);
+        }
+        else
+        {
+            rawVars = session.getVariableChildren (frameIndex, symbolIndex);
+        }
+
+        for (const auto& rawVar : rawVars)
+        {
+            if (auto* obj { rawVar.getDynamicObject () })
+            {
+                const bool hasChildren { static_cast<bool> (obj->getProperty ("hasChildren")) };
+                const int  symIdx      { static_cast<int>  (obj->getProperty ("symbolIndex")) };
+
+                int childRef { 0 };
+
+                if (hasChildren)
+                {
+                    childRef = nextVariablesRef++;
+                    variablesRefMap[childRef] = { frameIndex, symIdx };
+                }
+
+                DynObj dapVar { new juce::DynamicObject () };
+                dapVar->setProperty ("name",               obj->getProperty ("name"));
+                dapVar->setProperty ("value",              obj->getProperty ("value"));
+                dapVar->setProperty ("type",               obj->getProperty ("type"));
+                dapVar->setProperty ("variablesReference",  childRef);
+
+                dapVariables.add (juce::var (dapVar));
+            }
+        }
+    }
 
     DynObj body { new juce::DynamicObject () };
-    body->setProperty ("variables", juce::var { juce::Array<juce::var> {} });
+    body->setProperty ("variables", juce::var { dapVariables });
     sendResponse (dap::makeResponse (seq, "variables", true, juce::var (body)));
 }
 
@@ -393,6 +458,7 @@ void Whatdbg::processDeferredEvents ()
             state.breakpointEngineId, state.breakpointThreadId) };
 
         sendEvent (dap::makeEvent ("stopped", stoppedBody));
+        resetVariablesState ();
         logWrite ("[Whatdbg] breakpoint hit, emitted stopped event\n");
     }
 
@@ -407,6 +473,7 @@ void Whatdbg::processDeferredEvents ()
         body->setProperty ("allThreadsStopped", true);
 
         sendEvent (dap::makeEvent ("stopped", juce::var (body)));
+        resetVariablesState ();
         logWrite ("[Whatdbg] step completed, emitted stopped event\n");
     }
 
