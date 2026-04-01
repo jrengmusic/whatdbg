@@ -65,7 +65,7 @@ inline juce::var makeCapabilities () noexcept
     caps->setProperty ("supportsFunctionBreakpoints",        false);
     caps->setProperty ("supportsConditionalBreakpoints",     false);
     caps->setProperty ("supportsHitConditionalBreakpoints",  false);
-    caps->setProperty ("supportsEvaluateForHovers",          false);
+    caps->setProperty ("supportsEvaluateForHovers",          true);
     caps->setProperty ("supportsSetVariable",                false);
     caps->setProperty ("supportsStepBack",                   false);
     caps->setProperty ("supportsRestartFrame",               false);

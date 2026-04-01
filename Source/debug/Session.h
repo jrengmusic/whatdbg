@@ -31,7 +31,7 @@ public:
     HRESULT pollEvents (ULONG timeoutMs) noexcept;
 
     // Detach and clean up.
-    void shutdown () noexcept;
+    void shutdown (bool shouldTerminate = false) noexcept;
 
     // ── Breakpoint API (used by BreakpointManager) ─────────────────────
 
@@ -74,15 +74,38 @@ public:
     // Get children of an expanded variable at the given frame and symbol index.
     juce::Array<juce::var> getVariableChildren (int frameIndex, int symbolIndex) noexcept;
 
+    // Evaluate a C++ expression in the context of the given frame.
+    // Returns the formatted result string from dbgeng's "??" evaluator.
+    juce::String evaluateExpression (const juce::String& expression, int frameIndex) noexcept;
+
+    // Enumerate all threads. Returns array of {id (OS TID), name} objects.
+    juce::Array<juce::var> getThreads () noexcept;
+
+    // Get the OS TID of the thread that triggered the last debug event.
+    ULONG getEventThreadSystemId () noexcept;
+
+    // Set the current thread context by OS TID (for stack trace / scope).
+    void setCurrentThreadBySystemId (ULONG systemId) noexcept;
+
+    // Invalidate cached symbol group (call on every stop event).
+    void resetSymbolGroupCache () noexcept;
+
 private:
+    // Returns the cached symbol group for the given frame, creating or updating as needed.
+    IDebugSymbolGroup2* getOrCreateSymbolGroup (int frameIndex) noexcept;
+
     Loader           loader;
     OutputCallbacks  outputCallbacks;
     EventCallbacks   eventCallbacks;
 
-    Microsoft::WRL::ComPtr<IDebugClient5>     client;
-    Microsoft::WRL::ComPtr<IDebugControl4>    control;
-    Microsoft::WRL::ComPtr<IDebugSymbols3>    symbols;
-    Microsoft::WRL::ComPtr<IDebugDataSpaces4> dataSpaces;
+    Microsoft::WRL::ComPtr<IDebugClient5>       client;
+    Microsoft::WRL::ComPtr<IDebugControl4>      control;
+    Microsoft::WRL::ComPtr<IDebugSymbols3>      symbols;
+    Microsoft::WRL::ComPtr<IDebugDataSpaces4>   dataSpaces;
+    Microsoft::WRL::ComPtr<IDebugSystemObjects> systemObjects;
+
+    IDebugSymbolGroup2* cachedSymbolGroup { nullptr };
+    int                 cachedFrameIndex  { -1 };
 
     bool isComOwned { false };
 

@@ -111,6 +111,62 @@
 
 ## SPRINT HISTORY
 
+## Sprint 11: Expression Evaluation, Multi-Thread, Symbol Group Caching, Terminate Fix
+
+**Date:** 2026-04-02
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — Planning, research coordination, delegation, direct fixes (evaluate formatting, early return fix, diagnostic logging, narrowing conversion, prettyPrint signature restoration)
+- Librarian — dbgeng Evaluate API research (Execute ?? vs Evaluate, secondary client capture, C++ expression syntax), dbgeng thread enumeration API research (IDebugSystemObjects, GetThreadIdsByIndex, GetThreadDescription, thread context for scopes)
+- Engineer — Expression evaluation (CaptureOutputCallback, evaluateExpression, handleEvaluate), multi-thread support (getThreads, getEventThreadSystemId, setCurrentThreadBySystemId, handleThreads/handleStackTrace rewire), symbol group caching (getOrCreateSymbolGroup, resetSymbolGroupCache), terminate fix (shutdown bool parameter, shouldTerminateOnExit)
+
+### Files Modified (6 total)
+
+- `Source/debug/Session.h` — Added `IDebugSystemObjects` ComPtr; added `evaluateExpression`, `getThreads`, `getEventThreadSystemId`, `setCurrentThreadBySystemId`, `resetSymbolGroupCache` public methods; added `getOrCreateSymbolGroup` private method; added `cachedSymbolGroup`/`cachedFrameIndex` cache members; `shutdown` takes `bool shouldTerminate = false`
+- `Source/debug/Session.cpp` — `CaptureOutputCallback` class for output capture; `evaluateExpression` via secondary client `Execute("?? expr")` with `.symopt- 100` for unqualified symbol resolution, juce::String pretty-print via dot/arrow `Evaluate` + `ReadMultiByteStringVirtual`; `getThreads` enumerates real threads with OS TIDs and `GetThreadDescription` names; `getEventThreadSystemId`/`setCurrentThreadBySystemId` for thread context; `getOrCreateSymbolGroup` caches per frame; `getLocals`/`getVariableChildren` refactored to use cached group; `prettyPrint` accepts group + symbols parameters (no internal group creation); `shutdown` uses `DEBUG_END_ACTIVE_TERMINATE` vs `DEBUG_END_ACTIVE_DETACH` based on parameter; `IDebugSystemObjects` QI'd in initialize, added to isInitialized/shutdown
+- `Source/Whatdbg.h` — Added `handleEvaluate` declaration; added `shouldTerminateOnExit` member
+- `Source/Whatdbg.cpp` — `handleEvaluate` wired in dispatch; `handleDisconnect` sets `shouldTerminateOnExit` from command name + `terminateDebuggee` arg; `run()` passes flag to `session.shutdown()`; `handleThreads` uses `session.getThreads()`; `handleStackTrace` sets thread context from DAP `threadId`; all stopped events use `session.getEventThreadSystemId()` for real OS TID; `resetVariablesState` calls `session.resetSymbolGroupCache()`
+- `Source/dap/Types.h` — `supportsEvaluateForHovers` set to `true`
+- `Source/debug/BreakpointManager.h` + `.cpp` — `isUserBreakpoint(ULONG)` added (from Sprint 10, same commit)
+
+### Alignment Check
+- [x] BLESSED principles followed (Bound: CaptureOutputCallback stack-lifetime, cachedSymbolGroup released in resetSymbolGroupCache/shutdown; SSOT: thread IDs from dbgeng, not hardcoded; Lean: getOrCreateSymbolGroup eliminates per-request group creation; Explicit: shouldTerminateOnExit flag, OS TID as DAP threadId)
+- [x] NAMES.md adhered (evaluateExpression, getEventThreadSystemId, setCurrentThreadBySystemId, cachedSymbolGroup, shouldTerminateOnExit — semantic names)
+- [x] MANIFESTO.md applied (early return in prettyPrint fixed to positive-check wrapper)
+- [x] JRENG-CODING-STANDARD.md — brace init, not/and/or, const before type, static_cast for narrowing
+
+### Problems Solved
+
+**Problem 1 — No expression evaluation**
+DAP `evaluate` request was unsupported. Implemented via secondary dbgeng client + `Execute("?? expr")` with output capture. `.symopt- 100` enables unqualified local variable resolution. juce::String expressions auto-resolve to actual string content via `Evaluate("(expr).text.data")` + `ReadMultiByteStringVirtual`, trying both `.` and `->` access.
+
+**Problem 2 — `??` output passed through formatSymbolValue incorrectly**
+`??` returns type-first format (`class juce::String * 0x...`) while `GetSymbolValueText` returns address-first. `formatSymbolValue` matched `startsWith("class ")` → returned empty. Fix: `??` output gets its own lighter formatting (backtick strip + 0n removal only).
+
+**Problem 3 — Hardcoded single thread**
+`handleThreads` returned hardcoded thread id=1. All stopped events used threadId=1. `handleStackTrace` ignored threadId. Fix: `IDebugSystemObjects` QI'd; `getThreads` enumerates real threads with `GetThreadIdsByIndex` + `GetThreadDescription`; stopped events use `getEventThreadSystemId()`; `handleStackTrace` calls `setCurrentThreadBySystemId` before tracing.
+
+**Problem 4 — Terminate detached instead of killing process**
+`EndSession(DEBUG_END_ACTIVE_DETACH)` let the target continue. Fix: `shutdown(bool)` uses `DEBUG_END_ACTIVE_TERMINATE` when `shouldTerminateOnExit` is true. Set by `handleDisconnect` from DAP `terminate` command or `terminateDebuggee` argument.
+
+**Problem 5 — Symbol group created fresh per request**
+`getLocals`, `getVariableChildren`, and `prettyPrint` each created and released their own `IDebugSymbolGroup2`. Fix: `getOrCreateSymbolGroup` caches per frame, reused across all requests within a stop event. `prettyPrint` accepts the cached group as parameter. Cache invalidated on every stop event via `resetSymbolGroupCache`.
+
+**Problem 6 — Narrowing conversion in shutdown**
+`DEBUG_END_ACTIVE_TERMINATE`/`DEBUG_END_ACTIVE_DETACH` are `int` defines, brace init to `ULONG` narrowed. Fix: `static_cast<ULONG>()`.
+
+### Technical Debt / Follow-up
+- `State::breakpointThreadId` is dead — `getEventThreadSystemId()` replaced it. Remove field.
+- `fopen`/`fclose` raw C I/O — should be `juce::FileLogger`
+- `logWrite` vs `juce::Logger::writeToLog` inconsistency in BreakpointManager.cpp
+- Early returns in Types.h and BreakpointManager.cpp::tryResolve
+- Dead `EXCEPTION_SINGLE_STEP` branch in Callbacks.cpp
+- `debuggeeOutputText` accumulation pressure at high frequency
+- `leakDetector` members visible in variable expansion
+- Tier 2 NatVis via Debugger Data Model deferred
+- dap-repl routing limitation (nvim-dap-ui #306)
+
 ## Sprint 10: Polish — stepOut fix, pretty-printing, debug-only logging
 
 **Date:** 2026-04-01

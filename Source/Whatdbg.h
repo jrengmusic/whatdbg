@@ -38,6 +38,7 @@ private:
     void handleStepIn (const juce::var& request);
     void handleStepOut (const juce::var& request);
     void handlePause (const juce::var& request);
+    void handleEvaluate (const juce::var& request);
 
     // ── Deferred event processing ──────────────────────────────────────
     void processDeferredEvents ();
@@ -53,7 +54,8 @@ private:
     debug::BreakpointManager breakpointManager;
     dap::Reader              reader;             // stdin thread + FIFO
 
-    bool isRunning          { true };
+    bool isRunning               { true };
+    bool shouldTerminateOnExit   { false };
     bool isConfigurationDone { false };
     bool isStepPending  { false };
     bool isPausePending { false };

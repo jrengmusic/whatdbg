@@ -69,7 +69,7 @@ void Whatdbg::run ()
 
                     DynObj body { new juce::DynamicObject () };
                     body->setProperty ("reason",            "pause");
-                    body->setProperty ("threadId",          1);
+                    body->setProperty ("threadId",          static_cast<int> (session.getEventThreadSystemId ()));
                     body->setProperty ("allThreadsStopped", true);
 
                     sendEvent (dap::makeEvent ("stopped", juce::var (body)));
@@ -99,7 +99,7 @@ void Whatdbg::run ()
     }
 
     reader.stop ();
-    session.shutdown ();
+    session.shutdown (shouldTerminateOnExit);
     logWrite ("[Whatdbg] main loop ended\n");
 }
 
@@ -129,6 +129,7 @@ void Whatdbg::handleCommand (const juce::var& message)
         else if (command == "stepIn")        handleStepIn (message);
         else if (command == "stepOut")       handleStepOut (message);
         else if (command == "pause")         handlePause (message);
+        else if (command == "evaluate")      handleEvaluate (message);
         else
         {
             sendResponse (dap::makeErrorResponse (seq, command, "Unknown command"));
@@ -235,8 +236,13 @@ void Whatdbg::handleConfigurationDone (const juce::var& request)
 void Whatdbg::handleDisconnect (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
+    const juce::String command { request["command"].toString () };
+    const juce::var& args { request["arguments"] };
 
-    sendResponse (dap::makeResponse (seq, request["command"].toString (), true));
+    const bool isTerminate { command == "terminate" };
+    shouldTerminateOnExit = isTerminate or static_cast<bool> (args["terminateDebuggee"]);
+
+    sendResponse (dap::makeResponse (seq, command, true));
     isRunning = false;
 }
 
@@ -263,12 +269,7 @@ void Whatdbg::handleThreads (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
 
-    DynObj thread { new juce::DynamicObject () };
-    thread->setProperty ("id", 1);
-    thread->setProperty ("name", "Main Thread");
-
-    juce::Array<juce::var> threads;
-    threads.add (juce::var (thread));
+    juce::Array<juce::var> threads { session.getThreads () };
 
     DynObj body { new juce::DynamicObject () };
     body->setProperty ("threads", juce::var { threads });
@@ -278,6 +279,13 @@ void Whatdbg::handleThreads (const juce::var& request)
 void Whatdbg::handleStackTrace (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
+    const juce::var& args { request["arguments"] };
+    const int threadId { static_cast<int> (args["threadId"]) };
+
+    if (threadId > 0)
+    {
+        session.setCurrentThreadBySystemId (static_cast<ULONG> (threadId));
+    }
 
     juce::Array<juce::var> frames { session.getStackTrace (50) };
 
@@ -291,6 +299,7 @@ void Whatdbg::resetVariablesState () noexcept
 {
     nextVariablesRef = 1;
     variablesRefMap.clear ();
+    session.resetSymbolGroupCache ();
 }
 
 void Whatdbg::handleScopes (const juce::var& request)
@@ -428,6 +437,30 @@ void Whatdbg::handlePause (const juce::var& request)
     sendResponse (dap::makeResponse (seq, "pause", true));
 }
 
+void Whatdbg::handleEvaluate (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+    const juce::var& args { request["arguments"] };
+    const juce::String expression { dap::getString (args, "expression") };
+    const int frameId { static_cast<int> (args["frameId"]) };
+
+    const juce::String result { session.evaluateExpression (expression, frameId) };
+
+    if (result.isNotEmpty ())
+    {
+        DynObj body { new juce::DynamicObject () };
+        body->setProperty ("result",             result);
+        body->setProperty ("variablesReference", 0);
+
+        sendResponse (dap::makeResponse (seq, "evaluate", true, juce::var (body)));
+    }
+    else
+    {
+        sendResponse (dap::makeErrorResponse (seq, "evaluate",
+            "Could not evaluate: " + expression));
+    }
+}
+
 void Whatdbg::processDeferredEvents ()
 {
     // Initial breakpoint: resume if configurationDone already received
@@ -461,7 +494,7 @@ void Whatdbg::processDeferredEvents ()
 
             DynObj body { new juce::DynamicObject () };
             body->setProperty ("reason",            "step");
-            body->setProperty ("threadId",          1);
+            body->setProperty ("threadId",          static_cast<int> (session.getEventThreadSystemId ()));
             body->setProperty ("allThreadsStopped", true);
 
             sendEvent (dap::makeEvent ("stopped", juce::var (body)));
@@ -471,7 +504,8 @@ void Whatdbg::processDeferredEvents ()
         else
         {
             juce::var stoppedBody { breakpointManager.onBreakpointHit (
-                state.breakpointEngineId, state.breakpointThreadId) };
+                state.breakpointEngineId,
+                session.getEventThreadSystemId ()) };
 
             sendEvent (dap::makeEvent ("stopped", stoppedBody));
             resetVariablesState ();
@@ -486,7 +520,7 @@ void Whatdbg::processDeferredEvents ()
 
         DynObj body { new juce::DynamicObject () };
         body->setProperty ("reason",            "step");
-        body->setProperty ("threadId",          1);
+        body->setProperty ("threadId",          static_cast<int> (session.getEventThreadSystemId ()));
         body->setProperty ("allThreadsStopped", true);
 
         sendEvent (dap::makeEvent ("stopped", juce::var (body)));

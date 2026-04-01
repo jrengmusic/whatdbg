@@ -159,56 +159,44 @@ static juce::String getChildValueText (IDebugSymbolGroup2* group, int index) noe
 }
 
 // Pretty-print a known type. Returns empty string if type is not recognized.
-// Uses a temporary symbol group — caller's group is NOT modified.
-static juce::String prettyPrint (IDebugSymbols3* symbols, IDebugDataSpaces4* dataSpaces,
-                                 int frameIndex, int symbolIndex,
+// Operates on the provided cached group — ExpandSymbol calls persist in the group.
+static juce::String prettyPrint (IDebugSymbolGroup2* group, IDebugDataSpaces4* dataSpaces,
+                                 IDebugSymbols3* symbols, int symbolIndex,
                                  const juce::String& typeName) noexcept
 {
     juce::String result;
 
-    if (symbols != nullptr and dataSpaces != nullptr)
+    if (group != nullptr and dataSpaces != nullptr)
     {
     // ── juce::String ──────────────────────────────────────────────────
     // Layout: String → text (CharPointer_UTF8) → data (char*)
     if (typeName.contains ("juce::String"))
     {
-        symbols->SetScopeFrameByIndex (static_cast<ULONG> (frameIndex));
+        group->ExpandSymbol (static_cast<ULONG> (symbolIndex), TRUE);
+        ULONG count { 0 };
+        group->GetNumberSymbols (&count);
 
-        IDebugSymbolGroup2* group { nullptr };
-        const HRESULT hr { symbols->GetScopeSymbolGroup2 (DEBUG_SCOPE_GROUP_ALL, nullptr, &group) };
+        const int textIdx { findChildByName (group, static_cast<ULONG> (symbolIndex), count, "text") };
 
-        if (SUCCEEDED (hr) and group != nullptr)
+        if (textIdx >= 0)
         {
-            group->ExpandSymbol (static_cast<ULONG> (symbolIndex), TRUE);
-            ULONG count { 0 };
+            group->ExpandSymbol (static_cast<ULONG> (textIdx), TRUE);
             group->GetNumberSymbols (&count);
 
-            const int textIdx { findChildByName (group, static_cast<ULONG> (symbolIndex), count, "text") };
+            const int dataIdx { findChildByName (group, static_cast<ULONG> (textIdx), count, "data") };
 
-            if (textIdx >= 0)
+            if (dataIdx >= 0)
             {
-                group->ExpandSymbol (static_cast<ULONG> (textIdx), TRUE);
-                group->GetNumberSymbols (&count);
+                const juce::String dataValue { getChildValueText (group, dataIdx) };
+                const ULONG64 address { parseHexAddress (dataValue) };
 
-                const int dataIdx { findChildByName (group, static_cast<ULONG> (textIdx), count, "data") };
-
-                if (dataIdx >= 0)
+                if (address != 0)
                 {
-                    const juce::String dataValue { getChildValueText (group, dataIdx) };
-                    const ULONG64 address { parseHexAddress (dataValue) };
-
-                    if (address != 0)
-                    {
-                        const juce::String content { readTargetString (dataSpaces, address) };
-                        result = "\"" + content + "\"";
-                    }
+                    const juce::String content { readTargetString (dataSpaces, address) };
+                    result = "\"" + content + "\"";
                 }
             }
-
-            group->Release ();
         }
-
-        symbols->ResetScope ();
     }
 
     // ── std::basic_string<char> (MSVC STL) ────────────────────────────
@@ -216,180 +204,164 @@ static juce::String prettyPrint (IDebugSymbols3* symbols, IDebugDataSpaces4* dat
     //         _Mypair._Myval2._Bx._Buf (SSO, size <= 15) or _Bx._Ptr (heap)
     else if (typeName.contains ("std::basic_string<char"))
     {
-        symbols->SetScopeFrameByIndex (static_cast<ULONG> (frameIndex));
+        group->ExpandSymbol (static_cast<ULONG> (symbolIndex), TRUE);
+        ULONG count { 0 };
+        group->GetNumberSymbols (&count);
 
-        IDebugSymbolGroup2* group { nullptr };
-        const HRESULT hr { symbols->GetScopeSymbolGroup2 (DEBUG_SCOPE_GROUP_ALL, nullptr, &group) };
+        const int mypairIdx { findChildByName (group, static_cast<ULONG> (symbolIndex), count, "_Mypair") };
 
-        if (SUCCEEDED (hr) and group != nullptr)
+        if (mypairIdx >= 0)
         {
-            group->ExpandSymbol (static_cast<ULONG> (symbolIndex), TRUE);
-            ULONG count { 0 };
+            group->ExpandSymbol (static_cast<ULONG> (mypairIdx), TRUE);
             group->GetNumberSymbols (&count);
 
-            const int mypairIdx { findChildByName (group, static_cast<ULONG> (symbolIndex), count, "_Mypair") };
+            const int myval2Idx { findChildByName (group, static_cast<ULONG> (mypairIdx), count, "_Myval2") };
 
-            if (mypairIdx >= 0)
+            if (myval2Idx >= 0)
             {
-                group->ExpandSymbol (static_cast<ULONG> (mypairIdx), TRUE);
+                group->ExpandSymbol (static_cast<ULONG> (myval2Idx), TRUE);
                 group->GetNumberSymbols (&count);
 
-                const int myval2Idx { findChildByName (group, static_cast<ULONG> (mypairIdx), count, "_Myval2") };
+                const int sizeIdx { findChildByName (group, static_cast<ULONG> (myval2Idx), count, "_Mysize") };
+                const juce::String sizeText { getChildValueText (group, sizeIdx) };
+                const int stringSize { sizeText.replace ("0n", "").getIntValue () };
 
-                if (myval2Idx >= 0)
+                const int bxIdx { findChildByName (group, static_cast<ULONG> (myval2Idx), count, "_Bx") };
+
+                if (bxIdx >= 0)
                 {
-                    group->ExpandSymbol (static_cast<ULONG> (myval2Idx), TRUE);
+                    static constexpr int kSsoThreshold { 16 };
+
+                    group->ExpandSymbol (static_cast<ULONG> (bxIdx), TRUE);
                     group->GetNumberSymbols (&count);
 
-                    const int sizeIdx { findChildByName (group, static_cast<ULONG> (myval2Idx), count, "_Mysize") };
-                    const juce::String sizeText { getChildValueText (group, sizeIdx) };
-                    const int stringSize { sizeText.replace ("0n", "").getIntValue () };
-
-                    const int bxIdx { findChildByName (group, static_cast<ULONG> (myval2Idx), count, "_Bx") };
-
-                    if (bxIdx >= 0)
+                    if (stringSize < kSsoThreshold)
                     {
-                        static constexpr int kSsoThreshold { 16 };
+                        const int bufIdx { findChildByName (group, static_cast<ULONG> (bxIdx), count, "_Buf") };
+                        const juce::String bufValue { getChildValueText (group, bufIdx) };
+                        const int quoteStart { bufValue.indexOf ("\"") };
+                        const int quoteEnd { bufValue.lastIndexOf ("\"") };
 
-                        group->ExpandSymbol (static_cast<ULONG> (bxIdx), TRUE);
-                        group->GetNumberSymbols (&count);
-
-                        if (stringSize < kSsoThreshold)
+                        if (quoteStart >= 0 and quoteEnd > quoteStart)
                         {
-                            const int bufIdx { findChildByName (group, static_cast<ULONG> (bxIdx), count, "_Buf") };
-                            const juce::String bufValue { getChildValueText (group, bufIdx) };
-                            const int quoteStart { bufValue.indexOf ("\"") };
-                            const int quoteEnd { bufValue.lastIndexOf ("\"") };
-
-                            if (quoteStart >= 0 and quoteEnd > quoteStart)
-                            {
-                                result = bufValue.substring (quoteStart, quoteEnd + 1);
-                            }
+                            result = bufValue.substring (quoteStart, quoteEnd + 1);
                         }
-                        else
-                        {
-                            const int ptrIdx { findChildByName (group, static_cast<ULONG> (bxIdx), count, "_Ptr") };
-                            const juce::String ptrValue { getChildValueText (group, ptrIdx) };
-                            const ULONG64 address { parseHexAddress (ptrValue) };
+                    }
+                    else
+                    {
+                        const int ptrIdx { findChildByName (group, static_cast<ULONG> (bxIdx), count, "_Ptr") };
+                        const juce::String ptrValue { getChildValueText (group, ptrIdx) };
+                        const ULONG64 address { parseHexAddress (ptrValue) };
 
-                            if (address != 0)
-                            {
-                                const juce::String content { readTargetString (dataSpaces, address) };
-                                result = "\"" + content + "\"";
-                            }
+                        if (address != 0)
+                        {
+                            const juce::String content { readTargetString (dataSpaces, address) };
+                            result = "\"" + content + "\"";
                         }
                     }
                 }
             }
-
-            group->Release ();
         }
-
-        symbols->ResetScope ();
     }
 
     // ── std::unique_ptr<T> ────────────────────────────────────────────
     // Layout: _Mypair._Myval2 is the raw pointer
     else if (typeName.contains ("std::unique_ptr<"))
     {
-        symbols->SetScopeFrameByIndex (static_cast<ULONG> (frameIndex));
+        group->ExpandSymbol (static_cast<ULONG> (symbolIndex), TRUE);
+        ULONG count { 0 };
+        group->GetNumberSymbols (&count);
 
-        IDebugSymbolGroup2* group { nullptr };
-        const HRESULT hr { symbols->GetScopeSymbolGroup2 (DEBUG_SCOPE_GROUP_ALL, nullptr, &group) };
+        const int mypairIdx { findChildByName (group, static_cast<ULONG> (symbolIndex), count, "_Mypair") };
 
-        if (SUCCEEDED (hr) and group != nullptr)
+        if (mypairIdx >= 0)
         {
-            group->ExpandSymbol (static_cast<ULONG> (symbolIndex), TRUE);
-            ULONG count { 0 };
+            group->ExpandSymbol (static_cast<ULONG> (mypairIdx), TRUE);
             group->GetNumberSymbols (&count);
 
-            const int mypairIdx { findChildByName (group, static_cast<ULONG> (symbolIndex), count, "_Mypair") };
+            const int myval2Idx { findChildByName (group, static_cast<ULONG> (mypairIdx), count, "_Myval2") };
+            const juce::String ptrValue { getChildValueText (group, myval2Idx) };
+            const ULONG64 address { parseHexAddress (ptrValue) };
 
-            if (mypairIdx >= 0)
+            if (address == 0)
             {
-                group->ExpandSymbol (static_cast<ULONG> (mypairIdx), TRUE);
-                group->GetNumberSymbols (&count);
-
-                const int myval2Idx { findChildByName (group, static_cast<ULONG> (mypairIdx), count, "_Myval2") };
-                const juce::String ptrValue { getChildValueText (group, myval2Idx) };
-                const ULONG64 address { parseHexAddress (ptrValue) };
-
-                if (address == 0)
-                {
-                    result = "null";
-                }
-                else
-                {
-                    result = "0x" + juce::String::toHexString (static_cast<juce::int64> (address));
-                }
+                result = "null";
             }
-
-            group->Release ();
+            else
+            {
+                result = "0x" + juce::String::toHexString (static_cast<juce::int64> (address));
+            }
         }
-
-        symbols->ResetScope ();
     }
 
     // ── std::vector<T> ───────────────────────────────────────────────
     // Layout: _Mypair._Myval2._Myfirst (begin ptr), _Mylast (end ptr)
     else if (typeName.contains ("std::vector<"))
     {
-        symbols->SetScopeFrameByIndex (static_cast<ULONG> (frameIndex));
+        group->ExpandSymbol (static_cast<ULONG> (symbolIndex), TRUE);
+        ULONG count { 0 };
+        group->GetNumberSymbols (&count);
 
-        IDebugSymbolGroup2* group { nullptr };
-        const HRESULT hr { symbols->GetScopeSymbolGroup2 (DEBUG_SCOPE_GROUP_ALL, nullptr, &group) };
+        const int mypairIdx { findChildByName (group, static_cast<ULONG> (symbolIndex), count, "_Mypair") };
 
-        if (SUCCEEDED (hr) and group != nullptr)
+        if (mypairIdx >= 0)
         {
-            group->ExpandSymbol (static_cast<ULONG> (symbolIndex), TRUE);
-            ULONG count { 0 };
+            group->ExpandSymbol (static_cast<ULONG> (mypairIdx), TRUE);
             group->GetNumberSymbols (&count);
 
-            const int mypairIdx { findChildByName (group, static_cast<ULONG> (symbolIndex), count, "_Mypair") };
+            const int myval2Idx { findChildByName (group, static_cast<ULONG> (mypairIdx), count, "_Myval2") };
 
-            if (mypairIdx >= 0)
+            if (myval2Idx >= 0)
             {
-                group->ExpandSymbol (static_cast<ULONG> (mypairIdx), TRUE);
+                group->ExpandSymbol (static_cast<ULONG> (myval2Idx), TRUE);
                 group->GetNumberSymbols (&count);
 
-                const int myval2Idx { findChildByName (group, static_cast<ULONG> (mypairIdx), count, "_Myval2") };
+                const int firstIdx { findChildByName (group, static_cast<ULONG> (myval2Idx), count, "_Myfirst") };
+                const int lastIdx  { findChildByName (group, static_cast<ULONG> (myval2Idx), count, "_Mylast") };
 
-                if (myval2Idx >= 0)
+                if (firstIdx >= 0 and lastIdx >= 0)
                 {
-                    group->ExpandSymbol (static_cast<ULONG> (myval2Idx), TRUE);
-                    group->GetNumberSymbols (&count);
+                    const juce::String firstValue { getChildValueText (group, firstIdx) };
+                    const juce::String lastValue  { getChildValueText (group, lastIdx) };
 
-                    const int firstIdx { findChildByName (group, static_cast<ULONG> (myval2Idx), count, "_Myfirst") };
-                    const int lastIdx  { findChildByName (group, static_cast<ULONG> (myval2Idx), count, "_Mylast") };
+                    const ULONG64 firstAddr { parseHexAddress (firstValue) };
+                    const ULONG64 lastAddr  { parseHexAddress (lastValue) };
 
-                    if (firstIdx >= 0 and lastIdx >= 0)
+                    if (firstAddr == 0 and lastAddr == 0)
                     {
-                        const juce::String firstValue { getChildValueText (group, firstIdx) };
-                        const juce::String lastValue  { getChildValueText (group, lastIdx) };
+                        result = "size=0";
+                    }
+                    else if (lastAddr >= firstAddr)
+                    {
+                        static constexpr int kTypeSize { 256 };
+                        char elemTypeBuffer[kTypeSize] {};
+                        group->GetSymbolTypeName (static_cast<ULONG> (firstIdx),
+                                                 elemTypeBuffer, kTypeSize, nullptr);
 
-                        const ULONG64 firstAddr { parseHexAddress (firstValue) };
-                        const ULONG64 lastAddr  { parseHexAddress (lastValue) };
+                        juce::String elemType { elemTypeBuffer };
 
-                        if (firstAddr == 0 and lastAddr == 0)
+                        if (elemType.endsWith (" *"))
                         {
-                            result = "size=0";
+                            elemType = elemType.dropLastCharacters (2);
                         }
-                        else if (lastAddr >= firstAddr)
+
+                        static constexpr int kElemTypeSize { 256 };
+                        char elemTypeBuffer[kElemTypeSize] {};
+                        group->GetSymbolTypeName (static_cast<ULONG> (firstIdx),
+                                                 elemTypeBuffer, kElemTypeSize, nullptr);
+
+                        juce::String elemType { elemTypeBuffer };
+
+                        if (elemType.endsWith (" *"))
                         {
-                            static constexpr int kTypeSize { 256 };
-                            char elemTypeBuffer[kTypeSize] {};
-                            group->GetSymbolTypeName (static_cast<ULONG> (firstIdx),
-                                                     elemTypeBuffer, kTypeSize, nullptr);
+                            elemType = elemType.dropLastCharacters (2);
+                        }
 
-                            juce::String elemType { elemTypeBuffer };
+                        ULONG64 moduleBase { 0 };
+                        ULONG typeId { 0 };
 
-                            if (elemType.endsWith (" *"))
-                            {
-                                elemType = elemType.dropLastCharacters (2);
-                            }
-
-                            ULONG64 moduleBase { 0 };
-                            ULONG typeId { 0 };
+                        if (symbols != nullptr)
+                        {
                             const HRESULT typeResult { symbols->GetSymbolTypeId (
                                 elemType.toRawUTF8 (), &typeId, &moduleBase) };
 
@@ -406,24 +378,299 @@ static juce::String prettyPrint (IDebugSymbols3* symbols, IDebugDataSpaces4* dat
                                     result = "size=" + juce::String (static_cast<juce::int64> (elementCount));
                                 }
                             }
+                        }
 
-                            if (result.isEmpty () and lastAddr > firstAddr)
-                            {
-                                const ULONG64 byteCount { lastAddr - firstAddr };
-                                result = "size=" + juce::String (static_cast<juce::int64> (byteCount)) + " bytes";
-                            }
+                        // Fallback: byte count if type size lookup failed
+                        if (result.isEmpty () and lastAddr > firstAddr)
+                        {
+                            const ULONG64 byteCount { lastAddr - firstAddr };
+                            result = "size=" + juce::String (static_cast<juce::int64> (byteCount)) + " bytes";
                         }
                     }
                 }
             }
+        }
+    }
 
-            group->Release ();
+    } // if (group != nullptr and dataSpaces != nullptr)
+
+    return result;
+}
+
+// Minimal output callback for capturing Execute output from a secondary client.
+class CaptureOutputCallback : public IDebugOutputCallbacks
+{
+public:
+    juce::String captured;
+
+    STDMETHOD_ (ULONG, AddRef) () override  { return 1; }
+    STDMETHOD_ (ULONG, Release) () override { return 1; }
+
+    STDMETHOD (QueryInterface) (REFIID interfaceId, PVOID* outInterface) override
+    {
+        HRESULT result { E_NOINTERFACE };
+        *outInterface = nullptr;
+
+        if (IsEqualIID (interfaceId, __uuidof (IUnknown))
+            or IsEqualIID (interfaceId, __uuidof (IDebugOutputCallbacks)))
+        {
+            *outInterface = static_cast<IDebugOutputCallbacks*> (this);
+            result = S_OK;
+        }
+
+        return result;
+    }
+
+    STDMETHOD (Output) (ULONG /*mask*/, PCSTR text) override
+    {
+        captured += text;
+        return S_OK;
+    }
+};
+
+juce::String Session::evaluateExpression (const juce::String& expression, int frameIndex) noexcept
+{
+    juce::String result;
+
+    if (client != nullptr and symbols != nullptr)
+    {
+        symbols->SetScopeFrameByIndex (static_cast<ULONG> (frameIndex));
+
+        IDebugClient* secondaryClient { nullptr };
+        const HRESULT createResult { client->CreateClient (&secondaryClient) };
+
+        if (SUCCEEDED (createResult) and secondaryClient != nullptr)
+        {
+            CaptureOutputCallback captureCallback;
+            secondaryClient->SetOutputMask (DEBUG_OUTPUT_NORMAL | DEBUG_OUTPUT_ERROR);
+            secondaryClient->SetOutputCallbacks (&captureCallback);
+
+            Microsoft::WRL::ComPtr<IDebugControl4> secondaryControl;
+            const HRESULT qiResult { secondaryClient->QueryInterface (
+                __uuidof (IDebugControl4),
+                reinterpret_cast<PVOID*> (secondaryControl.GetAddressOf ())) };
+
+            if (SUCCEEDED (qiResult) and secondaryControl != nullptr)
+            {
+                // Enable unqualified symbol resolution for local variable names
+                secondaryControl->Execute (
+                    DEBUG_OUTCTL_THIS_CLIENT | DEBUG_OUTCTL_NOT_LOGGED,
+                    ".symopt- 100",
+                    DEBUG_EXECUTE_NOT_LOGGED | DEBUG_EXECUTE_NO_REPEAT);
+
+                // Clear any output from .symopt
+                captureCallback.captured.clear ();
+
+                const juce::String command { "?? " + expression };
+                const HRESULT execResult { secondaryControl->Execute (
+                    DEBUG_OUTCTL_THIS_CLIENT | DEBUG_OUTCTL_NOT_LOGGED,
+                    command.toRawUTF8 (),
+                    DEBUG_EXECUTE_NOT_LOGGED | DEBUG_EXECUTE_NO_REPEAT) };
+
+                juce::ignoreUnused (execResult);
+
+                // ?? output format differs from GetSymbolValueText — type comes first.
+                // Only strip backticks and 0n prefix, not pointer/composite rules.
+                result = captureCallback.captured.trim ().replace ("`", "");
+
+                // Strip 0n decimal prefix
+                int pos { 0 };
+                while (pos < result.length () - 2)
+                {
+                    const int found { result.indexOf (pos, "0n") };
+
+                    if (found < 0)
+                    {
+                        pos = result.length ();
+                    }
+                    else
+                    {
+                        const int after { found + 2 };
+
+                        if (after < result.length () and juce::CharacterFunctions::isDigit (result[after]))
+                        {
+                            result = result.substring (0, found) + result.substring (after);
+                        }
+                        else
+                        {
+                            pos = found + 2;
+                        }
+                    }
+                }
+
+                // juce::String pretty-print: resolve actual text content
+                if (result.contains ("juce::String") and control != nullptr and dataSpaces != nullptr)
+                {
+                    secondaryControl->SetExpressionSyntax (DEBUG_EXPR_CPLUSPLUS);
+
+                    // Try dot access first (value type), then arrow (pointer)
+                    const juce::String dotExpr   { "(" + expression + ").text.data" };
+                    const juce::String arrowExpr { "(" + expression + ")->text.data" };
+
+                    DEBUG_VALUE dataValue {};
+                    HRESULT evalResult { secondaryControl->Evaluate (
+                        dotExpr.toRawUTF8 (), DEBUG_VALUE_INT64, &dataValue, nullptr) };
+
+                    if (not SUCCEEDED (evalResult))
+                    {
+                        evalResult = secondaryControl->Evaluate (
+                            arrowExpr.toRawUTF8 (), DEBUG_VALUE_INT64, &dataValue, nullptr);
+                    }
+
+                    if (SUCCEEDED (evalResult))
+                    {
+                        const ULONG64 address { dataValue.I64 };
+                        const juce::String content { readTargetString (dataSpaces.Get (), address) };
+                        result = "\"" + content + "\"";
+                    }
+                }
+            }
+            secondaryClient->SetOutputCallbacks (nullptr);
+            secondaryClient->Release ();
         }
 
         symbols->ResetScope ();
     }
 
-    } // if (symbols != nullptr and dataSpaces != nullptr)
+    return result;
+}
+
+juce::Array<juce::var> Session::getThreads () noexcept
+{
+    juce::Array<juce::var> threads;
+
+    if (systemObjects != nullptr)
+    {
+        ULONG threadCount { 0 };
+        systemObjects->GetNumberThreads (&threadCount);
+
+        if (threadCount > 0)
+        {
+            std::vector<ULONG> engineIds (threadCount);
+            std::vector<ULONG> systemIds (threadCount);
+            systemObjects->GetThreadIdsByIndex (0, threadCount, engineIds.data (), systemIds.data ());
+
+            ULONG savedEngineId { 0 };
+            systemObjects->GetCurrentThreadId (&savedEngineId);
+
+            for (ULONG i { 0 }; i < threadCount; ++i)
+            {
+                systemObjects->SetCurrentThreadId (engineIds.at (i));
+
+                juce::String name { "Thread " + juce::String (systemIds.at (i)) };
+
+                ULONG64 handle { 0 };
+                systemObjects->GetCurrentThreadHandle (&handle);
+
+                if (handle != 0)
+                {
+                    PWSTR desc { nullptr };
+                    const HRESULT descResult { GetThreadDescription (
+                        reinterpret_cast<HANDLE> (static_cast<ULONG_PTR> (handle)), &desc) };
+
+                    if (SUCCEEDED (descResult) and desc != nullptr)
+                    {
+                        const juce::String threadName { desc };
+                        LocalFree (desc);
+
+                        if (threadName.isNotEmpty ())
+                        {
+                            name = threadName;
+                        }
+                    }
+                }
+
+                DynObj thread { new juce::DynamicObject () };
+                thread->setProperty ("id",   static_cast<int> (systemIds.at (i)));
+                thread->setProperty ("name", name);
+                threads.add (juce::var (thread));
+            }
+
+            systemObjects->SetCurrentThreadId (savedEngineId);
+        }
+    }
+
+    return threads;
+}
+
+ULONG Session::getEventThreadSystemId () noexcept
+{
+    ULONG systemId { 0 };
+
+    if (systemObjects != nullptr)
+    {
+        ULONG eventEngineId { 0 };
+        const HRESULT hr { systemObjects->GetEventThread (&eventEngineId) };
+
+        if (SUCCEEDED (hr))
+        {
+            ULONG savedId { 0 };
+            systemObjects->GetCurrentThreadId (&savedId);
+            systemObjects->SetCurrentThreadId (eventEngineId);
+            systemObjects->GetCurrentThreadSystemId (&systemId);
+            systemObjects->SetCurrentThreadId (savedId);
+        }
+    }
+
+    return systemId;
+}
+
+void Session::setCurrentThreadBySystemId (ULONG systemId) noexcept
+{
+    if (systemObjects != nullptr and systemId != 0)
+    {
+        ULONG engineId { 0 };
+        const HRESULT hr { systemObjects->GetThreadIdBySystemId (systemId, &engineId) };
+
+        if (SUCCEEDED (hr))
+        {
+            systemObjects->SetCurrentThreadId (engineId);
+        }
+    }
+}
+
+void Session::resetSymbolGroupCache () noexcept
+{
+    if (cachedSymbolGroup != nullptr)
+    {
+        cachedSymbolGroup->Release ();
+        cachedSymbolGroup = nullptr;
+    }
+
+    cachedFrameIndex = -1;
+}
+
+IDebugSymbolGroup2* Session::getOrCreateSymbolGroup (int frameIndex) noexcept
+{
+    IDebugSymbolGroup2* result { nullptr };
+
+    if (symbols != nullptr)
+    {
+        if (cachedSymbolGroup != nullptr and cachedFrameIndex == frameIndex)
+        {
+            result = cachedSymbolGroup;
+        }
+        else
+        {
+            if (cachedSymbolGroup != nullptr)
+            {
+                cachedSymbolGroup->Release ();
+                cachedSymbolGroup = nullptr;
+            }
+
+            symbols->SetScopeFrameByIndex (static_cast<ULONG> (frameIndex));
+
+            IDebugSymbolGroup2* group { nullptr };
+            const HRESULT hr { symbols->GetScopeSymbolGroup2 (DEBUG_SCOPE_GROUP_ALL, nullptr, &group) };
+
+            if (SUCCEEDED (hr) and group != nullptr)
+            {
+                cachedSymbolGroup = group;
+                cachedFrameIndex  = frameIndex;
+                result = cachedSymbolGroup;
+            }
+        }
+    }
 
     return result;
 }
@@ -478,6 +725,11 @@ bool Session::initialize (const juce::File& sidecarDir) noexcept
                         reinterpret_cast<PVOID*> (dataSpaces.GetAddressOf ())) };
                     juce::ignoreUnused (qiDataResult);
 
+                    const HRESULT qiSysObjResult { client->QueryInterface (
+                        __uuidof (IDebugSystemObjects),
+                        reinterpret_cast<PVOID*> (systemObjects.GetAddressOf ())) };
+                    juce::ignoreUnused (qiSysObjResult);
+
                     if (symbols != nullptr)
                     {
                         symbols->AddSymbolOptions (SYMOPT_LOAD_LINES);
@@ -491,7 +743,7 @@ bool Session::initialize (const juce::File& sidecarDir) noexcept
         }
     }
 
-    const bool isInitialized { client != nullptr and control != nullptr and symbols != nullptr and dataSpaces != nullptr };
+    const bool isInitialized { client != nullptr and control != nullptr and symbols != nullptr and dataSpaces != nullptr and systemObjects != nullptr };
 
     if (not isInitialized)
     {
@@ -582,13 +834,16 @@ HRESULT Session::pollEvents (ULONG timeoutMs) noexcept
     return result;
 }
 
-void Session::shutdown () noexcept
+void Session::shutdown (bool shouldTerminate) noexcept
 {
     if (client != nullptr)
     {
-        client->EndSession (DEBUG_END_ACTIVE_DETACH);
+        const ULONG endFlag { static_cast<ULONG> (shouldTerminate ? DEBUG_END_ACTIVE_TERMINATE : DEBUG_END_ACTIVE_DETACH) };
+        client->EndSession (endFlag);
     }
 
+    resetSymbolGroupCache ();
+    systemObjects.Reset ();
     dataSpaces.Reset ();
     symbols.Reset ();
     control.Reset ();
@@ -858,71 +1113,57 @@ juce::Array<juce::var> Session::getLocals (int frameIndex) noexcept
 {
     juce::Array<juce::var> variables;
 
-    if (symbols != nullptr)
+    IDebugSymbolGroup2* group { getOrCreateSymbolGroup (frameIndex) };
+
+    if (group != nullptr)
     {
-        const HRESULT scopeResult { symbols->SetScopeFrameByIndex (static_cast<ULONG> (frameIndex)) };
+        static constexpr int kSymbolNameSize  { 256 };
+        static constexpr int kSymbolTypeSize  { 256 };
+        static constexpr int kSymbolValueSize { 512 };
 
-        if (SUCCEEDED (scopeResult))
+        ULONG count { 0 };
+        group->GetNumberSymbols (&count);
+
+        for (ULONG i { 0 }; i < count; ++i)
         {
-            IDebugSymbolGroup2* group { nullptr };
-            const HRESULT groupResult { symbols->GetScopeSymbolGroup2 (
-                DEBUG_SCOPE_GROUP_ALL, nullptr, &group) };
+            DEBUG_SYMBOL_PARAMETERS params {};
+            const HRESULT paramResult { group->GetSymbolParameters (i, 1, &params) };
 
-            if (SUCCEEDED (groupResult) and group != nullptr)
+            if (SUCCEEDED (paramResult) and params.ParentSymbol == DEBUG_ANY_ID)
             {
-                static constexpr int kSymbolNameSize  { 256 };
-                static constexpr int kSymbolTypeSize  { 256 };
-                static constexpr int kSymbolValueSize { 512 };
+                char nameBuffer[kSymbolNameSize] {};
+                group->GetSymbolName (i, nameBuffer, kSymbolNameSize, nullptr);
 
-                ULONG count { 0 };
-                group->GetNumberSymbols (&count);
+                const juce::String symbolName { nameBuffer };
 
-                for (ULONG i { 0 }; i < count; ++i)
+                if (not symbolName.startsWithChar ('<'))
                 {
-                    DEBUG_SYMBOL_PARAMETERS params {};
-                    const HRESULT paramResult { group->GetSymbolParameters (i, 1, &params) };
+                    char typeBuffer[kSymbolTypeSize] {};
+                    group->GetSymbolTypeName (i, typeBuffer, kSymbolTypeSize, nullptr);
 
-                    if (SUCCEEDED (paramResult) and params.ParentSymbol == DEBUG_ANY_ID)
+                    char valueBuffer[kSymbolValueSize] {};
+                    const HRESULT valueResult { group->GetSymbolValueText (i, valueBuffer, kSymbolValueSize, nullptr) };
+
+                    juce::String displayValue { SUCCEEDED (valueResult) ? formatSymbolValue (juce::String (valueBuffer)) : juce::String ("<unavailable>") };
+
+                    const juce::String typeName { typeBuffer };
+                    const juce::String prettyValue { prettyPrint (group, dataSpaces.Get (), symbols.Get (), static_cast<int> (i), typeName) };
+
+                    if (prettyValue.isNotEmpty ())
                     {
-                        char nameBuffer[kSymbolNameSize] {};
-                        group->GetSymbolName (i, nameBuffer, kSymbolNameSize, nullptr);
-
-                        const juce::String symbolName { nameBuffer };
-
-                        if (not symbolName.startsWithChar ('<'))
-                        {
-                            char typeBuffer[kSymbolTypeSize] {};
-                            group->GetSymbolTypeName (i, typeBuffer, kSymbolTypeSize, nullptr);
-
-                            char valueBuffer[kSymbolValueSize] {};
-                            const HRESULT valueResult { group->GetSymbolValueText (i, valueBuffer, kSymbolValueSize, nullptr) };
-
-                            DynObj var { new juce::DynamicObject () };
-                            juce::String displayValue { SUCCEEDED (valueResult) ? formatSymbolValue (juce::String (valueBuffer)) : juce::String ("<unavailable>") };
-
-                            const juce::String typeName { typeBuffer };
-                            const juce::String prettyValue { prettyPrint (symbols.Get (), dataSpaces.Get (), frameIndex, static_cast<int> (i), typeName) };
-
-                            if (prettyValue.isNotEmpty ())
-                            {
-                                displayValue = prettyValue;
-                            }
-
-                            var->setProperty ("name",        symbolName);
-                            var->setProperty ("value",       displayValue);
-                            var->setProperty ("type",        typeName);
-                            var->setProperty ("symbolIndex", static_cast<int> (i));
-                            var->setProperty ("hasChildren", params.SubElements > 0);
-
-                            variables.add (juce::var (var));
-                        }
+                        displayValue = prettyValue;
                     }
+
+                    DynObj var { new juce::DynamicObject () };
+                    var->setProperty ("name",        symbolName);
+                    var->setProperty ("value",       displayValue);
+                    var->setProperty ("type",        typeName);
+                    var->setProperty ("symbolIndex", static_cast<int> (i));
+                    var->setProperty ("hasChildren", params.SubElements > 0);
+
+                    variables.add (juce::var (var));
                 }
-
-                group->Release ();
             }
-
-            symbols->ResetScope ();
         }
     }
 
@@ -933,77 +1174,63 @@ juce::Array<juce::var> Session::getVariableChildren (int frameIndex, int symbolI
 {
     juce::Array<juce::var> variables;
 
-    if (symbols != nullptr)
+    IDebugSymbolGroup2* group { getOrCreateSymbolGroup (frameIndex) };
+
+    if (group != nullptr)
     {
-        const HRESULT scopeResult { symbols->SetScopeFrameByIndex (static_cast<ULONG> (frameIndex)) };
+        static constexpr int kSymbolNameSize  { 256 };
+        static constexpr int kSymbolTypeSize  { 256 };
+        static constexpr int kSymbolValueSize { 512 };
 
-        if (SUCCEEDED (scopeResult))
+        const ULONG parentIndex { static_cast<ULONG> (symbolIndex) };
+        const HRESULT expandResult { group->ExpandSymbol (parentIndex, TRUE) };
+
+        if (SUCCEEDED (expandResult))
         {
-            IDebugSymbolGroup2* group { nullptr };
-            const HRESULT groupResult { symbols->GetScopeSymbolGroup2 (
-                DEBUG_SCOPE_GROUP_ALL, nullptr, &group) };
+            ULONG count { 0 };
+            group->GetNumberSymbols (&count);
 
-            if (SUCCEEDED (groupResult) and group != nullptr)
+            for (ULONG i { 0 }; i < count; ++i)
             {
-                static constexpr int kSymbolNameSize  { 256 };
-                static constexpr int kSymbolTypeSize  { 256 };
-                static constexpr int kSymbolValueSize { 512 };
+                DEBUG_SYMBOL_PARAMETERS params {};
+                const HRESULT paramResult { group->GetSymbolParameters (i, 1, &params) };
 
-                const ULONG parentIndex { static_cast<ULONG> (symbolIndex) };
-                const HRESULT expandResult { group->ExpandSymbol (parentIndex, TRUE) };
-
-                if (SUCCEEDED (expandResult))
+                if (SUCCEEDED (paramResult) and params.ParentSymbol == parentIndex)
                 {
-                    ULONG count { 0 };
-                    group->GetNumberSymbols (&count);
+                    char nameBuffer[kSymbolNameSize] {};
+                    group->GetSymbolName (i, nameBuffer, kSymbolNameSize, nullptr);
 
-                    for (ULONG i { 0 }; i < count; ++i)
+                    const juce::String symbolName { nameBuffer };
+
+                    if (not symbolName.startsWithChar ('<'))
                     {
-                        DEBUG_SYMBOL_PARAMETERS params {};
-                        const HRESULT paramResult { group->GetSymbolParameters (i, 1, &params) };
+                        char typeBuffer[kSymbolTypeSize] {};
+                        group->GetSymbolTypeName (i, typeBuffer, kSymbolTypeSize, nullptr);
 
-                        if (SUCCEEDED (paramResult) and params.ParentSymbol == parentIndex)
+                        char valueBuffer[kSymbolValueSize] {};
+                        const HRESULT valueResult { group->GetSymbolValueText (i, valueBuffer, kSymbolValueSize, nullptr) };
+
+                        juce::String displayValue { SUCCEEDED (valueResult) ? formatSymbolValue (juce::String (valueBuffer)) : juce::String ("<unavailable>") };
+
+                        const juce::String typeName { typeBuffer };
+                        const juce::String prettyValue { prettyPrint (group, dataSpaces.Get (), symbols.Get (), static_cast<int> (i), typeName) };
+
+                        if (prettyValue.isNotEmpty ())
                         {
-                            char nameBuffer[kSymbolNameSize] {};
-                            group->GetSymbolName (i, nameBuffer, kSymbolNameSize, nullptr);
-
-                            const juce::String symbolName { nameBuffer };
-
-                            if (not symbolName.startsWithChar ('<'))
-                            {
-                                char typeBuffer[kSymbolTypeSize] {};
-                                group->GetSymbolTypeName (i, typeBuffer, kSymbolTypeSize, nullptr);
-
-                                char valueBuffer[kSymbolValueSize] {};
-                                const HRESULT valueResult { group->GetSymbolValueText (i, valueBuffer, kSymbolValueSize, nullptr) };
-
-                                DynObj var { new juce::DynamicObject () };
-                                juce::String displayValue { SUCCEEDED (valueResult) ? formatSymbolValue (juce::String (valueBuffer)) : juce::String ("<unavailable>") };
-
-                                const juce::String typeName { typeBuffer };
-                                const juce::String prettyValue { prettyPrint (symbols.Get (), dataSpaces.Get (), frameIndex, static_cast<int> (i), typeName) };
-
-                                if (prettyValue.isNotEmpty ())
-                                {
-                                    displayValue = prettyValue;
-                                }
-
-                                var->setProperty ("name",        symbolName);
-                                var->setProperty ("value",       displayValue);
-                                var->setProperty ("type",        typeName);
-                                var->setProperty ("symbolIndex", static_cast<int> (i));
-                                var->setProperty ("hasChildren", params.SubElements > 0);
-
-                                variables.add (juce::var (var));
-                            }
+                            displayValue = prettyValue;
                         }
+
+                        DynObj var { new juce::DynamicObject () };
+                        var->setProperty ("name",        symbolName);
+                        var->setProperty ("value",       displayValue);
+                        var->setProperty ("type",        typeName);
+                        var->setProperty ("symbolIndex", static_cast<int> (i));
+                        var->setProperty ("hasChildren", params.SubElements > 0);
+
+                        variables.add (juce::var (var));
                     }
                 }
-
-                group->Release ();
             }
-
-            symbols->ResetScope ();
         }
     }
 
