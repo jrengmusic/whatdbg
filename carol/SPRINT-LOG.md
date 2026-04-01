@@ -111,6 +111,53 @@
 
 ## SPRINT HISTORY
 
+## Sprint 8: OutputDebugString Capture + DapStopped Sign
+
+**Date:** 2026-04-01
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — Planning, research coordination, delegation, log analysis
+- Pathfinder — Current Output2 callback code, debug::Widget exploration, nvim-dap sign config, dapui console config
+- Librarian — dbgeng OutputDebugString capture (found `arg` carries `DEBUG_OUTPUT_DEBUGGEE` mask, not `flags`), nvim-dap-ui console vs repl routing
+- Researcher — DAP adapter ODS patterns (cppvsdbg, codelldb, LLDB, Ghidra)
+- Engineer — OutputDebugString capture implementation (Output2, State, deferred events, output mask)
+
+### Files Modified (5 total)
+
+- `Source/debug/State.h:52-53` — Added `hasDebuggeeOutput` and `debuggeeOutputText` deferred event fields for OutputDebugString capture
+- `Source/debug/Callbacks.cpp:73-88` — `Output2` now checks `arg & DEBUG_OUTPUT_DEBUGGEE` (0x80) to identify target process OutputDebugString; accumulates text on State via `+=`
+- `Source/debug/Session.cpp:43-46` — `SetOutputMask` configured with `DEBUG_OUTPUT_NORMAL | DEBUG_OUTPUT_WARNING | DEBUG_OUTPUT_ERROR | DEBUG_OUTPUT_DEBUGGEE`
+- `Source/Whatdbg.cpp:439-451` — `processDeferredEvents` emits DAP `output` event with `category: "console"` for captured debuggee output
+- `~/.config/nvim/lua/dap/dapui_config.lua:127` — DapStopped sign glyph `>>` → `→` (U+2192) for END font fallback testing
+
+### Alignment Check
+- [x] BLESSED principles followed (SSOT: output captured once in Output2, consumed once in processDeferredEvents; Explicit: DEBUG_OUTPUT_DEBUGGEE mask check; Bound: deferred event pattern, no cross-thread writes)
+- [x] NAMES.md adhered (hasDebuggeeOutput, debuggeeOutputText — semantic boolean + content)
+- [x] MANIFESTO.md applied (no early returns in new code, established deferred event pattern followed)
+- [x] JRENG-CODING-STANDARD.md — brace init, not/and/or, const before type
+
+### Problems Solved
+
+**Problem 1 — OutputDebugString indistinguishable from engine output (parked since Sprint 3)**
+`Output2` callback received all output with `flags=0x0`. Root cause: wrong parameter. The `arg` parameter (not `flags`) carries the `DEBUG_OUTPUT_*` mask. `DEBUG_OUTPUT_DEBUGGEE` (0x80) identifies target process OutputDebugString. `flags` carries `DEBUG_OUTCBF_*` format flags (irrelevant for filtering). Fix: check `static_cast<ULONG>(arg) & DEBUG_OUTPUT_DEBUGGEE`.
+
+**Problem 2 — Output2 was dead stub**
+`Output2` computed `isTextOrDml` then `juce::ignoreUnused` all parameters. Since `OutputCallbacks` exposes `IDebugOutputCallbacks2` via QI, dbgeng routes through `Output2` (not `Output`), making all output invisible. Fix: implemented proper filtering and State accumulation in `Output2`.
+
+**Problem 3 — Output mask might exclude debuggee output**
+dbgeng per-client output masks can filter categories. If `DEBUG_OUTPUT_DEBUGGEE` is not in the mask, Output2 never fires for debuggee output. Fix: explicit `SetOutputMask` including `DEBUG_OUTPUT_DEBUGGEE` in `initialize()`.
+
+**Problem 4 — DAP output events route to dap-repl, not DAP Console**
+nvim-dap-ui's "console" panel is an integrated terminal (PTY) for `runInTerminal` requests — NOT a DAP output event viewer. All DAP `output` events go to the REPL regardless of `category`. This is hardcoded in nvim-dap (`Session:event_output` → `repl.append`). Known limitation (nvim-dap-ui issue #306, open since 2022). codelldb shows output in Console only because it uses `terminal: "integrated"` (raw PTY), not DAP output events. For plugin debugging (DLL in DAW), there's no process stdio — dap-repl is the correct destination.
+
+### Technical Debt / Follow-up
+- dap-repl is the only destination for DAP output events in nvim-dap — no workaround without custom `on_output` handler
+- `debuggeeOutputText` uses `+=` accumulation — high-frequency OutputDebugString from audio thread could cause string allocation pressure; acceptable for debug builds
+- Pre-existing early returns in Types.h and BreakpointManager.cpp (carried from Sprint 7)
+- scopes/variables stubs — Step 10
+- Diagnostic logging removal — Step 11
+
 ## Sprint 7: Pause (DebugBreakProcess) + BP Resolution Fix + RAII Cleanup
 
 **Date:** 2026-04-01

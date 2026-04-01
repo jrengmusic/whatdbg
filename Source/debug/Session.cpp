@@ -42,6 +42,12 @@ bool Session::initialize (const juce::File& sidecarDir) noexcept
                         reinterpret_cast<IDebugOutputCallbacks*> (&outputCallbacks)) };
                     juce::ignoreUnused (cbResult);
 
+                    client->SetOutputMask (
+                        DEBUG_OUTPUT_NORMAL
+                        | DEBUG_OUTPUT_WARNING
+                        | DEBUG_OUTPUT_ERROR
+                        | DEBUG_OUTPUT_DEBUGGEE);
+
                     const HRESULT qiSymbolsResult { client->QueryInterface (
                         __uuidof (IDebugSymbols3),
                         reinterpret_cast<PVOID*> (symbols.GetAddressOf ())) };

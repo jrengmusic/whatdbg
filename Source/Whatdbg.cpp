@@ -436,6 +436,20 @@ void Whatdbg::processDeferredEvents ()
         }
     }
 
+    // Debuggee output (OutputDebugString)
+    if (state.hasDebuggeeOutput)
+    {
+        state.hasDebuggeeOutput = false;
+        const juce::String text { state.debuggeeOutputText };
+        state.debuggeeOutputText.clear ();
+
+        DynObj body { new juce::DynamicObject () };
+        body->setProperty ("category", "console");
+        body->setProperty ("output",   text);
+
+        sendEvent (dap::makeEvent ("output", juce::var (body)));
+    }
+
     // Process exit
     if (state.hasProcessExited)
     {

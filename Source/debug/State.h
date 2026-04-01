@@ -49,6 +49,10 @@ public:
     // Process exit: flag
     bool hasProcessExited { false };
 
+    // Debuggee output: OutputDebugString captured from target
+    bool hasDebuggeeOutput { false };
+    juce::String debuggeeOutputText;
+
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (State)
 };

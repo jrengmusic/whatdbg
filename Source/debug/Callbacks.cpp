@@ -70,11 +70,25 @@ HRESULT OutputCallbacks::GetInterestMask (PULONG mask)
     return S_OK;
 }
 
-HRESULT OutputCallbacks::Output2 (ULONG which, ULONG flags, ULONG64 /*arg*/, PCWSTR text)
+HRESULT OutputCallbacks::Output2 (ULONG which, ULONG flags, ULONG64 arg, PCWSTR text)
 {
-    const bool isTextOrDml { which == DEBUG_OUTCB_TEXT or which == DEBUG_OUTCB_DML };
+    juce::ignoreUnused (flags);
 
-    juce::ignoreUnused (flags, text, isTextOrDml);
+    const bool isText { which == DEBUG_OUTCB_TEXT };
+
+    if (isText and text != nullptr)
+    {
+        const ULONG mask { static_cast<ULONG> (arg) };
+        const bool isDebuggeeOutput { (mask & DEBUG_OUTPUT_DEBUGGEE) != 0 };
+
+        if (isDebuggeeOutput)
+        {
+            auto* state { State::getContext () };
+            state->debuggeeOutputText += juce::String (text);
+            state->hasDebuggeeOutput = true;
+        }
+    }
+
     return S_OK;
 }
 
