@@ -111,6 +111,69 @@
 
 ## SPRINT HISTORY
 
+## Sprint 7: Pause (DebugBreakProcess) + BP Resolution Fix + RAII Cleanup
+
+**Date:** 2026-04-01
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — Planning, log analysis, architectural decisions, delegation, role violation (wrote 1 edit directly — corrected)
+- Pathfinder — Codebase state discovery (3 invocations: initial state, pause/handle state, naked new instances, nvim sign config, git diff)
+- Engineer — All code changes across 7 source files (4 invocations: initial DebugBreakProcess, OpenProcess fix, lazy PID fix, DynObj + thread event)
+- Auditor — Verified DebugBreakProcess changes (found pre-existing violations), verified DynObj migration
+- Librarian — DebugBreakProcess API research (threading, handle acquisition, exception detection, SetInterrupt confirmation)
+
+### Files Modified (9 total)
+
+- `Source/debug/State.h:27` — Added `targetProcessId` field for process ID storage (set by CreateProcess callback and handleAttach)
+- `Source/debug/Session.h:53-54,62` — Added `forceReloadAllSymbols()` declaration; changed `interrupt()` to take `ULONG processId` parameter; removed `targetProcessId` member and `IDebugSystemObjects` ComPtr
+- `Source/debug/Session.cpp:258-271,282-310,314-316` — Added `forceReloadAllSymbols()` (`.reload /f` global); `interrupt()` uses `OpenProcess` + `DebugBreakProcess` + `CloseHandle` with PID parameter; added `kNameBufferSize`/`kFileBufferSize` constants; braces added to `pollEvents` if-block
+- `Source/debug/Callbacks.cpp:206-215` — `CreateProcess` callback captures process handle, calls `GetProcessId()`, stores PID on State
+- `Source/debug/BreakpointManager.cpp:1-4,365-410` — Added `#include "../Log.h"`; retry block after main BP loop: if pending BPs exist, calls `forceReloadAllSymbols()`, retries resolution, updates response array
+- `Source/Whatdbg.cpp:59-75,220-225,355-381` — Pause detection in poll loop (isPausePending + S_OK); DAP `thread` event emitted on target start (both configurationDone and processDeferredEvents); `handlePause` passes `state.targetProcessId` to `interrupt()`
+- `Source/dap/Types.h:8` — Added `DynObj` alias; all 4 message builders use `DynObj` instead of naked `new`
+- `PLAN.md` — v4.0: reflects completed work (Steps 1-6), defines remaining Steps 8-11
+- `~/.config/nvim/lua/dap/dapui_config.lua:127` — DapStopped sign glyph `>>` back to `→` (U+2192) for END font fallback testing
+
+### Alignment Check
+- [x] BLESSED principles followed (Bound: RAII via ReferenceCountedObjectPtr eliminates naked new; Lean: no unnecessary abstractions; Explicit: targetProcessId with clear lifecycle; SSOT: PID stored once on State; Encapsulation: Session receives PID via parameter)
+- [x] NAMES.md adhered (targetProcessId, forceReloadAllSymbols, DynObj — semantic names)
+- [x] MANIFESTO.md applied (no early returns in new code, no workarounds)
+- [x] JRENG-CODING-STANDARD.md — brace init, not/and/or, const before type, space after function name, named constants
+
+### Problems Solved
+
+**Problem 1 — SetInterrupt incompatible with single-thread polling**
+`SetInterrupt(DEBUG_INTERRUPT_EXIT)` does not work from the same thread as `WaitForEvent` in a polling model. Fix: `DebugBreakProcess` via `OpenProcess` + stored PID. Injects `int 3` into target process via remote thread.
+
+**Problem 2 — Sidecar dbgeng IDebugSystemObjects broken**
+`GetCurrentProcessHandle` returns E_UNEXPECTED (0x8000FFFF). `GetCurrentProcessSystemId` returns PID 0. Fix: capture PID from `CreateProcess` callback via `GetProcessId(handle)` for launch mode, direct parameter storage for attach mode.
+
+**Problem 3 — PID not available immediately after CreateProcess2**
+`GetCurrentProcessSystemId` called right after `CreateProcess2` returns PID 0 — process not yet registered with dbgeng. Fix: capture PID in `CreateProcess` callback (fires during WaitForEvent after process is created).
+
+**Problem 4 — nvim-dap "No thread to stop" blocks pause command**
+nvim-dap refuses to send pause if it doesn't know about any threads. Fix: emit DAP `thread` event with `reason: "started"` when target transitions to running after initial break.
+
+**Problem 5 — BP set after module load stays pending forever**
+Plugin module loads before any BPs are set → no symbol reload (no pending BPs). Later BP set → `getOffsetByLine` fails (symbols not loaded) → BP goes pending → no future LoadModule event → pending forever. Fix: in `handleSetBreakpoints`, if any BPs go pending, call `.reload /f` (global symbol reload) then retry resolution.
+
+**Problem 6 — Naked `new juce::DynamicObject()` across codebase (BLESSED B violation)**
+20 instances of `auto* obj { new juce::DynamicObject() }` — ownership gap between allocation and `juce::var` taking reference. Fix: `using DynObj = juce::ReferenceCountedObjectPtr<juce::DynamicObject>` alias in all 4 files, all instances converted.
+
+**Problem 7 — Pre-existing magic numbers in Session.cpp**
+`512` and `1024` buffer sizes unnamed. Fix: `kNameBufferSize` and `kFileBufferSize` constants alongside existing `kMaxStackFrames`.
+
+### Technical Debt / Follow-up
+- Pre-existing early returns in `Types.h` (getString, getInt) and `BreakpointManager.cpp` (tryResolve — 4 early returns)
+- `juce::Logger::writeToLog` vs `logWrite` inconsistency in BreakpointManager.cpp
+- Diagnostic logging throughout Callbacks.cpp and Whatdbg.cpp — remove after stable
+- Dead `EXCEPTION_SINGLE_STEP` branch in Callbacks.cpp
+- stepOut reports `reason: "breakpoint"` instead of `"step"` (cosmetic)
+- scopes/variables stubs — no variable inspection
+- `forceReloadAllSymbols` is global `.reload /f` — acceptable for user-initiated BP set but could be optimized to per-module if needed
+- BP on function signature line resolves to first executable line inside body — normal PDB/MSVC behavior, not a bug
+
 ## Sprint 6: Stepping + Module Load Storm Fix
 
 **Date:** 2026-04-01

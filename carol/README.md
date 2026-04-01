@@ -13,7 +13,7 @@
 
 **C**ognitive **A**mplification **R**ole **O**rchestration for LLM agents
 
-Version: 0.0.4
+Version: 0.0.5
 
 An opinionated ritualistic framework that enforces discipline to work with multiple agents simultaneously.
 
@@ -26,6 +26,8 @@ CAROL also works effectively as a rapid prototyping methodology for experienced 
 A high-end preamp never eliminates noise — and distortion sometimes becomes its signature color. But the signal-to-noise ratio is always at the highest. CAROL does the same for LLM sessions. It doesn't produce sterile, generic output. It has your character baked in — your coding contract, your naming conventions, your architectural philosophy. The distortion is intentional and consistent.
 
 The model is the signal source. CAROL is the signal chain. The output has your signature.
+
+Context is headroom. Keep transients below it, but enough signal to record. Sessions are takes — you don't stop because time ran out, you stop because you got what you needed. Anything after that is noise on tape. SPRINT-LOG is the pool — distilled signal from every take, ready for the next session to reference without replaying the entire reel.
 
 ---
 
@@ -91,7 +93,7 @@ CAROL is a role-based agent orchestration framework for collaborative software d
    Maintains PATTERNS.md, SCRIPTS.md, and other knowledge bases. Indexes discovered patterns, organizes reusable solutions, and ensures documentation stays current. Called when new patterns emerge or existing ones need refinement.
 
 **AUDITOR** - Pre-Commit Auditor
-   Performs systematic code review before commits. Validates against SPEC.md, checks architectural constraints (LIFESTAR + LOVE principles), verifies style compliance, and identifies refactoring opportunities to mitigate technical debt. Writes comprehensive audit reports with severity classifications and recommendations.
+   Performs systematic code review before commits. Validates against SPEC.md, checks architectural constraints (BLESSED principles), verifies style compliance, and identifies refactoring opportunities to mitigate technical debt. Writes comprehensive audit reports with severity classifications and recommendations.
 
 **MACHINIST** - Code Polisher & Finisher
    Elevates scaffolds to production quality by fixing anti-patterns, ensuring fail-fast behavior, and integrating components. Makes all moving parts work together as a complete machine. Called when ENGINEER's scaffold needs finishing or after AUDITOR finds issues that need simple fixes. Can also triage AUDITOR findings (filter false alarms).
@@ -355,25 +357,15 @@ your-project/
 
 ## Principles
 
-CAROL aligns with **LIFESTAR + LOVE** principles:
+CAROL aligns with **BLESSED** principles:
 
-**LIFESTAR:**
-
-- **L**ean - Simple, focused roles
-- **I**mmutable - Deterministic behavior
-- **F**indable - Clear documentation
-- **E**xplicit - No hidden state
-- **S**SOT - Single source of truth
-- **T**estable - TDD approach
-- **A**ccessible - Works with any agent
-- **R**eviewable - Clear attribution
-
-**LOVE:**
-
-- **L**istens - Fail fast, user feedback
-- **O**ptimizes - Prevents wasted cycles
-- **V**alidates - Enforces correctness
-- **E**mpathizes - Human-centric design
+- **B**ound - Clear ownership, deterministic lifecycle, RAII enforced
+- **L**ean - 300/30/3, god objects forbidden
+- **E**xplicit - No magic, semantic names, fail fast
+- **S**SOT - Declare once, reference everywhere
+- **S**tateless - Objects are dumb workers, transient state only
+- **E**ncapsulation - One responsibility, tell don't ask, unidirectional layers
+- **D**eterministic - The verdict: what you get when BLESSE is followed
 
 ---
 
@@ -416,8 +408,8 @@ Rock 'n Roll!
 - [PATTERNS-WRITER.md](PATTERNS-WRITER.md) - Pattern discovery guide
 - [SPEC-WRITER.md](SPEC-WRITER.md) - How COUNSELOR writes specs
 - [ARCHITECTURE-WRITER.md](ARCHITECTURE-WRITER.md) - How agents document architecture
-- [ARCHITECTURAL-MANIFESTO.md](ARCHITECTURAL-MANIFESTO.md) - LIFESTAR + LOVE principles for agents
-- [NAMING-CONVENTION.md](NAMING-CONVENTION.md) - Identifier naming rules for source code and documentation
+- [MANIFESTO.md](MANIFESTO.md) - BLESSED principles for agents
+- [NAMES.md](NAMES.md) - Identifier naming rules for source code and documentation
 - [SPRINT-LOG.md](templates/SPRINT-LOG.md) - Sprint tracking template
 
 ---

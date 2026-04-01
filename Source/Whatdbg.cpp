@@ -7,6 +7,8 @@
 
 static constexpr ULONG kPollTimeoutMs { 50 };
 
+using DynObj = juce::ReferenceCountedObjectPtr<juce::DynamicObject>;
+
 Whatdbg::Whatdbg ()
     : breakpointManager { session }
 {
@@ -65,7 +67,7 @@ void Whatdbg::run ()
                     state.executionState = debug::ExecutionState::stopped;
                     isPausePending = false;
 
-                    auto* body { new juce::DynamicObject () };
+                    DynObj body { new juce::DynamicObject () };
                     body->setProperty ("reason",            "pause");
                     body->setProperty ("threadId",          1);
                     body->setProperty ("allThreadsStopped", true);
@@ -197,6 +199,7 @@ void Whatdbg::handleAttach (const juce::var& request)
             session.appendSymbolPath (cwd.replace ("/", "\\"));
         }
 
+        state.targetProcessId = pid;
         state.executionState = debug::ExecutionState::launching;
         sendResponse (dap::makeResponse (seq, "attach", true));
     }
@@ -216,6 +219,12 @@ void Whatdbg::handleConfigurationDone (const juce::var& request)
         session.resume ();
         state.executionState = debug::ExecutionState::running;
         state.isInitialBreakSeen = false;
+
+        DynObj threadBody { new juce::DynamicObject () };
+        threadBody->setProperty ("reason",   "started");
+        threadBody->setProperty ("threadId", 1);
+        sendEvent (dap::makeEvent ("thread", juce::var (threadBody)));
+
         logWrite ("[Whatdbg] resumed after configurationDone\n");
     }
 
@@ -244,7 +253,7 @@ void Whatdbg::handleSetBreakpoints (const juce::var& request)
 
     juce::Array<juce::var> resultBps { breakpointManager.handleSetBreakpoints (sourcePath, requestedBps) };
 
-    auto* body { new juce::DynamicObject () };
+    DynObj body { new juce::DynamicObject () };
     body->setProperty ("breakpoints", juce::var (resultBps));
     sendResponse (dap::makeResponse (seq, "setBreakpoints", true, juce::var (body)));
 }
@@ -253,14 +262,14 @@ void Whatdbg::handleThreads (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
 
-    auto* thread { new juce::DynamicObject () };
+    DynObj thread { new juce::DynamicObject () };
     thread->setProperty ("id", 1);
     thread->setProperty ("name", "Main Thread");
 
     juce::Array<juce::var> threads;
     threads.add (juce::var (thread));
 
-    auto* body { new juce::DynamicObject () };
+    DynObj body { new juce::DynamicObject () };
     body->setProperty ("threads", juce::var { threads });
     sendResponse (dap::makeResponse (seq, "threads", true, juce::var (body)));
 }
@@ -271,7 +280,7 @@ void Whatdbg::handleStackTrace (const juce::var& request)
 
     juce::Array<juce::var> frames { session.getStackTrace (50) };
 
-    auto* body { new juce::DynamicObject () };
+    DynObj body { new juce::DynamicObject () };
     body->setProperty ("stackFrames", juce::var { frames });
     body->setProperty ("totalFrames", frames.size ());
     sendResponse (dap::makeResponse (seq, "stackTrace", true, juce::var (body)));
@@ -281,7 +290,7 @@ void Whatdbg::handleScopes (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
 
-    auto* body { new juce::DynamicObject () };
+    DynObj body { new juce::DynamicObject () };
     body->setProperty ("scopes", juce::var { juce::Array<juce::var> {} });
     sendResponse (dap::makeResponse (seq, "scopes", true, juce::var (body)));
 }
@@ -290,7 +299,7 @@ void Whatdbg::handleVariables (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
 
-    auto* body { new juce::DynamicObject () };
+    DynObj body { new juce::DynamicObject () };
     body->setProperty ("variables", juce::var { juce::Array<juce::var> {} });
     sendResponse (dap::makeResponse (seq, "variables", true, juce::var (body)));
 }
@@ -304,7 +313,7 @@ void Whatdbg::handleContinue (const juce::var& request)
     isStepPending = false;
     isPausePending = false;
 
-    auto* body { new juce::DynamicObject () };
+    DynObj body { new juce::DynamicObject () };
     body->setProperty ("allThreadsContinued", true);
     sendResponse (dap::makeResponse (seq, "continue", true, juce::var (body)));
 }
@@ -348,7 +357,7 @@ void Whatdbg::handlePause (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
 
-    session.interrupt ();
+    session.interrupt (state.targetProcessId);
     isPausePending = true;
 
     sendResponse (dap::makeResponse (seq, "pause", true));
@@ -366,6 +375,12 @@ void Whatdbg::processDeferredEvents ()
         session.resume ();
         state.executionState = debug::ExecutionState::running;
         state.isInitialBreakSeen = false;
+
+        DynObj threadBody { new juce::DynamicObject () };
+        threadBody->setProperty ("reason",   "started");
+        threadBody->setProperty ("threadId", 1);
+        sendEvent (dap::makeEvent ("thread", juce::var (threadBody)));
+
         logWrite ("[Whatdbg] resumed after initial breakpoint\n");
     }
 
@@ -386,7 +401,7 @@ void Whatdbg::processDeferredEvents ()
     {
         state.hasStepCompleted = false;
 
-        auto* body { new juce::DynamicObject () };
+        DynObj body { new juce::DynamicObject () };
         body->setProperty ("reason",            "step");
         body->setProperty ("threadId",          1);
         body->setProperty ("allThreadsStopped", true);
@@ -426,7 +441,7 @@ void Whatdbg::processDeferredEvents ()
     {
         state.hasProcessExited = false;
 
-        auto* exitBody { new juce::DynamicObject () };
+        DynObj exitBody { new juce::DynamicObject () };
         exitBody->setProperty ("exitCode", state.processExitCode);
         sendEvent (dap::makeEvent ("exited", juce::var (exitBody)));
         sendEvent (dap::makeEvent ("terminated"));

@@ -4,6 +4,8 @@
 namespace dap
 {
 
+using DynObj = juce::ReferenceCountedObjectPtr<juce::DynamicObject>;
+
 inline int nextSeq () noexcept
 {
     static int seq { 1 };
@@ -15,7 +17,7 @@ inline juce::var makeResponse (int requestSeq,
                                bool isSuccess,
                                juce::var body = juce::var ()) noexcept
 {
-    auto* obj { new juce::DynamicObject () };
+    DynObj obj { new juce::DynamicObject () };
     obj->setProperty ("seq",         nextSeq ());
     obj->setProperty ("type",        "response");
     obj->setProperty ("request_seq", requestSeq);
@@ -32,7 +34,7 @@ inline juce::var makeErrorResponse (int requestSeq,
                                     const juce::String& command,
                                     const juce::String& message) noexcept
 {
-    auto* obj { new juce::DynamicObject () };
+    DynObj obj { new juce::DynamicObject () };
     obj->setProperty ("seq",         nextSeq ());
     obj->setProperty ("type",        "response");
     obj->setProperty ("request_seq", requestSeq);
@@ -45,7 +47,7 @@ inline juce::var makeErrorResponse (int requestSeq,
 inline juce::var makeEvent (const juce::String& event,
                             juce::var body = juce::var ()) noexcept
 {
-    auto* obj { new juce::DynamicObject () };
+    DynObj obj { new juce::DynamicObject () };
     obj->setProperty ("seq",   nextSeq ());
     obj->setProperty ("type",  "event");
     obj->setProperty ("event", event);
@@ -58,7 +60,7 @@ inline juce::var makeEvent (const juce::String& event,
 
 inline juce::var makeCapabilities () noexcept
 {
-    auto* caps { new juce::DynamicObject () };
+    DynObj caps { new juce::DynamicObject () };
     caps->setProperty ("supportsConfigurationDoneRequest",   true);
     caps->setProperty ("supportsFunctionBreakpoints",        false);
     caps->setProperty ("supportsConditionalBreakpoints",     false);

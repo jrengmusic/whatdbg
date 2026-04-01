@@ -6,6 +6,8 @@
 namespace debug
 {
 
+using DynObj = juce::ReferenceCountedObjectPtr<juce::DynamicObject>;
+
 Session::~Session ()
 {
     shutdown ();
@@ -44,6 +46,7 @@ bool Session::initialize (const juce::File& sidecarDir) noexcept
                         __uuidof (IDebugSymbols3),
                         reinterpret_cast<PVOID*> (symbols.GetAddressOf ())) };
                     juce::ignoreUnused (qiSymbolsResult);
+
 
                     if (symbols != nullptr)
                     {
@@ -142,7 +145,9 @@ HRESULT Session::pollEvents (ULONG timeoutMs) noexcept
     HRESULT result { E_FAIL };
 
     if (control != nullptr)
+    {
         result = control->WaitForEvent (0, timeoutMs);
+    }
 
     return result;
 }
@@ -255,6 +260,21 @@ HRESULT Session::loadModuleSymbols (const juce::String& imageName) noexcept
     return result;
 }
 
+HRESULT Session::forceReloadAllSymbols () noexcept
+{
+    HRESULT result { E_FAIL };
+
+    if (control != nullptr)
+    {
+        result = control->Execute (DEBUG_OUTCTL_IGNORE,
+                                   ".reload /f",
+                                   DEBUG_EXECUTE_NOT_LOGGED);
+        logWrite ("WHATDBG: .reload /f (all) hr=0x%08lX\n", static_cast<unsigned long> (result));
+    }
+
+    return result;
+}
+
 void Session::stepOver () noexcept
 {
     if (control != nullptr)
@@ -279,11 +299,33 @@ void Session::stepOut () noexcept
     }
 }
 
-void Session::interrupt () noexcept
+void Session::interrupt (ULONG processId) noexcept
 {
-    if (control != nullptr)
+    if (processId != 0)
     {
-        control->SetInterrupt (DEBUG_INTERRUPT_EXIT);
+        const HANDLE handle { OpenProcess (PROCESS_ALL_ACCESS, FALSE, processId) };
+
+        if (handle != nullptr)
+        {
+            const BOOL result { DebugBreakProcess (handle) };
+            CloseHandle (handle);
+
+            if (result)
+            {
+                logWrite ("WHATDBG: DebugBreakProcess success, PID=%lu\n",
+                          static_cast<unsigned long> (processId));
+            }
+            else
+            {
+                logWrite ("WHATDBG: DebugBreakProcess failed, PID=%lu error=%lu\n",
+                          static_cast<unsigned long> (processId), GetLastError ());
+            }
+        }
+        else
+        {
+            logWrite ("WHATDBG: OpenProcess failed, PID=%lu error=%lu\n",
+                      static_cast<unsigned long> (processId), GetLastError ());
+        }
     }
 }
 
@@ -312,6 +354,8 @@ juce::Array<juce::var> Session::getStackTrace (int maxFrames) noexcept
     if (control != nullptr and symbols != nullptr)
     {
         static constexpr int kMaxStackFrames { 128 };
+        static constexpr int kNameBufferSize { 512 };
+        static constexpr int kFileBufferSize { 1024 };
         const int frameCount { juce::jmin (maxFrames, kMaxStackFrames) };
 
         std::vector<DEBUG_STACK_FRAME> stackFrames (static_cast<size_t> (frameCount));
@@ -327,19 +371,19 @@ juce::Array<juce::var> Session::getStackTrace (int maxFrames) noexcept
         {
             for (ULONG i { 0 }; i < framesFilled; ++i)
             {
-                auto* frame { new juce::DynamicObject () };
+                DynObj frame { new juce::DynamicObject () };
                 frame->setProperty ("id", static_cast<int> (i));
                 frame->setProperty ("name", "frame");
 
                 // Resolve function name
-                char nameBuffer[512] {};
+                char nameBuffer[kNameBufferSize] {};
                 ULONG nameSize { 0 };
                 ULONG64 displacement { 0 };
 
                 const HRESULT nameResult { symbols->GetNameByOffset (
                     stackFrames.at (static_cast<size_t> (i)).InstructionOffset,
                     nameBuffer,
-                    sizeof (nameBuffer),
+                    kNameBufferSize,
                     &nameSize,
                     &displacement) };
 
@@ -349,7 +393,7 @@ juce::Array<juce::var> Session::getStackTrace (int maxFrames) noexcept
                 }
 
                 // Resolve source location
-                char fileBuffer[1024] {};
+                char fileBuffer[kFileBufferSize] {};
                 ULONG fileSize { 0 };
                 ULONG line { 0 };
 
@@ -357,13 +401,13 @@ juce::Array<juce::var> Session::getStackTrace (int maxFrames) noexcept
                     stackFrames.at (static_cast<size_t> (i)).InstructionOffset,
                     &line,
                     fileBuffer,
-                    sizeof (fileBuffer),
+                    kFileBufferSize,
                     &fileSize,
                     nullptr) };
 
                 if (SUCCEEDED (lineResult))
                 {
-                    auto* source { new juce::DynamicObject () };
+                    DynObj source { new juce::DynamicObject () };
                     source->setProperty ("name", juce::File (juce::String (fileBuffer)).getFileName ());
                     source->setProperty ("path", juce::String (fileBuffer).replace ("\\", "/"));
                     frame->setProperty ("source", juce::var (source));

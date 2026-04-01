@@ -24,6 +24,7 @@ public:
     bool isInitialBreakSeen { false };
     bool isInitialBreakHandled { false };
     int processExitCode { 0 };
+    ULONG targetProcessId { 0 };
 
     // ── Deferred events (set by COM callbacks, consumed by main loop) ──
     // Breakpoint hit: stored body for DAP stopped event

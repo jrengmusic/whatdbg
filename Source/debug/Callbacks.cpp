@@ -203,14 +203,22 @@ HRESULT EventCallbacks::ExitThread (ULONG /*exitCode*/)
     return DEBUG_STATUS_NO_CHANGE;
 }
 
-HRESULT EventCallbacks::CreateProcess (ULONG64 /*imageFileHandle*/, ULONG64 /*handle*/,
+HRESULT EventCallbacks::CreateProcess (ULONG64 /*imageFileHandle*/, ULONG64 handle,
                                        ULONG64 /*baseOffset*/, ULONG /*moduleSize*/,
                                        PCSTR moduleName, PCSTR /*imageName*/,
                                        ULONG /*checkSum*/, ULONG /*timeDateStamp*/,
                                        ULONG64 /*initialThreadHandle*/, ULONG64 /*threadDataOffset*/,
                                        ULONG64 /*startOffset*/)
 {
-    logWrite ("WHATDBG: CreateProcess: %s\n", moduleName != nullptr ? moduleName : "(null)");
+    const HANDLE processHandle { reinterpret_cast<HANDLE> (static_cast<ULONG_PTR> (handle)) };
+    const DWORD pid { GetProcessId (processHandle) };
+
+    State::getContext ()->targetProcessId = static_cast<ULONG> (pid);
+
+    logWrite ("WHATDBG: CreateProcess: %s (PID=%lu)\n",
+              moduleName != nullptr ? moduleName : "(null)",
+              static_cast<unsigned long> (pid));
+
     return DEBUG_STATUS_NO_CHANGE;
 }
 

@@ -50,13 +50,16 @@ public:
     // Force-reload symbols for a specific module (".reload /f <imageName>").
     HRESULT loadModuleSymbols (const juce::String& imageName) noexcept;
 
+    // Force-reload symbols for ALL loaded modules (".reload /f").
+    HRESULT forceReloadAllSymbols () noexcept;
+
     // Stepping — source-level (requires SetCodeLevel(DEBUG_LEVEL_SOURCE) at init)
     void stepOver () noexcept;
     void stepInto () noexcept;
     void stepOut () noexcept;
 
     // Interrupt a running target.
-    void interrupt () noexcept;
+    void interrupt (ULONG processId) noexcept;
 
     void appendSymbolPath (const juce::String& path) noexcept;
     void appendSourcePath (const juce::String& path) noexcept;

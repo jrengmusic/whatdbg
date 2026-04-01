@@ -1,9 +1,12 @@
 #include <JuceHeader.h>
 #include "BreakpointManager.h"
 #include "State.h"
+#include "../Log.h"
 
 namespace debug
 {
+
+using DynObj = juce::ReferenceCountedObjectPtr<juce::DynamicObject>;
 
 // ---------------------------------------------------------------------------
 // Path helpers
@@ -279,7 +282,7 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
             ++nextDapId;
         }
 
-        auto* bpObj { new juce::DynamicObject () };
+        DynObj bpObj { new juce::DynamicObject () };
         bpObj->setProperty ("id", static_cast<int> (dapId));
 
         if (isReuse and breakpoints.count (dapId) > 0)
@@ -350,12 +353,72 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
         }
 
         // Attach source object.
-        auto* sourceObj { new juce::DynamicObject () };
+        DynObj sourceObj { new juce::DynamicObject () };
         sourceObj->setProperty ("path", rawSourcePath);
         bpObj->setProperty ("source", juce::var (sourceObj));
 
         newFileIndex[line] = dapId;
         responseArray.add (juce::var (bpObj));
+    }
+
+    // If any BPs went pending, force global symbol reload and retry resolution.
+    // This handles the case where the module was loaded before BPs were set —
+    // symbols were never loaded because there were no pending BPs at load time.
+    if (not pending.isEmpty ())
+    {
+        session.forceReloadAllSymbols ();
+
+        juce::Array<int> resolvedIndices;
+
+        for (int i { 0 }; i < pending.size (); ++i)
+        {
+            const PendingBreakpoint& pend { pending.getReference (i) };
+            const ResolveResult result { tryResolve (pend.sourcePath, pend.line) };
+
+            if (result.isSuccess)
+            {
+                engineToDap[result.engineId] = pend.dapId;
+
+                if (breakpoints.count (pend.dapId) > 0)
+                {
+                    BreakpointInfo& info { breakpoints.at (pend.dapId) };
+                    info.isVerified  = true;
+                    info.hasEngineId = true;
+                    info.engineId    = result.engineId;
+                    info.line        = result.resolvedLine;
+                }
+
+                // Update the response entry for this BP.
+                for (int r { 0 }; r < responseArray.size (); ++r)
+                {
+                    if (auto* respObj { responseArray.getReference (r).getDynamicObject () })
+                    {
+                        const int respId { static_cast<int> (respObj->getProperty ("id")) };
+
+                        if (respId == static_cast<int> (pend.dapId))
+                        {
+                            respObj->setProperty ("verified", true);
+                            respObj->setProperty ("line", static_cast<int> (result.resolvedLine));
+                            respObj->removeProperty ("message");
+                        }
+                    }
+                }
+
+                resolvedIndices.add (i);
+
+                logWrite ("WHATDBG: breakpoint resolved after symbol reload"
+                          " dapId=%lu line=%lu\n",
+                          static_cast<unsigned long> (pend.dapId),
+                          static_cast<unsigned long> (result.resolvedLine));
+            }
+        }
+
+        for (int k { resolvedIndices.size () - 1 }; k >= 0; --k)
+        {
+            pending.remove (resolvedIndices[k]);
+        }
+
+        State::getContext ()->hasPendingBreakpoints = not pending.isEmpty ();
     }
 
     // Replace the file-level index with the new one.
@@ -401,12 +464,12 @@ juce::Array<juce::var> BreakpointManager::onModuleLoad ()
 
             // Build DAP breakpoint changed event — report resolvedLine so
             // nvim-dap moves the gutter marker to the correct line.
-            auto* bpObj { new juce::DynamicObject () };
+            DynObj bpObj { new juce::DynamicObject () };
             bpObj->setProperty ("id",       static_cast<int> (pend.dapId));
             bpObj->setProperty ("verified", true);
             bpObj->setProperty ("line",     static_cast<int> (result.resolvedLine));
 
-            auto* body { new juce::DynamicObject () };
+            DynObj body { new juce::DynamicObject () };
             body->setProperty ("reason",     "changed");
             body->setProperty ("breakpoint", juce::var (bpObj));
 
@@ -437,7 +500,7 @@ juce::Array<juce::var> BreakpointManager::onModuleLoad ()
 
 juce::var BreakpointManager::onBreakpointHit (ULONG engineId, ULONG threadId)
 {
-    auto* body { new juce::DynamicObject () };
+    DynObj body { new juce::DynamicObject () };
     body->setProperty ("reason",            "breakpoint");
     body->setProperty ("threadId",          static_cast<int> (threadId));
     body->setProperty ("allThreadsStopped", true);

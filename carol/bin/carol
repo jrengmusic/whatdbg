@@ -1,8 +1,8 @@
 #!/bin/bash
 # carol - CAROL Framework CLI Tool
-# Version: 0.0.4
+# Version: 0.0.5
 
-VERSION="0.0.4"
+VERSION="0.0.5"
 
 # Resolve CAROL_ROOT handling symlinks (e.g. if /usr/local/bin/carol -> ~/.carol/bin/carol)
 SOURCE="${BASH_SOURCE[0]}"
@@ -75,12 +75,6 @@ get_remote_version() {
 
 version_greater_than() {
     [ "$(printf '%s\n' "$1" "$2" | sort -V | head -n1)" != "$1" ]
-}
-
-get_relative_path() {
-    local target="$1"
-    local base="$2"
-    python3 -c "import os.path; print(os.path.relpath('$target', '$base'))"
 }
 
 
@@ -283,8 +277,8 @@ cmd_init() {
         ln -sf "$CAROL_ROOT/PATTERNS-WRITER.md" carol/PATTERNS-WRITER.md
         ln -sf "$CAROL_ROOT/SPEC-WRITER.md" carol/SPEC-WRITER.md
         ln -sf "$CAROL_ROOT/ARCHITECTURE-WRITER.md" carol/ARCHITECTURE-WRITER.md
-        [ -f "$CAROL_ROOT/ARCHITECTURAL-MANIFESTO.md" ] && ln -sf "$CAROL_ROOT/ARCHITECTURAL-MANIFESTO.md" carol/ARCHITECTURAL-MANIFESTO.md
-        [ -f "$CAROL_ROOT/NAMING-CONVENTION.md" ] && ln -sf "$CAROL_ROOT/NAMING-CONVENTION.md" carol/NAMING-CONVENTION.md
+        [ -f "$CAROL_ROOT/MANIFESTO.md" ] && ln -sf "$CAROL_ROOT/MANIFESTO.md" carol/MANIFESTO.md
+        [ -f "$CAROL_ROOT/NAMES.md" ] && ln -sf "$CAROL_ROOT/NAMES.md" carol/NAMES.md
 
         # Restore SPRINT-LOG from backup or use template
         if [ -f ".carol-history/SPRINT-LOG.md" ]; then
@@ -550,9 +544,11 @@ cmd_help() {
     echo -e "  ${CYAN}Researcher${NC}    Domain research"
     echo -e "  ${CYAN}Validator${NC}     Spec & compliance checking"
     echo ""
-    echo -e "${MAGENTA}Activate:${NC}"
+    echo -e "${MAGENTA}Slash Commands:${NC}"
     echo -e "  ${YELLOW}/counselor${NC}   Activate COUNSELOR (default on init)"
     echo -e "  ${YELLOW}/surgeon${NC}     Activate SURGEON"
+    echo -e "  ${YELLOW}/stop${NC}        Emergency brake — cease all execution"
+    echo -e "  ${YELLOW}/ode${NC}         ODE to Joy — reframe the problem"
     echo ""
     echo -e "  CLAUDE.md auto-loaded — CAROL protocol always active"
     echo ""
@@ -561,9 +557,19 @@ cmd_help() {
 }
 
 
+get_project_hash() {
+    local cwd
+    if command -v cygpath &>/dev/null; then
+        cwd=$(cygpath -w "$(pwd)")
+    else
+        cwd=$(pwd)
+    fi
+    echo "$cwd" | sed 's/[^a-zA-Z0-9]/-/g'
+}
+
 cmd_sessions() {
     local project_hash
-    project_hash=$(pwd | sed 's/[^a-zA-Z0-9]/-/g')
+    project_hash=$(get_project_hash)
     local sessions_dir="$HOME/.claude/projects/$project_hash"
 
     if [ ! -d "$sessions_dir" ]; then
@@ -590,14 +596,16 @@ cmd_sessions() {
         uuid=$(basename "$file" .jsonl)
         local short_id="${uuid:0:8}"
         local date
-        date=$(date -r "$file" "+%Y-%m-%d" 2>/dev/null)
+        date=$(date -r "$file" "+%d-%m-%Y" 2>/dev/null)
 
+        local python_file="$file"
+        command -v cygpath &>/dev/null && python_file=$(cygpath -w "$file")
         local label
         label=$(python3 -c "
 import json
 label = ''
 try:
-    with open('$file') as f:
+    with open(r'$python_file', encoding='utf-8') as f:
         lines = f.readlines()
     # Prefer custom-title (set by /rename)
     for line in reversed(lines):
@@ -617,7 +625,7 @@ try:
                     text = content if isinstance(content, str) else next((b.get('text','') for b in content if isinstance(b,dict) and b.get('text')), '')
                     text = text.strip()
                     if text and not text.startswith('<'):
-                        label = text[:50]
+                        label = ' '.join(text.split())[:50]
                         break
             except: continue
 except: pass
@@ -636,7 +644,7 @@ cmd_resume() {
     [ -z "$id" ] && error "Usage: carol resume <session-id>"
 
     local project_hash
-    project_hash=$(pwd | sed 's/[^a-zA-Z0-9]/-/g')
+    project_hash=$(get_project_hash)
     local sessions_dir="$HOME/.claude/projects/$project_hash"
 
     local full_uuid=""
@@ -652,12 +660,14 @@ cmd_resume() {
     local model_flag=()
     local session_file="$sessions_dir/$full_uuid.jsonl"
     if [ -f "$session_file" ]; then
+        local python_file="$session_file"
+        command -v cygpath &>/dev/null && python_file=$(cygpath -w "$session_file")
         local model
         model=$(python3 -c "
 import json
 model = ''
 try:
-    with open('$session_file') as f:
+    with open(r'$python_file', encoding='utf-8') as f:
         for line in reversed(f.readlines()):
             try:
                 d = json.loads(line)
