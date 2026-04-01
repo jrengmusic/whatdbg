@@ -289,6 +289,18 @@ void Whatdbg::handleStackTrace (const juce::var& request)
 
     juce::Array<juce::var> frames { session.getStackTrace (50) };
 
+    // Assign unique frame IDs and store threadId mapping
+    for (auto& frameVar : frames)
+    {
+        if (auto* frameObj { frameVar.getDynamicObject () })
+        {
+            const int originalIndex { static_cast<int> (frameObj->getProperty ("id")) };
+            const int uniqueId { nextFrameId++ };
+            frameObj->setProperty ("id", uniqueId);
+            frameIdMap[uniqueId] = { static_cast<ULONG> (threadId), originalIndex };
+        }
+    }
+
     DynObj body { new juce::DynamicObject () };
     body->setProperty ("stackFrames", juce::var { frames });
     body->setProperty ("totalFrames", frames.size ());
@@ -299,6 +311,9 @@ void Whatdbg::resetVariablesState () noexcept
 {
     nextVariablesRef = 1;
     variablesRefMap.clear ();
+    nextFrameId = 1;
+    frameIdMap.clear ();
+    lastScopesThreadId = 0;
     session.resetSymbolGroupCache ();
 }
 
@@ -307,8 +322,25 @@ void Whatdbg::handleScopes (const juce::var& request)
     const int seq     { static_cast<int> (request["seq"]) };
     const int frameId { static_cast<int> (request["arguments"]["frameId"]) };
 
+    // Decode frameId to (threadSystemId, frameIndex)
+    int frameIndex { frameId };
+    ULONG threadSystemId { 0 };
+
+    if (frameIdMap.count (frameId) > 0)
+    {
+        const auto& entry { frameIdMap.at (frameId) };
+        threadSystemId = entry.first;
+        frameIndex = entry.second;
+
+        if (threadSystemId > 0)
+        {
+            session.setCurrentThreadBySystemId (threadSystemId);
+            lastScopesThreadId = threadSystemId;
+        }
+    }
+
     const int localsRef { nextVariablesRef++ };
-    variablesRefMap[localsRef] = { frameId, -1 };
+    variablesRefMap[localsRef] = { frameIndex, -1 };
 
     DynObj localsScope { new juce::DynamicObject () };
     localsScope->setProperty ("name",               "Locals");
@@ -327,6 +359,11 @@ void Whatdbg::handleVariables (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
     const int ref { static_cast<int> (request["arguments"]["variablesReference"]) };
+
+    if (lastScopesThreadId > 0)
+    {
+        session.setCurrentThreadBySystemId (lastScopesThreadId);
+    }
 
     juce::Array<juce::var> dapVariables;
 

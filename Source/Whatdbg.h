@@ -65,6 +65,12 @@ private:
     // Maps variablesReference → (frameIndex, symbolIndex). symbolIndex -1 = top-level locals.
     std::unordered_map<int, std::pair<int, int>> variablesRefMap;
 
+    // ── Frame ID mapping (threadId + frameIndex) ──────────────────────
+    int nextFrameId { 1 };
+    std::unordered_map<int, std::pair<ULONG, int>> frameIdMap; // frameId → (threadSystemId, frameIndex)
+
+    ULONG lastScopesThreadId { 0 };
+
     void resetVariablesState () noexcept;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Whatdbg)

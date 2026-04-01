@@ -333,18 +333,6 @@ static juce::String prettyPrint (IDebugSymbolGroup2* group, IDebugDataSpaces4* d
                     }
                     else if (lastAddr >= firstAddr)
                     {
-                        static constexpr int kTypeSize { 256 };
-                        char elemTypeBuffer[kTypeSize] {};
-                        group->GetSymbolTypeName (static_cast<ULONG> (firstIdx),
-                                                 elemTypeBuffer, kTypeSize, nullptr);
-
-                        juce::String elemType { elemTypeBuffer };
-
-                        if (elemType.endsWith (" *"))
-                        {
-                            elemType = elemType.dropLastCharacters (2);
-                        }
-
                         static constexpr int kElemTypeSize { 256 };
                         char elemTypeBuffer[kElemTypeSize] {};
                         group->GetSymbolTypeName (static_cast<ULONG> (firstIdx),
