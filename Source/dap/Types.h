@@ -104,13 +104,5 @@ inline juce::String getString (const juce::var& obj, const juce::Identifier& key
     return {};
 }
 
-// Helper to get an int property from a var (DynamicObject)
-inline int getInt (const juce::var& obj, const juce::Identifier& key) noexcept
-{
-    if (auto* dynObj { obj.getDynamicObject () })
-        return static_cast<int> (dynObj->getProperty (key));
-
-    return 0;
-}
 
 } // namespace dap

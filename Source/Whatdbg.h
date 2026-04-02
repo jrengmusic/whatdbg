@@ -1,5 +1,6 @@
 #pragma once
 #include <JuceHeader.h>
+#include <functional>
 #include <unordered_map>
 #include "debug/State.h"
 #include "debug/Session.h"
@@ -22,6 +23,9 @@ public:
 
 private:
     // ── DAP command dispatch ───────────────────────────────────────────
+    using CommandHandler = std::function<void (const juce::var&)>;
+    std::unordered_map<std::string, CommandHandler> commandHandlers;
+
     void handleCommand (const juce::var& message);
     void handleInitialize (const juce::var& request);
     void handleLaunch (const juce::var& request);

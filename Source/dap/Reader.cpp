@@ -49,12 +49,14 @@ bool Reader::tryPop (juce::var& outMessage) noexcept
 
 void Reader::run ()
 {
-    while (not threadShouldExit ())
+    bool isConnected { true };
+
+    while (not threadShouldExit () and isConnected)
     {
         int contentLength { -1 };
         bool headersComplete { false };
 
-        while (not threadShouldExit () and not headersComplete)
+        while (not threadShouldExit () and not headersComplete and isConnected)
         {
             std::string line {};
             std::getline (std::cin, line);
@@ -63,9 +65,10 @@ void Reader::run ()
                 line.pop_back ();
 
             if (not std::cin)
-                return;
-
-            if (line.empty ())
+            {
+                isConnected = false;
+            }
+            else if (line.empty ())
             {
                 headersComplete = true;
             }
@@ -78,27 +81,35 @@ void Reader::run ()
             }
         }
 
-        if (not std::cin or contentLength < 0)
-            return;
-
-        std::string body (static_cast<size_t> (contentLength), '\0');
-        std::cin.read (body.data (), contentLength);
-
-        if (not std::cin)
-            return;
-
-        juce::var message { juce::JSON::parse (
-            juce::String (body.data (), static_cast<size_t> (contentLength))) };
-
-        if (not message.isVoid ())
+        if (isConnected and std::cin and contentLength >= 0)
         {
-            const auto scope { fifo.write (1) };
+            std::string body (static_cast<size_t> (contentLength), '\0');
+            std::cin.read (body.data (), contentLength);
 
-            if (scope.blockSize1 > 0)
+            if (not std::cin)
             {
-                storage.at (static_cast<size_t> (scope.startIndex1)) = message;
-                logWrite ("[dap::Reader] queued message\n");
+                isConnected = false;
             }
+            else
+            {
+                juce::var message { juce::JSON::parse (
+                    juce::String (body.data (), static_cast<size_t> (contentLength))) };
+
+                if (not message.isVoid ())
+                {
+                    const auto scope { fifo.write (1) };
+
+                    if (scope.blockSize1 > 0)
+                    {
+                        storage.at (static_cast<size_t> (scope.startIndex1)) = message;
+                        logWrite ("[dap::Reader] queued message\n");
+                    }
+                }
+            }
+        }
+        else if (isConnected and (not std::cin or contentLength < 0))
+        {
+            isConnected = false;
         }
     }
 }

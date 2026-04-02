@@ -61,6 +61,8 @@ set(OLD_GLOB
   "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/Callbacks.cpp"
   "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/Loader.cpp"
   "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/Session.cpp"
+  "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/SessionInspection.cpp"
+  "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/SessionPrettyPrint.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -93,6 +95,7 @@ set(OLD_GLOB
   "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/BreakpointManager.h"
   "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/Callbacks.h"
   "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/Loader.h"
+  "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/PrettyPrint.h"
   "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/Session.h"
   "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/State.h"
   )

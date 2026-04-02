@@ -6,7 +6,7 @@
 namespace debug
 {
 
-using DynObj = juce::ReferenceCountedObjectPtr<juce::DynamicObject>;
+using dap::DynObj;
 
 // ---------------------------------------------------------------------------
 // Path helpers
@@ -71,8 +71,9 @@ bool BreakpointManager::isUserBreakpoint (ULONG engineId) const noexcept
 ResolveResult BreakpointManager::tryResolve (const juce::String& windowsPath,
                                                                  ULONG requestedLine) noexcept
 {
-    juce::Logger::writeToLog ("WHATDBG: tryResolve attempting "
-        + windowsPath + ":" + juce::String (requestedLine));
+    logWrite ("WHATDBG: tryResolve attempting %s:%lu\n",
+              windowsPath.toRawUTF8 (),
+              static_cast<unsigned long> (requestedLine));
 
     // Extract basename once — used as fallback when PDB stores relative paths.
     juce::String basename { windowsPath };
@@ -105,8 +106,7 @@ ResolveResult BreakpointManager::tryResolve (const juce::String& windowsPath,
 
         if (hrFull == E_UNEXPECTED)
         {
-            juce::Logger::writeToLog (
-                "WHATDBG: getOffsetByLine returned E_UNEXPECTED — symbol engine not ready");
+            logWrite ("WHATDBG: getOffsetByLine returned E_UNEXPECTED — symbol engine not ready\n");
             return { 0, 0, false };
         }
 
@@ -114,9 +114,10 @@ ResolveResult BreakpointManager::tryResolve (const juce::String& windowsPath,
         {
             resolvedLine = candidate;
             isResolved   = true;
-            juce::Logger::writeToLog ("WHATDBG: resolved (full path) "
-                + windowsPath + ":" + juce::String (candidate)
-                + " -> 0x" + juce::String::toHexString (static_cast<juce::int64> (offset)));
+            logWrite ("WHATDBG: resolved (full path) %s:%lu -> 0x%llX\n",
+                      windowsPath.toRawUTF8 (),
+                      static_cast<unsigned long> (candidate),
+                      static_cast<unsigned long long> (offset));
         }
 
         if (not isResolved)
@@ -126,8 +127,7 @@ ResolveResult BreakpointManager::tryResolve (const juce::String& windowsPath,
 
             if (hrBase == E_UNEXPECTED)
             {
-                juce::Logger::writeToLog (
-                    "WHATDBG: getOffsetByLine returned E_UNEXPECTED — symbol engine not ready");
+                logWrite ("WHATDBG: getOffsetByLine returned E_UNEXPECTED — symbol engine not ready\n");
                 return { 0, 0, false };
             }
 
@@ -144,36 +144,39 @@ ResolveResult BreakpointManager::tryResolve (const juce::String& windowsPath,
                 {
                     resolvedLine = verifyLine;
                     isResolved   = true;
-                    juce::Logger::writeToLog ("WHATDBG: resolved (basename) "
-                        + basename + ":" + juce::String (candidate)
-                        + " -> 0x" + juce::String::toHexString (static_cast<juce::int64> (offset))
-                        + " (PDB: " + verifyFile + ":" + juce::String (verifyLine) + ")");
+                    logWrite ("WHATDBG: resolved (basename) %s:%lu -> 0x%llX (PDB: %s:%lu)\n",
+                              basename.toRawUTF8 (),
+                              static_cast<unsigned long> (candidate),
+                              static_cast<unsigned long long> (offset),
+                              verifyFile.toRawUTF8 (),
+                              static_cast<unsigned long> (verifyLine));
                 }
                 else
                 {
-                    juce::Logger::writeToLog (
-                        "WHATDBG: basename resolved but reverse verify failed hr=0x"
-                        + juce::String::toHexString (static_cast<int> (hrVerify)));
+                    logWrite ("WHATDBG: basename resolved but reverse verify failed hr=0x%08lX\n",
+                              static_cast<unsigned long> (hrVerify));
                 }
             }
             else if (delta == 0)
             {
                 // First attempt failed — log whether it's "no code here" or
                 // "module not loaded".  Subsequent delta attempts are silent.
-                juce::Logger::writeToLog ("WHATDBG: getOffsetByLine failed for "
-                    + basename + ":" + juce::String (candidate)
-                    + " hr=0x" + juce::String::toHexString (static_cast<int> (hrBase))
-                    + (hrBase == static_cast<HRESULT> (0x80004005)
-                        ? " — module not loaded or no code at line" : ""));
+                logWrite ("WHATDBG: getOffsetByLine failed for %s:%lu hr=0x%08lX%s\n",
+                          basename.toRawUTF8 (),
+                          static_cast<unsigned long> (candidate),
+                          static_cast<unsigned long> (hrBase),
+                          hrBase == static_cast<HRESULT> (0x80004005)
+                              ? " — module not loaded or no code at line" : "");
             }
         }
     }
 
     if (not isResolved)
     {
-        juce::Logger::writeToLog ("WHATDBG: tryResolve failed for "
-            + windowsPath + ":" + juce::String (requestedLine)
-            + " (and " + juce::String (kLineSearchWindow) + " lines forward) — pending");
+        logWrite ("WHATDBG: tryResolve failed for %s:%lu (and %lu lines forward) — pending\n",
+                  windowsPath.toRawUTF8 (),
+                  static_cast<unsigned long> (requestedLine),
+                  static_cast<unsigned long> (kLineSearchWindow));
         return { 0, 0, false };
     }
 
@@ -184,18 +187,18 @@ ResolveResult BreakpointManager::tryResolve (const juce::String& windowsPath,
 
     if (FAILED (hrAdd))
     {
-        juce::Logger::writeToLog ("WHATDBG: addBreakpoint failed hr=0x"
-            + juce::String::toHexString (static_cast<int> (hrAdd)));
+        logWrite ("WHATDBG: addBreakpoint failed hr=0x%08lX\n", static_cast<unsigned long> (hrAdd));
         return { 0, 0, false };
     }
 
     engineToDap[engineId] = 0;
 
-    juce::Logger::writeToLog ("WHATDBG: breakpoint set "
-        + windowsPath + ":" + juce::String (resolvedLine)
-        + " (requested " + juce::String (requestedLine) + ")"
-        + " engineId=" + juce::String (engineId)
-        + " offset=0x" + juce::String::toHexString (static_cast<juce::int64> (offset)));
+    logWrite ("WHATDBG: breakpoint set %s:%lu (requested %lu) engineId=%lu offset=0x%llX\n",
+              windowsPath.toRawUTF8 (),
+              static_cast<unsigned long> (resolvedLine),
+              static_cast<unsigned long> (requestedLine),
+              static_cast<unsigned long> (engineId),
+              static_cast<unsigned long long> (offset));
 
     return { engineId, resolvedLine, true };
 }
@@ -342,10 +345,10 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
                 pending.add (pendingBp);
                 State::getContext ()->hasPendingBreakpoints = not pending.isEmpty ();
 
-                juce::Logger::writeToLog (
-                    "WHATDBG: breakpoint pending (module not loaded) "
-                    + windowsPath + ":" + juce::String (line)
-                    + " dapId=" + juce::String (dapId));
+                logWrite ("WHATDBG: breakpoint pending (module not loaded) %s:%d dapId=%lu\n",
+                          windowsPath.toRawUTF8 (),
+                          line,
+                          static_cast<unsigned long> (dapId));
             }
 
             breakpoints[dapId] = info;
@@ -486,11 +489,11 @@ juce::Array<juce::var> BreakpointManager::onModuleLoad ()
 
             resolvedIndices.add (i);
 
-            juce::Logger::writeToLog (
-                "WHATDBG: deferred breakpoint resolved on module load"
-                " dapId=" + juce::String (pend.dapId)
-                + " requested=" + juce::String (pend.line)
-                + " resolved=" + juce::String (result.resolvedLine));
+            logWrite ("WHATDBG: deferred breakpoint resolved on module load"
+                      " dapId=%lu requested=%lu resolved=%lu\n",
+                      static_cast<unsigned long> (pend.dapId),
+                      static_cast<unsigned long> (pend.line),
+                      static_cast<unsigned long> (result.resolvedLine));
         }
     }
 

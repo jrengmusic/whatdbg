@@ -27,13 +27,9 @@ public:
     ULONG targetProcessId { 0 };
 
     // ── Deferred events (set by COM callbacks, consumed by main loop) ──
-    // Breakpoint hit: stored body for DAP stopped event
-    juce::var pendingStoppedBody;
-
-    // Breakpoint hit: engine ID and thread ID for stopped event
-    bool  hasBreakpointHit      { false };
-    ULONG breakpointEngineId    { 0 };
-    ULONG breakpointThreadId    { 0 };
+    // Breakpoint hit: engine ID for stopped event
+    bool  hasBreakpointHit   { false };
+    ULONG breakpointEngineId { 0 };
 
     // Step completion: flag for DAP stopped event with reason "step"
     bool hasStepCompleted { false };

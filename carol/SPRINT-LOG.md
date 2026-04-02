@@ -111,6 +111,83 @@
 
 ## SPRINT HISTORY
 
+## Sprint 12: Comprehensive Audit + Clean Sweep + Multi-Thread Frame Fix
+
+**Date:** 2026-04-02
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — Planning, research coordination, delegation, direct fixes (dx scope bug, formatSymbolValue duplicate, diagnostic logging, narrowing conversion)
+- Auditor — Full codebase audit: 45 findings across 7 categories (4 critical, 22 high, 14 medium, 5 low)
+- Machinist — Clean sweep: dead code removal, early return elimination, file splitting, dispatch table, DynObj consolidation, logging unification, duplicated code extraction, ARCHITECTURE.md update
+- Researcher — dbgmodel.dll Data Model feasibility research (NatVis, IHostDataModelAccess, dbgmodel.dll location, sidecar compatibility)
+- Engineer — dx-based NatVis integration attempt (reverted — scope contamination), multi-thread frame ID mapping fix
+- Librarian — dbgeng Evaluate API research (Execute ?? vs Evaluate, secondary client, C++ expression syntax)
+
+### Files Modified (16 total)
+
+**Dead code removal:**
+- `Source/debug/State.h` — Removed `pendingStoppedBody` (never used), `breakpointThreadId` (replaced by getEventThreadSystemId)
+- `Source/dap/Types.h` — Removed dead `getInt()` function; `DynObj` alias now canonical here
+- `Source/debug/Callbacks.cpp` — Removed write to deleted `breakpointThreadId`
+
+**Early return elimination:**
+- `Source/dap/Reader.cpp` — 3 early returns in `run()` refactored to `isConnected` flag + positive nested checks
+
+**File splitting (Session.cpp 1228 lines → 3 files):**
+- `Source/debug/Session.cpp` — Lifecycle only (~370 lines): init, launch, attach, shutdown, stepping, interrupt, breakpoints, symbols, threads
+- `Source/debug/SessionInspection.cpp` — New: `CaptureOutputCallback`, `enumerateSymbols` shared helper, `getStackTrace`, `getLocals`, `getVariableChildren`, `evaluateExpression`
+- `Source/debug/SessionPrettyPrint.cpp` — New: `prettyPrint` split into `prettyPrintJuceString`, `prettyPrintStdString`, `prettyPrintUniquePtr`, `prettyPrintVector`; `formatSymbolValue`, `stripDecimalPrefix`, `readTargetString`, `parseHexAddress`, `findChildByName`, `getChildValueText`
+- `Source/debug/PrettyPrint.h` — New: shared declarations in `debug::detail` namespace
+
+**Dispatch table:**
+- `Source/Whatdbg.h` — Added `#include <functional>`, `CommandHandler` alias, `commandHandlers` map; added `nextFrameId`, `frameIdMap`, `lastScopesThreadId` members
+- `Source/Whatdbg.cpp` — 16-branch else-if → `std::unordered_map` dispatch table in constructor; `handleStackTrace` assigns unique frame IDs with thread mapping; `handleScopes` decodes frameId → (threadId, frameIndex) and sets thread context; `handleVariables` restores thread context
+
+**Logging unification:**
+- `Source/debug/BreakpointManager.cpp` — All 11 `juce::Logger::writeToLog` → `logWrite`; `using DynObj` → `using dap::DynObj`
+
+**Documentation:**
+- `ARCHITECTURE.md` — Updated to v0.3.0: three-file Session split, variable inspection, expression evaluation, ODS capture, pause, multi-thread, stepping, terminate, symbol group caching, dispatch table, debug-only logging
+
+### Alignment Check
+- [x] BLESSED principles followed (Lean: Session.cpp split 1228→~370 lines, prettyPrint split into 4 per-type functions, dispatch table replaces 16-branch chain; Bound: dead fields removed, early returns eliminated; SSOT: DynObj defined once, enumerateSymbols shared helper eliminates duplicate loop, stripDecimalPrefix eliminates duplicate 0n logic; Explicit: all logging via logWrite)
+- [x] NAMES.md adhered (enumerateSymbols, stripDecimalPrefix, prettyPrintJuceString — semantic verb-noun names)
+- [x] MANIFESTO.md applied (zero early returns after fix, positive nested checks throughout)
+- [x] JRENG-CODING-STANDARD.md — brace init, not/and/or, const before type
+
+### Problems Solved
+
+**Problem 1 — Multi-thread frame ID collision**
+frameIds were non-unique (0, 1, 2 per thread). nvim-dap requests stackTrace for all 43+ threads. After enumeration, current thread context was last thread, not event thread. Variables showed garbage/null. Fix: globally unique frameIds via `nextFrameId++` counter, `frameIdMap` maps frameId → (threadSystemId, frameIndex). `handleScopes` decodes and sets thread context. `handleVariables` restores from `lastScopesThreadId`.
+
+**Problem 2 — dx command corrupts session-global scope**
+Attempted NatVis via `dx -r0` in getLocals. `dx` internally modifies scope context, corrupting `GetSymbolValueText` results. Secondary client doesn't isolate scope. Fix: reverted dx from getLocals. dx remains in evaluateExpression (REPL) where one-shot scope changes are acceptable.
+
+**Problem 3 — DbgModel.h compilation error**
+`DbgModel.h` line 12811: `syntax error: '<' was unexpected`. SDK header uses C++20/WinRT constructs incompatible with project settings. Fix: abandoned C++ Data Model API approach. Using `dx` command via Execute for NatVis evaluation in REPL only.
+
+**Problem 4 — Session.cpp 4x line limit**
+1228 lines, limit 300. Fix: split into Session.cpp (lifecycle), SessionInspection.cpp (variables/stack/evaluate), SessionPrettyPrint.cpp (type formatters). Shared declarations in PrettyPrint.h.
+
+**Problem 5 — 16-branch dispatch chain**
+`handleCommand` had 16 else-if string comparisons, limit 3. Fix: `std::unordered_map<std::string, CommandHandler>` dispatch table. O(1) lookup, data-driven, adding commands is data not code.
+
+**Problem 6 — Duplicated getLocals/getVariableChildren**
+~60 lines of identical symbol enumeration code. Fix: `enumerateSymbols` shared helper with parent filter parameter.
+
+### Technical Debt / Follow-up
+- `fopen`/`fclose` raw C I/O — should be `juce::FileLogger` (logged, deferred)
+- `cachedSymbolGroup` is raw owning pointer — should be `ComPtr<IDebugSymbolGroup2>`
+- `secondaryClient` in evaluateExpression is raw pointer — should be `ComPtr`
+- BreakpointManager.cpp still 530 lines (limit 300) — handleSetBreakpoints ~230 lines, tryResolve ~130 lines
+- tryResolve still has 4 early returns (pre-existing from Sprint 3)
+- Whatdbg.cpp still ~580 lines — processDeferredEvents ~120 lines
+- Exception callback has 6 branches (limit 3) — should be lookup table
+- `isInitialBreakHandled` set in Callbacks.cpp but only read within same callback — could be local static
+- NatVis in variables panel deferred — dx contaminates scope, DbgModel.h won't compile
+- `leakDetector` members visible in variable expansion
+
 ## Sprint 11: Expression Evaluation, Multi-Thread, Symbol Group Caching, Terminate Fix
 
 **Date:** 2026-04-02

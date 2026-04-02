@@ -153,7 +153,6 @@ HRESULT EventCallbacks::Breakpoint (PDEBUG_BREAKPOINT bp)
 
         state->hasBreakpointHit = true;
         state->breakpointEngineId = engineId;
-        state->breakpointThreadId = 1;  // hardcoded: single-thread model, matches handleThreads
         state->executionState = ExecutionState::stopped;
 
         logWrite ("WHATDBG: Breakpoint hit, engineId=%lu\n", engineId);

@@ -7,11 +7,30 @@
 
 static constexpr ULONG kPollTimeoutMs { 50 };
 
-using DynObj = juce::ReferenceCountedObjectPtr<juce::DynamicObject>;
+using dap::DynObj;
 
 Whatdbg::Whatdbg ()
     : breakpointManager { session }
 {
+    commandHandlers = {
+        { "initialize",        [this] (const juce::var& m) { handleInitialize (m); } },
+        { "launch",            [this] (const juce::var& m) { handleLaunch (m); } },
+        { "attach",            [this] (const juce::var& m) { handleAttach (m); } },
+        { "configurationDone", [this] (const juce::var& m) { handleConfigurationDone (m); } },
+        { "disconnect",        [this] (const juce::var& m) { handleDisconnect (m); } },
+        { "terminate",         [this] (const juce::var& m) { handleDisconnect (m); } },
+        { "setBreakpoints",    [this] (const juce::var& m) { handleSetBreakpoints (m); } },
+        { "threads",           [this] (const juce::var& m) { handleThreads (m); } },
+        { "stackTrace",        [this] (const juce::var& m) { handleStackTrace (m); } },
+        { "scopes",            [this] (const juce::var& m) { handleScopes (m); } },
+        { "variables",         [this] (const juce::var& m) { handleVariables (m); } },
+        { "continue",          [this] (const juce::var& m) { handleContinue (m); } },
+        { "next",              [this] (const juce::var& m) { handleNext (m); } },
+        { "stepIn",            [this] (const juce::var& m) { handleStepIn (m); } },
+        { "stepOut",           [this] (const juce::var& m) { handleStepOut (m); } },
+        { "pause",             [this] (const juce::var& m) { handlePause (m); } },
+        { "evaluate",          [this] (const juce::var& m) { handleEvaluate (m); } },
+    };
 }
 
 bool Whatdbg::initialize (const juce::File& sidecarDir) noexcept
@@ -111,25 +130,15 @@ void Whatdbg::handleCommand (const juce::var& message)
     {
         const juce::String command { message["command"].toString () };
         const int seq { static_cast<int> (message["seq"]) };
+
         logWrite ("[Whatdbg] command=%s seq=%d\n", command.toRawUTF8 (), seq);
 
-        if      (command == "initialize")        handleInitialize (message);
-        else if (command == "launch")            handleLaunch (message);
-        else if (command == "attach")            handleAttach (message);
-        else if (command == "configurationDone") handleConfigurationDone (message);
-        else if (command == "disconnect")        handleDisconnect (message);
-        else if (command == "terminate")         handleDisconnect (message);
-        else if (command == "setBreakpoints")    handleSetBreakpoints (message);
-        else if (command == "threads")           handleThreads (message);
-        else if (command == "stackTrace")        handleStackTrace (message);
-        else if (command == "scopes")            handleScopes (message);
-        else if (command == "variables")         handleVariables (message);
-        else if (command == "continue")          handleContinue (message);
-        else if (command == "next")          handleNext (message);
-        else if (command == "stepIn")        handleStepIn (message);
-        else if (command == "stepOut")       handleStepOut (message);
-        else if (command == "pause")         handlePause (message);
-        else if (command == "evaluate")      handleEvaluate (message);
+        const auto it { commandHandlers.find (command.toStdString ()) };
+
+        if (it != commandHandlers.end ())
+        {
+            it->second (message);
+        }
         else
         {
             sendResponse (dap::makeErrorResponse (seq, command, "Unknown command"));
