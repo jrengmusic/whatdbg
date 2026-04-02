@@ -10,7 +10,7 @@
 #   ├── whatdbg/
 #   │   ├── CMakeLists.txt      <- This file
 #   │   ├── Source/             <- Your .cpp/.h files
-#   │   └── Resources/windows/  <- DbgEng DLLs (BinaryData)
+#   │   └── Resources/windows/{x64,arm64}/  <- DbgEng DLLs (BinaryData)
 #   └── JUCE/                   <- JUCE framework (sibling)
 # ============================================================================
 
@@ -42,12 +42,22 @@ set(SOURCE_MODE "AUTO_GLOB")
 set(SOURCE_FILES)
 
 if(WIN32)
+    if(CMAKE_SYSTEM_PROCESSOR STREQUAL "ARM64")
+        set(BINARY_DATA_ARCH "arm64")
+    else()
+        set(BINARY_DATA_ARCH "x64")
+    endif()
+
+    set(BINARY_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Resources/windows/${BINARY_DATA_ARCH}")
+
     set(BINARY_DATA_FILES
-        "${CMAKE_CURRENT_SOURCE_DIR}/Resources/windows/dbgeng.dll"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Resources/windows/dbghelp.dll"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Resources/windows/dbgcore.dll"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Resources/windows/symsrv.dll"
+        "${BINARY_DATA_DIR}/dbgeng.dll"
+        "${BINARY_DATA_DIR}/dbghelp.dll"
+        "${BINARY_DATA_DIR}/dbgcore.dll"
+        "${BINARY_DATA_DIR}/symsrv.dll"
     )
+
+    message(STATUS "BinaryData arch: ${BINARY_DATA_ARCH}")
 endif()
 
 # ============================================================================

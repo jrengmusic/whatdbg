@@ -16,6 +16,9 @@ source:
     - target: win_x64
       file: whatdbg-win-x64.zip
       bin: whatdbg.exe
+    - target: win_arm64
+      file: whatdbg-win-arm64.zip
+      bin: whatdbg.exe
 
 bin:
   whatdbg: "{{source.asset.bin}}"
