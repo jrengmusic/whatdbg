@@ -1,14 +1,13 @@
 # ninja log v6
-178	246	7967845555870159	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_core/juce_core_CompilationTime.cpp.obj	1854df27de20cbaf
-156	590	7967845555647967	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_graphics/juce_graphics_Sheenbidi.c.obj	1f3976db8823dc94
-28	122	7967845554379286	C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/cmake.verify_globs	59370ae986dabb47
-185	2289	7967845555945389	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_data_structures/juce_data_structures.cpp.obj	a761e4ea77f90e93
-33496	34583	7967845889077524	extras/Build/juceaide/juceaide_artefacts/Custom/juceaide.exe	523bfc8a24f70ef
-163	3214	7967845555727118	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_events/juce_events.cpp.obj	69c11710a58417f3
-125	4172	7967845555342893	extras/Build/juceaide/CMakeFiles/juceaide.dir/Main.cpp.obj	515ee5a3bdb223ac
-133	4312	7967845555425033	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/juce_build_tools/juce_build_tools.cpp.obj	6b3cc70109b38935
-169	10550	7967845555783957	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_core/juce_core.cpp.obj	a91af3a0d4740809
-144	24482	7967845555535012	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_graphics/juce_graphics.cpp.obj	9dbbc80388e3cc8a
-149	27803	7967845555587967	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.obj	c5d39a7e8a9e1dc3
-138	33494	7967845555475009	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_gui_basics/juce_gui_basics.cpp.obj	6b511f21dfb228a2
-44	102	7967981765680420	C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/cmake.verify_globs	59370ae986dabb47
+42	119	7967994680049844	C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/cmake.verify_globs	59370ae986dabb47
+170	225	7967994681322766	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_core/juce_core_CompilationTime.cpp.obj	1854df27de20cbaf
+150	538	7967994681119223	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_graphics/juce_graphics_Sheenbidi.c.obj	1f3976db8823dc94
+175	2094	7967994681372756	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_data_structures/juce_data_structures.cpp.obj	a761e4ea77f90e93
+156	2923	7967994681179222	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_events/juce_events.cpp.obj	69c11710a58417f3
+123	3833	7967994680849924	extras/Build/juceaide/CMakeFiles/juceaide.dir/Main.cpp.obj	515ee5a3bdb223ac
+130	3981	7967994680923132	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/juce_build_tools/juce_build_tools.cpp.obj	6b3cc70109b38935
+164	8029	7967994681259224	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_core/juce_core.cpp.obj	a91af3a0d4740809
+139	16239	7967994681013129	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_graphics/juce_graphics.cpp.obj	9dbbc80388e3cc8a
+144	19000	7967994681063150	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.obj	c5d39a7e8a9e1dc3
+135	26837	7967994680973123	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_gui_basics/juce_gui_basics.cpp.obj	6b511f21dfb228a2
+26838	27456	7967994948005019	extras/Build/juceaide/juceaide_artefacts/Custom/juceaide.exe	523bfc8a24f70ef

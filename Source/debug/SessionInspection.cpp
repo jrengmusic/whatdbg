@@ -72,7 +72,9 @@ static void enumerateSymbols (IDebugSymbolGroup2* group, IDebugDataSpaces4* data
 
             const juce::String symbolName { nameBuffer };
 
-            if (not symbolName.startsWithChar ('<'))
+            if (not symbolName.startsWithChar ('<')
+                and not symbolName.startsWith ("leakDetector")
+                and not symbolName.startsWith ("__vfptr"))
             {
                 char typeBuffer[kSymbolTypeSize] {};
                 group->GetSymbolTypeName (i, typeBuffer, kSymbolTypeSize, nullptr);
@@ -243,11 +245,14 @@ juce::String Session::evaluateExpression (const juce::String& expression, int fr
     {
         symbols->SetScopeFrameByIndex (static_cast<ULONG> (frameIndex));
 
-        IDebugClient* secondaryClient { nullptr };
-        const HRESULT createResult { client->CreateClient (&secondaryClient) };
+        Microsoft::WRL::ComPtr<IDebugClient> secondaryClient;
+        IDebugClient* rawSecondary { nullptr };
+        const HRESULT createResult { client->CreateClient (&rawSecondary) };
 
-        if (SUCCEEDED (createResult) and secondaryClient != nullptr)
+        if (SUCCEEDED (createResult) and rawSecondary != nullptr)
         {
+            secondaryClient.Attach (rawSecondary);
+
             CaptureOutputCallback captureCallback;
             secondaryClient->SetOutputMask (DEBUG_OUTPUT_NORMAL | DEBUG_OUTPUT_ERROR);
             secondaryClient->SetOutputCallbacks (&captureCallback);
@@ -309,7 +314,6 @@ juce::String Session::evaluateExpression (const juce::String& expression, int fr
                 }
             }
             secondaryClient->SetOutputCallbacks (nullptr);
-            secondaryClient->Release ();
         }
 
         symbols->ResetScope ();

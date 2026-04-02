@@ -111,6 +111,73 @@
 
 ## SPRINT HISTORY
 
+## Sprint 13: Audit Completion + SPEC + PLAN v5 + Documentation
+
+**Date:** 2026-04-02
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — Planning, delegation, SPEC.md writing, PLAN.md v5.0 update, direct fixes (duplicate variables, narrowing conversion, dx revert, diagnostic logging)
+- Machinist (7 parallel) — tryResolve early returns, ComPtr conversion, BreakpointManager split, Whatdbg split, Exception lookup table, leakDetector/vfptr filter, doxygen documentation
+- Researcher — Mason registry packaging research (registry format, package.yaml, custom registry, CI pipeline, mason-nvim-dap bridge)
+
+### Files Modified (20+ total)
+
+**Audit completion (Machinist sweep — unfinished items from Sprint 12):**
+- `Source/debug/BreakpointManager.cpp` — tryResolve 4 early returns eliminated (single exit point with `engineNotReady` flag + positive nested checks)
+- `Source/debug/BreakpointManagerHandlers.cpp` — New: handleSetBreakpoints + onModuleLoad extracted (326 lines)
+- `Source/Whatdbg.cpp` — Reduced to ~301 lines (core orchestrator only)
+- `Source/WhatdbgHandlers.cpp` — New: 16 DAP command handlers extracted (355 lines)
+- `Source/debug/Session.h` — `cachedSymbolGroup` → `ComPtr<IDebugSymbolGroup2>`
+- `Source/debug/Session.cpp` — `cachedSymbolGroup` manual Release → ComPtr.Reset/Attach
+- `Source/debug/SessionInspection.cpp` — `secondaryClient` → ComPtr; `enumerateSymbols` filters `leakDetector` + `__vfptr`; dx integration removed (scope contamination)
+- `Source/debug/Callbacks.cpp` — Exception 6-branch if-else → 4 static handler functions + lookup map
+
+**Doxygen documentation (all 10 headers):**
+- `Source/Log.h` — logWrite, g_logFile documented
+- `Source/Whatdbg.h` — Whatdbg class, all public methods, all members
+- `Source/dap/Reader.h` — Reader class, start/stop/tryPop
+- `Source/dap/Types.h` — DynObj alias, makeResponse, makeEvent, makeCapabilities, getString
+- `Source/debug/State.h` — All fields with who-sets/who-reads documentation
+- `Source/debug/Session.h` — All public methods with params, returns, thread safety notes
+- `Source/debug/Callbacks.h` — OutputCallbacks, EventCallbacks
+- `Source/debug/Loader.h` — Loader class
+- `Source/debug/BreakpointManager.h` — All public methods
+- `Source/debug/PrettyPrint.h` — All debug::detail functions
+
+**Documentation:**
+- `SPEC.md` — Created v1.0: complete specification with 10 features, user flows, edge cases, error handling, architecture constraints, success criteria
+- `PLAN.md` — Updated to v5.0: all features marked complete, file structure, design decisions, remaining debt
+
+### Alignment Check
+- [x] BLESSED principles followed (Lean: BreakpointManager split 530→224+326, Whatdbg split 580→301+355, Exception 6-branch→lookup; Bound: raw pointers→ComPtr; Explicit: comprehensive doxygen on all public APIs)
+- [x] NAMES.md adhered (handleBreakpoint, handleThreadName, handleSingleStep, handleUnknownException — semantic handler names)
+- [x] MANIFESTO.md applied (tryResolve zero early returns, all audit findings addressed)
+- [x] JRENG-CODING-STANDARD.md — brace init, not/and/or, const before type throughout
+
+### Problems Solved
+
+**Problem 1 — Incomplete audit sweep**
+Sprint 12 Machinist left 7 items unaddressed. Fixed: tryResolve early returns, ComPtr conversion, BreakpointManager split, Whatdbg split, Exception lookup table, leakDetector filter, doxygen. All 45 audit findings now resolved.
+
+**Problem 2 — No SPEC.md**
+ARCHITECT explicitly requested SPEC.md in audit instructions. Written v1.0 covering all 10 features with complete user flows, edge cases, error handling tables. Updated scope: whatdbg is a general-purpose Windows DAP adapter, not limited to JUCE plugins.
+
+**Problem 3 — Stale PLAN.md**
+v4.0 still listed Steps 8-11 as "Remaining". Updated to v5.0 reflecting all completed work, file structure, design decisions, remaining debt.
+
+**Problem 4 — dx scope contamination (discovered and reverted)**
+Attempted NatVis via `dx -r0` in getLocals. `dx` command contaminates session-global scope even from secondary client — GetSymbolValueText returns garbage after dx runs. Reverted to prettyPrint-only. Also attempted DbgModel.h C++ API — header won't compile (C++20/WinRT constructs).
+
+### Technical Debt / Follow-up
+- `fopen`/`fclose` raw C I/O — should be juce::FileLogger
+- Dead EXCEPTION_SINGLE_STEP branch — keep for instruction-level stepping
+- NatVis in variables panel — dx contaminates scope, DbgModel.h won't compile
+- dap-repl routing — nvim-dap-ui limitation #306
+- No tests, no error recovery
+- Mason registry packaging — requires GitHub releases with pre-built binaries + CI pipeline
+- WhatdbgHandlers.cpp 355 lines, BreakpointManagerHandlers.cpp 326 lines — borderline
+
 ## Sprint 12: Comprehensive Audit + Clean Sweep + Multi-Thread Frame Fix
 
 **Date:** 2026-04-02

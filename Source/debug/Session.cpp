@@ -426,12 +426,7 @@ HRESULT Session::removeBreakpoint (ULONG engineId) noexcept
 
 void Session::resetSymbolGroupCache () noexcept
 {
-    if (cachedSymbolGroup != nullptr)
-    {
-        cachedSymbolGroup->Release ();
-        cachedSymbolGroup = nullptr;
-    }
-
+    cachedSymbolGroup.Reset ();
     cachedFrameIndex = -1;
 }
 
@@ -443,15 +438,11 @@ IDebugSymbolGroup2* Session::getOrCreateSymbolGroup (int frameIndex) noexcept
     {
         if (cachedSymbolGroup != nullptr and cachedFrameIndex == frameIndex)
         {
-            result = cachedSymbolGroup;
+            result = cachedSymbolGroup.Get ();
         }
         else
         {
-            if (cachedSymbolGroup != nullptr)
-            {
-                cachedSymbolGroup->Release ();
-                cachedSymbolGroup = nullptr;
-            }
+            cachedSymbolGroup.Reset ();
 
             symbols->SetScopeFrameByIndex (static_cast<ULONG> (frameIndex));
 
@@ -461,9 +452,9 @@ IDebugSymbolGroup2* Session::getOrCreateSymbolGroup (int frameIndex) noexcept
 
             if (SUCCEEDED (hr) and group != nullptr)
             {
-                cachedSymbolGroup = group;
-                cachedFrameIndex  = frameIndex;
-                result = cachedSymbolGroup;
+                cachedSymbolGroup.Attach (group);
+                cachedFrameIndex = frameIndex;
+                result = cachedSymbolGroup.Get ();
             }
         }
     }

@@ -56,8 +56,10 @@ file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/Users/jreng/Documents/Poem
 set(OLD_GLOB
   "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/Main.cpp"
   "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/Whatdbg.cpp"
+  "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/WhatdbgHandlers.cpp"
   "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/dap/Reader.cpp"
   "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/BreakpointManager.cpp"
+  "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/BreakpointManagerHandlers.cpp"
   "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/Callbacks.cpp"
   "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/Loader.cpp"
   "C:/Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/Session.cpp"

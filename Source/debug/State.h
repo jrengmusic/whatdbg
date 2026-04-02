@@ -5,48 +5,149 @@
 namespace debug
 {
 
+/** Execution lifecycle states for the debug target.
+ *
+ *  Represents the coarse state machine of a debug session as seen by the DAP layer.
+ *  Transitions are driven by Session and surfaced to Whatdbg via processDeferredEvents.
+ */
 enum class ExecutionState : int
 {
-    idle      = 0,
-    launching = 1,
-    running   = 2,
-    stopped   = 3,
-    exited    = 4
+    idle      = 0,  ///< No target attached. Initial state.
+    launching = 1,  ///< launch or attach request sent; waiting for first CreateProcess event.
+    running   = 2,  ///< Target is executing. Resume/step have been issued.
+    stopped   = 3,  ///< Target is paused at a breakpoint, step completion, or exception.
+    exited    = 4   ///< Target process has exited. Session is shutting down.
 };
 
+/** Single Source of Truth for all mutable debug session state.
+ *
+ *  State is the SSOT shared between Session, BreakpointManager, and Whatdbg.
+ *  It is registered as a jreng::Context so that any subsystem can resolve it
+ *  without an explicit pointer argument.
+ *
+ *  Fields are grouped by concern. COM callbacks (EventCallbacks) write deferred-event
+ *  flags; the Whatdbg main loop reads and clears them in processDeferredEvents().
+ *  All access must occur on the main thread unless a field is explicitly noted otherwise.
+ *
+ *  @note Declared first in Whatdbg so that jreng::Context registration happens before
+ *        any dependent object is constructed.
+ */
 class State : public jreng::Context<State>
 {
 public:
     State () = default;
 
     // ── Execution ──────────────────────────────────────────────────────
+
+    /** Current execution lifecycle state of the debug target.
+     *
+     *  Set by Whatdbg command handlers and by processDeferredEvents in response
+     *  to deferred callback flags. Read by handleContinue, handleNext, and others
+     *  to guard against invalid operations in the wrong state.
+     */
     ExecutionState executionState { ExecutionState::idle };
+
+    /** True once the dbgeng initial break (loader breakpoint) has been observed.
+     *
+     *  Set by EventCallbacks::Breakpoint when it detects the first breakpoint
+     *  hit before any user breakpoints have been registered. Prevents the initial
+     *  break from being forwarded to the DAP client as a user-visible stop.
+     */
     bool isInitialBreakSeen { false };
+
+    /** True once the initial break has been acknowledged and execution resumed.
+     *
+     *  Set by Whatdbg::handleConfigurationDone after it resumes past the loader
+     *  breakpoint. Prevents double-resume if configurationDone arrives before the
+     *  initial break event is processed.
+     */
     bool isInitialBreakHandled { false };
+
+    /** Exit code of the debuggee process.
+     *
+     *  Set by EventCallbacks::ExitProcess. Read by processDeferredEvents to include
+     *  in the DAP exited event body.
+     */
     int processExitCode { 0 };
+
+    /** OS process ID of the debug target.
+     *
+     *  Set by Whatdbg::handleLaunch / handleAttach after Session::launch or
+     *  Session::attach succeeds. Used by Session::interrupt to send DebugBreakProcess.
+     */
     ULONG targetProcessId { 0 };
 
     // ── Deferred events (set by COM callbacks, consumed by main loop) ──
-    // Breakpoint hit: engine ID for stopped event
+
+    /** Set by EventCallbacks::Breakpoint when a user-registered breakpoint is hit.
+     *
+     *  Consumed by processDeferredEvents to emit a DAP stopped event with
+     *  reason "breakpoint". Cleared after consumption.
+     */
     bool  hasBreakpointHit   { false };
+
+    /** Engine breakpoint ID that caused the most recent breakpoint stop.
+     *
+     *  Set alongside hasBreakpointHit. Passed to BreakpointManager::onBreakpointHit
+     *  to produce the correct hitBreakpointIds array in the DAP stopped body.
+     */
     ULONG breakpointEngineId { 0 };
 
-    // Step completion: flag for DAP stopped event with reason "step"
+    /** Set by EventCallbacks when a step operation has completed.
+     *
+     *  Consumed by processDeferredEvents to emit a DAP stopped event with
+     *  reason "step". Cleared after consumption.
+     */
     bool hasStepCompleted { false };
 
-    // Module load: flag for deferred BP resolution
+    /** Set by EventCallbacks::LoadModule when a new module is loaded into the target.
+     *
+     *  Consumed by processDeferredEvents to trigger BreakpointManager::onModuleLoad
+     *  so that pending breakpoints can be resolved against the new module's symbols.
+     *  Cleared after consumption.
+     */
     bool hasNewModuleLoaded { false };
+
+    /** Display name of the most recently loaded module.
+     *
+     *  Set alongside hasNewModuleLoaded. Used for logging and for deciding whether
+     *  per-module symbol reload is needed.
+     */
     juce::String lastLoadedModuleName;
+
+    /** Image file name (full path) of the most recently loaded module.
+     *
+     *  Set alongside hasNewModuleLoaded. Passed to Session::loadModuleSymbols so
+     *  dbgeng reloads PDB symbols for that specific DLL.
+     */
     juce::String lastLoadedImageName;
 
-    // Pending breakpoints: flag for LoadModule to decide whether to break
+    /** True when at least one breakpoint is waiting to be resolved.
+     *
+     *  Set by BreakpointManager::handleSetBreakpoints when a breakpoint cannot be
+     *  resolved immediately (symbols not yet loaded). Read by EventCallbacks::LoadModule
+     *  to decide whether to set hasNewModuleLoaded and trigger resolution.
+     */
     bool hasPendingBreakpoints { false };
 
-    // Process exit: flag
+    /** Set by EventCallbacks::ExitProcess when the target process exits.
+     *
+     *  Consumed by processDeferredEvents to emit DAP exited and terminated events
+     *  and transition executionState to exited. Cleared after consumption.
+     */
     bool hasProcessExited { false };
 
-    // Debuggee output: OutputDebugString captured from target
+    /** Set by OutputCallbacks::Output2 when the target writes to OutputDebugString.
+     *
+     *  Consumed by processDeferredEvents to emit a DAP output event with
+     *  category "stdout". Cleared after consumption.
+     */
     bool hasDebuggeeOutput { false };
+
+    /** Text captured from the target via OutputDebugString.
+     *
+     *  Set alongside hasDebuggeeOutput. Forwarded verbatim in the DAP output event body.
+     */
     juce::String debuggeeOutputText;
 
 private:

@@ -5,6 +5,55 @@
 
 static constexpr DWORD MS_VC_EXCEPTION { 0x406D1388 };
 
+//==============================================================================
+// Exception handlers
+//==============================================================================
+
+using ExceptionHandler = HRESULT (*) (debug::State*, ULONG firstChance);
+
+static HRESULT handleBreakpoint (debug::State* state, ULONG /*firstChance*/)
+{
+    HRESULT result { DEBUG_STATUS_BREAK };
+
+    if (not state->isInitialBreakHandled)
+    {
+        state->isInitialBreakHandled = true;
+        state->isInitialBreakSeen = true;
+    }
+
+    state->executionState = debug::ExecutionState::stopped;
+    return result;
+}
+
+static HRESULT handleThreadName (debug::State* /*state*/, ULONG /*firstChance*/)
+{
+    return DEBUG_STATUS_GO_NOT_HANDLED;
+}
+
+static HRESULT handleSingleStep (debug::State* state, ULONG /*firstChance*/)
+{
+    state->hasStepCompleted = true;
+    state->executionState = debug::ExecutionState::stopped;
+    return DEBUG_STATUS_BREAK;
+}
+
+static HRESULT handleUnknownException (debug::State* /*state*/, ULONG firstChance)
+{
+    HRESULT result { DEBUG_STATUS_BREAK };
+
+    if (firstChance != 0)
+        result = DEBUG_STATUS_GO_NOT_HANDLED;
+
+    return result;
+}
+
+static const std::unordered_map<DWORD, ExceptionHandler> exceptionHandlers
+{
+    { EXCEPTION_BREAKPOINT,  handleBreakpoint      },
+    { MS_VC_EXCEPTION,       handleThreadName       },
+    { EXCEPTION_SINGLE_STEP, handleSingleStep       },
+};
+
 namespace debug
 {
 
@@ -167,41 +216,12 @@ HRESULT EventCallbacks::Exception (PEXCEPTION_RECORD64 exception, ULONG firstCha
               static_cast<unsigned long> (exception->ExceptionCode),
               static_cast<unsigned long> (firstChance));
 
-    HRESULT result { DEBUG_STATUS_NO_CHANGE };
+    const auto entry { exceptionHandlers.find (exception->ExceptionCode) };
+    const ExceptionHandler handler { entry != exceptionHandlers.end ()
+                                         ? entry->second
+                                         : handleUnknownException };
 
-    if (not State::getContext ()->isInitialBreakHandled
-        and exception->ExceptionCode == EXCEPTION_BREAKPOINT)
-    {
-        State::getContext ()->isInitialBreakHandled = true;
-        State::getContext ()->isInitialBreakSeen = true;
-        State::getContext ()->executionState = ExecutionState::stopped;
-        result = DEBUG_STATUS_BREAK;
-    }
-    else if (exception->ExceptionCode == EXCEPTION_BREAKPOINT)
-    {
-        State::getContext ()->executionState = ExecutionState::stopped;
-        result = DEBUG_STATUS_BREAK;
-    }
-    else if (exception->ExceptionCode == MS_VC_EXCEPTION)
-    {
-        result = DEBUG_STATUS_GO_NOT_HANDLED;
-    }
-    else if (exception->ExceptionCode == EXCEPTION_SINGLE_STEP)
-    {
-        State::getContext ()->hasStepCompleted = true;
-        State::getContext ()->executionState = ExecutionState::stopped;
-        result = DEBUG_STATUS_BREAK;
-    }
-    else if (firstChance != 0)
-    {
-        result = DEBUG_STATUS_GO_NOT_HANDLED;
-    }
-    else
-    {
-        result = DEBUG_STATUS_BREAK;
-    }
-
-    return result;
+    return handler (State::getContext (), firstChance);
 }
 
 HRESULT EventCallbacks::CreateThread (ULONG64 /*handle*/, ULONG64 /*dataOffset*/, ULONG64 /*startOffset*/)
