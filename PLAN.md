@@ -1,5 +1,7 @@
-# PLAN — WHATDBG JUCE Rewrite
+# PLAN — whatdbg
+## Windows Host Abstraction Translator for dbgeng
 
+**Repository:** https://github.com/jrengmusic/whatdbg
 **Version:** 5.0
 **Date:** 2026-04-02
 **Author:** COUNSELOR
@@ -9,8 +11,8 @@
 
 ## Objective
 
-Build whatdbg as a JUCE console application.
-Target: debug JUCE audio plugins loaded in a DAW (REAPER) via nvim-dap.
+DAP debug adapter for Windows C/C++ development with neovim.
+Built as a JUCE console application using Microsoft's dbgeng COM API.
 
 ---
 

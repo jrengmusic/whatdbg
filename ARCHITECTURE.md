@@ -1,10 +1,13 @@
 # whatdbg - Architecture
+## Windows Host Abstraction Translator for dbgeng
+
+**Repository:** https://github.com/jrengmusic/whatdbg
 
 **Purpose:** Single source of truth for project structure, patterns, and contracts.
 
 **Status:** Active
 
-**Last Updated:** 2026-04-01
+**Last Updated:** 2026-04-02
 
 **Version:** 0.3.0
 
@@ -14,7 +17,7 @@
 
 ### Purpose
 
-whatdbg is a DAP (Debug Adapter Protocol) adapter for debugging JUCE audio plugins loaded in DAWs on Windows. It uses the dbgeng COM API to attach to or launch host processes, then bridges DAP requests from nvim-dap to dbgeng operations over stdin/stdout.
+whatdbg (Windows Host Abstraction Translator for dbgeng) is a DAP (Debug Adapter Protocol) debug adapter for Windows C/C++ development with neovim. It uses the dbgeng COM API (the engine behind WinDbg) to attach to or launch any Windows executable, then bridges DAP requests from nvim-dap to dbgeng operations over stdin/stdout.
 
 ### Architecture Philosophy
 

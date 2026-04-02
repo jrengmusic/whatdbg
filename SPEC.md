@@ -1,8 +1,11 @@
 # whatdbg Specification v1.0
+## Windows Host Abstraction Translator for dbgeng
+
+**Repository:** https://github.com/jrengmusic/whatdbg
 
 ## Overview
 
-**Purpose:** A reliable DAP debug adapter for Windows C/C++ development with neovim. No existing DAP adapter for Windows works reliably with nvim + mason. whatdbg fills that gap using Microsoft's dbgeng (the engine behind WinDbg) as its debug backend.
+**Purpose:** whatdbg is a DAP debug adapter for Windows C/C++ development with neovim. No existing DAP adapter for Windows works reliably with nvim + mason. whatdbg fills that gap using Microsoft's dbgeng (the engine behind WinDbg) as its debug backend.
 **Target End-User:** C/C++ developer using neovim + nvim-dap on Windows.
 **Core Workflow:** Launch or attach to any Windows executable (standalone apps, DAW-hosted plugins, services), set breakpoints, step through code, inspect variables, evaluate expressions — all from nvim-dap.
 

@@ -1,7 +1,8 @@
 # SPRINT-LOG.md
+## whatdbg — Windows Host Abstraction Translator for dbgeng
 
 **Project:** whatdbg  
-**Repository:** /c/Users/jreng/Documents/Poems/dev/whatdbg  
+**Repository:** https://github.com/jrengmusic/whatdbg  
 **Started:** 2026-03-15
 
 **Purpose:** Long-term context memory across sessions. Tracks completed work, technical debt, and unresolved issues. Written by PRIMARY agents only when ARCHITECT explicitly requests.
