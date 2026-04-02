@@ -86,19 +86,15 @@ elseif(DEFINED ENV{JUCE_PATH} AND EXISTS "$ENV{JUCE_PATH}/CMakeLists.txt")
 endif()
 
 if(NOT JUCE_FOUND)
-    message(FATAL_ERROR
-        "JUCE framework not found!\n"
-        "\n"
-        "Searched:\n"
-        "  1. JUCE_PATH CMake variable: ${JUCE_PATH}\n"
-        "  2. ${CMAKE_CURRENT_SOURCE_DIR}/../JUCE/\n"
-        "  3. ${CMAKE_CURRENT_SOURCE_DIR}/../../JUCE/\n"
-        "  4. JUCE_PATH environment variable\n"
-        "\n"
-        "Solutions:\n"
-        "  - Clone JUCE to ${CMAKE_CURRENT_SOURCE_DIR}/../JUCE/\n"
-        "  - Pass -DJUCE_PATH=/path/to/JUCE\n"
+    message(STATUS "JUCE not found locally — fetching v8.0.12 via FetchContent")
+    include(FetchContent)
+    FetchContent_Declare(JUCE
+        GIT_REPOSITORY https://github.com/juce-framework/JUCE.git
+        GIT_TAG        8.0.12
+        GIT_SHALLOW    TRUE
     )
+    FetchContent_MakeAvailable(JUCE)
+    set(JUCE_FOUND TRUE)
 endif()
 
 message(STATUS "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")

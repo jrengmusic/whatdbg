@@ -1,0 +1,68 @@
+# Build and release whatdbg on tag push
+# Creates a GitHub Release with:
+#   - whatdbg-win-x64.zip (pre-built binary)
+#   - registry.json.zip   (mason registry index)
+#   - checksums.txt
+#
+# Trigger: push a tag like v0.0.1
+#   git tag v0.0.1
+#   git push origin v0.0.1
+
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout whatdbg
+        uses: actions/checkout@v4
+
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Configure
+        run: |
+          cmake -S . -B Builds/Release -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl
+
+      - name: Build
+        run: |
+          cmake --build Builds/Release -- -j$env:NUMBER_OF_PROCESSORS
+
+      - name: Package binary
+        run: |
+          New-Item -ItemType Directory -Force -Path dist
+          Copy-Item "Builds/Release/whatdbg_App_artefacts/Release/whatdbg.exe" dist/
+          Compress-Archive -Path dist/whatdbg.exe -DestinationPath whatdbg-win-x64.zip
+
+      - name: Build mason registry
+        shell: bash
+        run: |
+          # Update version in package.yaml to match the tag
+          TAG="${GITHUB_REF#refs/tags/}"
+          sed -i "s|@v[0-9.]*|@${TAG}|g" packages/whatdbg/package.yaml
+
+          # Build registry.json.zip
+          pip install yq
+          yq -s '.' packages/*/package.yaml > registry.json
+          7z a registry.json.zip registry.json
+          sha256sum registry.json registry.json.zip whatdbg-win-x64.zip > checksums.txt
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            whatdbg-win-x64.zip
+            registry.json.zip
+            checksums.txt
+          generate_release_notes: true

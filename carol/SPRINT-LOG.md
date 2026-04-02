@@ -112,6 +112,54 @@
 
 ## SPRINT HISTORY
 
+## Sprint 14: Mason Distribution + FetchContent + README + CI
+
+**Date:** 2026-04-02
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — Planning, CI workflow writing, CMakeLists FetchContent, README, package.yaml, doc updates
+- Researcher — Mason registry packaging research (registry format, package.yaml schema, custom registry, CI pipeline, mason-nvim-dap bridge)
+- Engineer — Directory cleanup (deleted mason/ and whatdbg-mason-registry/)
+
+### Files Modified (8 total)
+
+- `README.md` — Created: comprehensive project README (why whatdbg exists, features, build, mason install, nvim-dap config for standalone + plugin debugging, architecture links)
+- `.github/workflows/release.yml` — Created: GitHub Actions CI — builds Release with MSVC+Ninja on tag push, packages whatdbg.exe into whatdbg-win-x64.zip, generates registry.json.zip for mason, creates GitHub Release with all artifacts
+- `packages/whatdbg/package.yaml` — Created: mason package definition (pkg:github/jrengmusic/whatdbg, win_x64 target)
+- `CMakeLists.txt:88-97` — JUCE discovery fallback: FetchContent auto-fetches JUCE 8.0.12 from GitHub when not found locally. Local dev unchanged (sibling directory still preferred)
+- `SPEC.md:1-4` — Added full name, repo URL
+- `PLAN.md:1-4,12-13` — Added full name, repo URL, broadened objective
+- `ARCHITECTURE.md:1-4,17` — Added full name, repo URL, broadened purpose
+- `carol/SPRINT-LOG.md:1-4` — Added full name, repo URL
+
+### Alignment Check
+- [x] BLESSED principles followed (Lean: single repo for binary + registry, no separate registry repo; SSOT: package.yaml version auto-updated by CI from git tag; Explicit: FetchContent version pinned to 8.0.12)
+- [x] NAMES.md adhered
+- [x] MANIFESTO.md applied
+- [x] JRENG-CODING-STANDARD.md — N/A (no C++ changes)
+
+### Problems Solved
+
+**Problem 1 — No distribution path**
+whatdbg had no way to be installed by users. Fix: GitHub Actions CI builds Release binary on tag push, mason package.yaml enables `:MasonInstall whatdbg` via custom registry.
+
+**Problem 2 — JUCE not vendored, CI can't build**
+JUCE found via sibling directory — unavailable in CI. Fix: FetchContent fallback in CMakeLists.txt auto-fetches JUCE 8.0.12 from GitHub. Local dev unaffected (sibling path checked first).
+
+**Problem 3 — Separate mason registry repo overhead**
+Mason requires registry.json.zip as a release asset. Initially planned as a separate repo. Fix: merged into whatdbg repo — release workflow builds both binary and registry artifacts in one job.
+
+**Problem 4 — No README**
+Fix: comprehensive README following END/TIT style — purpose, features, build instructions, mason install, nvim-dap config examples (standalone + DAW plugin debugging).
+
+### Technical Debt / Follow-up
+- CI workflow untested — first run triggered by `git tag v0.0.1 && git push origin v0.0.1`
+- `yq` in CI uses pip install (Python yq) — may need `snap install yq` or direct binary download if pip version is incompatible
+- registry.json.zip format unverified against mason's expectations — needs testing with `:MasonInstall whatdbg`
+- No LICENSE file in repo
+- `fopen`/`fclose` raw C I/O — should be juce::FileLogger (carried)
+
 ## Sprint 13: Audit Completion + SPEC + PLAN v5 + Documentation
 
 **Date:** 2026-04-02
