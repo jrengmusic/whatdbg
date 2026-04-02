@@ -37,7 +37,8 @@ jobs:
 
       - name: Build
         run: |
-          cmake --build Builds/Release -- -j$env:NUMBER_OF_PROCESSORS
+          cmake --build Builds/Release -- -j%NUMBER_OF_PROCESSORS%
+        shell: cmd
 
       - name: Package binary
         run: |

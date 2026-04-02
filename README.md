@@ -54,20 +54,24 @@ whatdbg uses **dbgeng** -- the same engine behind WinDbg -- so it reads MSVC PDB
 
 ---
 
+## Requirements
+
+**Runtime:**
+- Windows 10+ (x64)
+- Neovim with [nvim-dap](https://github.com/mfussenegger/nvim-dap)
+- Target built with MSVC and PDB symbols
+
+**Build from source (optional):**
+- Visual Studio 2022 (MSVC toolchain)
+- CMake 3.25+
+- Ninja
+- JUCE 8 (auto-fetched via FetchContent if not found locally)
+
+---
+
 ## Get Started
 
-### Build from source
-
-Requirements: MSVC (Visual Studio 2022), CMake, Ninja
-
-```bash
-# JUCE is fetched automatically via FetchContent if not found locally
-build.bat Release
-```
-
-The binary lands at `Builds/Ninja/whatdbg_App_artefacts/Release/whatdbg.exe`.
-
-### Install via mason.nvim
+### Install via mason.nvim (recommended)
 
 ```lua
 require("mason").setup {
@@ -79,6 +83,20 @@ require("mason").setup {
 ```
 
 Then `:MasonInstall whatdbg`
+
+### Build from source
+
+```bash
+build.bat Release
+```
+
+The binary lands at `Builds/Ninja/whatdbg_App_artefacts/Release/whatdbg.exe`.
+
+Install to PATH:
+```bash
+./install.sh        # Release build + copy to ~/.local/bin
+./install.sh debug  # Debug build (with file logging)
+```
 
 ### nvim-dap configuration
 
