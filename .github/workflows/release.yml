@@ -93,12 +93,54 @@ jobs:
           7z a registry.json.zip registry.json
           sha256sum registry.json registry.json.zip whatdbg-win-x64.zip whatdbg-win-arm64.zip > checksums.txt
 
+      - name: Generate release notes
+        id: notes
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          PREV_TAG=$(git tag --sort=-v:refname | grep -v "^${TAG}$" | head -1)
+
+          if [ -n "$PREV_TAG" ]; then
+            RANGE="${PREV_TAG}..${TAG}"
+          else
+            RANGE="${TAG}"
+          fi
+
+          {
+            echo "body<<EOF"
+
+            # Group commits by conventional commit type
+            for TYPE_LABEL in "feat:Features" "fix:Fixes" "refactor:Refactors" "perf:Performance" "docs:Documentation" "ci:CI"; do
+              TYPE="${TYPE_LABEL%%:*}"
+              LABEL="${TYPE_LABEL##*:}"
+              COMMITS=$(git log "$RANGE" --pretty=format:"- %s" --grep="^${TYPE}" 2>/dev/null)
+              if [ -n "$COMMITS" ]; then
+                echo "### ${LABEL}"
+                echo "$COMMITS" | sed "s/^- ${TYPE}: /- /; s/^- ${TYPE}(/- (/"
+                echo ""
+              fi
+            done
+
+            # Uncategorized commits
+            UNCATEGORIZED=$(git log "$RANGE" --pretty=format:"%s" | grep -v -E "^(feat|fix|refactor|perf|docs|ci)[:(]" || true)
+            if [ -n "$UNCATEGORIZED" ]; then
+              echo "### Other"
+              echo "$UNCATEGORIZED" | sed 's/^/- /'
+              echo ""
+            fi
+
+            if [ -n "$PREV_TAG" ]; then
+              echo "**Full Changelog:** [\`${PREV_TAG}...${TAG}\`](https://github.com/${{ github.repository }}/compare/${PREV_TAG}...${TAG})"
+            fi
+
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
+          body: ${{ steps.notes.outputs.body }}
           files: |
             whatdbg-win-x64.zip
             whatdbg-win-arm64.zip
             registry.json.zip
             checksums.txt
-          generate_release_notes: true
