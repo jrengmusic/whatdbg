@@ -28,9 +28,17 @@ jobs:
           - arch: x64
             msvc_arch: x64
             artifact: whatdbg-win-x64
+            generator: Ninja
+            configure_flags: -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl
+            build_flags: -- -j%NUMBER_OF_PROCESSORS%
+            exe_path: Builds/Release/whatdbg_App_artefacts/Release/whatdbg.exe
           - arch: arm64
             msvc_arch: amd64_arm64
             artifact: whatdbg-win-arm64
+            generator: Visual Studio 17 2022
+            configure_flags: -A ARM64 -DCMAKE_SYSTEM_PROCESSOR=ARM64
+            build_flags: --config Release
+            exe_path: Builds/Release/whatdbg_App_artefacts/Release/whatdbg.exe
 
     steps:
       - name: Checkout whatdbg
@@ -43,17 +51,17 @@ jobs:
 
       - name: Configure
         run: |
-          cmake -S . -B Builds/Release -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_SYSTEM_PROCESSOR=${{ matrix.arch == 'arm64' && 'ARM64' || 'AMD64' }}
+          cmake -S . -B Builds/Release -G "${{ matrix.generator }}" ${{ matrix.configure_flags }}
 
       - name: Build
         run: |
-          cmake --build Builds/Release -- -j%NUMBER_OF_PROCESSORS%
+          cmake --build Builds/Release ${{ matrix.build_flags }}
         shell: cmd
 
       - name: Package binary
         run: |
           New-Item -ItemType Directory -Force -Path dist
-          Copy-Item "Builds/Release/whatdbg_App_artefacts/Release/whatdbg.exe" dist/
+          Copy-Item "${{ matrix.exe_path }}" dist/
           Compress-Archive -Path dist/whatdbg.exe -DestinationPath ${{ matrix.artifact }}.zip
 
       - name: Upload artifact
