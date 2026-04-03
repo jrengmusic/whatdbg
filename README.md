@@ -71,19 +71,6 @@ whatdbg uses **dbgeng** -- the same engine behind WinDbg -- so it reads MSVC PDB
 
 ## Get Started
 
-### Install via mason.nvim (recommended)
-
-```lua
-require("mason").setup {
-  registries = {
-    "github:jrengmusic/whatdbg",
-    "github:mason-org/mason-registry",
-  }
-}
-```
-
-Then `:MasonInstall whatdbg`
-
 ### Build from source
 
 ```bash
@@ -128,20 +115,20 @@ dap.configurations.cpp = {
 }
 ```
 
-### DAW plugin debugging (JUCE + REAPER)
+### DAW plugin debugging (JUCE + DAW)
 
 ```lua
 {
-  name = "Debug Plugin in REAPER",
+  name = "Debug Plugin in DAW",
   type = "whatdbg",
   request = "launch",
-  program = "C:/Program Files/REAPER (x64)/reaper.exe",
+  program = "C:/Program Files/DAW/yourDAWofChoice.exe",
   sourcePath = "${workspaceFolder}",
   symbolPath = "${workspaceFolder}",
 }
 ```
 
-Launch REAPER, load your plugin, set breakpoints in plugin code, hit them.
+Launch DAW, load your plugin, set breakpoints in plugin code, hit them.
 
 ---
 
