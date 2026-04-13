@@ -5,7 +5,7 @@
 #   - registry.json.zip     (mason registry index)
 #   - checksums.txt
 #
-# Trigger: push a tag like v0.0.1
+# Trigger: push a tag like v0.0.1 or 0.0.1
 #   git tag v0.0.1
 #   git push origin v0.0.1
 
@@ -15,6 +15,7 @@ on:
   push:
     tags:
       - 'v*'
+      - '[0-9]*'
 
 permissions:
   contents: write

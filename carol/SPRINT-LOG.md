@@ -123,11 +123,13 @@
 - Engineer — Diagnostic logging in Reader, CreateProcess callback fix (reverted), initial break BP resolution, DRY extraction
 - Auditor — BLESSED compliance audit (found DRY/SSOT violation in duplicated resolution block)
 
-### Files Modified (4 total)
+### Files Modified (7 total)
 - `Source/dap/Reader.cpp:98-121` — Added diagnostic logWrite: parsed message type/command, FIFO-full drop warning, JSON parse failure
 - `Source/Whatdbg.h:174-182` — Added `resolveAndResumeAfterInitialBreak()` private method declaration with doxygen
 - `Source/Whatdbg.cpp:158,268-289` — Collapsed `processDeferredEvents` initial break handler to call `resolveAndResumeAfterInitialBreak()`; added method implementation (forceReloadAllSymbols + onModuleLoad + resume + thread event)
 - `Source/WhatdbgHandlers.cpp:85-88` — Collapsed `handleConfigurationDone` stopped branch to call `resolveAndResumeAfterInitialBreak()`
+- `retag.sh` → `release.sh` — Renamed, aligned with TIT release workflow (gh release delete + cleanup-tag, optional commit message)
+- `.github/workflows/release.yml:17` — Accept bare version tags (`[0-9]*`) in addition to v-prefixed (`v*`)
 
 ### Alignment Check
 - [x] BLESSED principles followed (SSOT: extracted duplicated BP resolution into single method; Explicit: clear method name describes intent; Lean: no new patterns, reuses existing onModuleLoad/forceReloadAllSymbols)
