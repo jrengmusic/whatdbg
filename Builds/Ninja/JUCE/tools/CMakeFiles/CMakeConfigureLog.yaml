@@ -60,7 +60,9 @@ events:
       - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
       - "C:/Program Files/Neovim/bin/"
       - "C:/Program Files/PowerToys/DSCModules/"
+      - "C:/Program Files/GitHub CLI/"
       - "C:/Users/jreng/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/jreng/AppData/Local/Microsoft/WinGet/Links/"
       - "C:/msys64/usr/bin/site_perl/"
       - "C:/msys64/usr/bin/vendor_perl/"
       - "C:/msys64/usr/bin/core_perl/"
@@ -112,7 +114,9 @@ events:
         - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit"
         - "C:\\Program Files\\Neovim\\bin"
         - "C:\\Program Files\\PowerToys\\DSCModules"
+        - "C:\\Program Files\\GitHub CLI"
         - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WinGet\\Links"
         - "C:\\msys64\\usr\\bin\\site_perl"
         - "C:\\msys64\\usr\\bin\\vendor_perl"
         - "C:\\msys64\\usr\\bin\\core_perl"
@@ -190,7 +194,9 @@ events:
         - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit"
         - "C:\\Program Files\\Neovim\\bin"
         - "C:\\Program Files\\PowerToys\\DSCModules"
+        - "C:\\Program Files\\GitHub CLI"
         - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WinGet\\Links"
         - "C:\\msys64\\usr\\bin\\site_perl"
         - "C:\\msys64\\usr\\bin\\vendor_perl"
         - "C:\\msys64\\usr\\bin\\core_perl"
@@ -310,7 +316,9 @@ events:
       - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
       - "C:/Program Files/Neovim/bin/"
       - "C:/Program Files/PowerToys/DSCModules/"
+      - "C:/Program Files/GitHub CLI/"
       - "C:/Users/jreng/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/jreng/AppData/Local/Microsoft/WinGet/Links/"
       - "C:/msys64/usr/bin/site_perl/"
       - "C:/msys64/usr/bin/vendor_perl/"
       - "C:/msys64/usr/bin/core_perl/"
@@ -362,7 +370,9 @@ events:
         - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit"
         - "C:\\Program Files\\Neovim\\bin"
         - "C:\\Program Files\\PowerToys\\DSCModules"
+        - "C:\\Program Files\\GitHub CLI"
         - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WinGet\\Links"
         - "C:\\msys64\\usr\\bin\\site_perl"
         - "C:\\msys64\\usr\\bin\\vendor_perl"
         - "C:\\msys64\\usr\\bin\\core_perl"
@@ -426,7 +436,9 @@ events:
       - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
       - "C:/Program Files/Neovim/bin/"
       - "C:/Program Files/PowerToys/DSCModules/"
+      - "C:/Program Files/GitHub CLI/"
       - "C:/Users/jreng/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/jreng/AppData/Local/Microsoft/WinGet/Links/"
       - "C:/msys64/usr/bin/site_perl/"
       - "C:/msys64/usr/bin/vendor_perl/"
       - "C:/msys64/usr/bin/core_perl/"
@@ -529,7 +541,9 @@ events:
         - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit"
         - "C:\\Program Files\\Neovim\\bin"
         - "C:\\Program Files\\PowerToys\\DSCModules"
+        - "C:\\Program Files\\GitHub CLI"
         - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WinGet\\Links"
         - "C:\\msys64\\usr\\bin\\site_perl"
         - "C:\\msys64\\usr\\bin\\vendor_perl"
         - "C:\\msys64\\usr\\bin\\core_perl"
@@ -591,7 +605,9 @@ events:
       - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
       - "C:/Program Files/Neovim/bin/"
       - "C:/Program Files/PowerToys/DSCModules/"
+      - "C:/Program Files/GitHub CLI/"
       - "C:/Users/jreng/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/jreng/AppData/Local/Microsoft/WinGet/Links/"
       - "C:/msys64/usr/bin/site_perl/"
       - "C:/msys64/usr/bin/vendor_perl/"
       - "C:/msys64/usr/bin/core_perl/"
@@ -643,7 +659,9 @@ events:
         - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit"
         - "C:\\Program Files\\Neovim\\bin"
         - "C:\\Program Files\\PowerToys\\DSCModules"
+        - "C:\\Program Files\\GitHub CLI"
         - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WinGet\\Links"
         - "C:\\msys64\\usr\\bin\\site_perl"
         - "C:\\msys64\\usr\\bin\\vendor_perl"
         - "C:\\msys64\\usr\\bin\\core_perl"
@@ -705,7 +723,9 @@ events:
       - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
       - "C:/Program Files/Neovim/bin/"
       - "C:/Program Files/PowerToys/DSCModules/"
+      - "C:/Program Files/GitHub CLI/"
       - "C:/Users/jreng/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/jreng/AppData/Local/Microsoft/WinGet/Links/"
       - "C:/msys64/usr/bin/site_perl/"
       - "C:/msys64/usr/bin/vendor_perl/"
       - "C:/msys64/usr/bin/core_perl/"
@@ -787,7 +807,9 @@ events:
         - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit"
         - "C:\\Program Files\\Neovim\\bin"
         - "C:\\Program Files\\PowerToys\\DSCModules"
+        - "C:\\Program Files\\GitHub CLI"
         - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WinGet\\Links"
         - "C:\\msys64\\usr\\bin\\site_perl"
         - "C:\\msys64\\usr\\bin\\vendor_perl"
         - "C:\\msys64\\usr\\bin\\core_perl"
@@ -849,7 +871,9 @@ events:
       - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
       - "C:/Program Files/Neovim/bin/"
       - "C:/Program Files/PowerToys/DSCModules/"
+      - "C:/Program Files/GitHub CLI/"
       - "C:/Users/jreng/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/jreng/AppData/Local/Microsoft/WinGet/Links/"
       - "C:/msys64/usr/bin/site_perl/"
       - "C:/msys64/usr/bin/vendor_perl/"
       - "C:/msys64/usr/bin/core_perl/"
@@ -901,7 +925,9 @@ events:
         - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit"
         - "C:\\Program Files\\Neovim\\bin"
         - "C:\\Program Files\\PowerToys\\DSCModules"
+        - "C:\\Program Files\\GitHub CLI"
         - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WinGet\\Links"
         - "C:\\msys64\\usr\\bin\\site_perl"
         - "C:\\msys64\\usr\\bin\\vendor_perl"
         - "C:\\msys64\\usr\\bin\\core_perl"
@@ -978,7 +1004,9 @@ events:
         - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit"
         - "C:\\Program Files\\Neovim\\bin"
         - "C:\\Program Files\\PowerToys\\DSCModules"
+        - "C:\\Program Files\\GitHub CLI"
         - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WinGet\\Links"
         - "C:\\msys64\\usr\\bin\\site_perl"
         - "C:\\msys64\\usr\\bin\\vendor_perl"
         - "C:\\msys64\\usr\\bin\\core_perl"
@@ -1056,7 +1084,9 @@ events:
         - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit"
         - "C:\\Program Files\\Neovim\\bin"
         - "C:\\Program Files\\PowerToys\\DSCModules"
+        - "C:\\Program Files\\GitHub CLI"
         - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WinGet\\Links"
         - "C:\\msys64\\usr\\bin\\site_perl"
         - "C:\\msys64\\usr\\bin\\vendor_perl"
         - "C:\\msys64\\usr\\bin\\core_perl"
@@ -1177,7 +1207,9 @@ events:
       - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
       - "C:/Program Files/Neovim/bin/"
       - "C:/Program Files/PowerToys/DSCModules/"
+      - "C:/Program Files/GitHub CLI/"
       - "C:/Users/jreng/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/jreng/AppData/Local/Microsoft/WinGet/Links/"
       - "C:/msys64/usr/bin/site_perl/"
       - "C:/msys64/usr/bin/vendor_perl/"
       - "C:/msys64/usr/bin/core_perl/"
@@ -1241,7 +1273,9 @@ events:
         - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit"
         - "C:\\Program Files\\Neovim\\bin"
         - "C:\\Program Files\\PowerToys\\DSCModules"
+        - "C:\\Program Files\\GitHub CLI"
         - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\jreng\\AppData\\Local\\Microsoft\\WinGet\\Links"
         - "C:\\msys64\\usr\\bin\\site_perl"
         - "C:\\msys64\\usr\\bin\\vendor_perl"
         - "C:\\msys64\\usr\\bin\\core_perl"
@@ -1265,8 +1299,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-4glhqu"
-      binary: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-4glhqu"
+      source: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-b6graf"
+      binary: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-b6graf"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
       CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -1275,11 +1309,11 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-4glhqu'
+        Change Dir: 'C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-b6graf'
         
-        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_fb487
-        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo -D_MBCS  /DWIN32 /D_WINDOWS  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_fb487.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_fb487.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_fb487.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_fb487.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_fb487.exe /implib:cmTC_fb487.lib /pdb:cmTC_fb487.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_d53d7
+        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo -D_MBCS  /DWIN32 /D_WINDOWS  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_d53d7.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_d53d7.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_d53d7.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_d53d7.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_d53d7.exe /implib:cmTC_d53d7.lib /pdb:cmTC_d53d7.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
         
       exitCode: 0
   -
@@ -1319,8 +1353,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-w6gi45"
-      binary: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-w6gi45"
+      source: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-c5hn0b"
+      binary: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-c5hn0b"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -1330,11 +1364,11 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-w6gi45'
+        Change Dir: 'C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-c5hn0b'
         
-        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_5565f
-        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_5565f.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_5565f.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_5565f.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_5565f.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_5565f.exe /implib:cmTC_5565f.lib /pdb:cmTC_5565f.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_17756
+        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_17756.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_17756.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_17756.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_17756.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_17756.exe /implib:cmTC_17756.lib /pdb:cmTC_17756.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
         
       exitCode: 0
   -
@@ -1384,10 +1418,10 @@ events:
       stdout: |
         Change Dir: 'C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeTmp'
         
-        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_94c1f
-        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_94c1f.dir\\juce_runtime_arch_detection.cpp.obj /FdCMakeFiles\\cmTC_94c1f.dir\\ /FS -c C:\\Users\\jreng\\Documents\\Poems\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp
-        FAILED: CMakeFiles/cmTC_94c1f.dir/juce_runtime_arch_detection.cpp.obj 
-        C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_94c1f.dir\\juce_runtime_arch_detection.cpp.obj /FdCMakeFiles\\cmTC_94c1f.dir\\ /FS -c C:\\Users\\jreng\\Documents\\Poems\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp
+        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_05603
+        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_05603.dir\\juce_runtime_arch_detection.cpp.obj /FdCMakeFiles\\cmTC_05603.dir\\ /FS -c C:\\Users\\jreng\\Documents\\Poems\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp
+        FAILED: CMakeFiles/cmTC_05603.dir/juce_runtime_arch_detection.cpp.obj 
+        C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_05603.dir\\juce_runtime_arch_detection.cpp.obj /FdCMakeFiles\\cmTC_05603.dir\\ /FS -c C:\\Users\\jreng\\Documents\\Poems\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp
         C:\\Users\\jreng\\Documents\\Poems\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp(56): fatal error C1189: #error:  JUCE_ARCH x86_64
         ninja: build stopped: subcommand failed.
         

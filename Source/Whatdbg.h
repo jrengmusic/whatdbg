@@ -171,6 +171,16 @@ private:
      */
     void processDeferredEvents ();
 
+    /** Resolve any pending breakpoints and resume the debuggee after the initial break.
+     *
+     *  At the initial break the exe module is fully loaded and the symbol engine
+     *  is ready. This resolves standalone breakpoints that went pending because
+     *  the exe loaded before setBreakpoints arrived. Plugin DLLs resolve later
+     *  via the LoadModule path. Called from both handleConfigurationDone and
+     *  processDeferredEvents depending on message arrival order.
+     */
+    void resolveAndResumeAfterInitialBreak ();
+
     // ── stdout writing ─────────────────────────────────────────────────
 
     /** Serialize a DAP message to JSON and write it to stdout with a Content-Length header.

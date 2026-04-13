@@ -112,6 +112,46 @@
 
 ## SPRINT HISTORY
 
+## Sprint 15: Standalone Breakpoint Resolution
+
+**Date:** 2026-04-13
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — Diagnosis, planning, log analysis, delegation, audit review
+- Pathfinder — Codebase survey, Reader implementation discovery, build/install workflow, nvim-dap config
+- Engineer — Diagnostic logging in Reader, CreateProcess callback fix (reverted), initial break BP resolution, DRY extraction
+- Auditor — BLESSED compliance audit (found DRY/SSOT violation in duplicated resolution block)
+
+### Files Modified (4 total)
+- `Source/dap/Reader.cpp:98-121` — Added diagnostic logWrite: parsed message type/command, FIFO-full drop warning, JSON parse failure
+- `Source/Whatdbg.h:174-182` — Added `resolveAndResumeAfterInitialBreak()` private method declaration with doxygen
+- `Source/Whatdbg.cpp:158,268-289` — Collapsed `processDeferredEvents` initial break handler to call `resolveAndResumeAfterInitialBreak()`; added method implementation (forceReloadAllSymbols + onModuleLoad + resume + thread event)
+- `Source/WhatdbgHandlers.cpp:85-88` — Collapsed `handleConfigurationDone` stopped branch to call `resolveAndResumeAfterInitialBreak()`
+
+### Alignment Check
+- [x] BLESSED principles followed (SSOT: extracted duplicated BP resolution into single method; Explicit: clear method name describes intent; Lean: no new patterns, reuses existing onModuleLoad/forceReloadAllSymbols)
+- [x] NAMES.md adhered (resolveAndResumeAfterInitialBreak — verb phrase, semantic, Rule 1/3/4 compliant)
+- [x] MANIFESTO.md applied
+- [x] JRENG-CODING-STANDARD.md followed (no early returns, `not`/`and`/`or` tokens, brace init, braces on new line)
+
+### Problems Solved
+
+**Problem 1 — Standalone breakpoints never resolved**
+Exe module loads via CreateProcess callback before setBreakpoints arrives. forceReloadAllSymbols fallback in handleSetBreakpoints returned E_UNEXPECTED (symbol engine not ready before first WaitForEvent). Fix: resolve pending BPs at the initial breakpoint when symbol engine is ready. Two code paths covered (configurationDone before/after initial break) via shared method.
+
+**Problem 2 — Invisible Reader message flow**
+Reader only logged "queued message" — no visibility into what command was parsed, whether FIFO dropped messages, or whether JSON parsing failed. Fix: added diagnostic logWrite for parsed command name, FIFO-full drops, and parse failures.
+
+**Problem 3 — DRY violation (audit finding)**
+BP resolution + resume logic duplicated in processDeferredEvents and handleConfigurationDone. Fix: extracted resolveAndResumeAfterInitialBreak() as single source of truth.
+
+### Debts Paid
+- None
+
+### Debts Deferred
+- None
+
 ## Sprint 14: Mason Distribution + FetchContent + README + CI
 
 **Date:** 2026-04-02

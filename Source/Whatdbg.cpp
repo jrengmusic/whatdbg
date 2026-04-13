@@ -155,16 +155,7 @@ void Whatdbg::processDeferredEvents ()
         and not state.hasBreakpointHit
         and not state.hasStepCompleted)
     {
-        session.resume ();
-        state.executionState = debug::ExecutionState::running;
-        state.isInitialBreakSeen = false;
-
-        DynObj threadBody { new juce::DynamicObject () };
-        threadBody->setProperty ("reason",   "started");
-        threadBody->setProperty ("threadId", 1);
-        sendEvent (dap::makeEvent ("thread", juce::var (threadBody)));
-
-        logWrite ("[Whatdbg] resumed after initial breakpoint\n");
+        resolveAndResumeAfterInitialBreak ();
     }
 
     // Breakpoint hit — check if it's a user BP or an internal BP (e.g., stepOut's "gu")
@@ -265,6 +256,36 @@ void Whatdbg::processDeferredEvents ()
 
         state.executionState = debug::ExecutionState::exited;
     }
+}
+
+void Whatdbg::resolveAndResumeAfterInitialBreak ()
+{
+    if (breakpointManager.hasPending ())
+    {
+        session.forceReloadAllSymbols ();
+        juce::Array<juce::var> events { breakpointManager.onModuleLoad () };
+
+        for (const auto& event : events)
+        {
+            sendEvent (event);
+        }
+
+        if (not events.isEmpty ())
+        {
+            logWrite ("[Whatdbg] resolved %d pending BPs at initial break\n", events.size ());
+        }
+    }
+
+    session.resume ();
+    state.executionState = debug::ExecutionState::running;
+    state.isInitialBreakSeen = false;
+
+    DynObj threadBody { new juce::DynamicObject () };
+    threadBody->setProperty ("reason",   "started");
+    threadBody->setProperty ("threadId", 1);
+    sendEvent (dap::makeEvent ("thread", juce::var (threadBody)));
+
+    logWrite ("[Whatdbg] resumed after initial break\n");
 }
 
 void Whatdbg::writeMessage (const juce::var& message) noexcept

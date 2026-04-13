@@ -645,41 +645,6 @@ build whatdbg_App_BinaryData: phony whatdbg_App_BinaryData.lib
 #############################################
 # Folder: C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja
 
-build codegen: phony JUCE\codegen
-
-# =============================================================================
-
-#############################################
-# Folder: C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE
-
-build JUCE\codegen: phony JUCE\modules\codegen JUCE\extras\Build\codegen
-
-# =============================================================================
-
-#############################################
-# Folder: C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/extras/Build
-
-build JUCE\extras\Build\codegen: phony JUCE\extras\Build\juceaide\codegen
-
-# =============================================================================
-
-#############################################
-# Folder: C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/extras/Build/juceaide
-
-build JUCE\extras\Build\juceaide\codegen: phony
-
-# =============================================================================
-
-#############################################
-# Folder: C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/modules
-
-build JUCE\modules\codegen: phony
-
-# =============================================================================
-
-#############################################
-# Folder: C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja
-
 build all: phony whatdbg_App_artefacts\Release\whatdbg.exe whatdbg_App_rc_lib whatdbg_App_BinaryData.lib JUCE\all
 
 # =============================================================================

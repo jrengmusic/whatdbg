@@ -84,16 +84,7 @@ void Whatdbg::handleConfigurationDone (const juce::var& request)
 
     if (state.executionState == debug::ExecutionState::stopped)
     {
-        session.resume ();
-        state.executionState = debug::ExecutionState::running;
-        state.isInitialBreakSeen = false;
-
-        DynObj threadBody { new juce::DynamicObject () };
-        threadBody->setProperty ("reason",   "started");
-        threadBody->setProperty ("threadId", 1);
-        sendEvent (dap::makeEvent ("thread", juce::var (threadBody)));
-
-        logWrite ("[Whatdbg] resumed after configurationDone\n");
+        resolveAndResumeAfterInitialBreak ();
     }
 
     sendResponse (dap::makeResponse (seq, "configurationDone", true));

@@ -97,6 +97,11 @@ void Reader::run ()
 
                 if (not message.isVoid ())
                 {
+                    logWrite ("[dap::Reader] parsed: type=%s command=%s length=%d\n",
+                              message["type"].toString ().toRawUTF8 (),
+                              message["command"].toString ().toRawUTF8 (),
+                              contentLength);
+
                     const auto scope { fifo.write (1) };
 
                     if (scope.blockSize1 > 0)
@@ -104,6 +109,15 @@ void Reader::run ()
                         storage.at (static_cast<size_t> (scope.startIndex1)) = message;
                         logWrite ("[dap::Reader] queued message\n");
                     }
+                    else
+                    {
+                        logWrite ("[dap::Reader] DROPPED (FIFO full): command=%s\n",
+                                  message["command"].toString ().toRawUTF8 ());
+                    }
+                }
+                else
+                {
+                    logWrite ("[dap::Reader] JSON parse failed, contentLength=%d\n", contentLength);
                 }
             }
         }
