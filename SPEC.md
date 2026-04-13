@@ -19,7 +19,7 @@
 - **Protocol:** Debug Adapter Protocol (DAP) over stdin/stdout
 - **DAP Client:** nvim-dap + nvim-dap-ui
 - **Build:** CMake + Ninja, MSVC toolchain
-- **Platform:** Windows 10+ (x64 only)
+- **Platform:** Windows 10+ (x64, ARM64)
 
 ---
 
