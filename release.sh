@@ -5,15 +5,12 @@
 TAG="${1:?Usage: release.sh <tag> [message]}"
 MSG="${2:-$TAG}"
 
-# Delete existing release and tag if present
-if git rev-parse "$TAG" >/dev/null 2>&1; then
-    echo "Tag $TAG exists — removing release, tag (local + remote)"
-    gh release delete "$TAG" --cleanup-tag -y 2>/dev/null
-    git tag -d "$TAG" 2>/dev/null
-    git push origin ":refs/tags/$TAG" 2>/dev/null
-fi
+# Always clean up — local, remote, and GitHub release
+gh release delete "$TAG" --cleanup-tag -y 2>/dev/null
+git tag -d "$TAG" 2>/dev/null
+git push origin ":refs/tags/$TAG" 2>/dev/null
 
 git add -A
-git commit -m "$MSG"
+git diff --cached --quiet || git commit -m "$MSG"
 git tag "$TAG"
 git push origin main "$TAG"
