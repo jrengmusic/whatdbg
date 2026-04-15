@@ -1,7 +1,10 @@
 #include <JuceHeader.h>
 #include "Session.h"
+#include "State.h"
 #include "../dap/Types.h"
 #include "../Log.h"
+
+#if JUCE_WINDOWS
 #include <dbghelp.h>
 
 namespace debug
@@ -149,11 +152,11 @@ bool Session::launch (const juce::String& program) noexcept
 // Session::attach
 // ---------------------------------------------------------------------------
 
-bool Session::attach (ULONG processId) noexcept
+bool Session::attach (std::uint32_t processId) noexcept
 {
     jassert (client != nullptr);
 
-    const HRESULT attachResult { client->AttachProcess (0, processId, 0) };
+    const HRESULT attachResult { client->AttachProcess (0, static_cast<ULONG> (processId), 0) };
     const bool attached { SUCCEEDED (attachResult) };
 
     if (attached)
@@ -184,13 +187,28 @@ void Session::resume () noexcept
 // Session::pollEvents
 // ---------------------------------------------------------------------------
 
-HRESULT Session::pollEvents (ULONG timeoutMs) noexcept
+juce::Result Session::pollEvents (std::uint32_t timeoutMs, bool& outHadEvent) noexcept
 {
-    HRESULT result { E_FAIL };
+    outHadEvent = false;
+    juce::Result result { juce::Result::ok () };
 
     if (control != nullptr)
     {
-        result = control->WaitForEvent (0, timeoutMs);
+        const HRESULT hr { control->WaitForEvent (0, static_cast<ULONG> (timeoutMs)) };
+
+        if (hr == S_OK)
+        {
+            outHadEvent = true;
+        }
+        else if (hr == S_FALSE)
+        {
+            outHadEvent = false;
+        }
+        else
+        {
+            result = juce::Result::fail ("pollEvents: HRESULT 0x"
+                + juce::String::toHexString (static_cast<int> (hr)));
+        }
     }
 
     return result;
@@ -274,11 +292,11 @@ void Session::stepOut () noexcept
     }
 }
 
-void Session::interrupt (ULONG processId) noexcept
+void Session::interrupt (std::uint32_t processId) noexcept
 {
     if (processId != 0)
     {
-        const HANDLE handle { OpenProcess (PROCESS_ALL_ACCESS, FALSE, processId) };
+        const HANDLE handle { OpenProcess (PROCESS_ALL_ACCESS, FALSE, static_cast<DWORD> (processId)) };
 
         if (handle != nullptr)
         {
@@ -308,35 +326,41 @@ void Session::interrupt (ULONG processId) noexcept
 // Session::loadModuleSymbols / forceReloadAllSymbols
 // ---------------------------------------------------------------------------
 
-HRESULT Session::loadModuleSymbols (const juce::String& imageName) noexcept
+juce::Result Session::loadModuleSymbols (const juce::String& imageName) noexcept
 {
-    HRESULT result { E_FAIL };
+    juce::Result result { juce::Result::fail ("loadModuleSymbols: control is null") };
 
     if (control != nullptr)
     {
         const juce::String basename { juce::File (imageName).getFileName () };
         const juce::String command { ".reload /f " + basename.quoted () };
-        result = control->Execute (DEBUG_OUTCTL_IGNORE,
-                                   command.toRawUTF8 (),
-                                   DEBUG_EXECUTE_NOT_LOGGED);
+        const HRESULT hr { control->Execute (DEBUG_OUTCTL_IGNORE,
+                                             command.toRawUTF8 (),
+                                             DEBUG_EXECUTE_NOT_LOGGED) };
         logWrite ("WHATDBG: .reload /f %s hr=0x%08lX\n",
                   basename.toRawUTF8 (),
-                  static_cast<unsigned long> (result));
+                  static_cast<unsigned long> (hr));
+        result = hr == S_OK ? juce::Result::ok ()
+                            : juce::Result::fail ("loadModuleSymbols: HRESULT 0x"
+                                + juce::String::toHexString (static_cast<int> (hr)));
     }
 
     return result;
 }
 
-HRESULT Session::forceReloadAllSymbols () noexcept
+juce::Result Session::forceReloadAllSymbols () noexcept
 {
-    HRESULT result { E_FAIL };
+    juce::Result result { juce::Result::fail ("forceReloadAllSymbols: control is null") };
 
     if (control != nullptr)
     {
-        result = control->Execute (DEBUG_OUTCTL_IGNORE,
-                                   ".reload /f",
-                                   DEBUG_EXECUTE_NOT_LOGGED);
-        logWrite ("WHATDBG: .reload /f (all) hr=0x%08lX\n", static_cast<unsigned long> (result));
+        const HRESULT hr { control->Execute (DEBUG_OUTCTL_IGNORE,
+                                             ".reload /f",
+                                             DEBUG_EXECUTE_NOT_LOGGED) };
+        logWrite ("WHATDBG: .reload /f (all) hr=0x%08lX\n", static_cast<unsigned long> (hr));
+        result = hr == S_OK ? juce::Result::ok ()
+                            : juce::Result::fail ("forceReloadAllSymbols: HRESULT 0x"
+                                + juce::String::toHexString (static_cast<int> (hr)));
     }
 
     return result;
@@ -346,32 +370,56 @@ HRESULT Session::forceReloadAllSymbols () noexcept
 // Session::getOffsetByLine / getLineByOffset
 // ---------------------------------------------------------------------------
 
-HRESULT Session::getOffsetByLine (const juce::String& filePath, ULONG line, ULONG64* outOffset) noexcept
+ResolveStatus Session::getOffsetByLine (const juce::String& filePath,
+                                        std::uint32_t       line,
+                                        std::uint64_t*      outOffset) noexcept
 {
-    HRESULT result { E_FAIL };
+    ResolveStatus status { ResolveStatus::notFound };
 
     if (symbols != nullptr)
     {
-        result = symbols->GetOffsetByLine (line, filePath.toRawUTF8 (), outOffset);
+        const HRESULT hr { symbols->GetOffsetByLine (static_cast<ULONG> (line),
+                                                     filePath.toRawUTF8 (),
+                                                     outOffset) };
+        if (hr == S_OK)
+        {
+            status = ResolveStatus::resolved;
+        }
+        else if (hr == E_UNEXPECTED)
+        {
+            status = ResolveStatus::engineBusy;
+        }
+        else
+        {
+            status = ResolveStatus::notFound;
+        }
     }
 
-    return result;
+    return status;
 }
 
-HRESULT Session::getLineByOffset (ULONG64 offset, juce::String& outFilePath, ULONG* outLine) noexcept
+juce::Result Session::getLineByOffset (std::uint64_t offset, juce::String& outFilePath, std::uint32_t* outLine) noexcept
 {
-    HRESULT result { E_FAIL };
+    juce::Result result { juce::Result::fail ("getLineByOffset: symbols is null") };
 
     if (symbols != nullptr)
     {
         char pathBuffer[MAX_PATH] {};
         ULONG pathSize { 0 };
+        ULONG lineOut { 0 };
 
-        result = symbols->GetLineByOffset (offset, outLine, pathBuffer, MAX_PATH, &pathSize, nullptr);
+        const HRESULT hr { symbols->GetLineByOffset (offset, &lineOut, pathBuffer, MAX_PATH, &pathSize, nullptr) };
 
-        if (SUCCEEDED (result))
+        if (hr == S_OK)
         {
             outFilePath = juce::String (pathBuffer);
+            *outLine    = static_cast<std::uint32_t> (lineOut);
+            result      = juce::Result::ok ();
+        }
+        else
+        {
+            result = juce::Result::fail ("getLineByOffset: HRESULT 0x"
+                + juce::String::toHexString (static_cast<int> (hr)));
         }
     }
 
@@ -382,38 +430,54 @@ HRESULT Session::getLineByOffset (ULONG64 offset, juce::String& outFilePath, ULO
 // Session::addBreakpoint / removeBreakpoint
 // ---------------------------------------------------------------------------
 
-HRESULT Session::addBreakpoint (ULONG64 offset, ULONG* outEngineId) noexcept
+juce::Result Session::addBreakpoint (std::uint64_t offset, std::uint32_t* outEngineId) noexcept
 {
-    HRESULT result { E_FAIL };
+    juce::Result result { juce::Result::fail ("addBreakpoint: control is null") };
 
     if (control != nullptr)
     {
         IDebugBreakpoint2* bp { nullptr };
-        result = control->AddBreakpoint2 (DEBUG_BREAKPOINT_CODE, DEBUG_ANY_ID, &bp);
+        const HRESULT hr { control->AddBreakpoint2 (DEBUG_BREAKPOINT_CODE, DEBUG_ANY_ID, &bp) };
 
-        if (SUCCEEDED (result) and bp != nullptr)
+        if (hr == S_OK and bp != nullptr)
         {
             bp->SetOffset (offset);
             bp->AddFlags (DEBUG_BREAKPOINT_ENABLED);
-            bp->GetId (outEngineId);
+            ULONG engineId { 0 };
+            bp->GetId (&engineId);
+            *outEngineId = static_cast<std::uint32_t> (engineId);
+            result = juce::Result::ok ();
+        }
+        else
+        {
+            result = juce::Result::fail ("addBreakpoint: HRESULT 0x"
+                + juce::String::toHexString (static_cast<int> (hr)));
         }
     }
 
     return result;
 }
 
-HRESULT Session::removeBreakpoint (ULONG engineId) noexcept
+juce::Result Session::removeBreakpoint (std::uint32_t engineId) noexcept
 {
-    HRESULT result { E_FAIL };
+    juce::Result result { juce::Result::fail ("removeBreakpoint: control is null") };
 
     if (control != nullptr)
     {
         IDebugBreakpoint2* bp { nullptr };
-        result = control->GetBreakpointById2 (engineId, &bp);
+        const HRESULT hr { control->GetBreakpointById2 (static_cast<ULONG> (engineId), &bp) };
 
-        if (SUCCEEDED (result) and bp != nullptr)
+        if (hr == S_OK and bp != nullptr)
         {
-            result = control->RemoveBreakpoint2 (bp);
+            const HRESULT hrRemove { control->RemoveBreakpoint2 (bp) };
+            result = hrRemove == S_OK ? juce::Result::ok ()
+                                      : juce::Result::fail ("removeBreakpoint: HRESULT 0x"
+                                          + juce::String::toHexString (static_cast<int> (hrRemove)));
+        }
+        else
+        {
+            result = juce::Result::fail ("removeBreakpoint: GetBreakpointById2 HRESULT 0x"
+                + juce::String::toHexString (static_cast<int> (hr)));
         }
     }
 
@@ -529,9 +593,9 @@ juce::Array<juce::var> Session::getThreads () noexcept
 // Session::getEventThreadSystemId
 // ---------------------------------------------------------------------------
 
-ULONG Session::getEventThreadSystemId () noexcept
+std::uint32_t Session::getEventThreadSystemId () noexcept
 {
-    ULONG systemId { 0 };
+    std::uint32_t systemId { 0 };
 
     if (systemObjects != nullptr)
     {
@@ -543,8 +607,10 @@ ULONG Session::getEventThreadSystemId () noexcept
             ULONG savedId { 0 };
             systemObjects->GetCurrentThreadId (&savedId);
             systemObjects->SetCurrentThreadId (eventEngineId);
-            systemObjects->GetCurrentThreadSystemId (&systemId);
+            ULONG rawSystemId { 0 };
+            systemObjects->GetCurrentThreadSystemId (&rawSystemId);
             systemObjects->SetCurrentThreadId (savedId);
+            systemId = static_cast<std::uint32_t> (rawSystemId);
         }
     }
 
@@ -555,12 +621,12 @@ ULONG Session::getEventThreadSystemId () noexcept
 // Session::setCurrentThreadBySystemId
 // ---------------------------------------------------------------------------
 
-void Session::setCurrentThreadBySystemId (ULONG systemId) noexcept
+void Session::setCurrentThreadBySystemId (std::uint32_t systemId) noexcept
 {
     if (systemObjects != nullptr and systemId != 0)
     {
         ULONG engineId { 0 };
-        const HRESULT hr { systemObjects->GetThreadIdBySystemId (systemId, &engineId) };
+        const HRESULT hr { systemObjects->GetThreadIdBySystemId (static_cast<ULONG> (systemId), &engineId) };
 
         if (SUCCEEDED (hr))
         {
@@ -570,3 +636,5 @@ void Session::setCurrentThreadBySystemId (ULONG systemId) noexcept
 }
 
 } // namespace debug
+
+#endif // JUCE_WINDOWS

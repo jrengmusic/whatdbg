@@ -1,4 +1,5 @@
 #include <JuceHeader.h>
+#include <cstdint>
 #include "BreakpointManager.h"
 #include "State.h"
 #include "../Log.h"
@@ -68,7 +69,7 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
 
                 if (info.hasEngineId)
                 {
-                    session.removeBreakpoint (info.engineId);
+                    juce::ignoreUnused (session.removeBreakpoint (info.engineId));
                     engineToDap.erase (info.engineId);
                 }
 
@@ -137,12 +138,12 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
             // and we add the breakpoint to the pending list for deferred
             // resolution when LoadModule fires.
             const juce::String windowsPath { toWindowsPath (rawSourcePath) };
-            const ResolveResult result { tryResolve (windowsPath, static_cast<ULONG> (line)) };
+            const ResolveResult result { tryResolve (windowsPath, static_cast<std::uint32_t> (line)) };
 
             BreakpointInfo info {};
             info.dapId      = dapId;
             info.sourcePath = normalizedPath;
-            info.line       = result.isSuccess ? result.resolvedLine : static_cast<ULONG> (line);
+            info.line       = result.isSuccess ? result.resolvedLine : static_cast<std::uint32_t> (line);
             info.isVerified = result.isSuccess;
 
             if (result.isSuccess)
@@ -159,7 +160,7 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
                 pendingBp.dapId          = dapId;
                 pendingBp.sourcePath     = windowsPath;
                 pendingBp.normalizedPath = normalizedPath;
-                pendingBp.line           = static_cast<ULONG> (line);
+                pendingBp.line           = static_cast<std::uint32_t> (line);
 
                 pending.add (pendingBp);
                 State::getContext ()->hasPendingBreakpoints = not pending.isEmpty ();
@@ -197,7 +198,7 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
     // symbols were never loaded because there were no pending BPs at load time.
     if (not pending.isEmpty ())
     {
-        session.forceReloadAllSymbols ();
+        juce::ignoreUnused (session.forceReloadAllSymbols ());
 
         juce::Array<int> resolvedIndices;
 

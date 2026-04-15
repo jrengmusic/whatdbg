@@ -1,10 +1,19 @@
 #pragma once
 #include <JuceHeader.h>
+#include <cstdint>
+#include "State.h"
+
+#if JUCE_WINDOWS
 #include <windows.h>
 #include <wrl/client.h>
 #include <dbgeng.h>
 #include "Loader.h"
 #include "Callbacks.h"
+#endif
+
+#if JUCE_MAC
+// macOS-specific includes land here at Phase 2+
+#endif
 
 namespace debug
 {
@@ -21,9 +30,9 @@ namespace debug
  *  - Owns OutputCallbacks and EventCallbacks registered with IDebugClient5.
  *  - Owns all COM interface ComPtrs; releases them in ~Session.
  *
- *  @note All methods must be called on the main thread. COM is initialized in
- *        STA mode by initialize(). Calling any method before initialize() succeeds
- *        will assert or produce undefined behavior.
+ *  @note All methods must be called on the main thread. On Windows, COM is initialized
+ *        in multithreaded mode by initialize(). Calling any method before initialize()
+ *        succeeds will assert or produce undefined behavior.
  */
 class Session
 {
@@ -34,7 +43,7 @@ public:
     /** Initialize COM, load dbgeng DLLs, create the client, QI all interfaces, and register callbacks.
      *
      *  Performs the full COM setup sequence:
-     *  1. CoInitializeEx (STA)
+     *  1. CoInitializeEx (multithreaded)
      *  2. Loads dbgeng.dll from sidecarDir via Loader
      *  3. Calls DebugCreate to obtain IDebugClient5
      *  4. QueryInterface for IDebugControl4, IDebugSymbols3, IDebugDataSpaces4, IDebugSystemObjects
@@ -55,7 +64,7 @@ public:
      *  initial CreateProcess and loader-breakpoint events.
      *
      *  @param program  Full path to the executable to launch.
-     *  @return true if CreateProcess2 succeeded (S_OK).
+     *  @return true if CreateProcess2 succeeded.
      *
      *  @note The process is launched suspended until the first pollEvents call.
      */
@@ -67,9 +76,9 @@ public:
      *  must poll via pollEvents() to receive the initial attach-break event.
      *
      *  @param processId  OS process ID of the target process.
-     *  @return true if AttachProcess succeeded (S_OK).
+     *  @return true if AttachProcess succeeded.
      */
-    bool attach (ULONG processId) noexcept;
+    bool attach (std::uint32_t processId) noexcept;
 
     /** Resume execution after a break.
      *
@@ -85,11 +94,12 @@ public:
      *  Calls IDebugControl4::WaitForEvent with the specified timeout. Should be
      *  called repeatedly from the main loop while the target is running or stopping.
      *
-     *  @param timeoutMs  Maximum time to wait in milliseconds. Pass 0 for non-blocking poll.
-     *  @return S_OK if an event was processed, S_FALSE if timeout elapsed with no event,
-     *          or an error HRESULT on failure.
+     *  @param timeoutMs   Maximum time to wait in milliseconds. Pass 0 for non-blocking poll.
+     *  @param outHadEvent Set to true if an event was consumed; false on timeout with no event.
+     *  @return juce::Result::ok() on S_OK or S_FALSE (timeout is not a failure);
+     *          juce::Result::fail(...) on genuine errors.
      */
-    HRESULT pollEvents (ULONG timeoutMs) noexcept;
+    juce::Result pollEvents (std::uint32_t timeoutMs, bool& outHadEvent) noexcept;
 
     /** Detach from the target and release all COM resources.
      *
@@ -111,10 +121,14 @@ public:
      *
      *  @param filePath   Full Windows path to the source file.
      *  @param line       One-based source line number.
-     *  @param outOffset  Receives the resolved virtual address on success.
-     *  @return S_OK on success, or an error HRESULT if the line cannot be resolved.
+     *  @param outOffset  Receives the resolved virtual address when resolved is returned.
+     *  @return ResolveStatus::resolved   — symbol found; *outOffset populated.
+     *          ResolveStatus::notFound   — no code at this line or module not loaded.
+     *          ResolveStatus::engineBusy — engine transient error (E_UNEXPECTED); retry later.
      */
-    HRESULT getOffsetByLine (const juce::String& filePath, ULONG line, ULONG64* outOffset) noexcept;
+    debug::ResolveStatus getOffsetByLine (const juce::String& filePath,
+                                          std::uint32_t       line,
+                                          std::uint64_t*      outOffset) noexcept;
 
     /** Reverse-map a virtual address to its source file path and line number.
      *
@@ -124,9 +138,9 @@ public:
      *  @param offset       Virtual address to look up.
      *  @param outFilePath  Receives the source file path on success.
      *  @param outLine      Receives the one-based source line number on success.
-     *  @return S_OK on success, or an error HRESULT if the address has no source info.
+     *  @return juce::Result::ok() on success, or juce::Result::fail(...) if the address has no source info.
      */
-    HRESULT getLineByOffset (ULONG64 offset, juce::String& outFilePath, ULONG* outLine) noexcept;
+    juce::Result getLineByOffset (std::uint64_t offset, juce::String& outFilePath, std::uint32_t* outLine) noexcept;
 
     /** Create a code breakpoint at the given virtual address.
      *
@@ -136,9 +150,9 @@ public:
      *
      *  @param offset      Virtual address at which to set the breakpoint.
      *  @param outEngineId Receives the dbgeng-assigned breakpoint ID on success.
-     *  @return S_OK on success, or an error HRESULT on failure.
+     *  @return juce::Result::ok() on success, or juce::Result::fail(...) on failure.
      */
-    HRESULT addBreakpoint (ULONG64 offset, ULONG* outEngineId) noexcept;
+    juce::Result addBreakpoint (std::uint64_t offset, std::uint32_t* outEngineId) noexcept;
 
     /** Remove a previously created breakpoint by its engine ID.
      *
@@ -146,9 +160,9 @@ public:
      *  after a successful removal.
      *
      *  @param engineId  The engine-assigned breakpoint ID returned by addBreakpoint.
-     *  @return S_OK on success, or an error HRESULT if the ID is not found.
+     *  @return juce::Result::ok() on success, or juce::Result::fail(...) if the ID is not found.
      */
-    HRESULT removeBreakpoint (ULONG engineId) noexcept;
+    juce::Result removeBreakpoint (std::uint32_t engineId) noexcept;
 
     /** Force-reload PDB symbols for a specific module.
      *
@@ -158,23 +172,23 @@ public:
      *
      *  @param imageName  The image file name (basename or full path) as reported
      *                    by the LoadModule event.
-     *  @return S_OK if the command executed without error.
+     *  @return juce::Result::ok() if the command executed without error.
      *
      *  @note Symbol loading may still fail silently if the PDB is not locatable.
      */
-    HRESULT loadModuleSymbols (const juce::String& imageName) noexcept;
+    juce::Result loadModuleSymbols (const juce::String& imageName) noexcept;
 
     /** Force-reload PDB symbols for all currently loaded modules.
      *
      *  Executes ".reload /f" via IDebugControl4::Execute. Intended as a fallback
      *  when per-module reload is insufficient.
      *
-     *  @return S_OK if the command executed without error.
+     *  @return juce::Result::ok() if the command executed without error.
      *
      *  @note Can be slow when many modules are loaded. Prefer loadModuleSymbols
      *        for targeted reloads after individual module-load events.
      */
-    HRESULT forceReloadAllSymbols () noexcept;
+    juce::Result forceReloadAllSymbols () noexcept;
 
     /** Step over one source line without entering function calls.
      *
@@ -213,7 +227,7 @@ public:
      *
      *  @param processId  OS process ID of the target to interrupt.
      */
-    void interrupt (ULONG processId) noexcept;
+    void interrupt (std::uint32_t processId) noexcept;
 
     /** Append a path to the dbgeng symbol search path.
      *
@@ -327,7 +341,7 @@ public:
      *
      *  @return OS system thread ID, or 0 if the query fails.
      */
-    ULONG getEventThreadSystemId () noexcept;
+    std::uint32_t getEventThreadSystemId () noexcept;
 
     /** Set the current debug context to the thread with the given OS thread ID.
      *
@@ -339,7 +353,7 @@ public:
      *
      *  @note Must be called while the target is stopped. Invalid systemId is silently ignored.
      */
-    void setCurrentThreadBySystemId (ULONG systemId) noexcept;
+    void setCurrentThreadBySystemId (std::uint32_t systemId) noexcept;
 
     /** Invalidate the cached symbol group so the next getLocals call rebuilds it.
      *
@@ -350,6 +364,7 @@ public:
     void resetSymbolGroupCache () noexcept;
 
 private:
+#if JUCE_WINDOWS
     /** Return the symbol group for the given frame, creating or updating it as needed.
      *
      *  If the cached group matches frameIndex it is returned directly. Otherwise a new
@@ -372,14 +387,19 @@ private:
     Microsoft::WRL::ComPtr<IDebugSystemObjects> systemObjects;
 
     Microsoft::WRL::ComPtr<IDebugSymbolGroup2> cachedSymbolGroup;
-    int                 cachedFrameIndex  { -1 };
+    int cachedFrameIndex { -1 };
 
-    /** True if this Session called CoInitializeEx and therefore owns the COM STA.
+    /** True if this Session called CoInitializeEx and therefore owns the COM apartment.
      *
      *  When true, shutdown() calls CoUninitialize. When false (COM was already
      *  initialized by the caller), shutdown() skips CoUninitialize.
      */
     bool isComOwned { false };
+#endif
+
+#if JUCE_MAC
+    // macOS session members land here at Phase 3+
+#endif
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Session)
 };

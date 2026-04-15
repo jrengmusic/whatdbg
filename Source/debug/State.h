@@ -1,6 +1,6 @@
 #pragma once
 #include <JuceHeader.h>
-#include <windows.h>
+#include <cstdint>
 
 namespace debug
 {
@@ -17,6 +17,22 @@ enum class ExecutionState : int
     running   = 2,  ///< Target is executing. Resume/step have been issued.
     stopped   = 3,  ///< Target is paused at a breakpoint, step completion, or exception.
     exited    = 4   ///< Target process has exited. Session is shutting down.
+};
+
+/** Outcome of a Session::getOffsetByLine call.
+ *
+ *  Replaces the previous juce::Result + hex-string encoding pattern so that
+ *  callers can branch on a typed enum rather than inspecting error message text.
+ *
+ *  - resolved   — symbol found; *outOffset has been populated.
+ *  - notFound   — symbol not resolvable (no code at this line, or module not loaded).
+ *  - engineBusy — engine transient error (E_UNEXPECTED); caller should retry later.
+ */
+enum class ResolveStatus
+{
+    resolved,
+    notFound,
+    engineBusy
 };
 
 /** Single Source of Truth for all mutable debug session state.
@@ -75,7 +91,7 @@ public:
      *  Set by Whatdbg::handleLaunch / handleAttach after Session::launch or
      *  Session::attach succeeds. Used by Session::interrupt to send DebugBreakProcess.
      */
-    ULONG targetProcessId { 0 };
+    std::uint32_t targetProcessId { 0 };
 
     // ── Deferred events (set by COM callbacks, consumed by main loop) ──
 
@@ -91,7 +107,7 @@ public:
      *  Set alongside hasBreakpointHit. Passed to BreakpointManager::onBreakpointHit
      *  to produce the correct hitBreakpointIds array in the DAP stopped body.
      */
-    ULONG breakpointEngineId { 0 };
+    std::uint32_t breakpointEngineId { 0 };
 
     /** Set by EventCallbacks when a step operation has completed.
      *

@@ -345,6 +345,18 @@ whatdbg/
     Resources/
         windows/
             dbgeng.dll, dbghelp.dll, dbgcore.dll, symsrv.dll
+        macos/                      (gitignored — built by scripts/build-liblldb-mac.sh)
+            liblldb/
+                liblldb.dylib       (universal — arm64 + x86_64)
+                include/lldb/API/   (SB API headers)
+                licenses/LLVM-LICENSE.TXT
+    Builds/                         (gitignored — JUCE output + liblldb build machinery)
+        Ninja/                      (JUCE project build)
+        liblldb/                    (LLVM source clone + cmake tree)
+            llvm-project/           (pinned clone of llvm/llvm-project at LLVM_TAG)
+            cmake/                  (out-of-source cmake build tree)
+    scripts/
+        build-liblldb-mac.sh        (pinned LLVM build — writes Builds/liblldb + Resources/macos/liblldb)
     modules/
         jreng_core/                     Context, Owner, utilities
     carol/

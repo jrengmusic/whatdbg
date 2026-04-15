@@ -2,6 +2,8 @@
 #include "Session.h"
 #include "PrettyPrint.h"
 #include "../Log.h"
+
+#if JUCE_WINDOWS
 #include <dbghelp.h>
 
 namespace debug { namespace detail {
@@ -446,3 +448,5 @@ juce::String prettyPrint (IDebugSymbolGroup2* group, IDebugDataSpaces4* dataSpac
 }
 
 }} // namespace debug::detail
+
+#endif // JUCE_WINDOWS

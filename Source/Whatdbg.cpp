@@ -1,11 +1,12 @@
 #include "Whatdbg.h"
 #include "Log.h"
 
+#include <cstdint>
 #include <iostream>
 #include <fcntl.h>
 #include <io.h>
 
-static constexpr ULONG kPollTimeoutMs { 50 };
+static constexpr std::uint32_t kPollTimeoutMs { 50 };
 
 using dap::DynObj;
 
@@ -60,8 +61,10 @@ void Whatdbg::run ()
         if (state.executionState == debug::ExecutionState::running
             or state.executionState == debug::ExecutionState::launching)
         {
-            HRESULT pollResult { session.pollEvents (kPollTimeoutMs) };
-            if (pollResult == S_OK)
+            bool hadEvent { false };
+            const juce::Result pollResult { session.pollEvents (kPollTimeoutMs, hadEvent) };
+
+            if (pollResult.wasOk () and hadEvent)
             {
                 logWrite ("[Whatdbg] WaitForEvent returned S_OK\n");
 
@@ -96,14 +99,14 @@ void Whatdbg::run ()
                     logWrite ("[Whatdbg] pause completed, emitted stopped event\n");
                 }
             }
-            else if (pollResult == S_FALSE and isPausePending)
+            else if (pollResult.wasOk () and not hadEvent and isPausePending)
             {
                 logWrite ("[Whatdbg] WaitForEvent timeout (pause pending)\n");
             }
-            else if (pollResult != S_FALSE)
+            else if (pollResult.failed ())
             {
-                logWrite ("[Whatdbg] WaitForEvent returned hr=0x%08lX\n",
-                          static_cast<unsigned long> (pollResult));
+                logWrite ("[Whatdbg] WaitForEvent failed: %s\n",
+                          pollResult.getErrorMessage ().toRawUTF8 ());
             }
         }
 
@@ -211,7 +214,7 @@ void Whatdbg::processDeferredEvents ()
 
         if (breakpointManager.hasPending ())
         {
-            session.loadModuleSymbols (state.lastLoadedImageName);
+            juce::ignoreUnused (session.loadModuleSymbols (state.lastLoadedImageName));
             juce::Array<juce::var> events { breakpointManager.onModuleLoad () };
 
             if (not events.isEmpty ())
@@ -262,7 +265,7 @@ void Whatdbg::resolveAndResumeAfterInitialBreak ()
 {
     if (breakpointManager.hasPending ())
     {
-        session.forceReloadAllSymbols ();
+        juce::ignoreUnused (session.forceReloadAllSymbols ());
         juce::Array<juce::var> events { breakpointManager.onModuleLoad () };
 
         for (const auto& event : events)

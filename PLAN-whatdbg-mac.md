@@ -75,7 +75,7 @@ Pin to the latest `21.x` LLVM release tag — one major version behind the 22.1.
 
 ### D-3: Dylib delivery — **C (locked)**
 
-Hybrid. `scripts/build-liblldb-mac.sh` pins the D-2 source tag, clones `llvm-project` into a **gitignored** working directory, builds `liblldb.dylib` + headers, places output under a gitignored path (e.g. `build/liblldb/`). Developers run the script once (30–90 min first build); CI runs it on clean macOS runners with artefact caching. Repo stays lean. Version bumps are a one-line change in the script.
+Hybrid. `scripts/build-liblldb-mac.sh` pins the D-2 source tag, clones `llvm-project` into a **gitignored** working directory (`Builds/liblldb/llvm-project/` — under the existing JUCE-ignored `Builds/` tree), builds into `Builds/liblldb/cmake/`, stages dist artefacts at `Resources/macos/liblldb/` (also gitignored; mirrors the `Resources/windows/<arch>/` sidecar pattern). Developers run the script once (30–90 min first build); CI runs it on clean macOS runners with artefact caching. Repo stays lean. Version bumps are a one-line change in the script.
 
 ### D-4: `lldb-dap` reference location — **A (locked)**
 

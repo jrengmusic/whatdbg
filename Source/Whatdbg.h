@@ -1,11 +1,14 @@
 #pragma once
 #include <JuceHeader.h>
+#include <cstdint>
 #include <functional>
 #include <unordered_map>
 #include "debug/State.h"
 #include "debug/Session.h"
+#if JUCE_WINDOWS
 #include "debug/Callbacks.h"
 #include "debug/Loader.h"
+#endif
 #include "debug/BreakpointManager.h"
 #include "dap/Reader.h"
 #include "dap/Types.h"
@@ -268,14 +271,14 @@ private:
      *  Populated by handleStackTrace. Consumed by handleScopes and handleVariables
      *  to restore the correct thread/frame context before querying locals.
      */
-    std::unordered_map<int, std::pair<ULONG, int>> frameIdMap; // frameId → (threadSystemId, frameIndex)
+    std::unordered_map<int, std::pair<std::uint32_t, int>> frameIdMap; // frameId → (threadSystemId, frameIndex)
 
     /** System thread ID of the thread whose scopes were last requested.
      *
      *  Cached to avoid redundant setCurrentThreadBySystemId calls between
      *  consecutive scopes requests targeting the same thread.
      */
-    ULONG lastScopesThreadId { 0 };
+    std::uint32_t lastScopesThreadId { 0 };
 
     /** Reset all variable inspection state for a new stop event.
      *

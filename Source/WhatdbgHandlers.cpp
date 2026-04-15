@@ -47,9 +47,9 @@ void Whatdbg::handleAttach (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
     const juce::var& args { request["arguments"] };
-    const ULONG pid { static_cast<ULONG> (static_cast<int> (args["pid"])) };
+    const std::uint32_t pid { static_cast<std::uint32_t> (static_cast<int> (args["pid"])) };
 
-    logWrite ("[Whatdbg] attach: pid=%lu\n", pid);
+    logWrite ("[Whatdbg] attach: pid=%lu\n", static_cast<unsigned long> (pid));
 
     const bool isAttached { session.attach (pid) };
 
@@ -141,7 +141,7 @@ void Whatdbg::handleStackTrace (const juce::var& request)
 
     if (threadId > 0)
     {
-        session.setCurrentThreadBySystemId (static_cast<ULONG> (threadId));
+        session.setCurrentThreadBySystemId (static_cast<std::uint32_t> (threadId));
     }
 
     juce::Array<juce::var> frames { session.getStackTrace (50) };
@@ -154,7 +154,7 @@ void Whatdbg::handleStackTrace (const juce::var& request)
             const int originalIndex { static_cast<int> (frameObj->getProperty ("id")) };
             const int uniqueId { nextFrameId++ };
             frameObj->setProperty ("id", uniqueId);
-            frameIdMap[uniqueId] = { static_cast<ULONG> (threadId), originalIndex };
+            frameIdMap[uniqueId] = { static_cast<std::uint32_t> (threadId), originalIndex };
         }
     }
 
@@ -171,7 +171,7 @@ void Whatdbg::handleScopes (const juce::var& request)
 
     // Decode frameId to (threadSystemId, frameIndex)
     int frameIndex { frameId };
-    ULONG threadSystemId { 0 };
+    std::uint32_t threadSystemId { 0 };
 
     if (frameIdMap.count (frameId) > 0)
     {

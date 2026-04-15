@@ -112,6 +112,60 @@
 
 ## SPRINT HISTORY
 
+## Sprint 16: macOS Port — Phase 0 (liblldb sidecar) + Phase 1 (header detox)
+
+**Date:** 2026-04-15
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — `/goplan`, decision gating (D-1 through D-6), orchestration, RFC → Appendix A inline, path reorganization, `/log`
+- Engineer — Build script (`scripts/build-liblldb-mac.sh`), collapsed Phase 1.1+1.2 header detox, `debug::ResolveStatus` introduction, reorganization (Builds/liblldb, Resources/macos/liblldb), smoke-test + target + entitlements + codesign setup, script evolution (zstd fix, header-staging fixes ×2, install-name fix, tarball switch)
+- Auditor — Phase 1 audit (FAIL on static Windows parity → PASS after scope collapse), Phase 0 smoke iterations (5 consecutive FAIL reports → PASS)
+
+### Files Modified (14 total)
+- `PLAN-whatdbg-mac.md` — D-1 through D-4 rulings locked; D-5/D-6 marked deferrable; Appendix A added with API mapping tables + event dispatch pattern + SBListener setup, inlined from superseded RFC; D-3 path example updated to reflect reorg
+- `ARCHITECTURE.md` — file structure extended with `Resources/macos/liblldb/` mirror + `Builds/liblldb/` + `scripts/`
+- `.gitignore` — `build/` removed (old location); `Resources/macos/` added
+- `scripts/build-liblldb-mac.sh` (new, 110 lines) — pinned LLVM tarball fetch, MinSizeRel universal build, header + dylib staging, `install_name_tool -id @rpath/liblldb.dylib`, size report
+- `tests/mac/smoke_liblldb.cpp` (new, 64 lines) — SBDebugger init, CreateTarget, Launch, wait for eStateExited, report PASS/FAIL
+- `tests/mac/target_program.cpp` (new, 5 lines) — trivial launch target (`int main() { return 0; }`)
+- `tests/mac/CMakeLists.txt` (new, 50 lines) — standalone cmake, two executables, two codesign POST_BUILD hooks
+- `tests/mac/entitlements.plist` (new) — smoke binary: `cs.allow-unsigned-executable-memory` + `cs.disable-library-validation` + `cs.debugger`
+- `tests/mac/target_entitlements.plist` (new) — target binary: `get-task-allow`
+- `Source/debug/State.h` — removed `<windows.h>`; added `<cstdint>`; `ULONG` → `std::uint32_t` on 2 fields; added `debug::ResolveStatus` enum class alongside `ExecutionState`
+- `Source/debug/Session.h` — full D-1-A detox: COM includes + private members wrapped in `#if JUCE_WINDOWS`, reserved `#if JUCE_MAC` blocks, `HRESULT` → `juce::Result` on 6 methods, `getOffsetByLine` → `debug::ResolveStatus`, `pollEvents(uint32_t timeoutMs, bool& outHadEvent)` new signature; 8 public-API type substitutions
+- `Source/debug/Session.cpp`, `Source/debug/SessionInspection.cpp`, `Source/debug/SessionPrettyPrint.cpp` — bodies wrapped in `#if JUCE_WINDOWS ... #endif`; public-method return paths updated to `juce::Result::ok()` / `juce::Result::fail(...)`; `getOffsetByLine` Windows impl maps HRESULT → `ResolveStatus` enum
+- `Source/debug/BreakpointManager.h`, `BreakpointManager.cpp`, `BreakpointManagerHandlers.cpp` — `ULONG` → `std::uint32_t` throughout (25 replacements in `.cpp` pair); call sites of `getOffsetByLine` branch on `ResolveStatus` enum (no message-string matching); `SUCCEEDED`/`FAILED` macros replaced with `.wasOk()`/`.failed()` on `juce::Result`
+- `Source/Whatdbg.h`, `Source/Whatdbg.cpp`, `Source/WhatdbgHandlers.cpp` — `ULONG` → `std::uint32_t`; `Callbacks.h` + `Loader.h` includes wrapped in `#if JUCE_WINDOWS`; `pollEvents` caller adopts new 2-arg signature with `bool hadEvent { false }` local
+
+### Alignment Check
+- [x] BLESSED principles followed (B: SB API + ComPtr RAII unchanged; L: 3 mac `Session_*` files still planned, no PIMPL, no abstract base; E: positive nesting preserved; S SSOT: `debug::State` still owns state, `ResolveStatus` eliminates shadow-category hack; S Stateless: no new `Session` state fields; E Encapsulation: callers no longer grep error messages; D: `ResolveStatus` mapping total)
+- [x] NAMES.md adhered — Rule -1 honored; every new identifier ARCHITECT-approved (`juce::Result`, `debug::ResolveStatus` + 3 values, `outHadEvent` param, `hadEvent` caller local, `SMOKE_TARGET_PATH` compile-def)
+- [x] MANIFESTO.md applied (JUCE-first: `juce::Result` chosen over custom `SessionStatus` after ARCHITECT reminder)
+- [x] JRENG-CODING-STANDARD.md — no early returns introduced; `not`/`and`/`or`; brace init; `.at()` already used; `enum class`; no anonymous namespaces; no `namespace detail`
+
+### Problems Solved
+
+**Problem 1 — RFC load-bearing content vs. plan self-containment.** RFC-WHATDBG-MAC-00 contained the DbgEng↔liblldb API mapping tables + event-dispatch pattern but also factually wrong claims (Xcode framework linkage, "Session.h untouchable"). Inlined the accurate sections as Appendix A of PLAN; deleted the RFC.
+
+**Problem 2 — Windows-type pollution above `debug::Session`.** RFC claimed Session.h was the sole platform boundary; audit found `ULONG` and `<windows.h>` leaking into `State.h`, `BreakpointManager.h`, `Whatdbg.h`. D-1-A mechanical substitution + `#if JUCE_WINDOWS` guards across 10 files.
+
+**Problem 3 — Non-redistributable Xcode LLDB (~354 MB, Python + Swift + private frameworks).** Replaced Xcode framework linkage with self-built vendored dylib per D-3-C: `scripts/build-liblldb-mac.sh` → `Resources/macos/liblldb/`. Final 161 MB universal (under 200 MB budget).
+
+**Problem 4 — Five consecutive Phase 0.3 smoke test failures diagnosed + fixed.** (a) Staging copied `lldb/API/` but not top-level `lldb/lldb-*.h` — fixed with glob. (b) `lldb/API/SBLanguages.h` is CMake-generated in build tree — fixed by staging from `$BUILD_DIR/tools/lldb/include/lldb/API/`. (c) Staged dylib's `LC_ID_DYLIB` still said `liblldb.21.1.8.dylib` after rename — fixed with `install_name_tool -id`. (d) `task_for_pid` denied to ad-hoc-signed smoke — fixed with Developer ID codesign + `cs.debugger` entitlement. (e) AMFI blocked debug of Apple-signed hardened `/bin/echo` — fixed by building local target_program with `get-task-allow`.
+
+**Problem 5 — `HRESULT` binary-ness forced a string-match hack.** First engineer pass stringified HRESULT into `juce::Result::fail` message so `BreakpointManager.cpp` could detect `E_UNEXPECTED` via `.contains("80000003")`. Auditor flagged BLESSED Encapsulation + SSOT violation. ARCHITECT locked option (b): purpose-built `debug::ResolveStatus { resolved, notFound, engineBusy }` enum for `getOffsetByLine` only; `juce::Result` retained for the other 7 methods.
+
+**Problem 6 — Path reorganization (`build/` vs `Builds/` visual collision).** Reorganized machinery under `Builds/liblldb/{llvm-project,cmake}/` (reuses existing JUCE `Builds/` gitignore rule), dist artefacts at `Resources/macos/liblldb/` (mirrors Windows `Resources/<arch>/` sidecar pattern).
+
+**Problem 7 — GitHub git-pack RPC failures on 2 GB `llvm/llvm-project` clone (4 consecutive).** HTTP/2 stream cancellation during sideband transfer. Switched script from `git clone` to `curl -L --retry-all-errors -C -` tarball fetch — resumable, CDN-served, no pack protocol.
+
+### Debts Paid
+- None
+
+### Debts Deferred
+- None
+
 ## Sprint 15: Standalone Breakpoint Resolution
 
 **Date:** 2026-04-13

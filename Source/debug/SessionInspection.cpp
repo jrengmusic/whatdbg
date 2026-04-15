@@ -4,6 +4,8 @@
 #include "PrettyPrint.h"
 #include "../dap/Types.h"
 #include "../Log.h"
+
+#if JUCE_WINDOWS
 #include <dbghelp.h>
 
 namespace debug
@@ -323,3 +325,5 @@ juce::String Session::evaluateExpression (const juce::String& expression, int fr
 }
 
 } // namespace debug
+
+#endif // JUCE_WINDOWS

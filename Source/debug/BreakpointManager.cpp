@@ -1,4 +1,5 @@
 #include <JuceHeader.h>
+#include <cstdint>
 #include "BreakpointManager.h"
 #include "State.h"
 #include "../Log.h"
@@ -30,7 +31,7 @@ bool BreakpointManager::hasPending () const noexcept
 // BreakpointManager::isUserBreakpoint
 // ---------------------------------------------------------------------------
 
-bool BreakpointManager::isUserBreakpoint (ULONG engineId) const noexcept
+bool BreakpointManager::isUserBreakpoint (std::uint32_t engineId) const noexcept
 {
     return engineToDap.count (engineId) > 0;
 }
@@ -54,8 +55,9 @@ bool BreakpointManager::isUserBreakpoint (ULONG engineId) const noexcept
 //   deferred breakpoints re-evaluated on every module load.  In multi-DLL
 //   processes (REAPER loads 100+ JUCE-based DLLs) it resolves to wrong
 //   addresses → crash.
+//
 ResolveResult BreakpointManager::tryResolve (const juce::String& windowsPath,
-                                             ULONG requestedLine) noexcept
+                                             std::uint32_t requestedLine) noexcept
 {
     logWrite ("WHATDBG: tryResolve attempting %s:%lu\n",
               windowsPath.toRawUTF8 (),
@@ -77,27 +79,27 @@ ResolveResult BreakpointManager::tryResolve (const juce::String& windowsPath,
     //      Verify the resolved address with getLineByOffset to prevent
     //      wrong-module hits in multi-DLL processes like REAPER.
     //
-    // E_FAIL     = no code at this line (blank/comment) OR module not loaded.
-    // E_UNEXPECTED = symbol engine not ready (target still running) — stop.
-    ULONG64 offset         { 0 };
-    ULONG   resolvedLine   { 0 };
-    bool    isResolved     { false };
-    bool    engineNotReady { false };
+    // engineBusy = symbol engine not ready (target still running) — stop.
+    // notFound   = no code at this line (blank/comment) OR module not loaded.
+    std::uint64_t offset       { 0 };
+    std::uint32_t resolvedLine { 0 };
+    bool          isResolved   { false };
+    bool          isBusy       { false };
 
-    for (ULONG delta { 0 }; delta <= kLineSearchWindow and not isResolved and not engineNotReady; ++delta)
+    for (std::uint32_t delta { 0 }; delta <= kLineSearchWindow and not isResolved and not isBusy; ++delta)
     {
-        const ULONG candidate { requestedLine + delta };
+        const std::uint32_t candidate { requestedLine + delta };
 
         // a) Full path attempt.
-        HRESULT hrFull { session.getOffsetByLine (windowsPath, candidate, &offset) };
+        const ResolveStatus fullStatus { session.getOffsetByLine (windowsPath, candidate, &offset) };
 
-        if (hrFull == E_UNEXPECTED)
+        if (fullStatus == ResolveStatus::engineBusy)
         {
             logWrite ("WHATDBG: getOffsetByLine returned E_UNEXPECTED — symbol engine not ready\n");
-            engineNotReady = true;
+            isBusy = true;
         }
 
-        if (not engineNotReady and SUCCEEDED (hrFull))
+        if (not isBusy and fullStatus == ResolveStatus::resolved)
         {
             resolvedLine = candidate;
             isResolved   = true;
@@ -107,27 +109,27 @@ ResolveResult BreakpointManager::tryResolve (const juce::String& windowsPath,
                       static_cast<unsigned long long> (offset));
         }
 
-        if (not engineNotReady and not isResolved)
+        if (not isBusy and not isResolved)
         {
             // b) Basename fallback.
-            HRESULT hrBase { session.getOffsetByLine (basename, candidate, &offset) };
+            const ResolveStatus baseStatus { session.getOffsetByLine (basename, candidate, &offset) };
 
-            if (hrBase == E_UNEXPECTED)
+            if (baseStatus == ResolveStatus::engineBusy)
             {
                 logWrite ("WHATDBG: getOffsetByLine returned E_UNEXPECTED — symbol engine not ready\n");
-                engineNotReady = true;
+                isBusy = true;
             }
 
-            if (not engineNotReady and SUCCEEDED (hrBase))
+            if (not isBusy and baseStatus == ResolveStatus::resolved)
             {
                 // Reverse-verify: confirm this address belongs to our source file,
                 // not a same-named file in another DLL.
-                juce::String verifyFile;
-                ULONG        verifyLine { 0 };
+                juce::String  verifyFile;
+                std::uint32_t verifyLine { 0 };
 
-                HRESULT hrVerify { session.getLineByOffset (offset, verifyFile, &verifyLine) };
+                const juce::Result verifyResult { session.getLineByOffset (offset, verifyFile, &verifyLine) };
 
-                if (SUCCEEDED (hrVerify))
+                if (verifyResult.wasOk ())
                 {
                     resolvedLine = verifyLine;
                     isResolved   = true;
@@ -140,20 +142,17 @@ ResolveResult BreakpointManager::tryResolve (const juce::String& windowsPath,
                 }
                 else
                 {
-                    logWrite ("WHATDBG: basename resolved but reverse verify failed hr=0x%08lX\n",
-                              static_cast<unsigned long> (hrVerify));
+                    logWrite ("WHATDBG: basename resolved but reverse verify failed: %s\n",
+                              verifyResult.getErrorMessage ().toRawUTF8 ());
                 }
             }
-            else if (not engineNotReady and delta == 0)
+            else if (not isBusy and delta == 0)
             {
-                // First attempt failed — log whether it's "no code here" or
-                // "module not loaded".  Subsequent delta attempts are silent.
-                logWrite ("WHATDBG: getOffsetByLine failed for %s:%lu hr=0x%08lX%s\n",
+                // First attempt failed — no code here or module not loaded.
+                // Subsequent delta attempts are silent.
+                logWrite ("WHATDBG: getOffsetByLine notFound for %s:%lu\n",
                           basename.toRawUTF8 (),
-                          static_cast<unsigned long> (candidate),
-                          static_cast<unsigned long> (hrBase),
-                          hrBase == static_cast<HRESULT> (0x80004005)
-                              ? " — module not loaded or no code at line" : "");
+                          static_cast<unsigned long> (candidate));
             }
         }
     }
@@ -171,15 +170,16 @@ ResolveResult BreakpointManager::tryResolve (const juce::String& windowsPath,
     // Step 2 — Create the breakpoint at the resolved address.
     if (isResolved)
     {
-        ULONG   engineId { 0 };
-        HRESULT hrAdd    { session.addBreakpoint (offset, &engineId) };
+        std::uint32_t     engineId  { 0 };
+        const juce::Result addResult { session.addBreakpoint (offset, &engineId) };
 
-        if (FAILED (hrAdd))
+        if (addResult.failed ())
         {
-            logWrite ("WHATDBG: addBreakpoint failed hr=0x%08lX\n", static_cast<unsigned long> (hrAdd));
+            logWrite ("WHATDBG: addBreakpoint failed: %s\n",
+                      addResult.getErrorMessage ().toRawUTF8 ());
         }
 
-        if (SUCCEEDED (hrAdd))
+        if (addResult.wasOk ())
         {
             engineToDap[engineId] = 0;
 
@@ -201,7 +201,7 @@ ResolveResult BreakpointManager::tryResolve (const juce::String& windowsPath,
 // BreakpointManager::onBreakpointHit
 // ---------------------------------------------------------------------------
 
-juce::var BreakpointManager::onBreakpointHit (ULONG engineId, ULONG threadId)
+juce::var BreakpointManager::onBreakpointHit (std::uint32_t engineId, std::uint32_t threadId)
 {
     DynObj body { new juce::DynamicObject () };
     body->setProperty ("reason",            "breakpoint");

@@ -1,5 +1,6 @@
 #pragma once
 #include <JuceHeader.h>
+#include <cstdint>
 #include "Session.h"
 #include "../dap/Types.h"
 #include <unordered_map>
@@ -31,7 +32,7 @@ struct BreakpointInfo
      *  line may be offset from what the client requested. The resolved line is
      *  reported back in the breakpoint changed event.
      */
-    ULONG        line        { 0 };
+    std::uint32_t line        { 0 };
 
     /** True if the breakpoint has been resolved to an address and inserted in dbgeng. */
     bool         isVerified  { false };
@@ -44,7 +45,7 @@ struct BreakpointInfo
      *  Used to match incoming Breakpoint callback notifications and to call
      *  Session::removeBreakpoint during cleanup.
      */
-    ULONG        engineId    { 0 };
+    std::uint32_t engineId    { 0 };
 };
 
 /** Breakpoint that could not be resolved at registration time due to missing symbols.
@@ -69,7 +70,7 @@ struct PendingBreakpoint
     juce::String normalizedPath;
 
     /** Requested source line number from the DAP client. */
-    ULONG        line { 0 };
+    std::uint32_t line { 0 };
 };
 
 /** Result of a single breakpoint resolution attempt.
@@ -80,10 +81,10 @@ struct PendingBreakpoint
 struct ResolveResult
 {
     /** dbgeng-assigned breakpoint ID, valid only when isSuccess is true. */
-    ULONG engineId     { 0 };
+    std::uint32_t engineId     { 0 };
 
     /** Actual source line the breakpoint resolved to, valid only when isSuccess is true. */
-    ULONG resolvedLine { 0 };
+    std::uint32_t resolvedLine { 0 };
 
     /** True if Session::getOffsetByLine and Session::addBreakpoint both succeeded. */
     bool  isSuccess    { false };
@@ -150,7 +151,7 @@ public:
      *  @param threadId  OS thread ID of the thread that hit the breakpoint.
      *  @return DAP stopped event body object, or an empty object if engineId is not found.
      */
-    juce::var onBreakpointHit (ULONG engineId, ULONG threadId);
+    juce::var onBreakpointHit (std::uint32_t engineId, std::uint32_t threadId);
 
     /** Return true if there are breakpoints waiting to be resolved.
      *
@@ -170,7 +171,7 @@ public:
      *  @param engineId  dbgeng breakpoint ID to check.
      *  @return true if engineId is in the engine-to-DAP mapping.
      */
-    bool isUserBreakpoint (ULONG engineId) const noexcept;
+    bool isUserBreakpoint (std::uint32_t engineId) const noexcept;
 
 private:
     /** Attempt to resolve a single breakpoint to a dbgeng breakpoint object.
@@ -183,7 +184,7 @@ private:
      *  @param requestedLine  One-based source line number from the client.
      *  @return ResolveResult with isSuccess=true and populated fields on success.
      */
-    ResolveResult tryResolve (const juce::String& windowsPath, ULONG requestedLine) noexcept;
+    ResolveResult tryResolve (const juce::String& windowsPath, std::uint32_t requestedLine) noexcept;
 
     Session& session;
 
@@ -202,7 +203,7 @@ private:
      *  Populated when a breakpoint is successfully added via Session::addBreakpoint.
      *  Consulted by EventCallbacks::Breakpoint to identify user breakpoints.
      */
-    std::unordered_map<ULONG, uint32_t>                                   engineToDap;
+    std::unordered_map<std::uint32_t, uint32_t>                           engineToDap;
 
     /** Breakpoints awaiting symbol load before they can be resolved. */
     juce::Array<PendingBreakpoint>                                        pending;
@@ -211,7 +212,7 @@ private:
     uint32_t nextDapId { 1 };
 
     /** Number of lines above and below the requested line to search when exact resolution fails. */
-    static constexpr ULONG kLineSearchWindow { 4 };
+    static constexpr std::uint32_t kLineSearchWindow { 4 };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BreakpointManager)
 };
