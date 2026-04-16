@@ -7,7 +7,7 @@ version: "1.0"
 project:
   name: "whatdbg"
   path: "/Users/jreng/Documents/Poems/dev/whatdbg"
-  initialized: "2026-04-15"
+  initialized: "2026-04-16"
 
 carol:
   mode: "symlink"  # or "portable"

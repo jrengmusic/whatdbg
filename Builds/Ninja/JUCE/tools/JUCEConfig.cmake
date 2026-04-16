@@ -49,7 +49,7 @@ include("${CMAKE_CURRENT_LIST_DIR}/LV2_HELPER.cmake")
 if(NOT TARGET juce::juceaide)
     add_executable(juce::juceaide IMPORTED)
     set_target_properties(juce::juceaide PROPERTIES
-        IMPORTED_LOCATION "${PACKAGE_PREFIX_DIR}//")
+        IMPORTED_LOCATION "/")
 endif()
 
 check_required_components("JUCE")

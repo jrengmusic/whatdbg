@@ -3,8 +3,10 @@
 
 #include <cstdint>
 #include <iostream>
+#if JUCE_WINDOWS
 #include <fcntl.h>
 #include <io.h>
+#endif
 
 static constexpr std::uint32_t pollTimeoutMs { 50 };
 
@@ -37,8 +39,10 @@ Whatdbg::Whatdbg ()
 
 bool Whatdbg::initialize (const juce::File& sidecarDir) noexcept
 {
-    // Set stdout to binary mode for DAP framing
+#if JUCE_WINDOWS
+    // Windows stdout defaults to text mode (CRLF translation); DAP protocol is binary.
     _setmode (_fileno (stdout), _O_BINARY);
+#endif
 
     return session.initialize (sidecarDir);
 }

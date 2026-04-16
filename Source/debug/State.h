@@ -169,7 +169,12 @@ public:
      */
     bool hasExceptionStopped { false };
 
-    /** NTSTATUS exception code (e.g. 0xC0000005 for ACCESS_VIOLATION).
+    /** Platform-native exception/signal code.
+     *
+     *  Windows: NTSTATUS / SEH exception code (e.g., 0xC0000005 for ACCESS_VIOLATION),
+     *           captured by handleUnknownException on 2nd-chance.
+     *  macOS:   POSIX signal number from SBThread::GetStopReasonDataAtIndex(0) when
+     *           stop reason is eStopReasonSignal; Mach exception type when eStopReasonException.
      *
      *  Set alongside hasExceptionStopped. Persists after consumption so that
      *  handleExceptionInfo can respond with the exception details.
@@ -199,5 +204,19 @@ public:
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (State)
 };
+
+/** Translate a platform-native exception/signal code to a human-readable name.
+ *
+ *  Windows: code is an NTSTATUS / SEH exception code (e.g., 0xC0000005 → "ACCESS_VIOLATION").
+ *  macOS:   code is a POSIX signal number / Mach exception mapping (e.g., 11 → "EXC_BAD_ACCESS").
+ *
+ *  Implementations live in platform-specific files: Callbacks.cpp on Windows,
+ *  Session_mac.cpp on macOS. Used by Whatdbg::processDeferredEvents and
+ *  handleExceptionInfo to build the DAP exceptionId field.
+ *
+ *  @param code  Platform-native exception/signal code from State::exceptionCode.
+ *  @return Human-readable name, or "0x<hex>" fallback if the code is not known.
+ */
+juce::String getExceptionName (std::uint32_t code) noexcept;
 
 } // namespace debug

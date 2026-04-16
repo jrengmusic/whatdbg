@@ -49,16 +49,16 @@ include("${CMAKE_CURRENT_LIST_DIR}/LV2_HELPER.cmake")
 if(NOT TARGET juce::juceaide)
     add_executable(juce::juceaide IMPORTED)
     set_target_properties(juce::juceaide PROPERTIES
-        IMPORTED_LOCATION "${PACKAGE_PREFIX_DIR}/tools/extras/Build/juceaide/juceaide_artefacts/Custom/juceaide.exe")
+        IMPORTED_LOCATION "${PACKAGE_PREFIX_DIR}/tools/extras/Build/juceaide/juceaide_artefacts/Custom/juceaide")
 endif()
 
 check_required_components("JUCE")
 
-set(JUCE_MODULES_DIR "C:/Users/jreng/Documents/Poems/JUCE/modules" CACHE INTERNAL
+set(JUCE_MODULES_DIR "/Users/jreng/Documents/Poems/JUCE/modules" CACHE INTERNAL
     "The path to JUCE modules")
 
-include("C:/Users/jreng/Documents/Poems/JUCE/extras/Build/CMake/JUCEModuleSupport.cmake")
-include("C:/Users/jreng/Documents/Poems/JUCE/extras/Build/CMake/JUCEUtils.cmake")
+include("/Users/jreng/Documents/Poems/JUCE/extras/Build/CMake/JUCEModuleSupport.cmake")
+include("/Users/jreng/Documents/Poems/JUCE/extras/Build/CMake/JUCEUtils.cmake")
 
 set(_juce_modules
     juce_analytics
@@ -114,7 +114,7 @@ unset(_targets_defined)
 unset(_targets_expected)
 
 foreach(_juce_module IN LISTS _juce_modules)
-    juce_add_module("C:/Users/jreng/Documents/Poems/JUCE/modules/${_juce_module}" ALIAS_NAMESPACE juce)
+    juce_add_module("/Users/jreng/Documents/Poems/JUCE/modules/${_juce_module}" ALIAS_NAMESPACE juce)
 endforeach()
 
 unset(_juce_modules)

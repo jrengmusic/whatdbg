@@ -7,7 +7,7 @@ if(CMAKE_VERSION VERSION_LESS "2.8.3")
    message(FATAL_ERROR "CMake >= 2.8.3 required")
 endif()
 cmake_policy(PUSH)
-cmake_policy(VERSION 2.8.3...4.0)
+cmake_policy(VERSION 2.8.3...4.1)
 #----------------------------------------------------------------
 # Generated CMake target import file.
 #----------------------------------------------------------------
@@ -52,7 +52,7 @@ add_executable(juce_tools::juceaide IMPORTED)
 # Import target "juce_tools::juceaide" for configuration "Custom"
 set_property(TARGET juce_tools::juceaide APPEND PROPERTY IMPORTED_CONFIGURATIONS CUSTOM)
 set_target_properties(juce_tools::juceaide PROPERTIES
-  IMPORTED_LOCATION_CUSTOM "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/extras/Build/juceaide/juceaide_artefacts/Custom/juceaide.exe"
+  IMPORTED_LOCATION_CUSTOM "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/extras/Build/juceaide/juceaide_artefacts/Custom/juceaide"
   )
 
 # This file does not depend on other imported targets which have

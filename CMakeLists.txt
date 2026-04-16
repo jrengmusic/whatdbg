@@ -141,6 +141,38 @@ if(SOURCE_MODE STREQUAL "AUTO_GLOB")
         "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.hpp"
     )
 
+    # Remove all platform-specific files from the glob, then add back the correct set.
+    list(REMOVE_ITEM SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Session.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/SessionInspection.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/SessionPrettyPrint.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Loader.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Loader.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Callbacks.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Callbacks.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Session_mac.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/SessionInspection_mac.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/SessionPrettyPrint_mac.cpp"
+    )
+
+    if(WIN32)
+        list(APPEND SOURCES
+            "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Session.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/SessionInspection.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/SessionPrettyPrint.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Loader.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Loader.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Callbacks.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Callbacks.cpp"
+        )
+    elseif(APPLE)
+        list(APPEND SOURCES
+            "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Session_mac.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/SessionInspection_mac.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/SessionPrettyPrint_mac.cpp"
+        )
+    endif()
+
     message(STATUS "Source files (auto-discovered):")
     foreach(SRC ${SOURCES})
         file(RELATIVE_PATH REL_PATH "${CMAKE_CURRENT_SOURCE_DIR}" "${SRC}")
@@ -357,6 +389,36 @@ if(WIN32)
     target_compile_options(${TARGET_NAME} PRIVATE /permissive-)
     target_link_libraries(${TARGET_NAME} PRIVATE ole32 oleaut32)
     message(STATUS "Platform: Windows")
+endif()
+
+if(APPLE)
+    target_include_directories(${TARGET_NAME} PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/Resources/macos/liblldb/include")
+
+    target_link_libraries(${TARGET_NAME} PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/Resources/macos/liblldb/liblldb.dylib")
+
+    # liblldb.dylib install_name is @rpath/liblldb.dylib (set by build script via
+    # install_name_tool -id). Binary resolves it from its own directory via @loader_path.
+    set_target_properties(${TARGET_NAME} PROPERTIES
+        BUILD_RPATH  "@loader_path"
+        INSTALL_RPATH "@loader_path")
+
+    message(STATUS "macOS rpath strategy: @loader_path (liblldb.dylib sibling of binary)")
+
+    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_CURRENT_SOURCE_DIR}/Resources/macos/liblldb/liblldb.dylib"
+            "$<TARGET_FILE_DIR:${TARGET_NAME}>/liblldb.dylib"
+        COMMENT "Copying liblldb.dylib next to whatdbg binary")
+
+    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_CURRENT_SOURCE_DIR}/Resources/macos/liblldb/licenses/LLVM-LICENSE.TXT"
+            "$<TARGET_FILE_DIR:${TARGET_NAME}>/LICENSE-liblldb.txt"
+        COMMENT "Copying liblldb LICENSE next to whatdbg binary")
+
+    message(STATUS "Platform: macOS (liblldb @ Resources/macos/liblldb/)")
 endif()
 
 message(STATUS "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")

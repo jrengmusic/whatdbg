@@ -2,8 +2,10 @@
 #include "Reader.h"
 #include "../Log.h"
 
+#if JUCE_WINDOWS
 #include <fcntl.h>
 #include <io.h>
+#endif
 #include <iostream>
 #include <string>
 
@@ -23,7 +25,10 @@ Reader::~Reader ()
 
 void Reader::start ()
 {
+#if JUCE_WINDOWS
+    // Windows stdin defaults to text mode (CRLF translation); DAP protocol is binary.
     _setmode (_fileno (stdin), _O_BINARY);
+#endif
     startThread ();
 }
 
@@ -31,8 +36,13 @@ void Reader::stop ()
 {
     signalThreadShouldExit ();
 
+#if JUCE_WINDOWS
     if (_fileno (stdin) >= 0)
         std::fclose (stdin);
+#else
+    if (fileno (stdin) >= 0)
+        std::fclose (stdin);
+#endif
 
     stopThread (2000);
 }

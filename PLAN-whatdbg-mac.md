@@ -9,14 +9,14 @@
 
 ## Overview
 
-Port whatdbg to macOS by swapping the dbgeng backend for liblldb. The DAP surface, threading model, and `Session` public contract remain identical across platforms. `liblldb.dylib` is vendored and embedded in the `.app` bundle as the direct analogue of the Windows dbgeng sidecar — zero host dependencies, deterministic version.
+Port whatdbg to macOS by swapping the dbgeng backend for liblldb. The DAP surface, threading model, and `Session` public contract remain identical across platforms. `liblldb.dylib` is vendored and shipped alongside the `whatdbg` binary as a sibling dylib loaded via `@loader_path` — zero host dependencies, deterministic version. CLI tool, no `.app` bundle (mirrors `lldb` / `clang` / homebrew binary convention).
 
 ---
 
 ## Session-Locked Decisions (ARCHITECT)
 
 1. **Sidecar model — not Xcode framework.** Apple's `LLDB.framework` at `/Applications/Xcode.app/Contents/SharedFrameworks/LLDB.framework` is 354 MB per-arch, depends on Python3, 12+ Swift compiler dylibs, and private framework `CoreAnalytics`. Non-redistributable. Ships without `Headers/`. Out of scope.
-2. **Self-built `liblldb.dylib` bundled inside `.app/Contents/Frameworks/`.** Loader-resolved via `@rpath`. Macos equivalent of Windows dbgeng sidecar.
+2. **Self-built `liblldb.dylib` shipped as sibling of `whatdbg` binary.** `juce_add_console_app` produces a flat Mach-O on macOS (verified: `JUCEUtils.cmake:2147` — `add_executable(${target})`, no `MACOSX_BUNDLE`). Dylib resolved via `@loader_path/liblldb.dylib` rpath. macOS-CLI-natural; mason packaging delivers both files in the same install dir.
 3. **Binary budget: ~200 MB universal (arm64 + x86_64).** Estimate ~150–180 MB for `liblldb.dylib` with Python/Swift/libedit/curses/libxml2 disabled, MinSizeRel, only AArch64 + X86 codegen targets, full Clang expression parser retained.
 4. **Full expression-eval parity.** `SBFrame::EvaluateExpression` kept — mirrors Windows `Execute("?? …")`. This is the dominant contributor to binary size; dropping it would break `Session` contract parity.
 5. **License: Apache 2.0 with LLVM Exception.** Permits static + dynamic linking in proprietary apps. Obligations: ship `LICENSE.TXT` inside the `.app`, preserve copyright notices, no LLVM/Clang/LLDB trademarks in marketing. No copyleft. No GPL transitive deps when Python/Lua/libedit/libxml2 are disabled.
@@ -161,14 +161,14 @@ Deferred to Phase 3 attach work. `@engineer` proposes at implementation, `@audit
 **Action:** `@engineer` adds `if (APPLE) … elseif (WIN32) … endif()` block selecting platform-specific source files. Current Windows sources gated to `WIN32`. Mac branch adds forward-declared file placeholders (`Session_mac.cpp`, `SessionInspection_mac.cpp`, `SessionPrettyPrint_mac.cpp` — empty skeletons with header include and namespace only) to unblock the build before Phase 3 fills them.
 **Validation:** `@auditor` confirms CMake configures on both platforms without errors; Windows build still green; macOS build reaches the link step and fails only on unresolved `debug::Session` method bodies.
 
-#### Step 2.2: Embed vendored `liblldb.dylib` into `.app`
+#### Step 2.2: Ship vendored `liblldb.dylib` as sibling of binary
 **Scope:** `CMakeLists.txt` macOS branch.
-**Action:** `@engineer` adds (a) `target_include_directories` pointing at `Resources/macos/liblldb/include`, (b) `target_link_libraries` against the vendored `liblldb.dylib`, (c) copy step placing the dylib at `$<TARGET_BUNDLE_CONTENT_DIR>/Frameworks/liblldb.dylib`, (d) `install_name_tool` rewrite so the main executable's `LC_LOAD_DYLIB` points to `@rpath/liblldb.dylib`, (e) `-rpath @executable_path/../Frameworks` on the main target, (f) copy `LLVM LICENSE.TXT` to `$<TARGET_BUNDLE_CONTENT_DIR>/Resources/licenses/`.
-**Validation:** `@auditor` runs `otool -L` on the built binary and confirms the dylib resolves via `@rpath`, runs the app, confirms no missing-dylib errors. Confirms LICENSE is present in the bundle.
+**Action:** `@engineer` adds (a) `target_include_directories` pointing at `Resources/macos/liblldb/include`, (b) `target_link_libraries` against the vendored `liblldb.dylib`, (c) `POST_BUILD` copy step placing the dylib next to `$<TARGET_FILE:${TARGET_NAME}>` (sibling of the main binary), (d) `BUILD_RPATH @loader_path` on the main target so `liblldb.dylib` resolves from the binary's directory, (e) verify `liblldb.dylib`'s `LC_ID_DYLIB` is already `@rpath/liblldb.dylib` (set by Phase 0.1 `install_name_tool -id`), (f) `POST_BUILD` copy of `LLVM LICENSE.TXT` next to the binary as `LICENSE-liblldb.txt`.
+**Validation:** `@auditor` runs `otool -L` on the built binary and confirms the dylib resolves via `@rpath`/`@loader_path`, runs the binary, confirms no missing-dylib errors. Confirms LICENSE-liblldb.txt is present next to the binary.
 
 #### Step 2.3: `Main.cpp` platform guard
 **Scope:** `Source/Main.cpp`.
-**Action:** `@engineer` wraps `extractSidecarBinaries()` in `#if JUCE_WINDOWS`. On macOS, the sidecar dylib is already inside the bundle — no extraction needed. Pass an empty `juce::File {}` or a sentinel to `Whatdbg::initialize` on macOS (signature unchanged per locked decision #6). Guards `_setmode` and any other Windows-only calls.
+**Action:** `@engineer` wraps `extractSidecarBinaries()` (definition + call) and `#include <BinaryData.h>` in `#if JUCE_WINDOWS`. On macOS, the sidecar dylib is shipped next to the binary — no extraction needed. Pass an empty `juce::File {}` to `Whatdbg::initialize` on macOS (signature unchanged per locked decision #6). Guards any other Windows-only calls.
 **Validation:** `@auditor` confirms both platforms build and link, Windows extraction unchanged, macOS entry path clean.
 
 **GATE:** Phase 3 starts only after Phase 2 macOS build links successfully (even with empty Session_mac bodies).

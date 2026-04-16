@@ -112,7 +112,76 @@
 
 ## SPRINT HISTORY
 
-## Sprint 17: Target Crash Surfacing + Clean Adapter Shutdown
+## Sprint 18: macOS liblldb Backend — Session + Inspection + Feature 11 Port
+
+**Date:** 2026-04-16
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — session framing, CONTRACT enforcement, PLAN updates (session decision #2 bundle drop, Step 2.2/2.3 rewrite, A.1 correction), name-gate decisions (17 new identifiers approved across Phase 2-4 + Feature 11), decision gates (Q1-Q4, symbol/source path impl, exception-code semantics, L-3-BRANCH refactor, helper splits), scope discipline (retracted bail/defer options, reasserted SPEC parity contract)
+- Pathfinder — Phase 0/1 state survey, current codebase map, Builds-loss impact check, Windows-pollution sweep across cross-platform files, commit/sprint fact-gather
+- Librarian — LLDB `target.debug-file-search-paths` + `target.source-map` authoritative research (lldb-dap `DAP.cpp:1101` pattern, `SBDebugger::SetInternalVariable` vs `HandleCommand` semantics)
+- Engineer — CMake platform-select + APPLE block, Main.cpp guards, Session.h mac members, Session_mac.cpp Phase 3.1-3.6 impls (launch/attach/resume/step/interrupt/breakpoints/symbols/threads/pollEvents), Phase 4 (getStackTrace/getLocals/getVariableChildren/evaluateExpression + 2 helpers), Feature 11 mac port (signal + exception stop handlers, signalNames table, cross-platform getExceptionName promotion), audit-finding fixes (renames obj→threadEntry, module→moduleRef, TID jassert, out-pointer jasserts, timeoutMs WHY), pollEvents split into handleProcessEvent/handleTargetEvent, SBValue const-correctness fix, Whatdbg.cpp Windows-header guards
+- Auditor — full CONTRACT sweep on Phase 2.1-3.6 (0 critical, 5 high) — findings drove the rename + jassert + WHY-comment fixes
+
+### Files Modified (12 total, 3 new)
+- `CMakeLists.txt` — Source select block (`REMOVE_ITEM` + `APPEND` per platform) at lines 144-174; new `if(APPLE)` block at lines 394-422 with liblldb include/link, BUILD_RPATH/INSTALL_RPATH `@loader_path`, POST_BUILD copy of dylib + LICENSE-liblldb.txt next to binary
+- `PLAN-whatdbg-mac.md` — overview + session decision #2 rewritten to sibling-dylib model (no `.app` bundle); Step 2.2 + Step 2.3 action text rewritten; verified against `JUCEUtils.cmake:2147` (`juce_add_console_app` → flat Mach-O, no `MACOSX_BUNDLE`)
+- `Source/Main.cpp` — `#include <BinaryData.h>` + `extractSidecarBinaries()` definition guarded `#if JUCE_WINDOWS`; sidecarDir on macOS = `juce::File::getSpecialLocation(juce::File::currentExecutableFile).getParentDirectory()` (where POST_BUILD copies liblldb.dylib); preserves existing `if (sidecarDir != juce::File{})` gate with no new identifier
+- `Source/Whatdbg.cpp` — `<io.h>`/`<fcntl.h>` + `_setmode(_fileno(stdout), _O_BINARY)` wrapped `#if JUCE_WINDOWS`
+- `Source/WhatdbgHandlers.cpp` — `handleLaunch` + `handleAttach` symbol/source path setup: `appendSymbolPath("srv*")` wrapped `#if JUCE_WINDOWS` (Microsoft symbol server URL, no macOS analogue); `cwd.replace("/","\\")` wrapped `#if JUCE_WINDOWS`, `#else` branch passes `cwd` verbatim on macOS
+- `Source/dap/Reader.cpp` — `<io.h>`/`<fcntl.h>` + `_setmode(_fileno(stdin), _O_BINARY)` + `_fileno(stdin) >= 0` guard wrapped `#if JUCE_WINDOWS`; `#else` branch uses POSIX `fileno(stdin)`
+- `Source/debug/Callbacks.h` — `getExceptionName` forward declaration removed (moved to State.h for cross-platform visibility)
+- `Source/debug/Session.h` — `#if JUCE_MAC` block populated with `<lldb/API/LLDB.h>` include + 4 SB members (`debugger`, `listener`, `target`, `process`) + 2 Phase 4 cache members (`cachedFrameVariables`, `cachedFrameIndex`) + 2 Phase 4 helper declarations (`ensureFrameVariablesCache`, `makeVariableDynObj`); column doxygen corrected `always 0` → `always 1 (1-based per DAP convention)`
+- `Source/debug/State.h` — `getExceptionName` declaration added in `namespace debug` with platform-native semantic doxygen (NTSTATUS on Windows, signal number on macOS); `exceptionCode` field doxygen expanded with per-platform source
+- `Source/debug/Session_mac.cpp` (NEW, ~520 lines) — 7 static TU-local handlers + 2 dispatch tables (`stopReasonHandlers`, `signalNames`); `Session` lifecycle (~/init/shutdown/launch/attach/resume/pollEvents); execution (step*/interrupt); breakpoints (add/remove + source→offset via module/compile-unit iteration); symbol/source paths via `debugger.HandleCommand("settings append target.debug-file-search-paths …")` + `HandleCommand("settings set target.source-map \".\" \"…\"")`; threads with TID `jassert` + narrowing cast; `resetSymbolGroupCache` clears cachedFrameVariables; `getExceptionName` mac impl with signalNames lookup
+- `Source/debug/SessionInspection_mac.cpp` (NEW, ~185 lines) — `ensureFrameVariablesCache` + `makeVariableDynObj` helpers; `getStackTrace` (SBFrame walk, SBLineEntry source info, column=1 per corrected Windows parity); `getLocals` (SBFrame::GetVariables, per-frame SBValueList cache via helper); `getVariableChildren` (GetNumChildren/GetChildAtIndex via helper); `evaluateExpression` (SBFrame::EvaluateExpression + SBError check, raw LLDB output pending Phase 5 pretty-print wrap)
+- `Source/debug/SessionPrettyPrint_mac.cpp` (NEW, 3 lines) — TU placeholder; Phase 5 will populate macOS pretty-print formatters for STL-type parity
+
+### Alignment Check
+- [x] BLESSED principles followed
+  - **B**: SB API value types with ref-counted internals — RAII on `SBDebugger`/`SBListener`/`SBTarget`/`SBProcess`/`SBValueList`; liblldb.dylib lifecycle owned by dynamic loader via `@loader_path`; sidecar sibling-file model vs Windows AppData extraction (platform-appropriate)
+  - **L**: 3-branch rule satisfied — inner stop-reason switch replaced with `stopReasonHandlers` lookup table (O(1), 6 cases as data); `pollEvents` split into `handleProcessEvent`+`handleTargetEvent`; `getLocals` 37→13 lines via helpers; `getVariableChildren` 43→20 lines; `getStackTrace` 38 lines accepted per YAGNI (single-use `makeFrameDynObj` would not survive BLESSED L criteria)
+  - **E**: positive nested checks throughout; `not`/`and`/`or` alternative tokens; `jassert` on out-pointers (`outEngineId`/`outOffset`/`outLine`) + TID narrowing at boundaries per PLAN line 206; `juce::ignoreUnused` on genuinely unused parameters; WHY comments on platform-divergent no-ops
+  - **S (SSOT)**: `State::getContext()` single access pattern mirrored from Windows; `cachedFrameVariables` is the single per-frame local-variable cache (invalidated by `resetSymbolGroupCache`); `getExceptionName` declaration in one header (State.h); `makeVariableDynObj` is SSOT for variable DAP shape across `getLocals` + `getVariableChildren`
+  - **S (Stateless)**: no new orchestrator flags added; handlers write `debug::State*` directly, no intermediate machinery state
+  - **E (Encapsulation)**: platform leak stops at `Session`'s public boundary; `Whatdbg`/`WhatdbgHandlers`/`BreakpointManager` unchanged on mac except for `#if JUCE_WINDOWS` guards on Windows-isms in command handlers
+  - **D**: DAP output schema bit-parity with Windows (`id` = loop index on stack frames, `hasChildren` bool on variables, `column = 1`) — not assumption, verified by reading `SessionInspection.cpp`
+- [x] NAMES.md adhered — Rule -1 honored; 17 new identifiers ARCHITECT-approved: `debugger`, `listener`, `target`, `process`, `processState`, `debugState`, `cachedFrameVariables`, `cachedFrameIndex`, `ensureFrameVariablesCache`, `makeVariableDynObj`, `threadEntry`, `moduleRef`, `signalNames`, `stopReasonHandlers`, `handleBreakpointStop`, `handleStepStop`, `handleInterruptStop`, `handleSignalStop`, `handleExceptionStop`, `handleProcessEvent`, `handleTargetEvent` (mirrors Windows `Callbacks.cpp` established pattern)
+- [x] MANIFESTO.md applied — JUCE-first discipline (no rolled crash handlers, `juce::SystemStats::setApplicationCrashHandler` on both platforms; `juce::File::currentExecutableFile` for sidecarDir; `juce::Result` for Session return semantics; `juce::DynamicObject`/`juce::var` for DAP shape)
+- [x] JRENG-CODING-STANDARD.md — brace init throughout; `not`/`and`/`or`; `.at()` where applicable; no early returns (single exit point per function); no anonymous namespaces (`static` file-local symbols); `enum class`; `noexcept` on all new functions; `const` before type; platform-divergent C++20 keyword hazard avoided (`module` → `moduleRef` rename)
+
+### Problems Solved
+
+**Problem 1 — `.app` bundle assumption broken.** PLAN Step 2.2 used `$<TARGET_BUNDLE_CONTENT_DIR>/Frameworks/liblldb.dylib`, but `juce_add_console_app` produces a flat Mach-O on macOS (verified at `JUCEUtils.cmake:2147`: `add_executable(${target})` with no `MACOSX_BUNDLE`). PLAN was wrong. Bundling a CLI tool is also semantically wrong — macOS CLI convention is flat binary + sibling dylib (lldb, clang, brew). Replaced with `BUILD_RPATH`/`INSTALL_RPATH @loader_path` + POST_BUILD copy pattern.
+
+**Problem 2 — PLAN A.1 wrong on symbol/source path APIs.** `SBTarget::AppendImageSearchPath(from, to, error)` is a path-remap (from→to), NOT an additive search path. `SBDebugger::SetSourceMap` does not exist in LLDB 21.x. @Librarian found lldb-dap's own pattern: `target.debug-file-search-paths` via `HandleCommand("settings append …")` + `target.source-map` single-pair remap via `HandleCommand("settings set …")` (DAP.cpp:1101). Implemented both via `HandleCommand` rather than `SetInternalVariable` which only supports `eVarSetOperationAssign` (replace, not append).
+
+**Problem 3 — Caller bugs in WhatdbgHandlers.cpp exposed by cross-platform compile.** `session.appendSymbolPath("srv*")` is Windows MS symbol-server URL with no macOS analogue; `cwd.replace("/","\\")` force-converts POSIX paths to Windows separators and breaks LLDB path resolution on macOS. Both wrapped `#if JUCE_WINDOWS` with `#else` branch passing `cwd` verbatim.
+
+**Problem 4 — LLDB SB API non-const accessors.** `SBValue::GetValue()`/`GetSummary()`/`GetName()`/`GetTypeName()`/`MightHaveChildren()` are all declared non-const in `SBValue.h`. `makeVariableDynObj` signature corrected from `const lldb::SBValue&` → `lldb::SBValue&` to match LLDB API convention (SB objects are cheap ref-counted wrappers; non-const ref is the idiom).
+
+**Problem 5 — CONTRACT addendum on feature parity.** Earlier drafts suggested options like "no-op + log" for `appendSymbolPath`/`appendSourcePath` and "defer L-3-BRANCH" — ARCHITECT explicitly rejected both patterns. CONTRACT locked: ALL Windows features must be implemented on macOS; backend divergence (dbgeng vs liblldb) is expected, but feature-surface parity is non-negotiable. "A debugger is a debugger." Drove rewriting options A/B/C into single-path implementation for symbol/source paths, Feature 11 mac port, and pollEvents L-3-BRANCH refactor.
+
+**Problem 6 — Feature 11 (target crash surfacing) was Windows-only.** Sprint 17 surfaced debuggee crashes via NTSTATUS in DAP `exceptionInfo`. On macOS, LLDB reports `eStopReasonSignal` / `eStopReasonException` instead. Ported: `handleSignalStop` + `handleExceptionStop` populate `hasExceptionStopped`/`exceptionCode`/`exceptionAddress` (from `SBFrame::GetPC()`); `signalNames` TU-local table maps signal numbers → `"EXC_BAD_ACCESS"`/`"EXC_BREAKPOINT"`/etc.; `getExceptionName` declaration promoted from Windows-only `Callbacks.h` to cross-platform `State.h`; `State.h:172-184` doxygen expanded with per-platform `exceptionCode` semantics.
+
+**Problem 7 — Inner stop-reason switch grew to 6 branches during Feature 11 port.** Original Phase 3.2 deferred L-3-BRANCH per PLAN line 486; adding signal + exception cases would have made it worse. Refactored to `stopReasonHandlers` lookup table (`std::unordered_map<lldb::StopReason, void(*)(debug::State*, lldb::SBThread&)>`) with 5 static handler functions — O(1) dispatch, adding cases is data not code, mirrors Windows `Callbacks.cpp::exceptionHandlers` pattern.
+
+**Problem 8 — `pollEvents` 73 lines after Feature 11 + L-refactor.** Outer process-event / target-event dispatch kept the function over 30 lines. Split into `handleProcessEvent (state, process, event)` + `handleTargetEvent (state, event)` static TU-local helpers. `pollEvents` body reduced to 14 lines.
+
+**Problem 9 — `module` C++20 keyword hazard.** Local variable `module` in `Session_mac.cpp` (added during Phase 3) is a reserved identifier under C++20. Project is currently C++17 so technically legal, but forward-incompatible. Renamed to `moduleRef` per NAMES Rule -1 (ARCHITECT approved).
+
+**Problem 10 — TID narrowing silent cast violated PLAN line 206.** `lldb::tid_t` is uint64_t; `std::uint32_t` storage in `State` requires explicit check per PLAN "(assert or log)". Initial implementation followed Windows `Callbacks.cpp:281` convention (silent cast), but PLAN contract overrides codebase pattern. Fixed: `jassert (tid <= std::numeric_limits<std::uint32_t>::max())` before cast in `getThreads()` + `getEventThreadSystemId()`.
+
+**Problem 11 — Windows-pollution in cross-platform files.** `Reader.cpp` used `<io.h>` + `_setmode(_fileno(stdin), _O_BINARY)` for binary-mode stdin on Windows (CRLF translation). `Whatdbg.cpp` used the same pattern for stdout. Both missed in Sprint 16 detox. Thorough @Pathfinder sweep confirmed Whatdbg.cpp was the only remaining offender; `#if JUCE_WINDOWS` guards applied. Non-Windows branch in `Reader::stop` uses POSIX `fileno(stdin)`.
+
+### Debts Paid
+- None (DEBT.md does not exist at project root)
+
+### Debts Deferred
+- None
+
+
 
 **Date:** 2026-04-16
 **Primary:** COUNSELOR

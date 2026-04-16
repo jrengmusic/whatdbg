@@ -1,5 +1,7 @@
 #include <JuceHeader.h>
+#if JUCE_WINDOWS
 #include <BinaryData.h>
+#endif
 #include <exception>
 #include "Log.h"
 #include "Whatdbg.h"
@@ -56,6 +58,7 @@ static void onApplicationTerminate () noexcept
 }
 #endif
 
+#if JUCE_WINDOWS
 static juce::File extractSidecarBinaries () noexcept
 {
     const juce::File sidecarDir { getConfigDirectory ().getChildFile (dbgengSubdir) };
@@ -103,6 +106,7 @@ static juce::File extractSidecarBinaries () noexcept
 
     return isAllOk ? sidecarDir : juce::File {};
 }
+#endif
 
 int main (int argc, char* argv[])
 {
@@ -124,7 +128,12 @@ int main (int argc, char* argv[])
 
     logWrite ("WHATDBG: started\n");
 
+#if JUCE_WINDOWS
     const auto sidecarDir { extractSidecarBinaries () };
+#else
+    const juce::File sidecarDir { juce::File::getSpecialLocation (juce::File::currentExecutableFile)
+                                      .getParentDirectory () };
+#endif
 
     if (sidecarDir != juce::File {})
     {

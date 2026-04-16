@@ -6,15 +6,6 @@
 namespace debug
 {
 
-/** Returns the human-readable name for a given NTSTATUS/SEH exception code.
- *
- *  Falls back to a hex-string representation ("0x<code>") for unknown codes.
- *
- *  @param code  Exception code from PEXCEPTION_RECORD64::ExceptionCode.
- *  @return Short name (e.g. "ACCESS_VIOLATION") or "0x<hex>" fallback.
- */
-juce::String getExceptionName (std::uint32_t code) noexcept;
-
 /** Receives debug output from the target process via dbgeng.
  *
  *  Registered with IDebugClient5::SetOutputCallbacks. Implements

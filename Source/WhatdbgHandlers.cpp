@@ -22,16 +22,23 @@ void Whatdbg::handleLaunch (const juce::var& request)
 
     if (isLaunched)
     {
-        // Configure symbol search — srv* enables Microsoft symbol server
+#if JUCE_WINDOWS
+        // Configure symbol search — srv* enables Microsoft symbol server (Windows-only).
         session.appendSymbolPath ("srv*");
+#endif
 
         // Configure source path from DAP arguments if provided
         const juce::String cwd { dap::getString (args, "cwd") };
 
         if (cwd.isNotEmpty ())
         {
+#if JUCE_WINDOWS
             session.appendSourcePath (cwd.replace ("/", "\\"));
             session.appendSymbolPath (cwd.replace ("/", "\\"));
+#else
+            session.appendSourcePath (cwd);
+            session.appendSymbolPath (cwd);
+#endif
         }
 
         state.executionState = debug::ExecutionState::launching;
@@ -55,16 +62,23 @@ void Whatdbg::handleAttach (const juce::var& request)
 
     if (isAttached)
     {
-        // Configure symbol search — srv* enables Microsoft symbol server
+#if JUCE_WINDOWS
+        // Configure symbol search — srv* enables Microsoft symbol server (Windows-only).
         session.appendSymbolPath ("srv*");
+#endif
 
         // Configure source path from DAP arguments if provided
         const juce::String cwd { dap::getString (args, "cwd") };
 
         if (cwd.isNotEmpty ())
         {
+#if JUCE_WINDOWS
             session.appendSourcePath (cwd.replace ("/", "\\"));
             session.appendSymbolPath (cwd.replace ("/", "\\"));
+#else
+            session.appendSourcePath (cwd);
+            session.appendSymbolPath (cwd);
+#endif
         }
 
         state.targetProcessId = pid;

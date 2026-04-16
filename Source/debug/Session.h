@@ -12,7 +12,7 @@
 #endif
 
 #if JUCE_MAC
-// macOS-specific includes land here at Phase 2+
+#include <lldb/API/LLDB.h>
 #endif
 
 namespace debug
@@ -278,7 +278,7 @@ public:
      *  - name        (String) — demangled function name or "??"
      *  - source      (Object) — { name, path } if source info is available
      *  - line        (int)    — one-based source line number
-     *  - column      (int)    — always 0 (column not resolved)
+     *  - column      (int)    — always 1 (column not resolved; 1-based per DAP convention)
      *
      *  @param maxFrames  Maximum number of frames to return. Clamped to stack depth.
      *  @return Array of frame objects. Empty if the stack cannot be walked.
@@ -418,7 +418,35 @@ private:
 #endif
 
 #if JUCE_MAC
-    // macOS session members land here at Phase 3+
+    /** Refresh cachedFrameVariables for the given frame if stale.
+     *
+     *  Mirrors Windows getOrCreateSymbolGroup — keyed on frame index; regenerates
+     *  the SBValueList when the cached index does not match. Callers may rely on
+     *  cachedFrameVariables being valid for frameIndex after this returns.
+     *
+     *  @param frameIndex  Zero-based stack frame index (0 = innermost).
+     */
+    void ensureFrameVariablesCache (int frameIndex) noexcept;
+
+    /** Build a DAP variable object from an SBValue.
+     *
+     *  Constructs a juce::var wrapping a DynamicObject with the schema:
+     *  name, value, type, hasChildren, symbolIndex. Null-safe on every
+     *  const char* return from SBValue. Used by getLocals and getVariableChildren
+     *  to share a single source of truth for the variable schema.
+     *
+     *  @param value         The SBValue to format.
+     *  @param symbolIndex   Index to embed as the DAP symbolIndex field.
+     *  @return juce::var holding the DynamicObject.
+     */
+    juce::var makeVariableDynObj (lldb::SBValue& value, int symbolIndex) noexcept;
+
+    lldb::SBDebugger  debugger;
+    lldb::SBListener  listener;
+    lldb::SBTarget    target;
+    lldb::SBProcess   process;
+    lldb::SBValueList cachedFrameVariables;
+    int               cachedFrameIndex { -1 };
 #endif
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Session)
