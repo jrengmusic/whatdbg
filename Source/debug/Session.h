@@ -18,6 +18,20 @@
 namespace debug
 {
 
+/** Mode for ending a debug session.
+ *
+ *  Maps to dbgeng DEBUG_END_* flags. Choose based on target state:
+ *  - terminate: target is alive, kill it on detach
+ *  - detach:    target is alive, leave it running
+ *  - passive:   target has already exited; release session state only
+ */
+enum class EndMode
+{
+    terminate,
+    detach,
+    passive
+};
+
 /** COM wrapper around the dbgeng debug engine interfaces.
  *
  *  Session owns and manages the lifetime of all IDebug* COM interfaces acquired
@@ -103,14 +117,20 @@ public:
 
     /** Detach from the target and release all COM resources.
      *
-     *  Calls IDebugClient5::EndSession with either DEBUG_END_ACTIVE_TERMINATE or
-     *  DEBUG_END_ACTIVE_DETACH depending on shouldTerminate. Releases all COM
-     *  interface pointers and calls CoUninitialize if this Session owns the STA.
+     *  Calls IDebugClient5::EndSession with the dbgeng flag corresponding to mode,
+     *  then releases all COM interface pointers. Calls CoUninitialize if this Session
+     *  owns the COM apartment.
      *
-     *  @param shouldTerminate  When true, the target process is killed on detach.
-     *                          When false, the target continues running after detach.
+     *  @param mode  How to end the session:
+     *               - EndMode::terminate — target is alive; kill it on detach
+     *               - EndMode::detach    — target is alive; leave it running after detach
+     *               - EndMode::passive   — target has already exited; release state only
+     *
+     *  @note Callers must pass an explicit mode. The destructor passes EndMode::passive.
+     *        Passing terminate or detach for a target that has already exited will hang;
+     *        check ExecutionState before calling.
      */
-    void shutdown (bool shouldTerminate = false) noexcept;
+    void shutdown (EndMode mode) noexcept;
 
     // ── Breakpoint API (used by BreakpointManager) ─────────────────────
 

@@ -6,6 +6,15 @@
 namespace debug
 {
 
+/** Returns the human-readable name for a given NTSTATUS/SEH exception code.
+ *
+ *  Falls back to a hex-string representation ("0x<code>") for unknown codes.
+ *
+ *  @param code  Exception code from PEXCEPTION_RECORD64::ExceptionCode.
+ *  @return Short name (e.g. "ACCESS_VIOLATION") or "0x<hex>" fallback.
+ */
+juce::String getExceptionName (std::uint32_t code) noexcept;
+
 /** Receives debug output from the target process via dbgeng.
  *
  *  Registered with IDebugClient5::SetOutputCallbacks. Implements
@@ -114,7 +123,7 @@ private:
  *  all state changes in processDeferredEvents() without COM re-entrancy concerns.
  *
  *  Key events and their State effects:
- *  - Breakpoint     → sets hasBreakpointHit / breakpointEngineId (user BP) or isInitialBreakSeen
+ *  - Breakpoint     → sets hasBreakpointHit / breakpointEngineId (user BP) or initialBreakPhase::pending
  *  - LoadModule     → sets hasNewModuleLoaded, lastLoadedModuleName, lastLoadedImageName
  *  - ExitProcess    → sets hasProcessExited, processExitCode
  *  - ChangeEngineState → sets hasStepCompleted when step finishes
@@ -170,7 +179,7 @@ public:
      *
      *  Checks whether this is the initial loader breakpoint (before any user
      *  breakpoints are registered) or a user-set breakpoint. Sets the appropriate
-     *  State flags (isInitialBreakSeen or hasBreakpointHit/breakpointEngineId).
+     *  State flags (initialBreakPhase::pending or hasBreakpointHit/breakpointEngineId).
      *
      *  @param bp  Pointer to the IDebugBreakpoint that was hit.
      *  @return DEBUG_STATUS_BREAK to keep the target stopped.

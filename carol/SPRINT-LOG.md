@@ -112,7 +112,75 @@
 
 ## SPRINT HISTORY
 
-## Sprint 16: macOS Port — Phase 0 (liblldb sidecar) + Phase 1 (header detox)
+## Sprint 17: Target Crash Surfacing + Clean Adapter Shutdown
+
+**Date:** 2026-04-16
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — session framing, scope discipline, CONTRACT enforcement, audit triage, name-gate approvals, docs sync
+- Pathfinder — crash surface discovery (Log.h / callbacks / dbgeng event loop), Hungarian-notation sweep across Source/ and modules/
+- Librarian — JUCE `SystemStats::setApplicationCrashHandler` / `getStackBacktrace` / `FileLogger` facts; documented `std::terminate` SEH gap on Windows
+- Engineer — crash-handler install, diagnostic-breadcrumb placement across shutdown chain, `Reader::stop()` iterations (fclose placement + idempotent guard), `Session::shutdown(EndMode)` refactor, `Loader::~Loader` FreeLibrary removal, exception surfacing (state fields, handler dispatch, DAP stopped+output emission, `handleExceptionInfo`), shadow-state collapse (`InitialBreakPhase`), Hungarian strip (17 constants), SPEC/ARCHITECTURE doc edits
+- Auditor — full-sprint audit — 13 diagnostic categories flagged for strip, 5 decision findings (D1–D5), shadow-state finding, 11 doc findings
+
+### Files Modified (18 total)
+- `Source/Main.cpp` — `onApplicationCrash` (SEH path) + `onApplicationTerminate` (`std::set_terminate` path) installed under `#if JUCE_DEBUG` after `g_logFile` opens; both write `juce::SystemStats::getStackBacktrace()` via existing `logWrite`
+- `Source/Whatdbg.h` — `handleExceptionInfo` declaration added; explicit `~Whatdbg` removed (was diagnostic-only)
+- `Source/Whatdbg.cpp` — `isRunning = false` after target exits so loop doesn't wait for disconnect; `EndMode` selection (`passive` when `executionState == exited`, `terminate`/`detach` otherwise); new `hasExceptionStopped` block in `processDeferredEvents` emits DAP `stopped(reason=exception)` + `output(category=stderr)`; `exceptionInfo` registered in `commandHandlers`; `initialBreakPhase` references; `std::fclose (stdin)` call removed (now owned by `Reader::stop`)
+- `Source/WhatdbgHandlers.cpp` — `handleExceptionInfo` implementation — responds with `exceptionId`, `description`, `breakMode: "unhandled"` built from persistent `State::exceptionCode` + `exceptionAddress`
+- `Source/dap/Reader.cpp` — `Reader::stop` closes stdin idempotently (`if (_fileno (stdin) >= 0)`) to unblock `std::getline`; destructor returns to defaulted body after diagnostic strip
+- `Source/dap/Reader.h` — `kFifoCapacity` → `fifoCapacity` (Hungarian strip)
+- `Source/dap/Types.h:133` — `supportsExceptionInfoRequest` flipped to `true`
+- `Source/debug/State.h` — `InitialBreakPhase { notHit, pending, resolved }` enum added; `isInitialBreakSeen` + `isInitialBreakHandled` collapsed into single `initialBreakPhase` field (SSOT + Stateless); new exception fields `hasExceptionStopped`, `exceptionCode`, `exceptionAddress`
+- `Source/debug/Session.h` — `EndMode { terminate, detach, passive }` enum added; `shutdown(bool shouldTerminate)` → `shutdown(EndMode mode)` with no default (Explicit)
+- `Source/debug/Session.cpp` — `shutdown` maps EndMode → `DEBUG_END_ACTIVE_TERMINATE`/`_ACTIVE_DETACH`/`_PASSIVE`; `~Session` and init-failure path pass explicit `EndMode::passive`
+- `Source/debug/Callbacks.h` — `getExceptionName(std::uint32_t) noexcept` returning `juce::String` (name or `"0x<hex>"` fallback); doc comments updated to reference `initialBreakPhase::pending`
+- `Source/debug/Callbacks.cpp` — `ExceptionHandler` sig includes `PEXCEPTION_RECORD64`; `handleUnknownException` on 2nd-chance populates `hasExceptionStopped` + `exceptionCode` + `exceptionAddress` and sets `executionState = stopped`; `handleBreakpoint` transitions `initialBreakPhase`; `handleSingleStep` + `EXCEPTION_SINGLE_STEP` map entry deleted (dead per PLAN, stripped per ARCHITECT); `exceptionNames` lookup (17 NTSTATUS/SEH codes); `getExceptionName` definition in `namespace debug`; `ExitProcess` callback log added for event-callback consistency
+- `Source/debug/BreakpointManager.h` — `kLineSearchWindow` → `lineSearchWindow`; explicit `~BreakpointManager` declaration removed
+- `Source/debug/BreakpointManager.cpp` — `lineSearchWindow` references; diagnostic destructor body removed
+- `Source/debug/Loader.cpp` — `FreeLibrary(dbgengModule)` removed from `~Loader` (dbgeng unload hang — symsrv threads + residual COM state); `dbgengModule = nullptr` + Guard-Rule comment retained (named threat)
+- `Source/debug/SessionInspection.cpp` — 6 `k`-prefix constants stripped (`symbolNameSize`, `symbolTypeSize`, `symbolValueSize`, `maxStackFrames`, `nameBufferSize`, `fileBufferSize`)
+- `Source/debug/SessionPrettyPrint.cpp` — 5 `k`-prefix constants stripped (`maxStringReadSize`, `childNameSize`, `valueSize`, `ssoThreshold`, `elemTypeSize`)
+- `Source/Main.cpp` — `kSidecarDirName`, `kDbgEngSubdir`, `kLogFileName` → camelCase
+- `Source/Whatdbg.cpp` — `kPollTimeoutMs` → `pollTimeoutMs`
+- `SPEC.md` — `kLineSearchWindow` reference updated; Feature 11 (Target Crash / Exception Info Surfacing) added
+- `ARCHITECTURE.md` — `Session::shutdown(EndMode)` signature + 3-way rationale; Exception Flow subsection in Data Flow; new State fields (`hasExceptionStopped`, `exceptionCode`, `exceptionAddress`, `initialBreakPhase`) in State Management
+- `install.sh` — `clear` prepended so rebuild output is unobstructed
+
+### Alignment Check
+- [x] BLESSED principles followed (B: `Reader` owns stdin lifecycle after fix, `Loader` named-threat Guard for intentional leak; L: 3-branch lookups preserved; E: `EndMode` removes ambiguous default, `getExceptionName` single exit, positive nesting; S SSOT: `exceptionNames` TU-local behind `getExceptionName`, `initialBreakPhase` replaces paired bools; S Stateless: no new orchestrator flags; E Encapsulation: crash handlers use JUCE API not rolled SEH/terminate; D: EndMode mapping total, phase lifecycle total)
+- [x] NAMES.md adhered — Rule -1 honored; ARCHITECT approved every new name (`EndMode` + 3 values, `InitialBreakPhase` + 3 values, `hasExceptionStopped`, `exceptionCode`, `exceptionAddress`, `exceptionNames`, `getExceptionName`, `handleExceptionInfo`, `onApplicationCrash`, `onApplicationTerminate`, `initialBreakPhase`)
+- [x] MANIFESTO.md applied — JUCE-first discipline (single `SystemStats::setApplicationCrashHandler` call, not rolled SEH/terminate); Guard Rule explicit on FreeLibrary omission
+- [x] JRENG-CODING-STANDARD.md — Hungarian fully purged (17 constants), `not`/`and`/`or`, brace init, no early returns, `enum class`, no anonymous namespaces
+
+### Problems Solved
+
+**Problem 1 — Target crash invisible to DAP widget.** Debuggee's unhandled SEH (e.g. `0xC0000005`) was logged to `whatdbg.log` only; nvim saw target die with no crash reason. Added `hasExceptionStopped` deferred-event path: `handleUnknownException` captures exception record on 2nd-chance, `processDeferredEvents` emits DAP `stopped(reason=exception)` + `output(category=stderr)`, `handleExceptionInfo` responds with structured details. `supportsExceptionInfoRequest: true` advertised. Widget now shows stack trace at crash point via existing `stackTrace` handler.
+
+**Problem 2 — Adapter dragged into target's grave (silent cascade).** Multi-layered silent death between target's `ExitProcess` and `main()` exit. Diagnosed through progressive breadcrumb instrumentation:
+- (a) `isRunning` never flipped after target exit → loop busy-spins waiting for nvim disconnect that never arrives → fixed with `isRunning = false` in `processDeferredEvents` exit block
+- (b) `Reader::stop` called `stopThread(2000)` while `std::getline(std::cin)` blocked → JUCE `Thread::stopThread` fell through to `TerminateThread` → CRT state corruption → fixed by closing stdin (idempotent via `_fileno >= 0` guard) before `stopThread`
+- (c) `client->EndSession(DEBUG_END_ACTIVE_DETACH)` hung on a target already dead (dbgeng session no longer active) → fixed via `EndMode::passive` selected when `executionState == exited`
+- (d) `Loader::~Loader` called `FreeLibrary(dbgeng.dll)` → dbgeng's symsrv threads + residual COM state make unload unsafe → FreeLibrary removed, HMODULE intentionally leaked for OS process cleanup (Guard Rule comment documents the named threat)
+
+**Problem 3 — JUCE crash handler + `std::set_terminate` installed as safety nets.** Catches future adapter-side SEH exceptions (Windows `SetUnhandledExceptionFilter`) and uncaught C++ exceptions (`std::terminate` path) with stack-backtrace write to log. Debug-only (`#if JUCE_DEBUG`).
+
+**Problem 4 — Shadow state on initial-break lifecycle.** `isInitialBreakSeen` + `isInitialBreakHandled` encoded a 3-state machine with 2 bools (invalid `(notHandled, seen)` combination possible). Collapsed into `InitialBreakPhase { notHit, pending, resolved }` — single field, impossible invalid states (MANIFESTO §S SSOT + §S Stateless).
+
+**Problem 5 — Dead `EXCEPTION_SINGLE_STEP` branch.** `handleSingleStep` set `state->hasStepCompleted`, but the field is also set via WaitForEvent side-effect at `Whatdbg.cpp:77` — the exception-path setter was dead. Handler + map entry deleted. `hasStepCompleted` retained (live via the other path).
+
+**Problem 6 — Hungarian notation (17 `k`-prefix constants).** JRENG-CODING-STANDARD "descriptive names, not type-based" — `k` prefix violates. Stripped across 6 files via mechanical rename. No other Hungarian (`m_`, `pFoo`, `iFoo`, SCREAMING_SNAKE) found.
+
+**Problem 7 — Doc drift from code.** `SPEC.md` referenced `kLineSearchWindow`, had no exception-info feature; `ARCHITECTURE.md` had pre-sprint `shutdown(bool)` signature, no exception flow in Data Flow, old state fields. Synced all three doc edits in Phase C.
+
+### Debts Paid
+- None (DEBT.md does not exist at project root)
+
+### Debts Deferred
+- None
+
+
 
 **Date:** 2026-04-15
 **Primary:** COUNSELOR

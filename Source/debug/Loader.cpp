@@ -6,10 +6,11 @@ namespace debug
 
 Loader::~Loader ()
 {
-    if (dbgengModule != nullptr)
-    {
-        FreeLibrary (dbgengModule);
-    }
+    // Intentionally leak dbgengModule: FreeLibrary on dbgeng.dll hangs or crashes
+    // because dbgeng spawns symsrv threads and holds COM state that cannot be safely
+    // torn down at module unload. The HMODULE lives for the entire process lifetime,
+    // so OS process teardown reclaims it. Named threat: FreeLibrary(dbgeng) hang.
+    dbgengModule = nullptr;
 }
 
 bool Loader::load (const juce::File& sidecarDirectory) noexcept

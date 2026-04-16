@@ -88,12 +88,12 @@ juce::String readTargetString (IDebugDataSpaces4* dataSpaces, ULONG64 address) n
 
     if (dataSpaces != nullptr and address != 0)
     {
-        static constexpr ULONG kMaxStringReadSize { 256 };
-        char buffer[kMaxStringReadSize] {};
+        static constexpr ULONG maxStringReadSize { 256 };
+        char buffer[maxStringReadSize] {};
         ULONG bytesRead { 0 };
 
         const HRESULT hr { dataSpaces->ReadMultiByteStringVirtual (
-            address, kMaxStringReadSize, buffer, kMaxStringReadSize, &bytesRead) };
+            address, maxStringReadSize, buffer, maxStringReadSize, &bytesRead) };
 
         if (SUCCEEDED (hr) and bytesRead > 0)
         {
@@ -141,9 +141,9 @@ int findChildByName (IDebugSymbolGroup2* group, ULONG parentIndex,
         {
             if (childParams.ParentSymbol == parentIndex)
             {
-                static constexpr int kChildNameSize { 256 };
-                char nameBuffer[kChildNameSize] {};
-                group->GetSymbolName (i, nameBuffer, kChildNameSize, nullptr);
+                static constexpr int childNameSize { 256 };
+                char nameBuffer[childNameSize] {};
+                group->GetSymbolName (i, nameBuffer, childNameSize, nullptr);
 
                 if (strcmp (nameBuffer, childName) == 0)
                 {
@@ -171,10 +171,10 @@ juce::String getChildValueText (IDebugSymbolGroup2* group, int index) noexcept
 
     if (index >= 0)
     {
-        static constexpr int kValueSize { 512 };
-        char buffer[kValueSize] {};
+        static constexpr int valueSize { 512 };
+        char buffer[valueSize] {};
         const HRESULT hr { group->GetSymbolValueText (
-            static_cast<ULONG> (index), buffer, kValueSize, nullptr) };
+            static_cast<ULONG> (index), buffer, valueSize, nullptr) };
 
         if (SUCCEEDED (hr))
         {
@@ -256,12 +256,12 @@ static juce::String prettyPrintStdString (IDebugSymbolGroup2* group,
 
             if (bxIdx >= 0)
             {
-                static constexpr int kSsoThreshold { 16 };
+                static constexpr int ssoThreshold { 16 };
 
                 group->ExpandSymbol (static_cast<ULONG> (bxIdx), TRUE);
                 group->GetNumberSymbols (&count);
 
-                if (stringSize < kSsoThreshold)
+                if (stringSize < ssoThreshold)
                 {
                     const int bufIdx { findChildByName (group, static_cast<ULONG> (bxIdx), count, "_Buf") };
                     const juce::String bufValue { getChildValueText (group, bufIdx) };
@@ -365,10 +365,10 @@ static juce::String prettyPrintVector (IDebugSymbolGroup2* group,
                 }
                 else if (lastAddr >= firstAddr)
                 {
-                    static constexpr int kElemTypeSize { 256 };
-                    char elemTypeBuffer[kElemTypeSize] {};
+                    static constexpr int elemTypeSize { 256 };
+                    char elemTypeBuffer[elemTypeSize] {};
                     group->GetSymbolTypeName (static_cast<ULONG> (firstIdx),
-                                             elemTypeBuffer, kElemTypeSize, nullptr);
+                                             elemTypeBuffer, elemTypeSize, nullptr);
 
                     juce::String elemType { elemTypeBuffer };
 

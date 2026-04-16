@@ -177,7 +177,7 @@ private:
     /** Attempt to resolve a single breakpoint to a dbgeng breakpoint object.
      *
      *  Tries to resolve windowsPath:requestedLine via Session::getOffsetByLine,
-     *  falling back to a window search of +/- kLineSearchWindow lines if the
+     *  falling back to a window search of +/- lineSearchWindow lines if the
      *  exact line fails. On success calls Session::addBreakpoint.
      *
      *  @param windowsPath    Windows-style source path for getOffsetByLine.
@@ -212,7 +212,7 @@ private:
     uint32_t nextDapId { 1 };
 
     /** Number of lines above and below the requested line to search when exact resolution fails. */
-    static constexpr std::uint32_t kLineSearchWindow { 4 };
+    static constexpr std::uint32_t lineSearchWindow { 4 };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BreakpointManager)
 };

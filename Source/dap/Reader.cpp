@@ -13,7 +13,7 @@ namespace dap
 Reader::Reader ()
     : juce::Thread { "dap::Reader" }
 {
-    storage.resize (kFifoCapacity);
+    storage.resize (fifoCapacity);
 }
 
 Reader::~Reader ()
@@ -30,6 +30,10 @@ void Reader::start ()
 void Reader::stop ()
 {
     signalThreadShouldExit ();
+
+    if (_fileno (stdin) >= 0)
+        std::fclose (stdin);
+
     stopThread (2000);
 }
 

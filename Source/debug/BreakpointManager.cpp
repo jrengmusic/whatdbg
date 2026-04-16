@@ -86,7 +86,7 @@ ResolveResult BreakpointManager::tryResolve (const juce::String& windowsPath,
     bool          isResolved   { false };
     bool          isBusy       { false };
 
-    for (std::uint32_t delta { 0 }; delta <= kLineSearchWindow and not isResolved and not isBusy; ++delta)
+    for (std::uint32_t delta { 0 }; delta <= lineSearchWindow and not isResolved and not isBusy; ++delta)
     {
         const std::uint32_t candidate { requestedLine + delta };
 
@@ -164,7 +164,7 @@ ResolveResult BreakpointManager::tryResolve (const juce::String& windowsPath,
         logWrite ("WHATDBG: tryResolve failed for %s:%lu (and %lu lines forward) — pending\n",
                   windowsPath.toRawUTF8 (),
                   static_cast<unsigned long> (requestedLine),
-                  static_cast<unsigned long> (kLineSearchWindow));
+                  static_cast<unsigned long> (lineSearchWindow));
     }
 
     // Step 2 — Create the breakpoint at the resolved address.

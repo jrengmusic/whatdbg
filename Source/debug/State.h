@@ -19,6 +19,22 @@ enum class ExecutionState : int
     exited    = 4   ///< Target process has exited. Session is shutting down.
 };
 
+/** Lifecycle phase of the dbgeng loader/initial breakpoint.
+ *
+ *  Three-state machine, transitioned by EventCallbacks::Breakpoint and consumed
+ *  by processDeferredEvents/resolveAndResumeAfterInitialBreak.
+ *
+ *  - notHit    — dbgeng has not yet raised the initial loader breakpoint.
+ *  - pending   — loader breakpoint fired; resolve+resume not yet run.
+ *  - resolved  — initial break consumed; subsequent breakpoints are user BPs.
+ */
+enum class InitialBreakPhase
+{
+    notHit,
+    pending,
+    resolved
+};
+
 /** Outcome of a Session::getOffsetByLine call.
  *
  *  Replaces the previous juce::Result + hex-string encoding pattern so that
@@ -63,21 +79,13 @@ public:
      */
     ExecutionState executionState { ExecutionState::idle };
 
-    /** True once the dbgeng initial break (loader breakpoint) has been observed.
+    /** Lifecycle phase of the dbgeng initial (loader) breakpoint.
      *
-     *  Set by EventCallbacks::Breakpoint when it detects the first breakpoint
-     *  hit before any user breakpoints have been registered. Prevents the initial
-     *  break from being forwarded to the DAP client as a user-visible stop.
+     *  Transitions: notHit → pending (loader BP fires) → resolved (processDeferredEvents
+     *  runs resolveAndResumeAfterInitialBreak). Replaces former paired booleans
+     *  `isInitialBreakSeen` + `isInitialBreakHandled`.
      */
-    bool isInitialBreakSeen { false };
-
-    /** True once the initial break has been acknowledged and execution resumed.
-     *
-     *  Set by Whatdbg::handleConfigurationDone after it resumes past the loader
-     *  breakpoint. Prevents double-resume if configurationDone arrives before the
-     *  initial break event is processed.
-     */
-    bool isInitialBreakHandled { false };
+    InitialBreakPhase initialBreakPhase { InitialBreakPhase::notHit };
 
     /** Exit code of the debuggee process.
      *
@@ -152,6 +160,28 @@ public:
      *  and transition executionState to exited. Cleared after consumption.
      */
     bool hasProcessExited { false };
+
+    /** Set by handleUnknownException when a second-chance unhandled exception fires.
+     *
+     *  Consumed by processDeferredEvents to emit a DAP stopped event with
+     *  reason "exception" and an output event with the crash summary.
+     *  Cleared after consumption.
+     */
+    bool hasExceptionStopped { false };
+
+    /** NTSTATUS exception code (e.g. 0xC0000005 for ACCESS_VIOLATION).
+     *
+     *  Set alongside hasExceptionStopped. Persists after consumption so that
+     *  handleExceptionInfo can respond with the exception details.
+     */
+    std::uint32_t exceptionCode { 0 };
+
+    /** Virtual address at which the exception occurred.
+     *
+     *  Set alongside hasExceptionStopped. Persists after consumption for
+     *  handleExceptionInfo response.
+     */
+    std::uint64_t exceptionAddress { 0 };
 
     /** Set by OutputCallbacks::Output2 when the target writes to OutputDebugString.
      *

@@ -9,53 +9,85 @@ static constexpr DWORD MS_VC_EXCEPTION { 0x406D1388 };
 // Exception handlers
 //==============================================================================
 
-using ExceptionHandler = HRESULT (*) (debug::State*, ULONG firstChance);
+using ExceptionHandler = HRESULT (*) (debug::State*, PEXCEPTION_RECORD64, ULONG firstChance);
 
-static HRESULT handleBreakpoint (debug::State* state, ULONG /*firstChance*/)
+static HRESULT handleBreakpoint (debug::State* state, PEXCEPTION_RECORD64 /*exception*/, ULONG /*firstChance*/)
 {
-    HRESULT result { DEBUG_STATUS_BREAK };
+    if (state->initialBreakPhase == debug::InitialBreakPhase::notHit)
+        state->initialBreakPhase = debug::InitialBreakPhase::pending;
 
-    if (not state->isInitialBreakHandled)
-    {
-        state->isInitialBreakHandled = true;
-        state->isInitialBreakSeen = true;
-    }
-
-    state->executionState = debug::ExecutionState::stopped;
-    return result;
-}
-
-static HRESULT handleThreadName (debug::State* /*state*/, ULONG /*firstChance*/)
-{
-    return DEBUG_STATUS_GO_NOT_HANDLED;
-}
-
-static HRESULT handleSingleStep (debug::State* state, ULONG /*firstChance*/)
-{
-    state->hasStepCompleted = true;
     state->executionState = debug::ExecutionState::stopped;
     return DEBUG_STATUS_BREAK;
 }
 
-static HRESULT handleUnknownException (debug::State* /*state*/, ULONG firstChance)
+static HRESULT handleThreadName (debug::State* /*state*/, PEXCEPTION_RECORD64 /*exception*/, ULONG /*firstChance*/)
+{
+    return DEBUG_STATUS_GO_NOT_HANDLED;
+}
+
+static HRESULT handleUnknownException (debug::State* state, PEXCEPTION_RECORD64 exception, ULONG firstChance)
 {
     HRESULT result { DEBUG_STATUS_BREAK };
 
     if (firstChance != 0)
+    {
         result = DEBUG_STATUS_GO_NOT_HANDLED;
+    }
+    else
+    {
+        if (state != nullptr and exception != nullptr)
+        {
+            state->hasExceptionStopped = true;
+            state->exceptionCode       = static_cast<std::uint32_t> (exception->ExceptionCode);
+            state->exceptionAddress    = static_cast<std::uint64_t> (exception->ExceptionAddress);
+            state->executionState      = debug::ExecutionState::stopped;
+        }
+    }
 
     return result;
 }
 
 static const std::unordered_map<DWORD, ExceptionHandler> exceptionHandlers
 {
-    { EXCEPTION_BREAKPOINT,  handleBreakpoint      },
-    { MS_VC_EXCEPTION,       handleThreadName       },
-    { EXCEPTION_SINGLE_STEP, handleSingleStep       },
+    { EXCEPTION_BREAKPOINT, handleBreakpoint  },
+    { MS_VC_EXCEPTION,      handleThreadName  },
+};
+
+static const std::unordered_map<DWORD, const char*> exceptionNames
+{
+    { 0xC0000005, "ACCESS_VIOLATION"            },
+    { 0xC000001D, "ILLEGAL_INSTRUCTION"         },
+    { 0xC0000025, "NONCONTINUABLE_EXCEPTION"    },
+    { 0xC0000026, "INVALID_DISPOSITION"         },
+    { 0xC000008C, "ARRAY_BOUNDS_EXCEEDED"       },
+    { 0xC000008D, "FLOAT_DENORMAL_OPERAND"      },
+    { 0xC000008E, "FLOAT_DIVIDE_BY_ZERO"        },
+    { 0xC000008F, "FLOAT_INEXACT_RESULT"        },
+    { 0xC0000090, "FLOAT_INVALID_OPERATION"     },
+    { 0xC0000091, "FLOAT_OVERFLOW"              },
+    { 0xC0000092, "FLOAT_STACK_CHECK"           },
+    { 0xC0000093, "FLOAT_UNDERFLOW"             },
+    { 0xC0000094, "INTEGER_DIVIDE_BY_ZERO"      },
+    { 0xC0000095, "INTEGER_OVERFLOW"            },
+    { 0xC0000096, "PRIV_INSTRUCTION"            },
+    { 0xC00000FD, "STACK_OVERFLOW"              },
+    { 0xE06D7363, "CPP_EXCEPTION"               },
 };
 
 namespace debug
 {
+
+juce::String getExceptionName (std::uint32_t code) noexcept
+{
+    juce::String result { juce::String ("0x") + juce::String::toHexString (static_cast<juce::int64> (code)) };
+
+    const auto entry { exceptionNames.find (static_cast<DWORD> (code)) };
+
+    if (entry != exceptionNames.end ())
+        result = juce::String (entry->second);
+
+    return result;
+}
 
 //==============================================================================
 // OutputCallbacks — IUnknown
@@ -221,7 +253,7 @@ HRESULT EventCallbacks::Exception (PEXCEPTION_RECORD64 exception, ULONG firstCha
                                          ? entry->second
                                          : handleUnknownException };
 
-    return handler (State::getContext (), firstChance);
+    return handler (State::getContext (), exception, firstChance);
 }
 
 HRESULT EventCallbacks::CreateThread (ULONG64 /*handle*/, ULONG64 /*dataOffset*/, ULONG64 /*startOffset*/)
@@ -257,6 +289,7 @@ HRESULT EventCallbacks::CreateProcess (ULONG64 /*imageFileHandle*/, ULONG64 hand
 
 HRESULT EventCallbacks::ExitProcess (ULONG exitCode)
 {
+    logWrite ("WHATDBG: ExitProcess: code=%lu\n", static_cast<unsigned long> (exitCode));
     State::getContext ()->executionState = ExecutionState::exited;
     State::getContext ()->processExitCode = static_cast<int> (exitCode);
     State::getContext ()->hasProcessExited = true;

@@ -55,9 +55,9 @@ static void enumerateSymbols (IDebugSymbolGroup2* group, IDebugDataSpaces4* data
                               IDebugSymbols3* symbols, ULONG parentFilter,
                               juce::Array<juce::var>& outVariables) noexcept
 {
-    static constexpr int kSymbolNameSize  { 256 };
-    static constexpr int kSymbolTypeSize  { 256 };
-    static constexpr int kSymbolValueSize { 512 };
+    static constexpr int symbolNameSize  { 256 };
+    static constexpr int symbolTypeSize  { 256 };
+    static constexpr int symbolValueSize { 512 };
 
     ULONG count { 0 };
     group->GetNumberSymbols (&count);
@@ -69,8 +69,8 @@ static void enumerateSymbols (IDebugSymbolGroup2* group, IDebugDataSpaces4* data
 
         if (SUCCEEDED (paramResult) and params.ParentSymbol == parentFilter)
         {
-            char nameBuffer[kSymbolNameSize] {};
-            group->GetSymbolName (i, nameBuffer, kSymbolNameSize, nullptr);
+            char nameBuffer[symbolNameSize] {};
+            group->GetSymbolName (i, nameBuffer, symbolNameSize, nullptr);
 
             const juce::String symbolName { nameBuffer };
 
@@ -78,12 +78,12 @@ static void enumerateSymbols (IDebugSymbolGroup2* group, IDebugDataSpaces4* data
                 and not symbolName.startsWith ("leakDetector")
                 and not symbolName.startsWith ("__vfptr"))
             {
-                char typeBuffer[kSymbolTypeSize] {};
-                group->GetSymbolTypeName (i, typeBuffer, kSymbolTypeSize, nullptr);
+                char typeBuffer[symbolTypeSize] {};
+                group->GetSymbolTypeName (i, typeBuffer, symbolTypeSize, nullptr);
 
-                char valueBuffer[kSymbolValueSize] {};
+                char valueBuffer[symbolValueSize] {};
                 const HRESULT valueResult { group->GetSymbolValueText (
-                    i, valueBuffer, kSymbolValueSize, nullptr) };
+                    i, valueBuffer, symbolValueSize, nullptr) };
 
                 juce::String displayValue { SUCCEEDED (valueResult)
                     ? detail::formatSymbolValue (juce::String (valueBuffer))
@@ -121,10 +121,10 @@ juce::Array<juce::var> Session::getStackTrace (int maxFrames) noexcept
 
     if (control != nullptr and symbols != nullptr)
     {
-        static constexpr int kMaxStackFrames { 128 };
-        static constexpr int kNameBufferSize { 512 };
-        static constexpr int kFileBufferSize { 1024 };
-        const int frameCount { juce::jmin (maxFrames, kMaxStackFrames) };
+        static constexpr int maxStackFrames { 128 };
+        static constexpr int nameBufferSize { 512 };
+        static constexpr int fileBufferSize { 1024 };
+        const int frameCount { juce::jmin (maxFrames, maxStackFrames) };
 
         std::vector<DEBUG_STACK_FRAME> stackFrames (static_cast<size_t> (frameCount));
         ULONG framesFilled { 0 };
@@ -144,14 +144,14 @@ juce::Array<juce::var> Session::getStackTrace (int maxFrames) noexcept
                 frame->setProperty ("name", "frame");
 
                 // Resolve function name
-                char nameBuffer[kNameBufferSize] {};
+                char nameBuffer[nameBufferSize] {};
                 ULONG nameSize { 0 };
                 ULONG64 displacement { 0 };
 
                 const HRESULT nameResult { symbols->GetNameByOffset (
                     stackFrames.at (static_cast<size_t> (i)).InstructionOffset,
                     nameBuffer,
-                    kNameBufferSize,
+                    nameBufferSize,
                     &nameSize,
                     &displacement) };
 
@@ -161,7 +161,7 @@ juce::Array<juce::var> Session::getStackTrace (int maxFrames) noexcept
                 }
 
                 // Resolve source location
-                char fileBuffer[kFileBufferSize] {};
+                char fileBuffer[fileBufferSize] {};
                 ULONG fileSize { 0 };
                 ULONG line { 0 };
 
@@ -169,7 +169,7 @@ juce::Array<juce::var> Session::getStackTrace (int maxFrames) noexcept
                     stackFrames.at (static_cast<size_t> (i)).InstructionOffset,
                     &line,
                     fileBuffer,
-                    kFileBufferSize,
+                    fileBufferSize,
                     &fileSize,
                     nullptr) };
 

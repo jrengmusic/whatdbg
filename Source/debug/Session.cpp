@@ -18,7 +18,7 @@ using dap::DynObj;
 
 Session::~Session ()
 {
-    shutdown ();
+    shutdown (EndMode::passive);
 }
 
 // ---------------------------------------------------------------------------
@@ -96,7 +96,7 @@ bool Session::initialize (const juce::File& sidecarDir) noexcept
 
     if (not isInitialized)
     {
-        shutdown ();
+        shutdown (EndMode::passive);
         logWrite ("WHATDBG: initialization failed\n");
     }
 
@@ -218,13 +218,17 @@ juce::Result Session::pollEvents (std::uint32_t timeoutMs, bool& outHadEvent) no
 // Session::shutdown
 // ---------------------------------------------------------------------------
 
-void Session::shutdown (bool shouldTerminate) noexcept
+void Session::shutdown (EndMode mode) noexcept
 {
     if (client != nullptr)
     {
-        const ULONG endFlag { static_cast<ULONG> (shouldTerminate
-            ? DEBUG_END_ACTIVE_TERMINATE
-            : DEBUG_END_ACTIVE_DETACH) };
+        ULONG endFlag { DEBUG_END_PASSIVE };
+
+        if (mode == EndMode::terminate)
+            endFlag = DEBUG_END_ACTIVE_TERMINATE;
+        else if (mode == EndMode::detach)
+            endFlag = DEBUG_END_ACTIVE_DETACH;
+
         client->EndSession (endFlag);
     }
 

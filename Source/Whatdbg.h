@@ -164,6 +164,12 @@ private:
      */
     void handleEvaluate (const juce::var& request);
 
+    /** Handle DAP exceptionInfo request — return crash details for the last unhandled exception.
+     *
+     *  @param request  The full DAP exceptionInfo request object.
+     */
+    void handleExceptionInfo (const juce::var& request);
+
     // ── Deferred event processing ──────────────────────────────────────
 
     /** Drain deferred events set by COM callbacks and emit corresponding DAP events.

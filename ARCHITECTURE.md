@@ -176,6 +176,22 @@ OutputCallbacks::Output2(DEBUG_OUTCB_TEXT, DEBUG_OUTPUT_DEBUGGEE)
     -> main loop: emit DAP output event (category: console)
 ```
 
+### Exception Flow
+
+```
+Exception (SEH, second-chance)
+  -> EventCallbacks::Exception (dbgeng callback)
+  -> handleUnknownException (Callbacks.cpp)
+      -- populates State::hasExceptionStopped, exceptionCode, exceptionAddress
+      -- sets executionState = stopped
+      -- returns DEBUG_STATUS_BREAK
+  -> Whatdbg::processDeferredEvents (Whatdbg.cpp)
+      -- emits DAP `stopped` event (reason=exception)
+      -- emits DAP `output` event (category=stderr)
+  -> nvim-dap receives events, requests `stackTrace` + `exceptionInfo`
+  -> Whatdbg::handleStackTrace / handleExceptionInfo respond
+```
+
 ---
 
 ## Main Loop
@@ -218,11 +234,13 @@ while (running)
 Main-thread-local. No atomics (except what FIFO handles). Plain data.
 
 - `ExecutionState executionState` — Idle, Launching, Running, Stopped, Exited
-- `bool isInitialBreakSeen` — set on first EXCEPTION_BREAKPOINT
-- `bool isInitialBreakHandled` — permanent flag: distinguishes first BP from subsequent ones across WaitForEvent cycles
+- `InitialBreakPhase initialBreakPhase` — `notHit`, `pending`, `resolved`; collapsed from the former paired bools `isInitialBreakSeen` / `isInitialBreakHandled` (SSOT, single enum field)
 - `int processExitCode`
 - `ULONG targetProcessId` — set on CreateProcess callback; used by interrupt()
 - Deferred event fields: breakpoint engine ID, step completed, module loaded, debuggee output, process exited
+- `bool hasExceptionStopped` — deferred flag; set by `handleUnknownException` on second-chance; consumed by `processDeferredEvents` to emit DAP `stopped` event
+- `uint32_t exceptionCode` — NTSTATUS code; persists after consumption for `exceptionInfo` request response
+- `uint64_t exceptionAddress` — faulting virtual address; persists after consumption
 
 Since State is main-thread-only, it uses plain types. No CriticalSection, no std::atomic. Context<State> provides global access.
 
@@ -282,7 +300,10 @@ Since State is main-thread-only, it uses plain types. No CriticalSection, no std
 
 **Context:** DAP specifies separate `terminate` and `disconnect` commands with optional `terminateDebuggee`.
 
-**Decision:** Both map to handleDisconnect. `shouldTerminateOnExit` flag set based on command name or `terminateDebuggee` argument. Session::shutdown(shouldTerminate) calls DEBUG_END_ACTIVE_TERMINATE or DEBUG_END_ACTIVE_DETACH.
+**Decision:** Both map to handleDisconnect. `EndMode` enum (`Source/debug/Session.h`) selects behavior. `Session::shutdown(EndMode)` (`Source/debug/Session.cpp`) dispatches on three cases:
+- `terminate` — kills debuggee (`DEBUG_END_ACTIVE_TERMINATE`); used when disconnect arrives with `terminateDebuggee: true`
+- `detach` — releases debuggee (`DEBUG_END_ACTIVE_DETACH`); used when disconnect arrives without `terminateDebuggee`
+- `passive` — target has already exited; releases dbgeng session state only without acting on the target. Required when `ExitProcess` has already fired — calling an active `EndSession` on a dead session hangs indefinitely.
 
 ### Decision: DynObj Alias in dap::Types
 

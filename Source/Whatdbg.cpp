@@ -6,7 +6,7 @@
 #include <fcntl.h>
 #include <io.h>
 
-static constexpr std::uint32_t kPollTimeoutMs { 50 };
+static constexpr std::uint32_t pollTimeoutMs { 50 };
 
 using dap::DynObj;
 
@@ -31,6 +31,7 @@ Whatdbg::Whatdbg ()
         { "stepOut",           [this] (const juce::var& m) { handleStepOut (m); } },
         { "pause",             [this] (const juce::var& m) { handlePause (m); } },
         { "evaluate",          [this] (const juce::var& m) { handleEvaluate (m); } },
+        { "exceptionInfo",     [this] (const juce::var& m) { handleExceptionInfo (m); } },
     };
 }
 
@@ -62,12 +63,10 @@ void Whatdbg::run ()
             or state.executionState == debug::ExecutionState::launching)
         {
             bool hadEvent { false };
-            const juce::Result pollResult { session.pollEvents (kPollTimeoutMs, hadEvent) };
+            const juce::Result pollResult { session.pollEvents (pollTimeoutMs, hadEvent) };
 
             if (pollResult.wasOk () and hadEvent)
             {
-                logWrite ("[Whatdbg] WaitForEvent returned S_OK\n");
-
                 if (isStepPending
                     and not state.hasBreakpointHit
                     and not state.hasStepCompleted
@@ -99,15 +98,6 @@ void Whatdbg::run ()
                     logWrite ("[Whatdbg] pause completed, emitted stopped event\n");
                 }
             }
-            else if (pollResult.wasOk () and not hadEvent and isPausePending)
-            {
-                logWrite ("[Whatdbg] WaitForEvent timeout (pause pending)\n");
-            }
-            else if (pollResult.failed ())
-            {
-                logWrite ("[Whatdbg] WaitForEvent failed: %s\n",
-                          pollResult.getErrorMessage ().toRawUTF8 ());
-            }
         }
 
         // 3. Process deferred events
@@ -121,8 +111,14 @@ void Whatdbg::run ()
     }
 
     reader.stop ();
-    session.shutdown (shouldTerminateOnExit);
-    logWrite ("[Whatdbg] main loop ended\n");
+    debug::EndMode endMode { debug::EndMode::detach };
+
+    if (state.executionState == debug::ExecutionState::exited)
+        endMode = debug::EndMode::passive;
+    else if (shouldTerminateOnExit)
+        endMode = debug::EndMode::terminate;
+
+    session.shutdown (endMode);
 }
 
 void Whatdbg::handleCommand (const juce::var& message)
@@ -152,7 +148,7 @@ void Whatdbg::handleCommand (const juce::var& message)
 void Whatdbg::processDeferredEvents ()
 {
     // Initial breakpoint: resume if configurationDone already received
-    if (state.isInitialBreakSeen
+    if (state.initialBreakPhase == debug::InitialBreakPhase::pending
         and state.executionState == debug::ExecutionState::stopped
         and isConfigurationDone
         and not state.hasBreakpointHit
@@ -247,17 +243,51 @@ void Whatdbg::processDeferredEvents ()
         sendEvent (dap::makeEvent ("output", juce::var (body)));
     }
 
+    // Unhandled exception (target crash)
+    if (state.hasExceptionStopped)
+    {
+        state.hasExceptionStopped = false;
+
+        const juce::String addressHex   { juce::String::toHexString (static_cast<juce::int64> (state.exceptionAddress)) };
+        const juce::String exceptionName { debug::getExceptionName (state.exceptionCode) };
+        const juce::String codeHex       { juce::String::toHexString (static_cast<juce::int64> (state.exceptionCode)) };
+
+        const juce::String description { juce::String ("0x") + codeHex + " at 0x" + addressHex };
+        const int threadId { static_cast<int> (session.getEventThreadSystemId ()) };
+
+        logWrite ("[Whatdbg] exception stopped: %s %s (threadId=%d)\n",
+                  exceptionName.toRawUTF8 (), description.toRawUTF8 (), threadId);
+
+        DynObj stoppedBody { new juce::DynamicObject () };
+        stoppedBody->setProperty ("reason",            "exception");
+        stoppedBody->setProperty ("text",              exceptionName);
+        stoppedBody->setProperty ("description",       description);
+        stoppedBody->setProperty ("threadId",          threadId);
+        stoppedBody->setProperty ("allThreadsStopped", true);
+        sendEvent (dap::makeEvent ("stopped", juce::var (stoppedBody)));
+
+        DynObj outputBody { new juce::DynamicObject () };
+        outputBody->setProperty ("category", "stderr");
+        outputBody->setProperty ("output",   "Unhandled exception: " + exceptionName + " " + description + "\n");
+        sendEvent (dap::makeEvent ("output", juce::var (outputBody)));
+
+        resetVariablesState ();
+    }
+
     // Process exit
     if (state.hasProcessExited)
     {
+        logWrite ("[Whatdbg] emitting exited (code=%d) + terminated events\n", state.processExitCode);
         state.hasProcessExited = false;
 
         DynObj exitBody { new juce::DynamicObject () };
         exitBody->setProperty ("exitCode", state.processExitCode);
         sendEvent (dap::makeEvent ("exited", juce::var (exitBody)));
+
         sendEvent (dap::makeEvent ("terminated"));
 
         state.executionState = debug::ExecutionState::exited;
+        isRunning = false;
     }
 }
 
@@ -281,7 +311,7 @@ void Whatdbg::resolveAndResumeAfterInitialBreak ()
 
     session.resume ();
     state.executionState = debug::ExecutionState::running;
-    state.isInitialBreakSeen = false;
+    state.initialBreakPhase = debug::InitialBreakPhase::resolved;
 
     DynObj threadBody { new juce::DynamicObject () };
     threadBody->setProperty ("reason",   "started");

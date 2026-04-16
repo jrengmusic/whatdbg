@@ -1,21 +1,64 @@
 #include <JuceHeader.h>
 #include <BinaryData.h>
+#include <exception>
 #include "Log.h"
 #include "Whatdbg.h"
 
-static constexpr const char* kSidecarDirName { "whatdbg" };
-static constexpr const char* kDbgEngSubdir   { "dbgeng" };
-static constexpr const char* kLogFileName    { "whatdbg.log" };
+static constexpr const char* sidecarDirName { "whatdbg" };
+static constexpr const char* dbgengSubdir   { "dbgeng" };
+static constexpr const char* logFileName    { "whatdbg.log" };
 
 static juce::File getConfigDirectory () noexcept
 {
     return juce::File::getSpecialLocation (juce::File::userApplicationDataDirectory)
-               .getChildFile (kSidecarDirName);
+               .getChildFile (sidecarDirName);
 }
+
+#if JUCE_DEBUG
+static void onApplicationCrash (void* context) noexcept
+{
+    juce::ignoreUnused (context);
+    logWrite ("WHATDBG: CRASH\n%s\n", juce::SystemStats::getStackBacktrace ().toRawUTF8 ());
+    if (g_logFile != nullptr)
+        fflush (g_logFile);
+}
+
+static void onApplicationTerminate () noexcept
+{
+    const auto activeException { std::current_exception () };
+
+    if (activeException != nullptr)
+    {
+        try
+        {
+            std::rethrow_exception (activeException);
+        }
+        catch (const std::exception& e)
+        {
+            logWrite ("WHATDBG: TERMINATE std::exception: %s\n", e.what ());
+        }
+        catch (...)
+        {
+            logWrite ("WHATDBG: TERMINATE unknown exception\n");
+        }
+    }
+    else
+    {
+        logWrite ("WHATDBG: TERMINATE (no active exception)\n");
+    }
+
+    logWrite ("%s\n", juce::SystemStats::getStackBacktrace ().toRawUTF8 ());
+
+    if (g_logFile != nullptr)
+        fflush (g_logFile);
+
+    std::abort ();
+}
+#endif
 
 static juce::File extractSidecarBinaries () noexcept
 {
-    const juce::File sidecarDir { getConfigDirectory ().getChildFile (kDbgEngSubdir) };
+    const juce::File sidecarDir { getConfigDirectory ().getChildFile (dbgengSubdir) };
 
     if (not sidecarDir.exists ())
         sidecarDir.createDirectory ();
@@ -73,8 +116,10 @@ int main (int argc, char* argv[])
         configDir.createDirectory ();
 
 #if JUCE_DEBUG
-    const juce::File logPath { configDir.getChildFile (kLogFileName) };
+    const juce::File logPath { configDir.getChildFile (logFileName) };
     g_logFile = fopen (logPath.getFullPathName ().toRawUTF8 (), "w");
+    juce::SystemStats::setApplicationCrashHandler (&onApplicationCrash);
+    std::set_terminate (&onApplicationTerminate);
 #endif
 
     logWrite ("WHATDBG: started\n");

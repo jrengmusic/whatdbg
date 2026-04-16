@@ -95,7 +95,7 @@
 
 **Edge Cases:**
 - BP on function signature line: resolves to first executable line inside body (PDB/MSVC behavior)
-- BP on blank/comment line: `kLineSearchWindow` (4 lines) searches nearby executable lines
+- BP on blank/comment line: `lineSearchWindow` (4 lines) searches nearby executable lines
 - Module with `!` in name (e.g., "JRENG! Filter Strip"): `juce::String::quoted()` handles dbgeng command parsing
 - Plugin removed and re-added: `UnloadModule` + `LoadModule` — pending BPs re-resolve on new `LoadModule`
 - BP removed while pending: cleaned from pending list in `handleSetBreakpoints`
@@ -278,6 +278,29 @@ stepOut (`gu`) uses an internal breakpoint at the return address. `Breakpoint` c
 **User Flow:**
 - `terminate` command or `disconnect` with `terminateDebuggee: true` → `DEBUG_END_ACTIVE_TERMINATE` — kills target process
 - `disconnect` without `terminateDebuggee` → `DEBUG_END_ACTIVE_DETACH` — detaches, target continues
+
+---
+
+### Feature 11: Target Crash / Exception Info Surfacing
+
+**Trigger:** Second-chance unhandled exception in the debuggee process (dbgeng `EXCEPTION` event with `firstChance == 0`).
+
+**Detection (`Source/debug/Callbacks.cpp` — `handleUnknownException`):**
+- On second-chance, populates `State::hasExceptionStopped`, `State::exceptionCode`, `State::exceptionAddress`
+- Sets `State::executionState = stopped`
+- Returns `DEBUG_STATUS_BREAK`
+
+**DAP Surfacing (`processDeferredEvents` in `Source/Whatdbg.cpp`):**
+- Emits `stopped` event with `reason: "exception"`, `text: <exception name>`, `description: "0x<code> at 0x<address>"`, `threadId: <event thread system id>`, `allThreadsStopped: true`
+- Emits `output` event with `category: "stderr"` containing formatted crash summary
+- Clears `hasExceptionStopped`; preserves `exceptionCode` and `exceptionAddress` for subsequent `exceptionInfo` request
+
+**`exceptionInfo` DAP Request Handler (`Source/WhatdbgHandlers.cpp`):**
+- Responds with `exceptionId` (name or hex fallback), `description`, `breakMode: "unhandled"`
+
+**Capability:** `supportsExceptionInfoRequest: true` advertised in `Source/dap/Types.h`.
+
+**Exception-Name Lookup:** 17 common NTSTATUS/SEH codes mapped to short names in `Source/debug/Callbacks.cpp` (`exceptionNames` map, accessed via `debug::getExceptionName`). Unknown codes fall back to `"0x<hex>"`.
 
 ---
 

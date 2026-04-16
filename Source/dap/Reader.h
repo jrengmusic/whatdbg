@@ -12,7 +12,7 @@ namespace dap
  *  parses each message into a juce::var, and enqueues it in a lock-free FIFO.
  *  The main thread drains the FIFO via tryPop() on each event-loop iteration.
  *
- *  Capacity is fixed at kFifoCapacity slots. If the FIFO is full the background
+ *  Capacity is fixed at fifoCapacity slots. If the FIFO is full the background
  *  thread blocks until space is available.
  *
  *  @note start() must be called before the first tryPop(). stop() must be called
@@ -22,7 +22,7 @@ class Reader : private juce::Thread
 {
 public:
     /** Maximum number of parsed DAP messages that can be queued simultaneously. */
-    static constexpr int kFifoCapacity { 64 };
+    static constexpr int fifoCapacity { 64 };
 
     Reader ();
     ~Reader () override;
@@ -55,7 +55,7 @@ private:
     /** Background thread entry point — reads and parses stdin until signalled to stop. */
     void run () override;
 
-    juce::AbstractFifo fifo { kFifoCapacity };
+    juce::AbstractFifo fifo { fifoCapacity };
     std::vector<juce::var> storage;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Reader)

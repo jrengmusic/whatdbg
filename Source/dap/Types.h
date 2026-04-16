@@ -130,7 +130,7 @@ inline juce::var makeCapabilities () noexcept
     caps->setProperty ("supportsModulesRequest",             false);
     caps->setProperty ("supportsExceptionOptions",           false);
     caps->setProperty ("supportsValueFormattingOptions",     false);
-    caps->setProperty ("supportsExceptionInfoRequest",       false);
+    caps->setProperty ("supportsExceptionInfoRequest",       true);
     caps->setProperty ("supportTerminateDebuggee",           true);
     caps->setProperty ("supportsDelayedStackTraceLoading",   false);
     caps->setProperty ("supportsLoadedSourcesRequest",       false);

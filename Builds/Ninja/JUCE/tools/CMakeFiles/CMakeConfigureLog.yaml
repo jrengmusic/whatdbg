@@ -47,6 +47,7 @@ events:
       - "C:/Users/jreng/.bun/bin/"
       - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/Llvm/x64/bin/"
       - "C:/Program Files/Go/bin/"
+      - "C:/Users/jreng/go/bin/"
       - "C:/Users/jreng/.local/bin/"
       - "C:/msys64/mingw64/bin/"
       - "C:/msys64/usr/local/bin/"
@@ -92,6 +93,7 @@ events:
         - "C:\\Users\\jreng\\.bun\\bin"
         - "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\Llvm\\x64\\bin"
         - "C:\\Program Files\\Go\\bin"
+        - "C:\\Users\\jreng\\go\\bin"
         - "C:\\Users\\jreng\\.local\\bin"
         - "C:\\msys64\\mingw64\\bin"
         - "C:\\msys64\\usr\\local\\bin"
@@ -172,6 +174,7 @@ events:
         - "C:\\Users\\jreng\\.bun\\bin"
         - "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\Llvm\\x64\\bin"
         - "C:\\Program Files\\Go\\bin"
+        - "C:\\Users\\jreng\\go\\bin"
         - "C:\\Users\\jreng\\.local\\bin"
         - "C:\\msys64\\mingw64\\bin"
         - "C:\\msys64\\usr\\local\\bin"
@@ -303,6 +306,7 @@ events:
       - "C:/Users/jreng/.bun/bin/"
       - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/Llvm/x64/bin/"
       - "C:/Program Files/Go/bin/"
+      - "C:/Users/jreng/go/bin/"
       - "C:/Users/jreng/.local/bin/"
       - "C:/msys64/mingw64/bin/"
       - "C:/msys64/usr/local/bin/"
@@ -348,6 +352,7 @@ events:
         - "C:\\Users\\jreng\\.bun\\bin"
         - "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\Llvm\\x64\\bin"
         - "C:\\Program Files\\Go\\bin"
+        - "C:\\Users\\jreng\\go\\bin"
         - "C:\\Users\\jreng\\.local\\bin"
         - "C:\\msys64\\mingw64\\bin"
         - "C:\\msys64\\usr\\local\\bin"
@@ -423,6 +428,7 @@ events:
       - "C:/Users/jreng/.bun/bin/"
       - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/Llvm/x64/bin/"
       - "C:/Program Files/Go/bin/"
+      - "C:/Users/jreng/go/bin/"
       - "C:/Users/jreng/.local/bin/"
       - "C:/msys64/mingw64/bin/"
       - "C:/msys64/usr/local/bin/"
@@ -519,6 +525,7 @@ events:
         - "C:\\Users\\jreng\\.bun\\bin"
         - "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\Llvm\\x64\\bin"
         - "C:\\Program Files\\Go\\bin"
+        - "C:\\Users\\jreng\\go\\bin"
         - "C:\\Users\\jreng\\.local\\bin"
         - "C:\\msys64\\mingw64\\bin"
         - "C:\\msys64\\usr\\local\\bin"
@@ -592,6 +599,7 @@ events:
       - "C:/Users/jreng/.bun/bin/"
       - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/Llvm/x64/bin/"
       - "C:/Program Files/Go/bin/"
+      - "C:/Users/jreng/go/bin/"
       - "C:/Users/jreng/.local/bin/"
       - "C:/msys64/mingw64/bin/"
       - "C:/msys64/usr/local/bin/"
@@ -637,6 +645,7 @@ events:
         - "C:\\Users\\jreng\\.bun\\bin"
         - "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\Llvm\\x64\\bin"
         - "C:\\Program Files\\Go\\bin"
+        - "C:\\Users\\jreng\\go\\bin"
         - "C:\\Users\\jreng\\.local\\bin"
         - "C:\\msys64\\mingw64\\bin"
         - "C:\\msys64\\usr\\local\\bin"
@@ -710,6 +719,7 @@ events:
       - "C:/Users/jreng/.bun/bin/"
       - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/Llvm/x64/bin/"
       - "C:/Program Files/Go/bin/"
+      - "C:/Users/jreng/go/bin/"
       - "C:/Users/jreng/.local/bin/"
       - "C:/msys64/mingw64/bin/"
       - "C:/msys64/usr/local/bin/"
@@ -785,6 +795,7 @@ events:
         - "C:\\Users\\jreng\\.bun\\bin"
         - "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\Llvm\\x64\\bin"
         - "C:\\Program Files\\Go\\bin"
+        - "C:\\Users\\jreng\\go\\bin"
         - "C:\\Users\\jreng\\.local\\bin"
         - "C:\\msys64\\mingw64\\bin"
         - "C:\\msys64\\usr\\local\\bin"
@@ -858,6 +869,7 @@ events:
       - "C:/Users/jreng/.bun/bin/"
       - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/Llvm/x64/bin/"
       - "C:/Program Files/Go/bin/"
+      - "C:/Users/jreng/go/bin/"
       - "C:/Users/jreng/.local/bin/"
       - "C:/msys64/mingw64/bin/"
       - "C:/msys64/usr/local/bin/"
@@ -903,6 +915,7 @@ events:
         - "C:\\Users\\jreng\\.bun\\bin"
         - "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\Llvm\\x64\\bin"
         - "C:\\Program Files\\Go\\bin"
+        - "C:\\Users\\jreng\\go\\bin"
         - "C:\\Users\\jreng\\.local\\bin"
         - "C:\\msys64\\mingw64\\bin"
         - "C:\\msys64\\usr\\local\\bin"
@@ -982,6 +995,7 @@ events:
         - "C:\\Users\\jreng\\.bun\\bin"
         - "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\Llvm\\x64\\bin"
         - "C:\\Program Files\\Go\\bin"
+        - "C:\\Users\\jreng\\go\\bin"
         - "C:\\Users\\jreng\\.local\\bin"
         - "C:\\msys64\\mingw64\\bin"
         - "C:\\msys64\\usr\\local\\bin"
@@ -1062,6 +1076,7 @@ events:
         - "C:\\Users\\jreng\\.bun\\bin"
         - "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\Llvm\\x64\\bin"
         - "C:\\Program Files\\Go\\bin"
+        - "C:\\Users\\jreng\\go\\bin"
         - "C:\\Users\\jreng\\.local\\bin"
         - "C:\\msys64\\mingw64\\bin"
         - "C:\\msys64\\usr\\local\\bin"
@@ -1194,6 +1209,7 @@ events:
       - "C:/Users/jreng/.bun/bin/"
       - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/Llvm/x64/bin/"
       - "C:/Program Files/Go/bin/"
+      - "C:/Users/jreng/go/bin/"
       - "C:/Users/jreng/.local/bin/"
       - "C:/msys64/mingw64/bin/"
       - "C:/msys64/usr/local/bin/"
@@ -1251,6 +1267,7 @@ events:
         - "C:\\Users\\jreng\\.bun\\bin"
         - "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\Llvm\\x64\\bin"
         - "C:\\Program Files\\Go\\bin"
+        - "C:\\Users\\jreng\\go\\bin"
         - "C:\\Users\\jreng\\.local\\bin"
         - "C:\\msys64\\mingw64\\bin"
         - "C:\\msys64\\usr\\local\\bin"
@@ -1299,8 +1316,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-b6graf"
-      binary: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-b6graf"
+      source: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-d4xtlz"
+      binary: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-d4xtlz"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
       CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -1309,11 +1326,11 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-b6graf'
+        Change Dir: 'C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-d4xtlz'
         
-        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_d53d7
-        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo -D_MBCS  /DWIN32 /D_WINDOWS  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_d53d7.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_d53d7.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_d53d7.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_d53d7.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_d53d7.exe /implib:cmTC_d53d7.lib /pdb:cmTC_d53d7.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_a8459
+        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo -D_MBCS  /DWIN32 /D_WINDOWS  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_a8459.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_a8459.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_a8459.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_a8459.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_a8459.exe /implib:cmTC_a8459.lib /pdb:cmTC_a8459.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
         
       exitCode: 0
   -
@@ -1353,8 +1370,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-c5hn0b"
-      binary: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-c5hn0b"
+      source: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-yfvhof"
+      binary: "C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-yfvhof"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
@@ -1364,11 +1381,11 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-c5hn0b'
+        Change Dir: 'C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-yfvhof'
         
-        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_17756
-        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_17756.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_17756.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_17756.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_17756.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_17756.exe /implib:cmTC_17756.lib /pdb:cmTC_17756.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_ed9c0
+        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_ed9c0.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_ed9c0.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_ed9c0.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_ed9c0.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_ed9c0.exe /implib:cmTC_ed9c0.lib /pdb:cmTC_ed9c0.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
         
       exitCode: 0
   -
@@ -1418,10 +1435,10 @@ events:
       stdout: |
         Change Dir: 'C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/CMakeFiles/CMakeTmp'
         
-        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_05603
-        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_05603.dir\\juce_runtime_arch_detection.cpp.obj /FdCMakeFiles\\cmTC_05603.dir\\ /FS -c C:\\Users\\jreng\\Documents\\Poems\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp
-        FAILED: CMakeFiles/cmTC_05603.dir/juce_runtime_arch_detection.cpp.obj 
-        C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_05603.dir\\juce_runtime_arch_detection.cpp.obj /FdCMakeFiles\\cmTC_05603.dir\\ /FS -c C:\\Users\\jreng\\Documents\\Poems\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp
+        Run Build Command(s): C:/PROGRA~1/MICROS~2/18/COMMUN~1/Common7/IDE/COMMON~1/MICROS~1/CMake/Ninja/ninja.exe -v cmTC_0dbb2
+        [1/2] C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_0dbb2.dir\\juce_runtime_arch_detection.cpp.obj /FdCMakeFiles\\cmTC_0dbb2.dir\\ /FS -c C:\\Users\\jreng\\Documents\\Poems\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp
+        FAILED: CMakeFiles/cmTC_0dbb2.dir/juce_runtime_arch_detection.cpp.obj 
+        C:\\PROGRA~1\\MICROS~2\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -D_MBCS  /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_0dbb2.dir\\juce_runtime_arch_detection.cpp.obj /FdCMakeFiles\\cmTC_0dbb2.dir\\ /FS -c C:\\Users\\jreng\\Documents\\Poems\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp
         C:\\Users\\jreng\\Documents\\Poems\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp(56): fatal error C1189: #error:  JUCE_ARCH x86_64
         ninja: build stopped: subcommand failed.
         

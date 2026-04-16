@@ -321,6 +321,22 @@ void Whatdbg::handlePause (const juce::var& request)
     sendResponse (dap::makeResponse (seq, "pause", true));
 }
 
+void Whatdbg::handleExceptionInfo (const juce::var& request)
+{
+    const int seq { static_cast<int> (request["seq"]) };
+
+    const juce::String codeHex    { juce::String::toHexString (static_cast<juce::int64> (state.exceptionCode)) };
+    const juce::String addressHex { juce::String::toHexString (static_cast<juce::int64> (state.exceptionAddress)) };
+    const juce::String exceptionId { debug::getExceptionName (state.exceptionCode) };
+
+    DynObj body { new juce::DynamicObject () };
+    body->setProperty ("exceptionId", exceptionId);
+    body->setProperty ("description", juce::String ("0x") + codeHex + " at 0x" + addressHex);
+    body->setProperty ("breakMode",   "unhandled");
+
+    sendResponse (dap::makeResponse (seq, "exceptionInfo", true, juce::var (body)));
+}
+
 void Whatdbg::handleEvaluate (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
