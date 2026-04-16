@@ -112,6 +112,67 @@
 
 ## SPRINT HISTORY
 
+## Sprint 19: macOS Phase 5 — Pretty-Print Parity (juce::String + unique_ptr + Filters)
+
+**Date:** 2026-04-16
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR — framing, Phase 5 decomposition (probe-first vs implement-then-smoke), CONTRACT enforcement (rejected SPEC-violating options per Option Filter HARD GATE, rejected waiver-comment workaround), name gates (`parseHexAddress` reuse approved per NAMES Rule 5 Consistency), decision gates D-7/D-8/D-9, MANIFESTO L smell-check reaffirmation (33/35-line functions = one concern each, not wrong decomposition)
+- Pathfinder — Windows formatter call-site map (`prettyPrint` single caller at `SessionInspection.cpp:93`, `formatSymbolValue` at line 89; inline filter at 77-79; call graph `getLocals → enumerateSymbols → {formatSymbolValue, prettyPrint}`); commit style + Sprint 18 heading format lookup
+- Engineer — probe scaffold (`fixture_pretty_print.cpp` rewrite from JUCEApplicationBase to plain `int main` + `juce_core` only; `probe_pretty_print.cpp` SBValue-by-value signature fix); CMake `WHATDBG_BUILD_MAC_PROBES` option in `tests/mac/CMakeLists.txt`; `SessionPrettyPrint_mac.cpp` implementation (`prettyPrintJuceString` + `prettyPrintUniquePtr` + `parseHexAddress` helper + `prettyPrint` dispatcher); `SessionInspection_mac.cpp` wiring (`shouldSkipSymbol` filter + integration into `getLocals`/`getVariableChildren` + `makeVariableDynObj` prettyPrint override + `<unavailable>` fallback + `evaluateExpression` formatter routing + stale Phase-5-promise comment removal); `PrettyPrint.h` platform-guard fix (unconditional `<dbgeng.h>` include was compile-breaking latent bug on mac)
+- Auditor — full CONTRACT sweep post-implementation (PASS with 4 nits: 3 cross-platform parity gaps + 1 pre-existing `namespace detail` project-wide violation); three parity nits fixed in same sprint per session CONTRACT addendum ("no divergence")
+
+### Files Modified (6 total, 2 new)
+- `Source/debug/SessionPrettyPrint_mac.cpp` — fleshed out from 3-line placeholder to 147 lines; `static std::uint64_t parseHexAddress (const juce::String& text) noexcept` at lines 21-33 (mirrors Windows `SessionPrettyPrint.cpp:111` per NAMES Rule 5); `static juce::String prettyPrintJuceString (lldb::SBValue& value) noexcept` at 47-77 (28 body lines, child walk `text.data` → `SBProcess::ReadCStringFromMemory` → `"..."` wrap); `static juce::String prettyPrintUniquePtr (lldb::SBValue& value) noexcept` at 91-122 (29 body lines, libc++ `pointer` child → `parseHexAddress` → `null`/`0x<hex>`, Windows-identical output shape, no implicit `0x`-prefix guard); `juce::String debug::detail::prettyPrint (lldb::SBValue&, const juce::String& typeName) noexcept` dispatcher at 128-142 (2 branches: `juce::String` + `std::unique_ptr<`; `std::string`/`std::vector` fall through to LLDB built-in)
+- `Source/debug/SessionInspection_mac.cpp` — `static bool shouldSkipSymbol (const juce::String& name) noexcept` at 17-23 (4-or lookup: `<`-prefix, `leakDetector`, `__vfptr`, `juce::compileUnitMismatchSentinel`); `makeVariableDynObj` 43-76 (33 lines, routes through `detail::prettyPrint`, falls back to `<unavailable>` literal for optimized-out locals matching Windows `SessionInspection.cpp:90`); `getLocals` + `getVariableChildren` apply `shouldSkipSymbol` pre-build at lines 136 + 167; `evaluateExpression` 186-221 (35 lines, success path now routes through `detail::prettyPrint` with `GetValue()/GetSummary()` fallback, stale Phase-5-deferred comment removed)
+- `Source/debug/PrettyPrint.h` — restructured platform guards (lines 1-131); unconditional `#include <dbgeng.h>` + Windows-only type declarations moved inside `#if JUCE_WINDOWS`; mac `prettyPrint` declaration added under `#if JUCE_MAC` (compile-breaking latent bug fixed as adjacent violation per Case 2)
+- `tests/mac/fixture_pretty_print.cpp` (NEW, ~24 lines) — plain `int main` with four typed locals (`const juce::String juceStr { "hello" }`, `const std::string stdStr { "hello" }`, `const std::unique_ptr<int> uniq { std::make_unique<int> (42) }`, `const std::vector<int> vec { 1, 2, 3 }`) + `juce::ignoreUnused` + `__builtin_debugtrap ()`; links `juce::juce_core` only (no JUCE application lifecycle — `JUCEApplicationBase` requires `juce_events`, YAGNI for fixture)
+- `tests/mac/probe_pretty_print.cpp` (NEW, ~120 lines) — standalone SB API launcher: `SBDebugger::Initialize/Create` + `SetAsync(false)` + `LaunchSimple` + wait-for-stop + iterate `SBValueList` + print `name | type | value | summary` per variable; links vendored `liblldb.dylib` via `@rpath`; ephemeral (remove post-Phase-5)
+- `tests/mac/CMakeLists.txt` — new `option(WHATDBG_BUILD_MAC_PROBES "..." OFF)` at line 53; Phase 5 probe block lines 55-148 (JUCE discovery, `fixture_pretty_print` via plain `add_executable` + `juce::juce_core` + `-g -O0` + codesigned with `target_entitlements.plist`, `probe_pretty_print` via `add_executable` + liblldb link + `INSTALL_RPATH "${LIBLLDB_DIR}"` + codesigned with `entitlements.plist` + `PROBE_TARGET_PATH` compile definition + `add_dependencies` on fixture)
+
+### Alignment Check
+- [x] BLESSED principles followed
+  - **B**: `SBValue`/`SBProcess`/`SBError` are SB API value types with ref-counted internals — RAII; stack-allocated `char buffer[maxStringReadSize] {}` at `SessionPrettyPrint_mac.cpp:63` scoped to function; no raw `new`/`delete`
+  - **L**: 300/30 smell detector observed — all five new static helpers under 30 lines (`parseHexAddress` 10, `prettyPrintJuceString` 28, `prettyPrintUniquePtr` 29, `prettyPrint` dispatcher 14, `shouldSkipSymbol` 6); `makeVariableDynObj` 33 + `evaluateExpression` 35 (3-5 over smell line) — analyzed per MANIFESTO L ("smell detector, not arbitrary limit"), one concern each (DAP variable object construction / expression evaluation-and-format respectively), no wrong decomposition, inline shape matches Windows counterparts; file `SessionPrettyPrint_mac.cpp` 147 lines, `SessionInspection_mac.cpp` 213 lines — well within 300
+  - **L 3-branch**: `prettyPrint` dispatcher 2 branches + fall-through; `shouldSkipSymbol` single boolean composed of 4 `or` operands = lookup-style predicate, semantically equivalent to data table
+  - **E**: zero early returns; positive nested checks (`SessionPrettyPrint_mac.cpp:58, 70, 97, 101, 106, 108`, `SessionInspection_mac.cpp:31, 136, 155, 167, 189`); every `const char*` from SB API null-checked (e.g., `SessionPrettyPrint_mac.cpp:54-56, 99-101`); named constant `maxStringReadSize` — no magic numbers
+  - **S (SSOT)**: `shouldSkipSymbol` single filter predicate (2 call sites: `getLocals` + `getVariableChildren`); `makeVariableDynObj` single variable-DAP-schema builder; `prettyPrint` single dispatcher; `parseHexAddress` reused from Windows per Rule 5 (not re-invented)
+  - **S (Stateless)**: all new helpers `static` file-local pure functions; `makeVariableDynObj` mutates no `Session` state beyond writing the output object
+  - **E (Encapsulation)**: Windows COM types properly confined inside `#if JUCE_WINDOWS` after `PrettyPrint.h` fix; mac TU only sees `lldb::SBValue&` under `#if JUCE_MAC`; platform leak stops at `Session`'s public boundary as before
+  - **D**: formatting pipeline is pure function of `SBValue::GetValue()`/`GetSummary()`/child-walk + `SBProcess::ReadCStringFromMemory` — no hidden state; bit-identity vs Windows reference pending Phase 6 runtime smoke
+- [x] NAMES.md adhered — Rule -1 honored; 5 new identifiers approved (`prettyPrint`, `prettyPrintJuceString`, `prettyPrintUniquePtr`, `shouldSkipSymbol`) + 1 reused via Rule 5 Consistency (`parseHexAddress` from Windows side); probe scaffolding names (`WHATDBG_BUILD_MAC_PROBES`, `fixture_pretty_print`, `probe_pretty_print`, `PROBE_TARGET_PATH`, local fixture vars `juceStr`/`stdStr`/`uniq`/`vec`) self-contained in ephemeral test surface
+- [x] MANIFESTO.md applied — JUCE-first discipline (fixture uses `juce::String` native type + `juce::ignoreUnused`; formatter uses `juce::String` throughout, no raw `std::string` in the DAP pipeline); YAGNI enforced (fixture rejected `JUCEApplicationBase` requirement, used plain `int main`; waiver-comment mechanism rejected as CAROL-forbidden workaround)
+- [x] JRENG-CODING-STANDARD.md — brace init throughout; `not`/`and`/`or` alternative tokens (zero `!`/`&&`/`||`); nested positive checks; `noexcept` on all new functions; `const` before type; `static` file-local symbols (no anonymous namespaces); `*`/`&` stick to type
+
+### Problems Solved
+
+**Problem 1 — Probe-first vs implement-blind.** PLAN Step 5.1 requires "verify output matches Windows" — not assume LLDB built-ins cover STL types. Resolved by building `fixture_pretty_print` + `probe_pretty_print` to capture raw `GetValue()`/`GetSummary()` for the four types. Probe output drove D-7/D-8/D-9 rulings: `juce::String` → NULL/NULL (custom formatter needed), `std::string` → NULL/"hello" (LLDB built-in matches Windows), `std::unique_ptr<int>{42}` → NULL/`42` pointee (diverges from Windows `0x<hex>`), `std::vector<int>{1,2,3}` → NULL/`size=3` (matches Windows), plus surfaced `juce::compileUnitMismatchSentinel` JUCE-internal symbol requiring filter addition.
+
+**Problem 2 — Fixture needed `JUCEApplicationBase` → pulled `juce_events` indirectly.** Initial scaffold inherited `JUCEApplicationBase` ("console app base"), but `juce_add_console_app` with only `juce_core` linked cannot resolve the base class (it lives in `juce_events`). Rewrote fixture as plain `int main` + link `juce::juce_core` directly — YAGNI wins; fixture only needs a stack frame, not an event loop.
+
+**Problem 3 — `tests/mac/` is a standalone CMake subproject, not wired into root.** First build attempt failed because root `CMakeLists.txt` doesn't `add_subdirectory(tests/mac)` — the subproject has its own `project()` declaration. Build commands now target `tests/mac/build/` separately. Pre-existing pattern from Phase 0.3 `smoke_liblldb` — not Phase 5 scope to change.
+
+**Problem 4 — `PrettyPrint.h` unconditional `<dbgeng.h>` leaked Windows types into mac TU.** On macOS, any file including `PrettyPrint.h` would pull `<dbgeng.h>` → `IDebugDataSpaces4*`, `ULONG64`, etc. — compile error. Fix-as-adjacent-violation per Case 2: moved `<dbgeng.h>` + Windows signatures inside `#if JUCE_WINDOWS`, added mac signature under `#if JUCE_MAC`. Latent bug exposed by first-ever cross-platform use of the header.
+
+**Problem 5 — `<unavailable>` string divergence (Auditor nit).** Windows `SessionInspection.cpp:88-90` emits literal `"<unavailable>"` string for optimized-out locals via ternary on `SUCCEEDED(valueResult)`. Mac implementation fell through null-chain to empty string. Per session CONTRACT addendum ("no divergence"), added `<unavailable>` fallback after `prettyPrint` override in `makeVariableDynObj`.
+
+**Problem 6 — `evaluateExpression` skipped formatter on mac (Auditor nit).** Windows `SessionInspection.cpp:289-316` routes expression-eval results through `stripDecimalPrefix` + `juce::String` hot path. Mac returned raw `GetValue()`/`GetSummary()` verbatim. Fixed: `evaluateExpression` success path now calls `detail::prettyPrint(value, typeName)` with `GetValue/GetSummary` null-chain fallback, matching Windows pattern (minus dbgeng-specific `stripDecimalPrefix` which is not applicable to LLDB).
+
+**Problem 7 — `prettyPrintUniquePtr` implicit `0x`-prefix guard diverged from Windows (Auditor nit).** Mac had `if (addrStr.startsWith ("0x") or addrStr == "0")` before parsing — absent on Windows. Dropped the guard; `parseHexAddress` now called unconditionally, branch only on `address == 0` vs non-zero. Matches Windows `SessionPrettyPrint.cpp:314-321` exactly.
+
+**Problem 8 — Option Filter HARD GATE violation.** Proposed D-7 with options `A` (custom formatter) + `B` (ship without formatter, SPEC §Feature 6 violation). Offering a SPEC-violating option breaks COUNSELOR.md Option Filter ("An option that fails any filter is not a valid option. Do not offer it"). Acknowledged violation; D-7 was not a gate question — SPEC-required custom formatter is the only path.
+
+**Problem 9 — Waiver-comment workaround proposal rejected.** After Fix 1 + Fix 2 pushed `makeVariableDynObj` to 33 and `evaluateExpression` to 35 lines, initially proposed `getStackTrace`-style "BLESSED L: N lines. ... decomposition rejected" waiver comment. ARCHITECT rejected — "waiver comment" is a workaround (CAROL.md forbids), and MANIFESTO L explicitly states "smell detectors, not arbitrary limits" with 3-5 line overage on one-concern functions passing the check. No comment needed. Both functions accepted as-is.
+
+**Problem 10 — `parseHexAddress` extracted.** `prettyPrintJuceString` at 44 body lines + `prettyPrintUniquePtr` at 37 body lines both exceeded 30 via inline `startsWith("0x") → substring → getHexValue64` duplication. Extracted `static std::uint64_t parseHexAddress (const juce::String&) noexcept` — same semantics and identical name to Windows `SessionPrettyPrint.cpp:111` per NAMES Rule 5 Consistency (not improvised). Both callers now under 30 lines.
+
+### Debts Paid
+- None (DEBT.md does not exist at project root)
+
+### Debts Deferred
+- None — 3 of 4 Auditor nits fixed in-sprint per session CONTRACT addendum; 4th nit (`namespace detail` project-wide JRENG violation) is pre-existing, predates Phase 5, not sprint scope
+
 ## Sprint 18: macOS liblldb Backend — Session + Inspection + Feature 11 Port
 
 **Date:** 2026-04-16

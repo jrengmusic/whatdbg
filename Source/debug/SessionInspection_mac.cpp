@@ -1,5 +1,6 @@
 #include <JuceHeader.h>
 #include "Session.h"
+#include "PrettyPrint.h"
 #include "../dap/Types.h"
 
 #if JUCE_MAC
@@ -8,6 +9,18 @@ namespace debug
 {
 
 using dap::DynObj;
+
+// ---------------------------------------------------------------------------
+// shouldSkipSymbol
+// ---------------------------------------------------------------------------
+
+static bool shouldSkipSymbol (const juce::String& name) noexcept
+{
+    return name.startsWithChar ('<')
+        or name.startsWith ("leakDetector")
+        or name.startsWith ("__vfptr")
+        or name == "juce::compileUnitMismatchSentinel";
+}
 
 // ---------------------------------------------------------------------------
 // Session::ensureFrameVariablesCache
@@ -29,19 +42,33 @@ void Session::ensureFrameVariablesCache (int frameIndex) noexcept
 
 juce::var Session::makeVariableDynObj (lldb::SBValue& value, int symbolIndex) noexcept
 {
+    const char* rawType { value.GetTypeName () };
+    const juce::String typeName { rawType != nullptr ? rawType : "" };
+
     const char* rawVal { value.GetValue () };
-    const juce::String displayValue { rawVal != nullptr
+    juce::String displayValue { rawVal != nullptr
         ? juce::String (rawVal)
         : (value.GetSummary () != nullptr
             ? juce::String (value.GetSummary ())
             : juce::String ()) };
 
+    const juce::String prettyValue { detail::prettyPrint (value, typeName) };
+
+    if (prettyValue.isNotEmpty ())
+    {
+        displayValue = prettyValue;
+    }
+
+    if (displayValue.isEmpty ())
+    {
+        displayValue = "<unavailable>";
+    }
+
     DynObj obj { new juce::DynamicObject () };
     const char* rawName { value.GetName () };
-    const char* rawType { value.GetTypeName () };
     obj->setProperty ("name",        juce::String (rawName != nullptr ? rawName : ""));
     obj->setProperty ("value",       displayValue);
-    obj->setProperty ("type",        juce::String (rawType != nullptr ? rawType : ""));
+    obj->setProperty ("type",        typeName);
     obj->setProperty ("hasChildren", value.MightHaveChildren ());
     obj->setProperty ("symbolIndex", symbolIndex);
 
@@ -108,7 +135,13 @@ juce::Array<juce::var> Session::getLocals (int frameIndex) noexcept
     for (std::uint32_t i { 0 }; i < cachedFrameVariables.GetSize (); ++i)
     {
         auto value { cachedFrameVariables.GetValueAtIndex (i) };
-        result.add (makeVariableDynObj (value, static_cast<int> (i)));
+        const char* rawName { value.GetName () };
+        const juce::String name { rawName != nullptr ? rawName : "" };
+
+        if (not shouldSkipSymbol (name))
+        {
+            result.add (makeVariableDynObj (value, static_cast<int> (i)));
+        }
     }
 
     return result;
@@ -133,7 +166,13 @@ juce::Array<juce::var> Session::getVariableChildren (int frameIndex, int symbolI
         for (std::uint32_t i { 0 }; i < numChildren; ++i)
         {
             auto child { parent.GetChildAtIndex (i) };
-            result.add (makeVariableDynObj (child, static_cast<int> (i)));
+            const char* rawName { child.GetName () };
+            const juce::String name { rawName != nullptr ? rawName : "" };
+
+            if (not shouldSkipSymbol (name))
+            {
+                result.add (makeVariableDynObj (child, static_cast<int> (i)));
+            }
         }
     }
 
@@ -142,7 +181,6 @@ juce::Array<juce::var> Session::getVariableChildren (int frameIndex, int symbolI
 
 // ---------------------------------------------------------------------------
 // Session::evaluateExpression
-// Phase 5 will wrap raw LLDB output through the pretty-print layer for STL-type parity.
 // ---------------------------------------------------------------------------
 
 juce::String Session::evaluateExpression (const juce::String& expression, int frameIndex) noexcept
@@ -154,7 +192,15 @@ juce::String Session::evaluateExpression (const juce::String& expression, int fr
 
     if (value.IsValid () and value.GetError ().Success ())
     {
-        if (value.GetValue () != nullptr)
+        const char* rawType { value.GetTypeName () };
+        const juce::String typeName { rawType != nullptr ? rawType : "" };
+        const juce::String prettyValue { detail::prettyPrint (value, typeName) };
+
+        if (prettyValue.isNotEmpty ())
+        {
+            result = prettyValue;
+        }
+        else if (value.GetValue () != nullptr)
         {
             result = juce::String { value.GetValue () };
         }

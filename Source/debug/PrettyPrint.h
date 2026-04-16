@@ -1,8 +1,10 @@
 #pragma once
 #include <JuceHeader.h>
-#include <dbgeng.h>
 
 namespace debug { namespace detail {
+
+#if JUCE_WINDOWS
+#include <dbgeng.h>
 
 /** Strip the dbgeng "0n" decimal prefix from a numeric value string.
  *
@@ -106,5 +108,22 @@ juce::String getChildValueText (IDebugSymbolGroup2* group, int index) noexcept;
 juce::String prettyPrint (IDebugSymbolGroup2* group, IDebugDataSpaces4* dataSpaces,
                            IDebugSymbols3* symbols, int symbolIndex,
                            const juce::String& typeName) noexcept;
+#endif // JUCE_WINDOWS
+
+#if JUCE_MAC
+#include <lldb/API/LLDB.h>
+
+/** Attempt to pretty-print an SBValue using its known type name.
+ *
+ *  Dispatches to type-specific formatters for types such as juce::String and
+ *  std::unique_ptr. Returns empty if the type is not recognized — callers
+ *  should fall back to SBValue::GetValue() / SBValue::GetSummary().
+ *
+ *  @param value     The SBValue to format. May be mutated by child walks.
+ *  @param typeName  Type name string from LLDB (e.g. "juce::String").
+ *  @return Formatted display string, or empty if the type is not recognized.
+ */
+juce::String prettyPrint (lldb::SBValue& value, const juce::String& typeName) noexcept;
+#endif // JUCE_MAC
 
 }} // namespace debug::detail

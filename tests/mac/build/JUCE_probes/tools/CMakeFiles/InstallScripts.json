@@ -1,0 +1,10 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/jreng/Documents/Poems/dev/whatdbg/tests/mac/build/JUCE_probes/tools/cmake_install.cmake",
+		"/Users/jreng/Documents/Poems/dev/whatdbg/tests/mac/build/JUCE_probes/tools/modules/cmake_install.cmake",
+		"/Users/jreng/Documents/Poems/dev/whatdbg/tests/mac/build/JUCE_probes/tools/extras/Build/cmake_install.cmake",
+		"/Users/jreng/Documents/Poems/dev/whatdbg/tests/mac/build/JUCE_probes/tools/extras/Build/juceaide/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
