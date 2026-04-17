@@ -12,7 +12,7 @@
 
 # =============================================================================
 # Project: whatdbg
-# Configurations: Release
+# Configurations: Debug
 # =============================================================================
 
 #############################################
@@ -24,7 +24,7 @@ ninja_required_version = 1.8
 #############################################
 # Set configuration variable for custom commands.
 
-CONFIGURATION = Release
+CONFIGURATION = Debug
 # =============================================================================
 # Include auxiliary files.
 
@@ -49,121 +49,121 @@ cmake_ninja_workdir = /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/
 
 build cmake_object_order_depends_target_whatdbg_App: phony || whatdbg_App_artefacts/JuceLibraryCode/JuceHeader.h
 
-build CMakeFiles/whatdbg_App.dir/Source/Main.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Release /Users/jreng/Documents/Poems/dev/whatdbg/Source/Main.cpp || cmake_object_order_depends_target_whatdbg_App
-  CONFIG = Release
-  DEFINES = -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -DNDEBUG=1 -D_NDEBUG=1
+build CMakeFiles/whatdbg_App.dir/Source/Main.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Debug /Users/jreng/Documents/Poems/dev/whatdbg/Source/Main.cpp || cmake_object_order_depends_target_whatdbg_App
+  CONFIG = Debug
+  DEFINES = -DDEBUG=1 -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -D_DEBUG=1
   DEP_FILE = CMakeFiles/whatdbg_App.dir/Source/Main.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=c++17 -arch arm64
+  FLAGS = -g -std=c++17 -arch arm64
   INCLUDES = -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/JuceLibraryCode -I/Users/jreng/Documents/Poems/dev/whatdbg/Source -I/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/include -I/Users/jreng/Documents/Poems/JUCE/modules -I/Users/jreng/Documents/Poems/dev/whatdbg/modules
   OBJECT_DIR = CMakeFiles/whatdbg_App.dir
   OBJECT_FILE_DIR = CMakeFiles/whatdbg_App.dir/Source
   TARGET_SUPPORT_DIR = CMakeFiles/whatdbg_App.dir
 
-build CMakeFiles/whatdbg_App.dir/Source/Whatdbg.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Release /Users/jreng/Documents/Poems/dev/whatdbg/Source/Whatdbg.cpp || cmake_object_order_depends_target_whatdbg_App
-  CONFIG = Release
-  DEFINES = -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -DNDEBUG=1 -D_NDEBUG=1
+build CMakeFiles/whatdbg_App.dir/Source/Whatdbg.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Debug /Users/jreng/Documents/Poems/dev/whatdbg/Source/Whatdbg.cpp || cmake_object_order_depends_target_whatdbg_App
+  CONFIG = Debug
+  DEFINES = -DDEBUG=1 -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -D_DEBUG=1
   DEP_FILE = CMakeFiles/whatdbg_App.dir/Source/Whatdbg.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=c++17 -arch arm64
+  FLAGS = -g -std=c++17 -arch arm64
   INCLUDES = -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/JuceLibraryCode -I/Users/jreng/Documents/Poems/dev/whatdbg/Source -I/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/include -I/Users/jreng/Documents/Poems/JUCE/modules -I/Users/jreng/Documents/Poems/dev/whatdbg/modules
   OBJECT_DIR = CMakeFiles/whatdbg_App.dir
   OBJECT_FILE_DIR = CMakeFiles/whatdbg_App.dir/Source
   TARGET_SUPPORT_DIR = CMakeFiles/whatdbg_App.dir
 
-build CMakeFiles/whatdbg_App.dir/Source/WhatdbgHandlers.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Release /Users/jreng/Documents/Poems/dev/whatdbg/Source/WhatdbgHandlers.cpp || cmake_object_order_depends_target_whatdbg_App
-  CONFIG = Release
-  DEFINES = -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -DNDEBUG=1 -D_NDEBUG=1
+build CMakeFiles/whatdbg_App.dir/Source/WhatdbgHandlers.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Debug /Users/jreng/Documents/Poems/dev/whatdbg/Source/WhatdbgHandlers.cpp || cmake_object_order_depends_target_whatdbg_App
+  CONFIG = Debug
+  DEFINES = -DDEBUG=1 -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -D_DEBUG=1
   DEP_FILE = CMakeFiles/whatdbg_App.dir/Source/WhatdbgHandlers.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=c++17 -arch arm64
+  FLAGS = -g -std=c++17 -arch arm64
   INCLUDES = -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/JuceLibraryCode -I/Users/jreng/Documents/Poems/dev/whatdbg/Source -I/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/include -I/Users/jreng/Documents/Poems/JUCE/modules -I/Users/jreng/Documents/Poems/dev/whatdbg/modules
   OBJECT_DIR = CMakeFiles/whatdbg_App.dir
   OBJECT_FILE_DIR = CMakeFiles/whatdbg_App.dir/Source
   TARGET_SUPPORT_DIR = CMakeFiles/whatdbg_App.dir
 
-build CMakeFiles/whatdbg_App.dir/Source/dap/Reader.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Release /Users/jreng/Documents/Poems/dev/whatdbg/Source/dap/Reader.cpp || cmake_object_order_depends_target_whatdbg_App
-  CONFIG = Release
-  DEFINES = -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -DNDEBUG=1 -D_NDEBUG=1
+build CMakeFiles/whatdbg_App.dir/Source/dap/Reader.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Debug /Users/jreng/Documents/Poems/dev/whatdbg/Source/dap/Reader.cpp || cmake_object_order_depends_target_whatdbg_App
+  CONFIG = Debug
+  DEFINES = -DDEBUG=1 -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -D_DEBUG=1
   DEP_FILE = CMakeFiles/whatdbg_App.dir/Source/dap/Reader.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=c++17 -arch arm64
+  FLAGS = -g -std=c++17 -arch arm64
   INCLUDES = -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/JuceLibraryCode -I/Users/jreng/Documents/Poems/dev/whatdbg/Source -I/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/include -I/Users/jreng/Documents/Poems/JUCE/modules -I/Users/jreng/Documents/Poems/dev/whatdbg/modules
   OBJECT_DIR = CMakeFiles/whatdbg_App.dir
   OBJECT_FILE_DIR = CMakeFiles/whatdbg_App.dir/Source/dap
   TARGET_SUPPORT_DIR = CMakeFiles/whatdbg_App.dir
 
-build CMakeFiles/whatdbg_App.dir/Source/debug/BreakpointManager.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Release /Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/BreakpointManager.cpp || cmake_object_order_depends_target_whatdbg_App
-  CONFIG = Release
-  DEFINES = -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -DNDEBUG=1 -D_NDEBUG=1
+build CMakeFiles/whatdbg_App.dir/Source/debug/BreakpointManager.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Debug /Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/BreakpointManager.cpp || cmake_object_order_depends_target_whatdbg_App
+  CONFIG = Debug
+  DEFINES = -DDEBUG=1 -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -D_DEBUG=1
   DEP_FILE = CMakeFiles/whatdbg_App.dir/Source/debug/BreakpointManager.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=c++17 -arch arm64
+  FLAGS = -g -std=c++17 -arch arm64
   INCLUDES = -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/JuceLibraryCode -I/Users/jreng/Documents/Poems/dev/whatdbg/Source -I/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/include -I/Users/jreng/Documents/Poems/JUCE/modules -I/Users/jreng/Documents/Poems/dev/whatdbg/modules
   OBJECT_DIR = CMakeFiles/whatdbg_App.dir
   OBJECT_FILE_DIR = CMakeFiles/whatdbg_App.dir/Source/debug
   TARGET_SUPPORT_DIR = CMakeFiles/whatdbg_App.dir
 
-build CMakeFiles/whatdbg_App.dir/Source/debug/BreakpointManagerHandlers.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Release /Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/BreakpointManagerHandlers.cpp || cmake_object_order_depends_target_whatdbg_App
-  CONFIG = Release
-  DEFINES = -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -DNDEBUG=1 -D_NDEBUG=1
+build CMakeFiles/whatdbg_App.dir/Source/debug/BreakpointManagerHandlers.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Debug /Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/BreakpointManagerHandlers.cpp || cmake_object_order_depends_target_whatdbg_App
+  CONFIG = Debug
+  DEFINES = -DDEBUG=1 -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -D_DEBUG=1
   DEP_FILE = CMakeFiles/whatdbg_App.dir/Source/debug/BreakpointManagerHandlers.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=c++17 -arch arm64
+  FLAGS = -g -std=c++17 -arch arm64
   INCLUDES = -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/JuceLibraryCode -I/Users/jreng/Documents/Poems/dev/whatdbg/Source -I/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/include -I/Users/jreng/Documents/Poems/JUCE/modules -I/Users/jreng/Documents/Poems/dev/whatdbg/modules
   OBJECT_DIR = CMakeFiles/whatdbg_App.dir
   OBJECT_FILE_DIR = CMakeFiles/whatdbg_App.dir/Source/debug
   TARGET_SUPPORT_DIR = CMakeFiles/whatdbg_App.dir
 
-build CMakeFiles/whatdbg_App.dir/Source/debug/Session_mac.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Release /Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/Session_mac.cpp || cmake_object_order_depends_target_whatdbg_App
-  CONFIG = Release
-  DEFINES = -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -DNDEBUG=1 -D_NDEBUG=1
+build CMakeFiles/whatdbg_App.dir/Source/debug/Session_mac.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Debug /Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/Session_mac.cpp || cmake_object_order_depends_target_whatdbg_App
+  CONFIG = Debug
+  DEFINES = -DDEBUG=1 -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -D_DEBUG=1
   DEP_FILE = CMakeFiles/whatdbg_App.dir/Source/debug/Session_mac.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=c++17 -arch arm64
+  FLAGS = -g -std=c++17 -arch arm64
   INCLUDES = -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/JuceLibraryCode -I/Users/jreng/Documents/Poems/dev/whatdbg/Source -I/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/include -I/Users/jreng/Documents/Poems/JUCE/modules -I/Users/jreng/Documents/Poems/dev/whatdbg/modules
   OBJECT_DIR = CMakeFiles/whatdbg_App.dir
   OBJECT_FILE_DIR = CMakeFiles/whatdbg_App.dir/Source/debug
   TARGET_SUPPORT_DIR = CMakeFiles/whatdbg_App.dir
 
-build CMakeFiles/whatdbg_App.dir/Source/debug/SessionInspection_mac.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Release /Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/SessionInspection_mac.cpp || cmake_object_order_depends_target_whatdbg_App
-  CONFIG = Release
-  DEFINES = -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -DNDEBUG=1 -D_NDEBUG=1
+build CMakeFiles/whatdbg_App.dir/Source/debug/SessionInspection_mac.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Debug /Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/SessionInspection_mac.cpp || cmake_object_order_depends_target_whatdbg_App
+  CONFIG = Debug
+  DEFINES = -DDEBUG=1 -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -D_DEBUG=1
   DEP_FILE = CMakeFiles/whatdbg_App.dir/Source/debug/SessionInspection_mac.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=c++17 -arch arm64
+  FLAGS = -g -std=c++17 -arch arm64
   INCLUDES = -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/JuceLibraryCode -I/Users/jreng/Documents/Poems/dev/whatdbg/Source -I/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/include -I/Users/jreng/Documents/Poems/JUCE/modules -I/Users/jreng/Documents/Poems/dev/whatdbg/modules
   OBJECT_DIR = CMakeFiles/whatdbg_App.dir
   OBJECT_FILE_DIR = CMakeFiles/whatdbg_App.dir/Source/debug
   TARGET_SUPPORT_DIR = CMakeFiles/whatdbg_App.dir
 
-build CMakeFiles/whatdbg_App.dir/Source/debug/SessionPrettyPrint_mac.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Release /Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/SessionPrettyPrint_mac.cpp || cmake_object_order_depends_target_whatdbg_App
-  CONFIG = Release
-  DEFINES = -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -DNDEBUG=1 -D_NDEBUG=1
+build CMakeFiles/whatdbg_App.dir/Source/debug/SessionPrettyPrint_mac.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Debug /Users/jreng/Documents/Poems/dev/whatdbg/Source/debug/SessionPrettyPrint_mac.cpp || cmake_object_order_depends_target_whatdbg_App
+  CONFIG = Debug
+  DEFINES = -DDEBUG=1 -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -D_DEBUG=1
   DEP_FILE = CMakeFiles/whatdbg_App.dir/Source/debug/SessionPrettyPrint_mac.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=c++17 -arch arm64
+  FLAGS = -g -std=c++17 -arch arm64
   INCLUDES = -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/JuceLibraryCode -I/Users/jreng/Documents/Poems/dev/whatdbg/Source -I/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/include -I/Users/jreng/Documents/Poems/JUCE/modules -I/Users/jreng/Documents/Poems/dev/whatdbg/modules
   OBJECT_DIR = CMakeFiles/whatdbg_App.dir
   OBJECT_FILE_DIR = CMakeFiles/whatdbg_App.dir/Source/debug
   TARGET_SUPPORT_DIR = CMakeFiles/whatdbg_App.dir
 
-build CMakeFiles/whatdbg_App.dir/Users/jreng/Documents/Poems/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Release /Users/jreng/Documents/Poems/JUCE/modules/juce_core/juce_core_CompilationTime.cpp || cmake_object_order_depends_target_whatdbg_App
-  CONFIG = Release
-  DEFINES = -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -DNDEBUG=1 -D_NDEBUG=1
+build CMakeFiles/whatdbg_App.dir/Users/jreng/Documents/Poems/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Debug /Users/jreng/Documents/Poems/JUCE/modules/juce_core/juce_core_CompilationTime.cpp || cmake_object_order_depends_target_whatdbg_App
+  CONFIG = Debug
+  DEFINES = -DDEBUG=1 -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -D_DEBUG=1
   DEP_FILE = CMakeFiles/whatdbg_App.dir/Users/jreng/Documents/Poems/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=c++17 -arch arm64
+  FLAGS = -g -std=c++17 -arch arm64
   INCLUDES = -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/JuceLibraryCode -I/Users/jreng/Documents/Poems/dev/whatdbg/Source -I/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/include -I/Users/jreng/Documents/Poems/JUCE/modules -I/Users/jreng/Documents/Poems/dev/whatdbg/modules
   OBJECT_DIR = CMakeFiles/whatdbg_App.dir
   OBJECT_FILE_DIR = CMakeFiles/whatdbg_App.dir/Users/jreng/Documents/Poems/JUCE/modules/juce_core
   TARGET_SUPPORT_DIR = CMakeFiles/whatdbg_App.dir
 
-build CMakeFiles/whatdbg_App.dir/Users/jreng/Documents/Poems/JUCE/modules/juce_core/juce_core.mm.o: CXX_COMPILER__whatdbg_App_unscanned_Release /Users/jreng/Documents/Poems/JUCE/modules/juce_core/juce_core.mm || cmake_object_order_depends_target_whatdbg_App
-  CONFIG = Release
-  DEFINES = -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -DNDEBUG=1 -D_NDEBUG=1
+build CMakeFiles/whatdbg_App.dir/Users/jreng/Documents/Poems/JUCE/modules/juce_core/juce_core.mm.o: CXX_COMPILER__whatdbg_App_unscanned_Debug /Users/jreng/Documents/Poems/JUCE/modules/juce_core/juce_core.mm || cmake_object_order_depends_target_whatdbg_App
+  CONFIG = Debug
+  DEFINES = -DDEBUG=1 -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -D_DEBUG=1
   DEP_FILE = CMakeFiles/whatdbg_App.dir/Users/jreng/Documents/Poems/JUCE/modules/juce_core/juce_core.mm.o.d
-  FLAGS = -O3 -DNDEBUG -std=c++17 -arch arm64
+  FLAGS = -g -std=c++17 -arch arm64
   INCLUDES = -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/JuceLibraryCode -I/Users/jreng/Documents/Poems/dev/whatdbg/Source -I/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/include -I/Users/jreng/Documents/Poems/JUCE/modules -I/Users/jreng/Documents/Poems/dev/whatdbg/modules
   OBJECT_DIR = CMakeFiles/whatdbg_App.dir
   OBJECT_FILE_DIR = CMakeFiles/whatdbg_App.dir/Users/jreng/Documents/Poems/JUCE/modules/juce_core
   TARGET_SUPPORT_DIR = CMakeFiles/whatdbg_App.dir
 
-build CMakeFiles/whatdbg_App.dir/modules/jreng_core/jreng_core.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Release /Users/jreng/Documents/Poems/dev/whatdbg/modules/jreng_core/jreng_core.cpp || cmake_object_order_depends_target_whatdbg_App
-  CONFIG = Release
-  DEFINES = -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -DNDEBUG=1 -D_NDEBUG=1
+build CMakeFiles/whatdbg_App.dir/modules/jreng_core/jreng_core.cpp.o: CXX_COMPILER__whatdbg_App_unscanned_Debug /Users/jreng/Documents/Poems/dev/whatdbg/modules/jreng_core/jreng_core.cpp || cmake_object_order_depends_target_whatdbg_App
+  CONFIG = Debug
+  DEFINES = -DDEBUG=1 -DDONT_SET_USING_JUCE_NAMESPACE=1 -DJUCE_APPLICATION_NAME_STRING=\"whatdbg\" -DJUCE_APPLICATION_VERSION_STRING=\"0.1.0\" -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1 -DJUCE_MODULE_AVAILABLE_jreng_core=1 -DJUCE_MODULE_AVAILABLE_juce_core=1 -DJUCE_STANDALONE_APPLICATION=1 -D_DEBUG=1
   DEP_FILE = CMakeFiles/whatdbg_App.dir/modules/jreng_core/jreng_core.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=c++17 -arch arm64
+  FLAGS = -g -std=c++17 -arch arm64
   INCLUDES = -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/JuceLibraryCode -I/Users/jreng/Documents/Poems/dev/whatdbg/Source -I/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/include -I/Users/jreng/Documents/Poems/JUCE/modules -I/Users/jreng/Documents/Poems/dev/whatdbg/modules
   OBJECT_DIR = CMakeFiles/whatdbg_App.dir
   OBJECT_FILE_DIR = CMakeFiles/whatdbg_App.dir/modules/jreng_core
@@ -175,17 +175,17 @@ build CMakeFiles/whatdbg_App.dir/modules/jreng_core/jreng_core.cpp.o: CXX_COMPIL
 
 
 #############################################
-# Link the executable whatdbg_App_artefacts/Release/whatdbg
+# Link the executable whatdbg_App_artefacts/Debug/whatdbg
 
-build whatdbg_App_artefacts/Release/whatdbg: CXX_EXECUTABLE_LINKER__whatdbg_App_Release CMakeFiles/whatdbg_App.dir/Source/Main.cpp.o CMakeFiles/whatdbg_App.dir/Source/Whatdbg.cpp.o CMakeFiles/whatdbg_App.dir/Source/WhatdbgHandlers.cpp.o CMakeFiles/whatdbg_App.dir/Source/dap/Reader.cpp.o CMakeFiles/whatdbg_App.dir/Source/debug/BreakpointManager.cpp.o CMakeFiles/whatdbg_App.dir/Source/debug/BreakpointManagerHandlers.cpp.o CMakeFiles/whatdbg_App.dir/Source/debug/Session_mac.cpp.o CMakeFiles/whatdbg_App.dir/Source/debug/SessionInspection_mac.cpp.o CMakeFiles/whatdbg_App.dir/Source/debug/SessionPrettyPrint_mac.cpp.o CMakeFiles/whatdbg_App.dir/Users/jreng/Documents/Poems/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o CMakeFiles/whatdbg_App.dir/Users/jreng/Documents/Poems/JUCE/modules/juce_core/juce_core.mm.o CMakeFiles/whatdbg_App.dir/modules/jreng_core/jreng_core.cpp.o | /Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/liblldb.dylib
-  CONFIG = Release
-  FLAGS = -O3 -DNDEBUG -arch arm64
+build whatdbg_App_artefacts/Debug/whatdbg: CXX_EXECUTABLE_LINKER__whatdbg_App_Debug CMakeFiles/whatdbg_App.dir/Source/Main.cpp.o CMakeFiles/whatdbg_App.dir/Source/Whatdbg.cpp.o CMakeFiles/whatdbg_App.dir/Source/WhatdbgHandlers.cpp.o CMakeFiles/whatdbg_App.dir/Source/dap/Reader.cpp.o CMakeFiles/whatdbg_App.dir/Source/debug/BreakpointManager.cpp.o CMakeFiles/whatdbg_App.dir/Source/debug/BreakpointManagerHandlers.cpp.o CMakeFiles/whatdbg_App.dir/Source/debug/Session_mac.cpp.o CMakeFiles/whatdbg_App.dir/Source/debug/SessionInspection_mac.cpp.o CMakeFiles/whatdbg_App.dir/Source/debug/SessionPrettyPrint_mac.cpp.o CMakeFiles/whatdbg_App.dir/Users/jreng/Documents/Poems/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o CMakeFiles/whatdbg_App.dir/Users/jreng/Documents/Poems/JUCE/modules/juce_core/juce_core.mm.o CMakeFiles/whatdbg_App.dir/modules/jreng_core/jreng_core.cpp.o | /Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/liblldb.dylib
+  CONFIG = Debug
+  FLAGS = -g -arch arm64
   LINK_FLAGS = -Wl,-search_paths_first -Wl,-headerpad_max_install_names
   LINK_LIBRARIES = -Wl,-rpath,@loader_path -Wl,-rpath,/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb  /Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/liblldb.dylib  -framework Cocoa  -framework Foundation  -framework IOKit  -framework Security
   OBJECT_DIR = CMakeFiles/whatdbg_App.dir
-  POST_BUILD = cd /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja && /opt/homebrew/bin/cmake -E copy_if_different /Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/liblldb.dylib /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/Release/liblldb.dylib && cd /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja && /opt/homebrew/bin/cmake -E copy_if_different /Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/licenses/LLVM-LICENSE.TXT /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/Release/LICENSE-liblldb.txt
+  POST_BUILD = cd /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja && /opt/homebrew/bin/cmake -E copy_if_different /Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/liblldb.dylib /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/Debug/liblldb.dylib && cd /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja && /opt/homebrew/bin/cmake -E copy_if_different /Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/liblldb/licenses/LLVM-LICENSE.TXT /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/Debug/LICENSE-liblldb.txt
   PRE_LINK = :
-  TARGET_FILE = whatdbg_App_artefacts/Release/whatdbg
+  TARGET_FILE = whatdbg_App_artefacts/Debug/whatdbg
   TARGET_PDB = whatdbg.dbg
   TARGET_SUPPORT_DIR = CMakeFiles/whatdbg_App.dir
 
@@ -259,8 +259,8 @@ build install/strip: phony CMakeFiles/install/strip.util
 #############################################
 # Custom command for whatdbg_App_artefacts/JuceLibraryCode/JuceHeader.h
 
-build whatdbg_App_artefacts/JuceLibraryCode/JuceHeader.h | ${cmake_ninja_workdir}whatdbg_App_artefacts/JuceLibraryCode/JuceHeader.h: CUSTOM_COMMAND whatdbg_App_artefacts/JuceLibraryCode/Release/Defs.txt
-  COMMAND = cd /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja && /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/extras/Build/juceaide/juceaide_artefacts/Custom/juceaide header /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/JuceLibraryCode/Release/Defs.txt /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/JuceLibraryCode/JuceHeader.h
+build whatdbg_App_artefacts/JuceLibraryCode/JuceHeader.h | ${cmake_ninja_workdir}whatdbg_App_artefacts/JuceLibraryCode/JuceHeader.h: CUSTOM_COMMAND whatdbg_App_artefacts/JuceLibraryCode/Debug/Defs.txt
+  COMMAND = cd /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja && /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/JUCE/tools/extras/Build/juceaide/juceaide_artefacts/Custom/juceaide header /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/JuceLibraryCode/Debug/Defs.txt /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/whatdbg_App_artefacts/JuceLibraryCode/JuceHeader.h
   DESC = Generating whatdbg_App_artefacts/JuceLibraryCode/JuceHeader.h
   restat = 1
 
@@ -551,9 +551,9 @@ build JUCE/extras/Build/juceaide/install/strip: phony JUCE/extras/Build/juceaide
 # =============================================================================
 # Target aliases.
 
-build whatdbg: phony whatdbg_App_artefacts/Release/whatdbg
+build whatdbg: phony whatdbg_App_artefacts/Debug/whatdbg
 
-build whatdbg_App: phony whatdbg_App_artefacts/Release/whatdbg
+build whatdbg_App: phony whatdbg_App_artefacts/Debug/whatdbg
 
 # =============================================================================
 # Folder targets.
@@ -563,7 +563,7 @@ build whatdbg_App: phony whatdbg_App_artefacts/Release/whatdbg
 #############################################
 # Folder: /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja
 
-build all: phony whatdbg_App_artefacts/Release/whatdbg JUCE/all
+build all: phony whatdbg_App_artefacts/Debug/whatdbg JUCE/all
 
 # =============================================================================
 

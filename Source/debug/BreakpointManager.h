@@ -152,6 +152,24 @@ public:
      */
     juce::var onBreakpointHit (std::uint32_t engineId, std::uint32_t threadId);
 
+    /** Update an existing breakpoint to reflect async liblldb resolution.
+     *
+     *  Called from `processDeferredEvents` when `state.hasBreakpointLocationsResolved`
+     *  fires — typically when a module loads that resolves a BP created via
+     *  `Session::addBreakpointByLocation` before the module was present.
+     *
+     *  Flips the stored `BreakpointInfo::isVerified` to true and updates `line`
+     *  to the resolved line. Returns the DAP breakpoint ID so the caller can
+     *  emit a DAP `breakpoint` event with reason=`changed`.
+     *
+     *  @param engineId      The lldb breakpoint ID.
+     *  @param resolvedLine  The source line liblldb resolved the BP to.
+     *  @return Matching DAP BP ID, or 0 if the engineId is not tracked
+     *          (e.g. spurious event for a BP we didn't create).
+     */
+    int onBreakpointLocationsResolved (std::uint32_t engineId,
+                                       std::uint32_t resolvedLine) noexcept;
+
     /** Return true if there are breakpoints waiting to be resolved.
      *
      *  Read by EventCallbacks::LoadModule to decide whether to set

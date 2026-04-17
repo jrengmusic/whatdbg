@@ -462,6 +462,37 @@ juce::Result Session::addBreakpoint (std::uint64_t offset, std::uint32_t* outEng
     return result;
 }
 
+juce::Result Session::addBreakpointByLocation (const juce::String& filePath,
+                                               std::uint32_t       line,
+                                               std::uint32_t*      outEngineId,
+                                               std::uint32_t*      outResolvedLine) noexcept
+{
+    jassert (outEngineId != nullptr);
+    jassert (outResolvedLine != nullptr);
+
+    std::uint64_t offset { 0 };
+    juce::Result result { juce::Result::fail ("getOffsetByLine failed") };
+
+    const ResolveStatus status { getOffsetByLine (filePath, line, &offset) };
+
+    if (status == ResolveStatus::resolved)
+    {
+        const juce::Result addResult { addBreakpoint (offset, outEngineId) };
+
+        if (addResult.wasOk ())
+        {
+            *outResolvedLine = line;
+            result = juce::Result::ok ();
+        }
+        else
+        {
+            result = addResult;
+        }
+    }
+
+    return result;
+}
+
 juce::Result Session::removeBreakpoint (std::uint32_t engineId) noexcept
 {
     juce::Result result { juce::Result::fail ("removeBreakpoint: control is null") };

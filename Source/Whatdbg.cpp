@@ -114,6 +114,10 @@ void Whatdbg::run ()
         }
     }
 
+    logWrite ("[diag] Whatdbg::run exiting main loop shouldTerminateOnExit=%d executionState=%d\n",
+              static_cast<int> (shouldTerminateOnExit),
+              static_cast<int> (state.executionState));
+
     reader.stop ();
     debug::EndMode endMode { debug::EndMode::detach };
 
@@ -211,6 +215,7 @@ void Whatdbg::processDeferredEvents ()
     if (state.hasNewModuleLoaded)
     {
         state.hasNewModuleLoaded = false;
+        const bool wasStopped { state.executionState == debug::ExecutionState::stopped };
 
         if (breakpointManager.hasPending ())
         {
@@ -226,10 +231,44 @@ void Whatdbg::processDeferredEvents ()
 
                 logWrite ("[Whatdbg] resolved %d pending BPs after module load\n", events.size ());
             }
+        }
 
-            // Resume target (LoadModule returned DEBUG_STATUS_BREAK)
+        // Windows: dbgeng's LoadModule callback returns DEBUG_STATUS_BREAK, so state
+        // was stopped and we must re-resume. macOS: eBroadcastBitModulesLoaded fires
+        // from an already-running target — no pause ever occurred, skip the resume.
+        if (wasStopped)
+        {
             session.resume ();
             state.executionState = debug::ExecutionState::running;
+        }
+    }
+
+    // Breakpoint location resolved asynchronously by liblldb (target loaded
+    // a new module that resolved a previously-pending BP location).
+    if (state.hasBreakpointLocationsResolved)
+    {
+        state.hasBreakpointLocationsResolved = false;
+
+        const std::uint32_t engineId     { state.resolvedBreakpointEngineId };
+        const std::uint32_t resolvedLine { state.resolvedBreakpointLine };
+
+        const int dapId { breakpointManager.onBreakpointLocationsResolved (engineId, resolvedLine) };
+
+        if (dapId > 0)
+        {
+            DynObj bpObj { new juce::DynamicObject () };
+            bpObj->setProperty ("id",       dapId);
+            bpObj->setProperty ("verified", true);
+            bpObj->setProperty ("line",     static_cast<int> (resolvedLine));
+
+            DynObj body { new juce::DynamicObject () };
+            body->setProperty ("reason",     "changed");
+            body->setProperty ("breakpoint", juce::var (bpObj));
+
+            sendEvent (dap::makeEvent ("breakpoint", juce::var (body)));
+
+            logWrite ("[Whatdbg] BP resolved async: engineId=%u dapId=%d line=%u\n",
+                      engineId, dapId, resolvedLine);
         }
     }
 
@@ -239,6 +278,9 @@ void Whatdbg::processDeferredEvents ()
         state.hasDebuggeeOutput = false;
         const juce::String text { state.debuggeeOutputText };
         state.debuggeeOutputText.clear ();
+
+        logWrite ("[diag] processDeferredEvents emitting output event bytes=%d\n",
+                  text.length ());
 
         DynObj body { new juce::DynamicObject () };
         body->setProperty ("category", "console");

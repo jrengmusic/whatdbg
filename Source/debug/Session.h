@@ -174,6 +174,30 @@ public:
      */
     juce::Result addBreakpoint (std::uint64_t offset, std::uint32_t* outEngineId) noexcept;
 
+    /** Create a breakpoint by source file and line.
+     *
+     *  Cross-platform entry: Windows wraps the existing
+     *  `getOffsetByLine` → `addBreakpoint (offset)` chain; macOS
+     *  delegates to `SBTarget::BreakpointCreateByLocation`, which lets
+     *  liblldb track pending locations itself and auto-resolve as modules
+     *  load (no adapter-side retry loop).
+     *
+     *  @param filePath        Source file path as received from the DAP client
+     *                         (backslash-form on Windows, forward-slash on macOS;
+     *                         `BreakpointManagerHandlers` handles the platform
+     *                         branch before calling).
+     *  @param line            Requested line (1-based, matching DAP).
+     *  @param outEngineId     Out: engine-assigned breakpoint ID.
+     *  @param outResolvedLine Out: resolved line if the BP already has a
+     *                         location, else 0 (caller treats 0 as pending).
+     *  @return ok() on success (even when outResolvedLine is 0 — liblldb will
+     *          auto-resolve). fail() only when BP creation itself errored.
+     */
+    juce::Result addBreakpointByLocation (const juce::String& filePath,
+                                          std::uint32_t       line,
+                                          std::uint32_t*      outEngineId,
+                                          std::uint32_t*      outResolvedLine) noexcept;
+
     /** Remove a previously created breakpoint by its engine ID.
      *
      *  Calls IDebugControl4::RemoveBreakpoint. The engine ID is no longer valid

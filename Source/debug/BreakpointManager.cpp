@@ -221,4 +221,28 @@ juce::var BreakpointManager::onBreakpointHit (std::uint32_t engineId, std::uint3
     return juce::var (body);
 }
 
+// ---------------------------------------------------------------------------
+// BreakpointManager::onBreakpointLocationsResolved
+// ---------------------------------------------------------------------------
+
+int BreakpointManager::onBreakpointLocationsResolved (std::uint32_t engineId,
+                                                      std::uint32_t resolvedLine) noexcept
+{
+    int dapId { 0 };
+
+    if (engineToDap.count (engineId) > 0)
+    {
+        dapId = static_cast<int> (engineToDap.at (engineId));
+
+        if (breakpoints.count (static_cast<uint32_t> (dapId)) > 0)
+        {
+            BreakpointInfo& info { breakpoints.at (static_cast<uint32_t> (dapId)) };
+            info.isVerified = true;
+            info.line       = resolvedLine;
+        }
+    }
+
+    return dapId;
+}
+
 } // namespace debug

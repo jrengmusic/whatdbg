@@ -133,33 +133,55 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
         }
         else
         {
-            // New breakpoint — attempt resolution via getOffsetByLine.
-            // If the module isn't loaded yet, tryResolve returns isSuccess=false
-            // and we add the breakpoint to the pending list for deferred
-            // resolution when LoadModule fires.
+            // New breakpoint — create via platform-native BP-by-location.
+            // Windows: wraps getOffsetByLine + addBreakpoint(offset). Returns
+            //   fail if module not loaded → we add to pending and onModuleLoad
+            //   retries on each LoadModule event.
+            // macOS: always succeeds; resolvedLine == 0 means liblldb will
+            //   auto-resolve as modules load (no adapter retry — lldb tracks).
            #if JUCE_WINDOWS
             const juce::String resolvePath { toWindowsPath (rawSourcePath) };
            #else
             const juce::String resolvePath { rawSourcePath };
            #endif
-            const ResolveResult result { tryResolve (resolvePath, static_cast<std::uint32_t> (line)) };
+
+            std::uint32_t engineId     { 0 };
+            std::uint32_t resolvedLine { 0 };
+            const juce::Result createResult {
+                session.addBreakpointByLocation (resolvePath,
+                                                 static_cast<std::uint32_t> (line),
+                                                 &engineId,
+                                                 &resolvedLine) };
+
+            const bool isImmediatelyResolved { createResult.wasOk () and resolvedLine != 0 };
+            const bool isDeferredPending     { createResult.wasOk () and resolvedLine == 0 };
 
             BreakpointInfo info {};
             info.dapId      = dapId;
             info.sourcePath = normalizedPath;
-            info.line       = result.isSuccess ? result.resolvedLine : static_cast<std::uint32_t> (line);
-            info.isVerified = result.isSuccess;
+            info.line       = isImmediatelyResolved ? resolvedLine
+                                                    : static_cast<std::uint32_t> (line);
+            info.isVerified = isImmediatelyResolved;
 
-            if (result.isSuccess)
+            if (isImmediatelyResolved)
             {
-                info.hasEngineId             = true;
-                info.engineId                = result.engineId;
-                engineToDap[result.engineId] = dapId;
+                info.hasEngineId      = true;
+                info.engineId         = engineId;
+                engineToDap[engineId] = dapId;
+            }
+            else if (isDeferredPending)
+            {
+                // macOS branch: liblldb tracks the BP, will resolve on module
+                // load. Still record engineId so subsequent removeBreakpoint
+                // can reach the lldb BP.
+                info.hasEngineId      = true;
+                info.engineId         = engineId;
+                engineToDap[engineId] = dapId;
             }
             else
             {
-                // Module not loaded yet — add to pending for deferred resolution.
-                // onModuleLoad will retry getOffsetByLine after each LoadModule event.
+                // Windows branch: getOffsetByLine said not-found (or addBreakpoint
+                // failed). Fall back to pending-list retry via onModuleLoad.
                 PendingBreakpoint pendingBp {};
                 pendingBp.dapId          = dapId;
                 pendingBp.sourcePath     = resolvePath;
@@ -177,10 +199,10 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
 
             breakpoints[dapId] = info;
 
-            bpObj->setProperty ("verified", result.isSuccess);
+            bpObj->setProperty ("verified", isImmediatelyResolved);
             bpObj->setProperty ("line",     static_cast<int> (info.line));
 
-            if (not result.isSuccess)
+            if (not isImmediatelyResolved)
             {
                 bpObj->setProperty ("message",
                     "WHATDBG: pending — module not loaded for "

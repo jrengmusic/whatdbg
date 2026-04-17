@@ -146,6 +146,26 @@ public:
      */
     juce::String lastLoadedImageName;
 
+    /** Set by Session_mac handleBreakpointEvent when liblldb resolves a new
+     *  breakpoint location (typically because a matching module loaded after
+     *  the BP was created). Consumed by processDeferredEvents to emit a DAP
+     *  `breakpoint` event with reason=`changed` so the client gutter marker
+     *  flips from unverified to verified.
+     */
+    bool hasBreakpointLocationsResolved { false };
+
+    /** Engine breakpoint ID associated with the most recent resolution event.
+     *  Set alongside `hasBreakpointLocationsResolved`. Caller resolves the
+     *  DAP breakpoint ID via `engineToDap` in BreakpointManager.
+     */
+    std::uint32_t resolvedBreakpointEngineId { 0 };
+
+    /** Resolved source line for the BP whose location was just added.
+     *  Set alongside `hasBreakpointLocationsResolved`. 0 if unavailable
+     *  (shouldn't happen in practice — LocationsResolved implies a line entry).
+     */
+    std::uint32_t resolvedBreakpointLine { 0 };
+
     /** True when at least one breakpoint is waiting to be resolved.
      *
      *  Set by BreakpointManager::handleSetBreakpoints when a breakpoint cannot be

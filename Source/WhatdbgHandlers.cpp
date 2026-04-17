@@ -96,10 +96,16 @@ void Whatdbg::handleAttach (const juce::var& request)
         state.initialBreakPhase = debug::InitialBreakPhase::pending;
        #endif
 
+        logWrite ("[diag] handleAttach pid=%u executionState=%d initialBreakPhase=%d\n",
+                  pid,
+                  static_cast<int> (state.executionState),
+                  static_cast<int> (state.initialBreakPhase));
+
         sendResponse (dap::makeResponse (seq, "attach", true));
     }
     else
     {
+        logWrite ("[diag] handleAttach FAILED pid=%u\n", pid);
         sendResponse (dap::makeErrorResponse (seq, "attach", "Failed to attach"));
     }
 }
@@ -125,6 +131,13 @@ void Whatdbg::handleDisconnect (const juce::var& request)
 
     const bool isTerminate { command == "terminate" };
     shouldTerminateOnExit = isTerminate or static_cast<bool> (args["terminateDebuggee"]);
+
+    logWrite ("[diag] handleDisconnect command=%s isTerminate=%d argsTerminateDebuggee=%d shouldTerminateOnExit=%d isRunning=%d\n",
+              command.toRawUTF8 (),
+              static_cast<int> (isTerminate),
+              static_cast<int> (static_cast<bool> (args["terminateDebuggee"])),
+              static_cast<int> (shouldTerminateOnExit),
+              static_cast<int> (isRunning));
 
     sendResponse (dap::makeResponse (seq, command, true));
     isRunning = false;

@@ -2,8 +2,11 @@
 #include "Session.h"
 #include "State.h"
 #include "../dap/Types.h"
+#include "../Log.h"
+#include <cerrno>
 #include <cstdio>
 #include <limits>
+#include <signal.h>
 #include <unordered_map>
 
 namespace debug
@@ -75,6 +78,9 @@ static void drainProcessStdio (debug::State* state,
 
         if (bytesRead > 0)
         {
+            logWrite ("[diag] drainProcessStdio %s bytesRead=%zu\n",
+                      isStderr ? "STDERR" : "STDOUT",
+                      bytesRead);
             state->debuggeeOutputText += juce::String (juce::CharPointer_UTF8 (buffer),
                                                        juce::CharPointer_UTF8 (buffer + bytesRead));
             state->hasDebuggeeOutput   = true;
@@ -104,6 +110,18 @@ static void handleProcessEvent (debug::State* state,
                                 lldb::SBEvent& event) noexcept
 {
     const std::uint32_t mask { event.GetType () };
+
+    {
+        const auto diagProcState { lldb::SBProcess::GetStateFromEvent (event) };
+        auto       diagSelThread { process.GetSelectedThread () };
+        const auto diagStopReason { diagSelThread.IsValid () ? diagSelThread.GetStopReason ()
+                                                             : lldb::eStopReasonInvalid };
+        logWrite ("[diag] handleProcessEvent mask=0x%x state=%d stopReason=%d initialBreakPhase=%d\n",
+                  mask,
+                  static_cast<int> (diagProcState),
+                  static_cast<int> (diagStopReason),
+                  static_cast<int> (state->initialBreakPhase));
+    }
 
     if ((mask bitand lldb::SBProcess::eBroadcastBitSTDOUT) != 0)
     {
@@ -156,6 +174,29 @@ static void handleProcessEvent (debug::State* state,
             break;
         default:
             break;
+    }
+}
+
+static void handleBreakpointEvent (debug::State* state, lldb::SBEvent& event) noexcept
+{
+    const auto eventType { lldb::SBBreakpoint::GetBreakpointEventTypeFromEvent (event) };
+
+    const bool isResolved { (eventType == lldb::eBreakpointEventTypeLocationsResolved)
+                         or (eventType == lldb::eBreakpointEventTypeLocationsAdded) };
+
+    if (isResolved)
+    {
+        auto bp { lldb::SBBreakpoint::GetBreakpointFromEvent (event) };
+
+        if (bp.IsValid () and bp.GetNumLocations () > 0)
+        {
+            auto loc { bp.GetLocationAtIndex (0) };
+            auto lineEntry { loc.GetAddress ().GetLineEntry () };
+
+            state->resolvedBreakpointEngineId = static_cast<std::uint32_t> (bp.GetID ());
+            state->resolvedBreakpointLine     = lineEntry.IsValid () ? lineEntry.GetLine () : 0u;
+            state->hasBreakpointLocationsResolved = true;
+        }
     }
 }
 
@@ -256,6 +297,13 @@ bool Session::attach (std::uint32_t processId) noexcept
                                                 static_cast<lldb::pid_t> (processId),
                                                 error);
 
+        logWrite ("[diag] Session::attach pid=%u errSuccess=%d errCString='%s' processValid=%d processState=%d\n",
+                  processId,
+                  static_cast<int> (error.Success ()),
+                  error.GetCString () ? error.GetCString () : "(null)",
+                  static_cast<int> (process.IsValid ()),
+                  process.IsValid () ? static_cast<int> (process.GetState ()) : -1);
+
         if (error.Success () and process.IsValid ())
         {
             State::getContext ()->targetProcessId = processId;
@@ -300,6 +348,10 @@ juce::Result Session::pollEvents (std::uint32_t timeoutMs, bool& outHadEvent) no
         {
             handleTargetEvent (debugState, event);
         }
+        else if (lldb::SBBreakpoint::EventIsBreakpointEvent (event))
+        {
+            handleBreakpointEvent (debugState, event);
+        }
     }
 
     return juce::Result::ok ();
@@ -311,21 +363,44 @@ juce::Result Session::pollEvents (std::uint32_t timeoutMs, bool& outHadEvent) no
 
 void Session::shutdown (EndMode mode) noexcept
 {
+    logWrite ("[diag] Session::shutdown entry mode=%d processValid=%d processState=%d\n",
+              static_cast<int> (mode),
+              static_cast<int> (process.IsValid ()),
+              process.IsValid () ? static_cast<int> (process.GetState ()) : -1);
+
     switch (mode)
     {
         case EndMode::terminate:
-            if (process.IsValid ())
-                process.Kill ();
+        {
+            const auto pid { State::getContext ()->targetProcessId };
+            logWrite ("[diag] Session::shutdown posix kill pid=%u\n", pid);
+
+            if (pid != 0)
+            {
+                const int rc         { ::kill (static_cast<pid_t> (pid), SIGKILL) };
+                const int savedErrno { errno };
+                logWrite ("[diag] Session::shutdown kill rc=%d errno=%d\n", rc, savedErrno);
+            }
             break;
+        }
         case EndMode::detach:
+            logWrite ("[diag] Session::shutdown calling process.Detach()\n");
             if (process.IsValid ())
-                process.Detach ();
+            {
+                const auto detachErr { process.Detach () };
+                logWrite ("[diag] Session::shutdown Detach result success=%d err='%s' postState=%d\n",
+                          static_cast<int> (detachErr.Success ()),
+                          detachErr.GetCString () ? detachErr.GetCString () : "(null)",
+                          static_cast<int> (process.GetState ()));
+            }
             break;
         case EndMode::passive:
         default:
+            logWrite ("[diag] Session::shutdown passive (no action on process)\n");
             break;
     }
 
+    logWrite ("[diag] Session::shutdown calling SBDebugger::Destroy + Terminate\n");
     lldb::SBDebugger::Destroy (debugger);
     lldb::SBDebugger::Terminate ();
 }
@@ -371,6 +446,44 @@ juce::Result Session::addBreakpoint (std::uint64_t offset, std::uint32_t* outEng
     if (bp.IsValid ())
     {
         *outEngineId = static_cast<std::uint32_t> (bp.GetID ());
+        result = juce::Result::ok ();
+    }
+
+    return result;
+}
+
+juce::Result Session::addBreakpointByLocation (const juce::String& filePath,
+                                               std::uint32_t       line,
+                                               std::uint32_t*      outEngineId,
+                                               std::uint32_t*      outResolvedLine) noexcept
+{
+    jassert (outEngineId != nullptr);
+    jassert (outResolvedLine != nullptr);
+
+    auto bp { target.BreakpointCreateByLocation (filePath.toRawUTF8 (), line) };
+    juce::Result result { juce::Result::fail ("BreakpointCreateByLocation failed") };
+
+    if (bp.IsValid ())
+    {
+        *outEngineId = static_cast<std::uint32_t> (bp.GetID ());
+
+        const std::uint32_t numLocations { static_cast<std::uint32_t> (bp.GetNumLocations ()) };
+
+        if (numLocations > 0)
+        {
+            auto loc { bp.GetLocationAtIndex (0) };
+            auto lineEntry { loc.GetAddress ().GetLineEntry () };
+
+            if (lineEntry.IsValid ())
+                *outResolvedLine = lineEntry.GetLine ();
+            else
+                *outResolvedLine = line;
+        }
+        else
+        {
+            *outResolvedLine = 0;
+        }
+
         result = juce::Result::ok ();
     }
 
