@@ -57,9 +57,8 @@ struct PendingBreakpoint
     /** DAP-assigned breakpoint ID (same as the BreakpointInfo it will populate). */
     uint32_t     dapId { 0 };
 
-    /** Windows-style source path (backslash) for passing to Session::getOffsetByLine.
-     *
-     *  dbgeng expects Windows paths for symbol lookups.
+    /** Source path in backend-native form for Session::getOffsetByLine
+     *  (backslash-separated on Windows, forward-slash on macOS).
      */
     juce::String sourcePath;
 

@@ -188,6 +188,18 @@ public:
      */
     std::uint64_t exceptionAddress { 0 };
 
+    /** Discriminator for how `exceptionCode` should be interpreted on macOS.
+     *
+     *  `false` (default, and always-false on Windows): `exceptionCode` is a
+     *  POSIX signal number (SIGSEGV, SIGBUS, …) resolved via `signalNames`.
+     *
+     *  `true` (macOS only): `exceptionCode` is a Mach exception type
+     *  (EXC_BAD_ACCESS = 1, EXC_BAD_INSTRUCTION = 2, …) resolved via
+     *  `machExceptionNames`. Set by `handleExceptionStop` when LLDB reports
+     *  `eStopReasonException` instead of `eStopReasonSignal`.
+     */
+    bool isMachException { false };
+
     /** Set by OutputCallbacks::Output2 when the target writes to OutputDebugString.
      *
      *  Consumed by processDeferredEvents to emit a DAP output event with

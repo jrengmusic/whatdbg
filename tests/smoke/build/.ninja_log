@@ -1,0 +1,17 @@
+# ninja log v7
+4	45	1776445181360221719	/Users/jreng/Documents/Poems/dev/whatdbg/tests/smoke/build/CMakeFiles/cmake.verify_globs	cb19ae307fd7eefb
+34	72	1776424417962445356	CMakeFiles/smoke_fixture.dir/Users/jreng/Documents/Poems/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o	5dec215b10e5ca28
+34	758	1776424417962183820	CMakeFiles/smoke_fixture.dir/fixture.cpp.o	a6122b808f68c3a3
+34	3176	1776424417962551270	CMakeFiles/smoke_fixture.dir/Users/jreng/Documents/Poems/JUCE/modules/juce_core/juce_core.mm.o	3452abc343642aa
+3177	5630	1776424421105482951	smoke_fixture	395edab560e2f10c
+45	646	1776445181993302756	build.ninja	1da89623259bde25
+45	646	1776445181993302756	/Users/jreng/Documents/Poems/dev/whatdbg/tests/smoke/build/cmake_install.cmake	1da89623259bde25
+45	646	1776445181993302756	/Users/jreng/Documents/Poems/dev/whatdbg/tests/smoke/build/JUCE_smoke/cmake_install.cmake	1da89623259bde25
+45	646	1776445181993302756	/Users/jreng/Documents/Poems/dev/whatdbg/tests/smoke/build/JUCE_smoke/modules/cmake_install.cmake	1da89623259bde25
+45	646	1776445181993302756	/Users/jreng/Documents/Poems/dev/whatdbg/tests/smoke/build/JUCE_smoke/extras/Build/cmake_install.cmake	1da89623259bde25
+45	646	1776445181993302756	/Users/jreng/Documents/Poems/dev/whatdbg/tests/smoke/build/JUCE_smoke/extras/Build/juceaide/cmake_install.cmake	1da89623259bde25
+2	45	1776445182004534872	/Users/jreng/Documents/Poems/dev/whatdbg/tests/smoke/build/CMakeFiles/cmake.verify_globs	cb19ae307fd7eefb
+54	126	1776445182056775138	CMakeFiles/smoke_fixture_crash.dir/fixture_crash.cpp.o	459c214e81317e74
+54	612	1776445182056479313	CMakeFiles/smoke_fixture_wait.dir/fixture_wait.cpp.o	e34d7c7e2664c840
+126	1600	1776445182129022953	smoke_fixture_crash	b04855097f51cba3
+612	2013	1776445182614704314	smoke_fixture_wait	7dfb67d7bb96b2bb

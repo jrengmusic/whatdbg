@@ -92,7 +92,19 @@ static juce::String prettyPrintUniquePtr (lldb::SBValue& value) noexcept
 {
     juce::String result;
 
+    // Try the synthetic child first (modern libc++ LLDB formatter).
     auto ptrChild { value.GetChildMemberWithName ("pointer") };
+
+    // Fallback: walk the raw compressed_pair layout (__ptr_.__value_).
+    if (not ptrChild.IsValid ())
+    {
+        auto ptrMember { value.GetChildMemberWithName ("__ptr_") };
+
+        if (ptrMember.IsValid ())
+        {
+            ptrChild = ptrMember.GetChildMemberWithName ("__value_");
+        }
+    }
 
     if (ptrChild.IsValid ())
     {

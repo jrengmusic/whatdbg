@@ -1,8 +1,8 @@
 #include <JuceHeader.h>
 #include "Session.h"
 #include "State.h"
-#include "../Log.h"
 #include "../dap/Types.h"
+#include <cstdio>
 #include <limits>
 #include <unordered_map>
 
@@ -37,19 +37,50 @@ static void handleInterruptStop (debug::State* state, lldb::SBThread& thread) no
 static void handleSignalStop (debug::State* state, lldb::SBThread& thread) noexcept
 {
     state->hasExceptionStopped = true;
-    state->exceptionCode =
+    state->isMachException     = false;
+    state->exceptionCode       =
         static_cast<std::uint32_t> (thread.GetStopReasonDataAtIndex (0));
-    state->exceptionAddress = thread.GetSelectedFrame ().GetPC ();
-    state->executionState = debug::ExecutionState::stopped;
+    state->exceptionAddress    = thread.GetSelectedFrame ().GetPC ();
+    state->executionState      = debug::ExecutionState::stopped;
 }
 
 static void handleExceptionStop (debug::State* state, lldb::SBThread& thread) noexcept
 {
     state->hasExceptionStopped = true;
-    state->exceptionCode =
+    state->isMachException     = true;
+    state->exceptionCode       =
         static_cast<std::uint32_t> (thread.GetStopReasonDataAtIndex (0));
-    state->exceptionAddress = thread.GetSelectedFrame ().GetPC ();
-    state->executionState = debug::ExecutionState::stopped;
+    state->exceptionAddress    = thread.GetSelectedFrame ().GetPC ();
+    state->executionState      = debug::ExecutionState::stopped;
+}
+
+// ---------------------------------------------------------------------------
+// Stdio drain (TU-local)
+// ---------------------------------------------------------------------------
+
+static constexpr std::size_t stdioReadBufferSize { 1024 };
+
+static void drainProcessStdio (debug::State* state,
+                               lldb::SBProcess& process,
+                               bool isStderr) noexcept
+{
+    char buffer [stdioReadBufferSize];
+    std::size_t bytesRead { 0 };
+
+    do
+    {
+        bytesRead = isStderr
+            ? process.GetSTDERR (buffer, sizeof (buffer))
+            : process.GetSTDOUT (buffer, sizeof (buffer));
+
+        if (bytesRead > 0)
+        {
+            state->debuggeeOutputText += juce::String (juce::CharPointer_UTF8 (buffer),
+                                                       juce::CharPointer_UTF8 (buffer + bytesRead));
+            state->hasDebuggeeOutput   = true;
+        }
+    }
+    while (bytesRead > 0);
 }
 
 static const std::unordered_map<lldb::StopReason,
@@ -72,6 +103,18 @@ static void handleProcessEvent (debug::State* state,
                                 lldb::SBProcess& process,
                                 lldb::SBEvent& event) noexcept
 {
+    const std::uint32_t mask { event.GetType () };
+
+    if ((mask bitand lldb::SBProcess::eBroadcastBitSTDOUT) != 0)
+    {
+        drainProcessStdio (state, process, false);
+    }
+
+    if ((mask bitand lldb::SBProcess::eBroadcastBitSTDERR) != 0)
+    {
+        drainProcessStdio (state, process, true);
+    }
+
     const auto processState { lldb::SBProcess::GetStateFromEvent (event) };
 
     switch (processState)
@@ -83,12 +126,21 @@ static void handleProcessEvent (debug::State* state,
             if (not lldb::SBProcess::GetRestartedFromEvent (event))
             {
                 auto thread { process.GetSelectedThread () };
-                const auto stopReason   { thread.GetStopReason () };
-                const auto handlerEntry { stopReasonHandlers.find (stopReason) };
+                const auto stopReason { thread.GetStopReason () };
 
-                if (handlerEntry != stopReasonHandlers.end ())
+                if (state->initialBreakPhase == debug::InitialBreakPhase::notHit)
                 {
-                    handlerEntry->second (state, thread);
+                    state->initialBreakPhase = debug::InitialBreakPhase::pending;
+                    state->executionState    = debug::ExecutionState::stopped;
+                }
+                else
+                {
+                    const auto handlerEntry { stopReasonHandlers.find (stopReason) };
+
+                    if (handlerEntry != stopReasonHandlers.end ())
+                    {
+                        handlerEntry->second (state, thread);
+                    }
                 }
             }
             break;
@@ -148,20 +200,12 @@ bool Session::initialize (const juce::File& sidecarDir) noexcept
     debugger = lldb::SBDebugger::Create (false);
     debugger.SetAsync (true);
 
+    // Redirect the debugger's own stdin to /dev/null. Mirrors
+    // lldb-dap DAP::ConfigureIO — prevents liblldb from competing with the
+    // DAP reader thread for whatdbg's stdin.
+    debugger.SetInputFile (lldb::SBFile (std::fopen ("/dev/null", "r"), true));
+
     listener = debugger.GetListener ();
-
-    listener.StartListeningForEventClass (
-        debugger,
-        lldb::SBProcess::GetBroadcasterClassName (),
-        lldb::SBProcess::eBroadcastBitStateChanged
-        | lldb::SBProcess::eBroadcastBitSTDOUT
-        | lldb::SBProcess::eBroadcastBitSTDERR);
-
-    listener.StartListeningForEventClass (
-        debugger,
-        lldb::SBTarget::GetBroadcasterClassName (),
-        lldb::SBTarget::eBroadcastBitModulesLoaded
-        | lldb::SBTarget::eBroadcastBitBreakpointChanged);
 
     return debugger.IsValid ();
 }
@@ -176,7 +220,12 @@ bool Session::launch (const juce::String& program) noexcept
 
     if (target.IsValid ())
     {
+        listener.StartListeningForEvents (target.GetBroadcaster (), ~0u);
+
         lldb::SBLaunchInfo launchInfo { nullptr };
+        launchInfo.SetLaunchFlags (lldb::eLaunchFlagDebug
+                                 | lldb::eLaunchFlagStopAtEntry);
+
         lldb::SBError error;
         process = target.Launch (launchInfo, error);
 
@@ -200,6 +249,8 @@ bool Session::attach (std::uint32_t processId) noexcept
 
     if (target.IsValid ())
     {
+        listener.StartListeningForEvents (target.GetBroadcaster (), ~0u);
+
         lldb::SBError error;
         process = target.AttachToProcessWithID (listener,
                                                 static_cast<lldb::pid_t> (processId),
@@ -276,6 +327,7 @@ void Session::shutdown (EndMode mode) noexcept
     }
 
     lldb::SBDebugger::Destroy (debugger);
+    lldb::SBDebugger::Terminate ();
 }
 
 // ---------------------------------------------------------------------------
@@ -509,13 +561,32 @@ static const std::unordered_map<std::uint32_t, const char*> signalNames
     { 15, "SIGTERM"              }
 };
 
+static const std::unordered_map<std::uint32_t, const char*> machExceptionNames
+{
+    { 1,  "EXC_BAD_ACCESS"      },
+    { 2,  "EXC_BAD_INSTRUCTION" },
+    { 3,  "EXC_ARITHMETIC"      },
+    { 4,  "EXC_EMULATION"       },
+    { 5,  "EXC_SOFTWARE"        },
+    { 6,  "EXC_BREAKPOINT"      },
+    { 7,  "EXC_SYSCALL"         },
+    { 8,  "EXC_MACH_SYSCALL"    },
+    { 9,  "EXC_RPC_ALERT"       },
+    { 10, "EXC_CRASH"           }
+};
+
 juce::String getExceptionName (std::uint32_t code) noexcept
 {
-    const auto entry { signalNames.find (code) };
+    const auto* state { State::getContext () };
+    const auto& table { (state != nullptr and state->isMachException)
+        ? machExceptionNames
+        : signalNames };
+
+    const auto entry { table.find (code) };
 
     juce::String result;
 
-    if (entry != signalNames.end ())
+    if (entry != table.end ())
     {
         result = juce::String { entry->second };
     }

@@ -1,14 +1,16 @@
 # ninja log v7
-1	38	1776350781343828079	/Users/jreng/Documents/Poems/dev/whatdbg/tests/mac/build/CMakeFiles/cmake.verify_globs	62aeb5c7c426d9bd
+1	39	1776350866428961921	/Users/jreng/Documents/Poems/dev/whatdbg/tests/mac/build/CMakeFiles/cmake.verify_globs	62aeb5c7c426d9bd
 38	97	1776350781439372058	fixture_pretty_print_artefacts/JuceLibraryCode/JuceHeader.h	ee497c3e9f88bbd3
 38	97	1776350781439372058	/Users/jreng/Documents/Poems/dev/whatdbg/tests/mac/build/fixture_pretty_print_artefacts/JuceLibraryCode/JuceHeader.h	ee497c3e9f88bbd3
-97	130	1776350781440537141	CMakeFiles/fixture_pretty_print.dir/Users/jreng/Documents/Poems/juce/modules/juce_core/juce_core_CompilationTime.cpp.o	947805905fd94bfc
-97	3194	1776350781440663265	CMakeFiles/fixture_pretty_print.dir/Users/jreng/Documents/Poems/juce/modules/juce_core/juce_core.mm.o	a4daee73599cedf3
-1	37	1776350846949840375	/Users/jreng/Documents/Poems/dev/whatdbg/tests/mac/build/CMakeFiles/cmake.verify_globs	62aeb5c7c426d9bd
 43	78	1776350846991426657	CMakeFiles/fixture_pretty_print.dir/Users/jreng/Documents/Poems/juce/modules/juce_core/juce_core_CompilationTime.cpp.o	3b1ddd84a6692099
-43	721	1776350846991163783	CMakeFiles/fixture_pretty_print.dir/fixture_pretty_print.cpp.o	e8e06940f856be4c
 43	3120	1776350846991529074	CMakeFiles/fixture_pretty_print.dir/Users/jreng/Documents/Poems/juce/modules/juce_core/juce_core.mm.o	4ad85153f00258b1
+43	721	1776350846991163783	CMakeFiles/fixture_pretty_print.dir/fixture_pretty_print.cpp.o	e8e06940f856be4c
 3120	4797	1776350850067829599	fixture_pretty_print	72556fc1401b5618
-1	39	1776350866428961921	/Users/jreng/Documents/Poems/dev/whatdbg/tests/mac/build/CMakeFiles/cmake.verify_globs	62aeb5c7c426d9bd
 46	495	1776350866473917745	CMakeFiles/probe_pretty_print.dir/probe_pretty_print.cpp.o	17773388984a368f
 495	2061	1776350866923618937	probe_pretty_print	11143c0b83012359
+1	35	1776425180999877409	/Users/jreng/Documents/Poems/dev/whatdbg/tests/mac/build/CMakeFiles/cmake.verify_globs	62aeb5c7c426d9bd
+42	73	1776425181040774976	CMakeFiles/target_program.dir/target_program.cpp.o	f264bbf1d00730ff
+73	8092	1776425181071466504	target_program	5ff5b55b93538fb0
+8092	8656	1776425189090546299	CMakeFiles/smoke_liblldb.dir/smoke_liblldb.cpp.o	1bef36adcb492172
+8656	12780	1776425189654558696	smoke_liblldb	22ba2071fa29da23
+3	57	1776435310454433243	/Users/jreng/Documents/Poems/dev/whatdbg/tests/mac/build/CMakeFiles/cmake.verify_globs	62aeb5c7c426d9bd

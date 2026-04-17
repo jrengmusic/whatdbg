@@ -137,8 +137,12 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
             // If the module isn't loaded yet, tryResolve returns isSuccess=false
             // and we add the breakpoint to the pending list for deferred
             // resolution when LoadModule fires.
-            const juce::String windowsPath { toWindowsPath (rawSourcePath) };
-            const ResolveResult result { tryResolve (windowsPath, static_cast<std::uint32_t> (line)) };
+           #if JUCE_WINDOWS
+            const juce::String resolvePath { toWindowsPath (rawSourcePath) };
+           #else
+            const juce::String resolvePath { rawSourcePath };
+           #endif
+            const ResolveResult result { tryResolve (resolvePath, static_cast<std::uint32_t> (line)) };
 
             BreakpointInfo info {};
             info.dapId      = dapId;
@@ -158,7 +162,7 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
                 // onModuleLoad will retry getOffsetByLine after each LoadModule event.
                 PendingBreakpoint pendingBp {};
                 pendingBp.dapId          = dapId;
-                pendingBp.sourcePath     = windowsPath;
+                pendingBp.sourcePath     = resolvePath;
                 pendingBp.normalizedPath = normalizedPath;
                 pendingBp.line           = static_cast<std::uint32_t> (line);
 
@@ -166,7 +170,7 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
                 State::getContext ()->hasPendingBreakpoints = not pending.isEmpty ();
 
                 logWrite ("WHATDBG: breakpoint pending (module not loaded) %s:%d dapId=%lu\n",
-                          windowsPath.toRawUTF8 (),
+                          resolvePath.toRawUTF8 (),
                           line,
                           static_cast<unsigned long> (dapId));
             }
@@ -272,8 +276,8 @@ juce::Array<juce::var> BreakpointManager::onModuleLoad ()
     {
         const PendingBreakpoint& pend { pending.getReference (i) };
 
-        // pend.sourcePath is already in Windows backslash format
-        // (stored that way by handleSetBreakpoints).
+        // pend.sourcePath is stored in backend-native form
+        // (backslash on Windows, forward slash on macOS).
         const ResolveResult result { tryResolve (pend.sourcePath, pend.line) };
 
         if (result.isSuccess)

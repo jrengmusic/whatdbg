@@ -82,7 +82,20 @@ void Whatdbg::handleAttach (const juce::var& request)
         }
 
         state.targetProcessId = pid;
+
+       #if JUCE_WINDOWS
+        // Windows invasive attach is asynchronous — target is running until the
+        // dbgeng INT3 callback fires, which sets initialBreakPhase::pending.
         state.executionState = debug::ExecutionState::launching;
+       #else
+        // macOS `AttachToProcessWithID` returns with the target already stopped
+        // (ptrace suspend). No subsequent stop event flows through the listener,
+        // so mark initial-break pending directly — `processDeferredEvents` will
+        // call `resolveAndResumeAfterInitialBreak` once `configurationDone` arrives.
+        state.executionState    = debug::ExecutionState::stopped;
+        state.initialBreakPhase = debug::InitialBreakPhase::pending;
+       #endif
+
         sendResponse (dap::makeResponse (seq, "attach", true));
     }
     else
@@ -358,7 +371,22 @@ void Whatdbg::handleEvaluate (const juce::var& request)
     const juce::String expression { dap::getString (args, "expression") };
     const int frameId { static_cast<int> (args["frameId"]) };
 
-    const juce::String result { session.evaluateExpression (expression, frameId) };
+    // Decode DAP frameId to (threadSystemId, frameIndex) — mirrors handleScopes.
+    int frameIndex { frameId };
+
+    if (frameIdMap.count (frameId) > 0)
+    {
+        const auto& entry { frameIdMap.at (frameId) };
+        const std::uint32_t threadSystemId { entry.first };
+        frameIndex = entry.second;
+
+        if (threadSystemId > 0)
+        {
+            session.setCurrentThreadBySystemId (threadSystemId);
+        }
+    }
+
+    const juce::String result { session.evaluateExpression (expression, frameIndex) };
 
     if (result.isNotEmpty ())
     {
