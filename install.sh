@@ -25,6 +25,12 @@ case "$(uname -s)" in
         echo "Installing..."
         ARTIFACT="Builds/Ninja/whatdbg_App_artefacts/$CONFIG/whatdbg.exe"
         cp "$ARTIFACT" "$INSTALL_DIR/whatdbg.exe"
+
+        ARCH="$(uname -m)"
+        if [[ "$ARCH" == "x86_64" ]]; then ARCH="x64"; fi
+        mkdir -p dist
+        zip -j "dist/whatdbg-win-${ARCH}.zip" "$ARTIFACT"
+        echo "Dist: dist/whatdbg-win-${ARCH}.zip"
         ;;
     Darwin)
         NEEDS_CONFIGURE=0
@@ -59,6 +65,11 @@ case "$(uname -s)" in
 
         echo "Installing..."
         cp "$ARTIFACT" "$INSTALL_DIR/whatdbg"
+
+        ARCH="$(uname -m)"
+        mkdir -p dist
+        zip -j "dist/whatdbg-macos-${ARCH}.zip" "$ARTIFACT"
+        echo "Dist: dist/whatdbg-macos-${ARCH}.zip"
         ;;
     *)
         echo "Unsupported OS: $(uname -s)"

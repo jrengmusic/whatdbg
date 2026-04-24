@@ -112,6 +112,57 @@
 
 ## SPRINT HISTORY
 
+## Sprint 24: Ship Prep — LFS, README, Release Workflow, Cleanup ✅
+
+**Date:** 2026-04-24
+**Duration:** ~45min
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR: directed all changes, CONTRACT validation
+- Engineer: executed all code/script changes
+- Pathfinder: codebase discovery (Resources/macos contents, jreng_core usage, script locations)
+
+### Files Modified (10 total)
+- `.gitattributes` — LFS filter rules (Sprint 23, carried forward)
+- `.gitignore:3` — added `dist/`, removed `Resources/macos/` (Sprint 23)
+- `README.md` — full rewrite: cross-platform, new acronym (WYSIWYG Hybrid Abstraction Translator)
+- `Source/jam/Context.h` (new) — `jam::Context<T>` CRTP template, moved from modules/jreng_core
+- `Source/debug/State.h:4,68` — `#include "jam/Context.h"`, `jam::Context<State>` base class
+- `Source/Whatdbg.h:24` — updated doc comment (jam:: namespace)
+- `CMakeLists.txt:112-114` — removed USER_MODULES/USER_MODULE_DIR
+- `install.sh:29-33,69-72` — dist/ zip creation per platform+arch
+- `release.sh` — full rewrite: local `gh release create` from dist/*.zip
+- `build-liblldb.sh` — renamed from scripts/build-liblldb-mac.sh, path fix
+
+### Deleted
+- `.github/workflows/release.yml` — obsolete CI workflow
+- `codelldb` — stale gitlink submodule
+- `modules/` — jreng_core replaced by Source/jam/Context.h
+- `packages/` — stale mason registry manifest
+- `scripts/` — all scripts moved to project root
+
+### Alignment Check
+- [x] BLESSED principles followed (S — SSOT: jam::Context single location; L — dead code removed)
+- [x] NAMES.md adhered (jam:: namespace per ARCHITECT decision)
+- [x] MANIFESTO.md principles applied
+
+### Problems Solved
+- README was Windows-only, now cross-platform with accurate acronym
+- jreng_core module carried 2/3 dead subsystems (function_map, utilities) — replaced with single Context.h
+- Namespace mismatch: jreng:: → jam:: per ARCHITECT direction
+- CI workflow assumed cloud builds — replaced with local build + gh release
+- Scripts buried in scripts/ dir broke relative paths — moved to project root
+- Stale artifacts: codelldb submodule, mason registry, CI workflow all removed
+
+### Debts Paid
+- None
+
+### Debts Deferred
+- None
+
+---
+
 ## Sprint 23: Git LFS Setup for Binary Distribution ✅
 
 **Date:** 2026-04-24

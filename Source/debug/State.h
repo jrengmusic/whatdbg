@@ -1,6 +1,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include <cstdint>
+#include "jam/Context.h"
 
 namespace debug
 {
@@ -54,17 +55,17 @@ enum class ResolveStatus
 /** Single Source of Truth for all mutable debug session state.
  *
  *  State is the SSOT shared between Session, BreakpointManager, and Whatdbg.
- *  It is registered as a jreng::Context so that any subsystem can resolve it
+ *  It is registered as a jam::Context so that any subsystem can resolve it
  *  without an explicit pointer argument.
  *
  *  Fields are grouped by concern. COM callbacks (EventCallbacks) write deferred-event
  *  flags; the Whatdbg main loop reads and clears them in processDeferredEvents().
  *  All access must occur on the main thread unless a field is explicitly noted otherwise.
  *
- *  @note Declared first in Whatdbg so that jreng::Context registration happens before
+ *  @note Declared first in Whatdbg so that jam::Context registration happens before
  *        any dependent object is constructed.
  */
-class State : public jreng::Context<State>
+class State : public jam::Context<State>
 {
 public:
     State () = default;

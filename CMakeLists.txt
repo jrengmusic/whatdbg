@@ -110,8 +110,6 @@ configure_app(
     PRODUCT_NAME     whatdbg
     VERSION          "${PROJECT_VERSION}"
     MODULES          juce_core
-    USER_MODULES     jreng_core
-    USER_MODULE_DIR  "${CMAKE_CURRENT_SOURCE_DIR}/modules"
     BINARY_FILES     ${WHATDBG_BINARY_FILES}
     ENTITLEMENTS     "${JAM_ROOT}/cmake/entitlements-debugger.plist"
     PLATFORM_SOURCES_WIN  ${WHATDBG_WIN_SOURCES}

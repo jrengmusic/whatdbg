@@ -21,7 +21,7 @@
  *  responses and events to stdout.
  *
  *  Ownership hierarchy:
- *  - debug::State       — SSOT shared by Session and BreakpointManager via jreng::Context.
+ *  - debug::State       — SSOT shared by Session and BreakpointManager via jam::Context.
  *  - debug::Session     — COM wrapper around dbgeng interfaces.
  *  - debug::BreakpointManager — Tracks DAP breakpoints and resolves them to engine IDs.
  *  - dap::Reader        — Background thread that parses stdin and enqueues messages.
