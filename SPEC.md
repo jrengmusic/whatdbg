@@ -1,12 +1,12 @@
 # whatdbg Specification v1.0
-## Windows Host Abstraction Translator for dbgeng
+## Cross-Platform Debug Adapter
 
 **Repository:** https://github.com/jrengmusic/whatdbg
 
 ## Overview
 
-**Purpose:** whatdbg is a DAP debug adapter for Windows C/C++ development with neovim. No existing DAP adapter for Windows works reliably with nvim + mason. whatdbg fills that gap using Microsoft's dbgeng (the engine behind WinDbg) as its debug backend.
-**Target End-User:** C/C++ developer using neovim + nvim-dap on Windows.
+**Purpose:** whatdbg is a DAP debug adapter for C/C++ development with neovim. On Windows it uses Microsoft's dbgeng (the engine behind WinDbg). On macOS it uses LLVM's liblldb (the engine behind Xcode's debugger). Both backends are embedded as BinaryData and extracted at runtime (sidecar pattern).
+**Target End-User:** C/C++ developer using neovim + nvim-dap on Windows or macOS.
 **Core Workflow:** Launch or attach to any Windows executable (standalone apps, DAW-hosted plugins, services), set breakpoints, step through code, inspect variables, evaluate expressions — all from nvim-dap.
 
 ---
@@ -15,11 +15,11 @@
 
 - **Language:** C++17
 - **Framework:** JUCE (console application, no GUI)
-- **Debug Engine:** Microsoft dbgeng COM API (sidecar — pinned version via BinaryData)
+- **Debug Engine:** Microsoft dbgeng COM API (Windows) / LLVM liblldb SB API (macOS) — both sidecar, embedded via BinaryData
 - **Protocol:** Debug Adapter Protocol (DAP) over stdin/stdout
 - **DAP Client:** nvim-dap + nvim-dap-ui
-- **Build:** CMake + Ninja, MSVC toolchain
-- **Platform:** Windows 10+ (x64, ARM64)
+- **Build:** CMake + Ninja, MSVC toolchain (Windows) / Xcode clang toolchain (macOS)
+- **Platform:** Windows 10+ (x64, ARM64) / macOS 12+ Monterey (arm64, x86_64)
 
 ---
 
@@ -27,7 +27,7 @@
 
 1. **Two-Thread Model:** Main thread owns COM, DAP dispatch, and stdout. Stdin thread is a dumb FIFO buffer. No cross-thread writes.
 2. **Deferred Events:** COM callbacks store flags on State. Main loop consumes flags and emits DAP events. Callbacks never write to stdout.
-3. **Sidecar Isolation:** dbgeng DLLs are extracted from BinaryData at startup. LoadLibrary from extracted path ensures deterministic version.
+3. **Sidecar Isolation:** Debug engine DLLs/dylibs are extracted from BinaryData at startup. LoadLibrary/dlopen from extracted path ensures deterministic version. On macOS, a re-exec trampoline sets DYLD_LIBRARY_PATH before the second invocation.
 4. **BLESSED Compliance:** All code follows Bound, Lean, Explicit, SSOT, Stateless, Encapsulation, Deterministic principles.
 5. **Debug-Only Logging:** File logging via `logWrite()` compiled out in Release builds (`#if JUCE_DEBUG`).
 

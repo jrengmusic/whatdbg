@@ -21,6 +21,7 @@ events:
       - "uname"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -39,6 +40,7 @@ events:
       - "/Library/Apple/usr/bin/"
     searched_directories:
       - "/Users/jreng/.bun/bin/uname"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/uname"
       - "/opt/homebrew/bin/uname"
       - "/opt/homebrew/sbin/uname"
       - "/Users/jreng/go/bin/uname"
@@ -49,6 +51,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -94,6 +97,7 @@ events:
       - "samu"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -114,11 +118,15 @@ events:
       - "/Users/jreng/.bun/bin/ninja-build"
       - "/Users/jreng/.bun/bin/ninja"
       - "/Users/jreng/.bun/bin/samu"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/ninja-build"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/ninja"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/samu"
       - "/opt/homebrew/bin/ninja-build"
     found: "/opt/homebrew/bin/ninja"
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -162,6 +170,7 @@ events:
       - "clang"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -180,6 +189,7 @@ events:
       - "/Library/Apple/usr/bin/"
     searched_directories:
       - "/Users/jreng/.bun/bin/cc"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/cc"
       - "/opt/homebrew/bin/cc"
       - "/opt/homebrew/sbin/cc"
       - "/Users/jreng/go/bin/cc"
@@ -190,6 +200,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -230,10 +241,12 @@ events:
       - "CMakeCCompilerId.c.in"
     candidate_directories:
       - "/opt/homebrew/share/cmake/Modules/"
+      - "/Users/jreng/Documents/Poems/dev/jam/cmake/"
     found: "/opt/homebrew/share/cmake/Modules/CMakeCCompilerId.c.in"
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -335,6 +348,7 @@ events:
     candidate_directories:
       - "/usr/bin/"
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -354,6 +368,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -392,6 +407,7 @@ events:
     candidate_directories:
       - "/usr/bin/"
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -411,6 +427,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -449,6 +466,7 @@ events:
     candidate_directories:
       - "/usr/bin/"
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -468,6 +486,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -506,6 +525,7 @@ events:
     candidate_directories:
       - "/usr/bin/"
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -525,6 +545,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -563,6 +584,7 @@ events:
     candidate_directories:
       - "/usr/bin/"
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -582,6 +604,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -620,6 +643,7 @@ events:
     candidate_directories:
       - "/usr/bin/"
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -639,6 +663,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -677,6 +702,7 @@ events:
     candidate_directories:
       - "/usr/bin/"
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -695,6 +721,7 @@ events:
     searched_directories:
       - "/usr/bin/objcopy"
       - "/Users/jreng/.bun/bin/objcopy"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/objcopy"
       - "/opt/homebrew/bin/objcopy"
       - "/opt/homebrew/sbin/objcopy"
       - "/Users/jreng/go/bin/objcopy"
@@ -714,6 +741,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -752,6 +780,7 @@ events:
     candidate_directories:
       - "/usr/bin/"
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -770,6 +799,7 @@ events:
     searched_directories:
       - "/usr/bin/readelf"
       - "/Users/jreng/.bun/bin/readelf"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/readelf"
       - "/opt/homebrew/bin/readelf"
       - "/opt/homebrew/sbin/readelf"
       - "/Users/jreng/go/bin/readelf"
@@ -789,6 +819,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -827,6 +858,7 @@ events:
     candidate_directories:
       - "/usr/bin/"
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -845,6 +877,7 @@ events:
     searched_directories:
       - "/usr/bin/dlltool"
       - "/Users/jreng/.bun/bin/dlltool"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/dlltool"
       - "/opt/homebrew/bin/dlltool"
       - "/opt/homebrew/sbin/dlltool"
       - "/Users/jreng/go/bin/dlltool"
@@ -864,6 +897,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -902,6 +936,7 @@ events:
     candidate_directories:
       - "/usr/bin/"
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -920,6 +955,7 @@ events:
     searched_directories:
       - "/usr/bin/addr2line"
       - "/Users/jreng/.bun/bin/addr2line"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/addr2line"
       - "/opt/homebrew/bin/addr2line"
       - "/opt/homebrew/sbin/addr2line"
       - "/Users/jreng/go/bin/addr2line"
@@ -939,6 +975,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -977,6 +1014,7 @@ events:
     candidate_directories:
       - "/usr/bin/"
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -995,6 +1033,7 @@ events:
     searched_directories:
       - "/usr/bin/tapi"
       - "/Users/jreng/.bun/bin/tapi"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/tapi"
       - "/opt/homebrew/bin/tapi"
       - "/opt/homebrew/sbin/tapi"
       - "/Users/jreng/go/bin/tapi"
@@ -1014,6 +1053,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -1061,6 +1101,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -1101,10 +1142,12 @@ events:
       - "CMakeCXXCompilerId.cpp.in"
     candidate_directories:
       - "/opt/homebrew/share/cmake/Modules/"
+      - "/Users/jreng/Documents/Poems/dev/jam/cmake/"
     found: "/opt/homebrew/share/cmake/Modules/CMakeCXXCompilerId.cpp.in"
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -1205,6 +1248,7 @@ events:
       - "install_name_tool"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -1223,6 +1267,7 @@ events:
       - "/Library/Apple/usr/bin/"
     searched_directories:
       - "/Users/jreng/.bun/bin/install_name_tool"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/install_name_tool"
       - "/opt/homebrew/bin/install_name_tool"
       - "/opt/homebrew/sbin/install_name_tool"
       - "/Users/jreng/go/bin/install_name_tool"
@@ -1233,6 +1278,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -1259,30 +1305,31 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-hDi0qv"
-      binary: "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-hDi0qv"
+      source: "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-g7jps2"
+      binary: "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-g7jps2"
     cmakeVariables:
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_OSX_ARCHITECTURES: ""
-      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_MODULE_PATH: "/Users/jreng/Documents/Poems/dev/jam/cmake"
+      CMAKE_OSX_ARCHITECTURES: "x86_64;arm64"
+      CMAKE_OSX_DEPLOYMENT_TARGET: "12.0"
       CMAKE_OSX_SYSROOT: ""
     buildResult:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-hDi0qv'
+        Change Dir: '/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-g7jps2'
         
-        Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_de5e0
-        [1/2] /usr/bin/cc   -arch arm64   -v -Wl,-v -MD -MT CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
+        Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_36609
+        [1/2] /usr/bin/cc   -arch x86_64 -arch arm64 -mmacosx-version-min=12.0   -v -Wl,-v -MD -MT CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
         Apple clang version 17.0.0 (clang-1700.6.4.2)
         Target: arm64-apple-darwin25.4.0
         Thread model: posix
         InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
         clang: warning: -Wl,-v: 'linker' input unused [-Wunused-command-line-argument]
-         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx26.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=26.2 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-hDi0qv -target-linker-version 1230.1 -v -fcoverage-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-hDi0qv -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple x86_64-apple-macosx12.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -mframe-pointer=all -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=2 -target-sdk-version=26.2 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu penryn -tune-cpu generic -debugger-tuning=lldb -fdebug-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-g7jps2 -target-linker-version 1230.1 -v -fcoverage-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-g7jps2 -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCCompilerABI-048e01/CMakeCCompilerABI-x86_64.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
         clang -cc1 version 17.0.0 (clang-1700.6.4.2) default target arm64-apple-darwin25.4.0
         ignoring nonexistent directory "/usr/local/include"
         ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"
@@ -1295,12 +1342,26 @@ events:
          /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)
          /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks (framework directory)
         End of search list.
-        [2/2] : && /usr/bin/cc -arch arm64 -v -Wl,-v CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o -o cmTC_de5e0   && :
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx12.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=26.2 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-g7jps2 -target-linker-version 1230.1 -v -fcoverage-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-g7jps2 -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCCompilerABI-b3f34b/CMakeCCompilerABI-arm64.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
+        clang -cc1 version 17.0.0 (clang-1700.6.4.2) default target arm64-apple-darwin25.4.0
+        ignoring nonexistent directory "/usr/local/include"
+        ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"
+        ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include
+         /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
+         /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include
+         /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)
+         /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks (framework directory)
+        End of search list.
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo" -create -output CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCCompilerABI-048e01/CMakeCCompilerABI-x86_64.o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCCompilerABI-b3f34b/CMakeCCompilerABI-arm64.o
+        [2/2] : && /usr/bin/cc -arch x86_64 -arch arm64 -mmacosx-version-min=12.0 -v -Wl,-v CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o -o cmTC_36609   && :
         Apple clang version 17.0.0 (clang-1700.6.4.2)
         Target: arm64-apple-darwin25.4.0
         Thread model: posix
         InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
-         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 26.0.0 26.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_de5e0 -L/usr/local/lib -v CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch x86_64 -platform_version macos 12.0.0 26.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCCompilerABI-fa3a4c/CMakeCCompilerABI-x86_64.out -L/usr/local/lib -v CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o -arch_multiple -final_output cmTC_36609 -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a
         @(#)PROGRAM:ld PROJECT:ld-1230.1
         BUILD 10:14:01 Jan  9 2026
         configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em armv8m.main armv8.1m.main
@@ -1313,6 +1374,20 @@ events:
         	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/swift
         Framework search paths:
         	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -no_deduplicate -dynamic -arch arm64 -platform_version macos 12.0.0 26.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCCompilerABI-907ff8/CMakeCCompilerABI-arm64.out -L/usr/local/lib -v CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o -arch_multiple -final_output cmTC_36609 -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a
+        @(#)PROGRAM:ld PROJECT:ld-1230.1
+        BUILD 10:14:01 Jan  9 2026
+        configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em armv8m.main armv8.1m.main
+        will use ld-classic for: armv6 armv7 armv7s i386 armv6m armv7k armv7m armv7em
+        LTO support using: LLVM version 17.0.0 (static support for 29, runtime is 29)
+        TAPI support using: Apple TAPI version 17.0.0 (tapi-1700.3.8)
+        Library search paths:
+        	/usr/local/lib
+        	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib
+        	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/swift
+        Framework search paths:
+        	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo" -create -output cmTC_36609 /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCCompilerABI-fa3a4c/CMakeCCompilerABI-x86_64.out /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCCompilerABI-907ff8/CMakeCCompilerABI-arm64.out
         
       exitCode: 0
   -
@@ -1322,8 +1397,8 @@ events:
       - "/opt/homebrew/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
       - "/Users/jreng/Documents/Poems/JUCE/CMakeLists.txt:35 (project)"
     message: |
-      Effective list of requested architectures (possibly empty)  : ""
-      Effective list of architectures found in the ABI info binary: "arm64"
+      Effective list of requested architectures (possibly empty)  : "arm64;x86_64"
+      Effective list of architectures found in the ABI info binary: "arm64;x86_64"
   -
     kind: "message-v1"
     backtrace:
@@ -1354,16 +1429,16 @@ events:
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-hDi0qv']
+        ignore line: [Change Dir: '/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-g7jps2']
         ignore line: []
-        ignore line: [Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_de5e0]
-        ignore line: [[1/2] /usr/bin/cc   -arch arm64   -v -Wl -v -MD -MT CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_36609]
+        ignore line: [[1/2] /usr/bin/cc   -arch x86_64 -arch arm64 -mmacosx-version-min=12.0   -v -Wl -v -MD -MT CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
         ignore line: [Apple clang version 17.0.0 (clang-1700.6.4.2)]
         ignore line: [Target: arm64-apple-darwin25.4.0]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin]
         ignore line: [clang: warning: -Wl -v: 'linker' input unused [-Wunused-command-line-argument]]
-        ignore line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx26.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=26.2 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-hDi0qv -target-linker-version 1230.1 -v -fcoverage-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-hDi0qv -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple x86_64-apple-macosx12.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -mframe-pointer=all -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=2 -target-sdk-version=26.2 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu penryn -tune-cpu generic -debugger-tuning=lldb -fdebug-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-g7jps2 -target-linker-version 1230.1 -v -fcoverage-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-g7jps2 -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCCompilerABI-048e01/CMakeCCompilerABI-x86_64.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
         ignore line: [clang -cc1 version 17.0.0 (clang-1700.6.4.2) default target arm64-apple-darwin25.4.0]
         ignore line: [ignoring nonexistent directory "/usr/local/include"]
         ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"]
@@ -1376,32 +1451,49 @@ events:
         ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)]
         ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks (framework directory)]
         ignore line: [End of search list.]
-        ignore line: [[2/2] : && /usr/bin/cc -arch arm64 -v -Wl -v CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o -o cmTC_de5e0   && :]
+        ignore line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx12.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=26.2 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-g7jps2 -target-linker-version 1230.1 -v -fcoverage-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-g7jps2 -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCCompilerABI-b3f34b/CMakeCCompilerABI-arm64.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [clang -cc1 version 17.0.0 (clang-1700.6.4.2) default target arm64-apple-darwin25.4.0]
+        ignore line: [ignoring nonexistent directory "/usr/local/include"]
+        ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"]
+        ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include]
+        ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include]
+        ignore line: [ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include]
+        ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)]
+        ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks (framework directory)]
+        ignore line: [End of search list.]
+        ignore line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo" -create -output CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCCompilerABI-048e01/CMakeCCompilerABI-x86_64.o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCCompilerABI-b3f34b/CMakeCCompilerABI-arm64.o]
+        ignore line: [[2/2] : && /usr/bin/cc -arch x86_64 -arch arm64 -mmacosx-version-min=12.0 -v -Wl -v CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o -o cmTC_36609   && :]
         ignore line: [Apple clang version 17.0.0 (clang-1700.6.4.2)]
         ignore line: [Target: arm64-apple-darwin25.4.0]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin]
-        link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 26.0.0 26.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_de5e0 -L/usr/local/lib -v CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a]
+        link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch x86_64 -platform_version macos 12.0.0 26.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCCompilerABI-fa3a4c/CMakeCCompilerABI-x86_64.out -L/usr/local/lib -v CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o -arch_multiple -final_output cmTC_36609 -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a]
           arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld] ==> ignore
           arg [-demangle] ==> ignore
           arg [-lto_library] ==> ignore, skip following value
           arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib] ==> skip value of -lto_library
           arg [-dynamic] ==> ignore
           arg [-arch] ==> ignore
-          arg [arm64] ==> ignore
+          arg [x86_64] ==> ignore
           arg [-platform_version] ==> ignore
           arg [macos] ==> ignore
-          arg [26.0.0] ==> ignore
+          arg [12.0.0] ==> ignore
           arg [26.2] ==> ignore
           arg [-syslibroot] ==> ignore
           arg [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk] ==> ignore
           arg [-mllvm] ==> ignore
           arg [-enable-linkonceodr-outlining] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_de5e0] ==> ignore
+          arg [/var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCCompilerABI-fa3a4c/CMakeCCompilerABI-x86_64.out] ==> ignore
           arg [-L/usr/local/lib] ==> dir [/usr/local/lib]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_de5e0.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [CMakeFiles/cmTC_36609.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [-arch_multiple] ==> ignore
+          arg [-final_output] ==> ignore
+          arg [cmTC_36609] ==> ignore
           arg [-lSystem] ==> lib [System]
           arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a] ==> lib [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a]
         linker tool for 'C': /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld
@@ -1444,32 +1536,34 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-8j9Qwq"
-      binary: "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-8j9Qwq"
+      source: "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-VMmHya"
+      binary: "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-VMmHya"
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_EXE_LINKER_FLAGS: ""
-      CMAKE_OSX_ARCHITECTURES: ""
-      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_MODULE_PATH: "/Users/jreng/Documents/Poems/dev/jam/cmake"
+      CMAKE_OSX_ARCHITECTURES: "x86_64;arm64"
+      CMAKE_OSX_DEPLOYMENT_TARGET: "12.0"
       CMAKE_OSX_SYSROOT: ""
     buildResult:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-8j9Qwq'
+        Change Dir: '/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-VMmHya'
         
-        Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_f6ac0
-        [1/2] /usr/bin/c++   -arch arm64   -v -Wl,-v -MD -MT CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_77607
+        [1/2] /usr/bin/c++   -std=c++17 -arch x86_64 -arch arm64 -mmacosx-version-min=12.0   -v -Wl,-v -MD -MT CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         Apple clang version 17.0.0 (clang-1700.6.4.2)
         Target: arm64-apple-darwin25.4.0
         Thread model: posix
         InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
         clang++: warning: -Wl,-v: 'linker' input unused [-Wunused-command-line-argument]
         ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"
-         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx26.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=26.2 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-8j9Qwq -target-linker-version 1230.1 -v -fcoverage-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-8j9Qwq -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fno-cxx-modules -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple x86_64-apple-macosx12.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=all -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=2 -target-sdk-version=26.2 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu penryn -tune-cpu generic -debugger-tuning=lldb -fdebug-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-VMmHya -target-linker-version 1230.1 -v -fcoverage-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-VMmHya -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -std=c++17 -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fno-cxx-modules -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCXXCompilerABI-cd8075/CMakeCXXCompilerABI-x86_64.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         clang -cc1 version 17.0.0 (clang-1700.6.4.2) default target arm64-apple-darwin25.4.0
         ignoring nonexistent directory "/usr/local/include"
         ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"
@@ -1483,12 +1577,27 @@ events:
          /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)
          /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks (framework directory)
         End of search list.
-        [2/2] : && /usr/bin/c++ -arch arm64 -v -Wl,-v CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_f6ac0   && :
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx12.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=26.2 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-VMmHya -target-linker-version 1230.1 -v -fcoverage-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-VMmHya -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -std=c++17 -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fno-cxx-modules -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCXXCompilerABI-8d78bc/CMakeCXXCompilerABI-arm64.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        clang -cc1 version 17.0.0 (clang-1700.6.4.2) default target arm64-apple-darwin25.4.0
+        ignoring nonexistent directory "/usr/local/include"
+        ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"
+        ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1
+         /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include
+         /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
+         /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include
+         /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)
+         /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks (framework directory)
+        End of search list.
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo" -create -output CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCXXCompilerABI-cd8075/CMakeCXXCompilerABI-x86_64.o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCXXCompilerABI-8d78bc/CMakeCXXCompilerABI-arm64.o
+        [2/2] : && /usr/bin/c++ -arch x86_64 -arch arm64 -mmacosx-version-min=12.0 -v -Wl,-v CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_77607   && :
         Apple clang version 17.0.0 (clang-1700.6.4.2)
         Target: arm64-apple-darwin25.4.0
         Thread model: posix
         InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
-         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 26.0.0 26.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_f6ac0 -L/usr/local/lib -v CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch x86_64 -platform_version macos 12.0.0 26.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCXXCompilerABI-ed1ade/CMakeCXXCompilerABI-x86_64.out -L/usr/local/lib -v CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o -arch_multiple -final_output cmTC_77607 -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a
         @(#)PROGRAM:ld PROJECT:ld-1230.1
         BUILD 10:14:01 Jan  9 2026
         configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em armv8m.main armv8.1m.main
@@ -1501,6 +1610,20 @@ events:
         	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/swift
         Framework search paths:
         	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -no_deduplicate -dynamic -arch arm64 -platform_version macos 12.0.0 26.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCXXCompilerABI-5d6a01/CMakeCXXCompilerABI-arm64.out -L/usr/local/lib -v CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o -arch_multiple -final_output cmTC_77607 -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a
+        @(#)PROGRAM:ld PROJECT:ld-1230.1
+        BUILD 10:14:01 Jan  9 2026
+        configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em armv8m.main armv8.1m.main
+        will use ld-classic for: armv6 armv7 armv7s i386 armv6m armv7k armv7m armv7em
+        LTO support using: LLVM version 17.0.0 (static support for 29, runtime is 29)
+        TAPI support using: Apple TAPI version 17.0.0 (tapi-1700.3.8)
+        Library search paths:
+        	/usr/local/lib
+        	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib
+        	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/swift
+        Framework search paths:
+        	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo" -create -output cmTC_77607 /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCXXCompilerABI-ed1ade/CMakeCXXCompilerABI-x86_64.out /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCXXCompilerABI-5d6a01/CMakeCXXCompilerABI-arm64.out
         
       exitCode: 0
   -
@@ -1510,8 +1633,8 @@ events:
       - "/opt/homebrew/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
       - "/Users/jreng/Documents/Poems/JUCE/CMakeLists.txt:35 (project)"
     message: |
-      Effective list of requested architectures (possibly empty)  : ""
-      Effective list of architectures found in the ABI info binary: "arm64"
+      Effective list of requested architectures (possibly empty)  : "arm64;x86_64"
+      Effective list of architectures found in the ABI info binary: "arm64;x86_64"
   -
     kind: "message-v1"
     backtrace:
@@ -1544,17 +1667,18 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-8j9Qwq']
+        ignore line: [Change Dir: '/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-VMmHya']
         ignore line: []
-        ignore line: [Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_f6ac0]
-        ignore line: [[1/2] /usr/bin/c++   -arch arm64   -v -Wl -v -MD -MT CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_77607]
+        ignore line: [[1/2] /usr/bin/c++   -std=c++17 -arch x86_64 -arch arm64 -mmacosx-version-min=12.0   -v -Wl -v -MD -MT CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [Apple clang version 17.0.0 (clang-1700.6.4.2)]
         ignore line: [Target: arm64-apple-darwin25.4.0]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin]
         ignore line: [clang++: warning: -Wl -v: 'linker' input unused [-Wunused-command-line-argument]]
         ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"]
-        ignore line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx26.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=26.2 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-8j9Qwq -target-linker-version 1230.1 -v -fcoverage-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-8j9Qwq -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fno-cxx-modules -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"]
+        ignore line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple x86_64-apple-macosx12.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=all -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=2 -target-sdk-version=26.2 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu penryn -tune-cpu generic -debugger-tuning=lldb -fdebug-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-VMmHya -target-linker-version 1230.1 -v -fcoverage-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-VMmHya -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -std=c++17 -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fno-cxx-modules -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCXXCompilerABI-cd8075/CMakeCXXCompilerABI-x86_64.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [clang -cc1 version 17.0.0 (clang-1700.6.4.2) default target arm64-apple-darwin25.4.0]
         ignore line: [ignoring nonexistent directory "/usr/local/include"]
         ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"]
@@ -1568,32 +1692,50 @@ events:
         ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)]
         ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks (framework directory)]
         ignore line: [End of search list.]
-        ignore line: [[2/2] : && /usr/bin/c++ -arch arm64 -v -Wl -v CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_f6ac0   && :]
+        ignore line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx12.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=26.2 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-VMmHya -target-linker-version 1230.1 -v -fcoverage-compilation-dir=/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja/CMakeFiles/CMakeScratch/TryCompile-VMmHya -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -std=c++17 -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fno-cxx-modules -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCXXCompilerABI-8d78bc/CMakeCXXCompilerABI-arm64.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [clang -cc1 version 17.0.0 (clang-1700.6.4.2) default target arm64-apple-darwin25.4.0]
+        ignore line: [ignoring nonexistent directory "/usr/local/include"]
+        ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"]
+        ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1]
+        ignore line: [ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include]
+        ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include]
+        ignore line: [ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include]
+        ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)]
+        ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks (framework directory)]
+        ignore line: [End of search list.]
+        ignore line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo" -create -output CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCXXCompilerABI-cd8075/CMakeCXXCompilerABI-x86_64.o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCXXCompilerABI-8d78bc/CMakeCXXCompilerABI-arm64.o]
+        ignore line: [[2/2] : && /usr/bin/c++ -arch x86_64 -arch arm64 -mmacosx-version-min=12.0 -v -Wl -v CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_77607   && :]
         ignore line: [Apple clang version 17.0.0 (clang-1700.6.4.2)]
         ignore line: [Target: arm64-apple-darwin25.4.0]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin]
-        link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 26.0.0 26.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_f6ac0 -L/usr/local/lib -v CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a]
+        link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch x86_64 -platform_version macos 12.0.0 26.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o /var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCXXCompilerABI-ed1ade/CMakeCXXCompilerABI-x86_64.out -L/usr/local/lib -v CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o -arch_multiple -final_output cmTC_77607 -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a]
           arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld] ==> ignore
           arg [-demangle] ==> ignore
           arg [-lto_library] ==> ignore, skip following value
           arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib] ==> skip value of -lto_library
           arg [-dynamic] ==> ignore
           arg [-arch] ==> ignore
-          arg [arm64] ==> ignore
+          arg [x86_64] ==> ignore
           arg [-platform_version] ==> ignore
           arg [macos] ==> ignore
-          arg [26.0.0] ==> ignore
+          arg [12.0.0] ==> ignore
           arg [26.2] ==> ignore
           arg [-syslibroot] ==> ignore
           arg [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk] ==> ignore
           arg [-mllvm] ==> ignore
           arg [-enable-linkonceodr-outlining] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_f6ac0] ==> ignore
+          arg [/var/folders/k6/ms2vt1_n6dq7_rf7jlmhc6_00000gn/T/CMakeCXXCompilerABI-ed1ade/CMakeCXXCompilerABI-x86_64.out] ==> ignore
           arg [-L/usr/local/lib] ==> dir [/usr/local/lib]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_f6ac0.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [CMakeFiles/cmTC_77607.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [-arch_multiple] ==> ignore
+          arg [-final_output] ==> ignore
+          arg [cmTC_77607] ==> ignore
           arg [-lc++] ==> lib [c++]
           arg [-lSystem] ==> lib [System]
           arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a] ==> lib [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a]
@@ -1650,6 +1792,7 @@ events:
       - "Accelerate"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -1679,6 +1822,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -1743,6 +1887,7 @@ events:
       - "CoreAudio"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -1772,6 +1917,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -1836,6 +1982,7 @@ events:
       - "CoreMIDI"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -1865,6 +2012,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -1929,6 +2077,7 @@ events:
       - "AudioToolbox"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -1958,6 +2107,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -2022,6 +2172,7 @@ events:
       - "QuartzCore"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -2051,6 +2202,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -2116,6 +2268,7 @@ events:
       - "AudioUnit"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -2145,6 +2298,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -2210,6 +2364,7 @@ events:
       - "CoreAudioKit"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -2239,6 +2394,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -2303,6 +2459,7 @@ events:
       - "DiscRecording"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -2332,6 +2489,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -2396,6 +2554,7 @@ events:
       - "Cocoa"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -2425,6 +2584,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -2489,6 +2649,7 @@ events:
       - "Foundation"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -2518,6 +2679,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -2582,6 +2744,7 @@ events:
       - "IOKit"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -2611,6 +2774,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -2675,6 +2839,7 @@ events:
       - "Security"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -2704,6 +2869,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -2768,6 +2934,7 @@ events:
       - "WebKit"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -2797,6 +2964,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -2861,6 +3029,7 @@ events:
       - "OpenGL"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -2890,6 +3059,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -2954,6 +3124,7 @@ events:
       - "AVKit"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -2983,6 +3154,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -3047,6 +3219,7 @@ events:
       - "AVFoundation"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -3076,6 +3249,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"
@@ -3140,6 +3314,7 @@ events:
       - "CoreMedia"
     candidate_directories:
       - "/Users/jreng/.bun/bin/"
+      - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/sbin/"
       - "/Users/jreng/go/bin/"
@@ -3169,6 +3344,7 @@ events:
     search_context:
       ENV{PATH}:
         - "/Users/jreng/.bun/bin"
+        - "/Applications/PACEAntiPiracy/Eden/Fusion/Versions/5/bin"
         - "/opt/homebrew/bin"
         - "/opt/homebrew/sbin"
         - "/Users/jreng/go/bin"

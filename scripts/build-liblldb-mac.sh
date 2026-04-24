@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# §2 — Required input (no silent default)
-LLVM_TAG="${LLVM_TAG:?LLVM_TAG required (e.g. llvmorg-21.1.0). Pick latest 21.x from https://github.com/llvm/llvm-project/releases}"
+# §2 — Pinned LLVM version
+LLVM_TAG="llvmorg-21.1.8"
 
 # §3 — Repo-root anchoring
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -12,7 +12,7 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 WORK_DIR="$REPO_ROOT/Builds/liblldb"
 SRC_DIR="$WORK_DIR/llvm-project"
 BUILD_DIR="$WORK_DIR/cmake"
-DIST_DIR="$REPO_ROOT/Resources/macos/liblldb"
+DIST_DIR="$REPO_ROOT/Resources/macos"
 
 # §5 — Gitignore protection
 GITIGNORE="$REPO_ROOT/.gitignore"
@@ -58,12 +58,19 @@ else
     rm -f "$TARBALL"
 fi
 
+# §6.5 — Clean cmake build dir (force reconfigure)
+if [[ -d "$BUILD_DIR" ]]; then
+    echo "=== Cleaning previous cmake build directory ==="
+    rm -rf "$BUILD_DIR"
+fi
+
 # §7 — Configure build (CMake + Ninja, single universal build)
 cmake -G Ninja \
     -S "$SRC_DIR/llvm" \
     -B "$BUILD_DIR" \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
     -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
+    -DCMAKE_OSX_DEPLOYMENT_TARGET=12.0 \
     -DLLVM_ENABLE_PROJECTS="clang;lldb" \
     -DLLVM_ENABLE_ZSTD=OFF \
     -DLLVM_TARGETS_TO_BUILD="AArch64;X86" \
@@ -79,7 +86,10 @@ cmake -G Ninja \
 cmake --build "$BUILD_DIR" --target liblldb
 
 # §9 — Stage outputs under $DIST_DIR
-mkdir -p "$DIST_DIR/include/lldb/API" "$DIST_DIR/licenses"
+mkdir -p "$DIST_DIR/arm64" "$DIST_DIR/x86_64" "$DIST_DIR/include/lldb/API" "$DIST_DIR/licenses"
+
+# Remove stale universal dylib from previous layout
+rm -f "$DIST_DIR/liblldb.dylib"
 
 # Resolve versioned dylib — fail loud on zero or multiple matches
 DYLIB_MATCHES=()
@@ -98,8 +108,18 @@ if [[ ${#DYLIB_MATCHES[@]} -gt 1 ]]; then
     exit 1
 fi
 
-cp "${DYLIB_MATCHES[0]}" "$DIST_DIR/liblldb.dylib"
-install_name_tool -id "@rpath/liblldb.dylib" "$DIST_DIR/liblldb.dylib"
+# Stage universal with corrected install_name, then split into per-arch thin dylibs
+cp "${DYLIB_MATCHES[0]}" "$DIST_DIR/liblldb-universal.dylib"
+install_name_tool -id "@rpath/liblldb.dylib" "$DIST_DIR/liblldb-universal.dylib"
+
+lipo "$DIST_DIR/liblldb-universal.dylib" -thin arm64  -output "$DIST_DIR/arm64/liblldb.dylib"
+lipo "$DIST_DIR/liblldb-universal.dylib" -thin x86_64 -output "$DIST_DIR/x86_64/liblldb.dylib"
+
+# Strip local symbols — keep externals for dlopen resolution
+strip -x "$DIST_DIR/arm64/liblldb.dylib"
+strip -x "$DIST_DIR/x86_64/liblldb.dylib"
+
+rm -f "$DIST_DIR/liblldb-universal.dylib"
 
 # Copy SB API headers
 cp -R "$SRC_DIR/lldb/include/lldb/API/." "$DIST_DIR/include/lldb/API/"
@@ -117,21 +137,21 @@ else
 fi
 
 # §10 — Report sizes
-DYLIB_SIZE_BYTES="$(stat -f%z "$DIST_DIR/liblldb.dylib")"
-DYLIB_SIZE_MB="$(echo "scale=2; $DYLIB_SIZE_BYTES / 1048576" | bc)"
+ARM64_SIZE_BYTES="$(stat -f%z "$DIST_DIR/arm64/liblldb.dylib")"
+ARM64_SIZE_MB="$(echo "scale=2; $ARM64_SIZE_BYTES / 1048576" | bc)"
+X86_SIZE_BYTES="$(stat -f%z "$DIST_DIR/x86_64/liblldb.dylib")"
+X86_SIZE_MB="$(echo "scale=2; $X86_SIZE_BYTES / 1048576" | bc)"
 
 echo ""
 echo "==================================================================="
 echo "=== BUILD REPORT ==================================================="
 echo "==================================================================="
 echo "LLVM_TAG:     $LLVM_TAG"
-echo "DYLIB_PATH:   $DIST_DIR/liblldb.dylib"
-echo "SIZE_BYTES:   $DYLIB_SIZE_BYTES"
-echo "SIZE_MB:      ${DYLIB_SIZE_MB} MB"
+echo "arm64:        $DIST_DIR/arm64/liblldb.dylib  (${ARM64_SIZE_MB} MB)"
+echo "x86_64:       $DIST_DIR/x86_64/liblldb.dylib (${X86_SIZE_MB} MB)"
 echo ""
-echo "--- file output ---"
-file "$DIST_DIR/liblldb.dylib"
-echo ""
-echo "--- lipo -detailed_info ---"
-lipo -detailed_info "$DIST_DIR/liblldb.dylib"
+echo "--- arm64 ---"
+file "$DIST_DIR/arm64/liblldb.dylib"
+echo "--- x86_64 ---"
+file "$DIST_DIR/x86_64/liblldb.dylib"
 echo "==================================================================="

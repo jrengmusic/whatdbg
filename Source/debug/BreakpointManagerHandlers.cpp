@@ -1,3 +1,10 @@
+/** @file BreakpointManagerHandlers.cpp
+ *  @brief Breakpoint event handlers — hit, resolved, and modified notifications.
+ *
+ *  Processes breakpoint events from the debug engine and updates BreakpointManager
+ *  state. Produces DAP breakpoint events for the adapter to emit.
+ */
+
 #include <JuceHeader.h>
 #include <cstdint>
 #include "BreakpointManager.h"
@@ -13,11 +20,13 @@ using dap::DynObj;
 // Path helpers
 // ---------------------------------------------------------------------------
 
+/** Converts backslashes to forward slashes and lowercases the path for cross-platform key comparison. */
 static juce::String normalizePath (const juce::String& path) noexcept
 {
     return path.replace ("\\", "/").toLowerCase ();
 }
 
+/** Converts forward slashes to backslashes for Windows symbol engine queries. */
 static juce::String toWindowsPath (const juce::String& path) noexcept
 {
     return path.replace ("/", "\\");
@@ -27,6 +36,10 @@ static juce::String toWindowsPath (const juce::String& path) noexcept
 // BreakpointManager::handleSetBreakpoints
 // ---------------------------------------------------------------------------
 
+/** Processes a DAP setBreakpoints request for one source file.
+ *  Removes breakpoints absent from the new request, reuses existing ones for unchanged lines,
+ *  and creates new breakpoints for novel lines. Pending BPs trigger a forced symbol reload
+ *  and immediate retry before returning the response array. */
 juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
     const juce::String& rawSourcePath,
     const juce::var&    requestedBreakpoints)
@@ -287,6 +300,9 @@ juce::Array<juce::var> BreakpointManager::handleSetBreakpoints (
 // BreakpointManager::onModuleLoad
 // ---------------------------------------------------------------------------
 
+/** Retries resolution of all pending breakpoints after a module load event.
+ *  For each newly resolved BP, updates the master registry and returns a DAP
+ *  breakpoint changed event so nvim-dap can move the gutter marker. */
 juce::Array<juce::var> BreakpointManager::onModuleLoad ()
 {
     juce::Array<juce::var> events;

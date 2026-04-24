@@ -1,3 +1,12 @@
+/** @file Whatdbg.cpp
+ *  @brief Core DAP adapter — main loop, event dispatch, and state management.
+ *
+ *  Owns the stdin Reader thread, the debug Session, and the DAP dispatch table.
+ *  The main loop (run()) polls for DAP requests from stdin and debug events from
+ *  the Session, dispatching each to the appropriate handler. All stdout writes
+ *  (DAP responses and events) happen exclusively on this thread.
+ */
+
 #include "Whatdbg.h"
 #include "Log.h"
 
@@ -12,6 +21,7 @@ static constexpr std::uint32_t pollTimeoutMs { 50 };
 
 using dap::DynObj;
 
+/** Constructs the adapter and populates the command dispatch table. */
 Whatdbg::Whatdbg ()
     : breakpointManager { session }
 {
@@ -37,6 +47,7 @@ Whatdbg::Whatdbg ()
     };
 }
 
+/** Sets stdout to binary mode (Windows) and initialises the debug Session. */
 bool Whatdbg::initialize (const juce::File& sidecarDir) noexcept
 {
 #if JUCE_WINDOWS
@@ -47,6 +58,8 @@ bool Whatdbg::initialize (const juce::File& sidecarDir) noexcept
     return session.initialize (sidecarDir);
 }
 
+/** Starts the Reader thread and enters the poll loop: drain DAP FIFO, poll debug
+ *  events, process deferred state, yield when idle. Runs until isRunning is cleared. */
 void Whatdbg::run ()
 {
     reader.start ();
@@ -114,10 +127,6 @@ void Whatdbg::run ()
         }
     }
 
-    logWrite ("[diag] Whatdbg::run exiting main loop shouldTerminateOnExit=%d executionState=%d\n",
-              static_cast<int> (shouldTerminateOnExit),
-              static_cast<int> (state.executionState));
-
     reader.stop ();
     debug::EndMode endMode { debug::EndMode::detach };
 
@@ -129,6 +138,8 @@ void Whatdbg::run ()
     session.shutdown (endMode);
 }
 
+/** Routes a single parsed DAP message to its registered handler; sends an error
+ *  response for unknown commands. */
 void Whatdbg::handleCommand (const juce::var& message)
 {
     const juce::String type { message["type"].toString () };
@@ -153,6 +164,8 @@ void Whatdbg::handleCommand (const juce::var& message)
     }
 }
 
+/** Inspects all pending state flags set by Session callbacks and emits the
+ *  corresponding DAP events (stopped, breakpoint, output, exited, terminated). */
 void Whatdbg::processDeferredEvents ()
 {
     // Initial breakpoint: resume if configurationDone already received
@@ -279,9 +292,6 @@ void Whatdbg::processDeferredEvents ()
         const juce::String text { state.debuggeeOutputText };
         state.debuggeeOutputText.clear ();
 
-        logWrite ("[diag] processDeferredEvents emitting output event bytes=%d\n",
-                  text.length ());
-
         DynObj body { new juce::DynamicObject () };
         body->setProperty ("category", "console");
         body->setProperty ("output",   text);
@@ -337,6 +347,8 @@ void Whatdbg::processDeferredEvents ()
     }
 }
 
+/** Resolves any pending breakpoints at the initial loader break, resumes the
+ *  target, and emits a DAP thread-started event for the main thread. */
 void Whatdbg::resolveAndResumeAfterInitialBreak ()
 {
     if (breakpointManager.hasPending ())
@@ -367,6 +379,8 @@ void Whatdbg::resolveAndResumeAfterInitialBreak ()
     logWrite ("[Whatdbg] resumed after initial break\n");
 }
 
+/** Serialises a DAP message to JSON and writes it to stdout with the
+ *  Content-Length header framing required by the DAP wire format. */
 void Whatdbg::writeMessage (const juce::var& message) noexcept
 {
     const juce::String jsonBody { juce::JSON::toString (message, true) };
@@ -380,16 +394,20 @@ void Whatdbg::writeMessage (const juce::var& message) noexcept
     std::cout.flush ();
 }
 
+/** Writes a DAP response object to stdout via writeMessage(). */
 void Whatdbg::sendResponse (const juce::var& response) noexcept
 {
     writeMessage (response);
 }
 
+/** Writes a DAP event object to stdout via writeMessage(). */
 void Whatdbg::sendEvent (const juce::var& event) noexcept
 {
     writeMessage (event);
 }
 
+/** Clears all frame/variable reference maps and resets the session's symbol group
+ *  cache; called whenever the target stops at a new location. */
 void Whatdbg::resetVariablesState () noexcept
 {
     nextVariablesRef = 1;

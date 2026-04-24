@@ -1,0 +1,2 @@
+Resources/**/*.dll filter=lfs diff=lfs merge=lfs -text
+Resources/**/*.dylib filter=lfs diff=lfs merge=lfs -text

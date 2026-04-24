@@ -1,5 +1,5 @@
 # whatdbg - Architecture
-## Windows Host Abstraction Translator for dbgeng
+## Cross-Platform DAP Debug Adapter (Windows dbgeng / macOS liblldb)
 
 **Repository:** https://github.com/jrengmusic/whatdbg
 
@@ -7,9 +7,9 @@
 
 **Status:** Active
 
-**Last Updated:** 2026-04-02
+**Last Updated:** 2026-04-24
 
-**Version:** 0.3.0
+**Version:** 0.4.0
 
 ---
 
@@ -17,7 +17,7 @@
 
 ### Purpose
 
-whatdbg (Windows Host Abstraction Translator for dbgeng) is a DAP (Debug Adapter Protocol) debug adapter for Windows C/C++ development with neovim. It uses the dbgeng COM API (the engine behind WinDbg) to attach to or launch any Windows executable, then bridges DAP requests from nvim-dap to dbgeng operations over stdin/stdout.
+whatdbg is a cross-platform DAP (Debug Adapter Protocol) debug adapter for C/C++ development with neovim. On Windows it uses the dbgeng COM API (the engine behind WinDbg); on macOS it uses the liblldb SB API (LLVM's scriptable interface). Both backends bridge DAP requests from nvim-dap to native debug engine operations over stdin/stdout.
 
 ### Architecture Philosophy
 
@@ -29,11 +29,16 @@ whatdbg (Windows Host Abstraction Translator for dbgeng) is a DAP (Debug Adapter
 ### Technology Stack
 
 - **Language:** C++17
-- **Framework:** JUCE (juce_core, juce_events), jreng_core (Context, Owner, utilities)
-- **Build System:** CMake + Ninja (MSVC via vcvarsall)
-- **Platform:** Windows only
-- **Debug Engine:** dbgeng COM API (sidecar DLLs embedded in BinaryData)
-- **COM Pointers:** Microsoft::WRL::ComPtr<T> (RAII, no manual Release)
+- **Framework:** JUCE (juce_core), jreng_core (Context, Owner, utilities)
+- **Build System:** JAM build system (`jam/cmake/`); `configure_app()` entry point. CMake + Ninja underneath.
+- **Platforms:**
+  - Windows: MSVC via vcvarsall
+  - macOS: Xcode clang, arm64 and x86_64 (per-arch builds)
+- **Debug Engines:**
+  - Windows: dbgeng COM API (sidecar DLLs embedded in BinaryData)
+  - macOS: liblldb SB API (sidecar dylib embedded in BinaryData, per-arch)
+- **Windows COM Pointers:** `Microsoft::WRL::ComPtr<T>` (RAII, no manual Release)
+- **macOS SB API:** liblldb headers from `Resources/macos/include/lldb/API/`
 
 ---
 
@@ -90,16 +95,24 @@ stdin is blocking. WaitForEvent is blocking (with timeout). They cannot both blo
 Whatdbg (main loop, owns everything)
     |
     +-- debug::State (SSOT, main-thread-local)
-    +-- debug::Session (COM wrapper, ComPtr<T>)
-    |       Session.cpp            — lifecycle: initialize, launch, attach, resume, shutdown,
-    |                                stepping, thread control, symbol path, breakpoint API
-    |       SessionInspection.cpp  — variable inspection: getStackTrace, getLocals,
-    |                                getVariableChildren, evaluateExpression, CaptureOutputCallback
-    |       SessionPrettyPrint.cpp — type formatters: prettyPrint, formatSymbolValue,
-    |                                readTargetString, parseHexAddress, findChildByName
-    +-- debug::BreakpointManager (DAP-to-dbgeng BP mapping)
-    +-- debug::Callbacks (COM callbacks, write to State)
-    +-- debug::Loader (sidecar DLL loader)
+    +-- debug::Session (debug engine wrapper)
+    |       [Windows]
+    |       Session.cpp              — lifecycle: initialize, launch, attach, resume, shutdown,
+    |                                  stepping, thread control, symbol path, breakpoint API
+    |       SessionInspection.cpp    — variable inspection: getStackTrace, getLocals,
+    |                                  getVariableChildren, evaluateExpression, CaptureOutputCallback
+    |       SessionPrettyPrint.cpp   — type formatters: prettyPrint, formatSymbolValue,
+    |                                  readTargetString, parseHexAddress, findChildByName
+    |       [macOS]
+    |       Session_mac.cpp          — lifecycle: initialize, launch, attach, resume, shutdown,
+    |                                  stepping, thread control, breakpoint API (liblldb SB API)
+    |       SessionInspection_mac.cpp — variable inspection: getStackTrace, getLocals,
+    |                                  getVariableChildren, evaluateExpression (SBValue tree)
+    |       SessionPrettyPrint_mac.cpp — type formatters: prettyPrint for juce::String,
+    |                                  unique_ptr, and filtered types (SB API)
+    +-- debug::BreakpointManager (DAP-to-engine BP mapping)
+    +-- debug::Callbacks (COM callbacks, write to State) [Windows only]
+    +-- debug::Loader (sidecar DLL loader) [Windows only]
     +-- dap::Reader (stdin thread, pushes to FIFO)
     +-- dap::Types (DAP message builders, DynObj alias)
 ```
@@ -111,13 +124,16 @@ Whatdbg (main loop, owns everything)
 | Whatdbg | `Source/Whatdbg.h/.cpp` | Main loop. Owns all objects. Drains FIFO, dispatches commands via table, polls WaitForEvent, writes stdout. |
 | debug::State | `Source/debug/State.h` | SSOT. Execution state, pending events, breakpoint data. Main-thread-local, no atomics. Derives from Context<State>. |
 | debug::Session | `Source/debug/Session.h` | COM wrapper interface. ComPtr<T>. |
-| debug::Session (lifecycle) | `Source/debug/Session.cpp` | initialize, launch, attach, resume, pollEvents, shutdown, stepping, thread ops, breakpoint API, symbol path. |
-| debug::Session (inspection) | `Source/debug/SessionInspection.cpp` | getStackTrace, getLocals, getVariableChildren, evaluateExpression, enumerateSymbols helper, CaptureOutputCallback. |
-| debug::Session (pretty-print) | `Source/debug/SessionPrettyPrint.cpp` | debug::detail namespace: prettyPrint, formatSymbolValue, stripDecimalPrefix, readTargetString, parseHexAddress, findChildByName, getChildValueText. |
+| debug::Session lifecycle (Win) | `Source/debug/Session.cpp` | initialize, launch, attach, resume, pollEvents, shutdown, stepping, thread ops, breakpoint API, symbol path. |
+| debug::Session inspection (Win) | `Source/debug/SessionInspection.cpp` | getStackTrace, getLocals, getVariableChildren, evaluateExpression, enumerateSymbols helper, CaptureOutputCallback. |
+| debug::Session pretty-print (Win) | `Source/debug/SessionPrettyPrint.cpp` | debug::detail namespace: prettyPrint, formatSymbolValue, stripDecimalPrefix, readTargetString, parseHexAddress, findChildByName, getChildValueText. |
+| debug::Session lifecycle (mac) | `Source/debug/Session_mac.cpp` | liblldb SB API: initialize, launch, attach, resume, pollEvents, shutdown, stepping, thread ops, breakpoint API. Re-exec trampoline for DYLD_LIBRARY_PATH. |
+| debug::Session inspection (mac) | `Source/debug/SessionInspection_mac.cpp` | getStackTrace, getLocals, getVariableChildren, evaluateExpression via SBValue tree. |
+| debug::Session pretty-print (mac) | `Source/debug/SessionPrettyPrint_mac.cpp` | type formatters for juce::String, unique_ptr, and filtered types via SB API. |
 | debug::PrettyPrint | `Source/debug/PrettyPrint.h` | Shared declarations for debug::detail functions used across Inspection and PrettyPrint. |
-| debug::BreakpointManager | `Source/debug/BreakpointManager.h/.cpp` | DAP-to-dbgeng breakpoint mapping. handleSetBreakpoints(), tryResolve(), onModuleLoad(), onBreakpointHit(). |
-| debug::Callbacks | `Source/debug/Callbacks.h/.cpp` | COM callback classes. Write to State during WaitForEvent. |
-| debug::Loader | `Source/debug/Loader.h/.cpp` | LoadLibrary from sidecar path, resolve DebugCreate. |
+| debug::BreakpointManager | `Source/debug/BreakpointManager.h/.cpp` | DAP-to-engine breakpoint mapping. handleSetBreakpoints(), tryResolve(), onModuleLoad(), onBreakpointHit(). |
+| debug::Callbacks | `Source/debug/Callbacks.h/.cpp` | COM callback classes. Write to State during WaitForEvent. [Windows only] |
+| debug::Loader | `Source/debug/Loader.h/.cpp` | LoadLibrary from sidecar path, resolve DebugCreate. [Windows only] |
 | dap::Reader | `Source/dap/Reader.h/.cpp` | juce::Thread. Reads stdin, parses Content-Length framing, pushes to AbstractFifo. |
 | dap::Types | `Source/dap/Types.h` | DAP message builders using juce::var/DynamicObject. DynObj alias (single definition). |
 
@@ -347,37 +363,45 @@ whatdbg/
     install.sh
     build.bat
     Source/
-        Main.cpp                        Entry point, sidecar extraction
+        Main.cpp                        Entry point, sidecar extraction, re-exec trampoline (macOS)
         Log.h                           Shared logging (#if JUCE_DEBUG guard)
         Whatdbg.h / .cpp                Main loop, dispatch table, event processing
         debug/
             State.h                     SSOT, main-thread-local
-            Session.h                   COM wrapper interface
-            Session.cpp                 Lifecycle, stepping, thread ops, breakpoint API
-            SessionInspection.cpp       Stack trace, locals, children, expression eval
-            SessionPrettyPrint.cpp      Type formatters (debug::detail namespace)
+            Session.h                   Debug engine wrapper interface (shared)
+            Session.cpp                 [Windows] Lifecycle, stepping, thread ops, breakpoint API
+            SessionInspection.cpp       [Windows] Stack trace, locals, children, expression eval
+            SessionPrettyPrint.cpp      [Windows] Type formatters (debug::detail namespace)
+            Session_mac.cpp             [macOS] Lifecycle, stepping, thread ops, breakpoint API (SB API)
+            SessionInspection_mac.cpp   [macOS] Stack trace, locals, children, expression eval (SBValue)
+            SessionPrettyPrint_mac.cpp  [macOS] Type formatters (juce::String, unique_ptr, filters)
             PrettyPrint.h               Shared declarations for debug::detail
-            Loader.h / .cpp             Sidecar DLL loader
-            Callbacks.h / .cpp          COM callbacks -> State
-            BreakpointManager.h / .cpp  DAP-to-dbgeng BP mapping
+            Loader.h / .cpp             [Windows] Sidecar DLL loader
+            Callbacks.h / .cpp          [Windows] COM callbacks -> State
+            BreakpointManager.h / .cpp  DAP-to-engine BP mapping
         dap/
             Reader.h / .cpp             stdin thread + FIFO
             Types.h                     DAP message builders, DynObj alias
     Resources/
         windows/
-            dbgeng.dll, dbghelp.dll, dbgcore.dll, symsrv.dll
-        macos/                      (gitignored — built by scripts/build-liblldb-mac.sh)
+            x64/
+                dbgeng.dll, dbghelp.dll, dbgcore.dll, symsrv.dll
+        macos/                          (gitignored — built by scripts/build-liblldb-mac.sh)
+            arm64/
+                liblldb.dylib
+            x86_64/
+                liblldb.dylib
+            include/lldb/API/           SB API headers
             liblldb/
-                liblldb.dylib       (universal — arm64 + x86_64)
-                include/lldb/API/   (SB API headers)
+                liblldb.dylib           (universal fat — arm64 + x86_64, for headers/licenses)
                 licenses/LLVM-LICENSE.TXT
-    Builds/                         (gitignored — JUCE output + liblldb build machinery)
-        Ninja/                      (JUCE project build)
-        liblldb/                    (LLVM source clone + cmake tree)
-            llvm-project/           (pinned clone of llvm/llvm-project at LLVM_TAG)
-            cmake/                  (out-of-source cmake build tree)
+    Builds/                             (gitignored — build output + liblldb build machinery)
+        Ninja/                          (CMake/Ninja build tree)
+        liblldb/                        (LLVM source clone + cmake tree)
+            llvm-project/               (pinned clone of llvm/llvm-project at LLVM_TAG)
+            cmake/                      (out-of-source cmake build tree)
     scripts/
-        build-liblldb-mac.sh        (pinned LLVM build — writes Builds/liblldb + Resources/macos/liblldb)
+        build-liblldb-mac.sh            (pinned LLVM build — writes Builds/liblldb + Resources/macos/)
     modules/
         jreng_core/                     Context, Owner, utilities
     carol/
@@ -393,15 +417,19 @@ whatdbg/
 | Term | Definition |
 |------|------------|
 | DAP | Debug Adapter Protocol. JSON-RPC over stdin/stdout. |
-| dbgeng | Windows Debug Engine COM API. |
-| Sidecar | Pinned DLLs embedded in binary, extracted at runtime. |
-| WaitForEvent | Blocking dbgeng call that processes debug events. |
+| dbgeng | Windows Debug Engine COM API (the engine behind WinDbg). |
+| liblldb | LLVM's debugger library. Exposed via the SB (Scriptable Bridge) API. |
+| SB API | liblldb's public C++ interface (`lldb::SBDebugger`, `SBTarget`, `SBProcess`, etc.). |
+| Sidecar | Pinned debug engine binaries embedded in BinaryData, extracted at runtime. Windows: DLLs extracted to `~/.config/whatdbg/dbgeng/` and loaded via `LoadLibrary`. macOS: `liblldb.dylib` extracted to `~/Library/Application Support/whatdbg/liblldb/`, then the process re-execs itself with `DYLD_LIBRARY_PATH` set so dyld resolves SB API symbols. |
+| Re-exec trampoline | macOS startup pattern: `Main.cpp` extracts `liblldb.dylib`, sets `DYLD_LIBRARY_PATH`, then `execv`s itself. The second exec finds the dylib and proceeds normally. No explicit `dlopen` needed. |
+| WaitForEvent | Blocking dbgeng call (Windows) that processes debug events. |
 | SSOT | Single Source of Truth. |
 | FIFO | First In First Out queue. AbstractFifo + std::vector. |
 | SPSC | Single Producer Single Consumer. |
 | DynObj | `juce::ReferenceCountedObjectPtr<juce::DynamicObject>`. Alias defined in dap::Types. |
 | prettyPrint | Per-type value formatter for juce::String, std::string, std::unique_ptr, std::vector. |
 | dispatch table | `std::unordered_map<std::string, CommandHandler>` replacing the else-if chain in handleCommand. |
+| configure_app() | JAM build system CMake entry point (`jam/cmake/BuildSetup.cmake`). Abstracts JUCE app setup, BinaryData embedding, and per-platform source selection. |
 
 ---
 
@@ -412,6 +440,7 @@ whatdbg/
 | 0.1 | 2026-03-30 | COUNSELOR | Initial draft (three-thread model) |
 | 0.2 | 2026-03-31 | COUNSELOR | Simplified to two-thread model, dropped JUCE message system |
 | 0.3 | 2026-04-01 | MACHINIST | Session split (3 files), variable inspection, expression eval, OutputDebugString, pause, multi-thread, stepping, terminate/disconnect, symbol group cache, dispatch table, DynObj consolidation |
+| 0.4.0 | 2026-04-24 | ENGINEER | Cross-platform: macOS liblldb backend (Session_mac, SessionInspection_mac, SessionPrettyPrint_mac), per-arch sidecar layout, re-exec trampoline, JAM build system (`configure_app()`), updated stack and module map |
 
 ---
 

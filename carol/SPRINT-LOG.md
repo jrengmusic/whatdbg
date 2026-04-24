@@ -112,6 +112,136 @@
 
 ## SPRINT HISTORY
 
+## Sprint 23: Git LFS Setup for Binary Distribution ✅
+
+**Date:** 2026-04-24
+**Duration:** ~10min
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR: directed LFS setup, CONTRACT validation
+- Engineer: executed LFS install, tracking, gitignore fix
+
+### Files Modified (2 total)
+- `.gitattributes` (new) — LFS filter rules for `Resources/**/*.dll` and `Resources/**/*.dylib`
+- `.gitignore:3` — removed `Resources/macos/` exclusion so macOS dylibs enter version control via LFS
+
+### Alignment Check
+- [x] BLESSED principles followed (S — SSOT: one mechanism for all platform binaries)
+- [x] NAMES.md adhered
+- [x] MANIFESTO.md principles applied
+
+### Problems Solved
+- macOS liblldb.dylib (~58-62MB per arch) had no version control — was gitignored with no hosting strategy
+- Windows DLLs (~28MB) were plain git objects bloating repo history
+- Both platforms now use LFS consistently — existing Windows DLLs migrate on next push
+
+### Debts Paid
+- None
+
+### Debts Deferred
+- None
+
+---
+
+## Sprint 22: jam/cmake Build System + liblldb Sidecar Embedding + Ship Readiness ✅
+
+**Date:** 2026-04-24
+**Duration:** ~6h
+**Primary:** COUNSELOR
+
+### Agents Participated
+- **COUNSELOR** — sprint planning (two PLANs: jam-cmake infrastructure + liblldb-sidecar), decision gating (per-arch vs universal builds, sidecar dlopen vs re-exec, deployment target research, cmake signing architecture), audit resolution, docs orchestration
+- **Pathfinder** — kuassa cmake system survey, jam structure discovery, consumer CMakeLists inventory (whatdbg/END/pabrik/tit), JUCE location discovery, liblldb binary analysis (otool, nm, lipo), SB API surface enumeration, git status across all repos
+- **Engineer** — all code: jam/cmake infrastructure (6 files), 4 consumer migrations, whatdbg sidecar (Main.cpp re-exec trampoline, Loader_mac create+delete, Session integration), build-liblldb-mac.sh (pin tag, strip, per-arch split, deployment target, auto-clean), CMakeLists per-arch BinaryData embedding, [diag] removal, SSOT extraction refactor, install.sh cleanup, SPEC.md + ARCHITECTURE.md cross-platform updates, comprehensive doxygen across entire codebase (23 files)
+- **Auditor** — two full audits: (1) jam/cmake migration audit (6 findings: SSOT double-set macOS vars, AppBuilder line count, stale kuassa comments in SignMac, Jam.cmake not deleted); (2) pre-log sprint audit (14 findings: SSOT extractSidecarBinaries duplication, stale PLANs, stale SPEC/ARCHITECTURE, AppBuilder L violation, cmake early returns, install.sh signing redundancy)
+- **Researcher** — LLVM deployment target research (minos 26.0 is SDK default not LLVM requirement, macOS 12.0 floor confirmed), LLDB SB API delta LLVM 17-21
+- **Librarian** — (via Researcher) LLVM version compatibility research
+
+### Files Modified (across jam + whatdbg + end + pabrik + tit)
+
+**jam/cmake/ (6 new files)**
+- `cmake/BuildConfig.cmake` — shared constants: JAM_CXX_STANDARD, JAM_MACOS_DEPLOYMENT_TARGET (12.0), JAM_MACOS_ARCHITECTURES, APPLE_SIGNING_IDENTITY, APPLE_NOTARY_PROFILE
+- `cmake/BuildSetup.cmake` — bootstrap: JUCE 5-way discovery, jam_* module auto-registration, platform config, compiler warnings, includes AppBuilder + PluginBuilder
+- `cmake/AppBuilder.cmake` — `configure_app()`: target creation (console/GUI), source glob + platform gating, JuceHeader pre-gen, BinaryData, module linking (JUCE/JAM/user with per-module special cases), compile defs, POST_BUILD signing (Release), clangd generation
+- `cmake/SignMac.cmake` — codesign + notarize standalone -P script, Release-only gate, graceful skip on missing tools
+- `cmake/entitlements.plist` — standard hardened runtime
+- `cmake/entitlements-debugger.plist` — adds com.apple.security.cs.debugger
+
+**jam cleanup**
+- `Jam.cmake` — deleted (all functionality absorbed into jam/cmake/)
+
+**whatdbg (18 files)**
+- `CMakeLists.txt` — migrated to jam/cmake configure_app(); per-arch macOS builds (CMAKE_OSX_ARCHITECTURES auto-detect or CI-provided); liblldb embedded as BinaryData (per-arch); link-time dep replaced with `-undefined dynamic_lookup` then re-exec pattern; removed POST_BUILD copy/sign of dylib
+- `Source/Main.cpp` — shared `extractSidecarBinaries(subdir, entries, count)` (SSOT); macOS re-exec trampoline (extract → DYLD_LIBRARY_PATH → execv); BinaryData include unconditional; comprehensive doxygen
+- `Source/debug/Session.h` — Loader_mac member added then removed (re-exec pattern made it unnecessary)
+- `Source/debug/Session_mac.cpp` — loader.load() added then reverted to ignoreUnused; comprehensive doxygen on all 25+ methods and TU-local handlers
+- `Source/debug/SessionInspection_mac.cpp` — doxygen on all methods
+- `Source/debug/SessionPrettyPrint_mac.cpp` — file-level + function doxygen
+- `Source/debug/Loader_mac.h` — created (dlopen mirror of Windows Loader) then deleted (re-exec pattern)
+- `Source/debug/Loader_mac.cpp` — created then deleted
+- `Source/Whatdbg.cpp` — removed 2 [diag] logWrite calls; comprehensive doxygen
+- `Source/WhatdbgHandlers.cpp` — removed 3 [diag] logWrite calls; comprehensive doxygen
+- `Source/debug/Session_mac.cpp` — removed 8 [diag] logWrite calls + dead variables
+- `Source/dap/Reader.cpp` — comprehensive doxygen
+- `Source/debug/Loader.cpp` — comprehensive doxygen
+- `Source/debug/Callbacks.cpp` — comprehensive doxygen
+- `Source/debug/BreakpointManager.cpp` — comprehensive doxygen
+- `Source/debug/BreakpointManagerHandlers.cpp` — comprehensive doxygen
+- `Source/debug/Session.cpp` — comprehensive doxygen
+- `Source/debug/SessionInspection.cpp` — comprehensive doxygen
+- `Source/debug/SessionPrettyPrint.cpp` — comprehensive doxygen
+- `scripts/build-liblldb-mac.sh` — pinned LLVM_TAG (llvmorg-21.1.8), CMAKE_OSX_DEPLOYMENT_TARGET=12.0, cmake build dir auto-clean, per-arch lipo split (arm64 + x86_64), strip -x, dual-arch size report
+- `install.sh` — removed liblldb.dylib copy, removed sign.sh call (JAM handles signing)
+- `SPEC.md` — updated for cross-platform (title, purpose, technology stack, sidecar principle)
+- `ARCHITECTURE.md` — v0.4.0: cross-platform module map, file structure, glossary, build system
+- `PLAN-jam-cmake.md` — deleted (completed)
+- `PLAN-liblldb-sidecar.md` — deleted (completed)
+- `PLAN-whatdbg-mac.md` — deleted (completed)
+- `Resources/macos/liblldb/` — deleted (replaced by per-arch arm64/ + x86_64/)
+
+**Consumer migrations (3 projects)**
+- `end/CMakeLists.txt` — 546→166 lines, migrated to jam/cmake configure_app() GUIApp
+- `pabrik/CMakeLists.txt` — 88→92 lines, migrated to jam/cmake configure_app() GUIApp
+- `tit/CMakeLists.txt` — 404→67 lines, migrated to jam/cmake configure_app() ConsoleApp
+
+### Alignment Check
+- [x] **BLESSED principles followed**
+  - **B (Bound):** each cmake script has one owner (jam/cmake/), Loader owns dlopen handle, Session owns Loader
+  - **L (Lean):** consumer CMakeLists dramatically reduced (whatdbg 451→135, END 546→166, tit 404→67); AppBuilder at 500 lines noted by Auditor — cmake scripting, ARCHITECT accepted
+  - **E (Explicit):** all configure_app() parameters visible in signature; fail-fast on missing JAM_ROOT, JUCE; cmake return() accepted for build toolchain
+  - **S (SSOT):** JUCE discovery, module registration, signing, clangd — each defined once in jam/cmake; extractSidecarBinaries shared function; per-platform wrappers are thin
+  - **S (Stateless):** cmake scripts are pure functions of inputs; sidecar extraction is idempotent (size-check skip)
+  - **E (Encapsulation):** consumers call configure_app() — internals hidden; Session calls loader.load() — doesn't know dlopen/LoadLibrary
+  - **D (Deterministic):** same inputs → same build; per-arch deterministic; sidecar extraction idempotent
+- [x] **NAMES.md adhered** — no improvised names; configure_app mirrors kuassa's configure_plugin; BinaryEntry, extractSidecarBinaries, reexecMarker follow existing patterns
+- [x] **MANIFESTO.md applied** — JUCE-first for file I/O (FileOutputStream for extraction); no custom cmake helpers beyond what kuassa established; YAGNI (PluginBuilder placeholder, ClangdConfig/CopyRelease deferred)
+- [x] **JRENG-CODING-STANDARD.md** — brace init, not/and/or operators, nested positive checks, const before type, static file-local, no anonymous namespaces, space after function names, explicit nullptr checks
+
+### Problems Solved
+
+**Problem 1 — No shared build infrastructure.** Each project (whatdbg, END, pabrik, tit) had duplicated CMakeLists boilerplate: JUCE discovery, module linking, JuceHeader pre-gen, clangd generation. Fix: jam/cmake build system with configure_app() single entry point. 4 projects migrated, ~1400 lines of duplication eliminated.
+
+**Problem 2 — macOS codesigning not in build pipeline.** Signing was manual (install.sh → sign.sh). Fix: jam/cmake SignMac.cmake POST_BUILD for Release builds, with VERBATIM quoting for identity strings containing parentheses.
+
+**Problem 3 — liblldb.dylib as sibling file breaks single-binary distribution.** Fix: embed per-arch liblldb as BinaryData, extract at runtime (sidecar pattern matching Windows dbgeng exactly). Re-exec trampoline sets DYLD_LIBRARY_PATH for dyld symbol resolution.
+
+**Problem 4 — liblldb built with macOS 26.0 deployment target.** minos 26.0 was SDK default, not LLVM requirement. Fix: CMAKE_OSX_DEPLOYMENT_TARGET=12.0 in build script. Monterey+ support confirmed.
+
+**Problem 5 — 169 MB universal liblldb.** Fix: per-arch lipo split + strip -x → 58 MB arm64, 62 MB x86_64.
+
+**Problem 6 — [diag] logging from Sprint 21.** 13 temporary logWrite calls across 3 files. Fix: removed all, plus dead variables that only fed the removed logs.
+
+**Problem 7 — SPEC.md and ARCHITECTURE.md Windows-only.** Fix: updated for cross-platform (macOS liblldb, sidecar, re-exec, per-arch builds, JAM build system).
+
+### Debts Paid
+- None (DEBT.md does not exist)
+
+### Debts Deferred
+- None
+
+---
+
 ## Sprint 21: macOS DAW-Plugin Debug — Perf + Terminate + BP Architecture Refactor ✅
 
 **Date:** 2026-04-18

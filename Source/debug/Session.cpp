@@ -1,3 +1,17 @@
+/** @file Session.cpp
+ *  @brief Windows debug session implementation using Microsoft's dbgeng COM API.
+ *
+ *  Platform counterpart to Session_mac.cpp (macOS liblldb). Implements the Session
+ *  interface declared in Session.h using IDebugClient5, IDebugControl4,
+ *  IDebugSymbols3, IDebugDataSpaces4, and IDebugSystemObjects.
+ *
+ *  Threading model: single-threaded main loop. COM callbacks (Callbacks.cpp) fire
+ *  on the dbgeng thread and store deferred flags on State. Main thread polls and
+ *  processes those flags.
+ *
+ *  Lifecycle: initialize (Loader → COM) → (launch | attach) → pollEvents loop → shutdown.
+ */
+
 #include <JuceHeader.h>
 #include "Session.h"
 #include "State.h"
@@ -16,6 +30,7 @@ using dap::DynObj;
 // Session::~Session
 // ---------------------------------------------------------------------------
 
+/** Delegates to shutdown (EndMode::passive) — releases all COM interfaces. */
 Session::~Session ()
 {
     shutdown (EndMode::passive);
@@ -25,6 +40,8 @@ Session::~Session ()
 // Session::initialize
 // ---------------------------------------------------------------------------
 
+/** CoInitializes COM, loads dbgeng via Loader, creates IDebugClient5, and
+ *  QIs all required interfaces. Calls shutdown on any failure. */
 bool Session::initialize (const juce::File& sidecarDir) noexcept
 {
     const HRESULT comResult { CoInitializeEx (nullptr, COINIT_MULTITHREADED) };
@@ -107,6 +124,8 @@ bool Session::initialize (const juce::File& sidecarDir) noexcept
 // Session::launch
 // ---------------------------------------------------------------------------
 
+/** Normalizes path separators, quotes paths with spaces, and calls
+ *  IDebugClient5::CreateProcess2 with DEBUG_ONLY_THIS_PROCESS. */
 bool Session::launch (const juce::String& program) noexcept
 {
     jassert (client != nullptr);
@@ -152,6 +171,8 @@ bool Session::launch (const juce::String& program) noexcept
 // Session::attach
 // ---------------------------------------------------------------------------
 
+/** Attaches to a running process via IDebugClient5::AttachProcess with no
+ *  special flags (non-invasive attach not requested). */
 bool Session::attach (std::uint32_t processId) noexcept
 {
     jassert (client != nullptr);
@@ -175,6 +196,7 @@ bool Session::attach (std::uint32_t processId) noexcept
 // Session::resume
 // ---------------------------------------------------------------------------
 
+/** Sets execution status to DEBUG_STATUS_GO — resumes all threads. */
 void Session::resume () noexcept
 {
     if (control != nullptr)
@@ -187,6 +209,8 @@ void Session::resume () noexcept
 // Session::pollEvents
 // ---------------------------------------------------------------------------
 
+/** Calls IDebugControl4::WaitForEvent with the given timeout. S_OK → event
+ *  consumed; S_FALSE → timeout with no event; other HRESULT → failure result. */
 juce::Result Session::pollEvents (std::uint32_t timeoutMs, bool& outHadEvent) noexcept
 {
     outHadEvent = false;
@@ -218,6 +242,8 @@ juce::Result Session::pollEvents (std::uint32_t timeoutMs, bool& outHadEvent) no
 // Session::shutdown
 // ---------------------------------------------------------------------------
 
+/** Ends the debug session with the appropriate DEBUG_END_* flag, resets all
+ *  COM interface ComPtrs, and CoUninitializes only if this instance owns COM. */
 void Session::shutdown (EndMode mode) noexcept
 {
     if (client != nullptr)
@@ -250,6 +276,7 @@ void Session::shutdown (EndMode mode) noexcept
 // Session::appendSymbolPath / appendSourcePath
 // ---------------------------------------------------------------------------
 
+/** Appends a directory to dbgeng's symbol search path via IDebugSymbols3::AppendSymbolPath. */
 void Session::appendSymbolPath (const juce::String& path) noexcept
 {
     if (symbols != nullptr)
@@ -259,6 +286,7 @@ void Session::appendSymbolPath (const juce::String& path) noexcept
     }
 }
 
+/** Appends a directory to dbgeng's source search path via IDebugSymbols3::AppendSourcePath. */
 void Session::appendSourcePath (const juce::String& path) noexcept
 {
     if (symbols != nullptr)
@@ -272,6 +300,7 @@ void Session::appendSourcePath (const juce::String& path) noexcept
 // Session::stepOver / stepInto / stepOut / interrupt
 // ---------------------------------------------------------------------------
 
+/** Sets execution status to DEBUG_STATUS_STEP_OVER. */
 void Session::stepOver () noexcept
 {
     if (control != nullptr)
@@ -280,6 +309,7 @@ void Session::stepOver () noexcept
     }
 }
 
+/** Sets execution status to DEBUG_STATUS_STEP_INTO. */
 void Session::stepInto () noexcept
 {
     if (control != nullptr)
@@ -288,6 +318,7 @@ void Session::stepInto () noexcept
     }
 }
 
+/** Executes the "gu" (go up) dbgeng command — no native step-out status flag exists. */
 void Session::stepOut () noexcept
 {
     if (control != nullptr)
@@ -296,6 +327,8 @@ void Session::stepOut () noexcept
     }
 }
 
+/** Opens the target process and calls DebugBreakProcess to inject a
+ *  breakpoint interrupt; closes the handle immediately after. */
 void Session::interrupt (std::uint32_t processId) noexcept
 {
     if (processId != 0)
@@ -330,6 +363,7 @@ void Session::interrupt (std::uint32_t processId) noexcept
 // Session::loadModuleSymbols / forceReloadAllSymbols
 // ---------------------------------------------------------------------------
 
+/** Issues ".reload /f <basename>" to force-load PDB for a single module image. */
 juce::Result Session::loadModuleSymbols (const juce::String& imageName) noexcept
 {
     juce::Result result { juce::Result::fail ("loadModuleSymbols: control is null") };
@@ -352,6 +386,7 @@ juce::Result Session::loadModuleSymbols (const juce::String& imageName) noexcept
     return result;
 }
 
+/** Issues ".reload /f" with no argument to force-reload PDBs for all loaded modules. */
 juce::Result Session::forceReloadAllSymbols () noexcept
 {
     juce::Result result { juce::Result::fail ("forceReloadAllSymbols: control is null") };
@@ -374,6 +409,8 @@ juce::Result Session::forceReloadAllSymbols () noexcept
 // Session::getOffsetByLine / getLineByOffset
 // ---------------------------------------------------------------------------
 
+/** Resolves a source file/line to a code offset. Returns engineBusy when
+ *  E_UNEXPECTED is returned (symbols not yet loaded), notFound otherwise. */
 ResolveStatus Session::getOffsetByLine (const juce::String& filePath,
                                         std::uint32_t       line,
                                         std::uint64_t*      outOffset) noexcept
@@ -402,6 +439,7 @@ ResolveStatus Session::getOffsetByLine (const juce::String& filePath,
     return status;
 }
 
+/** Maps a code offset back to source file path and line number via IDebugSymbols3::GetLineByOffset. */
 juce::Result Session::getLineByOffset (std::uint64_t offset, juce::String& outFilePath, std::uint32_t* outLine) noexcept
 {
     juce::Result result { juce::Result::fail ("getLineByOffset: symbols is null") };
@@ -434,6 +472,8 @@ juce::Result Session::getLineByOffset (std::uint64_t offset, juce::String& outFi
 // Session::addBreakpoint / removeBreakpoint
 // ---------------------------------------------------------------------------
 
+/** Creates a code breakpoint at an absolute offset via AddBreakpoint2 and
+ *  enables it; writes the engine-assigned breakpoint ID to outEngineId. */
 juce::Result Session::addBreakpoint (std::uint64_t offset, std::uint32_t* outEngineId) noexcept
 {
     juce::Result result { juce::Result::fail ("addBreakpoint: control is null") };
@@ -462,6 +502,8 @@ juce::Result Session::addBreakpoint (std::uint64_t offset, std::uint32_t* outEng
     return result;
 }
 
+/** Resolves file/line to offset via getOffsetByLine then delegates to addBreakpoint.
+ *  Returns failure if the offset cannot be resolved (symbols not yet loaded). */
 juce::Result Session::addBreakpointByLocation (const juce::String& filePath,
                                                std::uint32_t       line,
                                                std::uint32_t*      outEngineId,
@@ -493,6 +535,8 @@ juce::Result Session::addBreakpointByLocation (const juce::String& filePath,
     return result;
 }
 
+/** Looks up the breakpoint by engine ID via GetBreakpointById2 and removes it
+ *  via RemoveBreakpoint2. */
 juce::Result Session::removeBreakpoint (std::uint32_t engineId) noexcept
 {
     juce::Result result { juce::Result::fail ("removeBreakpoint: control is null") };
@@ -523,12 +567,15 @@ juce::Result Session::removeBreakpoint (std::uint32_t engineId) noexcept
 // Session::resetSymbolGroupCache / getOrCreateSymbolGroup
 // ---------------------------------------------------------------------------
 
+/** Releases the cached IDebugSymbolGroup2 and resets cachedFrameIndex to -1. */
 void Session::resetSymbolGroupCache () noexcept
 {
     cachedSymbolGroup.Reset ();
     cachedFrameIndex = -1;
 }
 
+/** Returns the cached symbol group if frameIndex matches; otherwise sets scope
+ *  to frameIndex via SetScopeFrameByIndex and queries a new group via GetScopeSymbolGroup2. */
 IDebugSymbolGroup2* Session::getOrCreateSymbolGroup (int frameIndex) noexcept
 {
     IDebugSymbolGroup2* result { nullptr };
@@ -565,6 +612,8 @@ IDebugSymbolGroup2* Session::getOrCreateSymbolGroup (int frameIndex) noexcept
 // Session::getThreads
 // ---------------------------------------------------------------------------
 
+/** Enumerates all threads via GetThreadIdsByIndex, resolves each system thread
+ *  ID, and queries the Win32 thread description via GetThreadDescription. */
 juce::Array<juce::var> Session::getThreads () noexcept
 {
     juce::Array<juce::var> threads;
@@ -628,6 +677,8 @@ juce::Array<juce::var> Session::getThreads () noexcept
 // Session::getEventThreadSystemId
 // ---------------------------------------------------------------------------
 
+/** Returns the Win32 system thread ID of the thread that triggered the last
+ *  event, using GetEventThread then GetCurrentThreadSystemId. */
 std::uint32_t Session::getEventThreadSystemId () noexcept
 {
     std::uint32_t systemId { 0 };
@@ -656,6 +707,8 @@ std::uint32_t Session::getEventThreadSystemId () noexcept
 // Session::setCurrentThreadBySystemId
 // ---------------------------------------------------------------------------
 
+/** Translates a Win32 system thread ID to a dbgeng engine thread ID via
+ *  GetThreadIdBySystemId then sets it as current via SetCurrentThreadId. */
 void Session::setCurrentThreadBySystemId (std::uint32_t systemId) noexcept
 {
     if (systemObjects != nullptr and systemId != 0)

@@ -1,3 +1,11 @@
+/** @file SessionPrettyPrint.cpp
+ *  @brief Windows pretty-print formatters for common C++ types via dbgeng.
+ *
+ *  Platform counterpart to SessionPrettyPrint_mac.cpp (macOS liblldb). Provides
+ *  human-readable display strings for juce::String, std::unique_ptr, std::string,
+ *  and other types whose raw memory layout needs interpretation for DAP display.
+ */
+
 #include <JuceHeader.h>
 #include "Session.h"
 #include "PrettyPrint.h"
@@ -12,6 +20,8 @@ namespace debug { namespace detail {
 // stripDecimalPrefix
 // ---------------------------------------------------------------------------
 
+/** Removes dbgeng's "0n" decimal prefix from integer literals wherever it
+ *  appears in the string (e.g. "0n42" → "42"). */
 juce::String stripDecimalPrefix (const juce::String& input) noexcept
 {
     juce::String result { input };
@@ -47,6 +57,9 @@ juce::String stripDecimalPrefix (const juce::String& input) noexcept
 // formatSymbolValue
 // ---------------------------------------------------------------------------
 
+/** Normalizes a raw dbgeng symbol value string: removes backtick address separators,
+ *  strips the "0n" prefix, truncates pointer values after the first space, and
+ *  clears composite type echoes ("class …", "struct …"). */
 juce::String formatSymbolValue (const juce::String& rawValue) noexcept
 {
     juce::String result { rawValue };
@@ -82,6 +95,8 @@ juce::String formatSymbolValue (const juce::String& rawValue) noexcept
 // readTargetString
 // ---------------------------------------------------------------------------
 
+/** Reads a null-terminated UTF-8 string from the target process address space
+ *  via IDebugDataSpaces4::ReadMultiByteStringVirtual (up to 256 bytes). */
 juce::String readTargetString (IDebugDataSpaces4* dataSpaces, ULONG64 address) noexcept
 {
     juce::String result;
@@ -108,6 +123,8 @@ juce::String readTargetString (IDebugDataSpaces4* dataSpaces, ULONG64 address) n
 // parseHexAddress
 // ---------------------------------------------------------------------------
 
+/** Strips backtick separators from a dbgeng hex address string and converts
+ *  the "0x…" portion (up to the first space) to a ULONG64. */
 ULONG64 parseHexAddress (const juce::String& valueText) noexcept
 {
     ULONG64 address { 0 };
@@ -127,6 +144,8 @@ ULONG64 parseHexAddress (const juce::String& valueText) noexcept
 // findChildByName
 // ---------------------------------------------------------------------------
 
+/** Scans group symbols past parentIndex to find the first child whose
+ *  ParentSymbol equals parentIndex and whose name matches childName. */
 int findChildByName (IDebugSymbolGroup2* group, ULONG parentIndex,
                      ULONG totalCount, const char* childName) noexcept
 {
@@ -165,6 +184,8 @@ int findChildByName (IDebugSymbolGroup2* group, ULONG parentIndex,
 // getChildValueText
 // ---------------------------------------------------------------------------
 
+/** Returns the raw value text of the symbol at index via GetSymbolValueText,
+ *  or an empty string if index is negative or the call fails. */
 juce::String getChildValueText (IDebugSymbolGroup2* group, int index) noexcept
 {
     juce::String result;
@@ -189,6 +210,8 @@ juce::String getChildValueText (IDebugSymbolGroup2* group, int index) noexcept
 // prettyPrint — per-type formatters
 // ---------------------------------------------------------------------------
 
+/** Walks juce::String's text.data pointer child and reads target memory to
+ *  produce a quoted string display value. */
 static juce::String prettyPrintJuceString (IDebugSymbolGroup2* group,
                                            IDebugDataSpaces4* dataSpaces,
                                            int symbolIndex) noexcept
@@ -224,6 +247,8 @@ static juce::String prettyPrintJuceString (IDebugSymbolGroup2* group,
     return result;
 }
 
+/** Reads MSVC std::string internals (_Mypair → _Myval2 → _Mysize/_Bx) and
+ *  returns a quoted string, using SSO buffer for size < 16 or heap pointer otherwise. */
 static juce::String prettyPrintStdString (IDebugSymbolGroup2* group,
                                           IDebugDataSpaces4* dataSpaces,
                                           int symbolIndex) noexcept
@@ -292,6 +317,8 @@ static juce::String prettyPrintStdString (IDebugSymbolGroup2* group,
     return result;
 }
 
+/** Reads MSVC std::unique_ptr internals (_Mypair → _Myval2) to produce "null"
+ *  or a hex address display string. */
 static juce::String prettyPrintUniquePtr (IDebugSymbolGroup2* group, int symbolIndex) noexcept
 {
     juce::String result;
@@ -324,6 +351,8 @@ static juce::String prettyPrintUniquePtr (IDebugSymbolGroup2* group, int symbolI
     return result;
 }
 
+/** Reads MSVC std::vector internals (_Myfirst/_Mylast pointers) and computes
+ *  element count via GetTypeSize; falls back to byte count if type lookup fails. */
 static juce::String prettyPrintVector (IDebugSymbolGroup2* group,
                                        IDebugSymbols3* symbols,
                                        int symbolIndex) noexcept
@@ -418,6 +447,8 @@ static juce::String prettyPrintVector (IDebugSymbolGroup2* group,
 // prettyPrint
 // ---------------------------------------------------------------------------
 
+/** Dispatches to the appropriate per-type formatter based on typeName.
+ *  Returns an empty string if no formatter matches or group/dataSpaces is null. */
 juce::String prettyPrint (IDebugSymbolGroup2* group, IDebugDataSpaces4* dataSpaces,
                            IDebugSymbols3* symbols, int symbolIndex,
                            const juce::String& typeName) noexcept

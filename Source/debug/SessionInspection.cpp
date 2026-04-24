@@ -1,3 +1,11 @@
+/** @file SessionInspection.cpp
+ *  @brief Windows variable inspection and stack frame queries via dbgeng COM API.
+ *
+ *  Platform counterpart to SessionInspection_mac.cpp (macOS liblldb). Implements
+ *  Session methods for DAP variables, scopes, stackTrace, and evaluate requests
+ *  using IDebugSymbols3 and IDebugControl4.
+ */
+
 #include <JuceHeader.h>
 #include "Session.h"
 #include "State.h"
@@ -17,6 +25,7 @@ using dap::DynObj;
 // CaptureOutputCallback — minimal IDebugOutputCallbacks for Execute capture
 // ---------------------------------------------------------------------------
 
+/** Accumulates dbgeng Execute output into a juce::String for in-process consumption. */
 class CaptureOutputCallback : public IDebugOutputCallbacks
 {
 public:
@@ -51,6 +60,9 @@ public:
 // enumerateSymbols — shared symbol iteration for getLocals / getVariableChildren
 // ---------------------------------------------------------------------------
 
+/** Iterates symbols in group whose ParentSymbol matches parentFilter, applies
+ *  prettyPrint, and appends a DAP variable DynObj for each to outVariables.
+ *  Skips compiler-internal names ("<…>", "__vfptr", "leakDetector"). */
 static void enumerateSymbols (IDebugSymbolGroup2* group, IDebugDataSpaces4* dataSpaces,
                               IDebugSymbols3* symbols, ULONG parentFilter,
                               juce::Array<juce::var>& outVariables) noexcept
@@ -115,6 +127,8 @@ static void enumerateSymbols (IDebugSymbolGroup2* group, IDebugDataSpaces4* data
 // Session::getStackTrace
 // ---------------------------------------------------------------------------
 
+/** Calls IDebugControl4::GetStackTrace (up to maxFrames), then resolves each
+ *  frame's function name via GetNameByOffset and source location via GetLineByOffset. */
 juce::Array<juce::var> Session::getStackTrace (int maxFrames) noexcept
 {
     juce::Array<juce::var> frames;
@@ -195,6 +209,8 @@ juce::Array<juce::var> Session::getStackTrace (int maxFrames) noexcept
 // Session::getLocals
 // ---------------------------------------------------------------------------
 
+/** Gets or creates the symbol group for frameIndex and enumerates all top-level
+ *  symbols (parentFilter = DEBUG_ANY_ID). */
 juce::Array<juce::var> Session::getLocals (int frameIndex) noexcept
 {
     juce::Array<juce::var> variables;
@@ -214,6 +230,8 @@ juce::Array<juce::var> Session::getLocals (int frameIndex) noexcept
 // Session::getVariableChildren
 // ---------------------------------------------------------------------------
 
+/** Expands the symbol at symbolIndex via ExpandSymbol then enumerates children
+ *  whose ParentSymbol equals symbolIndex. */
 juce::Array<juce::var> Session::getVariableChildren (int frameIndex, int symbolIndex) noexcept
 {
     juce::Array<juce::var> variables;
@@ -239,6 +257,10 @@ juce::Array<juce::var> Session::getVariableChildren (int frameIndex, int symbolI
 // Session::evaluateExpression
 // ---------------------------------------------------------------------------
 
+/** Evaluates an expression in the scope of frameIndex using the "??" command on
+ *  a secondary IDebugClient to avoid corrupting the main output callback. Strips
+ *  dbgeng formatting artifacts and applies juce::String pretty-print if the result
+ *  contains a juce::String type. */
 juce::String Session::evaluateExpression (const juce::String& expression, int frameIndex) noexcept
 {
     juce::String result;

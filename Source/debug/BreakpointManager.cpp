@@ -1,3 +1,11 @@
+/** @file BreakpointManager.cpp
+ *  @brief Breakpoint lifecycle management — add, remove, resolve, and track.
+ *
+ *  Manages the mapping between DAP breakpoint requests (file:line) and platform
+ *  debug engine breakpoint IDs. Handles deferred resolution for breakpoints set
+ *  before modules are loaded.
+ */
+
 #include <JuceHeader.h>
 #include <cstdint>
 #include "BreakpointManager.h"
@@ -13,6 +21,7 @@ using dap::DynObj;
 // BreakpointManager::BreakpointManager
 // ---------------------------------------------------------------------------
 
+/** Constructs the manager and binds it to the owning Session. */
 BreakpointManager::BreakpointManager (Session& session)
     : session (session)
 {
@@ -22,6 +31,7 @@ BreakpointManager::BreakpointManager (Session& session)
 // BreakpointManager::hasPending
 // ---------------------------------------------------------------------------
 
+/** Returns true if any breakpoints are waiting for a module load before they can resolve. */
 bool BreakpointManager::hasPending () const noexcept
 {
     return not pending.isEmpty ();
@@ -31,6 +41,7 @@ bool BreakpointManager::hasPending () const noexcept
 // BreakpointManager::isUserBreakpoint
 // ---------------------------------------------------------------------------
 
+/** Returns true if engineId belongs to a DAP-managed breakpoint (not an internal engine BP). */
 bool BreakpointManager::isUserBreakpoint (std::uint32_t engineId) const noexcept
 {
     return engineToDap.count (engineId) > 0;
@@ -40,6 +51,9 @@ bool BreakpointManager::isUserBreakpoint (std::uint32_t engineId) const noexcept
 // BreakpointManager::tryResolve
 // ---------------------------------------------------------------------------
 
+/** Attempts to resolve a source location to a code address and create an engine breakpoint.
+ *  Tries the full Windows path first, then the basename as a PDB-relative fallback.
+ *  Returns {engineId, resolvedLine, isSuccess}; on failure all fields are zero/false. */
 // Returns {engineId, resolvedLine, isSuccess}.
 //
 // Resolution strategy (ordered by specificity):
@@ -201,6 +215,8 @@ ResolveResult BreakpointManager::tryResolve (const juce::String& windowsPath,
 // BreakpointManager::onBreakpointHit
 // ---------------------------------------------------------------------------
 
+/** Builds the DAP stopped event body for a breakpoint hit, including the DAP breakpoint ID
+ *  mapped from engineId and the stopping thread. */
 juce::var BreakpointManager::onBreakpointHit (std::uint32_t engineId, std::uint32_t threadId)
 {
     DynObj body { new juce::DynamicObject () };
@@ -225,6 +241,8 @@ juce::var BreakpointManager::onBreakpointHit (std::uint32_t engineId, std::uint3
 // BreakpointManager::onBreakpointLocationsResolved
 // ---------------------------------------------------------------------------
 
+/** Marks a breakpoint verified and updates its resolved line after deferred resolution.
+ *  Returns the DAP breakpoint ID, or 0 if engineId is not tracked. */
 int BreakpointManager::onBreakpointLocationsResolved (std::uint32_t engineId,
                                                       std::uint32_t resolvedLine) noexcept
 {

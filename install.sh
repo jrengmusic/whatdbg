@@ -57,11 +57,8 @@ case "$(uname -s)" in
 
         ARTIFACT="Builds/Ninja/whatdbg_App_artefacts/$CONFIG/whatdbg"
 
-        ~/Documents/Poems/dev/sign.sh --debugger --no-notarize "$ARTIFACT"
-
         echo "Installing..."
         cp "$ARTIFACT" "$INSTALL_DIR/whatdbg"
-        cp "Builds/Ninja/whatdbg_App_artefacts/$CONFIG/liblldb.dylib" "$INSTALL_DIR/liblldb.dylib"
         ;;
     *)
         echo "Unsupported OS: $(uname -s)"

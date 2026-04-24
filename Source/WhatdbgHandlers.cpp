@@ -1,8 +1,19 @@
+/** @file WhatdbgHandlers.cpp
+ *  @brief DAP command handler implementations.
+ *
+ *  Each handler corresponds to a DAP request (initialize, launch, attach,
+ *  setBreakpoints, continue, next, stepIn, stepOut, threads, stackTrace,
+ *  scopes, variables, evaluate, disconnect, etc.). Handlers read the DAP
+ *  request body, delegate to Session, and write the DAP response to stdout.
+ */
+
 #include "Whatdbg.h"
 #include "Log.h"
 
 using dap::DynObj;
 
+/** Responds with adapter capabilities and emits the initialized event to signal
+ *  readiness for configuration requests. */
 void Whatdbg::handleInitialize (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
@@ -10,6 +21,8 @@ void Whatdbg::handleInitialize (const juce::var& request)
     sendEvent (dap::makeEvent ("initialized"));
 }
 
+/** Launches the target executable, configures symbol/source paths from DAP args,
+ *  and transitions state to launching. */
 void Whatdbg::handleLaunch (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
@@ -50,6 +63,8 @@ void Whatdbg::handleLaunch (const juce::var& request)
     }
 }
 
+/** Attaches to a running process by PID, configures paths, and sets the
+ *  appropriate initial execution state (platform-specific: async on Windows, sync on macOS). */
 void Whatdbg::handleAttach (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
@@ -96,20 +111,16 @@ void Whatdbg::handleAttach (const juce::var& request)
         state.initialBreakPhase = debug::InitialBreakPhase::pending;
        #endif
 
-        logWrite ("[diag] handleAttach pid=%u executionState=%d initialBreakPhase=%d\n",
-                  pid,
-                  static_cast<int> (state.executionState),
-                  static_cast<int> (state.initialBreakPhase));
-
         sendResponse (dap::makeResponse (seq, "attach", true));
     }
     else
     {
-        logWrite ("[diag] handleAttach FAILED pid=%u\n", pid);
         sendResponse (dap::makeErrorResponse (seq, "attach", "Failed to attach"));
     }
 }
 
+/** Marks configuration complete; if the target is already stopped at the initial
+ *  break, immediately resolves pending breakpoints and resumes. */
 void Whatdbg::handleConfigurationDone (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
@@ -123,6 +134,8 @@ void Whatdbg::handleConfigurationDone (const juce::var& request)
     sendResponse (dap::makeResponse (seq, "configurationDone", true));
 }
 
+/** Handles disconnect and terminate requests; sets the terminate-on-exit flag
+ *  and clears isRunning to exit the main loop. */
 void Whatdbg::handleDisconnect (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
@@ -132,17 +145,12 @@ void Whatdbg::handleDisconnect (const juce::var& request)
     const bool isTerminate { command == "terminate" };
     shouldTerminateOnExit = isTerminate or static_cast<bool> (args["terminateDebuggee"]);
 
-    logWrite ("[diag] handleDisconnect command=%s isTerminate=%d argsTerminateDebuggee=%d shouldTerminateOnExit=%d isRunning=%d\n",
-              command.toRawUTF8 (),
-              static_cast<int> (isTerminate),
-              static_cast<int> (static_cast<bool> (args["terminateDebuggee"])),
-              static_cast<int> (shouldTerminateOnExit),
-              static_cast<int> (isRunning));
-
     sendResponse (dap::makeResponse (seq, command, true));
     isRunning = false;
 }
 
+/** Delegates the full set-breakpoints operation to BreakpointManager and returns
+ *  the resulting verified/unverified breakpoint list to the client. */
 void Whatdbg::handleSetBreakpoints (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
@@ -162,6 +170,7 @@ void Whatdbg::handleSetBreakpoints (const juce::var& request)
     sendResponse (dap::makeResponse (seq, "setBreakpoints", true, juce::var (body)));
 }
 
+/** Queries the Session for the current thread list and returns it to the client. */
 void Whatdbg::handleThreads (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
@@ -173,6 +182,8 @@ void Whatdbg::handleThreads (const juce::var& request)
     sendResponse (dap::makeResponse (seq, "threads", true, juce::var (body)));
 }
 
+/** Fetches up to 50 stack frames for the requested thread, assigns unique DAP
+ *  frame IDs, and records the (threadId, frameIndex) mapping for later scope/variable lookups. */
 void Whatdbg::handleStackTrace (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
@@ -204,6 +215,8 @@ void Whatdbg::handleStackTrace (const juce::var& request)
     sendResponse (dap::makeResponse (seq, "stackTrace", true, juce::var (body)));
 }
 
+/** Decodes the DAP frameId to a (threadSystemId, frameIndex) pair, allocates a
+ *  variablesReference for the Locals scope, and returns the scope array. */
 void Whatdbg::handleScopes (const juce::var& request)
 {
     const int seq     { static_cast<int> (request["seq"]) };
@@ -242,6 +255,8 @@ void Whatdbg::handleScopes (const juce::var& request)
     sendResponse (dap::makeResponse (seq, "scopes", true, juce::var (body)));
 }
 
+/** Resolves a variablesReference to either locals or children of a symbol, maps
+ *  expandable children to new references, and returns the DAP variable array. */
 void Whatdbg::handleVariables (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
@@ -302,6 +317,8 @@ void Whatdbg::handleVariables (const juce::var& request)
     sendResponse (dap::makeResponse (seq, "variables", true, juce::var (body)));
 }
 
+/** Resumes the target, clears pending step/pause flags, and responds with
+ *  allThreadsContinued. */
 void Whatdbg::handleContinue (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
@@ -316,6 +333,8 @@ void Whatdbg::handleContinue (const juce::var& request)
     sendResponse (dap::makeResponse (seq, "continue", true, juce::var (body)));
 }
 
+/** Issues a step-over to the Session and arms the step-pending flag for event
+ *  detection in the poll loop. */
 void Whatdbg::handleNext (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
@@ -328,6 +347,7 @@ void Whatdbg::handleNext (const juce::var& request)
     sendResponse (dap::makeResponse (seq, "next", true));
 }
 
+/** Issues a step-into to the Session and arms the step-pending flag. */
 void Whatdbg::handleStepIn (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
@@ -340,6 +360,8 @@ void Whatdbg::handleStepIn (const juce::var& request)
     sendResponse (dap::makeResponse (seq, "stepIn", true));
 }
 
+/** Issues a step-out to the Session and arms the step-pending flag; completion
+ *  is detected via an internal breakpoint hit in processDeferredEvents. */
 void Whatdbg::handleStepOut (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
@@ -351,6 +373,8 @@ void Whatdbg::handleStepOut (const juce::var& request)
     sendResponse (dap::makeResponse (seq, "stepOut", true));
 }
 
+/** Sends an async interrupt to the target process and arms the pause-pending flag
+ *  for stopped-event emission in the poll loop. */
 void Whatdbg::handlePause (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
@@ -361,6 +385,8 @@ void Whatdbg::handlePause (const juce::var& request)
     sendResponse (dap::makeResponse (seq, "pause", true));
 }
 
+/** Returns the last captured exception code, address, and break mode from the
+ *  adapter state; used by the client after a stopped-on-exception event. */
 void Whatdbg::handleExceptionInfo (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
@@ -377,6 +403,8 @@ void Whatdbg::handleExceptionInfo (const juce::var& request)
     sendResponse (dap::makeResponse (seq, "exceptionInfo", true, juce::var (body)));
 }
 
+/** Evaluates an expression in the context of the given frame, decoding the DAP
+ *  frameId to (threadSystemId, frameIndex) before delegating to the Session. */
 void Whatdbg::handleEvaluate (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };

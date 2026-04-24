@@ -1,3 +1,11 @@
+/** @file SessionPrettyPrint_mac.cpp
+ *  @brief macOS pretty-print formatters for common C++ types via liblldb SB API.
+ *
+ *  Platform counterpart to SessionPrettyPrint.cpp (Windows dbgeng). Provides
+ *  human-readable display strings for juce::String, std::unique_ptr, and other
+ *  types that liblldb's default formatters don't handle well in DAP context.
+ */
+
 #include <JuceHeader.h>
 #include "Session.h"
 #include "PrettyPrint.h"
@@ -133,6 +141,9 @@ static juce::String prettyPrintUniquePtr (lldb::SBValue& value) noexcept
 // prettyPrint
 // ---------------------------------------------------------------------------
 
+/** Dispatches to the appropriate type-specific formatter based on typeName.
+ *  Returns an empty string when no formatter matches, signalling callers to use the raw value.
+ */
 juce::String prettyPrint (lldb::SBValue& value, const juce::String& typeName) noexcept
 {
     juce::String result;

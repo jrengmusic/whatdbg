@@ -1,3 +1,11 @@
+/** @file Callbacks.cpp
+ *  @brief Windows dbgeng COM callback implementations.
+ *
+ *  Implements IDebugEventCallbacksWide and IDebugOutputCallbacksWide for the
+ *  dbgeng COM event model. Callbacks fire on the dbgeng thread — they store
+ *  deferred flags on State and never write to stdout (main thread owns stdout).
+ */
+
 #include <JuceHeader.h>
 #include "Callbacks.h"
 #include "State.h"
@@ -11,6 +19,7 @@ static constexpr DWORD MS_VC_EXCEPTION { 0x406D1388 };
 
 using ExceptionHandler = HRESULT (*) (debug::State*, PEXCEPTION_RECORD64, ULONG firstChance);
 
+/** Handles EXCEPTION_BREAKPOINT — advances initialBreakPhase and stops execution. */
 static HRESULT handleBreakpoint (debug::State* state, PEXCEPTION_RECORD64 /*exception*/, ULONG /*firstChance*/)
 {
     if (state->initialBreakPhase == debug::InitialBreakPhase::notHit)
@@ -20,11 +29,14 @@ static HRESULT handleBreakpoint (debug::State* state, PEXCEPTION_RECORD64 /*exce
     return DEBUG_STATUS_BREAK;
 }
 
+/** Handles MS_VC_EXCEPTION (0x406D1388) thread-name notification — passes through unhandled. */
 static HRESULT handleThreadName (debug::State* /*state*/, PEXCEPTION_RECORD64 /*exception*/, ULONG /*firstChance*/)
 {
     return DEBUG_STATUS_GO_NOT_HANDLED;
 }
 
+/** Handles all other exceptions — passes first-chance through, breaks on second-chance
+ *  and records exception code and address on State for DAP stopped event surfacing. */
 static HRESULT handleUnknownException (debug::State* state, PEXCEPTION_RECORD64 exception, ULONG firstChance)
 {
     HRESULT result { DEBUG_STATUS_BREAK };
@@ -77,6 +89,7 @@ static const std::unordered_map<DWORD, const char*> exceptionNames
 namespace debug
 {
 
+/** Returns a human-readable name for a Windows exception code, or a hex string if unknown. */
 juce::String getExceptionName (std::uint32_t code) noexcept
 {
     juce::String result { juce::String ("0x") + juce::String::toHexString (static_cast<juce::int64> (code)) };
@@ -93,17 +106,20 @@ juce::String getExceptionName (std::uint32_t code) noexcept
 // OutputCallbacks — IUnknown
 //==============================================================================
 
+/** Increments the COM reference count. */
 ULONG OutputCallbacks::AddRef ()
 {
     return ++refCount;
 }
 
+/** Decrements the COM reference count. Does not delete — lifetime is stack-managed. */
 ULONG OutputCallbacks::Release ()
 {
     const ULONG remaining { --refCount };
     return remaining;
 }
 
+/** Returns the requested interface pointer for IUnknown, IDebugOutputCallbacks, or IDebugOutputCallbacks2. */
 HRESULT OutputCallbacks::QueryInterface (REFIID interfaceId, PVOID* outInterface)
 {
     HRESULT result { E_NOINTERFACE };
@@ -135,6 +151,7 @@ HRESULT OutputCallbacks::QueryInterface (REFIID interfaceId, PVOID* outInterface
 // OutputCallbacks — IDebugOutputCallbacks
 //==============================================================================
 
+/** Receives narrow-char debugger output and routes it to the log file. */
 HRESULT OutputCallbacks::Output (ULONG /*mask*/, PCSTR text)
 {
     logWrite ("%s", text);
@@ -145,12 +162,14 @@ HRESULT OutputCallbacks::Output (ULONG /*mask*/, PCSTR text)
 // OutputCallbacks — IDebugOutputCallbacks2
 //==============================================================================
 
+/** Reports interest in all output formats so Output2 receives wide-char text. */
 HRESULT OutputCallbacks::GetInterestMask (PULONG mask)
 {
     *mask = DEBUG_OUTCBI_ANY_FORMAT;
     return S_OK;
 }
 
+/** Receives wide-char output; captures debuggee stdout text onto State for main-thread pickup. */
 HRESULT OutputCallbacks::Output2 (ULONG which, ULONG flags, ULONG64 arg, PCWSTR text)
 {
     juce::ignoreUnused (flags);
@@ -177,17 +196,20 @@ HRESULT OutputCallbacks::Output2 (ULONG which, ULONG flags, ULONG64 arg, PCWSTR 
 // EventCallbacks — IUnknown
 //==============================================================================
 
+/** Increments the COM reference count. */
 ULONG EventCallbacks::AddRef ()
 {
     return ++refCount;
 }
 
+/** Decrements the COM reference count. Does not delete — lifetime is stack-managed. */
 ULONG EventCallbacks::Release ()
 {
     const ULONG remaining { --refCount };
     return remaining;
 }
 
+/** Returns the requested interface pointer for IUnknown or IDebugEventCallbacks. */
 HRESULT EventCallbacks::QueryInterface (REFIID interfaceId, PVOID* outInterface)
 {
     HRESULT result { E_NOINTERFACE };
@@ -213,6 +235,8 @@ HRESULT EventCallbacks::QueryInterface (REFIID interfaceId, PVOID* outInterface)
 // EventCallbacks — IDebugEventCallbacks
 //==============================================================================
 
+/** Declares the set of dbgeng events this object handles — breakpoint, exception,
+ *  process create/exit, and module load. */
 HRESULT EventCallbacks::GetInterestMask (PULONG mask)
 {
     *mask = DEBUG_EVENT_BREAKPOINT
@@ -223,6 +247,7 @@ HRESULT EventCallbacks::GetInterestMask (PULONG mask)
     return S_OK;
 }
 
+/** Fires when the engine hits a breakpoint — records engineId on State and stops execution. */
 HRESULT EventCallbacks::Breakpoint (PDEBUG_BREAKPOINT bp)
 {
     auto* state { State::getContext () };
@@ -242,6 +267,7 @@ HRESULT EventCallbacks::Breakpoint (PDEBUG_BREAKPOINT bp)
     return DEBUG_STATUS_BREAK;
 }
 
+/** Dispatches the exception to its registered handler, or handleUnknownException as fallback. */
 HRESULT EventCallbacks::Exception (PEXCEPTION_RECORD64 exception, ULONG firstChance)
 {
     logWrite ("WHATDBG: Exception code=0x%08lX firstChance=%lu\n",
@@ -256,18 +282,21 @@ HRESULT EventCallbacks::Exception (PEXCEPTION_RECORD64 exception, ULONG firstCha
     return handler (State::getContext (), exception, firstChance);
 }
 
+/** Thread creation notification — logged, no state change. */
 HRESULT EventCallbacks::CreateThread (ULONG64 /*handle*/, ULONG64 /*dataOffset*/, ULONG64 /*startOffset*/)
 {
     logWrite ("WHATDBG: CreateThread\n");
     return DEBUG_STATUS_NO_CHANGE;
 }
 
+/** Thread exit notification — logged, no state change. */
 HRESULT EventCallbacks::ExitThread (ULONG /*exitCode*/)
 {
     logWrite ("WHATDBG: ExitThread\n");
     return DEBUG_STATUS_NO_CHANGE;
 }
 
+/** Process creation notification — extracts PID from the process handle and stores it on State. */
 HRESULT EventCallbacks::CreateProcess (ULONG64 /*imageFileHandle*/, ULONG64 handle,
                                        ULONG64 /*baseOffset*/, ULONG /*moduleSize*/,
                                        PCSTR moduleName, PCSTR /*imageName*/,
@@ -287,6 +316,7 @@ HRESULT EventCallbacks::CreateProcess (ULONG64 /*imageFileHandle*/, ULONG64 hand
     return DEBUG_STATUS_NO_CHANGE;
 }
 
+/** Process exit notification — records exit code on State and transitions executionState to exited. */
 HRESULT EventCallbacks::ExitProcess (ULONG exitCode)
 {
     logWrite ("WHATDBG: ExitProcess: code=%lu\n", static_cast<unsigned long> (exitCode));
@@ -296,6 +326,8 @@ HRESULT EventCallbacks::ExitProcess (ULONG exitCode)
     return DEBUG_STATUS_NO_CHANGE;
 }
 
+/** Module load notification — sets hasNewModuleLoaded on State; breaks if pending breakpoints
+ *  exist so the main loop can safely call tryResolve. */
 HRESULT EventCallbacks::LoadModule (ULONG64 /*imageFileHandle*/, ULONG64 /*baseOffset*/,
                                     ULONG /*moduleSize*/, PCSTR moduleName, PCSTR imageName,
                                     ULONG /*checkSum*/, ULONG /*timeDateStamp*/)
@@ -319,36 +351,42 @@ HRESULT EventCallbacks::LoadModule (ULONG64 /*imageFileHandle*/, ULONG64 /*baseO
     return result;
 }
 
+/** Module unload notification — logged, no state change. */
 HRESULT EventCallbacks::UnloadModule (PCSTR /*imageBaseName*/, ULONG64 /*baseOffset*/)
 {
     logWrite ("WHATDBG: UnloadModule\n");
     return DEBUG_STATUS_NO_CHANGE;
 }
 
+/** System error notification — logged, no state change. */
 HRESULT EventCallbacks::SystemError (ULONG /*error*/, ULONG /*level*/)
 {
     logWrite ("WHATDBG: SystemError\n");
     return DEBUG_STATUS_NO_CHANGE;
 }
 
+/** Session status change notification — logged, no state change. */
 HRESULT EventCallbacks::SessionStatus (ULONG /*status*/)
 {
     logWrite ("WHATDBG: SessionStatus\n");
     return DEBUG_STATUS_NO_CHANGE;
 }
 
+/** Debuggee state change notification — logged, no state change. */
 HRESULT EventCallbacks::ChangeDebuggeeState (ULONG /*flags*/, ULONG64 /*argument*/)
 {
     logWrite ("WHATDBG: ChangeDebuggeeState\n");
     return DEBUG_STATUS_NO_CHANGE;
 }
 
+/** Engine state change notification — logged, no state change. */
 HRESULT EventCallbacks::ChangeEngineState (ULONG /*flags*/, ULONG64 /*argument*/)
 {
     logWrite ("WHATDBG: ChangeEngineState\n");
     return DEBUG_STATUS_NO_CHANGE;
 }
 
+/** Symbol state change notification — logged, no state change. */
 HRESULT EventCallbacks::ChangeSymbolState (ULONG /*flags*/, ULONG64 /*argument*/)
 {
     logWrite ("WHATDBG: ChangeSymbolState\n");

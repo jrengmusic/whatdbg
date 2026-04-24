@@ -1,3 +1,12 @@
+/** @file SessionInspection_mac.cpp
+ *  @brief macOS variable inspection and stack frame queries via liblldb SB API.
+ *
+ *  Platform counterpart to SessionInspection.cpp (Windows dbgeng). Implements
+ *  Session methods for DAP variables, scopes, stackTrace, and evaluate requests.
+ *  Uses SBFrame::GetVariables for locals/args, SBValue tree for structured
+ *  inspection, and SBFrame::EvaluateExpression for watch/hover evaluation.
+ */
+
 #include <JuceHeader.h>
 #include "Session.h"
 #include "PrettyPrint.h"
@@ -14,6 +23,9 @@ using dap::DynObj;
 // shouldSkipSymbol
 // ---------------------------------------------------------------------------
 
+/** Returns true for internal or compiler-generated symbols that should be hidden from DAP responses.
+ *  Filters JUCE leak detectors, vtable pointers, anonymous compiler temporaries, and sentinel symbols.
+ */
 static bool shouldSkipSymbol (const juce::String& name) noexcept
 {
     return name.startsWithChar ('<')
@@ -26,6 +38,9 @@ static bool shouldSkipSymbol (const juce::String& name) noexcept
 // Session::ensureFrameVariablesCache
 // ---------------------------------------------------------------------------
 
+/** Populates cachedFrameVariables from the selected thread's frame at frameIndex if not already cached.
+ *  GetVariables(true,true,true,true) fetches locals, args, statics, and in-scope variables.
+ */
 void Session::ensureFrameVariablesCache (int frameIndex) noexcept
 {
     if (cachedFrameIndex != frameIndex)
@@ -40,6 +55,9 @@ void Session::ensureFrameVariablesCache (int frameIndex) noexcept
 // Session::makeVariableDynObj
 // ---------------------------------------------------------------------------
 
+/** Converts a single SBValue into a DAP-compatible DynObj with name, value, type, hasChildren, and symbolIndex.
+ *  Prefers prettyPrint output over raw GetValue/GetSummary; falls back to "<unavailable>" on empty.
+ */
 juce::var Session::makeVariableDynObj (lldb::SBValue& value, int symbolIndex) noexcept
 {
     const char* rawType { value.GetTypeName () };
@@ -79,6 +97,9 @@ juce::var Session::makeVariableDynObj (lldb::SBValue& value, int symbolIndex) no
 // Session::getStackTrace
 // ---------------------------------------------------------------------------
 
+/** Returns up to maxFrames DAP stackFrame objects from the selected thread.
+ *  Each entry includes id, name, and a source sub-object with file name and path from DWARF line entries.
+ */
 juce::Array<juce::var> Session::getStackTrace (int maxFrames) noexcept
 {
     // BLESSED L: 38 lines. Null-safe const char* → juce::String + source sub-object
@@ -126,6 +147,9 @@ juce::Array<juce::var> Session::getStackTrace (int maxFrames) noexcept
 // Session::getLocals
 // ---------------------------------------------------------------------------
 
+/** Returns DAP variable objects for all non-skipped locals and args in the given frame.
+ *  Delegates to ensureFrameVariablesCache then filters via shouldSkipSymbol.
+ */
 juce::Array<juce::var> Session::getLocals (int frameIndex) noexcept
 {
     juce::Array<juce::var> result;
@@ -151,6 +175,9 @@ juce::Array<juce::var> Session::getLocals (int frameIndex) noexcept
 // Session::getVariableChildren
 // ---------------------------------------------------------------------------
 
+/** Expands the SBValue at symbolIndex and returns DAP objects for its non-skipped children.
+ *  Used by the DAP variables request when the client expands a structured value.
+ */
 juce::Array<juce::var> Session::getVariableChildren (int frameIndex, int symbolIndex) noexcept
 {
     juce::Array<juce::var> result;
@@ -183,6 +210,9 @@ juce::Array<juce::var> Session::getVariableChildren (int frameIndex, int symbolI
 // Session::evaluateExpression
 // ---------------------------------------------------------------------------
 
+/** Evaluates an arbitrary expression in the given frame via SBFrame::EvaluateExpression.
+ *  Returns prettyPrint output, raw value, summary, or an error string on failure.
+ */
 juce::String Session::evaluateExpression (const juce::String& expression, int frameIndex) noexcept
 {
     juce::String result;

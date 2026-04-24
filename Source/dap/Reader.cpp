@@ -1,3 +1,10 @@
+/** @file Reader.cpp
+ *  @brief DAP stdin reader — background thread parsing Content-Length-framed JSON.
+ *
+ *  Runs a dedicated thread that reads DAP messages from stdin following the
+ *  Debug Adapter Protocol wire format (Content-Length header + JSON body).
+ *  Parsed messages are queued into a thread-safe FIFO consumed by the main thread.
+ */
 #include <JuceHeader.h>
 #include "Reader.h"
 #include "../Log.h"
@@ -12,17 +19,20 @@
 namespace dap
 {
 
+/** @brief Constructs the reader and preallocates the FIFO backing storage. */
 Reader::Reader ()
     : juce::Thread { "dap::Reader" }
 {
     storage.resize (fifoCapacity);
 }
 
+/** @brief Stops the background thread before destruction. */
 Reader::~Reader ()
 {
     stop ();
 }
 
+/** @brief Switches stdin to binary mode on Windows and starts the reader thread. */
 void Reader::start ()
 {
 #if JUCE_WINDOWS
@@ -32,6 +42,7 @@ void Reader::start ()
     startThread ();
 }
 
+/** @brief Signals the thread to exit, closes stdin to unblock any pending read, and joins. */
 void Reader::stop ()
 {
     signalThreadShouldExit ();
@@ -47,6 +58,9 @@ void Reader::stop ()
     stopThread (2000);
 }
 
+/** @brief Attempts a non-blocking dequeue of the next parsed DAP message.
+ *  @return True if a message was dequeued into @p outMessage, false if the FIFO was empty.
+ */
 bool Reader::tryPop (juce::var& outMessage) noexcept
 {
     bool hasMessage { false };
@@ -61,6 +75,13 @@ bool Reader::tryPop (juce::var& outMessage) noexcept
     return hasMessage;
 }
 
+/** @brief Thread body — reads Content-Length-framed DAP messages from stdin and enqueues them.
+ *
+ *  Each iteration parses the header block (Content-Length line + blank separator),
+ *  reads the exact body byte count, parses the JSON, and pushes into the FIFO.
+ *  Drops messages silently when the FIFO is full and logs the drop.
+ *  Exits when @c threadShouldExit() is set or stdin reaches EOF/error.
+ */
 void Reader::run ()
 {
     bool isConnected { true };

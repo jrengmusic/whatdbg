@@ -1,3 +1,16 @@
+/** @file Session_mac.cpp
+ *  @brief macOS debug session implementation using LLVM's liblldb SB API.
+ *
+ *  Platform counterpart to Session.cpp (Windows dbgeng). Implements the Session
+ *  interface declared in Session.h using lldb::SBDebugger, SBTarget, SBProcess,
+ *  SBThread, and SBFrame.
+ *
+ *  Threading model: single-threaded. All SB API calls happen on the main thread.
+ *  Event polling via SBListener::WaitForEvent drives the deferred-event state
+ *  machine defined in Session.h (State struct).
+ *
+ *  Lifecycle: initialize → (launch | attach) → pollEvents loop → shutdown.
+ */
 #include <JuceHeader.h>
 #include "Session.h"
 #include "State.h"
@@ -16,6 +29,7 @@ namespace debug
 // Stop-reason handlers (TU-local)
 // ---------------------------------------------------------------------------
 
+/** Handle breakpoint stop — read hit breakpoint ID from stop data index 0, set stopped state. */
 static void handleBreakpointStop (debug::State* state, lldb::SBThread& thread) noexcept
 {
     state->hasBreakpointHit = true;
@@ -24,6 +38,7 @@ static void handleBreakpointStop (debug::State* state, lldb::SBThread& thread) n
     state->executionState = debug::ExecutionState::stopped;
 }
 
+/** Handle step-complete stop (eStopReasonTrace / eStopReasonPlanComplete) — signal step done, set stopped state. */
 static void handleStepStop (debug::State* state, lldb::SBThread& thread) noexcept
 {
     juce::ignoreUnused (thread);
@@ -31,12 +46,14 @@ static void handleStepStop (debug::State* state, lldb::SBThread& thread) noexcep
     state->executionState = debug::ExecutionState::stopped;
 }
 
+/** Handle async-interrupt stop — transition execution state to stopped; no hit data to record. */
 static void handleInterruptStop (debug::State* state, lldb::SBThread& thread) noexcept
 {
     juce::ignoreUnused (thread);
     state->executionState = debug::ExecutionState::stopped;
 }
 
+/** Handle POSIX signal stop — record signal number and faulting PC as a non-Mach exception. */
 static void handleSignalStop (debug::State* state, lldb::SBThread& thread) noexcept
 {
     state->hasExceptionStopped = true;
@@ -47,6 +64,7 @@ static void handleSignalStop (debug::State* state, lldb::SBThread& thread) noexc
     state->executionState      = debug::ExecutionState::stopped;
 }
 
+/** Handle Mach exception stop — record exception code and faulting PC, flag as Mach-layer fault. */
 static void handleExceptionStop (debug::State* state, lldb::SBThread& thread) noexcept
 {
     state->hasExceptionStopped = true;
@@ -63,6 +81,7 @@ static void handleExceptionStop (debug::State* state, lldb::SBThread& thread) no
 
 static constexpr std::size_t stdioReadBufferSize { 1024 };
 
+/** Drain available stdout or stderr from the process into State::debuggeeOutputText in a read loop. */
 static void drainProcessStdio (debug::State* state,
                                lldb::SBProcess& process,
                                bool isStderr) noexcept
@@ -78,9 +97,6 @@ static void drainProcessStdio (debug::State* state,
 
         if (bytesRead > 0)
         {
-            logWrite ("[diag] drainProcessStdio %s bytesRead=%zu\n",
-                      isStderr ? "STDERR" : "STDOUT",
-                      bytesRead);
             state->debuggeeOutputText += juce::String (juce::CharPointer_UTF8 (buffer),
                                                        juce::CharPointer_UTF8 (buffer + bytesRead));
             state->hasDebuggeeOutput   = true;
@@ -105,23 +121,12 @@ static const std::unordered_map<lldb::StopReason,
 // Broadcaster-level dispatch (TU-local)
 // ---------------------------------------------------------------------------
 
+/** Dispatch a process broadcaster event — drain stdio, then fan out by process state or stop reason. */
 static void handleProcessEvent (debug::State* state,
                                 lldb::SBProcess& process,
                                 lldb::SBEvent& event) noexcept
 {
     const std::uint32_t mask { event.GetType () };
-
-    {
-        const auto diagProcState { lldb::SBProcess::GetStateFromEvent (event) };
-        auto       diagSelThread { process.GetSelectedThread () };
-        const auto diagStopReason { diagSelThread.IsValid () ? diagSelThread.GetStopReason ()
-                                                             : lldb::eStopReasonInvalid };
-        logWrite ("[diag] handleProcessEvent mask=0x%x state=%d stopReason=%d initialBreakPhase=%d\n",
-                  mask,
-                  static_cast<int> (diagProcState),
-                  static_cast<int> (diagStopReason),
-                  static_cast<int> (state->initialBreakPhase));
-    }
 
     if ((mask bitand lldb::SBProcess::eBroadcastBitSTDOUT) != 0)
     {
@@ -177,6 +182,7 @@ static void handleProcessEvent (debug::State* state,
     }
 }
 
+/** Handle breakpoint broadcaster event — on locations-resolved/added, extract resolved line and engine ID into State. */
 static void handleBreakpointEvent (debug::State* state, lldb::SBEvent& event) noexcept
 {
     const auto eventType { lldb::SBBreakpoint::GetBreakpointEventTypeFromEvent (event) };
@@ -200,6 +206,7 @@ static void handleBreakpointEvent (debug::State* state, lldb::SBEvent& event) no
     }
 }
 
+/** Handle target broadcaster event — on eBroadcastBitModulesLoaded, record the first loaded module filename in State. */
 static void handleTargetEvent (debug::State* state, lldb::SBEvent& event) noexcept
 {
     const std::uint32_t mask { event.GetType () };
@@ -224,6 +231,7 @@ static void handleTargetEvent (debug::State* state, lldb::SBEvent& event) noexce
 // Session::~Session
 // ---------------------------------------------------------------------------
 
+/** Destructor — passive shutdown: destroys SBDebugger without killing or detaching the target. */
 Session::~Session ()
 {
     shutdown (EndMode::passive);
@@ -233,6 +241,7 @@ Session::~Session ()
 // Session::initialize
 // ---------------------------------------------------------------------------
 
+/** Initialize the debug session — create SBDebugger in async mode, redirect stdin to /dev/null, acquire listener. */
 bool Session::initialize (const juce::File& sidecarDir) noexcept
 {
     juce::ignoreUnused (sidecarDir);
@@ -255,6 +264,7 @@ bool Session::initialize (const juce::File& sidecarDir) noexcept
 // Session::launch
 // ---------------------------------------------------------------------------
 
+/** Launch the target under the debugger — creates target, subscribes listener, launches with eLaunchFlagStopAtEntry. */
 bool Session::launch (const juce::String& program) noexcept
 {
     target = debugger.CreateTarget (program.toRawUTF8 ());
@@ -284,6 +294,7 @@ bool Session::launch (const juce::String& program) noexcept
 // Session::attach
 // ---------------------------------------------------------------------------
 
+/** Attach to a running process by PID — creates an empty target, attaches via listener, records PID in State. */
 bool Session::attach (std::uint32_t processId) noexcept
 {
     target = debugger.CreateTarget ("");
@@ -296,13 +307,6 @@ bool Session::attach (std::uint32_t processId) noexcept
         process = target.AttachToProcessWithID (listener,
                                                 static_cast<lldb::pid_t> (processId),
                                                 error);
-
-        logWrite ("[diag] Session::attach pid=%u errSuccess=%d errCString='%s' processValid=%d processState=%d\n",
-                  processId,
-                  static_cast<int> (error.Success ()),
-                  error.GetCString () ? error.GetCString () : "(null)",
-                  static_cast<int> (process.IsValid ()),
-                  process.IsValid () ? static_cast<int> (process.GetState ()) : -1);
 
         if (error.Success () and process.IsValid ())
         {
@@ -317,6 +321,7 @@ bool Session::attach (std::uint32_t processId) noexcept
 // Session::resume
 // ---------------------------------------------------------------------------
 
+/** Resume execution — forwards to SBProcess::Continue. */
 void Session::resume () noexcept
 {
     process.Continue ();
@@ -326,6 +331,7 @@ void Session::resume () noexcept
 // Session::pollEvents
 // ---------------------------------------------------------------------------
 
+/** Poll the SBListener for one event (non-blocking, timeout=0) and dispatch to the appropriate handler. */
 juce::Result Session::pollEvents (std::uint32_t timeoutMs, bool& outHadEvent) noexcept
 {
     // D-5-A: WaitForEvent takes seconds (uint32_t); caller's ms-granularity timeout doesn't map.
@@ -361,46 +367,32 @@ juce::Result Session::pollEvents (std::uint32_t timeoutMs, bool& outHadEvent) no
 // Session::shutdown
 // ---------------------------------------------------------------------------
 
+/** Shut down the session — terminate via SIGKILL, detach, or passive destroy depending on EndMode. */
 void Session::shutdown (EndMode mode) noexcept
 {
-    logWrite ("[diag] Session::shutdown entry mode=%d processValid=%d processState=%d\n",
-              static_cast<int> (mode),
-              static_cast<int> (process.IsValid ()),
-              process.IsValid () ? static_cast<int> (process.GetState ()) : -1);
-
     switch (mode)
     {
         case EndMode::terminate:
         {
             const auto pid { State::getContext ()->targetProcessId };
-            logWrite ("[diag] Session::shutdown posix kill pid=%u\n", pid);
 
             if (pid != 0)
             {
-                const int rc         { ::kill (static_cast<pid_t> (pid), SIGKILL) };
-                const int savedErrno { errno };
-                logWrite ("[diag] Session::shutdown kill rc=%d errno=%d\n", rc, savedErrno);
+                ::kill (static_cast<pid_t> (pid), SIGKILL);
             }
             break;
         }
         case EndMode::detach:
-            logWrite ("[diag] Session::shutdown calling process.Detach()\n");
             if (process.IsValid ())
             {
-                const auto detachErr { process.Detach () };
-                logWrite ("[diag] Session::shutdown Detach result success=%d err='%s' postState=%d\n",
-                          static_cast<int> (detachErr.Success ()),
-                          detachErr.GetCString () ? detachErr.GetCString () : "(null)",
-                          static_cast<int> (process.GetState ()));
+                process.Detach ();
             }
             break;
         case EndMode::passive:
         default:
-            logWrite ("[diag] Session::shutdown passive (no action on process)\n");
             break;
     }
 
-    logWrite ("[diag] Session::shutdown calling SBDebugger::Destroy + Terminate\n");
     lldb::SBDebugger::Destroy (debugger);
     lldb::SBDebugger::Terminate ();
 }
@@ -409,16 +401,19 @@ void Session::shutdown (EndMode mode) noexcept
 // Session::stepOver / stepInto / stepOut / interrupt
 // ---------------------------------------------------------------------------
 
+/** Step over the current source line on the selected thread, staying within the current frame. */
 void Session::stepOver () noexcept
 {
     process.GetSelectedThread ().StepOver (lldb::eOnlyDuringStepping);
 }
 
+/** Step into the next call on the selected thread. */
 void Session::stepInto () noexcept
 {
     process.GetSelectedThread ().StepInto ();
 }
 
+/** Step out of the current frame — uses StepOutOfFrame so the exact return address is the step target. */
 void Session::stepOut () noexcept
 {
     auto thread { process.GetSelectedThread () };
@@ -426,6 +421,7 @@ void Session::stepOut () noexcept
     thread.StepOutOfFrame (frame);
 }
 
+/** Async-interrupt the running process — processId unused on macOS; SBProcess already holds the target. */
 void Session::interrupt (std::uint32_t processId) noexcept
 {
     // macOS: the bound process member already knows the target; processId is unused.
@@ -437,6 +433,7 @@ void Session::interrupt (std::uint32_t processId) noexcept
 // Session::addBreakpoint / removeBreakpoint
 // ---------------------------------------------------------------------------
 
+/** Set a breakpoint at an absolute load address — assigns outEngineId to the SBBreakpoint ID on success. */
 juce::Result Session::addBreakpoint (std::uint64_t offset, std::uint32_t* outEngineId) noexcept
 {
     jassert (outEngineId != nullptr);
@@ -452,6 +449,7 @@ juce::Result Session::addBreakpoint (std::uint64_t offset, std::uint32_t* outEng
     return result;
 }
 
+/** Set a source-level breakpoint; writes engine ID and DWARF-resolved line to out-params (0 if unresolved at call time). */
 juce::Result Session::addBreakpointByLocation (const juce::String& filePath,
                                                std::uint32_t       line,
                                                std::uint32_t*      outEngineId,
@@ -490,6 +488,7 @@ juce::Result Session::addBreakpointByLocation (const juce::String& filePath,
     return result;
 }
 
+/** Remove a breakpoint by its SBBreakpoint ID — forwards to SBTarget::BreakpointDelete. */
 juce::Result Session::removeBreakpoint (std::uint32_t engineId) noexcept
 {
     const bool removed { target.BreakpointDelete (static_cast<lldb::break_id_t> (engineId)) };
@@ -501,6 +500,7 @@ juce::Result Session::removeBreakpoint (std::uint32_t engineId) noexcept
 // Session::getOffsetByLine / getLineByOffset
 // ---------------------------------------------------------------------------
 
+/** Walk all loaded modules' compile units via DWARF to find the load address for a given source line. */
 debug::ResolveStatus Session::getOffsetByLine (const juce::String& filePath,
                                                std::uint32_t       line,
                                                std::uint64_t*      outOffset) noexcept
@@ -543,6 +543,7 @@ debug::ResolveStatus Session::getOffsetByLine (const juce::String& filePath,
     return status;
 }
 
+/** Resolve a load address to source file and line via SBAddress::GetLineEntry. */
 juce::Result Session::getLineByOffset (std::uint64_t offset,
                                        juce::String& outFilePath,
                                        std::uint32_t* outLine) noexcept
@@ -566,6 +567,7 @@ juce::Result Session::getLineByOffset (std::uint64_t offset,
 // Session::loadModuleSymbols / forceReloadAllSymbols
 // ---------------------------------------------------------------------------
 
+/** No-op on macOS — liblldb loads symbols automatically on module-load events. */
 juce::Result Session::loadModuleSymbols (const juce::String& imageName) noexcept
 {
     // WHY: liblldb loads symbols on module-load events automatically; no explicit reload needed (PLAN A.1, Phase 3.5).
@@ -573,6 +575,7 @@ juce::Result Session::loadModuleSymbols (const juce::String& imageName) noexcept
     return juce::Result::ok ();
 }
 
+/** No-op on macOS — liblldb loads symbols automatically on module-load events. */
 juce::Result Session::forceReloadAllSymbols () noexcept
 {
     // WHY: liblldb loads symbols on module-load events automatically; no explicit reload needed (PLAN A.1, Phase 3.5).
@@ -583,12 +586,14 @@ juce::Result Session::forceReloadAllSymbols () noexcept
 // Session::appendSymbolPath / appendSourcePath
 // ---------------------------------------------------------------------------
 
+/** Append a directory to target.debug-file-search-paths via the LLDB command interpreter. */
 void Session::appendSymbolPath (const juce::String& path) noexcept
 {
     const juce::String command { "settings append target.debug-file-search-paths " + path };
     debugger.HandleCommand (command.toRawUTF8 ());
 }
 
+/** Set target.source-map "." → path via command interpreter; mirrors lldb-dap single-root remap convention. */
 void Session::appendSourcePath (const juce::String& path) noexcept
 {
     // LLDB has no additive source search path; target.source-map is from->to remap.
@@ -602,6 +607,7 @@ void Session::appendSourcePath (const juce::String& path) noexcept
 // Session::getThreads
 // ---------------------------------------------------------------------------
 
+/** Build a DAP threads array from all SBProcess threads — id (uint32) and name per entry. */
 juce::Array<juce::var> Session::getThreads () noexcept
 {
     juce::Array<juce::var> threads;
@@ -627,6 +633,7 @@ juce::Array<juce::var> Session::getThreads () noexcept
 // Session::getEventThreadSystemId
 // ---------------------------------------------------------------------------
 
+/** Return the thread ID of the currently selected (event-triggering) thread. */
 std::uint32_t Session::getEventThreadSystemId () noexcept
 {
     const lldb::tid_t tid { process.GetSelectedThread ().GetThreadID () };
@@ -638,6 +645,7 @@ std::uint32_t Session::getEventThreadSystemId () noexcept
 // Session::setCurrentThreadBySystemId
 // ---------------------------------------------------------------------------
 
+/** Select the active thread by system TID — forwards to SBProcess::SetSelectedThreadByID. */
 void Session::setCurrentThreadBySystemId (std::uint32_t systemId) noexcept
 {
     process.SetSelectedThreadByID (static_cast<lldb::tid_t> (systemId));
@@ -647,6 +655,7 @@ void Session::setCurrentThreadBySystemId (std::uint32_t systemId) noexcept
 // Session::resetSymbolGroupCache
 // ---------------------------------------------------------------------------
 
+/** Invalidate the cached SBValueList and frame index so the next variable query re-fetches from liblldb. */
 void Session::resetSymbolGroupCache () noexcept
 {
     cachedFrameVariables.Clear ();
@@ -688,6 +697,7 @@ static const std::unordered_map<std::uint32_t, const char*> machExceptionNames
     { 10, "EXC_CRASH"           }
 };
 
+/** Resolve an exception/signal code to a human-readable name — selects Mach or POSIX table from State::isMachException. */
 juce::String getExceptionName (std::uint32_t code) noexcept
 {
     const auto* state { State::getContext () };
