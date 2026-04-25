@@ -125,7 +125,7 @@
 - Librarian: Apple stapler/notarization research (bare Mach-O limitations, productsign requirement)
 - Researcher: XDG ~/.local/bin cross-platform analysis
 
-### Files Modified (8 total — 3 JAM, 5 whatdbg)
+### Files Modified (10 total — 3 JAM, 7 whatdbg)
 
 **JAM (~/Documents/Poems/dev/jam/):**
 - `cmake/SignMac.cmake:183-357` — ConsoleApp branch: pkgbuild to /opt/<app>, postinstall symlink to ~/.local/bin, productsign with Developer ID Installer, notarize .pkg, staple .pkg. GUIApp path unchanged.
@@ -134,7 +134,8 @@
 
 **whatdbg:**
 - `build.sh` (new, replaces install.sh + build.bat) — single cross-platform build script. Darwin: auto dual-arch (arm64+x86_64) on Apple Silicon, .pkg dist. Windows: inline vcvarsall env capture, VS cmake/ninja PATH override, MSVC build.
-- `release.sh:5,12` — references updated install.sh → build.sh
+- `release.sh:5,12,32` — references updated install.sh → build.sh, --notes-file RELEASE.md replaces --generate-notes
+- `RELEASE.md` (new) — release notes for GitHub, read by release.sh
 - `README.md:97-113` — build instructions updated for build.sh
 - `ARCHITECTURE.md:363` — build.bat removed from file tree
 - `CMakeLists.txt:57` — reference updated
@@ -156,6 +157,7 @@
 - .pkg installs to /opt/<app>/ (SIP-safe), postinstall symlinks to ~/.local/bin (XDG)
 - Dual-arch macOS build from arm64 host via CMAKE_OSX_ARCHITECTURES
 - Eliminated build.bat — single build.sh with inline vcvarsall env capture for MSYS2
+- RELEASE.md + release.sh --notes-file for structured GitHub release notes
 
 ### Debts Paid
 - None
