@@ -29,5 +29,5 @@ git tag "$TAG"
 git push origin main "$TAG"
 
 # Create GitHub Release with all assets
-gh release create "$TAG" dist/* --title "$TAG" --generate-notes
+gh release create "$TAG" dist/* --title "$TAG" --notes-file RELEASE.md
 echo "Done: https://github.com/jrengmusic/whatdbg/releases/tag/$TAG"
