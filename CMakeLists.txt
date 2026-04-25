@@ -54,7 +54,7 @@ if(APPLE)
     elseif(CMAKE_OSX_ARCHITECTURES STREQUAL "x86_64")
         set(BINARY_DATA_ARCH "x86_64")
     else()
-        # Default to native arch (local dev, install.sh)
+        # Default to native arch (local dev, build.sh)
         execute_process(
             COMMAND uname -m
             OUTPUT_VARIABLE NATIVE_ARCH

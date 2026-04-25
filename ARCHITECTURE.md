@@ -360,8 +360,7 @@ whatdbg/
     CMakeLists.txt
     ARCHITECTURE.md
     PLAN.md
-    install.sh
-    build.bat
+    build.sh
     Source/
         Main.cpp                        Entry point, sidecar extraction, re-exec trampoline (macOS)
         Log.h                           Shared logging (#if JUCE_DEBUG guard)

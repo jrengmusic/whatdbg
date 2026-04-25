@@ -2,14 +2,14 @@
 set -e
 
 # Usage: ./release.sh <tag>
-# Expects dist/*.zip to exist (from install.sh runs on each platform).
+# Expects dist/*.zip to exist (from build.sh runs on each platform).
 # Creates a GitHub Release with all zips attached.
 
 TAG="${1:?Usage: ./release.sh <tag>}"
 
 # Verify dist/ has zips
 if ! ls dist/*.zip 1>/dev/null 2>&1; then
-    echo "No zips found in dist/. Run install.sh on each platform first."
+    echo "No zips found in dist/. Run build.sh on each platform first."
     exit 1
 fi
 

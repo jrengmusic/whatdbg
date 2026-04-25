@@ -95,22 +95,17 @@ Features apply to both Windows and macOS unless noted.
 ### Windows
 
 ```bash
-build.bat Release
+./build.sh        # Release build + copy to ~/.local/bin
+./build.sh debug  # Debug build (with file logging)
 ```
 
 The binary lands at `Builds/Ninja/whatdbg_App_artefacts/Release/whatdbg.exe`.
 
-Install to PATH:
-```bash
-./install.sh        # Release build + copy to ~/.local/bin
-./install.sh debug  # Debug build (with file logging)
-```
-
 ### macOS
 
 ```bash
-./install.sh        # builds Release + installs to ~/.local/bin
-./install.sh debug  # Debug build (with file logging)
+./build.sh        # builds Release + installs to ~/.local/bin
+./build.sh debug  # Debug build (with file logging)
 ```
 
 liblldb.dylib must be built first if not already present:

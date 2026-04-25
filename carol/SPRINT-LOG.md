@@ -112,6 +112,59 @@
 
 ## SPRINT HISTORY
 
+## Sprint 25: Release — .pkg Signing, Dual-Arch Build, build.sh Unification ✅
+
+**Date:** 2026-04-25
+**Duration:** ~90min
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR: release readiness audit, .pkg strategy, all decisions gated through ARCHITECT
+- Engineer: SignMac.cmake ConsoleApp branch, AppBuilder.cmake flag passthrough, BuildConfig.cmake installer identity, build.sh cross-platform unification, install.sh patches (arch, pkg dist)
+- Pathfinder: dist/ contents, signing identity discovery, liblldb arch check, build.bat survey
+- Librarian: Apple stapler/notarization research (bare Mach-O limitations, productsign requirement)
+- Researcher: XDG ~/.local/bin cross-platform analysis
+
+### Files Modified (8 total — 3 JAM, 5 whatdbg)
+
+**JAM (~/Documents/Poems/dev/jam/):**
+- `cmake/SignMac.cmake:183-357` — ConsoleApp branch: pkgbuild to /opt/<app>, postinstall symlink to ~/.local/bin, productsign with Developer ID Installer, notarize .pkg, staple .pkg. GUIApp path unchanged.
+- `cmake/AppBuilder.cmake:304-307,581-584` — default BUNDLE_ID derivation (com.jreng.<lowercase_product>), pass target_type/app_name/bundle_id/version/installer_identity to SignMac
+- `cmake/BuildConfig.cmake:98-100` — APPLE_INSTALLER_IDENTITY constant
+
+**whatdbg:**
+- `build.sh` (new, replaces install.sh + build.bat) — single cross-platform build script. Darwin: auto dual-arch (arm64+x86_64) on Apple Silicon, .pkg dist. Windows: inline vcvarsall env capture, VS cmake/ninja PATH override, MSVC build.
+- `release.sh:5,12` — references updated install.sh → build.sh
+- `README.md:97-113` — build instructions updated for build.sh
+- `ARCHITECTURE.md:363` — build.bat removed from file tree
+- `CMakeLists.txt:57` — reference updated
+
+### Deleted
+- `build.bat` — absorbed into build.sh Windows branch
+- `install.sh` — renamed to build.sh with dual-arch + .pkg support
+- `dist/whatdbg-macos-arm64.zip` — stale, replaced by .pkg
+- `dist/whatdbg-macos-x86_64.zip` — stale, replaced by .pkg
+
+### Alignment Check
+- [x] BLESSED principles followed (E: explicit signing params, graceful degrade; S: SSOT for build logic in build.sh; D: same input = same signed output)
+- [x] NAMES.md adhered (no new code names introduced — cmake/bash scripts only)
+- [x] MANIFESTO.md principles applied (L: no god scripts; E: no magic values)
+
+### Problems Solved
+- Bare Mach-O executables cannot be stapled (exit 73) — solved with .pkg wrapper
+- .pkg requires productsign with Developer ID Installer before notarization — wired into SignMac
+- .pkg installs to /opt/<app>/ (SIP-safe), postinstall symlinks to ~/.local/bin (XDG)
+- Dual-arch macOS build from arm64 host via CMAKE_OSX_ARCHITECTURES
+- Eliminated build.bat — single build.sh with inline vcvarsall env capture for MSYS2
+
+### Debts Paid
+- None
+
+### Debts Deferred
+- None
+
+---
+
 ## Sprint 24: Ship Prep — LFS, README, Release Workflow, Cleanup ✅
 
 **Date:** 2026-04-24
