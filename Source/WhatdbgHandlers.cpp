@@ -8,150 +8,139 @@
  */
 
 #include "Whatdbg.h"
-#include "Log.h"
 
 using dap::DynObj;
 
-/** Responds with adapter capabilities and emits the initialized event to signal
- *  readiness for configuration requests. */
-void Whatdbg::handleInitialize (const juce::var& request)
+static constexpr int maxStackFrames { 50 };
+
+void Whatdbg::onInitialize (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
-    sendResponse (dap::makeResponse (seq, "initialize", true, dap::makeCapabilities ()));
-    sendEvent (dap::makeEvent ("initialized"));
+    writeMessage (dap::getResponse (seq, "initialize", true, dap::getCapabilities ()));
+    writeMessage (dap::getEvent ("initialized"));
 }
 
-/** Launches the target executable, configures symbol/source paths from DAP args,
- *  and transitions state to launching. */
-void Whatdbg::handleLaunch (const juce::var& request)
+void Whatdbg::onLaunch (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
     const juce::var& args { request["arguments"] };
     const juce::String program { dap::getString (args, "program") };
 
-    logWrite ("[Whatdbg] launch: %s\n", program.toRawUTF8 ());
+#if JUCE_DEBUG
+    jam::debug::Log::write ("[Whatdbg] launch: " + program);
+#endif
 
     const bool isLaunched { session.launch (program) };
 
     if (isLaunched)
     {
-#if JUCE_WINDOWS
-        // Configure symbol search — srv* enables Microsoft symbol server (Windows-only).
-        session.appendSymbolPath ("srv*");
-#endif
-
-        // Configure source path from DAP arguments if provided
-        const juce::String cwd { dap::getString (args, "cwd") };
-
-        if (cwd.isNotEmpty ())
-        {
-#if JUCE_WINDOWS
-            session.appendSourcePath (cwd.replace ("/", "\\"));
-            session.appendSymbolPath (cwd.replace ("/", "\\"));
-#else
-            session.appendSourcePath (cwd);
-            session.appendSymbolPath (cwd);
-#endif
-        }
+        addSearchPaths (dap::getString (args, "cwd"));
 
         state.executionState = debug::ExecutionState::launching;
-        sendResponse (dap::makeResponse (seq, "launch", true));
+        writeMessage (dap::getResponse (seq, "launch", true));
     }
     else
     {
-        sendResponse (dap::makeErrorResponse (seq, "launch", "Failed to launch process"));
+        writeMessage (dap::getErrorResponse (seq, "launch", "Failed to launch process"));
     }
 }
 
-/** Attaches to a running process by PID, configures paths, and sets the
- *  appropriate initial execution state (platform-specific: async on Windows, sync on macOS). */
-void Whatdbg::handleAttach (const juce::var& request)
+void Whatdbg::addSearchPaths (const juce::String& cwd)
+{
+#if JUCE_WINDOWS
+    session.appendSymbolPath ("srv*");
+#endif
+
+    if (cwd.isNotEmpty ())
+    {
+#if JUCE_WINDOWS
+        session.appendSourcePath (cwd.replace ("/", "\\"));
+        session.appendSymbolPath (cwd.replace ("/", "\\"));
+#else
+        session.appendSourcePath (cwd);
+        session.appendSymbolPath (cwd);
+#endif
+    }
+}
+
+void Whatdbg::onAttach (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
     const juce::var& args { request["arguments"] };
     const std::uint32_t pid { static_cast<std::uint32_t> (static_cast<int> (args["pid"])) };
 
-    logWrite ("[Whatdbg] attach: pid=%lu\n", static_cast<unsigned long> (pid));
+#if JUCE_DEBUG
+    jam::debug::Log::write ("[Whatdbg] attach: pid=" + juce::String (static_cast<unsigned long> (pid)));
+#endif
 
     const bool isAttached { session.attach (pid) };
 
     if (isAttached)
     {
-#if JUCE_WINDOWS
-        // Configure symbol search — srv* enables Microsoft symbol server (Windows-only).
-        session.appendSymbolPath ("srv*");
-#endif
-
-        // Configure source path from DAP arguments if provided
-        const juce::String cwd { dap::getString (args, "cwd") };
-
-        if (cwd.isNotEmpty ())
-        {
-#if JUCE_WINDOWS
-            session.appendSourcePath (cwd.replace ("/", "\\"));
-            session.appendSymbolPath (cwd.replace ("/", "\\"));
-#else
-            session.appendSourcePath (cwd);
-            session.appendSymbolPath (cwd);
-#endif
-        }
+        addSearchPaths (dap::getString (args, "cwd"));
 
         state.targetProcessId = pid;
 
        #if JUCE_WINDOWS
-        // Windows invasive attach is asynchronous — target is running until the
-        // dbgeng INT3 callback fires, which sets initialBreakPhase::pending.
         state.executionState = debug::ExecutionState::launching;
        #else
-        // macOS `AttachToProcessWithID` returns with the target already stopped
-        // (ptrace suspend). No subsequent stop event flows through the listener,
-        // so mark initial-break pending directly — `processDeferredEvents` will
-        // call `resolveAndResumeAfterInitialBreak` once `configurationDone` arrives.
         state.executionState    = debug::ExecutionState::stopped;
         state.initialBreakPhase = debug::InitialBreakPhase::pending;
        #endif
 
-        sendResponse (dap::makeResponse (seq, "attach", true));
+        writeMessage (dap::getResponse (seq, "attach", true));
     }
     else
     {
-        sendResponse (dap::makeErrorResponse (seq, "attach", "Failed to attach"));
+        writeMessage (dap::getErrorResponse (seq, "attach", "Failed to attach"));
     }
 }
 
-/** Marks configuration complete; if the target is already stopped at the initial
- *  break, immediately resolves pending breakpoints and resumes. */
-void Whatdbg::handleConfigurationDone (const juce::var& request)
+void Whatdbg::onConfigurationDone (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
-    isConfigurationDone = true;
+    state.isConfigurationDone = true;
 
     if (state.executionState == debug::ExecutionState::stopped)
     {
-        resolveAndResumeAfterInitialBreak ();
+        resumeAfterInitialBreak ();
     }
 
-    sendResponse (dap::makeResponse (seq, "configurationDone", true));
+    writeMessage (dap::getResponse (seq, "configurationDone", true));
 }
 
-/** Handles disconnect and terminate requests; sets the terminate-on-exit flag
- *  and clears isRunning to exit the main loop. */
-void Whatdbg::handleDisconnect (const juce::var& request)
+void Whatdbg::onDisconnect (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
     const juce::String command { request["command"].toString () };
     const juce::var& args { request["arguments"] };
 
     const bool isTerminate { command == "terminate" };
-    shouldTerminateOnExit = isTerminate or static_cast<bool> (args["terminateDebuggee"]);
+    state.shouldTerminateOnExit = isTerminate or static_cast<bool> (args["terminateDebuggee"]);
 
-    sendResponse (dap::makeResponse (seq, command, true));
-    isRunning = false;
+    writeMessage (dap::getResponse (seq, command, true));
+
+    const bool isDebuggeeAlive { state.executionState != debug::ExecutionState::idle
+                              and state.executionState != debug::ExecutionState::exited };
+
+    if (state.shouldTerminateOnExit and isDebuggeeAlive)
+    {
+        session.terminateDebuggee (state.targetProcessId);
+
+        // "running" here means the poll gate in run() must keep calling
+        // pollEvents() until the exit event arrives — terminateDebuggee kills
+        // the debuggee, it does not observe its exit synchronously on either
+        // platform. terminateDeadlineMs bounds that wait.
+        state.executionState = debug::ExecutionState::running;
+        state.terminateDeadlineMs = juce::Time::getMillisecondCounter () + terminateTimeoutMs;
+    }
+    else
+    {
+        state.isRunning = false;
+    }
 }
 
-/** Delegates the full set-breakpoints operation to BreakpointManager and returns
- *  the resulting verified/unverified breakpoint list to the client. */
-void Whatdbg::handleSetBreakpoints (const juce::var& request)
+void Whatdbg::onSetBreakpoints (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
     const juce::var& args { request["arguments"] };
@@ -159,19 +148,20 @@ void Whatdbg::handleSetBreakpoints (const juce::var& request)
     const juce::String sourcePath { dap::getString (source, "path") };
     const juce::var& requestedBps { args["breakpoints"] };
 
-    logWrite ("[Whatdbg] setBreakpoints: %s (%d breakpoints)\n",
-              sourcePath.toRawUTF8 (),
-              requestedBps.isArray () ? requestedBps.getArray ()->size () : 0);
+#if JUCE_DEBUG
+    jam::debug::Log::write ("[Whatdbg] setBreakpoints: " + sourcePath + " ("
+                             + juce::String (requestedBps.isArray () ? requestedBps.getArray ()->size () : 0)
+                             + " breakpoints)");
+#endif
 
-    juce::Array<juce::var> resultBps { breakpointManager.handleSetBreakpoints (sourcePath, requestedBps) };
+    juce::Array<juce::var> resultBps { breakpointManager.onSetBreakpoints (sourcePath, requestedBps) };
 
     DynObj body { new juce::DynamicObject () };
     body->setProperty ("breakpoints", juce::var (resultBps));
-    sendResponse (dap::makeResponse (seq, "setBreakpoints", true, juce::var (body)));
+    writeMessage (dap::getResponse (seq, "setBreakpoints", true, juce::var (body)));
 }
 
-/** Queries the Session for the current thread list and returns it to the client. */
-void Whatdbg::handleThreads (const juce::var& request)
+void Whatdbg::onThreads (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
 
@@ -179,12 +169,10 @@ void Whatdbg::handleThreads (const juce::var& request)
 
     DynObj body { new juce::DynamicObject () };
     body->setProperty ("threads", juce::var { threads });
-    sendResponse (dap::makeResponse (seq, "threads", true, juce::var (body)));
+    writeMessage (dap::getResponse (seq, "threads", true, juce::var (body)));
 }
 
-/** Fetches up to 50 stack frames for the requested thread, assigns unique DAP
- *  frame IDs, and records the (threadId, frameIndex) mapping for later scope/variable lookups. */
-void Whatdbg::handleStackTrace (const juce::var& request)
+void Whatdbg::onStackTrace (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
     const juce::var& args { request["arguments"] };
@@ -195,7 +183,7 @@ void Whatdbg::handleStackTrace (const juce::var& request)
         session.setCurrentThreadBySystemId (static_cast<std::uint32_t> (threadId));
     }
 
-    juce::Array<juce::var> frames { session.getStackTrace (50) };
+    juce::Array<juce::var> frames { session.getStackTrace (maxStackFrames) };
 
     // Assign unique frame IDs and store threadId mapping
     for (auto& frameVar : frames)
@@ -203,44 +191,56 @@ void Whatdbg::handleStackTrace (const juce::var& request)
         if (auto* frameObj { frameVar.getDynamicObject () })
         {
             const int originalIndex { static_cast<int> (frameObj->getProperty ("id")) };
-            const int uniqueId { nextFrameId++ };
+            const int uniqueId { state.nextFrameId++ };
             frameObj->setProperty ("id", uniqueId);
-            frameIdMap[uniqueId] = { static_cast<std::uint32_t> (threadId), originalIndex };
+            state.frameIdMap.insert_or_assign (uniqueId,
+                std::pair<std::uint32_t, int> { static_cast<std::uint32_t> (threadId), originalIndex });
         }
     }
 
     DynObj body { new juce::DynamicObject () };
     body->setProperty ("stackFrames", juce::var { frames });
     body->setProperty ("totalFrames", frames.size ());
-    sendResponse (dap::makeResponse (seq, "stackTrace", true, juce::var (body)));
+    writeMessage (dap::getResponse (seq, "stackTrace", true, juce::var (body)));
 }
 
-/** Decodes the DAP frameId to a (threadSystemId, frameIndex) pair, allocates a
- *  variablesReference for the Locals scope, and returns the scope array. */
-void Whatdbg::handleScopes (const juce::var& request)
+std::pair<std::uint32_t, int> Whatdbg::selectFrameFromId (int frameId)
 {
-    const int seq     { static_cast<int> (request["seq"]) };
-    const int frameId { static_cast<int> (request["arguments"]["frameId"]) };
-
-    // Decode frameId to (threadSystemId, frameIndex)
-    int frameIndex { frameId };
     std::uint32_t threadSystemId { 0 };
+    int frameIndex { frameId };
 
-    if (frameIdMap.count (frameId) > 0)
+    const auto frameEntry { state.frameIdMap.find (frameId) };
+
+    if (frameEntry != state.frameIdMap.end ())
     {
-        const auto& entry { frameIdMap.at (frameId) };
-        threadSystemId = entry.first;
-        frameIndex = entry.second;
+        const auto& [frameKey, frameLocation] { *frameEntry };
+        const auto& [entryThreadSystemId, entryFrameIndex] { frameLocation };
+        threadSystemId = entryThreadSystemId;
+        frameIndex = entryFrameIndex;
 
         if (threadSystemId > 0)
         {
             session.setCurrentThreadBySystemId (threadSystemId);
-            lastScopesThreadId = threadSystemId;
         }
     }
 
-    const int localsRef { nextVariablesRef++ };
-    variablesRefMap[localsRef] = { frameIndex, -1 };
+    return { threadSystemId, frameIndex };
+}
+
+void Whatdbg::onScopes (const juce::var& request)
+{
+    const int seq     { static_cast<int> (request["seq"]) };
+    const int frameId { static_cast<int> (request["arguments"]["frameId"]) };
+
+    const auto [threadSystemId, frameIndex] { selectFrameFromId (frameId) };
+
+    if (threadSystemId > 0)
+    {
+        state.lastScopesThreadId = threadSystemId;
+    }
+
+    const int localsRef { state.nextVariablesRef++ };
+    state.variablesRefMap.insert_or_assign (localsRef, std::pair<int, int> { frameIndex, -1 });
 
     DynObj localsScope { new juce::DynamicObject () };
     localsScope->setProperty ("name",               "Locals");
@@ -252,180 +252,164 @@ void Whatdbg::handleScopes (const juce::var& request)
 
     DynObj body { new juce::DynamicObject () };
     body->setProperty ("scopes", juce::var { scopes });
-    sendResponse (dap::makeResponse (seq, "scopes", true, juce::var (body)));
+    writeMessage (dap::getResponse (seq, "scopes", true, juce::var (body)));
 }
 
-/** Resolves a variablesReference to either locals or children of a symbol, maps
- *  expandable children to new references, and returns the DAP variable array. */
-void Whatdbg::handleVariables (const juce::var& request)
+juce::Array<juce::var> Whatdbg::getDapVariables (int ref)
+{
+    juce::Array<juce::var> dapVariables;
+
+    const auto variablesEntry { state.variablesRefMap.find (ref) };
+
+    if (variablesEntry != state.variablesRefMap.end ())
+    {
+        const auto& [variablesKey, variablesLocation] { *variablesEntry };
+        const auto& [frameIndex, symbolIndex] { variablesLocation };
+
+        juce::Array<juce::var> rawVars { symbolIndex < 0
+            ? session.getLocals (frameIndex)
+            : session.getVariableChildren (frameIndex, symbolIndex) };
+
+        for (const auto& rawVar : rawVars)
+            addDapVariable (dapVariables, rawVar, frameIndex);
+    }
+
+    return dapVariables;
+}
+
+void Whatdbg::onVariables (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
     const int ref { static_cast<int> (request["arguments"]["variablesReference"]) };
 
-    if (lastScopesThreadId > 0)
+    if (state.lastScopesThreadId > 0)
     {
-        session.setCurrentThreadBySystemId (lastScopesThreadId);
+        session.setCurrentThreadBySystemId (state.lastScopesThreadId);
     }
 
-    juce::Array<juce::var> dapVariables;
-
-    if (variablesRefMap.count (ref) > 0)
-    {
-        const auto& entry       { variablesRefMap.at (ref) };
-        const int   frameIndex  { entry.first };
-        const int   symbolIndex { entry.second };
-
-        juce::Array<juce::var> rawVars;
-
-        if (symbolIndex < 0)
-        {
-            rawVars = session.getLocals (frameIndex);
-        }
-        else
-        {
-            rawVars = session.getVariableChildren (frameIndex, symbolIndex);
-        }
-
-        for (const auto& rawVar : rawVars)
-        {
-            if (auto* obj { rawVar.getDynamicObject () })
-            {
-                const bool hasChildren { static_cast<bool> (obj->getProperty ("hasChildren")) };
-                const int  symIdx      { static_cast<int>  (obj->getProperty ("symbolIndex")) };
-
-                int childRef { 0 };
-
-                if (hasChildren)
-                {
-                    childRef = nextVariablesRef++;
-                    variablesRefMap[childRef] = { frameIndex, symIdx };
-                }
-
-                DynObj dapVar { new juce::DynamicObject () };
-                dapVar->setProperty ("name",               obj->getProperty ("name"));
-                dapVar->setProperty ("value",              obj->getProperty ("value"));
-                dapVar->setProperty ("type",               obj->getProperty ("type"));
-                dapVar->setProperty ("variablesReference",  childRef);
-
-                dapVariables.add (juce::var (dapVar));
-            }
-        }
-    }
+    juce::Array<juce::var> dapVariables { getDapVariables (ref) };
 
     DynObj body { new juce::DynamicObject () };
     body->setProperty ("variables", juce::var { dapVariables });
-    sendResponse (dap::makeResponse (seq, "variables", true, juce::var (body)));
+    writeMessage (dap::getResponse (seq, "variables", true, juce::var (body)));
 }
 
-/** Resumes the target, clears pending step/pause flags, and responds with
- *  allThreadsContinued. */
-void Whatdbg::handleContinue (const juce::var& request)
+void Whatdbg::addDapVariable (juce::Array<juce::var>& dapVariables, const juce::var& rawVar, int frameIndex)
+{
+    if (auto* obj { rawVar.getDynamicObject () })
+    {
+        const bool hasChildren { static_cast<bool> (obj->getProperty ("hasChildren")) };
+        const int  symIdx      { static_cast<int>  (obj->getProperty ("symbolIndex")) };
+
+        int childRef { 0 };
+
+        if (hasChildren)
+        {
+            childRef = state.nextVariablesRef++;
+            state.variablesRefMap.insert_or_assign (childRef, std::pair<int, int> { frameIndex, symIdx });
+        }
+
+        DynObj dapVar { new juce::DynamicObject () };
+        dapVar->setProperty ("name",               obj->getProperty ("name"));
+        dapVar->setProperty ("value",              obj->getProperty ("value"));
+        dapVar->setProperty ("type",               obj->getProperty ("type"));
+        dapVar->setProperty ("variablesReference",  childRef);
+
+        dapVariables.add (juce::var (dapVar));
+    }
+}
+
+void Whatdbg::onContinue (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
 
-    session.resume ();
-    state.executionState = debug::ExecutionState::running;
-    isStepPending = false;
-    isPausePending = false;
+    resumeExecution ();
+    state.isStepPending = false;
+    state.isPausePending = false;
 
     DynObj body { new juce::DynamicObject () };
     body->setProperty ("allThreadsContinued", true);
-    sendResponse (dap::makeResponse (seq, "continue", true, juce::var (body)));
+    writeMessage (dap::getResponse (seq, "continue", true, juce::var (body)));
 }
 
-/** Issues a step-over to the Session and arms the step-pending flag for event
- *  detection in the poll loop. */
-void Whatdbg::handleNext (const juce::var& request)
+void Whatdbg::onNext (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
 
     session.stepOver ();
     state.executionState = debug::ExecutionState::running;
-    isStepPending = true;
-    logWrite ("[Whatdbg] next issued\n");
+    state.isStepPending = true;
+#if JUCE_DEBUG
+    jam::debug::Log::write ("[Whatdbg] next issued");
+#endif
 
-    sendResponse (dap::makeResponse (seq, "next", true));
+    writeMessage (dap::getResponse (seq, "next", true));
 }
 
-/** Issues a step-into to the Session and arms the step-pending flag. */
-void Whatdbg::handleStepIn (const juce::var& request)
+void Whatdbg::onStepIn (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
 
     session.stepInto ();
     state.executionState = debug::ExecutionState::running;
-    isStepPending = true;
-    logWrite ("[Whatdbg] stepIn issued\n");
+    state.isStepPending = true;
+#if JUCE_DEBUG
+    jam::debug::Log::write ("[Whatdbg] stepIn issued");
+#endif
 
-    sendResponse (dap::makeResponse (seq, "stepIn", true));
+    writeMessage (dap::getResponse (seq, "stepIn", true));
 }
 
-/** Issues a step-out to the Session and arms the step-pending flag; completion
- *  is detected via an internal breakpoint hit in processDeferredEvents. */
-void Whatdbg::handleStepOut (const juce::var& request)
+void Whatdbg::onStepOut (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
 
     session.stepOut ();
     state.executionState = debug::ExecutionState::running;
-    isStepPending = true;
+    state.isStepPending = true;
+#if JUCE_DEBUG
+    jam::debug::Log::write ("[Whatdbg] stepOut issued");
+#endif
 
-    sendResponse (dap::makeResponse (seq, "stepOut", true));
+    writeMessage (dap::getResponse (seq, "stepOut", true));
 }
 
-/** Sends an async interrupt to the target process and arms the pause-pending flag
- *  for stopped-event emission in the poll loop. */
-void Whatdbg::handlePause (const juce::var& request)
+void Whatdbg::onPause (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
 
     session.interrupt (state.targetProcessId);
-    isPausePending = true;
+    state.executionState = debug::ExecutionState::running;
+    state.isPausePending = true;
 
-    sendResponse (dap::makeResponse (seq, "pause", true));
+    writeMessage (dap::getResponse (seq, "pause", true));
 }
 
-/** Returns the last captured exception code, address, and break mode from the
- *  adapter state; used by the client after a stopped-on-exception event. */
-void Whatdbg::handleExceptionInfo (const juce::var& request)
+void Whatdbg::onExceptionInfo (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
 
     const juce::String codeHex    { juce::String::toHexString (static_cast<juce::int64> (state.exceptionCode)) };
     const juce::String addressHex { juce::String::toHexString (static_cast<juce::int64> (state.exceptionAddress)) };
-    const juce::String exceptionId { debug::getExceptionName (state.exceptionCode) };
+    const juce::String exceptionId { debug::getExceptionName (state.exceptionCode, state.isMachException) };
 
     DynObj body { new juce::DynamicObject () };
     body->setProperty ("exceptionId", exceptionId);
     body->setProperty ("description", juce::String ("0x") + codeHex + " at 0x" + addressHex);
     body->setProperty ("breakMode",   "unhandled");
 
-    sendResponse (dap::makeResponse (seq, "exceptionInfo", true, juce::var (body)));
+    writeMessage (dap::getResponse (seq, "exceptionInfo", true, juce::var (body)));
 }
 
-/** Evaluates an expression in the context of the given frame, decoding the DAP
- *  frameId to (threadSystemId, frameIndex) before delegating to the Session. */
-void Whatdbg::handleEvaluate (const juce::var& request)
+void Whatdbg::onEvaluate (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
     const juce::var& args { request["arguments"] };
     const juce::String expression { dap::getString (args, "expression") };
     const int frameId { static_cast<int> (args["frameId"]) };
 
-    // Decode DAP frameId to (threadSystemId, frameIndex) — mirrors handleScopes.
-    int frameIndex { frameId };
-
-    if (frameIdMap.count (frameId) > 0)
-    {
-        const auto& entry { frameIdMap.at (frameId) };
-        const std::uint32_t threadSystemId { entry.first };
-        frameIndex = entry.second;
-
-        if (threadSystemId > 0)
-        {
-            session.setCurrentThreadBySystemId (threadSystemId);
-        }
-    }
+    const auto [threadSystemId, frameIndex] { selectFrameFromId (frameId) };
+    juce::ignoreUnused (threadSystemId);
 
     const juce::String result { session.evaluateExpression (expression, frameIndex) };
 
@@ -435,11 +419,11 @@ void Whatdbg::handleEvaluate (const juce::var& request)
         body->setProperty ("result",             result);
         body->setProperty ("variablesReference", 0);
 
-        sendResponse (dap::makeResponse (seq, "evaluate", true, juce::var (body)));
+        writeMessage (dap::getResponse (seq, "evaluate", true, juce::var (body)));
     }
     else
     {
-        sendResponse (dap::makeErrorResponse (seq, "evaluate",
+        writeMessage (dap::getErrorResponse (seq, "evaluate",
             "Could not evaluate: " + expression));
     }
 }

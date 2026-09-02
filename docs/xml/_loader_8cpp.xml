@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_loader_8cpp" kind="file" language="C++">
+    <compoundname>Loader.cpp</compoundname>
+    <includes local="no">JuceHeader.h</includes>
+    <includes refid="_loader_8h" local="yes">Loader.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>debug/Loader.cpp</label>
+        <link refid="_loader_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Loader.h</label>
+        <link refid="_loader_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>JuceHeader.h</label>
+      </node>
+      <node id="5">
+        <label>dbgeng.h</label>
+      </node>
+      <node id="4">
+        <label>windows.h</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacedebug">debug</innernamespace>
+    <briefdescription>
+<para>Windows dbgeng.dll explicit loader via LoadLibrary + GetProcAddress. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Loads the sidecar dbgeng.dll from the extraction directory and resolves the DebugCreate export. All other debug interfaces (IDebugControl, IDebugSymbols, etc.) are obtained via COM QueryInterface from the root IDebugClient5 pointer. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;JuceHeader.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_loader_8h" kindref="compound">Loader.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacedebug" kindref="compound">debug</ref></highlight></codeline>
+<codeline lineno="13"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="classdebug_1_1_loader_1aa437e7263d8721db1adacd8b98771389" refkind="member"><highlight class="normal"><ref refid="classdebug_1_1_loader_1aa437e7263d8721db1adacd8b98771389" kindref="member">Loader::~Loader</ref><sp/>()</highlight></codeline>
+<codeline lineno="16"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Intentionally<sp/>leak<sp/>dbgengModule:<sp/>FreeLibrary<sp/>on<sp/>dbgeng.dll<sp/>hangs<sp/>or<sp/>crashes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>because<sp/>dbgeng<sp/>spawns<sp/>symsrv<sp/>threads<sp/>and<sp/>holds<sp/>COM<sp/>state<sp/>that<sp/>cannot<sp/>be<sp/>safely</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>torn<sp/>down<sp/>at<sp/>module<sp/>unload.<sp/>The<sp/>HMODULE<sp/>lives<sp/>for<sp/>the<sp/>entire<sp/>process<sp/>lifetime,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>so<sp/>OS<sp/>process<sp/>teardown<sp/>reclaims<sp/>it.<sp/>Named<sp/>threat:<sp/>FreeLibrary(dbgeng)<sp/>hang.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_loader_1a8a730cb0b007bf2f0f1b8ebc800cc3e6" kindref="member">dbgengModule</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" kindref="member">Loader::load</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref>&amp;<sp/>sidecarDirectory)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/>dllPath<sp/>{<sp/>sidecarDirectory.getChildFile<sp/>(</highlight><highlight class="stringliteral">&quot;dbgeng.dll&quot;</highlight><highlight class="normal">)<sp/>};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>HMODULE<sp/>loadedModule<sp/>{<sp/>LoadLibraryW<sp/>(dllPath.<ref refid="classjuce_1_1File_1a515fa016b189068f365cc875e241e2a1" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">getFullPathName</ref><sp/>().<ref refid="classjuce_1_1String_1a9ea0b29bd5ad162c3259d43c8f7a491c" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">toWideCharPointer</ref><sp/>())<sp/>};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(loadedModule<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FARPROC<sp/>procAddress<sp/>{<sp/>GetProcAddress<sp/>(loadedModule,<sp/></highlight><highlight class="stringliteral">&quot;DebugCreate&quot;</highlight><highlight class="normal">)<sp/>};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(procAddress<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_loader_1a8a730cb0b007bf2f0f1b8ebc800cc3e6" kindref="member">dbgengModule</ref><sp/>=<sp/>loadedModule;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_loader_1aae70f534011e62ad2ea9f990abf7d988" kindref="member">debugCreateFn</ref><sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal"><ref refid="classdebug_1_1_loader_1ad3b8ed8285fa9cb19a7f61aa40048916" kindref="member">DebugCreateFn</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(procAddress);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FreeLibrary<sp/>(loadedModule);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_loader_1a8a730cb0b007bf2f0f1b8ebc800cc3e6" kindref="member">dbgengModule</ref><sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>and<sp/><ref refid="classdebug_1_1_loader_1aae70f534011e62ad2ea9f990abf7d988" kindref="member">debugCreateFn</ref><sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="classdebug_1_1_loader_1a62ba00feaf2f23de7bfdf46767f2e493" refkind="member"><highlight class="normal">IDebugClient5*<sp/><ref refid="classdebug_1_1_loader_1a62ba00feaf2f23de7bfdf46767f2e493" kindref="member">Loader::createDebugClient</ref><sp/>()<sp/>const<sp/>noexcept</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="juce__PlatformDefs_8h_1a1f96ab6751237979b907a54f52a7296a" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">jassert</ref><sp/>(<ref refid="classdebug_1_1_loader_1aae70f534011e62ad2ea9f990abf7d988" kindref="member">debugCreateFn</ref><sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>IDebugClient5*<sp/>client<sp/>{<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_loader_1aae70f534011e62ad2ea9f990abf7d988" kindref="member">debugCreateFn</ref><sp/>(__uuidof<sp/>(IDebugClient5),<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">PVOID*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(&amp;client));</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>client;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>debug</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="debug/Loader.cpp"/>
+  </compounddef>
+</doxygen>

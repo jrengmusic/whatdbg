@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_reader_8h" kind="file" language="C++">
+    <compoundname>Reader.h</compoundname>
+    <includes local="no">JuceHeader.h</includes>
+    <includedby refid="_whatdbg_8h" local="yes">Whatdbg.h</includedby>
+    <includedby refid="_reader_8cpp" local="yes">dap/Reader.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>dap/Reader.h</label>
+        <link refid="_reader_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>JuceHeader.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>Main.cpp</label>
+        <link refid="_main_8cpp"/>
+      </node>
+      <node id="4">
+        <label>Whatdbg.cpp</label>
+        <link refid="_whatdbg_8cpp"/>
+      </node>
+      <node id="2">
+        <label>Whatdbg.h</label>
+        <link refid="_whatdbg_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>WhatdbgHandlers.cpp</label>
+        <link refid="_whatdbg_handlers_8cpp"/>
+      </node>
+      <node id="6">
+        <label>dap/Reader.cpp</label>
+        <link refid="_reader_8cpp"/>
+      </node>
+      <node id="1">
+        <label>dap/Reader.h</label>
+        <link refid="_reader_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classdap_1_1_reader" prot="public">dap::Reader</innerclass>
+    <innernamespace refid="namespacedap">dap</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;JuceHeader.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacedap" kindref="compound">dap</ref></highlight></codeline>
+<codeline lineno="5"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="classdap_1_1_reader" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdap_1_1_reader_1a946914e4e091be5a3742b13d6ccf600b" kindref="member">Reader</ref><sp/>:<sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1Thread" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Thread</ref></highlight></codeline>
+<codeline lineno="20"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23" refid="classdap_1_1_reader_1aa2841da084bd58ba5a521a21e1eaea98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classdap_1_1_reader_1aa2841da084bd58ba5a521a21e1eaea98" kindref="member">fifoCapacity</ref><sp/>{<sp/>64<sp/>};</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdap_1_1_reader_1a946914e4e091be5a3742b13d6ccf600b" kindref="member">Reader</ref><sp/>();</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdap_1_1_reader" kindref="compound">~Reader</ref><sp/>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdap_1_1_reader_1a001ba0872e35810bdb1f610e0554eec1" kindref="member">start</ref><sp/>();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdap_1_1_reader_1a4ef3503bdf9aaa16b363e6261e60fc1a" kindref="member">stop</ref><sp/>();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/><ref refid="classdap_1_1_reader_1a9c581d850d7d93395da7c983b97e8f6e" kindref="member">tryPop</ref><sp/>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdap_1_1_reader_1aa88b7cbd5562aace1eb2d91b0638fb26" kindref="member">run</ref><sp/>()<sp/>override;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classdap_1_1_reader_1ac6d519b9104372eb35d01195221a0472" kindref="member">getContentLength</ref><sp/>();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::var<sp/><ref refid="classdap_1_1_reader_1a2fb171827446bd1a5acb1831a64c73f4" kindref="member">getMessage</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>contentLength);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdap_1_1_reader_1a8caea924c042b462bfb19e5da0b1542a" kindref="member">addMessage</ref><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::var&amp;<sp/>message);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classdap_1_1_reader_1a67d7f2ba9751bd6f8d13f344d4c5076d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::AbstractFifo<sp/><ref refid="classdap_1_1_reader_1a67d7f2ba9751bd6f8d13f344d4c5076d" kindref="member">fifo</ref><sp/>{<sp/><ref refid="classdap_1_1_reader_1aa2841da084bd58ba5a521a21e1eaea98" kindref="member">fifoCapacity</ref><sp/>};</highlight></codeline>
+<codeline lineno="60" refid="classdap_1_1_reader_1a493d7e8cfa28409d69781a442d8e3a0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;juce::var&gt;<sp/><ref refid="classdap_1_1_reader_1a493d7e8cfa28409d69781a442d8e3a0f" kindref="member">storage</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="juce__PlatformDefs_8h_1a851b02724a8158a7f746c66b5758b3dd" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR</ref><sp/>(<ref refid="classdap_1_1_reader_1a946914e4e091be5a3742b13d6ccf600b" kindref="member">Reader</ref>)</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>dap</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="dap/Reader.h"/>
+  </compounddef>
+</doxygen>

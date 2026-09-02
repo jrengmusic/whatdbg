@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="namespace_project_info" kind="namespace" language="C++">
+    <compoundname>ProjectInfo</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespace_project_info_1a50f49d766351ea9313f67b3f30aa014d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *const</type>
+        <definition>const char* const ProjectInfo::projectName</definition>
+        <argsstring></argsstring>
+        <name>projectName</name>
+        <qualifiedname>ProjectInfo::projectName</qualifiedname>
+        <initializer>{ &quot;whatdbg&quot;                                          }</initializer>
+        <briefdescription>
+<para>Project metadata — the <ref refid="namespace_project_info" kindref="compound">ProjectInfo</ref> namespace, generated. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Every field is a complete literal; nothing downstream derives, concatenates, or restates a value. Product name. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/ProjectInfo.h" line="34" column="39" bodyfile="generated/ProjectInfo.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_project_info_1a9b435df60395ecec1378ecbaba7ccb75" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *const</type>
+        <definition>const char* const ProjectInfo::companyName</definition>
+        <argsstring></argsstring>
+        <name>companyName</name>
+        <qualifiedname>ProjectInfo::companyName</qualifiedname>
+        <initializer>{ &quot;JRENG&quot;                                            }</initializer>
+        <briefdescription>
+<para>Company name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/ProjectInfo.h" line="35" column="39" bodyfile="generated/ProjectInfo.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_project_info_1a75557edf46fa8becc81d2bff04c4c24b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *const</type>
+        <definition>const char* const ProjectInfo::legalCompanyName</definition>
+        <argsstring></argsstring>
+        <name>legalCompanyName</name>
+        <qualifiedname>ProjectInfo::legalCompanyName</qualifiedname>
+        <initializer>{ &quot;Jubilant Research of Eclectic Novelty Generation&quot; }</initializer>
+        <briefdescription>
+<para>Full legal company name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/ProjectInfo.h" line="36" column="39" bodyfile="generated/ProjectInfo.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_project_info_1a7e092322572cc0554d2ee7e6963b22fe" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *const</type>
+        <definition>const char* const ProjectInfo::versionString</definition>
+        <argsstring></argsstring>
+        <name>versionString</name>
+        <qualifiedname>ProjectInfo::versionString</qualifiedname>
+        <initializer>{ &quot;0.1.0&quot;                                            }</initializer>
+        <briefdescription>
+<para>Product version string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/ProjectInfo.h" line="37" column="39" bodyfile="generated/ProjectInfo.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_project_info_1a3dfad1d1308874f47f13297fa6e93c49" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int ProjectInfo::versionNumber</definition>
+        <argsstring></argsstring>
+        <name>versionNumber</name>
+        <qualifiedname>ProjectInfo::versionNumber</qualifiedname>
+        <initializer>{ 0x100                                              }</initializer>
+        <briefdescription>
+<para>Product version, JUCE hex encoding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/ProjectInfo.h" line="38" column="40" bodyfile="generated/ProjectInfo.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_project_info_1a53f184d022499b38a6958b0ea2e88ab9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *const</type>
+        <definition>const char* const ProjectInfo::productWebsite</definition>
+        <argsstring></argsstring>
+        <name>productWebsite</name>
+        <qualifiedname>ProjectInfo::productWebsite</qualifiedname>
+        <initializer>{ &quot;https://jrengmusic.com&quot;                           }</initializer>
+        <briefdescription>
+<para>Product website URL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/ProjectInfo.h" line="39" column="39" bodyfile="generated/ProjectInfo.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_project_info_1a9f61dfba4aab183c0a33c730776e3227" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *const</type>
+        <definition>const char* const ProjectInfo::companyEmail</definition>
+        <argsstring></argsstring>
+        <name>companyEmail</name>
+        <qualifiedname>ProjectInfo::companyEmail</qualifiedname>
+        <initializer>{ &quot;info@jrengmusic.com&quot;                              }</initializer>
+        <briefdescription>
+<para>Company contact email. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/ProjectInfo.h" line="40" column="39" bodyfile="generated/ProjectInfo.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="generated/ProjectInfo.h" line="24" column="1"/>
+  </compounddef>
+</doxygen>

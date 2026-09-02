@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_callbacks_8h" kind="file" language="C++">
+    <compoundname>Callbacks.h</compoundname>
+    <includes local="no">JuceHeader.h</includes>
+    <includes local="no">windows.h</includes>
+    <includes local="no">dbgeng.h</includes>
+    <includedby refid="_callbacks_8cpp" local="yes">debug/Callbacks.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>debug/Callbacks.h</label>
+        <link refid="_callbacks_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>JuceHeader.h</label>
+      </node>
+      <node id="4">
+        <label>dbgeng.h</label>
+      </node>
+      <node id="3">
+        <label>windows.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>debug/Callbacks.cpp</label>
+        <link refid="_callbacks_8cpp"/>
+      </node>
+      <node id="1">
+        <label>debug/Callbacks.h</label>
+        <link refid="_callbacks_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classdebug_1_1_output_callbacks" prot="public">debug::OutputCallbacks</innerclass>
+    <innerclass refid="classdebug_1_1_event_callbacks" prot="public">debug::EventCallbacks</innerclass>
+    <innernamespace refid="namespacedebug">debug</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;JuceHeader.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;windows.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;dbgeng.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacedebug" kindref="compound">debug</ref></highlight></codeline>
+<codeline lineno="7"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="classdebug_1_1_output_callbacks" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdebug_1_1_output_callbacks_1a9e3a13ed4c109a256db7fd377aa15c5d" kindref="member">OutputCallbacks</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IDebugOutputCallbacks2</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25" refid="classdebug_1_1_output_callbacks_1a9e3a13ed4c109a256db7fd377aa15c5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_output_callbacks_1a9e3a13ed4c109a256db7fd377aa15c5d" kindref="member">OutputCallbacks</ref><sp/>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classdebug_1_1_output_callbacks_1a6574743c1cfd29521d57e5d41b05e33d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_output_callbacks_1a6574743c1cfd29521d57e5d41b05e33d" kindref="member">STDMETHOD_</ref><sp/>(ULONG,<sp/>AddRef)<sp/>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d" kindref="member">STDMETHOD_</ref><sp/>(ULONG,<sp/>Release)<sp/>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_output_callbacks_1ae8ec1d39b891624fcc2167ce4210da01" kindref="member">QueryInterface</ref>)<sp/>(REFIID<sp/>interfaceId,<sp/>PVOID*<sp/>outInterface)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_output_callbacks_1ae7585eb0c1e5a6397ab1f78313179724" kindref="member">Output</ref>)<sp/>(ULONG<sp/>mask,<sp/>PCSTR<sp/><ref refid="namespacetext" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">text</ref>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_output_callbacks_1a7b53d1ebf9716fe903739326e6088578" kindref="member">GetInterestMask</ref>)<sp/>(PULONG<sp/>mask)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_output_callbacks_1aadd3810605f6ea389591feeee73a026f" kindref="member">Output2</ref>)<sp/>(ULONG<sp/>which,<sp/>ULONG<sp/>flags,<sp/>ULONG64<sp/>arg,<sp/>PCWSTR<sp/><ref refid="namespacetext" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">text</ref>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="102" refid="classdebug_1_1_output_callbacks_1a45b9e75bb91dff19d9e99ea8ee9610c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ULONG<sp/><ref refid="classdebug_1_1_output_callbacks_1a45b9e75bb91dff19d9e99ea8ee9610c8" kindref="member">refCount</ref><sp/>{<sp/>1<sp/>};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="juce__PlatformDefs_8h_1a851b02724a8158a7f746c66b5758b3dd" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR</ref><sp/>(<ref refid="classdebug_1_1_output_callbacks" kindref="compound">OutputCallbacks</ref>)</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="classdebug_1_1_event_callbacks" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdebug_1_1_event_callbacks_1a3e3d40f7b3df1431a491418bd13e8080" kindref="member">EventCallbacks</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IDebugEventCallbacks</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="127" refid="classdebug_1_1_event_callbacks_1a3e3d40f7b3df1431a491418bd13e8080" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_event_callbacks_1a3e3d40f7b3df1431a491418bd13e8080" kindref="member">EventCallbacks</ref><sp/>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="classdebug_1_1_event_callbacks_1a72793df67996cc3da682fb9b2fde4471" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_event_callbacks_1a72793df67996cc3da682fb9b2fde4471" kindref="member">STDMETHOD_</ref><sp/>(ULONG,<sp/>AddRef)<sp/>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb" kindref="member">STDMETHOD_</ref><sp/>(ULONG,<sp/>Release)<sp/>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_event_callbacks_1aea948dace17853fb50374cd83f6a3216" kindref="member">QueryInterface</ref>)<sp/>(REFIID<sp/>interfaceId,<sp/>PVOID*<sp/>outInterface)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_event_callbacks_1aabfc1dc5cc191da52b2e9b30972c6286" kindref="member">GetInterestMask</ref>)<sp/>(PULONG<sp/>mask)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_event_callbacks_1ac02c50a34f8500e044560afa92efc6cb" kindref="member">Breakpoint</ref>)<sp/>(PDEBUG_BREAKPOINT<sp/>bp)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_event_callbacks_1a96ead16320ba94b8f040e68564c5e2f4" kindref="member">Exception</ref>)<sp/>(PEXCEPTION_RECORD64<sp/>exception,<sp/>ULONG<sp/>firstChance)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_event_callbacks_1a34a3413c11b429f2177c710dc62808c7" kindref="member">CreateThread</ref>)<sp/>(ULONG64<sp/>handle,<sp/>ULONG64<sp/>dataOffset,<sp/>ULONG64<sp/>startOffset)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_event_callbacks_1a17487c8177971e9f4d1e39a345ecbd3f" kindref="member">ExitThread</ref>)<sp/>(ULONG<sp/>exitCode)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_event_callbacks_1a4e81450a433595744f81bbedfbc66b90" kindref="member">CreateProcess</ref>)<sp/>(ULONG64<sp/>imageFileHandle,<sp/>ULONG64<sp/>handle,<sp/>ULONG64<sp/>baseOffset,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ULONG<sp/>moduleSize,<sp/>PCSTR<sp/>moduleName,<sp/>PCSTR<sp/>imageName,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ULONG<sp/>checkSum,<sp/>ULONG<sp/>timeDateStamp,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ULONG64<sp/>initialThreadHandle,<sp/>ULONG64<sp/>threadDataOffset,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ULONG64<sp/>startOffset)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_event_callbacks_1ad0b567581d7b33ffebdd402abd788623" kindref="member">ExitProcess</ref>)<sp/>(ULONG<sp/>exitCode)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_event_callbacks_1ac81921e484f7ddf83fd941c664ef8201" kindref="member">LoadModule</ref>)<sp/>(ULONG64<sp/>imageFileHandle,<sp/>ULONG64<sp/>baseOffset,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ULONG<sp/>moduleSize,<sp/>PCSTR<sp/>moduleName,<sp/>PCSTR<sp/>imageName,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ULONG<sp/>checkSum,<sp/>ULONG<sp/>timeDateStamp)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_event_callbacks_1ae188391cb510895aed54cc3d88ede1bf" kindref="member">UnloadModule</ref>)<sp/>(PCSTR<sp/>imageBaseName,<sp/>ULONG64<sp/>baseOffset)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_event_callbacks_1a934b0003a49e40eeaf59efb47bb0e6b8" kindref="member">SystemError</ref>)<sp/>(ULONG<sp/>error,<sp/>ULONG<sp/>level)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_event_callbacks_1a463fe1f056559c03da4bb42877d43514" kindref="member">SessionStatus</ref>)<sp/>(ULONG<sp/>status)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_event_callbacks_1af3d0c4748dac01c787f7aac019adbb4f" kindref="member">ChangeDebuggeeState</ref>)<sp/>(ULONG<sp/>flags,<sp/>ULONG64<sp/>argument)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_event_callbacks_1ad7d3870483f375d8c58d653e16151195" kindref="member">ChangeEngineState</ref>)<sp/>(ULONG<sp/>flags,<sp/>ULONG64<sp/>argument)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>STDMETHOD<sp/>(<ref refid="classdebug_1_1_event_callbacks_1a111f33ce93664cdd476484e9ef4bb21c" kindref="member">ChangeSymbolState</ref>)<sp/>(ULONG<sp/>flags,<sp/>ULONG64<sp/>argument)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="310" refid="classdebug_1_1_event_callbacks_1a18a737a0ccb8ddb808351d40273fff6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ULONG<sp/><ref refid="classdebug_1_1_event_callbacks_1a18a737a0ccb8ddb808351d40273fff6f" kindref="member">refCount</ref><sp/>{<sp/>1<sp/>};</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="juce__PlatformDefs_8h_1a851b02724a8158a7f746c66b5758b3dd" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR</ref><sp/>(<ref refid="classdebug_1_1_event_callbacks" kindref="compound">EventCallbacks</ref>)</highlight></codeline>
+<codeline lineno="313"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>debug</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="debug/Callbacks.h"/>
+  </compounddef>
+</doxygen>

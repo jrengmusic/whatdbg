@@ -1,28 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# §2 — Pinned LLVM version
+# Pinned LLVM version
 LLVM_TAG="llvmorg-21.1.8"
 
-# §3 — Repo-root anchoring
+# Repo-root anchoring
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# §4 — Paths (constants, defined once — SSOT)
+# Paths
 WORK_DIR="$REPO_ROOT/Builds/liblldb"
 SRC_DIR="$WORK_DIR/llvm-project"
 BUILD_DIR="$WORK_DIR/cmake"
 DIST_DIR="$REPO_ROOT/Resources/macos"
 
-# §5 — Gitignore protection
-GITIGNORE="$REPO_ROOT/.gitignore"
-if grep -qE '^Resources/macos/?$' "$GITIGNORE"; then
-    echo "=== .gitignore already contains Resources/macos/ — no change needed ==="
-else
-    echo "Resources/macos/" >> "$GITIGNORE"
-    echo "=== Appended 'Resources/macos/' to $GITIGNORE ==="
-fi
-
-# §6 — Fetch llvm-project source at pinned tag (resumable tarball, not git clone)
+# Fetch llvm-project source at pinned tag (resumable tarball, not git clone)
 if [[ -d "$SRC_DIR" ]]; then
     echo "=== WARNING: $SRC_DIR already exists. ==="
     echo "=== To change the tag, remove $SRC_DIR manually and re-run. ==="
@@ -57,13 +48,14 @@ else
     rm -f "$TARBALL"
 fi
 
-# §6.5 — Clean cmake build dir (force reconfigure)
+# Clean cmake build dir (force reconfigure)
 if [[ -d "$BUILD_DIR" ]]; then
     echo "=== Cleaning previous cmake build directory ==="
     rm -rf "$BUILD_DIR"
 fi
 
-# §7 — Configure build (CMake + Ninja, single universal build)
+# Configure build (CMake + Ninja) — builds a universal (arm64+x86_64) dylib,
+# split into per-arch thin dylibs below
 cmake -G Ninja \
     -S "$SRC_DIR/llvm" \
     -B "$BUILD_DIR" \
@@ -81,10 +73,10 @@ cmake -G Ninja \
     -DLLDB_INCLUDE_TESTS=OFF \
     -DLLDB_USE_SYSTEM_DEBUGSERVER=ON
 
-# §8 — Build only the liblldb target
+# Build only the liblldb target
 cmake --build "$BUILD_DIR" --target liblldb
 
-# §9 — Stage outputs under $DIST_DIR
+# Stage outputs under $DIST_DIR
 mkdir -p "$DIST_DIR/arm64" "$DIST_DIR/x86_64" "$DIST_DIR/include/lldb/API" "$DIST_DIR/licenses"
 
 # Remove stale universal dylib from previous layout
@@ -135,7 +127,7 @@ else
     exit 1
 fi
 
-# §10 — Report sizes
+# Report sizes
 ARM64_SIZE_BYTES="$(stat -f%z "$DIST_DIR/arm64/liblldb.dylib")"
 ARM64_SIZE_MB="$(echo "scale=2; $ARM64_SIZE_BYTES / 1048576" | bc)"
 X86_SIZE_BYTES="$(stat -f%z "$DIST_DIR/x86_64/liblldb.dylib")"

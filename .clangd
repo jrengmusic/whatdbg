@@ -1,11 +1,39 @@
 CompileFlags:
-  CompilationDatabase: C:/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Ninja
+  CompilationDatabase: /Users/jreng/Documents/Poems/dev/whatdbg
+  Remove: [--target=*]
   Add:
-    - -D_WIN32=1
-    - -DJUCE_WINDOWS=1
-    - -DJUCE_MAC=0
-    - -DJUCE_IOS=0
-    - -DJUCE_LINUX=0
+    - -DCAST_COMMIT=\"61fbf52\"
+    - -DDEBUG=1
+    - -DDONT_SET_USING_JUCE_NAMESPACE=1
+    - -DJUCE_DONT_DECLARE_PROJECTINFO=1
+    - -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1
+    - -DJUCE_IN_APP_PURCHASES=0
+    - -DJUCE_MODULE_AVAILABLE_jam_core=1
+    - -DJUCE_MODULE_AVAILABLE_juce_core=1
+    - -DJUCE_MODULE_AVAILABLE_juce_data_structures=1
+    - -DJUCE_MODULE_AVAILABLE_juce_events=1
+    - -DJUCE_MODULE_AVAILABLE_juce_graphics=1
+    - -DJUCE_STANDALONE_APPLICATION=1
+    - -DJUCE_TARGET_HAS_BINARY_DATA=1
+    - -D_DEBUG=1
+    - -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Debug/whatdbg_artefacts/JuceLibraryCode
+    - -I/Users/jreng/Documents/Poems/dev/whatdbg/../jam
+    - -I/Users/jreng/Documents/Poems/dev/whatdbg/Source/generated
+    - -I/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/include
+    - -I/Users/jreng/Documents/Poems/JUCE/modules
+    - -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Debug/juce_binarydata_whatdbg_BinaryData/JuceLibraryCode
+    - -g
+    - -std=c++17
+    - -arch
+    - arm64
+    - -mmacosx-version-min=12.0
+    - -Wno-shadow
+    - -Wno-unused-parameter
+    - -Wno-float-equal
+    - -Wno-sign-conversion
+    - -Wno-switch-enum
+    - -Wno-implicit-float-conversion
+    - -O0
 Diagnostics:
   MissingIncludes: None
   UnusedIncludes: None

@@ -1,0 +1,342 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="namespacedap" kind="namespace" language="C++">
+    <compoundname>dap</compoundname>
+    <innerclass refid="classdap_1_1_reader" prot="public">dap::Reader</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacedap_1a780e3d0082c1cbb3161850f93e8f1a5a" prot="public" static="no">
+        <type><ref refid="classjuce_1_1ReferenceCountedObjectPtr" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::ReferenceCountedObjectPtr</ref>&lt; <ref refid="classjuce_1_1DynamicObject" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::DynamicObject</ref> &gt;</type>
+        <definition>using dap::DynObj = juce::ReferenceCountedObjectPtr&lt;juce::DynamicObject&gt;</definition>
+        <argsstring></argsstring>
+        <name>DynObj</name>
+        <qualifiedname>dap::DynObj</qualifiedname>
+        <briefdescription>
+<para>Convenience alias for a reference-counted DynamicObject pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used throughout the DAP layer to build JSON objects without manual reference counting. The underlying DynamicObject is heap-allocated and kept alive by the <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> that wraps it. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/Types.h" line="13" column="1" bodyfile="dap/Types.h" bodystart="13" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int dap::nextSeq</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>nextSeq</name>
+        <qualifiedname>dap::nextSeq</qualifiedname>
+        <briefdescription>
+<para>Return the next monotonically increasing DAP sequence number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Every DAP message (request, response, event) must carry a unique seq field. This function provides the global counter shared across all message types.</para>
+<para><simplesect kind="return"><para>The next sequence number, starting at 1.</para>
+</simplesect>
+<simplesect kind="note"><para>Not thread-safe. Must only be called on the main thread. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/Types.h" line="24" column="12" bodyfile="dap/Types.h" bodystart="24" bodyend="28"/>
+        <references refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" compoundref="_types_8h" startline="24" endline="28">nextSeq</references>
+        <referencedby refid="namespacedap_1a5a2ac619b609fedbf2c846a991d456f8" compoundref="_types_8h" startline="69" endline="81">makeErrorResponse</referencedby>
+        <referencedby refid="namespacedap_1a1b0dd546882147a77e43f8b8651403b8" compoundref="_types_8h" startline="92" endline="104">makeEvent</referencedby>
+        <referencedby refid="namespacedap_1acc0ff697b8a401f5d9afe00457a3cba7" compoundref="_types_8h" startline="41" endline="57">makeResponse</referencedby>
+        <referencedby refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" compoundref="_types_8h" startline="24" endline="28">nextSeq</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacedap_1acc0ff697b8a401f5d9afe00457a3cba7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref></type>
+        <definition>juce::var dap::makeResponse</definition>
+        <argsstring>(int requestSeq, const juce::String &amp;command, bool isSuccess, juce::var body=juce::var()) noexcept</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>dap::makeResponse</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>requestSeq</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>command</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isSuccess</declname>
+        </param>
+        <param>
+          <type><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref></type>
+          <declname>body</declname>
+          <defval><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Build a DAP response object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructs the mandatory DAP response envelope with seq, type, request_seq, command, and success fields. Optionally attaches a body object.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>requestSeq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The seq value of the originating request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>command</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The command name being responded to (e.g. &quot;initialize&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isSuccess</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the command succeeded. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional response body. Omitted when void (default). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> containing the fully formed response DynamicObject. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/Types.h" line="41" column="18" bodyfile="dap/Types.h" bodystart="41" bodyend="57"/>
+        <references refid="namespacedap_1acc0ff697b8a401f5d9afe00457a3cba7" compoundref="_types_8h" startline="41" endline="57">makeResponse</references>
+        <references refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" compoundref="_types_8h" startline="24" endline="28">nextSeq</references>
+        <referencedby refid="namespacedap_1acc0ff697b8a401f5d9afe00457a3cba7" compoundref="_types_8h" startline="41" endline="57">makeResponse</referencedby>
+        <referencedby refid="class_whatdbg_1a5dfa0d2f778277c1d3b07c3b6a24690f" compoundref="_whatdbg_handlers_8cpp" startline="66" endline="103">Whatdbg::onAttach</referencedby>
+        <referencedby refid="class_whatdbg_1a96a35e3e38d93954d08e29902625ceb8" compoundref="_whatdbg_handlers_8cpp" startline="105" endline="116">Whatdbg::onConfigurationDone</referencedby>
+        <referencedby refid="class_whatdbg_1a782112f5a9e514b84d1047131029259a" compoundref="_whatdbg_handlers_8cpp" startline="299" endline="311">Whatdbg::onContinue</referencedby>
+        <referencedby refid="class_whatdbg_1a395d6e3959f5c911b0004155e12c63e4" compoundref="_whatdbg_handlers_8cpp" startline="118" endline="129">Whatdbg::onDisconnect</referencedby>
+        <referencedby refid="class_whatdbg_1a5c53bfe14d5a61d11b537327f1d9acdf" compoundref="_whatdbg_handlers_8cpp" startline="378" endline="417">Whatdbg::onEvaluate</referencedby>
+        <referencedby refid="class_whatdbg_1a027eb51c11af08478feea846deae2932" compoundref="_whatdbg_handlers_8cpp" startline="362" endline="376">Whatdbg::onExceptionInfo</referencedby>
+        <referencedby refid="class_whatdbg_1acb7036a0d98391375eadaf2963f32058" compoundref="_whatdbg_handlers_8cpp" startline="14" endline="19">Whatdbg::onInitialize</referencedby>
+        <referencedby refid="class_whatdbg_1a915d31b44bfab74c161a43170582c5cc" compoundref="_whatdbg_handlers_8cpp" startline="21" endline="44">Whatdbg::onLaunch</referencedby>
+        <referencedby refid="class_whatdbg_1a897c4a96a9be1b1ab1ff3b9ab18801bb" compoundref="_whatdbg_handlers_8cpp" startline="313" endline="325">Whatdbg::onNext</referencedby>
+        <referencedby refid="class_whatdbg_1a919304746e0b3a5c05bc18e497f2296d" compoundref="_whatdbg_handlers_8cpp" startline="352" endline="360">Whatdbg::onPause</referencedby>
+        <referencedby refid="class_whatdbg_1ad05bdb6a5305ac76780d959d10025cbb" compoundref="_whatdbg_handlers_8cpp" startline="194" endline="233">Whatdbg::onScopes</referencedby>
+        <referencedby refid="class_whatdbg_1adc196f583d80f402bc58c818f49e2273" compoundref="_whatdbg_handlers_8cpp" startline="131" endline="150">Whatdbg::onSetBreakpoints</referencedby>
+        <referencedby refid="class_whatdbg_1a11b1b5b975c27c575f9087a188eda93b" compoundref="_whatdbg_handlers_8cpp" startline="163" endline="192">Whatdbg::onStackTrace</referencedby>
+        <referencedby refid="class_whatdbg_1af628bdbba100fbe6e7db2c7b4ec85b03" compoundref="_whatdbg_handlers_8cpp" startline="327" endline="339">Whatdbg::onStepIn</referencedby>
+        <referencedby refid="class_whatdbg_1aa309669a65e130f843f8bf617b6da56e" compoundref="_whatdbg_handlers_8cpp" startline="341" endline="350">Whatdbg::onStepOut</referencedby>
+        <referencedby refid="class_whatdbg_1a4eb1d0bebc12fb2289c402d8c1ca62c6" compoundref="_whatdbg_handlers_8cpp" startline="152" endline="161">Whatdbg::onThreads</referencedby>
+        <referencedby refid="class_whatdbg_1adfdf65edd62332431edae566f516a265" compoundref="_whatdbg_handlers_8cpp" startline="235" endline="272">Whatdbg::onVariables</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacedap_1a5a2ac619b609fedbf2c846a991d456f8" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref></type>
+        <definition>juce::var dap::makeErrorResponse</definition>
+        <argsstring>(int requestSeq, const juce::String &amp;command, const juce::String &amp;message) noexcept</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>dap::makeErrorResponse</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>requestSeq</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>command</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Build a DAP error response object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience wrapper around makeResponse for the failure case. Sets success=false and attaches a human-readable message string.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>requestSeq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The seq value of the originating request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>command</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The command name being responded to. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable description of the error. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> containing the error response DynamicObject. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/Types.h" line="69" column="18" bodyfile="dap/Types.h" bodystart="69" bodyend="81"/>
+        <references refid="namespacedap_1a5a2ac619b609fedbf2c846a991d456f8" compoundref="_types_8h" startline="69" endline="81">makeErrorResponse</references>
+        <references refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" compoundref="_types_8h" startline="24" endline="28">nextSeq</references>
+        <referencedby refid="namespacedap_1a5a2ac619b609fedbf2c846a991d456f8" compoundref="_types_8h" startline="69" endline="81">makeErrorResponse</referencedby>
+        <referencedby refid="class_whatdbg_1a5dfa0d2f778277c1d3b07c3b6a24690f" compoundref="_whatdbg_handlers_8cpp" startline="66" endline="103">Whatdbg::onAttach</referencedby>
+        <referencedby refid="class_whatdbg_1a4b721d0fd2eb6da6fb7719d2c23a01fd" compoundref="_whatdbg_8cpp" startline="118" endline="142">Whatdbg::onCommand</referencedby>
+        <referencedby refid="class_whatdbg_1a5c53bfe14d5a61d11b537327f1d9acdf" compoundref="_whatdbg_handlers_8cpp" startline="378" endline="417">Whatdbg::onEvaluate</referencedby>
+        <referencedby refid="class_whatdbg_1a915d31b44bfab74c161a43170582c5cc" compoundref="_whatdbg_handlers_8cpp" startline="21" endline="44">Whatdbg::onLaunch</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacedap_1a1b0dd546882147a77e43f8b8651403b8" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref></type>
+        <definition>juce::var dap::makeEvent</definition>
+        <argsstring>(const juce::String &amp;event, juce::var body=juce::var()) noexcept</argsstring>
+        <name>makeEvent</name>
+        <qualifiedname>dap::makeEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref></type>
+          <declname>body</declname>
+          <defval><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Build a DAP event object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructs the mandatory DAP event envelope with seq, type, and event fields. Optionally attaches a body object.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The event name (e.g. &quot;stopped&quot;, &quot;output&quot;, &quot;terminated&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional event body. Omitted when void (default). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> containing the fully formed event DynamicObject. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/Types.h" line="92" column="18" bodyfile="dap/Types.h" bodystart="92" bodyend="104"/>
+        <references refid="namespacedap_1a1b0dd546882147a77e43f8b8651403b8" compoundref="_types_8h" startline="92" endline="104">makeEvent</references>
+        <references refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" compoundref="_types_8h" startline="24" endline="28">nextSeq</references>
+        <referencedby refid="class_whatdbg_1a834b68aae2e580ba9b29ab9b0f8dc48f" compoundref="_whatdbg_8cpp" startline="387" endline="419">Whatdbg::addPendingBreakpointsAndResume</referencedby>
+        <referencedby refid="namespacedap_1a1b0dd546882147a77e43f8b8651403b8" compoundref="_types_8h" startline="92" endline="104">makeEvent</referencedby>
+        <referencedby refid="class_whatdbg_1a198c935398a902e826f1bce42c7e3d53" compoundref="_whatdbg_8cpp" startline="157" endline="186">Whatdbg::onBreakpointHit</referencedby>
+        <referencedby refid="class_whatdbg_1a810190c80e5c47d4b28c2c988b1779b1" compoundref="_whatdbg_8cpp" startline="264" endline="297">Whatdbg::onBreakpointLocationResolved</referencedby>
+        <referencedby refid="class_whatdbg_1a57d4c6c48dad2ce8464912728f2a2b94" compoundref="_whatdbg_8cpp" startline="299" endline="314">Whatdbg::onDebuggeeOutput</referencedby>
+        <referencedby refid="class_whatdbg_1a83a95b50014018a2569b37ff417cc164" compoundref="_whatdbg_8cpp" startline="316" endline="350">Whatdbg::onExceptionStopped</referencedby>
+        <referencedby refid="class_whatdbg_1acb7036a0d98391375eadaf2963f32058" compoundref="_whatdbg_handlers_8cpp" startline="14" endline="19">Whatdbg::onInitialize</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a42204301931af1fe6ef33640082791b3" compoundref="_breakpoint_manager_handlers_8cpp" startline="298" endline="336">debug::BreakpointManager::onModuleLoad</referencedby>
+        <referencedby refid="class_whatdbg_1aff4f0452320284237ee7984b054ba9a5" compoundref="_whatdbg_8cpp" startline="208" endline="225">Whatdbg::onPauseCompleted</referencedby>
+        <referencedby refid="class_whatdbg_1ae8d67f018347ebad330f8090f0ed2234" compoundref="_whatdbg_8cpp" startline="352" endline="372">Whatdbg::onProcessExited</referencedby>
+        <referencedby refid="class_whatdbg_1a802d7c4bdc8a1c32e6c9f1bb823f3364" compoundref="_whatdbg_8cpp" startline="188" endline="206">Whatdbg::onStepCompleted</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacedap_1afe331e1b658092c8b53428057bb6e101" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref></type>
+        <definition>juce::var dap::makeCapabilities</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>makeCapabilities</name>
+        <qualifiedname>dap::makeCapabilities</qualifiedname>
+        <briefdescription>
+<para>Build the DAP capabilities object advertised during the initialize handshake. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Lists every capability flag defined by the DAP specification with its current supported state. Unsupported capabilities are explicitly set to false so clients do not attempt to use them.</para>
+<para><simplesect kind="return"><para>A <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> containing the capabilities DynamicObject.</para>
+</simplesect>
+<simplesect kind="note"><para>Update this function whenever a new capability is implemented or dropped. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/Types.h" line="116" column="18" bodyfile="dap/Types.h" bodystart="116" bodyend="151"/>
+        <references refid="namespacedap_1afe331e1b658092c8b53428057bb6e101" compoundref="_types_8h" startline="116" endline="151">makeCapabilities</references>
+        <referencedby refid="namespacedap_1afe331e1b658092c8b53428057bb6e101" compoundref="_types_8h" startline="116" endline="151">makeCapabilities</referencedby>
+        <referencedby refid="class_whatdbg_1acb7036a0d98391375eadaf2963f32058" compoundref="_whatdbg_handlers_8cpp" startline="14" endline="19">Whatdbg::onInitialize</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacedap_1a4767022a06d6fc84ff9949309b4fd644" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
+        <definition>juce::String dap::getString</definition>
+        <argsstring>(const juce::var &amp;obj, const juce::Identifier &amp;key) noexcept</argsstring>
+        <name>getString</name>
+        <qualifiedname>dap::getString</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> &amp;</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classjuce_1_1Identifier" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Identifier</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Extract a string property from a DAP message object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Safe to call on any <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> — returns an empty string if obj is not a DynamicObject or if the property does not exist.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> expected to wrap a DynamicObject (parsed DAP message). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The property name to retrieve. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The property value as a string, or an empty string if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/Types.h" line="162" column="21" bodyfile="dap/Types.h" bodystart="162" bodyend="168"/>
+        <references refid="namespacedap_1a4767022a06d6fc84ff9949309b4fd644" compoundref="_types_8h" startline="162" endline="168">getString</references>
+        <referencedby refid="namespacedap_1a4767022a06d6fc84ff9949309b4fd644" compoundref="_types_8h" startline="162" endline="168">getString</referencedby>
+        <referencedby refid="class_whatdbg_1a5dfa0d2f778277c1d3b07c3b6a24690f" compoundref="_whatdbg_handlers_8cpp" startline="66" endline="103">Whatdbg::onAttach</referencedby>
+        <referencedby refid="class_whatdbg_1a5c53bfe14d5a61d11b537327f1d9acdf" compoundref="_whatdbg_handlers_8cpp" startline="378" endline="417">Whatdbg::onEvaluate</referencedby>
+        <referencedby refid="class_whatdbg_1a915d31b44bfab74c161a43170582c5cc" compoundref="_whatdbg_handlers_8cpp" startline="21" endline="44">Whatdbg::onLaunch</referencedby>
+        <referencedby refid="class_whatdbg_1adc196f583d80f402bc58c818f49e2273" compoundref="_whatdbg_handlers_8cpp" startline="131" endline="150">Whatdbg::onSetBreakpoints</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="dap/Reader.cpp" line="17" column="1"/>
+  </compounddef>
+</doxygen>

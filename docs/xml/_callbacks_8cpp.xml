@@ -1,0 +1,626 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_callbacks_8cpp" kind="file" language="C++">
+    <compoundname>Callbacks.cpp</compoundname>
+    <includes local="no">JuceHeader.h</includes>
+    <includes refid="_callbacks_8h" local="yes">Callbacks.h</includes>
+    <includes refid="_state_8h" local="yes">State.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>debug/Callbacks.cpp</label>
+        <link refid="_callbacks_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Callbacks.h</label>
+        <link refid="_callbacks_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>State.h</label>
+        <link refid="_state_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>JuceHeader.h</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>dbgeng.h</label>
+      </node>
+      <node id="4">
+        <label>windows.h</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacedebug">debug</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="_callbacks_8cpp_1aa9d758e99e82d5b8be12ebbf28db90b4" prot="public" static="no">
+        <type>HRESULT(*)(<ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> *, PEXCEPTION_RECORD64, ULONG firstChance)</type>
+        <definition>using ExceptionCallback = HRESULT (*) (debug::State*, PEXCEPTION_RECORD64, ULONG firstChance)</definition>
+        <argsstring></argsstring>
+        <name>ExceptionCallback</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.cpp" line="19" column="1" bodyfile="debug/Callbacks.cpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="_callbacks_8cpp_1abea773ce2e1da7d43a210c6411ebcc4b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>DWORD</type>
+        <definition>DWORD MS_VC_EXCEPTION</definition>
+        <argsstring></argsstring>
+        <name>MS_VC_EXCEPTION</name>
+        <initializer>{ 0x406D1388 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.cpp" line="13" column="24" bodyfile="debug/Callbacks.cpp" bodystart="13" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="variable" id="_callbacks_8cpp_1a318119932aef1f7149259fedc216e13f" prot="public" static="yes" mutable="no">
+        <type>const std::unordered_map&lt; DWORD, <ref refid="_callbacks_8cpp_1aa9d758e99e82d5b8be12ebbf28db90b4" kindref="member">ExceptionCallback</ref> &gt;</type>
+        <definition>const std::unordered_map&lt;DWORD, ExceptionCallback&gt; exceptions</definition>
+        <argsstring></argsstring>
+        <name>exceptions</name>
+        <initializer>{
+    { EXCEPTION_BREAKPOINT, <ref refid="_callbacks_8cpp_1af57d30afd5c00fdb42ff43da26024c6d" kindref="member">onBreakpoint</ref>  },
+    { <ref refid="_callbacks_8cpp_1abea773ce2e1da7d43a210c6411ebcc4b" kindref="member">MS_VC_EXCEPTION</ref>,      <ref refid="_callbacks_8cpp_1acca841c091f5a56b4aec96ea3198df42" kindref="member">onThreadName</ref>  },
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.cpp" line="57" column="33" bodyfile="debug/Callbacks.cpp" bodystart="58" bodyend="61"/>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a96ead16320ba94b8f040e68564c5e2f4" compoundref="_callbacks_8cpp" startline="259" endline="277">debug::EventCallbacks::Exception</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="_callbacks_8cpp_1af563ae0464a33bfcf3baacc48a2681fe" prot="public" static="yes" mutable="no">
+        <type>const std::unordered_map&lt; DWORD, const char * &gt;</type>
+        <definition>const std::unordered_map&lt;DWORD, const char*&gt; exceptionNames</definition>
+        <argsstring></argsstring>
+        <name>exceptionNames</name>
+        <initializer>{
+    { 0xC0000005, &quot;ACCESS_VIOLATION&quot;            },
+    { 0xC000001D, &quot;ILLEGAL_INSTRUCTION&quot;         },
+    { 0xC0000025, &quot;NONCONTINUABLE_EXCEPTION&quot;    },
+    { 0xC0000026, &quot;INVALID_DISPOSITION&quot;         },
+    { 0xC000008C, &quot;ARRAY_BOUNDS_EXCEEDED&quot;       },
+    { 0xC000008D, &quot;FLOAT_DENORMAL_OPERAND&quot;      },
+    { 0xC000008E, &quot;FLOAT_DIVIDE_BY_ZERO&quot;        },
+    { 0xC000008F, &quot;FLOAT_INEXACT_RESULT&quot;        },
+    { 0xC0000090, &quot;FLOAT_INVALID_OPERATION&quot;     },
+    { 0xC0000091, &quot;FLOAT_OVERFLOW&quot;              },
+    { 0xC0000092, &quot;FLOAT_STACK_CHECK&quot;           },
+    { 0xC0000093, &quot;FLOAT_UNDERFLOW&quot;             },
+    { 0xC0000094, &quot;INTEGER_DIVIDE_BY_ZERO&quot;      },
+    { 0xC0000095, &quot;INTEGER_OVERFLOW&quot;            },
+    { 0xC0000096, &quot;PRIV_INSTRUCTION&quot;            },
+    { 0xC00000FD, &quot;STACK_OVERFLOW&quot;              },
+    { 0xE06D7363, &quot;CPP_EXCEPTION&quot;               },
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.cpp" line="63" column="33" bodyfile="debug/Callbacks.cpp" bodystart="64" bodyend="82"/>
+        <referencedby refid="namespacedebug_1aa7ddcf171359ed1c5b3158fc5f4028ae" compoundref="_callbacks_8cpp" startline="87" endline="100">debug::getExceptionName</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="_callbacks_8cpp_1af57d30afd5c00fdb42ff43da26024c6d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>HRESULT</type>
+        <definition>static HRESULT onBreakpoint</definition>
+        <argsstring>(debug::State *state, PEXCEPTION_RECORD64, ULONG)</argsstring>
+        <name>onBreakpoint</name>
+        <param>
+          <type><ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> *</type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type>PEXCEPTION_RECORD64</type>
+        </param>
+        <param>
+          <type>ULONG</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.cpp" line="21" column="16" bodyfile="debug/Callbacks.cpp" bodystart="21" bodyend="28"/>
+        <references refid="classdebug_1_1_state_1a6acfeaa677d44046db99385ccbf3243c" compoundref="_state_8h" startline="77" endline="77">debug::State::executionState</references>
+        <references refid="classdebug_1_1_state_1a50db56936181e0eb980402850b00b408" compoundref="_state_8h" startline="85" endline="85">debug::State::initialBreakPhase</references>
+        <references refid="namespacedebug_1a29cf1e1d311453d8a011a3c45309ec40a170793c95efb1cc850e8036fc41a07e1" compoundref="_state_8h" startline="33">debug::notHit</references>
+        <references refid="_callbacks_8cpp_1af57d30afd5c00fdb42ff43da26024c6d" compoundref="_callbacks_8cpp" startline="21" endline="28">onBreakpoint</references>
+        <references refid="namespacedebug_1a29cf1e1d311453d8a011a3c45309ec40a7c6c2e5d48ab37a007cbf70d3ea25fa4" compoundref="_state_8h" startline="34">debug::pending</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" compoundref="_state_8h" startline="18">debug::stopped</references>
+        <referencedby refid="_callbacks_8cpp_1af57d30afd5c00fdb42ff43da26024c6d" compoundref="_callbacks_8cpp" startline="21" endline="28">onBreakpoint</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="_callbacks_8cpp_1acca841c091f5a56b4aec96ea3198df42" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>HRESULT</type>
+        <definition>static HRESULT onThreadName</definition>
+        <argsstring>(debug::State *, PEXCEPTION_RECORD64, ULONG)</argsstring>
+        <name>onThreadName</name>
+        <param>
+          <type><ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> *</type>
+        </param>
+        <param>
+          <type>PEXCEPTION_RECORD64</type>
+        </param>
+        <param>
+          <type>ULONG</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.cpp" line="30" column="16" bodyfile="debug/Callbacks.cpp" bodystart="30" bodyend="33"/>
+        <references refid="_callbacks_8cpp_1acca841c091f5a56b4aec96ea3198df42" compoundref="_callbacks_8cpp" startline="30" endline="33">onThreadName</references>
+        <referencedby refid="_callbacks_8cpp_1acca841c091f5a56b4aec96ea3198df42" compoundref="_callbacks_8cpp" startline="30" endline="33">onThreadName</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="_callbacks_8cpp_1ad642254fa0bd56ab574c9b794dcd66e4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>HRESULT</type>
+        <definition>static HRESULT onUnknownException</definition>
+        <argsstring>(debug::State *state, PEXCEPTION_RECORD64 exception, ULONG firstChance)</argsstring>
+        <name>onUnknownException</name>
+        <param>
+          <type><ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> *</type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type>PEXCEPTION_RECORD64</type>
+          <declname>exception</declname>
+        </param>
+        <param>
+          <type>ULONG</type>
+          <declname>firstChance</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.cpp" line="35" column="16" bodyfile="debug/Callbacks.cpp" bodystart="35" bodyend="55"/>
+        <references refid="classdebug_1_1_state_1a1082a8140dbdfe2f1f74ce8599ee6551" compoundref="_state_8h" startline="245" endline="245">debug::State::exceptionAddress</references>
+        <references refid="classdebug_1_1_state_1a804a6915dd5513e66354bdf321473b09" compoundref="_state_8h" startline="238" endline="238">debug::State::exceptionCode</references>
+        <references refid="classdebug_1_1_state_1a6acfeaa677d44046db99385ccbf3243c" compoundref="_state_8h" startline="77" endline="77">debug::State::executionState</references>
+        <references refid="classdebug_1_1_state_1adb709b18997016b74c8254a53d16d1cb" compoundref="_state_8h" startline="226" endline="226">debug::State::hasExceptionStopped</references>
+        <references refid="_callbacks_8cpp_1ad642254fa0bd56ab574c9b794dcd66e4" compoundref="_callbacks_8cpp" startline="35" endline="55">onUnknownException</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" compoundref="_state_8h" startline="18">debug::stopped</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a96ead16320ba94b8f040e68564c5e2f4" compoundref="_callbacks_8cpp" startline="259" endline="277">debug::EventCallbacks::Exception</referencedby>
+        <referencedby refid="_callbacks_8cpp_1ad642254fa0bd56ab574c9b794dcd66e4" compoundref="_callbacks_8cpp" startline="35" endline="55">onUnknownException</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Windows dbgeng COM callback implementations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements IDebugEventCallbacksWide and IDebugOutputCallbacksWide for the dbgeng COM event model. Callbacks fire on the dbgeng thread — they store deferred flags on State and never write to stdout (main thread owns stdout). </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;JuceHeader.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_callbacks_8h" kindref="compound">Callbacks.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_state_8h" kindref="compound">State.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13" refid="_callbacks_8cpp_1abea773ce2e1da7d43a210c6411ebcc4b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>DWORD<sp/><ref refid="_callbacks_8cpp_1abea773ce2e1da7d43a210c6411ebcc4b" kindref="member">MS_VC_EXCEPTION</ref><sp/>{<sp/>0x406D1388<sp/>};</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Exception<sp/>callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="_callbacks_8cpp_1aa9d758e99e82d5b8be12ebbf28db90b4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="_callbacks_8cpp_1aa9d758e99e82d5b8be12ebbf28db90b4" kindref="member">ExceptionCallback</ref><sp/>=<sp/>HRESULT<sp/>(*)<sp/>(<ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref>*,<sp/>PEXCEPTION_RECORD64,<sp/>ULONG<sp/>firstChance);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="_callbacks_8cpp_1af57d30afd5c00fdb42ff43da26024c6d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>HRESULT<sp/><ref refid="_callbacks_8cpp_1af57d30afd5c00fdb42ff43da26024c6d" kindref="member">onBreakpoint</ref><sp/>(<ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref>*<sp/>state,<sp/>PEXCEPTION_RECORD64<sp/></highlight><highlight class="comment">/*exception*/</highlight><highlight class="normal">,<sp/>ULONG<sp/></highlight><highlight class="comment">/*firstChance*/</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(state-&gt;<ref refid="classdebug_1_1_state_1a50db56936181e0eb980402850b00b408" kindref="member">initialBreakPhase</ref><sp/>==<sp/><ref refid="namespacedebug_1a29cf1e1d311453d8a011a3c45309ec40a170793c95efb1cc850e8036fc41a07e1" kindref="member">debug::InitialBreakPhase::notHit</ref>)</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state-&gt;<ref refid="classdebug_1_1_state_1a50db56936181e0eb980402850b00b408" kindref="member">initialBreakPhase</ref><sp/>=<sp/><ref refid="namespacedebug_1a29cf1e1d311453d8a011a3c45309ec40a7c6c2e5d48ab37a007cbf70d3ea25fa4" kindref="member">debug::InitialBreakPhase::pending</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>state-&gt;<ref refid="classdebug_1_1_state_1a6acfeaa677d44046db99385ccbf3243c" kindref="member">executionState</ref><sp/>=<sp/><ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" kindref="member">debug::ExecutionState::stopped</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>DEBUG_STATUS_BREAK;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="_callbacks_8cpp_1acca841c091f5a56b4aec96ea3198df42" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>HRESULT<sp/><ref refid="_callbacks_8cpp_1acca841c091f5a56b4aec96ea3198df42" kindref="member">onThreadName</ref><sp/>(<ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref>*<sp/></highlight><highlight class="comment">/*state*/</highlight><highlight class="normal">,<sp/>PEXCEPTION_RECORD64<sp/></highlight><highlight class="comment">/*exception*/</highlight><highlight class="normal">,<sp/>ULONG<sp/></highlight><highlight class="comment">/*firstChance*/</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>DEBUG_STATUS_GO_NOT_HANDLED;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="_callbacks_8cpp_1ad642254fa0bd56ab574c9b794dcd66e4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>HRESULT<sp/><ref refid="_callbacks_8cpp_1ad642254fa0bd56ab574c9b794dcd66e4" kindref="member">onUnknownException</ref><sp/>(<ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref>*<sp/>state,<sp/>PEXCEPTION_RECORD64<sp/>exception,<sp/>ULONG<sp/>firstChance)</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>HRESULT<sp/>result<sp/>{<sp/>DEBUG_STATUS_BREAK<sp/>};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(firstChance<sp/>!=<sp/>0)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result<sp/>=<sp/>DEBUG_STATUS_GO_NOT_HANDLED;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(state<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>and<sp/>exception<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state-&gt;<ref refid="classdebug_1_1_state_1adb709b18997016b74c8254a53d16d1cb" kindref="member">hasExceptionStopped</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state-&gt;<ref refid="classdebug_1_1_state_1a804a6915dd5513e66354bdf321473b09" kindref="member">exceptionCode</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(exception-&gt;ExceptionCode);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state-&gt;<ref refid="classdebug_1_1_state_1a1082a8140dbdfe2f1f74ce8599ee6551" kindref="member">exceptionAddress</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(exception-&gt;ExceptionAddress);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state-&gt;<ref refid="classdebug_1_1_state_1a6acfeaa677d44046db99385ccbf3243c" kindref="member">executionState</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" kindref="member">debug::ExecutionState::stopped</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="_callbacks_8cpp_1a318119932aef1f7149259fedc216e13f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;DWORD,<sp/>ExceptionCallback&gt;<sp/><ref refid="_callbacks_8cpp_1a318119932aef1f7149259fedc216e13f" kindref="member">exceptions</ref></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>EXCEPTION_BREAKPOINT,<sp/><ref refid="_callbacks_8cpp_1af57d30afd5c00fdb42ff43da26024c6d" kindref="member">onBreakpoint</ref><sp/><sp/>},</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/><ref refid="_callbacks_8cpp_1abea773ce2e1da7d43a210c6411ebcc4b" kindref="member">MS_VC_EXCEPTION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="_callbacks_8cpp_1acca841c091f5a56b4aec96ea3198df42" kindref="member">onThreadName</ref><sp/><sp/>},</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="_callbacks_8cpp_1af563ae0464a33bfcf3baacc48a2681fe" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;DWORD,<sp/>const<sp/>char*&gt;<sp/><ref refid="_callbacks_8cpp_1af563ae0464a33bfcf3baacc48a2681fe" kindref="member">exceptionNames</ref></highlight></codeline>
+<codeline lineno="64"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xC0000005,<sp/></highlight><highlight class="stringliteral">&quot;ACCESS_VIOLATION&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xC000001D,<sp/></highlight><highlight class="stringliteral">&quot;ILLEGAL_INSTRUCTION&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xC0000025,<sp/></highlight><highlight class="stringliteral">&quot;NONCONTINUABLE_EXCEPTION&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xC0000026,<sp/></highlight><highlight class="stringliteral">&quot;INVALID_DISPOSITION&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xC000008C,<sp/></highlight><highlight class="stringliteral">&quot;ARRAY_BOUNDS_EXCEEDED&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xC000008D,<sp/></highlight><highlight class="stringliteral">&quot;FLOAT_DENORMAL_OPERAND&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xC000008E,<sp/></highlight><highlight class="stringliteral">&quot;FLOAT_DIVIDE_BY_ZERO&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xC000008F,<sp/></highlight><highlight class="stringliteral">&quot;FLOAT_INEXACT_RESULT&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xC0000090,<sp/></highlight><highlight class="stringliteral">&quot;FLOAT_INVALID_OPERATION&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xC0000091,<sp/></highlight><highlight class="stringliteral">&quot;FLOAT_OVERFLOW&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xC0000092,<sp/></highlight><highlight class="stringliteral">&quot;FLOAT_STACK_CHECK&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xC0000093,<sp/></highlight><highlight class="stringliteral">&quot;FLOAT_UNDERFLOW&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xC0000094,<sp/></highlight><highlight class="stringliteral">&quot;INTEGER_DIVIDE_BY_ZERO&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xC0000095,<sp/></highlight><highlight class="stringliteral">&quot;INTEGER_OVERFLOW&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xC0000096,<sp/></highlight><highlight class="stringliteral">&quot;PRIV_INSTRUCTION&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xC00000FD,<sp/></highlight><highlight class="stringliteral">&quot;STACK_OVERFLOW&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/>0xE06D7363,<sp/></highlight><highlight class="stringliteral">&quot;CPP_EXCEPTION&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacedebug" kindref="compound">debug</ref></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="namespacedebug_1aa7ddcf171359ed1c5b3158fc5f4028ae" refkind="member"><highlight class="normal"><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><ref refid="namespacedebug_1aa7ddcf171359ed1c5b3158fc5f4028ae" kindref="member">getExceptionName</ref><sp/>(std::uint32_t<sp/><ref refid="juce__UnityPluginInterface_8h_1a45a5b7c00a796a23f01673cef1dbe0a9" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">code</ref>)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>result<sp/>{<sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>(</highlight><highlight class="stringliteral">&quot;0x&quot;</highlight><highlight class="normal">)<sp/>+<sp/><ref refid="classjuce_1_1String_1a949625c3152cfe177035772a5ff08559" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String::toHexString</ref><sp/>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacejuce_1a6afa306885ea6220ef17d2a02cfa7f0a" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::int64</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(<ref refid="juce__UnityPluginInterface_8h_1a45a5b7c00a796a23f01673cef1dbe0a9" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">code</ref>))<sp/>};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exceptionEntry<sp/>{<sp/><ref refid="_callbacks_8cpp_1af563ae0464a33bfcf3baacc48a2681fe" kindref="member">exceptionNames</ref>.find<sp/>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">DWORD</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(<ref refid="juce__UnityPluginInterface_8h_1a45a5b7c00a796a23f01673cef1dbe0a9" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">code</ref>))<sp/>};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(exceptionEntry<sp/>!=<sp/><ref refid="_callbacks_8cpp_1af563ae0464a33bfcf3baacc48a2681fe" kindref="member">exceptionNames</ref>.end<sp/>())</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[exceptionCode,<sp/>exceptionName]<sp/>{<sp/>*exceptionEntry<sp/>};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result<sp/>=<sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>(exceptionName);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OutputCallbacks<sp/>—<sp/>IUnknown</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">ULONG<sp/>OutputCallbacks::AddRef<sp/>()</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>++<ref refid="classdebug_1_1_output_callbacks_1a45b9e75bb91dff19d9e99ea8ee9610c8" kindref="member">refCount</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal">ULONG<sp/>OutputCallbacks::Release<sp/>()</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ULONG<sp/>remaining<sp/>{<sp/>--<ref refid="classdebug_1_1_output_callbacks_1a45b9e75bb91dff19d9e99ea8ee9610c8" kindref="member">refCount</ref><sp/>};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>remaining;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="classdebug_1_1_output_callbacks_1ae8ec1d39b891624fcc2167ce4210da01" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_output_callbacks_1ae8ec1d39b891624fcc2167ce4210da01" kindref="member">OutputCallbacks::QueryInterface</ref><sp/>(REFIID<sp/>interfaceId,<sp/>PVOID*<sp/>outInterface)</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>HRESULT<sp/>result<sp/>{<sp/>E_NOINTERFACE<sp/>};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>*outInterface<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(interfaceId<sp/>==<sp/>IID_IUnknown)</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*outInterface<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">IUnknown*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AddRef<sp/>();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result<sp/>=<sp/>S_OK;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(interfaceId<sp/>==<sp/>IID_IDebugOutputCallbacks)</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*outInterface<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">IDebugOutputCallbacks*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AddRef<sp/>();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result<sp/>=<sp/>S_OK;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(interfaceId<sp/>==<sp/>IID_IDebugOutputCallbacks2)</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*outInterface<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">IDebugOutputCallbacks2*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AddRef<sp/>();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result<sp/>=<sp/>S_OK;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OutputCallbacks<sp/>—<sp/>IDebugOutputCallbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="classdebug_1_1_output_callbacks_1ae7585eb0c1e5a6397ab1f78313179724" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_output_callbacks_1ae7585eb0c1e5a6397ab1f78313179724" kindref="member">OutputCallbacks::Output</ref><sp/>(ULONG<sp/></highlight><highlight class="comment">/*mask*/</highlight><highlight class="normal">,<sp/>PCSTR<sp/><ref refid="namespacetext" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">text</ref>)</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(<ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>(<ref refid="namespacetext" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">text</ref>));</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>S_OK;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OutputCallbacks<sp/>—<sp/>IDebugOutputCallbacks2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="classdebug_1_1_output_callbacks_1a7b53d1ebf9716fe903739326e6088578" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_output_callbacks_1a7b53d1ebf9716fe903739326e6088578" kindref="member">OutputCallbacks::GetInterestMask</ref><sp/>(PULONG<sp/>mask)</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>*mask<sp/>=<sp/>DEBUG_OUTCBI_ANY_FORMAT;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>S_OK;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="classdebug_1_1_output_callbacks_1aadd3810605f6ea389591feeee73a026f" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_output_callbacks_1aadd3810605f6ea389591feeee73a026f" kindref="member">OutputCallbacks::Output2</ref><sp/>(ULONG<sp/>which,<sp/>ULONG<sp/>flags,<sp/>ULONG64<sp/>arg,<sp/>PCWSTR<sp/><ref refid="namespacetext" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">text</ref>)</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::ignoreUnused</ref><sp/>(flags);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isText<sp/>{<sp/>which<sp/>==<sp/>DEBUG_OUTCB_TEXT<sp/>};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isText<sp/>and<sp/><ref refid="namespacetext" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">text</ref><sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ULONG<sp/>mask<sp/>{<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">ULONG</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(arg)<sp/>};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isDebuggeeOutput<sp/>{<sp/>(mask<sp/>&amp;<sp/>DEBUG_OUTPUT_DEBUGGEE)<sp/>!=<sp/>0<sp/>};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isDebuggeeOutput)</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>state<sp/>{<sp/><ref refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">State::getInstance</ref><sp/>()<sp/>};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state-&gt;debuggeeOutputText<sp/>+=<sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>(<ref refid="namespacetext" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">text</ref>);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state-&gt;hasDebuggeeOutput<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>S_OK;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EventCallbacks<sp/>—<sp/>IUnknown</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal">ULONG<sp/>EventCallbacks::AddRef<sp/>()</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>++<ref refid="classdebug_1_1_event_callbacks_1a18a737a0ccb8ddb808351d40273fff6f" kindref="member">refCount</ref>;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal">ULONG<sp/>EventCallbacks::Release<sp/>()</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ULONG<sp/>remaining<sp/>{<sp/>--<ref refid="classdebug_1_1_event_callbacks_1a18a737a0ccb8ddb808351d40273fff6f" kindref="member">refCount</ref><sp/>};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>remaining;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="classdebug_1_1_event_callbacks_1aea948dace17853fb50374cd83f6a3216" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_event_callbacks_1aea948dace17853fb50374cd83f6a3216" kindref="member">EventCallbacks::QueryInterface</ref><sp/>(REFIID<sp/>interfaceId,<sp/>PVOID*<sp/>outInterface)</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>HRESULT<sp/>result<sp/>{<sp/>E_NOINTERFACE<sp/>};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>*outInterface<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(interfaceId<sp/>==<sp/>IID_IUnknown)</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*outInterface<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">IUnknown*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AddRef<sp/>();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result<sp/>=<sp/>S_OK;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(interfaceId<sp/>==<sp/>IID_IDebugEventCallbacks)</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*outInterface<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">IDebugEventCallbacks*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AddRef<sp/>();</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result<sp/>=<sp/>S_OK;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EventCallbacks<sp/>—<sp/>IDebugEventCallbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//==============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="classdebug_1_1_event_callbacks_1aabfc1dc5cc191da52b2e9b30972c6286" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_event_callbacks_1aabfc1dc5cc191da52b2e9b30972c6286" kindref="member">EventCallbacks::GetInterestMask</ref><sp/>(PULONG<sp/>mask)</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>*mask<sp/>=<sp/>DEBUG_EVENT_BREAKPOINT</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>DEBUG_EVENT_EXCEPTION</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>DEBUG_EVENT_CREATE_PROCESS</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>DEBUG_EVENT_EXIT_PROCESS</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>DEBUG_EVENT_LOAD_MODULE;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>S_OK;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="classdebug_1_1_event_callbacks_1ac02c50a34f8500e044560afa92efc6cb" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_event_callbacks_1ac02c50a34f8500e044560afa92efc6cb" kindref="member">EventCallbacks::Breakpoint</ref><sp/>(PDEBUG_BREAKPOINT<sp/>bp)</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>state<sp/>{<sp/><ref refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">State::getInstance</ref><sp/>()<sp/>};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(bp<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ULONG<sp/>engineId<sp/>{<sp/>0<sp/>};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bp-&gt;GetId<sp/>(&amp;engineId);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state-&gt;hasBreakpointHit<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state-&gt;breakpointEngineId<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(engineId);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state-&gt;executionState<sp/>=<sp/><ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" kindref="member">ExecutionState::stopped</ref>;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>Breakpoint<sp/>hit,<sp/>engineId=&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>(engineId));</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>DEBUG_STATUS_BREAK;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259" refid="classdebug_1_1_event_callbacks_1a96ead16320ba94b8f040e68564c5e2f4" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_event_callbacks_1a96ead16320ba94b8f040e68564c5e2f4" kindref="member">EventCallbacks::Exception</ref><sp/>(PEXCEPTION_RECORD64<sp/>exception,<sp/>ULONG<sp/>firstChance)</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>Exception<sp/>code=0x&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/><ref refid="classjuce_1_1String_1a949625c3152cfe177035772a5ff08559" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String::toHexString</ref><sp/>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(exception-&gt;ExceptionCode))</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>firstChance=&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(firstChance)));</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exceptionEntry<sp/>{<sp/><ref refid="_callbacks_8cpp_1a318119932aef1f7149259fedc216e13f" kindref="member">exceptions</ref>.find<sp/>(exception-&gt;ExceptionCode)<sp/>};</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="_callbacks_8cpp_1aa9d758e99e82d5b8be12ebbf28db90b4" kindref="member">ExceptionCallback</ref><sp/>onException<sp/>{<sp/><ref refid="_callbacks_8cpp_1ad642254fa0bd56ab574c9b794dcd66e4" kindref="member">onUnknownException</ref><sp/>};</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(exceptionEntry<sp/>!=<sp/><ref refid="_callbacks_8cpp_1a318119932aef1f7149259fedc216e13f" kindref="member">exceptions</ref>.end<sp/>())</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[exceptionCode,<sp/>exceptionCallback]<sp/>{<sp/>*exceptionEntry<sp/>};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>onException<sp/>=<sp/>exceptionCallback;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>onException<sp/>(<ref refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">State::getInstance</ref><sp/>(),<sp/>exception,<sp/>firstChance);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279" refid="classdebug_1_1_event_callbacks_1a34a3413c11b429f2177c710dc62808c7" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_event_callbacks_1a34a3413c11b429f2177c710dc62808c7" kindref="member">EventCallbacks::CreateThread</ref><sp/>(ULONG64<sp/></highlight><highlight class="comment">/*handle*/</highlight><highlight class="normal">,<sp/>ULONG64<sp/></highlight><highlight class="comment">/*dataOffset*/</highlight><highlight class="normal">,<sp/>ULONG64<sp/></highlight><highlight class="comment">/*startOffset*/</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>CreateThread&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>DEBUG_STATUS_NO_CHANGE;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287" refid="classdebug_1_1_event_callbacks_1a17487c8177971e9f4d1e39a345ecbd3f" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_event_callbacks_1a17487c8177971e9f4d1e39a345ecbd3f" kindref="member">EventCallbacks::ExitThread</ref><sp/>(ULONG<sp/></highlight><highlight class="comment">/*exitCode*/</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="288"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>ExitThread&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>DEBUG_STATUS_NO_CHANGE;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295" refid="classdebug_1_1_event_callbacks_1a4e81450a433595744f81bbedfbc66b90" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_event_callbacks_1a4e81450a433595744f81bbedfbc66b90" kindref="member">EventCallbacks::CreateProcess</ref><sp/>(ULONG64<sp/></highlight><highlight class="comment">/*imageFileHandle*/</highlight><highlight class="normal">,<sp/>ULONG64<sp/>handle,</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ULONG64<sp/></highlight><highlight class="comment">/*baseOffset*/</highlight><highlight class="normal">,<sp/>ULONG<sp/></highlight><highlight class="comment">/*moduleSize*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PCSTR<sp/>moduleName,<sp/>PCSTR<sp/></highlight><highlight class="comment">/*imageName*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ULONG<sp/></highlight><highlight class="comment">/*checkSum*/</highlight><highlight class="normal">,<sp/>ULONG<sp/></highlight><highlight class="comment">/*timeDateStamp*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ULONG64<sp/></highlight><highlight class="comment">/*initialThreadHandle*/</highlight><highlight class="normal">,<sp/>ULONG64<sp/></highlight><highlight class="comment">/*threadDataOffset*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ULONG64<sp/></highlight><highlight class="comment">/*startOffset*/</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="301"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>HANDLE<sp/>processHandle<sp/>{<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">HANDLE</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">ULONG_PTR</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(handle))<sp/>};</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DWORD<sp/>pid<sp/>{<sp/>GetProcessId<sp/>(processHandle)<sp/>};</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">State::getInstance</ref><sp/>()-&gt;targetProcessId<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">ULONG</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(pid);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(<ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>CreateProcess:<sp/>&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>(moduleName<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>?<sp/>moduleName<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;(null)&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>(PID=&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(pid))<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>DEBUG_STATUS_NO_CHANGE;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316" refid="classdebug_1_1_event_callbacks_1ad0b567581d7b33ffebdd402abd788623" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_event_callbacks_1ad0b567581d7b33ffebdd402abd788623" kindref="member">EventCallbacks::ExitProcess</ref><sp/>(ULONG<sp/>exitCode)</highlight></codeline>
+<codeline lineno="317"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>ExitProcess:<sp/>code=&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(exitCode)));</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">State::getInstance</ref><sp/>()-&gt;executionState<sp/>=<sp/><ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6ab854d4deac1316c8d36e519393f3f2ae" kindref="member">ExecutionState::exited</ref>;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">State::getInstance</ref><sp/>()-&gt;processExitCode<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(exitCode);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">State::getInstance</ref><sp/>()-&gt;hasProcessExited<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>DEBUG_STATUS_NO_CHANGE;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327" refid="classdebug_1_1_event_callbacks_1ac81921e484f7ddf83fd941c664ef8201" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_event_callbacks_1ac81921e484f7ddf83fd941c664ef8201" kindref="member">EventCallbacks::LoadModule</ref><sp/>(ULONG64<sp/></highlight><highlight class="comment">/*imageFileHandle*/</highlight><highlight class="normal">,<sp/>ULONG64<sp/></highlight><highlight class="comment">/*baseOffset*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ULONG<sp/></highlight><highlight class="comment">/*moduleSize*/</highlight><highlight class="normal">,<sp/>PCSTR<sp/>moduleName,<sp/>PCSTR<sp/>imageName,</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ULONG<sp/></highlight><highlight class="comment">/*checkSum*/</highlight><highlight class="normal">,<sp/>ULONG<sp/></highlight><highlight class="comment">/*timeDateStamp*/</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="330"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>state<sp/>{<sp/><ref refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">State::getInstance</ref><sp/>()<sp/>};</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>state-&gt;hasNewModuleLoaded<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>state-&gt;lastLoadedModuleName<sp/>=<sp/>moduleName<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>?<sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>(moduleName)<sp/>:<sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>();</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>state-&gt;lastLoadedImageName<sp/>=<sp/>imageName<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>?<sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>(imageName)<sp/>:<sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>();</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(<ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>LoadModule:<sp/>&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>(moduleName<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>?<sp/>moduleName<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;(null)&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>(&quot;</highlight><highlight class="normal"><sp/>+<sp/>(imageName<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>?<sp/>imageName<sp/>:<sp/></highlight><highlight class="stringliteral">&quot;(null)&quot;</highlight><highlight class="normal">)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stop<sp/>the<sp/>target<sp/>when<sp/>pending<sp/>BPs<sp/>exist<sp/>so<sp/>main<sp/>loop<sp/>can<sp/>safely<sp/>resolve</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>HRESULT<sp/>result<sp/>{<sp/>DEBUG_STATUS_NO_CHANGE<sp/>};</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(state-&gt;hasPendingBreakpoints)</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result<sp/>=<sp/>DEBUG_STATUS_BREAK;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352" refid="classdebug_1_1_event_callbacks_1ae188391cb510895aed54cc3d88ede1bf" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_event_callbacks_1ae188391cb510895aed54cc3d88ede1bf" kindref="member">EventCallbacks::UnloadModule</ref><sp/>(PCSTR<sp/></highlight><highlight class="comment">/*imageBaseName*/</highlight><highlight class="normal">,<sp/>ULONG64<sp/></highlight><highlight class="comment">/*baseOffset*/</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="353"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>UnloadModule&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>DEBUG_STATUS_NO_CHANGE;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360" refid="classdebug_1_1_event_callbacks_1a934b0003a49e40eeaf59efb47bb0e6b8" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_event_callbacks_1a934b0003a49e40eeaf59efb47bb0e6b8" kindref="member">EventCallbacks::SystemError</ref><sp/>(ULONG<sp/></highlight><highlight class="comment">/*error*/</highlight><highlight class="normal">,<sp/>ULONG<sp/></highlight><highlight class="comment">/*level*/</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="361"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>SystemError&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>DEBUG_STATUS_NO_CHANGE;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368" refid="classdebug_1_1_event_callbacks_1a463fe1f056559c03da4bb42877d43514" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_event_callbacks_1a463fe1f056559c03da4bb42877d43514" kindref="member">EventCallbacks::SessionStatus</ref><sp/>(ULONG<sp/></highlight><highlight class="comment">/*status*/</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="369"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>SessionStatus&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>DEBUG_STATUS_NO_CHANGE;</highlight></codeline>
+<codeline lineno="374"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376" refid="classdebug_1_1_event_callbacks_1af3d0c4748dac01c787f7aac019adbb4f" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_event_callbacks_1af3d0c4748dac01c787f7aac019adbb4f" kindref="member">EventCallbacks::ChangeDebuggeeState</ref><sp/>(ULONG<sp/></highlight><highlight class="comment">/*flags*/</highlight><highlight class="normal">,<sp/>ULONG64<sp/></highlight><highlight class="comment">/*argument*/</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="377"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>ChangeDebuggeeState&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>DEBUG_STATUS_NO_CHANGE;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384" refid="classdebug_1_1_event_callbacks_1ad7d3870483f375d8c58d653e16151195" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_event_callbacks_1ad7d3870483f375d8c58d653e16151195" kindref="member">EventCallbacks::ChangeEngineState</ref><sp/>(ULONG<sp/></highlight><highlight class="comment">/*flags*/</highlight><highlight class="normal">,<sp/>ULONG64<sp/></highlight><highlight class="comment">/*argument*/</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="385"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>ChangeEngineState&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>DEBUG_STATUS_NO_CHANGE;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392" refid="classdebug_1_1_event_callbacks_1a111f33ce93664cdd476484e9ef4bb21c" refkind="member"><highlight class="normal">HRESULT<sp/><ref refid="classdebug_1_1_event_callbacks_1a111f33ce93664cdd476484e9ef4bb21c" kindref="member">EventCallbacks::ChangeSymbolState</ref><sp/>(ULONG<sp/></highlight><highlight class="comment">/*flags*/</highlight><highlight class="normal">,<sp/>ULONG64<sp/></highlight><highlight class="comment">/*argument*/</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="393"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>ChangeSymbolState&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>DEBUG_STATUS_NO_CHANGE;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>debug</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="debug/Callbacks.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,983 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classdebug_1_1_event_callbacks" kind="class" language="C++" prot="public">
+    <compoundname>debug::EventCallbacks</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IDebugEventCallbacks</basecompoundref>
+    <includes refid="_callbacks_8h" local="no">Callbacks.h</includes>
+    <sectiondef kind="user-defined">
+      <header>IUnknown</header>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a72793df67996cc3da682fb9b2fde4471" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>debug::EventCallbacks::STDMETHOD_</definition>
+        <argsstring>(ULONG, AddRef)() override</argsstring>
+        <name>STDMETHOD_</name>
+        <qualifiedname>debug::EventCallbacks::STDMETHOD_</qualifiedname>
+        <param>
+          <type>ULONG</type>
+        </param>
+        <param>
+          <type>AddRef</type>
+        </param>
+        <briefdescription>
+<para>Increment the reference count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Updated reference count. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="136" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>debug::EventCallbacks::STDMETHOD_</definition>
+        <argsstring>(ULONG, Release)() override</argsstring>
+        <name>STDMETHOD_</name>
+        <qualifiedname>debug::EventCallbacks::STDMETHOD_</qualifiedname>
+        <param>
+          <type>ULONG</type>
+        </param>
+        <param>
+          <type>Release</type>
+        </param>
+        <briefdescription>
+<para>Decrement the reference count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Updated reference count. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="142" column="5"/>
+        <references refid="classdebug_1_1_event_callbacks_1ac02c50a34f8500e044560afa92efc6cb" compoundref="_callbacks_8cpp" startline="238" endline="257">Breakpoint</references>
+        <references refid="classdebug_1_1_event_callbacks_1af3d0c4748dac01c787f7aac019adbb4f" compoundref="_callbacks_8cpp" startline="376" endline="382">ChangeDebuggeeState</references>
+        <references refid="classdebug_1_1_event_callbacks_1ad7d3870483f375d8c58d653e16151195" compoundref="_callbacks_8cpp" startline="384" endline="390">ChangeEngineState</references>
+        <references refid="classdebug_1_1_event_callbacks_1a111f33ce93664cdd476484e9ef4bb21c" compoundref="_callbacks_8cpp" startline="392" endline="398">ChangeSymbolState</references>
+        <references refid="classdebug_1_1_event_callbacks_1a4e81450a433595744f81bbedfbc66b90" compoundref="_callbacks_8cpp" startline="295" endline="314">CreateProcess</references>
+        <references refid="classdebug_1_1_event_callbacks_1a34a3413c11b429f2177c710dc62808c7" compoundref="_callbacks_8cpp" startline="279" endline="285">CreateThread</references>
+        <references refid="classdebug_1_1_event_callbacks_1a96ead16320ba94b8f040e68564c5e2f4" compoundref="_callbacks_8cpp" startline="259" endline="277">Exception</references>
+        <references refid="classdebug_1_1_event_callbacks_1ad0b567581d7b33ffebdd402abd788623" compoundref="_callbacks_8cpp" startline="316" endline="325">ExitProcess</references>
+        <references refid="classdebug_1_1_event_callbacks_1a17487c8177971e9f4d1e39a345ecbd3f" compoundref="_callbacks_8cpp" startline="287" endline="293">ExitThread</references>
+        <references refid="classdebug_1_1_event_callbacks_1aabfc1dc5cc191da52b2e9b30972c6286" compoundref="_callbacks_8cpp" startline="228" endline="236">GetInterestMask</references>
+        <references refid="classdebug_1_1_event_callbacks_1ac81921e484f7ddf83fd941c664ef8201" compoundref="_callbacks_8cpp" startline="327" endline="350">LoadModule</references>
+        <references refid="classdebug_1_1_event_callbacks_1aea948dace17853fb50374cd83f6a3216" compoundref="_callbacks_8cpp" startline="203" endline="222">QueryInterface</references>
+        <references refid="classdebug_1_1_event_callbacks_1a463fe1f056559c03da4bb42877d43514" compoundref="_callbacks_8cpp" startline="368" endline="374">SessionStatus</references>
+        <references refid="classdebug_1_1_event_callbacks_1a934b0003a49e40eeaf59efb47bb0e6b8" compoundref="_callbacks_8cpp" startline="360" endline="366">SystemError</references>
+        <references refid="classdebug_1_1_event_callbacks_1ae188391cb510895aed54cc3d88ede1bf" compoundref="_callbacks_8cpp" startline="352" endline="358">UnloadModule</references>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1aea948dace17853fb50374cd83f6a3216" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::EventCallbacks::QueryInterface</definition>
+        <argsstring>(REFIID interfaceId, PVOID *outInterface) override</argsstring>
+        <name>QueryInterface</name>
+        <qualifiedname>debug::EventCallbacks::QueryInterface</qualifiedname>
+        <param>
+          <type>REFIID</type>
+          <declname>interfaceId</declname>
+        </param>
+        <param>
+          <type>PVOID *</type>
+          <declname>outInterface</declname>
+        </param>
+        <briefdescription>
+<para>Return a pointer to the requested interface. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Supports IUnknown and IDebugEventCallbacks.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>interfaceId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IID of the requested interface. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>outInterface</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the interface pointer on success. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>S_OK on success, E_NOINTERFACE if the IID is not supported. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="152" column="5" bodyfile="debug/Callbacks.cpp" bodystart="203" bodyend="222"/>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="user-defined">
+      <header>IDebugEventCallbacks</header>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1aabfc1dc5cc191da52b2e9b30972c6286" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::EventCallbacks::GetInterestMask</definition>
+        <argsstring>(PULONG mask) override</argsstring>
+        <name>GetInterestMask</name>
+        <qualifiedname>debug::EventCallbacks::GetInterestMask</qualifiedname>
+        <param>
+          <type>PULONG</type>
+          <declname>mask</declname>
+        </param>
+        <briefdescription>
+<para>Report which event categories this callback is interested in. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the mask to cover breakpoints, load/unload module, process creation/exit, thread creation/exit, exceptions, and engine state changes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mask</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the interest mask bitmask (DEBUG_EVENT_*). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>S_OK always. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="167" column="5" bodyfile="debug/Callbacks.cpp" bodystart="228" bodyend="236"/>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1ac02c50a34f8500e044560afa92efc6cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::EventCallbacks::Breakpoint</definition>
+        <argsstring>(PDEBUG_BREAKPOINT bp) override</argsstring>
+        <name>Breakpoint</name>
+        <qualifiedname>debug::EventCallbacks::Breakpoint</qualifiedname>
+        <param>
+          <type>PDEBUG_BREAKPOINT</type>
+          <declname>bp</declname>
+        </param>
+        <briefdescription>
+<para>Called when a breakpoint is hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks whether this is the initial loader breakpoint (before any user breakpoints are registered) or a user-set breakpoint. Sets the appropriate <ref refid="classdebug_1_1_state" kindref="compound">State</ref> flags (initialBreakPhase::pending or hasBreakpointHit/breakpointEngineId).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the IDebugBreakpoint that was hit. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>DEBUG_STATUS_BREAK to keep the target stopped. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="178" column="5" bodyfile="debug/Callbacks.cpp" bodystart="238" bodyend="257"/>
+        <references refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140">jam::Instance&lt; State &gt;::getInstance</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" compoundref="_state_8h" startline="18">debug::stopped</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a96ead16320ba94b8f040e68564c5e2f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::EventCallbacks::Exception</definition>
+        <argsstring>(PEXCEPTION_RECORD64 exception, ULONG firstChance) override</argsstring>
+        <name>Exception</name>
+        <qualifiedname>debug::EventCallbacks::Exception</qualifiedname>
+        <param>
+          <type>PEXCEPTION_RECORD64</type>
+          <declname>exception</declname>
+        </param>
+        <param>
+          <type>ULONG</type>
+          <declname>firstChance</declname>
+        </param>
+        <briefdescription>
+<para>Called when an exception occurs in the target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>exception</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Exception record describing the exception. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>firstChance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-zero if this is the first-chance notification. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>DEBUG_STATUS_NO_CHANGE to pass first-chance exceptions to the target. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="186" column="5" bodyfile="debug/Callbacks.cpp" bodystart="259" bodyend="277"/>
+        <references refid="_callbacks_8cpp_1a318119932aef1f7149259fedc216e13f" compoundref="_callbacks_8cpp" startline="58" endline="61">exceptions</references>
+        <references refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140">jam::Instance&lt; State &gt;::getInstance</references>
+        <references refid="_callbacks_8cpp_1ad642254fa0bd56ab574c9b794dcd66e4" compoundref="_callbacks_8cpp" startline="35" endline="55">onUnknownException</references>
+        <references refid="classjuce_1_1String_1a949625c3152cfe177035772a5ff08559">juce::String::toHexString</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a34a3413c11b429f2177c710dc62808c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::EventCallbacks::CreateThread</definition>
+        <argsstring>(ULONG64 handle, ULONG64 dataOffset, ULONG64 startOffset) override</argsstring>
+        <name>CreateThread</name>
+        <qualifiedname>debug::EventCallbacks::CreateThread</qualifiedname>
+        <param>
+          <type>ULONG64</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>ULONG64</type>
+          <declname>dataOffset</declname>
+        </param>
+        <param>
+          <type>ULONG64</type>
+          <declname>startOffset</declname>
+        </param>
+        <briefdescription>
+<para>Called when a new thread is created in the target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to the new thread. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dataOffset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Address of the TEB for the new thread. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>startOffset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start address of the new thread. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>DEBUG_STATUS_NO_CHANGE. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="195" column="5" bodyfile="debug/Callbacks.cpp" bodystart="279" bodyend="285"/>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a17487c8177971e9f4d1e39a345ecbd3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::EventCallbacks::ExitThread</definition>
+        <argsstring>(ULONG exitCode) override</argsstring>
+        <name>ExitThread</name>
+        <qualifiedname>debug::EventCallbacks::ExitThread</qualifiedname>
+        <param>
+          <type>ULONG</type>
+          <declname>exitCode</declname>
+        </param>
+        <briefdescription>
+<para>Called when a thread exits in the target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>exitCode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Exit code of the exiting thread. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>DEBUG_STATUS_NO_CHANGE. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="202" column="5" bodyfile="debug/Callbacks.cpp" bodystart="287" bodyend="293"/>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a4e81450a433595744f81bbedfbc66b90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::EventCallbacks::CreateProcess</definition>
+        <argsstring>(ULONG64 imageFileHandle, ULONG64 handle, ULONG64 baseOffset, ULONG moduleSize, PCSTR moduleName, PCSTR imageName, ULONG checkSum, ULONG timeDateStamp, ULONG64 initialThreadHandle, ULONG64 threadDataOffset, ULONG64 startOffset) override</argsstring>
+        <name>CreateProcess</name>
+        <qualifiedname>debug::EventCallbacks::CreateProcess</qualifiedname>
+        <param>
+          <type>ULONG64</type>
+          <declname>imageFileHandle</declname>
+        </param>
+        <param>
+          <type>ULONG64</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>ULONG64</type>
+          <declname>baseOffset</declname>
+        </param>
+        <param>
+          <type>ULONG</type>
+          <declname>moduleSize</declname>
+        </param>
+        <param>
+          <type>PCSTR</type>
+          <declname>moduleName</declname>
+        </param>
+        <param>
+          <type>PCSTR</type>
+          <declname>imageName</declname>
+        </param>
+        <param>
+          <type>ULONG</type>
+          <declname>checkSum</declname>
+        </param>
+        <param>
+          <type>ULONG</type>
+          <declname>timeDateStamp</declname>
+        </param>
+        <param>
+          <type>ULONG64</type>
+          <declname>initialThreadHandle</declname>
+        </param>
+        <param>
+          <type>ULONG64</type>
+          <declname>threadDataOffset</declname>
+        </param>
+        <param>
+          <type>ULONG64</type>
+          <declname>startOffset</declname>
+        </param>
+        <briefdescription>
+<para>Called when the target process is created (after a launch or attach). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>imageFileHandle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to the process image file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to the new process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>baseOffset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base load address of the main executable. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>moduleSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of the main module image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Short module name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>imageName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full path to the executable image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>checkSum</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PE checksum of the image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeDateStamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PE timestamp of the image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>initialThreadHandle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to the initial thread. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>threadDataOffset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Address of the initial thread&apos;s TEB. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>startOffset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start address of the initial thread. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>DEBUG_STATUS_NO_CHANGE. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="219" column="5" bodyfile="debug/Callbacks.cpp" bodystart="295" bodyend="314"/>
+        <references refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140">jam::Instance&lt; State &gt;::getInstance</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1ad0b567581d7b33ffebdd402abd788623" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::EventCallbacks::ExitProcess</definition>
+        <argsstring>(ULONG exitCode) override</argsstring>
+        <name>ExitProcess</name>
+        <qualifiedname>debug::EventCallbacks::ExitProcess</qualifiedname>
+        <param>
+          <type>ULONG</type>
+          <declname>exitCode</declname>
+        </param>
+        <briefdescription>
+<para>Called when the target process exits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets <ref refid="classdebug_1_1_state_1a7ed9c16d75e24529be3216006ea5a82d" kindref="member">State::hasProcessExited</ref> and <ref refid="classdebug_1_1_state_1aa1f14796ffee6818c4371eb1f1099c72" kindref="member">State::processExitCode</ref> so that processDeferredEvents can emit DAP exited and terminated events.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>exitCode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Exit code of the process. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>DEBUG_STATUS_NO_CHANGE. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="233" column="5" bodyfile="debug/Callbacks.cpp" bodystart="316" bodyend="325"/>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6ab854d4deac1316c8d36e519393f3f2ae" compoundref="_state_8h" startline="19">debug::exited</references>
+        <references refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140">jam::Instance&lt; State &gt;::getInstance</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1ac81921e484f7ddf83fd941c664ef8201" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::EventCallbacks::LoadModule</definition>
+        <argsstring>(ULONG64 imageFileHandle, ULONG64 baseOffset, ULONG moduleSize, PCSTR moduleName, PCSTR imageName, ULONG checkSum, ULONG timeDateStamp) override</argsstring>
+        <name>LoadModule</name>
+        <qualifiedname>debug::EventCallbacks::LoadModule</qualifiedname>
+        <param>
+          <type>ULONG64</type>
+          <declname>imageFileHandle</declname>
+        </param>
+        <param>
+          <type>ULONG64</type>
+          <declname>baseOffset</declname>
+        </param>
+        <param>
+          <type>ULONG</type>
+          <declname>moduleSize</declname>
+        </param>
+        <param>
+          <type>PCSTR</type>
+          <declname>moduleName</declname>
+        </param>
+        <param>
+          <type>PCSTR</type>
+          <declname>imageName</declname>
+        </param>
+        <param>
+          <type>ULONG</type>
+          <declname>checkSum</declname>
+        </param>
+        <param>
+          <type>ULONG</type>
+          <declname>timeDateStamp</declname>
+        </param>
+        <briefdescription>
+<para>Called when a DLL or EXE is loaded into the target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If <ref refid="classdebug_1_1_state_1a611662f4eb4fcf2f2a98e66b796266f9" kindref="member">State::hasPendingBreakpoints</ref> is set, records the module name and image name into <ref refid="classdebug_1_1_state" kindref="compound">State</ref> and sets hasNewModuleLoaded to trigger deferred BP resolution.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>imageFileHandle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Handle to the module image file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>baseOffset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base load address of the module. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>moduleSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of the module image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Short module name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>imageName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full path to the module image file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>checkSum</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PE checksum of the module. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeDateStamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PE timestamp of the module. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>DEBUG_STATUS_NO_CHANGE. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="249" column="5" bodyfile="debug/Callbacks.cpp" bodystart="327" bodyend="350"/>
+        <references refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140">jam::Instance&lt; State &gt;::getInstance</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1ae188391cb510895aed54cc3d88ede1bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::EventCallbacks::UnloadModule</definition>
+        <argsstring>(PCSTR imageBaseName, ULONG64 baseOffset) override</argsstring>
+        <name>UnloadModule</name>
+        <qualifiedname>debug::EventCallbacks::UnloadModule</qualifiedname>
+        <param>
+          <type>PCSTR</type>
+          <declname>imageBaseName</declname>
+        </param>
+        <param>
+          <type>ULONG64</type>
+          <declname>baseOffset</declname>
+        </param>
+        <briefdescription>
+<para>Called when a module is unloaded from the target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Currently a no-op — breakpoints in unloaded modules become unresolved automatically and will be re-resolved when the module reloads.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>imageBaseName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base name of the unloaded module. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>baseOffset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base address the module was loaded at. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>DEBUG_STATUS_NO_CHANGE. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="262" column="5" bodyfile="debug/Callbacks.cpp" bodystart="352" bodyend="358"/>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a934b0003a49e40eeaf59efb47bb0e6b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::EventCallbacks::SystemError</definition>
+        <argsstring>(ULONG error, ULONG level) override</argsstring>
+        <name>SystemError</name>
+        <qualifiedname>debug::EventCallbacks::SystemError</qualifiedname>
+        <param>
+          <type>ULONG</type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>ULONG</type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Called when a system-level error occurs in the debug engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Win32 error code. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Severity level (DEBUG_LEVEL_*). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>DEBUG_STATUS_NO_CHANGE. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="270" column="5" bodyfile="debug/Callbacks.cpp" bodystart="360" bodyend="366"/>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a463fe1f056559c03da4bb42877d43514" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::EventCallbacks::SessionStatus</definition>
+        <argsstring>(ULONG status) override</argsstring>
+        <name>SessionStatus</name>
+        <qualifiedname>debug::EventCallbacks::SessionStatus</qualifiedname>
+        <param>
+          <type>ULONG</type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Called when the debug session status changes (e.g. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>active, ended).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New session status (DEBUG_SESSION_*). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>S_OK. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="277" column="5" bodyfile="debug/Callbacks.cpp" bodystart="368" bodyend="374"/>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1af3d0c4748dac01c787f7aac019adbb4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::EventCallbacks::ChangeDebuggeeState</definition>
+        <argsstring>(ULONG flags, ULONG64 argument) override</argsstring>
+        <name>ChangeDebuggeeState</name>
+        <qualifiedname>debug::EventCallbacks::ChangeDebuggeeState</qualifiedname>
+        <param>
+          <type>ULONG</type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type>ULONG64</type>
+          <declname>argument</declname>
+        </param>
+        <briefdescription>
+<para>Called when the debuggee state changes (e.g. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>registers dirty, data dirty).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>flags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flags indicating which state changed (DEBUG_CDS_*). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional argument depending on flags. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>S_OK. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="285" column="5" bodyfile="debug/Callbacks.cpp" bodystart="376" bodyend="382"/>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1ad7d3870483f375d8c58d653e16151195" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::EventCallbacks::ChangeEngineState</definition>
+        <argsstring>(ULONG flags, ULONG64 argument) override</argsstring>
+        <name>ChangeEngineState</name>
+        <qualifiedname>debug::EventCallbacks::ChangeEngineState</qualifiedname>
+        <param>
+          <type>ULONG</type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type>ULONG64</type>
+          <declname>argument</declname>
+        </param>
+        <briefdescription>
+<para>Called when the engine execution state changes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used to detect step completion: when flags include DEBUG_CES_EXECUTION_STATUS and the new status is DEBUG_STATUS_BREAK after a step was issued, sets <ref refid="classdebug_1_1_state_1a96a76f5ef14e110b1fd577ee43a40daf" kindref="member">State::hasStepCompleted</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>flags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flags indicating which engine state changed (DEBUG_CES_*). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New execution status when flags include DEBUG_CES_EXECUTION_STATUS. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>S_OK. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="297" column="5" bodyfile="debug/Callbacks.cpp" bodystart="384" bodyend="390"/>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a111f33ce93664cdd476484e9ef4bb21c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::EventCallbacks::ChangeSymbolState</definition>
+        <argsstring>(ULONG flags, ULONG64 argument) override</argsstring>
+        <name>ChangeSymbolState</name>
+        <qualifiedname>debug::EventCallbacks::ChangeSymbolState</qualifiedname>
+        <param>
+          <type>ULONG</type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type>ULONG64</type>
+          <declname>argument</declname>
+        </param>
+        <briefdescription>
+<para>Called when symbol state changes (e.g. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>symbols loaded for a module).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>flags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flags indicating which symbol state changed (DEBUG_CSS_*). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional argument depending on flags. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>S_OK. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="305" column="5" bodyfile="debug/Callbacks.cpp" bodystart="392" bodyend="398"/>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classdebug_1_1_event_callbacks_1a18a737a0ccb8ddb808351d40273fff6f" prot="private" static="no" mutable="no">
+        <type>ULONG</type>
+        <definition>ULONG debug::EventCallbacks::refCount</definition>
+        <argsstring></argsstring>
+        <name>refCount</name>
+        <qualifiedname>debug::EventCallbacks::refCount</qualifiedname>
+        <initializer>{ 1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="310" column="11" bodyfile="debug/Callbacks.h" bodystart="310" bodyend="310"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a3e3d40f7b3df1431a491418bd13e8080" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>debug::EventCallbacks::EventCallbacks</definition>
+        <argsstring>()=default</argsstring>
+        <name>EventCallbacks</name>
+        <qualifiedname>debug::EventCallbacks::EventCallbacks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="127" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Receives debug lifecycle events from dbgeng. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Registered with IDebugClient5::SetEventCallbacks. Handles the full set of IDebugEventCallbacks methods. Each callback writes deferred-event flags into <ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> rather than acting immediately, so that the main thread processes all state changes in processDeferredEvents() without COM re-entrancy concerns.</para>
+<para>Key events and their <ref refid="classdebug_1_1_state" kindref="compound">State</ref> effects:<itemizedlist>
+<listitem><para>Breakpoint → sets hasBreakpointHit / breakpointEngineId (user BP) or initialBreakPhase::pending</para>
+</listitem><listitem><para>LoadModule → sets hasNewModuleLoaded, lastLoadedModuleName, lastLoadedImageName</para>
+</listitem><listitem><para>ExitProcess → sets hasProcessExited, processExitCode</para>
+</listitem><listitem><para>ChangeEngineState → sets hasStepCompleted when step finishes</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="note"><para>Registered and unregistered by <ref refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" kindref="member">Session::initialize</ref> and <ref refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" kindref="member">Session::shutdown</ref>. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IDebugEventCallbacks</label>
+      </node>
+      <node id="1">
+        <label>debug::EventCallbacks</label>
+        <link refid="classdebug_1_1_event_callbacks"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IDebugEventCallbacks</label>
+      </node>
+      <node id="1">
+        <label>debug::EventCallbacks</label>
+        <link refid="classdebug_1_1_event_callbacks"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="debug/Callbacks.h" line="124" column="1" bodyfile="debug/Callbacks.h" bodystart="125" bodyend="313"/>
+    <listofallmembers>
+      <member refid="classdebug_1_1_event_callbacks_1ac02c50a34f8500e044560afa92efc6cb" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>Breakpoint</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1af3d0c4748dac01c787f7aac019adbb4f" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ChangeDebuggeeState</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1ad7d3870483f375d8c58d653e16151195" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ChangeEngineState</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a111f33ce93664cdd476484e9ef4bb21c" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ChangeSymbolState</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a4e81450a433595744f81bbedfbc66b90" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>CreateProcess</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a34a3413c11b429f2177c710dc62808c7" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>CreateThread</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a3e3d40f7b3df1431a491418bd13e8080" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>EventCallbacks</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a96ead16320ba94b8f040e68564c5e2f4" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>Exception</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1ad0b567581d7b33ffebdd402abd788623" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ExitProcess</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a17487c8177971e9f4d1e39a345ecbd3f" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ExitThread</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1aabfc1dc5cc191da52b2e9b30972c6286" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>GetInterestMask</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1ac81921e484f7ddf83fd941c664ef8201" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>LoadModule</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1aea948dace17853fb50374cd83f6a3216" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>QueryInterface</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a18a737a0ccb8ddb808351d40273fff6f" prot="private" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>refCount</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a463fe1f056559c03da4bb42877d43514" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>SessionStatus</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a72793df67996cc3da682fb9b2fde4471" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>STDMETHOD_</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>STDMETHOD_</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a934b0003a49e40eeaf59efb47bb0e6b8" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>SystemError</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1ae188391cb510895aed54cc3d88ede1bf" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>UnloadModule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -12,46 +12,9 @@
 
 #if JUCE_MAC
 
-namespace debug { namespace detail {
-
-// ---------------------------------------------------------------------------
-// parseHexAddress
-// ---------------------------------------------------------------------------
-
-/** Parse a hex address string (e.g. "0x7fff1234 <symbol>") into a numeric value.
- *
- *  Strips the leading "0x", trims any trailing annotation, and converts
- *  the remaining hex digits.  Returns 0 if the input is not a hex string.
- *
- *  @param text  Raw address text produced by SBValue::GetValue().
- *  @return Numeric address, or 0 if parsing fails.
- */
-static std::uint64_t parseHexAddress (const juce::String& text) noexcept
+namespace debug
 {
-    std::uint64_t address { 0 };
 
-    if (text.startsWith ("0x"))
-    {
-        const juce::String hexPart { text.substring (2)
-            .upToFirstOccurrenceOf (" ", false, false) };
-        address = static_cast<std::uint64_t> (hexPart.getHexValue64 ());
-    }
-
-    return address;
-}
-
-// ---------------------------------------------------------------------------
-// prettyPrintJuceString
-// ---------------------------------------------------------------------------
-
-/** Read a juce::String from the target process and return it as a quoted string.
- *
- *  Walks value.text.data to obtain the char pointer, reads the null-terminated
- *  UTF-8 content via SBProcess::ReadCStringFromMemory, and wraps it in quotes.
- *
- *  @param value  SBValue of type juce::String.
- *  @return Quoted content string (e.g. "hello"), or empty if the walk fails.
- */
 static juce::String prettyPrintJuceString (lldb::SBValue& value) noexcept
 {
     juce::String result;
@@ -84,26 +47,12 @@ static juce::String prettyPrintJuceString (lldb::SBValue& value) noexcept
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// prettyPrintUniquePtr
-// ---------------------------------------------------------------------------
-
-/** Format a std::unique_ptr value as a pointer address or null.
- *
- *  Reads the libc++ internal `pointer` child to extract the stored address.
- *  Returns "null" if zero, or "0x<hex>" otherwise.
- *
- *  @param value  SBValue of type std::unique_ptr<T, ...>.
- *  @return "null" or hex address string, or empty if the walk fails.
- */
 static juce::String prettyPrintUniquePtr (lldb::SBValue& value) noexcept
 {
     juce::String result;
 
-    // Try the synthetic child first (modern libc++ LLDB formatter).
     auto ptrChild { value.GetChildMemberWithName ("pointer") };
 
-    // Fallback: walk the raw compressed_pair layout (__ptr_.__value_).
     if (not ptrChild.IsValid ())
     {
         auto ptrMember { value.GetChildMemberWithName ("__ptr_") };
@@ -137,13 +86,6 @@ static juce::String prettyPrintUniquePtr (lldb::SBValue& value) noexcept
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// prettyPrint
-// ---------------------------------------------------------------------------
-
-/** Dispatches to the appropriate type-specific formatter based on typeName.
- *  Returns an empty string when no formatter matches, signalling callers to use the raw value.
- */
 juce::String prettyPrint (lldb::SBValue& value, const juce::String& typeName) noexcept
 {
     juce::String result;
@@ -160,6 +102,6 @@ juce::String prettyPrint (lldb::SBValue& value, const juce::String& typeName) no
     return result;
 }
 
-}} // namespace debug::detail
+} // namespace debug
 
 #endif // JUCE_MAC

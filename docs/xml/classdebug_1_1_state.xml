@@ -1,0 +1,761 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classdebug_1_1_state" kind="class" language="C++" prot="public">
+    <compoundname>debug::State</compoundname>
+    <basecompoundref refid="structjam_1_1Instance" prot="public" virt="non-virtual">jam::Instance&lt; State &gt;</basecompoundref>
+    <includes refid="_state_8h" local="no">State.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdebug_1_1_state_1a6acfeaa677d44046db99385ccbf3243c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6" kindref="member">ExecutionState</ref></type>
+        <definition>ExecutionState debug::State::executionState</definition>
+        <argsstring></argsstring>
+        <name>executionState</name>
+        <qualifiedname>debug::State::executionState</qualifiedname>
+        <initializer>{ <ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6aec2f993aec2c27fc750119ab17b16cdb" kindref="member">ExecutionState::idle</ref> }</initializer>
+        <briefdescription>
+<para>Current execution lifecycle state of the debug target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set by <ref refid="class_whatdbg" kindref="compound">Whatdbg</ref> command handlers and by processDeferredEvents in response to deferred callback flags. Read by handleContinue, handleNext, and others to guard against invalid operations in the wrong state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="77" column="20" bodyfile="debug/State.h" bodystart="77" bodyend="77"/>
+        <referencedby refid="class_whatdbg_1a834b68aae2e580ba9b29ab9b0f8dc48f" compoundref="_whatdbg_8cpp" startline="387" endline="419">Whatdbg::addPendingBreakpointsAndResume</referencedby>
+        <referencedby refid="class_whatdbg_1a0d6a499a2e084f82d996e4d61518705d" compoundref="_whatdbg_8cpp" startline="421" endline="427">Whatdbg::getEndModeForExit</referencedby>
+        <referencedby refid="class_whatdbg_1a5dfa0d2f778277c1d3b07c3b6a24690f" compoundref="_whatdbg_handlers_8cpp" startline="66" endline="103">Whatdbg::onAttach</referencedby>
+        <referencedby refid="_callbacks_8cpp_1af57d30afd5c00fdb42ff43da26024c6d" compoundref="_callbacks_8cpp" startline="21" endline="28">onBreakpoint</referencedby>
+        <referencedby refid="class_whatdbg_1a96a35e3e38d93954d08e29902625ceb8" compoundref="_whatdbg_handlers_8cpp" startline="105" endline="116">Whatdbg::onConfigurationDone</referencedby>
+        <referencedby refid="class_whatdbg_1a782112f5a9e514b84d1047131029259a" compoundref="_whatdbg_handlers_8cpp" startline="299" endline="311">Whatdbg::onContinue</referencedby>
+        <referencedby refid="class_whatdbg_1a66ca3ee668f1c162e194cca4e46dfc2a" compoundref="_whatdbg_8cpp" startline="144" endline="155">Whatdbg::onInitialBreak</referencedby>
+        <referencedby refid="class_whatdbg_1a915d31b44bfab74c161a43170582c5cc" compoundref="_whatdbg_handlers_8cpp" startline="21" endline="44">Whatdbg::onLaunch</referencedby>
+        <referencedby refid="class_whatdbg_1a07b46b4a97afc003e7aa8f8690cff2c0" compoundref="_whatdbg_8cpp" startline="227" endline="262">Whatdbg::onModuleLoaded</referencedby>
+        <referencedby refid="class_whatdbg_1a897c4a96a9be1b1ab1ff3b9ab18801bb" compoundref="_whatdbg_handlers_8cpp" startline="313" endline="325">Whatdbg::onNext</referencedby>
+        <referencedby refid="class_whatdbg_1ae8d67f018347ebad330f8090f0ed2234" compoundref="_whatdbg_8cpp" startline="352" endline="372">Whatdbg::onProcessExited</referencedby>
+        <referencedby refid="class_whatdbg_1af628bdbba100fbe6e7db2c7b4ec85b03" compoundref="_whatdbg_handlers_8cpp" startline="327" endline="339">Whatdbg::onStepIn</referencedby>
+        <referencedby refid="class_whatdbg_1aa309669a65e130f843f8bf617b6da56e" compoundref="_whatdbg_handlers_8cpp" startline="341" endline="350">Whatdbg::onStepOut</referencedby>
+        <referencedby refid="_callbacks_8cpp_1ad642254fa0bd56ab574c9b794dcd66e4" compoundref="_callbacks_8cpp" startline="35" endline="55">onUnknownException</referencedby>
+        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="57" endline="116">Whatdbg::run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a50db56936181e0eb980402850b00b408" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacedebug_1a29cf1e1d311453d8a011a3c45309ec40" kindref="member">InitialBreakPhase</ref></type>
+        <definition>InitialBreakPhase debug::State::initialBreakPhase</definition>
+        <argsstring></argsstring>
+        <name>initialBreakPhase</name>
+        <qualifiedname>debug::State::initialBreakPhase</qualifiedname>
+        <initializer>{ <ref refid="namespacedebug_1a29cf1e1d311453d8a011a3c45309ec40a170793c95efb1cc850e8036fc41a07e1" kindref="member">InitialBreakPhase::notHit</ref> }</initializer>
+        <briefdescription>
+<para>Lifecycle phase of the dbgeng initial (loader) breakpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transitions: notHit → pending (loader BP fires) → resolved (processDeferredEvents runs addPendingBreakpointsAndResume). Replaces former paired booleans <computeroutput>isInitialBreakSeen</computeroutput> + <computeroutput>isInitialBreakHandled</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="85" column="23" bodyfile="debug/State.h" bodystart="85" bodyend="85"/>
+        <referencedby refid="class_whatdbg_1a834b68aae2e580ba9b29ab9b0f8dc48f" compoundref="_whatdbg_8cpp" startline="387" endline="419">Whatdbg::addPendingBreakpointsAndResume</referencedby>
+        <referencedby refid="class_whatdbg_1a5dfa0d2f778277c1d3b07c3b6a24690f" compoundref="_whatdbg_handlers_8cpp" startline="66" endline="103">Whatdbg::onAttach</referencedby>
+        <referencedby refid="_callbacks_8cpp_1af57d30afd5c00fdb42ff43da26024c6d" compoundref="_callbacks_8cpp" startline="21" endline="28">onBreakpoint</referencedby>
+        <referencedby refid="class_whatdbg_1a66ca3ee668f1c162e194cca4e46dfc2a" compoundref="_whatdbg_8cpp" startline="144" endline="155">Whatdbg::onInitialBreak</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1aa1f14796ffee6818c4371eb1f1099c72" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int debug::State::processExitCode</definition>
+        <argsstring></argsstring>
+        <name>processExitCode</name>
+        <qualifiedname>debug::State::processExitCode</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+<para>Exit code of the debuggee process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set by <ref refid="classdebug_1_1_event_callbacks_1ad0b567581d7b33ffebdd402abd788623" kindref="member">EventCallbacks::ExitProcess</ref>. Read by processDeferredEvents to include in the DAP exited event body. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="92" column="9" bodyfile="debug/State.h" bodystart="92" bodyend="92"/>
+        <referencedby refid="class_whatdbg_1ae8d67f018347ebad330f8090f0ed2234" compoundref="_whatdbg_8cpp" startline="352" endline="372">Whatdbg::onProcessExited</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a38b92622d4758c341d86782c8e847255" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t debug::State::targetProcessId</definition>
+        <argsstring></argsstring>
+        <name>targetProcessId</name>
+        <qualifiedname>debug::State::targetProcessId</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+<para>OS process ID of the debug target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set by Whatdbg::handleLaunch / handleAttach after <ref refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" kindref="member">Session::launch</ref> or <ref refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" kindref="member">Session::attach</ref> succeeds. Used by <ref refid="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" kindref="member">Session::interrupt</ref> to send DebugBreakProcess. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="99" column="19" bodyfile="debug/State.h" bodystart="99" bodyend="99"/>
+        <referencedby refid="class_whatdbg_1a5dfa0d2f778277c1d3b07c3b6a24690f" compoundref="_whatdbg_handlers_8cpp" startline="66" endline="103">Whatdbg::onAttach</referencedby>
+        <referencedby refid="class_whatdbg_1a919304746e0b3a5c05bc18e497f2296d" compoundref="_whatdbg_handlers_8cpp" startline="352" endline="360">Whatdbg::onPause</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1acecd26354fc6c58e78e970fecaa0815b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool debug::State::isRunning</definition>
+        <argsstring></argsstring>
+        <name>isRunning</name>
+        <qualifiedname>debug::State::isRunning</qualifiedname>
+        <initializer>{ true }</initializer>
+        <briefdescription>
+<para>True while the main loop should continue running. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set to false by onDisconnect or handleTerminate to exit run(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="107" column="10" bodyfile="debug/State.h" bodystart="107" bodyend="107"/>
+        <referencedby refid="class_whatdbg_1a395d6e3959f5c911b0004155e12c63e4" compoundref="_whatdbg_handlers_8cpp" startline="118" endline="129">Whatdbg::onDisconnect</referencedby>
+        <referencedby refid="class_whatdbg_1ae8d67f018347ebad330f8090f0ed2234" compoundref="_whatdbg_8cpp" startline="352" endline="372">Whatdbg::onProcessExited</referencedby>
+        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="57" endline="116">Whatdbg::run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a75ce45fc27d60fea92fc0e03e6342fbc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool debug::State::shouldTerminateOnExit</definition>
+        <argsstring></argsstring>
+        <name>shouldTerminateOnExit</name>
+        <qualifiedname>debug::State::shouldTerminateOnExit</qualifiedname>
+        <initializer>{ false }</initializer>
+        <briefdescription>
+<para>When true, the debuggee process will be terminated on disconnect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Controlled by the terminateDebuggee field of the DAP disconnect request. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="113" column="10" bodyfile="debug/State.h" bodystart="113" bodyend="113"/>
+        <referencedby refid="class_whatdbg_1a0d6a499a2e084f82d996e4d61518705d" compoundref="_whatdbg_8cpp" startline="421" endline="427">Whatdbg::getEndModeForExit</referencedby>
+        <referencedby refid="class_whatdbg_1a395d6e3959f5c911b0004155e12c63e4" compoundref="_whatdbg_handlers_8cpp" startline="118" endline="129">Whatdbg::onDisconnect</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a3f7d7f6a39956757fc643a29e067021f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool debug::State::isConfigurationDone</definition>
+        <argsstring></argsstring>
+        <name>isConfigurationDone</name>
+        <qualifiedname>debug::State::isConfigurationDone</qualifiedname>
+        <initializer>{ false }</initializer>
+        <briefdescription>
+<para>Set to true once the client sends configurationDone. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The initial break is only released after configuration is complete. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="119" column="10" bodyfile="debug/State.h" bodystart="119" bodyend="119"/>
+        <referencedby refid="class_whatdbg_1a96a35e3e38d93954d08e29902625ceb8" compoundref="_whatdbg_handlers_8cpp" startline="105" endline="116">Whatdbg::onConfigurationDone</referencedby>
+        <referencedby refid="class_whatdbg_1a66ca3ee668f1c162e194cca4e46dfc2a" compoundref="_whatdbg_8cpp" startline="144" endline="155">Whatdbg::onInitialBreak</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a848557c1b021966ee5a501c140e9d718" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool debug::State::isStepPending</definition>
+        <argsstring></argsstring>
+        <name>isStepPending</name>
+        <qualifiedname>debug::State::isStepPending</qualifiedname>
+        <initializer>{ false }</initializer>
+        <briefdescription>
+<para>Set to true between a step request and the corresponding step-complete event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prevents the main loop from issuing redundant resume calls while stepping. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="125" column="10" bodyfile="debug/State.h" bodystart="125" bodyend="125"/>
+        <referencedby refid="class_whatdbg_1a198c935398a902e826f1bce42c7e3d53" compoundref="_whatdbg_8cpp" startline="157" endline="186">Whatdbg::onBreakpointHit</referencedby>
+        <referencedby refid="class_whatdbg_1a782112f5a9e514b84d1047131029259a" compoundref="_whatdbg_handlers_8cpp" startline="299" endline="311">Whatdbg::onContinue</referencedby>
+        <referencedby refid="class_whatdbg_1a897c4a96a9be1b1ab1ff3b9ab18801bb" compoundref="_whatdbg_handlers_8cpp" startline="313" endline="325">Whatdbg::onNext</referencedby>
+        <referencedby refid="class_whatdbg_1af628bdbba100fbe6e7db2c7b4ec85b03" compoundref="_whatdbg_handlers_8cpp" startline="327" endline="339">Whatdbg::onStepIn</referencedby>
+        <referencedby refid="class_whatdbg_1aa309669a65e130f843f8bf617b6da56e" compoundref="_whatdbg_handlers_8cpp" startline="341" endline="350">Whatdbg::onStepOut</referencedby>
+        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="57" endline="116">Whatdbg::run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a52acc9f4430079b63015dc92f87c8f3d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool debug::State::isPausePending</definition>
+        <argsstring></argsstring>
+        <name>isPausePending</name>
+        <qualifiedname>debug::State::isPausePending</qualifiedname>
+        <initializer>{ false }</initializer>
+        <briefdescription>
+<para>Set to true between a pause request and the target entering a stopped state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prevents duplicate interrupt calls if the client sends pause more than once. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="131" column="10" bodyfile="debug/State.h" bodystart="131" bodyend="131"/>
+        <referencedby refid="class_whatdbg_1a782112f5a9e514b84d1047131029259a" compoundref="_whatdbg_handlers_8cpp" startline="299" endline="311">Whatdbg::onContinue</referencedby>
+        <referencedby refid="class_whatdbg_1a919304746e0b3a5c05bc18e497f2296d" compoundref="_whatdbg_handlers_8cpp" startline="352" endline="360">Whatdbg::onPause</referencedby>
+        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="57" endline="116">Whatdbg::run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1aa486c47f5e09c2fd78e7b903f1b6ce92" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool debug::State::hasBreakpointHit</definition>
+        <argsstring></argsstring>
+        <name>hasBreakpointHit</name>
+        <qualifiedname>debug::State::hasBreakpointHit</qualifiedname>
+        <initializer>{ false }</initializer>
+        <briefdescription>
+<para>Set by <ref refid="classdebug_1_1_event_callbacks_1ac02c50a34f8500e044560afa92efc6cb" kindref="member">EventCallbacks::Breakpoint</ref> when a user-registered breakpoint is hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Consumed by processDeferredEvents to emit a DAP stopped event with reason &quot;breakpoint&quot;. Cleared after consumption. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="140" column="11" bodyfile="debug/State.h" bodystart="140" bodyend="140"/>
+        <referencedby refid="class_whatdbg_1a198c935398a902e826f1bce42c7e3d53" compoundref="_whatdbg_8cpp" startline="157" endline="186">Whatdbg::onBreakpointHit</referencedby>
+        <referencedby refid="class_whatdbg_1a66ca3ee668f1c162e194cca4e46dfc2a" compoundref="_whatdbg_8cpp" startline="144" endline="155">Whatdbg::onInitialBreak</referencedby>
+        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="57" endline="116">Whatdbg::run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1af74cd29bf5939405b30e9eda9f8f9bee" prot="public" static="no" mutable="no">
+        <type>std::int32_t</type>
+        <definition>std::int32_t debug::State::breakpointEngineId</definition>
+        <argsstring></argsstring>
+        <name>breakpointEngineId</name>
+        <qualifiedname>debug::State::breakpointEngineId</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+<para>Engine breakpoint ID that caused the most recent breakpoint stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set alongside hasBreakpointHit. Passed to <ref refid="classdebug_1_1_breakpoint_manager_1a584cabcc697924a15239890ac7fa312c" kindref="member">BreakpointManager::onBreakpointHit</ref> to produce the correct hitBreakpointIds array in the DAP stopped body. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="147" column="18" bodyfile="debug/State.h" bodystart="147" bodyend="147"/>
+        <referencedby refid="class_whatdbg_1a198c935398a902e826f1bce42c7e3d53" compoundref="_whatdbg_8cpp" startline="157" endline="186">Whatdbg::onBreakpointHit</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a96a76f5ef14e110b1fd577ee43a40daf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool debug::State::hasStepCompleted</definition>
+        <argsstring></argsstring>
+        <name>hasStepCompleted</name>
+        <qualifiedname>debug::State::hasStepCompleted</qualifiedname>
+        <initializer>{ false }</initializer>
+        <briefdescription>
+<para>Set by <ref refid="classdebug_1_1_event_callbacks" kindref="compound">EventCallbacks</ref> when a step operation has completed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Consumed by processDeferredEvents to emit a DAP stopped event with reason &quot;step&quot;. Cleared after consumption. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="154" column="10" bodyfile="debug/State.h" bodystart="154" bodyend="154"/>
+        <referencedby refid="class_whatdbg_1a198c935398a902e826f1bce42c7e3d53" compoundref="_whatdbg_8cpp" startline="157" endline="186">Whatdbg::onBreakpointHit</referencedby>
+        <referencedby refid="class_whatdbg_1a66ca3ee668f1c162e194cca4e46dfc2a" compoundref="_whatdbg_8cpp" startline="144" endline="155">Whatdbg::onInitialBreak</referencedby>
+        <referencedby refid="class_whatdbg_1a802d7c4bdc8a1c32e6c9f1bb823f3364" compoundref="_whatdbg_8cpp" startline="188" endline="206">Whatdbg::onStepCompleted</referencedby>
+        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="57" endline="116">Whatdbg::run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a34dfd959262ddb06202d65d72bd652a0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool debug::State::hasPauseCompleted</definition>
+        <argsstring></argsstring>
+        <name>hasPauseCompleted</name>
+        <qualifiedname>debug::State::hasPauseCompleted</qualifiedname>
+        <initializer>{ false }</initializer>
+        <briefdescription>
+<para>Set by run() when a pause operation has completed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Consumed by processDeferredEvents to emit a DAP stopped event with reason &quot;pause&quot;. Cleared after consumption. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="161" column="10" bodyfile="debug/State.h" bodystart="161" bodyend="161"/>
+        <referencedby refid="class_whatdbg_1aff4f0452320284237ee7984b054ba9a5" compoundref="_whatdbg_8cpp" startline="208" endline="225">Whatdbg::onPauseCompleted</referencedby>
+        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="57" endline="116">Whatdbg::run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a615191b6876128888b8364d3161cb64a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool debug::State::hasNewModuleLoaded</definition>
+        <argsstring></argsstring>
+        <name>hasNewModuleLoaded</name>
+        <qualifiedname>debug::State::hasNewModuleLoaded</qualifiedname>
+        <initializer>{ false }</initializer>
+        <briefdescription>
+<para>Set by <ref refid="classdebug_1_1_event_callbacks_1ac81921e484f7ddf83fd941c664ef8201" kindref="member">EventCallbacks::LoadModule</ref> when a new module is loaded into the target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Consumed by processDeferredEvents to trigger <ref refid="classdebug_1_1_breakpoint_manager_1a42204301931af1fe6ef33640082791b3" kindref="member">BreakpointManager::onModuleLoad</ref> so that pending breakpoints can be resolved against the new module&apos;s symbols. Cleared after consumption. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="169" column="10" bodyfile="debug/State.h" bodystart="169" bodyend="169"/>
+        <referencedby refid="class_whatdbg_1a07b46b4a97afc003e7aa8f8690cff2c0" compoundref="_whatdbg_8cpp" startline="227" endline="262">Whatdbg::onModuleLoaded</referencedby>
+        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="57" endline="116">Whatdbg::run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a8fe215f552970d6fa0afbcd5a82add20" prot="public" static="no" mutable="no">
+        <type><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
+        <definition>juce::String debug::State::lastLoadedModuleName</definition>
+        <argsstring></argsstring>
+        <name>lastLoadedModuleName</name>
+        <qualifiedname>debug::State::lastLoadedModuleName</qualifiedname>
+        <briefdescription>
+<para>Display name of the most recently loaded module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set alongside hasNewModuleLoaded. Used for logging and for deciding whether per-module symbol reload is needed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="176" column="18" bodyfile="debug/State.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a3de08ce6e5b86e52f6e9fc2644f3d0f1" prot="public" static="no" mutable="no">
+        <type><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
+        <definition>juce::String debug::State::lastLoadedImageName</definition>
+        <argsstring></argsstring>
+        <name>lastLoadedImageName</name>
+        <qualifiedname>debug::State::lastLoadedImageName</qualifiedname>
+        <briefdescription>
+<para>Image file name (full path) of the most recently loaded module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set alongside hasNewModuleLoaded. Passed to <ref refid="classdebug_1_1_session_1a244b110c3c6cfa7e9371f2f6b5b61203" kindref="member">Session::loadModuleSymbols</ref> so dbgeng reloads PDB symbols for that specific DLL. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="183" column="18" bodyfile="debug/State.h" bodystart="183" bodyend="-1"/>
+        <referencedby refid="class_whatdbg_1a07b46b4a97afc003e7aa8f8690cff2c0" compoundref="_whatdbg_8cpp" startline="227" endline="262">Whatdbg::onModuleLoaded</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a1524615d3f899b2986f31b43a0b2ecd7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool debug::State::hasBreakpointLocationsResolved</definition>
+        <argsstring></argsstring>
+        <name>hasBreakpointLocationsResolved</name>
+        <qualifiedname>debug::State::hasBreakpointLocationsResolved</qualifiedname>
+        <initializer>{ false }</initializer>
+        <briefdescription>
+<para>Set by Session_mac onBreakpointEvent when liblldb resolves a new breakpoint location (typically because a matching module loaded after the BP was created). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Consumed by processDeferredEvents to emit a DAP <computeroutput>breakpoint</computeroutput> event with reason=<computeroutput>changed</computeroutput> so the client gutter marker flips from unverified to verified. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="191" column="10" bodyfile="debug/State.h" bodystart="191" bodyend="191"/>
+        <referencedby refid="class_whatdbg_1a810190c80e5c47d4b28c2c988b1779b1" compoundref="_whatdbg_8cpp" startline="264" endline="297">Whatdbg::onBreakpointLocationResolved</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1abeb3107f0d445cbedce7f280899dcb4d" prot="public" static="no" mutable="no">
+        <type>std::int32_t</type>
+        <definition>std::int32_t debug::State::resolvedBreakpointEngineId</definition>
+        <argsstring></argsstring>
+        <name>resolvedBreakpointEngineId</name>
+        <qualifiedname>debug::State::resolvedBreakpointEngineId</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+<para>Engine breakpoint ID associated with the most recent resolution event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set alongside <computeroutput><ref refid="classdebug_1_1_state_1a1524615d3f899b2986f31b43a0b2ecd7" kindref="member">hasBreakpointLocationsResolved</ref></computeroutput>. Caller resolves the DAP breakpoint ID via <computeroutput>engineToDap</computeroutput> in <ref refid="classdebug_1_1_breakpoint_manager" kindref="compound">BreakpointManager</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="197" column="18" bodyfile="debug/State.h" bodystart="197" bodyend="197"/>
+        <referencedby refid="class_whatdbg_1a810190c80e5c47d4b28c2c988b1779b1" compoundref="_whatdbg_8cpp" startline="264" endline="297">Whatdbg::onBreakpointLocationResolved</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1ad668954b7ae722e57f63a5853086a13e" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t debug::State::resolvedBreakpointLine</definition>
+        <argsstring></argsstring>
+        <name>resolvedBreakpointLine</name>
+        <qualifiedname>debug::State::resolvedBreakpointLine</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+<para>Resolved source line for the BP whose location was just added. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set alongside <computeroutput><ref refid="classdebug_1_1_state_1a1524615d3f899b2986f31b43a0b2ecd7" kindref="member">hasBreakpointLocationsResolved</ref></computeroutput>. 0 if unavailable (shouldn&apos;t happen in practice — LocationsResolved implies a line entry). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="203" column="19" bodyfile="debug/State.h" bodystart="203" bodyend="203"/>
+        <referencedby refid="class_whatdbg_1a810190c80e5c47d4b28c2c988b1779b1" compoundref="_whatdbg_8cpp" startline="264" endline="297">Whatdbg::onBreakpointLocationResolved</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a611662f4eb4fcf2f2a98e66b796266f9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool debug::State::hasPendingBreakpoints</definition>
+        <argsstring></argsstring>
+        <name>hasPendingBreakpoints</name>
+        <qualifiedname>debug::State::hasPendingBreakpoints</qualifiedname>
+        <initializer>{ false }</initializer>
+        <briefdescription>
+<para>True when at least one breakpoint is waiting to be resolved. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set by <ref refid="classdebug_1_1_breakpoint_manager_1a9d2c771b00f19e380a8443fa37e3cf12" kindref="member">BreakpointManager::onSetBreakpoints</ref> when a breakpoint cannot be resolved immediately (symbols not yet loaded). Read by <ref refid="classdebug_1_1_event_callbacks_1ac81921e484f7ddf83fd941c664ef8201" kindref="member">EventCallbacks::LoadModule</ref> to decide whether to set hasNewModuleLoaded and trigger resolution. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="211" column="10" bodyfile="debug/State.h" bodystart="211" bodyend="211"/>
+        <referencedby refid="class_whatdbg_1a834b68aae2e580ba9b29ab9b0f8dc48f" compoundref="_whatdbg_8cpp" startline="387" endline="419">Whatdbg::addPendingBreakpointsAndResume</referencedby>
+        <referencedby refid="class_whatdbg_1a07b46b4a97afc003e7aa8f8690cff2c0" compoundref="_whatdbg_8cpp" startline="227" endline="262">Whatdbg::onModuleLoaded</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a7ed9c16d75e24529be3216006ea5a82d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool debug::State::hasProcessExited</definition>
+        <argsstring></argsstring>
+        <name>hasProcessExited</name>
+        <qualifiedname>debug::State::hasProcessExited</qualifiedname>
+        <initializer>{ false }</initializer>
+        <briefdescription>
+<para>Set by <ref refid="classdebug_1_1_event_callbacks_1ad0b567581d7b33ffebdd402abd788623" kindref="member">EventCallbacks::ExitProcess</ref> when the target process exits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Consumed by processDeferredEvents to emit DAP exited and terminated events and transition executionState to exited. Cleared after consumption. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="218" column="10" bodyfile="debug/State.h" bodystart="218" bodyend="218"/>
+        <referencedby refid="class_whatdbg_1ae8d67f018347ebad330f8090f0ed2234" compoundref="_whatdbg_8cpp" startline="352" endline="372">Whatdbg::onProcessExited</referencedby>
+        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="57" endline="116">Whatdbg::run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1adb709b18997016b74c8254a53d16d1cb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool debug::State::hasExceptionStopped</definition>
+        <argsstring></argsstring>
+        <name>hasExceptionStopped</name>
+        <qualifiedname>debug::State::hasExceptionStopped</qualifiedname>
+        <initializer>{ false }</initializer>
+        <briefdescription>
+<para>Set by handleUnknownException when a second-chance unhandled exception fires. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Consumed by processDeferredEvents to emit a DAP stopped event with reason &quot;exception&quot; and an output event with the crash summary. Cleared after consumption. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="226" column="10" bodyfile="debug/State.h" bodystart="226" bodyend="226"/>
+        <referencedby refid="class_whatdbg_1a83a95b50014018a2569b37ff417cc164" compoundref="_whatdbg_8cpp" startline="316" endline="350">Whatdbg::onExceptionStopped</referencedby>
+        <referencedby refid="_callbacks_8cpp_1ad642254fa0bd56ab574c9b794dcd66e4" compoundref="_callbacks_8cpp" startline="35" endline="55">onUnknownException</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a804a6915dd5513e66354bdf321473b09" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t debug::State::exceptionCode</definition>
+        <argsstring></argsstring>
+        <name>exceptionCode</name>
+        <qualifiedname>debug::State::exceptionCode</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+<para>Platform-native exception/signal code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Windows: NTSTATUS / SEH exception code (e.g., 0xC0000005 for ACCESS_VIOLATION), captured by handleUnknownException on 2nd-chance. macOS: POSIX signal number from SBThread::GetStopReasonDataAtIndex(0) when stop reason is eStopReasonSignal; Mach exception type when eStopReasonException.</para>
+<para>Set alongside hasExceptionStopped. Persists after consumption so that handleExceptionInfo can respond with the exception details. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="238" column="19" bodyfile="debug/State.h" bodystart="238" bodyend="238"/>
+        <referencedby refid="class_whatdbg_1a027eb51c11af08478feea846deae2932" compoundref="_whatdbg_handlers_8cpp" startline="362" endline="376">Whatdbg::onExceptionInfo</referencedby>
+        <referencedby refid="class_whatdbg_1a83a95b50014018a2569b37ff417cc164" compoundref="_whatdbg_8cpp" startline="316" endline="350">Whatdbg::onExceptionStopped</referencedby>
+        <referencedby refid="_callbacks_8cpp_1ad642254fa0bd56ab574c9b794dcd66e4" compoundref="_callbacks_8cpp" startline="35" endline="55">onUnknownException</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a1082a8140dbdfe2f1f74ce8599ee6551" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t debug::State::exceptionAddress</definition>
+        <argsstring></argsstring>
+        <name>exceptionAddress</name>
+        <qualifiedname>debug::State::exceptionAddress</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+<para>Virtual address at which the exception occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set alongside hasExceptionStopped. Persists after consumption for handleExceptionInfo response. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="245" column="19" bodyfile="debug/State.h" bodystart="245" bodyend="245"/>
+        <referencedby refid="class_whatdbg_1a027eb51c11af08478feea846deae2932" compoundref="_whatdbg_handlers_8cpp" startline="362" endline="376">Whatdbg::onExceptionInfo</referencedby>
+        <referencedby refid="class_whatdbg_1a83a95b50014018a2569b37ff417cc164" compoundref="_whatdbg_8cpp" startline="316" endline="350">Whatdbg::onExceptionStopped</referencedby>
+        <referencedby refid="_callbacks_8cpp_1ad642254fa0bd56ab574c9b794dcd66e4" compoundref="_callbacks_8cpp" startline="35" endline="55">onUnknownException</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a7ac8f986730065bb18e0342bd725d2e3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool debug::State::isMachException</definition>
+        <argsstring></argsstring>
+        <name>isMachException</name>
+        <qualifiedname>debug::State::isMachException</qualifiedname>
+        <initializer>{ false }</initializer>
+        <briefdescription>
+<para>Discriminator for how <computeroutput><ref refid="classdebug_1_1_state_1a804a6915dd5513e66354bdf321473b09" kindref="member">exceptionCode</ref></computeroutput> should be interpreted on macOS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>false</computeroutput> (default, and always-false on Windows): <computeroutput><ref refid="classdebug_1_1_state_1a804a6915dd5513e66354bdf321473b09" kindref="member">exceptionCode</ref></computeroutput> is a POSIX signal number (SIGSEGV, SIGBUS, …) resolved via <computeroutput>signalNames</computeroutput>.</para>
+<para><computeroutput>true</computeroutput> (macOS only): <computeroutput><ref refid="classdebug_1_1_state_1a804a6915dd5513e66354bdf321473b09" kindref="member">exceptionCode</ref></computeroutput> is a Mach exception type (EXC_BAD_ACCESS = 1, EXC_BAD_INSTRUCTION = 2, …) resolved via <computeroutput>machExceptionNames</computeroutput>. Set by <computeroutput>onExceptionStop</computeroutput> when LLDB reports <computeroutput>eStopReasonException</computeroutput> instead of <computeroutput>eStopReasonSignal</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="257" column="10" bodyfile="debug/State.h" bodystart="257" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1ae4bd04e1fd7930cad73dece33f9d2109" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool debug::State::hasDebuggeeOutput</definition>
+        <argsstring></argsstring>
+        <name>hasDebuggeeOutput</name>
+        <qualifiedname>debug::State::hasDebuggeeOutput</qualifiedname>
+        <initializer>{ false }</initializer>
+        <briefdescription>
+<para>Set by <ref refid="classdebug_1_1_output_callbacks_1aadd3810605f6ea389591feeee73a026f" kindref="member">OutputCallbacks::Output2</ref> when the target writes to OutputDebugString. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Consumed by processDeferredEvents to emit a DAP output event with category &quot;stdout&quot;. Cleared after consumption. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="264" column="10" bodyfile="debug/State.h" bodystart="264" bodyend="264"/>
+        <referencedby refid="class_whatdbg_1a57d4c6c48dad2ce8464912728f2a2b94" compoundref="_whatdbg_8cpp" startline="299" endline="314">Whatdbg::onDebuggeeOutput</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a75eddef264990eb7abd182485ea3de46" prot="public" static="no" mutable="no">
+        <type><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
+        <definition>juce::String debug::State::debuggeeOutputText</definition>
+        <argsstring></argsstring>
+        <name>debuggeeOutputText</name>
+        <qualifiedname>debug::State::debuggeeOutputText</qualifiedname>
+        <briefdescription>
+<para>Text captured from the target via OutputDebugString. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set alongside hasDebuggeeOutput. Forwarded verbatim in the DAP output event body. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="270" column="18" bodyfile="debug/State.h" bodystart="270" bodyend="-1"/>
+        <referencedby refid="class_whatdbg_1a57d4c6c48dad2ce8464912728f2a2b94" compoundref="_whatdbg_8cpp" startline="299" endline="314">Whatdbg::onDebuggeeOutput</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1ac39e8e76d2763c11c19ce8e2e0d12a7f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int debug::State::nextVariablesRef</definition>
+        <argsstring></argsstring>
+        <name>nextVariablesRef</name>
+        <qualifiedname>debug::State::nextVariablesRef</qualifiedname>
+        <initializer>{ 1 }</initializer>
+        <briefdescription>
+<para>Monotonically increasing counter used to generate unique variablesReference values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset to 1 on each stop event via resetVariablesState(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="278" column="9" bodyfile="debug/State.h" bodystart="278" bodyend="278"/>
+        <referencedby refid="class_whatdbg_1a31d6c5572b4e985030987bba69e7512b" compoundref="_whatdbg_handlers_8cpp" startline="274" endline="297">Whatdbg::addDapVariable</referencedby>
+        <referencedby refid="class_whatdbg_1ad05bdb6a5305ac76780d959d10025cbb" compoundref="_whatdbg_handlers_8cpp" startline="194" endline="233">Whatdbg::onScopes</referencedby>
+        <referencedby refid="class_whatdbg_1aaeaeadff98b6f113eb777735213455ba" compoundref="_whatdbg_8cpp" startline="452" endline="460">Whatdbg::resetVariablesState</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a45f3e3e82a69af77f2380d8b7a983463" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, std::pair&lt; int, int &gt; &gt;</type>
+        <definition>std::unordered_map&lt;int, std::pair&lt;int, int&gt; &gt; debug::State::variablesRefMap</definition>
+        <argsstring></argsstring>
+        <name>variablesRefMap</name>
+        <qualifiedname>debug::State::variablesRefMap</qualifiedname>
+        <briefdescription>
+<para>Maps variablesReference -&gt; (frameIndex, symbolIndex). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A symbolIndex of -1 means the entry represents the top-level locals scope for the given frame. A non-negative symbolIndex identifies an expanded child variable within the symbol group for that frame. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="286" column="24" bodyfile="debug/State.h" bodystart="286" bodyend="-1"/>
+        <referencedby refid="class_whatdbg_1a31d6c5572b4e985030987bba69e7512b" compoundref="_whatdbg_handlers_8cpp" startline="274" endline="297">Whatdbg::addDapVariable</referencedby>
+        <referencedby refid="class_whatdbg_1ad05bdb6a5305ac76780d959d10025cbb" compoundref="_whatdbg_handlers_8cpp" startline="194" endline="233">Whatdbg::onScopes</referencedby>
+        <referencedby refid="class_whatdbg_1adfdf65edd62332431edae566f516a265" compoundref="_whatdbg_handlers_8cpp" startline="235" endline="272">Whatdbg::onVariables</referencedby>
+        <referencedby refid="class_whatdbg_1aaeaeadff98b6f113eb777735213455ba" compoundref="_whatdbg_8cpp" startline="452" endline="460">Whatdbg::resetVariablesState</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1ac89f5dc6c9fa4810077e4f7c9b5cec1a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int debug::State::nextFrameId</definition>
+        <argsstring></argsstring>
+        <name>nextFrameId</name>
+        <qualifiedname>debug::State::nextFrameId</qualifiedname>
+        <initializer>{ 1 }</initializer>
+        <briefdescription>
+<para>Monotonically increasing counter used to generate unique frameId values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset to 1 on each stop event via resetVariablesState(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="294" column="9" bodyfile="debug/State.h" bodystart="294" bodyend="294"/>
+        <referencedby refid="class_whatdbg_1a11b1b5b975c27c575f9087a188eda93b" compoundref="_whatdbg_handlers_8cpp" startline="163" endline="192">Whatdbg::onStackTrace</referencedby>
+        <referencedby refid="class_whatdbg_1aaeaeadff98b6f113eb777735213455ba" compoundref="_whatdbg_8cpp" startline="452" endline="460">Whatdbg::resetVariablesState</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a13ee9eccbf483a8f4ec81a09aa1e83a9" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, std::pair&lt; std::uint32_t, int &gt; &gt;</type>
+        <definition>std::unordered_map&lt;int, std::pair&lt;std::uint32_t, int&gt; &gt; debug::State::frameIdMap</definition>
+        <argsstring></argsstring>
+        <name>frameIdMap</name>
+        <qualifiedname>debug::State::frameIdMap</qualifiedname>
+        <briefdescription>
+<para>Maps frameId -&gt; (threadSystemId, frameIndex). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Populated by onStackTrace. Consumed by onScopes and onVariables to restore the correct thread/frame context before querying locals. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="301" column="24" bodyfile="debug/State.h" bodystart="301" bodyend="-1"/>
+        <referencedby refid="class_whatdbg_1a5c53bfe14d5a61d11b537327f1d9acdf" compoundref="_whatdbg_handlers_8cpp" startline="378" endline="417">Whatdbg::onEvaluate</referencedby>
+        <referencedby refid="class_whatdbg_1ad05bdb6a5305ac76780d959d10025cbb" compoundref="_whatdbg_handlers_8cpp" startline="194" endline="233">Whatdbg::onScopes</referencedby>
+        <referencedby refid="class_whatdbg_1a11b1b5b975c27c575f9087a188eda93b" compoundref="_whatdbg_handlers_8cpp" startline="163" endline="192">Whatdbg::onStackTrace</referencedby>
+        <referencedby refid="class_whatdbg_1aaeaeadff98b6f113eb777735213455ba" compoundref="_whatdbg_8cpp" startline="452" endline="460">Whatdbg::resetVariablesState</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_state_1a11506ade1640f6cff2452c1487a42dc0" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t debug::State::lastScopesThreadId</definition>
+        <argsstring></argsstring>
+        <name>lastScopesThreadId</name>
+        <qualifiedname>debug::State::lastScopesThreadId</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+<para>System thread ID of the thread whose scopes were last requested. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cached to avoid redundant setCurrentThreadBySystemId calls between consecutive scopes requests targeting the same thread. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="308" column="19" bodyfile="debug/State.h" bodystart="308" bodyend="308"/>
+        <referencedby refid="class_whatdbg_1ad05bdb6a5305ac76780d959d10025cbb" compoundref="_whatdbg_handlers_8cpp" startline="194" endline="233">Whatdbg::onScopes</referencedby>
+        <referencedby refid="class_whatdbg_1adfdf65edd62332431edae566f516a265" compoundref="_whatdbg_handlers_8cpp" startline="235" endline="272">Whatdbg::onVariables</referencedby>
+        <referencedby refid="class_whatdbg_1aaeaeadff98b6f113eb777735213455ba" compoundref="_whatdbg_8cpp" startline="452" endline="460">Whatdbg::resetVariablesState</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdebug_1_1_state_1ad8d72677d4c7288a6f91ccc20af5a07e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>debug::State::State</definition>
+        <argsstring>()=default</argsstring>
+        <name>State</name>
+        <qualifiedname>debug::State::State</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/State.h" line="67" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Single Source of Truth for all mutable debug session state. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classdebug_1_1_state" kindref="compound">State</ref> is the SSOT shared between <ref refid="classdebug_1_1_session" kindref="compound">Session</ref>, <ref refid="classdebug_1_1_breakpoint_manager" kindref="compound">BreakpointManager</ref>, and <ref refid="class_whatdbg" kindref="compound">Whatdbg</ref>. It is registered as a <ref refid="structjam_1_1Instance" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Instance</ref> so that any subsystem can resolve it without an explicit pointer argument.</para>
+<para>Fields are grouped by concern. COM callbacks (<ref refid="classdebug_1_1_event_callbacks" kindref="compound">EventCallbacks</ref>) write deferred-event flags; the <ref refid="class_whatdbg" kindref="compound">Whatdbg</ref> main loop reads and clears them in processDeferredEvents(). All access must occur on the main thread unless a field is explicitly noted otherwise.</para>
+<para><simplesect kind="note"><para>Declared first in <ref refid="class_whatdbg" kindref="compound">Whatdbg</ref> so that <ref refid="structjam_1_1Instance" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Instance</ref> registration happens before any dependent object is constructed. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>debug::State</label>
+        <link refid="classdebug_1_1_state"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jam::Instance&lt; State &gt;</label>
+        <link refid="structjam_1_1Instance" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>debug::State</label>
+        <link refid="classdebug_1_1_state"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>debuggeeOutputText</edgelabel>
+          <edgelabel>lastLoadedImageName</edgelabel>
+          <edgelabel>lastLoadedModuleName</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>variablesRefMap</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>frameIdMap</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jam::Instance&lt; State &gt;</label>
+        <link refid="structjam_1_1Instance" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="3">
+        <label>juce::String</label>
+        <link refid="classjuce_1_1String" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="5">
+        <label>std::pair&lt; int, int &gt;</label>
+      </node>
+      <node id="7">
+        <label>std::pair&lt; std::uint32_t, int &gt;</label>
+      </node>
+      <node id="4">
+        <label>std::unordered_map&lt; int, std::pair&lt; int, int &gt; &gt;</label>
+        <childnode refid="5" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>std::unordered_map&lt; int, std::pair&lt; std::uint32_t, int &gt; &gt;</label>
+        <childnode refid="7" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="debug/State.h" line="64" column="1" bodyfile="debug/State.h" bodystart="65" bodyend="312"/>
+    <listofallmembers>
+      <member refid="classdebug_1_1_state_1af74cd29bf5939405b30e9eda9f8f9bee" prot="public" virt="non-virtual"><scope>debug::State</scope><name>breakpointEngineId</name></member>
+      <member refid="structjam_1_1Instance_1a537b46df54b76151410ccfec411efc66" prot="private" virt="non-virtual"><scope>debug::State</scope><name>chainMutex</name></member>
+      <member refid="classdebug_1_1_state_1a75eddef264990eb7abd182485ea3de46" prot="public" virt="non-virtual"><scope>debug::State</scope><name>debuggeeOutputText</name></member>
+      <member refid="classdebug_1_1_state_1a1082a8140dbdfe2f1f74ce8599ee6551" prot="public" virt="non-virtual"><scope>debug::State</scope><name>exceptionAddress</name></member>
+      <member refid="classdebug_1_1_state_1a804a6915dd5513e66354bdf321473b09" prot="public" virt="non-virtual"><scope>debug::State</scope><name>exceptionCode</name></member>
+      <member refid="classdebug_1_1_state_1a6acfeaa677d44046db99385ccbf3243c" prot="public" virt="non-virtual"><scope>debug::State</scope><name>executionState</name></member>
+      <member refid="classdebug_1_1_state_1a13ee9eccbf483a8f4ec81a09aa1e83a9" prot="public" virt="non-virtual"><scope>debug::State</scope><name>frameIdMap</name></member>
+      <member refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140" prot="public" virt="non-virtual"><scope>debug::State</scope><name>getInstance</name></member>
+      <member refid="classdebug_1_1_state_1aa486c47f5e09c2fd78e7b903f1b6ce92" prot="public" virt="non-virtual"><scope>debug::State</scope><name>hasBreakpointHit</name></member>
+      <member refid="classdebug_1_1_state_1a1524615d3f899b2986f31b43a0b2ecd7" prot="public" virt="non-virtual"><scope>debug::State</scope><name>hasBreakpointLocationsResolved</name></member>
+      <member refid="classdebug_1_1_state_1ae4bd04e1fd7930cad73dece33f9d2109" prot="public" virt="non-virtual"><scope>debug::State</scope><name>hasDebuggeeOutput</name></member>
+      <member refid="classdebug_1_1_state_1adb709b18997016b74c8254a53d16d1cb" prot="public" virt="non-virtual"><scope>debug::State</scope><name>hasExceptionStopped</name></member>
+      <member refid="classdebug_1_1_state_1a615191b6876128888b8364d3161cb64a" prot="public" virt="non-virtual"><scope>debug::State</scope><name>hasNewModuleLoaded</name></member>
+      <member refid="classdebug_1_1_state_1a34dfd959262ddb06202d65d72bd652a0" prot="public" virt="non-virtual"><scope>debug::State</scope><name>hasPauseCompleted</name></member>
+      <member refid="classdebug_1_1_state_1a611662f4eb4fcf2f2a98e66b796266f9" prot="public" virt="non-virtual"><scope>debug::State</scope><name>hasPendingBreakpoints</name></member>
+      <member refid="classdebug_1_1_state_1a7ed9c16d75e24529be3216006ea5a82d" prot="public" virt="non-virtual"><scope>debug::State</scope><name>hasProcessExited</name></member>
+      <member refid="classdebug_1_1_state_1a96a76f5ef14e110b1fd577ee43a40daf" prot="public" virt="non-virtual"><scope>debug::State</scope><name>hasStepCompleted</name></member>
+      <member refid="structjam_1_1Instance_1adf1a1af39fe4935b8710ca6bd8349dce" prot="private" virt="non-virtual"><scope>debug::State</scope><name>head</name></member>
+      <member refid="classdebug_1_1_state_1a50db56936181e0eb980402850b00b408" prot="public" virt="non-virtual"><scope>debug::State</scope><name>initialBreakPhase</name></member>
+      <member refid="structjam_1_1Instance_1a85529c50c3424e8b843fa92fa2f9c4da" prot="public" virt="non-virtual"><scope>debug::State</scope><name>Instance</name></member>
+      <member refid="classdebug_1_1_state_1a3f7d7f6a39956757fc643a29e067021f" prot="public" virt="non-virtual"><scope>debug::State</scope><name>isConfigurationDone</name></member>
+      <member refid="classdebug_1_1_state_1a7ac8f986730065bb18e0342bd725d2e3" prot="public" virt="non-virtual"><scope>debug::State</scope><name>isMachException</name></member>
+      <member refid="classdebug_1_1_state_1a52acc9f4430079b63015dc92f87c8f3d" prot="public" virt="non-virtual"><scope>debug::State</scope><name>isPausePending</name></member>
+      <member refid="classdebug_1_1_state_1acecd26354fc6c58e78e970fecaa0815b" prot="public" virt="non-virtual"><scope>debug::State</scope><name>isRunning</name></member>
+      <member refid="classdebug_1_1_state_1a848557c1b021966ee5a501c140e9d718" prot="public" virt="non-virtual"><scope>debug::State</scope><name>isStepPending</name></member>
+      <member refid="classdebug_1_1_state_1a3de08ce6e5b86e52f6e9fc2644f3d0f1" prot="public" virt="non-virtual"><scope>debug::State</scope><name>lastLoadedImageName</name></member>
+      <member refid="classdebug_1_1_state_1a8fe215f552970d6fa0afbcd5a82add20" prot="public" virt="non-virtual"><scope>debug::State</scope><name>lastLoadedModuleName</name></member>
+      <member refid="classdebug_1_1_state_1a11506ade1640f6cff2452c1487a42dc0" prot="public" virt="non-virtual"><scope>debug::State</scope><name>lastScopesThreadId</name></member>
+      <member refid="classdebug_1_1_state_1ac89f5dc6c9fa4810077e4f7c9b5cec1a" prot="public" virt="non-virtual"><scope>debug::State</scope><name>nextFrameId</name></member>
+      <member refid="classdebug_1_1_state_1ac39e8e76d2763c11c19ce8e2e0d12a7f" prot="public" virt="non-virtual"><scope>debug::State</scope><name>nextVariablesRef</name></member>
+      <member refid="structjam_1_1Instance_1a8bcf431bb53fe6432585a139f6bc562d" prot="public" virt="non-virtual"><scope>debug::State</scope><name>operator=</name></member>
+      <member refid="structjam_1_1Instance_1af12a7073f28131cc327baa99fc5745d8" prot="private" virt="non-virtual"><scope>debug::State</scope><name>previous</name></member>
+      <member refid="classdebug_1_1_state_1aa1f14796ffee6818c4371eb1f1099c72" prot="public" virt="non-virtual"><scope>debug::State</scope><name>processExitCode</name></member>
+      <member refid="classdebug_1_1_state_1abeb3107f0d445cbedce7f280899dcb4d" prot="public" virt="non-virtual"><scope>debug::State</scope><name>resolvedBreakpointEngineId</name></member>
+      <member refid="classdebug_1_1_state_1ad668954b7ae722e57f63a5853086a13e" prot="public" virt="non-virtual"><scope>debug::State</scope><name>resolvedBreakpointLine</name></member>
+      <member refid="classdebug_1_1_state_1a75ce45fc27d60fea92fc0e03e6342fbc" prot="public" virt="non-virtual"><scope>debug::State</scope><name>shouldTerminateOnExit</name></member>
+      <member refid="classdebug_1_1_state_1ad8d72677d4c7288a6f91ccc20af5a07e" prot="public" virt="non-virtual"><scope>debug::State</scope><name>State</name></member>
+      <member refid="classdebug_1_1_state_1a38b92622d4758c341d86782c8e847255" prot="public" virt="non-virtual"><scope>debug::State</scope><name>targetProcessId</name></member>
+      <member refid="classdebug_1_1_state_1a45f3e3e82a69af77f2380d8b7a983463" prot="public" virt="non-virtual"><scope>debug::State</scope><name>variablesRefMap</name></member>
+      <member refid="structjam_1_1Instance_1a6d091bd7f9bfd134ba3c831c8a3b04a3" prot="public" virt="virtual"><scope>debug::State</scope><name>~Instance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

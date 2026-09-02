@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="struct_binary_entry" kind="struct" language="C++" prot="public">
+    <compoundname>BinaryEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_binary_entry_1a7a1443334a403c634f3f79e1ef4feb44" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* BinaryEntry::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>BinaryEntry::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Main.cpp" line="84" column="16" bodyfile="Main.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_binary_entry_1a31f8f5f0d784b77d2fae3389194f6896" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* BinaryEntry::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>BinaryEntry::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Main.cpp" line="85" column="16" bodyfile="Main.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_binary_entry_1a6c1f020e776b61b58db7c7e4fd6d847b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int BinaryEntry::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>BinaryEntry::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Main.cpp" line="86" column="17" bodyfile="Main.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Entry describing an embedded binary to extract from <ref refid="namespaceBinaryData" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">BinaryData</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each entry maps a <ref refid="namespaceBinaryData" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">BinaryData</ref> symbol (data pointer + size) to a filename for extraction to the sidecar directory. </para>
+    </detaileddescription>
+    <location file="Main.cpp" line="82" column="1" bodyfile="Main.cpp" bodystart="83" bodyend="87"/>
+    <listofallmembers>
+      <member refid="struct_binary_entry_1a31f8f5f0d784b77d2fae3389194f6896" prot="public" virt="non-virtual"><scope>BinaryEntry</scope><name>data</name></member>
+      <member refid="struct_binary_entry_1a7a1443334a403c634f3f79e1ef4feb44" prot="public" virt="non-virtual"><scope>BinaryEntry</scope><name>name</name></member>
+      <member refid="struct_binary_entry_1a6c1f020e776b61b58db7c7e4fd6d847b" prot="public" virt="non-virtual"><scope>BinaryEntry</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

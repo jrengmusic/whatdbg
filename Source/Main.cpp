@@ -15,12 +15,13 @@
  */
 #include <JuceHeader.h>
 #include <BinaryData.h>
-#include <exception>
-#include "Log.h"
 #include "Whatdbg.h"
 
 #if JUCE_MAC
 #include <unistd.h>
+#include <cstdio>
+#include <cstring>
+#include <cerrno>
 #endif
 
 static constexpr const char* sidecarDirName { "whatdbg" };
@@ -32,29 +33,27 @@ static constexpr const char* logFileName    { "whatdbg.log" };
 static constexpr const char* reexecMarker { "WHATDBG_REEXEC" };
 #endif
 
-/** Return the whatdbg configuration directory.
- *
- *  Resolves to the platform-specific application data directory with a "whatdbg"
- *  subdirectory: ~/Library/Application Support/whatdbg/ on macOS,
- *  %APPDATA%/whatdbg/ on Windows.
- */
 static juce::File getConfigDirectory () noexcept
 {
     return juce::File::getSpecialLocation (juce::File::userApplicationDataDirectory)
                .getChildFile (sidecarDirName);
 }
 
+static juce::File getOrCreateConfigDirectory () noexcept
+{
+    const juce::File configDir { getConfigDirectory () };
+    configDir.createDirectory ();
+
+    return configDir;
+}
+
 #if JUCE_DEBUG
-/** Crash handler — logs stack trace to whatdbg.log before OS terminates the process. */
 static void onApplicationCrash (void* context) noexcept
 {
     juce::ignoreUnused (context);
-    logWrite ("WHATDBG: CRASH\n%s\n", juce::SystemStats::getStackBacktrace ().toRawUTF8 ());
-    if (g_logFile != nullptr)
-        fflush (g_logFile);
+    jam::debug::Log::write (juce::String ("WHATDBG: CRASH\n") + juce::SystemStats::getStackBacktrace ());
 }
 
-/** Terminate handler — logs active exception (if any) and stack trace before abort. */
 static void onApplicationTerminate () noexcept
 {
     const auto activeException { std::current_exception () };
@@ -67,111 +66,80 @@ static void onApplicationTerminate () noexcept
         }
         catch (const std::exception& e)
         {
-            logWrite ("WHATDBG: TERMINATE std::exception: %s\n", e.what ());
+            jam::debug::Log::write (juce::String ("WHATDBG: TERMINATE std::exception: ") + e.what ());
         }
         catch (...)
         {
-            logWrite ("WHATDBG: TERMINATE unknown exception\n");
+            jam::debug::Log::write ("WHATDBG: TERMINATE unknown exception");
         }
     }
     else
     {
-        logWrite ("WHATDBG: TERMINATE (no active exception)\n");
+        jam::debug::Log::write ("WHATDBG: TERMINATE (no active exception)");
     }
 
-    logWrite ("%s\n", juce::SystemStats::getStackBacktrace ().toRawUTF8 ());
-
-    if (g_logFile != nullptr)
-        fflush (g_logFile);
+    jam::debug::Log::write (juce::SystemStats::getStackBacktrace ());
 
     std::abort ();
 }
 #endif
 
-/** Entry describing an embedded binary to extract from BinaryData.
- *
- *  Each entry maps a BinaryData symbol (data pointer + size) to a filename
- *  for extraction to the sidecar directory.
- */
-struct BinaryEntry
-{
-    const char* name;
-    const char* data;
-    int         size;
-};
-
-/** Extract embedded binaries from BinaryData to a sidecar subdirectory.
- *
- *  Writes each entry to disk only if the file is missing or its size differs
- *  from the embedded version (cheap upgrade detection).
- *
- *  @param subdir      Subdirectory name within the config directory (e.g., "dbgeng", "liblldb").
- *  @param entries     Array of BinaryEntry descriptors to extract.
- *  @param entryCount  Number of entries in the array.
- *  @return The sidecar directory on success, or an invalid File on failure.
- */
-static juce::File extractSidecarBinaries (const char* subdir,
-                                          const BinaryEntry* entries,
-                                          int entryCount) noexcept
+static juce::File getOrCreateSidecarDirectory (const char* subdir) noexcept
 {
     const juce::File sidecarDir { getConfigDirectory ().getChildFile (subdir) };
+    sidecarDir.createDirectory ();
 
-    if (not sidecarDir.exists ())
-        sidecarDir.createDirectory ();
+    return sidecarDir;
+}
 
-    bool isAllOk { true };
+static bool applySidecarBinary (const juce::File& sidecarDir, const char* name,
+                                const char* data, int size) noexcept
+{
+    const juce::File dest { sidecarDir.getChildFile (name) };
+    const bool shouldWrite { not dest.existsAsFile ()
+                             or dest.getSize () != static_cast<juce::int64> (size) };
 
-    for (int i { 0 }; i < entryCount; ++i)
+    bool isOk { true };
+
+    if (shouldWrite)
     {
-        const auto& entry { entries[i] };
-        const juce::File dest { sidecarDir.getChildFile (entry.name) };
-        const bool shouldWrite { not dest.existsAsFile ()
-                                 or dest.getSize () != static_cast<juce::int64> (entry.size) };
+        juce::FileOutputStream stream { dest };
 
-        if (shouldWrite)
-        {
-            juce::FileOutputStream stream { dest };
-
-            if (stream.openedOk ())
-            {
-                stream.write (entry.data, static_cast<size_t> (entry.size));
-            }
-            else
-            {
-                isAllOk = false;
-            }
-        }
+        isOk = stream.openedOk () and stream.write (data, static_cast<size_t> (size));
     }
 
-    return isAllOk ? sidecarDir : juce::File {};
+    return isOk;
 }
 
 #if JUCE_WINDOWS
-/** Extract Windows dbgeng DLLs (dbgeng.dll, dbghelp.dll, dbgcore.dll, symsrv.dll). */
-static juce::File extractSidecarBinaries () noexcept
+static juce::File getOrCreateSidecar () noexcept
 {
-    static const BinaryEntry entries[]
-    {
-        { "dbgeng.dll",  BinaryData::dbgeng_dll,  BinaryData::dbgeng_dllSize  },
-        { "dbghelp.dll", BinaryData::dbghelp_dll, BinaryData::dbghelp_dllSize },
-        { "dbgcore.dll", BinaryData::dbgcore_dll, BinaryData::dbgcore_dllSize },
-        { "symsrv.dll",  BinaryData::symsrv_dll,  BinaryData::symsrv_dllSize  }
-    };
+    const juce::File sidecarDir { getOrCreateSidecarDirectory (dbgengSubdir) };
 
-    return extractSidecarBinaries (dbgengSubdir, entries, 4);
+    const bool wroteDbgeng  { applySidecarBinary (sidecarDir, "dbgeng.dll",
+                                                  BinaryData::dbgeng_dll, BinaryData::dbgeng_dllSize) };
+    const bool wroteDbghelp { applySidecarBinary (sidecarDir, "dbghelp.dll",
+                                                  BinaryData::dbghelp_dll, BinaryData::dbghelp_dllSize) };
+    const bool wroteDbgcore { applySidecarBinary (sidecarDir, "dbgcore.dll",
+                                                  BinaryData::dbgcore_dll, BinaryData::dbgcore_dllSize) };
+    const bool wroteSymsrv  { applySidecarBinary (sidecarDir, "symsrv.dll",
+                                                  BinaryData::symsrv_dll, BinaryData::symsrv_dllSize) };
+
+    const bool isAllOk { wroteDbgeng and wroteDbghelp and wroteDbgcore and wroteSymsrv };
+
+    return isAllOk ? sidecarDir : juce::File {};
 }
 #endif
 
 #if JUCE_MAC
-/** Extract macOS liblldb.dylib (per-arch, embedded as BinaryData). */
-static juce::File extractSidecarBinaries () noexcept
+static juce::File getOrCreateSidecar () noexcept
 {
-    static const BinaryEntry entries[]
-    {
-        { "liblldb.dylib", BinaryData::liblldb_dylib, BinaryData::liblldb_dylibSize }
-    };
+    const juce::File sidecarDir { getOrCreateSidecarDirectory (liblldbSubdir) };
 
-    return extractSidecarBinaries (liblldbSubdir, entries, 1);
+    const bool isAllOk { applySidecarBinary (sidecarDir, "liblldb.dylib",
+                                             BinaryData::liblldb_dylib, BinaryData::liblldb_dylibSize) };
+
+    return isAllOk ? sidecarDir : juce::File {};
 }
 #endif
 
@@ -179,20 +147,12 @@ int main (int argc, char* argv[])
 {
     juce::ignoreUnused (argc, argv);
 
-    // ── macOS re-exec trampoline ─────────────────────────────────────────
-    // First invocation: extract liblldb.dylib, set DYLD_LIBRARY_PATH to the
-    // sidecar directory, mark WHATDBG_REEXEC=1, and execv(self). Second
-    // invocation: WHATDBG_REEXEC is set, skip trampoline, dyld has already
-    // resolved all SB API symbols via DYLD_LIBRARY_PATH.
 #if JUCE_MAC
     if (getenv (reexecMarker) == nullptr)
     {
-        const juce::File configDir { getConfigDirectory () };
+        juce::ignoreUnused (getOrCreateConfigDirectory ());
 
-        if (not configDir.exists ())
-            configDir.createDirectory ();
-
-        const juce::File sidecarDir { extractSidecarBinaries () };
+        const juce::File sidecarDir { getOrCreateSidecar () };
 
         if (sidecarDir != juce::File {})
         {
@@ -200,7 +160,6 @@ int main (int argc, char* argv[])
             setenv (reexecMarker, "1", 1);
             execv (argv[0], argv);
 
-            // execv only returns on failure
             fprintf (stderr, "whatdbg: re-exec failed: %s\n", strerror (errno));
         }
         else
@@ -214,54 +173,53 @@ int main (int argc, char* argv[])
 
     int exitCode { 0 };
 
-    const juce::File configDir { getConfigDirectory () };
-
-    if (not configDir.exists ())
-        configDir.createDirectory ();
+    const juce::File configDir { getOrCreateConfigDirectory () };
 
 #if JUCE_DEBUG
     const juce::File logPath { configDir.getChildFile (logFileName) };
-    g_logFile = fopen (logPath.getFullPathName ().toRawUTF8 (), "w");
+    jam::debug::Log::Scope logScope { logPath };
     juce::SystemStats::setApplicationCrashHandler (&onApplicationCrash);
     std::set_terminate (&onApplicationTerminate);
+
+    jam::debug::Log::write ("WHATDBG: started");
 #endif
 
-    logWrite ("WHATDBG: started\n");
-
-    const auto sidecarDir { extractSidecarBinaries () };
+    const auto sidecarDir { getOrCreateSidecar () };
 
     if (sidecarDir != juce::File {})
     {
-        logWrite ("WHATDBG: sidecar at %s\n", sidecarDir.getFullPathName ().toRawUTF8 ());
+#if JUCE_DEBUG
+        jam::debug::Log::write (juce::String ("WHATDBG: sidecar at ") + sidecarDir.getFullPathName ());
+#endif
 
         Whatdbg whatdbg;
         const bool isInitialized { whatdbg.initialize (sidecarDir) };
 
         if (isInitialized)
         {
-            logWrite ("WHATDBG: initialized\n");
+#if JUCE_DEBUG
+            jam::debug::Log::write ("WHATDBG: initialized");
+#endif
             whatdbg.run ();
         }
         else
         {
-            logWrite ("WHATDBG: initialization failed\n");
+#if JUCE_DEBUG
+            jam::debug::Log::write ("WHATDBG: initialization failed");
+#endif
             exitCode = 1;
         }
     }
     else
     {
-        logWrite ("WHATDBG: sidecar extraction failed\n");
+#if JUCE_DEBUG
+        jam::debug::Log::write ("WHATDBG: sidecar extraction failed");
+#endif
         exitCode = 1;
     }
 
-    logWrite ("WHATDBG: exit code %d\n", exitCode);
-
 #if JUCE_DEBUG
-    if (g_logFile != nullptr)
-    {
-        fclose (g_logFile);
-        g_logFile = nullptr;
-    }
+    jam::debug::Log::write ("WHATDBG: exit code", exitCode);
 #endif
 
     return exitCode;

@@ -12,15 +12,15 @@ whatdbg currently gives a launched debuggee's stdio a real terminal on Windows, 
 ## 2. Current Behavior (cited)
 
 ### 2.1 Windows — `Source/debug/Session.cpp`
-- `Session.cpp:128` — comment: *"IDebugClient5::CreateProcess2 with DEBUG_ONLY_THIS_PROCESS."*
-- `Session.cpp:143` — `options.CreateFlags = DEBUG_ONLY_THIS_PROCESS | CREATE_NEW_CONSOLE;`
+- `Session.cpp:137` — comment: *"WHATDBG: CreateProcess2 commandLine: ..."* logged immediately before the `CreateProcess2` call.
+- `Session.cpp:151` — `options.CreateFlags = DEBUG_ONLY_THIS_PROCESS | CREATE_NEW_CONSOLE;`
 - Effect: debuggee spawns into its own new console window. Real TTY. dbgeng debugs out-of-process via Windows debugging API — no stdio contention. **TUI apps work under the debugger today on Windows.**
 
 ### 2.2 macOS — `Source/debug/Session_mac.cpp`
-- `Session_mac.cpp:267-281` — `launchInfo.SetLaunchFlags(lldb::eLaunchFlagDebug | lldb::eLaunchFlagStopAtEntry);` then `target.Launch(launchInfo, error)`.
+- `Session_mac.cpp:279-283` — `launchInfo.SetLaunchFlags(lldb::eLaunchFlagDebug | lldb::eLaunchFlagStopAtEntry);` then `process = target.Launch(launchInfo, error);`.
 - No TTY/console flag set.
-- `Session_mac.cpp:82-105` — `drainProcessStdio()` reads via `process.GetSTDOUT()` / `process.GetSTDERR()` into `state->debuggeeOutputText`, a plain string buffer.
-- `Source/Whatdbg.cpp:288-299` — that buffer is forwarded as a DAP `output` event with `category = "console"` — text only, no TTY semantics.
+- `Session_mac.cpp:68-90` — `drainProcessStdio()` reads via `process.GetSTDOUT()` / `process.GetSTDERR()` into `state->debuggeeOutputText`, a plain string buffer, tagging `state->debuggeeOutputCategory` as `"stdout"` or `"stderr"`.
+- `Source/Whatdbg.cpp:296-310` — `drainDebuggeeOutput` forwards that buffer as a DAP `output` event using the captured category — text only, no TTY semantics.
 - Effect: `isatty()` on the debuggee reports false. Raw-mode/ncurses rendering will not behave interactively — same as running under a pipe. **TUI apps do not work correctly under the debugger today on macOS.** Plain line-based CLI output is unaffected (captured either way).
 
 ### 2.3 whatdbg has no `runInTerminal` reverse-request support
@@ -33,7 +33,7 @@ whatdbg currently gives a launched debuggee's stdio a real terminal on Windows, 
 - `lldb-enumerations.h:113-114` (LLVM 22.1.4, `/opt/homebrew/Cellar/llvm/22.1.4/include/lldb/lldb-enumerations.h`): `eLaunchFlagLaunchInTTY = (1u << 5), ///< Launch the process in a new TTY if supported by the host`.
 - Not currently set anywhere in `Session_mac.cpp`.
 - Effect if added: LLDB itself opens the new TTY. On macOS this is a **separate Terminal.app window, external to nvim** — not an editor split.
-- Scope: one flag added to the existing `SetLaunchFlags` call at `Session_mac.cpp:277-278`.
+- Scope: one flag added to the existing `SetLaunchFlags` call at `Session_mac.cpp:279-280`.
 
 ### Option B — Implement DAP `runInTerminal` reverse request
 - nvim-dap already implements the client side of this in full: `~/.local/share/nvim/lazy/nvim-dap/lua/dap/session.lua:234-294` (`run_in_terminal`).

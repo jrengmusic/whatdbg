@@ -14,9 +14,7 @@
 
 #include <JuceHeader.h>
 #include "Session.h"
-#include "State.h"
 #include "../dap/Types.h"
-#include "../Log.h"
 
 #if JUCE_WINDOWS
 #include <dbghelp.h>
@@ -26,24 +24,15 @@ namespace debug
 
 using dap::DynObj;
 
-// ---------------------------------------------------------------------------
-// Session::~Session
-// ---------------------------------------------------------------------------
-
-/** Delegates to shutdown (EndMode::passive) — releases all COM interfaces. */
 Session::~Session ()
 {
     shutdown (EndMode::passive);
 }
 
-// ---------------------------------------------------------------------------
-// Session::initialize
-// ---------------------------------------------------------------------------
-
-/** CoInitializes COM, loads dbgeng via Loader, creates IDebugClient5, and
- *  QIs all required interfaces. Calls shutdown on any failure. */
-bool Session::initialize (const juce::File& sidecarDir) noexcept
+IDebugClient5* Session::getOrCreateDebugClient (const juce::File& sidecarDir) noexcept
 {
+    IDebugClient5* rawClient { nullptr };
+
     const HRESULT comResult { CoInitializeEx (nullptr, COINIT_MULTITHREADED) };
     const bool isComOk { comResult == S_OK or comResult == RPC_E_CHANGED_MODE };
 
@@ -54,55 +43,69 @@ bool Session::initialize (const juce::File& sidecarDir) noexcept
 
         if (isLoaderOk)
         {
-            IDebugClient5* rawClient { nullptr };
-            const HRESULT createResult { loader.createDebugClient (&rawClient) };
-
-            if (SUCCEEDED (createResult) and rawClient != nullptr)
-            {
-                client.Attach (rawClient);
-
-                const HRESULT qiControlResult { client->QueryInterface (
-                    __uuidof (IDebugControl4),
-                    reinterpret_cast<PVOID*> (control.GetAddressOf ())) };
-
-                if (SUCCEEDED (qiControlResult) and control != nullptr)
-                {
-                    const HRESULT cbResult { client->SetOutputCallbacks (
-                        reinterpret_cast<IDebugOutputCallbacks*> (&outputCallbacks)) };
-                    juce::ignoreUnused (cbResult);
-
-                    client->SetOutputMask (
-                        DEBUG_OUTPUT_NORMAL
-                        | DEBUG_OUTPUT_WARNING
-                        | DEBUG_OUTPUT_ERROR
-                        | DEBUG_OUTPUT_DEBUGGEE);
-
-                    const HRESULT qiSymbolsResult { client->QueryInterface (
-                        __uuidof (IDebugSymbols3),
-                        reinterpret_cast<PVOID*> (symbols.GetAddressOf ())) };
-                    juce::ignoreUnused (qiSymbolsResult);
-
-                    const HRESULT qiDataResult { client->QueryInterface (
-                        __uuidof (IDebugDataSpaces4),
-                        reinterpret_cast<PVOID*> (dataSpaces.GetAddressOf ())) };
-                    juce::ignoreUnused (qiDataResult);
-
-                    const HRESULT qiSysObjResult { client->QueryInterface (
-                        __uuidof (IDebugSystemObjects),
-                        reinterpret_cast<PVOID*> (systemObjects.GetAddressOf ())) };
-                    juce::ignoreUnused (qiSysObjResult);
-
-                    if (symbols != nullptr)
-                    {
-                        symbols->AddSymbolOptions (SYMOPT_LOAD_LINES);
-                        control->SetCodeLevel (DEBUG_LEVEL_SOURCE);
-                    }
-
-                    control->AddEngineOptions (DEBUG_ENGOPT_INITIAL_BREAK);
-                    client->SetEventCallbacks (&eventCallbacks);
-                }
-            }
+            rawClient = loader.createDebugClient ();
         }
+    }
+
+    return rawClient;
+}
+
+bool Session::getOrCreateDebugInterfaces () noexcept
+{
+    const HRESULT qiControlResult { client->QueryInterface (
+        __uuidof (IDebugControl4),
+        reinterpret_cast<PVOID*> (control.GetAddressOf ())) };
+    juce::ignoreUnused (qiControlResult);
+
+    const HRESULT qiSymbolsResult { client->QueryInterface (
+        __uuidof (IDebugSymbols3),
+        reinterpret_cast<PVOID*> (symbols.GetAddressOf ())) };
+    juce::ignoreUnused (qiSymbolsResult);
+
+    const HRESULT qiDataResult { client->QueryInterface (
+        __uuidof (IDebugDataSpaces4),
+        reinterpret_cast<PVOID*> (dataSpaces.GetAddressOf ())) };
+    juce::ignoreUnused (qiDataResult);
+
+    const HRESULT qiSysObjResult { client->QueryInterface (
+        __uuidof (IDebugSystemObjects),
+        reinterpret_cast<PVOID*> (systemObjects.GetAddressOf ())) };
+    juce::ignoreUnused (qiSysObjResult);
+
+    return control != nullptr
+           and symbols != nullptr
+           and dataSpaces != nullptr
+           and systemObjects != nullptr;
+}
+
+void Session::setDebugInterfaces () noexcept
+{
+    const HRESULT cbResult { client->SetOutputCallbacks (
+        static_cast<IDebugOutputCallbacks*> (&outputCallbacks)) };
+    juce::ignoreUnused (cbResult);
+
+    client->SetOutputMask (
+        DEBUG_OUTPUT_NORMAL
+        | DEBUG_OUTPUT_WARNING
+        | DEBUG_OUTPUT_ERROR
+        | DEBUG_OUTPUT_DEBUGGEE);
+
+    symbols->AddSymbolOptions (SYMOPT_LOAD_LINES);
+    control->SetCodeLevel (DEBUG_LEVEL_SOURCE);
+    control->AddEngineOptions (DEBUG_ENGOPT_INITIAL_BREAK);
+    client->SetEventCallbacks (&eventCallbacks);
+}
+
+bool Session::initialize (const juce::File& sidecarDir) noexcept
+{
+    IDebugClient5* rawClient { getOrCreateDebugClient (sidecarDir) };
+
+    if (rawClient != nullptr)
+    {
+        client.Attach (rawClient);
+
+        if (getOrCreateDebugInterfaces ())
+            setDebugInterfaces ();
     }
 
     const bool isInitialized { client != nullptr
@@ -114,28 +117,33 @@ bool Session::initialize (const juce::File& sidecarDir) noexcept
     if (not isInitialized)
     {
         shutdown (EndMode::passive);
-        logWrite ("WHATDBG: initialization failed\n");
+#if JUCE_DEBUG
+        jam::debug::Log::write ("WHATDBG: initialization failed");
+#endif
     }
 
     return isInitialized;
 }
 
-// ---------------------------------------------------------------------------
-// Session::launch
-// ---------------------------------------------------------------------------
+static juce::String normalizeCommandLine (const juce::String& program) noexcept
+{
+    juce::String normalized { program.replace ("/", "\\") };
 
-/** Normalizes path separators, quotes paths with spaces, and calls
- *  IDebugClient5::CreateProcess2 with DEBUG_ONLY_THIS_PROCESS. */
+    if (normalized.containsChar (' ') and not normalized.startsWithChar ('"'))
+        normalized = normalized.quoted ();
+
+    return normalized;
+}
+
 bool Session::launch (const juce::String& program) noexcept
 {
     jassert (client != nullptr);
 
-    juce::String normalized { program.replace ("/", "\\") };
+    const juce::String normalized { normalizeCommandLine (program) };
 
-    if (normalized.containsChar (' ') and not normalized.startsWithChar ('"'))
-        normalized = "\"" + normalized + "\"";
-
-    logWrite ("WHATDBG: CreateProcess2 commandLine: %s\n", normalized.toRawUTF8 ());
+#if JUCE_DEBUG
+    jam::debug::Log::write ("WHATDBG: CreateProcess2 commandLine: " + normalized);
+#endif
 
     std::string commandLineBuffer { normalized.toStdString () };
 
@@ -157,22 +165,21 @@ bool Session::launch (const juce::String& program) noexcept
 
     if (launched)
     {
-        logWrite ("WHATDBG: launched process: %s\n", program.toRawUTF8 ());
+#if JUCE_DEBUG
+        jam::debug::Log::write ("WHATDBG: launched process: " + program);
+#endif
     }
     else
     {
-        logWrite ("WHATDBG: CreateProcess2 failed, hr=0x%08lX\n", static_cast<unsigned long> (result));
+#if JUCE_DEBUG
+        jam::debug::Log::write ("WHATDBG: CreateProcess2 failed, hr=0x"
+                                 + juce::String::toHexString (static_cast<unsigned long> (result)));
+#endif
     }
 
     return launched;
 }
 
-// ---------------------------------------------------------------------------
-// Session::attach
-// ---------------------------------------------------------------------------
-
-/** Attaches to a running process via IDebugClient5::AttachProcess with no
- *  special flags (non-invasive attach not requested). */
 bool Session::attach (std::uint32_t processId) noexcept
 {
     jassert (client != nullptr);
@@ -182,21 +189,21 @@ bool Session::attach (std::uint32_t processId) noexcept
 
     if (attached)
     {
-        logWrite ("WHATDBG: attached to process %lu\n", static_cast<unsigned long> (processId));
+#if JUCE_DEBUG
+        jam::debug::Log::write ("WHATDBG: attached to process " + juce::String (static_cast<unsigned long> (processId)));
+#endif
     }
     else
     {
-        logWrite ("WHATDBG: AttachProcess failed, hr=0x%08lX\n", static_cast<unsigned long> (attachResult));
+#if JUCE_DEBUG
+        jam::debug::Log::write ("WHATDBG: AttachProcess failed, hr=0x"
+                                 + juce::String::toHexString (static_cast<unsigned long> (attachResult)));
+#endif
     }
 
     return attached;
 }
 
-// ---------------------------------------------------------------------------
-// Session::resume
-// ---------------------------------------------------------------------------
-
-/** Sets execution status to DEBUG_STATUS_GO — resumes all threads. */
 void Session::resume () noexcept
 {
     if (control != nullptr)
@@ -205,45 +212,19 @@ void Session::resume () noexcept
     }
 }
 
-// ---------------------------------------------------------------------------
-// Session::pollEvents
-// ---------------------------------------------------------------------------
-
-/** Calls IDebugControl4::WaitForEvent with the given timeout. S_OK → event
- *  consumed; S_FALSE → timeout with no event; other HRESULT → failure result. */
-juce::Result Session::pollEvents (std::uint32_t timeoutMs, bool& outHadEvent) noexcept
+bool Session::pollEvents (std::uint32_t timeoutMs) noexcept
 {
-    outHadEvent = false;
-    juce::Result result { juce::Result::ok () };
+    bool hadEvent { false };
 
     if (control != nullptr)
     {
         const HRESULT hr { control->WaitForEvent (0, static_cast<ULONG> (timeoutMs)) };
-
-        if (hr == S_OK)
-        {
-            outHadEvent = true;
-        }
-        else if (hr == S_FALSE)
-        {
-            outHadEvent = false;
-        }
-        else
-        {
-            result = juce::Result::fail ("pollEvents: HRESULT 0x"
-                + juce::String::toHexString (static_cast<int> (hr)));
-        }
+        hadEvent = hr == S_OK;
     }
 
-    return result;
+    return hadEvent;
 }
 
-// ---------------------------------------------------------------------------
-// Session::shutdown
-// ---------------------------------------------------------------------------
-
-/** Ends the debug session with the appropriate DEBUG_END_* flag, resets all
- *  COM interface ComPtrs, and CoUninitializes only if this instance owns COM. */
 void Session::shutdown (EndMode mode) noexcept
 {
     if (client != nullptr)
@@ -256,6 +237,8 @@ void Session::shutdown (EndMode mode) noexcept
             endFlag = DEBUG_END_ACTIVE_DETACH;
 
         client->EndSession (endFlag);
+        client->SetEventCallbacks (nullptr);
+        client->SetOutputCallbacks (nullptr);
     }
 
     resetSymbolGroupCache ();
@@ -272,35 +255,28 @@ void Session::shutdown (EndMode mode) noexcept
     }
 }
 
-// ---------------------------------------------------------------------------
-// Session::appendSymbolPath / appendSourcePath
-// ---------------------------------------------------------------------------
-
-/** Appends a directory to dbgeng's symbol search path via IDebugSymbols3::AppendSymbolPath. */
 void Session::appendSymbolPath (const juce::String& path) noexcept
 {
     if (symbols != nullptr)
     {
         symbols->AppendSymbolPath (path.toRawUTF8 ());
-        logWrite ("WHATDBG: appended symbol path: %s\n", path.toRawUTF8 ());
+#if JUCE_DEBUG
+        jam::debug::Log::write ("WHATDBG: appended symbol path: " + path);
+#endif
     }
 }
 
-/** Appends a directory to dbgeng's source search path via IDebugSymbols3::AppendSourcePath. */
 void Session::appendSourcePath (const juce::String& path) noexcept
 {
     if (symbols != nullptr)
     {
         symbols->AppendSourcePath (path.toRawUTF8 ());
-        logWrite ("WHATDBG: appended source path: %s\n", path.toRawUTF8 ());
+#if JUCE_DEBUG
+        jam::debug::Log::write ("WHATDBG: appended source path: " + path);
+#endif
     }
 }
 
-// ---------------------------------------------------------------------------
-// Session::stepOver / stepInto / stepOut / interrupt
-// ---------------------------------------------------------------------------
-
-/** Sets execution status to DEBUG_STATUS_STEP_OVER. */
 void Session::stepOver () noexcept
 {
     if (control != nullptr)
@@ -309,7 +285,6 @@ void Session::stepOver () noexcept
     }
 }
 
-/** Sets execution status to DEBUG_STATUS_STEP_INTO. */
 void Session::stepInto () noexcept
 {
     if (control != nullptr)
@@ -318,7 +293,6 @@ void Session::stepInto () noexcept
     }
 }
 
-/** Executes the "gu" (go up) dbgeng command — no native step-out status flag exists. */
 void Session::stepOut () noexcept
 {
     if (control != nullptr)
@@ -327,13 +301,12 @@ void Session::stepOut () noexcept
     }
 }
 
-/** Opens the target process and calls DebugBreakProcess to inject a
- *  breakpoint interrupt; closes the handle immediately after. */
 void Session::interrupt (std::uint32_t processId) noexcept
 {
     if (processId != 0)
     {
-        const HANDLE handle { OpenProcess (PROCESS_ALL_ACCESS, FALSE, static_cast<DWORD> (processId)) };
+        const HANDLE handle { OpenProcess (PROCESS_VM_OPERATION bitor PROCESS_VM_WRITE bitor PROCESS_CREATE_THREAD,
+                                           FALSE, static_cast<DWORD> (processId)) };
 
         if (handle != nullptr)
         {
@@ -342,28 +315,55 @@ void Session::interrupt (std::uint32_t processId) noexcept
 
             if (result)
             {
-                logWrite ("WHATDBG: DebugBreakProcess success, PID=%lu\n",
-                          static_cast<unsigned long> (processId));
+#if JUCE_DEBUG
+                jam::debug::Log::write ("WHATDBG: DebugBreakProcess success, PID="
+                                         + juce::String (static_cast<unsigned long> (processId)));
+#endif
             }
             else
             {
-                logWrite ("WHATDBG: DebugBreakProcess failed, PID=%lu error=%lu\n",
-                          static_cast<unsigned long> (processId), GetLastError ());
+#if JUCE_DEBUG
+                jam::debug::Log::write ("WHATDBG: DebugBreakProcess failed, PID="
+                                         + juce::String (static_cast<unsigned long> (processId))
+                                         + " error=" + juce::String (GetLastError ()));
+#endif
             }
         }
         else
         {
-            logWrite ("WHATDBG: OpenProcess failed, PID=%lu error=%lu\n",
-                      static_cast<unsigned long> (processId), GetLastError ());
+#if JUCE_DEBUG
+            jam::debug::Log::write ("WHATDBG: OpenProcess failed, PID="
+                                     + juce::String (static_cast<unsigned long> (processId))
+                                     + " error=" + juce::String (GetLastError ()));
+#endif
         }
     }
 }
 
-// ---------------------------------------------------------------------------
-// Session::loadModuleSymbols / forceReloadAllSymbols
-// ---------------------------------------------------------------------------
+void Session::terminateDebuggee (std::uint32_t processId) noexcept
+{
+    juce::ignoreUnused (processId);
 
-/** Issues ".reload /f <basename>" to force-load PDB for a single module image. */
+    if (client != nullptr)
+    {
+        const HRESULT result { client->TerminateProcesses () };
+
+        if (SUCCEEDED (result))
+        {
+#if JUCE_DEBUG
+            jam::debug::Log::write ("WHATDBG: TerminateProcesses success");
+#endif
+        }
+        else
+        {
+#if JUCE_DEBUG
+            jam::debug::Log::write ("WHATDBG: TerminateProcesses failed, hr=0x"
+                                     + juce::String::toHexString (static_cast<unsigned long> (result)));
+#endif
+        }
+    }
+}
+
 juce::Result Session::loadModuleSymbols (const juce::String& imageName) noexcept
 {
     juce::Result result { juce::Result::fail ("loadModuleSymbols: control is null") };
@@ -375,9 +375,10 @@ juce::Result Session::loadModuleSymbols (const juce::String& imageName) noexcept
         const HRESULT hr { control->Execute (DEBUG_OUTCTL_IGNORE,
                                              command.toRawUTF8 (),
                                              DEBUG_EXECUTE_NOT_LOGGED) };
-        logWrite ("WHATDBG: .reload /f %s hr=0x%08lX\n",
-                  basename.toRawUTF8 (),
-                  static_cast<unsigned long> (hr));
+#if JUCE_DEBUG
+        jam::debug::Log::write ("WHATDBG: .reload /f " + basename + " hr=0x"
+                                 + juce::String::toHexString (static_cast<unsigned long> (hr)));
+#endif
         result = hr == S_OK ? juce::Result::ok ()
                             : juce::Result::fail ("loadModuleSymbols: HRESULT 0x"
                                 + juce::String::toHexString (static_cast<int> (hr)));
@@ -386,7 +387,6 @@ juce::Result Session::loadModuleSymbols (const juce::String& imageName) noexcept
     return result;
 }
 
-/** Issues ".reload /f" with no argument to force-reload PDBs for all loaded modules. */
 juce::Result Session::forceReloadAllSymbols () noexcept
 {
     juce::Result result { juce::Result::fail ("forceReloadAllSymbols: control is null") };
@@ -396,7 +396,10 @@ juce::Result Session::forceReloadAllSymbols () noexcept
         const HRESULT hr { control->Execute (DEBUG_OUTCTL_IGNORE,
                                              ".reload /f",
                                              DEBUG_EXECUTE_NOT_LOGGED) };
-        logWrite ("WHATDBG: .reload /f (all) hr=0x%08lX\n", static_cast<unsigned long> (hr));
+#if JUCE_DEBUG
+        jam::debug::Log::write ("WHATDBG: .reload /f (all) hr=0x"
+                                 + juce::String::toHexString (static_cast<unsigned long> (hr)));
+#endif
         result = hr == S_OK ? juce::Result::ok ()
                             : juce::Result::fail ("forceReloadAllSymbols: HRESULT 0x"
                                 + juce::String::toHexString (static_cast<int> (hr)));
@@ -405,78 +408,107 @@ juce::Result Session::forceReloadAllSymbols () noexcept
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// Session::getOffsetByLine / getLineByOffset
-// ---------------------------------------------------------------------------
-
-/** Resolves a source file/line to a code offset. Returns engineBusy when
- *  E_UNEXPECTED is returned (symbols not yet loaded), notFound otherwise. */
-ResolveStatus Session::getOffsetByLine (const juce::String& filePath,
-                                        std::uint32_t       line,
-                                        std::uint64_t*      outOffset) noexcept
+static std::pair<OffsetStatus, std::uint64_t> getSourceOffset (IDebugSymbols3*     symbols,
+                                                                const juce::String& filePath,
+                                                                std::uint16_t       line) noexcept
 {
-    ResolveStatus status { ResolveStatus::notFound };
+    jassert (symbols != nullptr);
+
+    OffsetStatus  status { OffsetStatus::notFound };
+    std::uint64_t offset { 0 };
+
+    std::uint64_t fullPathOffset { 0 };
+    const HRESULT fullPathResult { symbols->GetOffsetByLine (static_cast<ULONG> (line),
+                                                              filePath.toRawUTF8 (),
+                                                              &fullPathOffset) };
+
+    if (fullPathResult == S_OK)
+    {
+        status = OffsetStatus::found;
+        offset = fullPathOffset;
+    }
+    else if (fullPathResult == E_UNEXPECTED)
+    {
+        status = OffsetStatus::engineBusy;
+    }
+    else
+    {
+        juce::String basename { filePath };
+        const int lastSeparator { filePath.lastIndexOfChar ('\\') };
+
+        if (lastSeparator >= 0)
+            basename = filePath.substring (lastSeparator + 1);
+
+        std::uint64_t basenameOffset { 0 };
+        const HRESULT basenameResult { symbols->GetOffsetByLine (static_cast<ULONG> (line),
+                                                                  basename.toRawUTF8 (),
+                                                                  &basenameOffset) };
+
+        if (basenameResult == S_OK)
+        {
+            char pathBuffer[MAX_PATH] {};
+            ULONG pathSize { 0 };
+            ULONG lineOut { 0 };
+            const HRESULT lineResult { symbols->GetLineByOffset (basenameOffset, &lineOut,
+                                                                  pathBuffer, MAX_PATH,
+                                                                  &pathSize, nullptr) };
+
+            if (lineResult == S_OK)
+            {
+                const juce::String storedPath    { juce::String (pathBuffer).replace ("\\", "/") };
+                const juce::String requestedPath { filePath.replace ("\\", "/") };
+                const bool isSourceMatch { storedPath.endsWithIgnoreCase (requestedPath)
+                                           or requestedPath.endsWithIgnoreCase (storedPath) };
+
+                if (isSourceMatch)
+                {
+                    status = OffsetStatus::found;
+                    offset = basenameOffset;
+                }
+            }
+        }
+        else if (basenameResult == E_UNEXPECTED)
+        {
+            status = OffsetStatus::engineBusy;
+        }
+    }
+
+    return { status, offset };
+}
+
+OffsetStatus Session::getOffsetStatus (const juce::String& filePath,
+                                       std::uint16_t       line) noexcept
+{
+    OffsetStatus status { OffsetStatus::notFound };
 
     if (symbols != nullptr)
     {
-        const HRESULT hr { symbols->GetOffsetByLine (static_cast<ULONG> (line),
-                                                     filePath.toRawUTF8 (),
-                                                     outOffset) };
-        if (hr == S_OK)
-        {
-            status = ResolveStatus::resolved;
-        }
-        else if (hr == E_UNEXPECTED)
-        {
-            status = ResolveStatus::engineBusy;
-        }
-        else
-        {
-            status = ResolveStatus::notFound;
-        }
+        const auto [resolvedStatus, resolvedOffset] { getSourceOffset (symbols.Get (), filePath, line) };
+        juce::ignoreUnused (resolvedOffset);
+        status = resolvedStatus;
     }
 
     return status;
 }
 
-/** Maps a code offset back to source file path and line number via IDebugSymbols3::GetLineByOffset. */
-juce::Result Session::getLineByOffset (std::uint64_t offset, juce::String& outFilePath, std::uint32_t* outLine) noexcept
+std::uint64_t Session::getOffset (const juce::String& filePath,
+                                  std::uint16_t       line) noexcept
 {
-    juce::Result result { juce::Result::fail ("getLineByOffset: symbols is null") };
+    std::uint64_t offset { 0 };
 
     if (symbols != nullptr)
     {
-        char pathBuffer[MAX_PATH] {};
-        ULONG pathSize { 0 };
-        ULONG lineOut { 0 };
-
-        const HRESULT hr { symbols->GetLineByOffset (offset, &lineOut, pathBuffer, MAX_PATH, &pathSize, nullptr) };
-
-        if (hr == S_OK)
-        {
-            outFilePath = juce::String (pathBuffer);
-            *outLine    = static_cast<std::uint32_t> (lineOut);
-            result      = juce::Result::ok ();
-        }
-        else
-        {
-            result = juce::Result::fail ("getLineByOffset: HRESULT 0x"
-                + juce::String::toHexString (static_cast<int> (hr)));
-        }
+        const auto [resolvedStatus, resolvedOffset] { getSourceOffset (symbols.Get (), filePath, line) };
+        juce::ignoreUnused (resolvedStatus);
+        offset = resolvedOffset;
     }
 
-    return result;
+    return offset;
 }
 
-// ---------------------------------------------------------------------------
-// Session::addBreakpoint / removeBreakpoint
-// ---------------------------------------------------------------------------
-
-/** Creates a code breakpoint at an absolute offset via AddBreakpoint2 and
- *  enables it; writes the engine-assigned breakpoint ID to outEngineId. */
-juce::Result Session::addBreakpoint (std::uint64_t offset, std::uint32_t* outEngineId) noexcept
+std::int32_t Session::addBreakpoint (std::uint64_t offset) noexcept
 {
-    juce::Result result { juce::Result::fail ("addBreakpoint: control is null") };
+    std::int32_t engineId { 0 };
 
     if (control != nullptr)
     {
@@ -487,57 +519,42 @@ juce::Result Session::addBreakpoint (std::uint64_t offset, std::uint32_t* outEng
         {
             bp->SetOffset (offset);
             bp->AddFlags (DEBUG_BREAKPOINT_ENABLED);
-            ULONG engineId { 0 };
-            bp->GetId (&engineId);
-            *outEngineId = static_cast<std::uint32_t> (engineId);
-            result = juce::Result::ok ();
+            ULONG rawEngineId { 0 };
+            bp->GetId (&rawEngineId);
+            engineId = static_cast<std::int32_t> (rawEngineId);
         }
         else
         {
-            result = juce::Result::fail ("addBreakpoint: HRESULT 0x"
+#if JUCE_DEBUG
+            jam::debug::Log::write ("WHATDBG: addBreakpoint: HRESULT 0x"
                 + juce::String::toHexString (static_cast<int> (hr)));
+#endif
         }
     }
 
-    return result;
+    return engineId;
 }
 
-/** Resolves file/line to offset via getOffsetByLine then delegates to addBreakpoint.
- *  Returns failure if the offset cannot be resolved (symbols not yet loaded). */
-juce::Result Session::addBreakpointByLocation (const juce::String& filePath,
-                                               std::uint32_t       line,
-                                               std::uint32_t*      outEngineId,
-                                               std::uint32_t*      outResolvedLine) noexcept
+BreakpointLocation Session::addBreakpointByLocation (const juce::String& filePath,
+                                                     std::uint16_t       line) noexcept
 {
-    jassert (outEngineId != nullptr);
-    jassert (outResolvedLine != nullptr);
+    BreakpointLocation location { BreakpointLocation::pack (0, 0) };
 
-    std::uint64_t offset { 0 };
-    juce::Result result { juce::Result::fail ("getOffsetByLine failed") };
+    const OffsetStatus status { getOffsetStatus (filePath, line) };
 
-    const ResolveStatus status { getOffsetByLine (filePath, line, &offset) };
-
-    if (status == ResolveStatus::resolved)
+    if (status == OffsetStatus::found)
     {
-        const juce::Result addResult { addBreakpoint (offset, outEngineId) };
+        const std::uint64_t offset   { getOffset (filePath, line) };
+        const std::int32_t  engineId { addBreakpoint (offset) };
 
-        if (addResult.wasOk ())
-        {
-            *outResolvedLine = line;
-            result = juce::Result::ok ();
-        }
-        else
-        {
-            result = addResult;
-        }
+        if (engineId != 0)
+            location = BreakpointLocation::pack (engineId, line);
     }
 
-    return result;
+    return location;
 }
 
-/** Looks up the breakpoint by engine ID via GetBreakpointById2 and removes it
- *  via RemoveBreakpoint2. */
-juce::Result Session::removeBreakpoint (std::uint32_t engineId) noexcept
+juce::Result Session::removeBreakpoint (std::int32_t engineId) noexcept
 {
     juce::Result result { juce::Result::fail ("removeBreakpoint: control is null") };
 
@@ -563,19 +580,12 @@ juce::Result Session::removeBreakpoint (std::uint32_t engineId) noexcept
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// Session::resetSymbolGroupCache / getOrCreateSymbolGroup
-// ---------------------------------------------------------------------------
-
-/** Releases the cached IDebugSymbolGroup2 and resets cachedFrameIndex to -1. */
 void Session::resetSymbolGroupCache () noexcept
 {
     cachedSymbolGroup.Reset ();
     cachedFrameIndex = -1;
 }
 
-/** Returns the cached symbol group if frameIndex matches; otherwise sets scope
- *  to frameIndex via SetScopeFrameByIndex and queries a new group via GetScopeSymbolGroup2. */
 IDebugSymbolGroup2* Session::getOrCreateSymbolGroup (int frameIndex) noexcept
 {
     IDebugSymbolGroup2* result { nullptr };
@@ -608,12 +618,6 @@ IDebugSymbolGroup2* Session::getOrCreateSymbolGroup (int frameIndex) noexcept
     return result;
 }
 
-// ---------------------------------------------------------------------------
-// Session::getThreads
-// ---------------------------------------------------------------------------
-
-/** Enumerates all threads via GetThreadIdsByIndex, resolves each system thread
- *  ID, and queries the Win32 thread description via GetThreadDescription. */
 juce::Array<juce::var> Session::getThreads () noexcept
 {
     juce::Array<juce::var> threads;
@@ -673,12 +677,6 @@ juce::Array<juce::var> Session::getThreads () noexcept
     return threads;
 }
 
-// ---------------------------------------------------------------------------
-// Session::getEventThreadSystemId
-// ---------------------------------------------------------------------------
-
-/** Returns the Win32 system thread ID of the thread that triggered the last
- *  event, using GetEventThread then GetCurrentThreadSystemId. */
 std::uint32_t Session::getEventThreadSystemId () noexcept
 {
     std::uint32_t systemId { 0 };
@@ -703,12 +701,6 @@ std::uint32_t Session::getEventThreadSystemId () noexcept
     return systemId;
 }
 
-// ---------------------------------------------------------------------------
-// Session::setCurrentThreadBySystemId
-// ---------------------------------------------------------------------------
-
-/** Translates a Win32 system thread ID to a dbgeng engine thread ID via
- *  GetThreadIdBySystemId then sets it as current via SetCurrentThreadId. */
 void Session::setCurrentThreadBySystemId (std::uint32_t systemId) noexcept
 {
     if (systemObjects != nullptr and systemId != 0)

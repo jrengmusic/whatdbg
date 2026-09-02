@@ -112,6 +112,79 @@
 
 ## SPRINT HISTORY
 
+## Sprint 26: cast Migration + Zombie Termination Fix + 277-Finding Clean Sweep ✅
+
+**Date:** 2026-09-03
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR: scope, delegation, contract validation, cross-file coupling coordination
+- Engineer ×9: build layer, macOS session, Windows backend, breakpoints/inspection, test harness, merge build, zombie root-cause, project documents, doxygen
+- Auditor: full-sprint audit, 277 findings
+- Librarian: LLDB `SBProcess::Kill` semantics, lldb-dap reference implementation
+- Pathfinder: cast engine read paths, stop-reason tracing, final verification
+
+### Objectives
+1. Migrate off the dead JAM `configure_app()` build onto `cast` + current `jam_core`.
+2. Fix the macOS defect where a terminated debuggee became an unreapable zombie.
+
+### Build Layer
+- `project-info.md` — the PROJUCER-equivalent manifest. Added `legalCompanyName`, `targetName`, and a `## binary data` table (`name | mac | win`) declaring every embedded sidecar. Toolchain table conformed to the cast/eve/jfs shape; release rows previously passed no `CMAKE_BUILD_TYPE`, so Release had no LTO, no codesign and no notarization.
+- `cast/CAST.md`, `cast/cmake.cast` — two hardcoded binary lists moved into the manifest; `project(:::targetName:::)`.
+- `CMakeLists.txt`, `Source/generated/ProjectInfo.h`, `build-windows.sh` are generated. Never hand-edited.
+- `build-liblldb.sh` — removed a block that appended `Resources/macos/` to `.gitignore`, which would have un-tracked the LFS-managed sidecars.
+- **Install location — `~/.local/bin` only.** `/opt` and `CAST_INSTALL_ROOT` removed; they entered whatdbg when its template was based on cast's and were never asked for. The `.pkg` payload now stages to `/private/tmp/whatdbg_pkg_root` and its postinstall script moves the binary into the real user's `~/.local/bin`, then deletes the staging tree — nothing survives outside `~/.local/bin`. The `if(NOT WIN32)` guard came off the post-build install block and the duplicate `cp` came out of `build-windows.sh`, so one owner installs on both platforms (MANIFESTO **B**). The install fences use `$<TARGET_FILE_NAME:...>`, so Windows gets `whatdbg.exe` rather than an extensionless file.
+
+### Zombie Termination Fix
+Root cause was never the raw signal. Three defects, each found by evidence:
+- `Whatdbg.cpp` called `session.shutdown()` after the main loop exited, so `SBProcess::Kill()` blocked on an event nothing was left to pump. LLVM's own `lldb-dap` calls `Kill()` with a second thread still reading events (`DAP.cpp:1032-1036`); whatdbg is single-threaded. Synchronous mode was tested and made the hang worse — reverted on evidence.
+- Terminate now requests the kill without blocking and the existing `pollEvents` path observes `eStateExited`.
+- `Session::terminateDebuggee` falls back to `Kill()` when `Signal (SIGKILL)` fails. On a debuggee stopped at an unhandled `EXC_BAD_ACCESS` the signal fails outright; the old code then called `resume()`, re-delivering the same exception forever until the deadline tore down the debugger while the debuggee was still ptrace-stopped.
+
+### Clean Sweep — 277 Findings, All Resolved
+- **SSOT:** two classifiers competed for "why did we stop" — the Session dispatch table and a re-derivation block in the main loop. The loop block was deleted; the Session owns classification. `BreakpointManager` lost `sourceBreakpoints`, `engineToDap` and `BreakpointInfo::normalizedPath`, all derivable from `breakpoints`.
+- **Windows, never compiled here:** `GetInterestMask` omitted `DEBUG_EVENT_CHANGE_ENGINE_STATE`, so the step-completion callback was unreachable. `terminateDebuggee` hand-rolled `OpenProcess`+`TerminateProcess` where `IDebugClient::TerminateProcesses()` exists.
+- **Lifecycle:** `Reader::stop()` ran twice, the second calling `fileno()` on a closed `stdin`. Now private, called once by the destructor.
+- **Naming:** `make*` is outside the fixed verb set — `dap::make*` → `dap::get*`, `makeVariableDynObj` → `getVariableObject`, `makeStackFrame` → `getStackFrame`. `enumerateSymbols` → `getSymbols`, `getStringValue` → `evaluateStringValue`. `getBreakpoint` created — split into `getBreakpointOffset` + `setBreakpointLocation`. The deferred-drain family became `drain*`, separating it from the `on*` request handlers.
+- **Out-parameters, sentinels, fake carriers:** all removed. `getSourceOffset`'s `HRESULT&` and its replacement sentinel both eliminated in favour of one shared resolution unit.
+- Every pre-audit comment removed, including a BLESSED-compliance argument addressed to the auditor in shipping source.
+
+### Test Harness
+`tests/smoke/` did not exist despite being documented. Rebuilt: `run_smoke.lua` over `scenario_runner.lua`, `scenario_breakpoint.lua`, `scenario_process.lua`, `scenario_terminate.lua`, three fixtures, ten scenarios. Three harness faults fixed: the first failed check aborted a scenario, a crashed scenario counted as a pass, and every scenario ended whatdbg with SIGKILL so the graceful path under test was never exercised.
+
+### Documentation
+`ARCHITECTURE.md` 0.6.0, `SPEC.md`, `README.md`, `CLAUDE.md`, both RFCs — 61 findings. `ARCHITECTURE.md` had prescribed a `debug::detail` namespace that CODING forbids and a `Context<State>` base its own history said was removed. `README.md` published three nvim-dap keys the adapter does not read. Comprehensive doxygen pass across all nine headers.
+
+### Verification
+- Debug build: 0 errors, 0 warnings.
+- Smoke suite: 10/10 pass.
+- Zombie count 60 before, 60 after. No surviving processes.
+
+### Alignment Check
+- [x] BLESSED — SSOT, Stateless, Explicit, Bound and Deterministic violations resolved; L residuals recorded below
+- [x] NAMES.md — verb contract enforced; every new name traced to a nearest sibling
+- [x] CODING.md — CRITICAL RULES swept; doxygen header-only
+
+### Problems Solved
+- `SBProcess::Kill()` blocks on a single-threaded embedder; kill early and observe the exit through the existing event path
+- `SBProcess::Signal (SIGKILL)` fails against a debuggee held at an unhandled Mach exception
+- LLDB reports a user pause as `eStopReasonBreakpoint`, never `eStopReasonInterrupt`
+- Release builds were unsigned and un-notarized because no row passed `CMAKE_BUILD_TYPE`
+
+### Debts Paid
+- None outstanding at sprint start
+
+### Debts Deferred
+- None
+
+### Recorded Risks — not deferrals, facts ARCHITECT must weigh
+- **Windows code written this sprint has never been compiled.** No Windows toolchain on this machine. `Session.cpp` and `Callbacks.cpp` changes rest on reading, not on a compiler.
+- **No runnable Doxyfile exists**, so CODING.md's zero-warning doxygen policy cannot be machine-verified. `docs/xml/Doxyfile.xml` is an options dump, and `CMakeLists.txt` has no doxygen target.
+- **Eleven files exceed 300 lines**, `Session.cpp` at 720 the largest. Judged single-responsibility by the sweep; not independently re-examined.
+- **44 pre-existing zombies** with parent 1 remain on this machine from earlier investigation. The current code creates none. A reboot clears them.
+
+---
+
 ## Sprint 25: Release — .pkg Signing, Dual-Arch Build, build.sh Unification ✅
 
 **Date:** 2026-04-25

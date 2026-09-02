@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_breakpoint_manager_8h" kind="file" language="C++">
+    <compoundname>BreakpointManager.h</compoundname>
+    <includes local="no">JuceHeader.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes refid="_session_8h" local="yes">Session.h</includes>
+    <includes refid="_types_8h" local="yes">../dap/Types.h</includes>
+    <includedby refid="_whatdbg_8h" local="yes">Whatdbg.h</includedby>
+    <includedby refid="_breakpoint_manager_8cpp" local="yes">debug/BreakpointManager.cpp</includedby>
+    <includedby refid="_breakpoint_manager_handlers_8cpp" local="yes">debug/BreakpointManagerHandlers.cpp</includedby>
+    <incdepgraph>
+      <node id="7">
+        <label>../dap/Types.h</label>
+        <link refid="_types_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>debug/BreakpointManager.h</label>
+        <link refid="_breakpoint_manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Session.h</label>
+        <link refid="_session_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>State.h</label>
+        <link refid="_state_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>JuceHeader.h</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>lldb/API/LLDB.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>Main.cpp</label>
+        <link refid="_main_8cpp"/>
+      </node>
+      <node id="4">
+        <label>Whatdbg.cpp</label>
+        <link refid="_whatdbg_8cpp"/>
+      </node>
+      <node id="2">
+        <label>Whatdbg.h</label>
+        <link refid="_whatdbg_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>WhatdbgHandlers.cpp</label>
+        <link refid="_whatdbg_handlers_8cpp"/>
+      </node>
+      <node id="6">
+        <label>debug/BreakpointManager.cpp</label>
+        <link refid="_breakpoint_manager_8cpp"/>
+      </node>
+      <node id="1">
+        <label>debug/BreakpointManager.h</label>
+        <link refid="_breakpoint_manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>debug/BreakpointManagerHandlers.cpp</label>
+        <link refid="_breakpoint_manager_handlers_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structdebug_1_1_breakpoint_info" prot="public">debug::BreakpointInfo</innerclass>
+    <innerclass refid="classdebug_1_1_breakpoint_manager" prot="public">debug::BreakpointManager</innerclass>
+    <innernamespace refid="namespacedebug">debug</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;JuceHeader.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_session_8h" kindref="compound">Session.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_types_8h" kindref="compound">../dap/Types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacedebug" kindref="compound">debug</ref></highlight></codeline>
+<codeline lineno="8"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="namespacedebug_1abd24eb62b8979b63f857ab446f38d6b2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacedebug_1abd24eb62b8979b63f857ab446f38d6b2" kindref="member">Lines</ref><sp/>=<sp/>std::unordered_set&lt;std::uint16_t&gt;;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="structdebug_1_1_breakpoint_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structdebug_1_1_breakpoint_info" kindref="compound">BreakpointInfo</ref></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24" refid="structdebug_1_1_breakpoint_info_1a082eee9bacbb823540beb00c68c99d6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><sp/><ref refid="structdebug_1_1_breakpoint_info_1a082eee9bacbb823540beb00c68c99d6b" kindref="member">sourcePath</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structdebug_1_1_breakpoint_info_1aa2a4738909a0d7fba3af6bcca5dc0c38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><sp/><ref refid="structdebug_1_1_breakpoint_info_1aa2a4738909a0d7fba3af6bcca5dc0c38" kindref="member">normalizedPath</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structdebug_1_1_breakpoint_info_1a1b2a417a812e056e29a216399fe59668" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint16_t<sp/><ref refid="structdebug_1_1_breakpoint_info_1a1b2a417a812e056e29a216399fe59668" kindref="member">dapId</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0<sp/>};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structdebug_1_1_breakpoint_info_1a6be5a5941825d07e11457828a448e345" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint16_t<sp/><ref refid="structdebug_1_1_breakpoint_info_1a6be5a5941825d07e11457828a448e345" kindref="member">line</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>0<sp/>};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structdebug_1_1_breakpoint_info_1adf813a68303f2d367c2ce418fadc0396" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint16_t<sp/><ref refid="structdebug_1_1_breakpoint_info_1adf813a68303f2d367c2ce418fadc0396" kindref="member">resolvedLine</ref><sp/>{<sp/>0<sp/>};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structdebug_1_1_breakpoint_info_1a8269b630a2cff646156eda9edf72642b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int32_t<sp/><sp/><ref refid="structdebug_1_1_breakpoint_info_1a8269b630a2cff646156eda9edf72642b" kindref="member">engineId</ref><sp/><sp/><sp/><sp/><sp/>{<sp/>0<sp/>};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classdebug_1_1_breakpoint_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdebug_1_1_breakpoint_manager_1af44310e6631d8debd0dcd5160d87ea76" kindref="member">BreakpointManager</ref></highlight></codeline>
+<codeline lineno="64"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_breakpoint_manager_1af44310e6631d8debd0dcd5160d87ea76" kindref="member">BreakpointManager</ref><sp/>(<ref refid="classdebug_1_1_session" kindref="compound">Session</ref>&amp;<sp/><ref refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" kindref="member">session</ref>);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1Array" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Array&lt;juce::var&gt;</ref><sp/><ref refid="classdebug_1_1_breakpoint_manager_1a9d2c771b00f19e380a8443fa37e3cf12" kindref="member">onSetBreakpoints</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>rawSourcePath,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/><sp/><sp/><sp/>requestedBreakpoints);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1Array" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Array&lt;juce::var&gt;</ref><sp/><ref refid="classdebug_1_1_breakpoint_manager_1a42204301931af1fe6ef33640082791b3" kindref="member">onModuleLoad</ref><sp/>();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/><ref refid="classdebug_1_1_breakpoint_manager_1a584cabcc697924a15239890ac7fa312c" kindref="member">onBreakpointHit</ref><sp/>(std::int32_t<sp/>engineId,<sp/>std::uint32_t<sp/>threadId);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_breakpoint_manager_1affb93d5ab99b84245d620a6d90bc6235" kindref="member">onBreakpointLocationFound</ref><sp/>(std::int32_t<sp/><sp/>engineId,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint16_t<sp/>resolvedLine)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_breakpoint_manager_1ab9b2c47623808e592b027739dd6fd3dd" kindref="member">isUserBreakpoint</ref><sp/>(std::int32_t<sp/>engineId)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_breakpoint_manager_1aa0f454ef4ed091ed8772c35b395deefa" kindref="member">hasUnresolvedBreakpoints</ref><sp/>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1aee0526408c2ffc82c78a9e7ed793c19e" kindref="member">BreakpointLocation</ref><sp/><ref refid="classdebug_1_1_breakpoint_manager_1a937505c1609af82fa67ac1b2a7fb0500" kindref="member">getBreakpoint</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>sourcePath,<sp/>std::uint16_t<sp/>requestedLine)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_breakpoint_manager_1a98c14e53fab5d383cf537f3655d113f0" kindref="member">setBreakpointLocation</ref><sp/>(std::uint16_t<sp/><sp/><sp/>entryDapId,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structdebug_1_1_breakpoint_info" kindref="compound">BreakpointInfo</ref>&amp;<sp/>entryInfo)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_breakpoint_manager_1ae364294579824230c01de3132bb00e42" kindref="member">removeOrphanedBreakpoints</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>normalizedKey,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacedebug_1abd24eb62b8979b63f857ab446f38d6b2" kindref="member">Lines</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>requestedLines);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structdebug_1_1_breakpoint_info" kindref="compound">BreakpointInfo</ref><sp/><ref refid="classdebug_1_1_breakpoint_manager_1a421a443c3e9d1a72bc5e172d7a94b43b" kindref="member">addBreakpoint</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>rawSourcePath,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint16_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/>line,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint16_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/>dapId);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/><ref refid="classdebug_1_1_breakpoint_manager_1af4ad25ede8fa9d33b409e46fa2730b79" kindref="member">getBreakpointResponse</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdebug_1_1_breakpoint_info" kindref="compound">BreakpointInfo</ref>&amp;<sp/>info,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/><sp/><sp/>rawSourcePath)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_breakpoint_manager_1a7b9aca28055e0c3c3c97d59d51a1941b" kindref="member">addReloadedBreakpoints</ref><sp/>(<ref refid="classjuce_1_1Array" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Array&lt;juce::var&gt;</ref>&amp;<sp/>responses);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_breakpoint_manager_1a9a828cb8759210fd4c46daaf1ebe15a1" kindref="member">applyReloadedBreakpoint</ref><sp/>(<ref refid="classjuce_1_1Array" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Array&lt;juce::var&gt;</ref>&amp;<sp/>responses,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint16_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dapId,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint16_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resolvedLine);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_session" kindref="compound">Session</ref>&amp;<sp/><ref refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" kindref="member">session</ref>;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::uint16_t,<sp/>BreakpointInfo&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" kindref="member">breakpoints</ref>;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="classdebug_1_1_breakpoint_manager_1a1df7c50b4626d53c459671a4ffa06f46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::unordered_map&lt;std::uint16_t,<sp/>std::uint16_t&gt;&gt;<sp/><ref refid="classdebug_1_1_breakpoint_manager_1a1df7c50b4626d53c459671a4ffa06f46" kindref="member">sourceBreakpoints</ref>;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="classdebug_1_1_breakpoint_manager_1a4d04ecbbd634a399741dc5c2969eb6bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::int32_t,<sp/>std::uint16_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_breakpoint_manager_1a4d04ecbbd634a399741dc5c2969eb6bf" kindref="member">engineToDap</ref>;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="classdebug_1_1_breakpoint_manager_1a898cff5d67b7f533cf38e8ccbf31a136" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint16_t<sp/><ref refid="classdebug_1_1_breakpoint_manager_1a898cff5d67b7f533cf38e8ccbf31a136" kindref="member">nextDapId</ref><sp/>{<sp/>1<sp/>};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="classdebug_1_1_breakpoint_manager_1a3638bb735288fd17822939bdbaac0108" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint32_t<sp/><ref refid="classdebug_1_1_breakpoint_manager_1a3638bb735288fd17822939bdbaac0108" kindref="member">lineSearchWindow</ref><sp/>{<sp/>4<sp/>};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="juce__PlatformDefs_8h_1a851b02724a8158a7f746c66b5758b3dd" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR</ref><sp/>(<ref refid="classdebug_1_1_breakpoint_manager" kindref="compound">BreakpointManager</ref>)</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>debug</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="debug/BreakpointManager.h"/>
+  </compounddef>
+</doxygen>

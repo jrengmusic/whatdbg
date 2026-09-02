@@ -7,32 +7,26 @@
  */
 #include <JuceHeader.h>
 #include "Reader.h"
-#include "../Log.h"
 
 #if JUCE_WINDOWS
 #include <fcntl.h>
 #include <io.h>
 #endif
-#include <iostream>
-#include <string>
 
 namespace dap
 {
 
-/** @brief Constructs the reader and preallocates the FIFO backing storage. */
 Reader::Reader ()
     : juce::Thread { "dap::Reader" }
 {
     storage.resize (fifoCapacity);
 }
 
-/** @brief Stops the background thread before destruction. */
 Reader::~Reader ()
 {
     stop ();
 }
 
-/** @brief Switches stdin to binary mode on Windows and starts the reader thread. */
 void Reader::start ()
 {
 #if JUCE_WINDOWS
@@ -42,68 +36,40 @@ void Reader::start ()
     startThread ();
 }
 
-/** @brief Signals the thread to exit, closes stdin to unblock any pending read, and joins. */
 void Reader::stop ()
 {
     signalThreadShouldExit ();
-
-#if JUCE_WINDOWS
-    if (_fileno (stdin) >= 0)
-        std::fclose (stdin);
-#else
-    if (fileno (stdin) >= 0)
-        std::fclose (stdin);
-#endif
-
+    std::fclose (stdin);
     stopThread (2000);
 }
 
-/** @brief Attempts a non-blocking dequeue of the next parsed DAP message.
- *  @return True if a message was dequeued into @p outMessage, false if the FIFO was empty.
- */
-bool Reader::tryPop (juce::var& outMessage) noexcept
+juce::var Reader::tryPop () noexcept
 {
-    bool hasMessage { false };
+    juce::var message;
     const auto scope { fifo.read (1) };
 
     if (scope.blockSize1 > 0)
-    {
-        outMessage = storage.at (static_cast<size_t> (scope.startIndex1));
-        hasMessage = true;
-    }
+        message = storage.at (static_cast<size_t> (scope.startIndex1));
 
-    return hasMessage;
+    return message;
 }
 
-/** @brief Thread body — reads Content-Length-framed DAP messages from stdin and enqueues them.
- *
- *  Each iteration parses the header block (Content-Length line + blank separator),
- *  reads the exact body byte count, parses the JSON, and pushes into the FIFO.
- *  Drops messages silently when the FIFO is full and logs the drop.
- *  Exits when @c threadShouldExit() is set or stdin reaches EOF/error.
- */
-void Reader::run ()
+int Reader::readContentLength ()
 {
-    bool isConnected { true };
+    int contentLength { -1 };
+    bool headersComplete { false };
 
-    while (not threadShouldExit () and isConnected)
+    while (not threadShouldExit () and not headersComplete and std::cin)
     {
-        int contentLength { -1 };
-        bool headersComplete { false };
+        std::string line {};
+        std::getline (std::cin, line);
 
-        while (not threadShouldExit () and not headersComplete and isConnected)
+        if (not line.empty () and line.back () == '\r')
+            line.pop_back ();
+
+        if (std::cin)
         {
-            std::string line {};
-            std::getline (std::cin, line);
-
-            if (not line.empty () and line.back () == '\r')
-                line.pop_back ();
-
-            if (not std::cin)
-            {
-                isConnected = false;
-            }
-            else if (line.empty ())
+            if (line.empty ())
             {
                 headersComplete = true;
             }
@@ -112,51 +78,87 @@ void Reader::run ()
                 const std::string prefix { "Content-Length: " };
 
                 if (line.rfind (prefix, 0) == 0)
-                    contentLength = std::stoi (line.substr (prefix.size ()));
+                    contentLength = juce::String (line.substr (prefix.size ())).getIntValue ();
             }
         }
+    }
 
-        if (isConnected and std::cin and contentLength >= 0)
+    return contentLength;
+}
+
+juce::var Reader::readMessage (int contentLength)
+{
+    std::string body (static_cast<size_t> (contentLength), '\0');
+    std::cin.read (body.data (), contentLength);
+
+    juce::var message;
+
+    if (std::cin)
+    {
+        message = juce::JSON::parse (juce::String (body.data (), static_cast<size_t> (contentLength)));
+
+        if (not message.isVoid ())
         {
-            std::string body (static_cast<size_t> (contentLength), '\0');
-            std::cin.read (body.data (), contentLength);
+#if JUCE_DEBUG
+            jam::debug::Log::write ("[dap::Reader] parsed: type=" + message["type"].toString ()
+                                     + " command=" + message["command"].toString ()
+                                     + " length=" + juce::String (contentLength));
+#endif
+        }
+        else
+        {
+#if JUCE_DEBUG
+            jam::debug::Log::write ("[dap::Reader] JSON parse failed, contentLength="
+                                     + juce::String (contentLength));
+#endif
+        }
+    }
+
+    return message;
+}
+
+void Reader::addMessage (const juce::var& message)
+{
+    const auto scope { fifo.write (1) };
+
+    if (scope.blockSize1 > 0)
+    {
+        storage.at (static_cast<size_t> (scope.startIndex1)) = message;
+#if JUCE_DEBUG
+        jam::debug::Log::write ("[dap::Reader] queued message");
+#endif
+    }
+    else
+    {
+#if JUCE_DEBUG
+        jam::debug::Log::write ("[dap::Reader] DROPPED (FIFO full): command="
+                                 + message["command"].toString ());
+#endif
+    }
+}
+
+void Reader::run ()
+{
+    bool isConnected { true };
+
+    while (not threadShouldExit () and isConnected)
+    {
+        const int contentLength { readContentLength () };
+
+        if (std::cin and contentLength >= 0)
+        {
+            const juce::var message { readMessage (contentLength) };
 
             if (not std::cin)
             {
                 isConnected = false;
             }
-            else
+            else if (not message.isVoid ())
             {
-                juce::var message { juce::JSON::parse (
-                    juce::String (body.data (), static_cast<size_t> (contentLength))) };
-
-                if (not message.isVoid ())
-                {
-                    logWrite ("[dap::Reader] parsed: type=%s command=%s length=%d\n",
-                              message["type"].toString ().toRawUTF8 (),
-                              message["command"].toString ().toRawUTF8 (),
-                              contentLength);
-
-                    const auto scope { fifo.write (1) };
-
-                    if (scope.blockSize1 > 0)
-                    {
-                        storage.at (static_cast<size_t> (scope.startIndex1)) = message;
-                        logWrite ("[dap::Reader] queued message\n");
-                    }
-                    else
-                    {
-                        logWrite ("[dap::Reader] DROPPED (FIFO full): command=%s\n",
-                                  message["command"].toString ().toRawUTF8 ());
-                    }
-                }
-                else
-                {
-                    logWrite ("[dap::Reader] JSON parse failed, contentLength=%d\n", contentLength);
-                }
+                addMessage (message);
             }
         }
-        else if (isConnected and (not std::cin or contentLength < 0))
+        else
         {
             isConnected = false;
         }

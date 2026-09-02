@@ -1,3 +1,5 @@
 Builds/
 *.log
 dist/
+tests/smoke/build/
+.DS_Store

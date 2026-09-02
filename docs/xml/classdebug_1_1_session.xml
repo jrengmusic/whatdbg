@@ -1,0 +1,1329 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classdebug_1_1_session" kind="class" language="C++" prot="public">
+    <compoundname>debug::Session</compoundname>
+    <includes refid="_session_8h" local="no">Session.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" prot="private" static="no" mutable="no">
+        <type>lldb::SBDebugger</type>
+        <definition>lldb::SBDebugger debug::Session::debugger</definition>
+        <argsstring></argsstring>
+        <name>debugger</name>
+        <qualifiedname>debug::Session::debugger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="471" column="23" bodyfile="debug/Session.h" bodystart="471" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" compoundref="_session__mac_8cpp" startline="540" endline="547">appendSourcePath</referencedby>
+        <referencedby refid="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" compoundref="_session__mac_8cpp" startline="534" endline="538">appendSymbolPath</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="282" endline="302">attach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="231" endline="247">initialize</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="253" endline="276">launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="350" endline="367">shutdown</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" prot="private" static="no" mutable="no">
+        <type>lldb::SBListener</type>
+        <definition>lldb::SBListener debug::Session::listener</definition>
+        <argsstring></argsstring>
+        <name>listener</name>
+        <qualifiedname>debug::Session::listener</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="472" column="23" bodyfile="debug/Session.h" bodystart="472" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="282" endline="302">attach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="231" endline="247">initialize</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="253" endline="276">launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1adc898d1115e730d8a24677e708bcc7fa" compoundref="_session__mac_8cpp" startline="317" endline="344">pollEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" prot="private" static="no" mutable="no">
+        <type>lldb::SBTarget</type>
+        <definition>lldb::SBTarget debug::Session::target</definition>
+        <argsstring></argsstring>
+        <name>target</name>
+        <qualifiedname>debug::Session::target</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="473" column="23" bodyfile="debug/Session.h" bodystart="473" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1aaf7e9ab4904549e614e5bba1f92b2f5e" compoundref="_session__mac_8cpp" startline="401" endline="410">addBreakpoint</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a847a6aeced35fa8c8c2f27bc04c15dff" compoundref="_session__mac_8cpp" startline="412" endline="439">addBreakpointByLocation</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="282" endline="302">attach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" compoundref="_session__mac_8cpp" startline="503" endline="511">getOffset</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" compoundref="_session__mac_8cpp" startline="493" endline="501">getOffsetStatus</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="253" endline="276">launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" compoundref="_session__mac_8cpp" startline="441" endline="446">removeBreakpoint</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" prot="private" static="no" mutable="no">
+        <type>lldb::SBProcess</type>
+        <definition>lldb::SBProcess debug::Session::process</definition>
+        <argsstring></argsstring>
+        <name>process</name>
+        <qualifiedname>debug::Session::process</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="474" column="23" bodyfile="debug/Session.h" bodystart="474" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="282" endline="302">attach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session_inspection__mac_8cpp" startline="38" endline="46">cacheFrameVariables</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a15f2549ebb9c9ea74349ba4ae7a46c6a" compoundref="_session_inspection__mac_8cpp" startline="203" endline="225">evaluateExpression</referencedby>
+        <referencedby refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" compoundref="_session__mac_8cpp" startline="578" endline="583">getEventThreadSystemId</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a0be177f0be97bcf65af0a98b22034916" compoundref="_session_inspection__mac_8cpp" startline="99" endline="140">getStackTrace</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ac1ddb41377e5b0eac6ed58c9e938a05f" compoundref="_session__mac_8cpp" startline="553" endline="572">getThreads</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" compoundref="_session__mac_8cpp" startline="390" endline="395">interrupt</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="253" endline="276">launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1adc898d1115e730d8a24677e708bcc7fa" compoundref="_session__mac_8cpp" startline="317" endline="344">pollEvents</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="308" endline="311">resume</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="589" endline="592">setCurrentThreadBySystemId</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="350" endline="367">shutdown</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a1816fd6de2ca88d638adacef4cd0e40f" compoundref="_session__mac_8cpp" startline="378" endline="381">stepInto</referencedby>
+        <referencedby refid="classdebug_1_1_session_1af2b1a168dd413d9aec686598fa733146" compoundref="_session__mac_8cpp" startline="383" endline="388">stepOut</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a60c1171499fc598e2124c6097a96d1ee" compoundref="_session__mac_8cpp" startline="373" endline="376">stepOver</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" prot="private" static="no" mutable="no">
+        <type>lldb::SBValueList</type>
+        <definition>lldb::SBValueList debug::Session::cachedFrameVariables</definition>
+        <argsstring></argsstring>
+        <name>cachedFrameVariables</name>
+        <qualifiedname>debug::Session::cachedFrameVariables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="475" column="23" bodyfile="debug/Session.h" bodystart="475" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session_inspection__mac_8cpp" startline="38" endline="46">cacheFrameVariables</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" compoundref="_session_inspection__mac_8cpp" startline="146" endline="165">getLocals</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" compoundref="_session_inspection__mac_8cpp" startline="171" endline="197">getVariableChildren</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" compoundref="_session__mac_8cpp" startline="598" endline="602">resetSymbolGroupCache</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int debug::Session::cachedFrameIndex</definition>
+        <argsstring></argsstring>
+        <name>cachedFrameIndex</name>
+        <qualifiedname>debug::Session::cachedFrameIndex</qualifiedname>
+        <initializer>{ -1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="476" column="23" bodyfile="debug/Session.h" bodystart="476" bodyend="476"/>
+        <referencedby refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session_inspection__mac_8cpp" startline="38" endline="46">cacheFrameVariables</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" compoundref="_session__mac_8cpp" startline="598" endline="602">resetSymbolGroupCache</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>debug::Session::Session</definition>
+        <argsstring>()=default</argsstring>
+        <name>Session</name>
+        <qualifiedname>debug::Session::Session</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="62" column="5"/>
+        <references refid="classdebug_1_1_session_1aaf7e9ab4904549e614e5bba1f92b2f5e" compoundref="_session__mac_8cpp" startline="401" endline="410">addBreakpoint</references>
+        <references refid="classdebug_1_1_session_1a847a6aeced35fa8c8c2f27bc04c15dff" compoundref="_session__mac_8cpp" startline="412" endline="439">addBreakpointByLocation</references>
+        <references refid="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" compoundref="_session__mac_8cpp" startline="540" endline="547">appendSourcePath</references>
+        <references refid="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" compoundref="_session__mac_8cpp" startline="534" endline="538">appendSymbolPath</references>
+        <references refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="282" endline="302">attach</references>
+        <references refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" compoundref="_session_8h" startline="476" endline="476">cachedFrameIndex</references>
+        <references refid="classdebug_1_1_session_1a15f2549ebb9c9ea74349ba4ae7a46c6a" compoundref="_session_inspection__mac_8cpp" startline="203" endline="225">evaluateExpression</references>
+        <references refid="classdebug_1_1_session_1a915743cdb0adf4eadd461e03a6d6c5b4" compoundref="_session__mac_8cpp" startline="524" endline="528">forceReloadAllSymbols</references>
+        <references refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" compoundref="_session__mac_8cpp" startline="578" endline="583">getEventThreadSystemId</references>
+        <references refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" compoundref="_session_inspection__mac_8cpp" startline="146" endline="165">getLocals</references>
+        <references refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" compoundref="_session__mac_8cpp" startline="503" endline="511">getOffset</references>
+        <references refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" compoundref="_session__mac_8cpp" startline="493" endline="501">getOffsetStatus</references>
+        <references refid="classdebug_1_1_session_1a0be177f0be97bcf65af0a98b22034916" compoundref="_session_inspection__mac_8cpp" startline="99" endline="140">getStackTrace</references>
+        <references refid="classdebug_1_1_session_1ac1ddb41377e5b0eac6ed58c9e938a05f" compoundref="_session__mac_8cpp" startline="553" endline="572">getThreads</references>
+        <references refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" compoundref="_session_inspection__mac_8cpp" startline="171" endline="197">getVariableChildren</references>
+        <references refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="231" endline="247">initialize</references>
+        <references refid="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" compoundref="_session__mac_8cpp" startline="390" endline="395">interrupt</references>
+        <references refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="253" endline="276">launch</references>
+        <references refid="classdebug_1_1_session_1a244b110c3c6cfa7e9371f2f6b5b61203" compoundref="_session__mac_8cpp" startline="517" endline="522">loadModuleSymbols</references>
+        <references refid="classdebug_1_1_session_1adc898d1115e730d8a24677e708bcc7fa" compoundref="_session__mac_8cpp" startline="317" endline="344">pollEvents</references>
+        <references refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" compoundref="_session__mac_8cpp" startline="441" endline="446">removeBreakpoint</references>
+        <references refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" compoundref="_session__mac_8cpp" startline="598" endline="602">resetSymbolGroupCache</references>
+        <references refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="308" endline="311">resume</references>
+        <references refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</references>
+        <references refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="589" endline="592">setCurrentThreadBySystemId</references>
+        <references refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="350" endline="367">shutdown</references>
+        <references refid="classdebug_1_1_session_1a1816fd6de2ca88d638adacef4cd0e40f" compoundref="_session__mac_8cpp" startline="378" endline="381">stepInto</references>
+        <references refid="classdebug_1_1_session_1af2b1a168dd413d9aec686598fa733146" compoundref="_session__mac_8cpp" startline="383" endline="388">stepOut</references>
+        <references refid="classdebug_1_1_session_1a60c1171499fc598e2124c6097a96d1ee" compoundref="_session__mac_8cpp" startline="373" endline="376">stepOver</references>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a2ae6441e2bb4fa3f6a616a6f8b0ce8d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>debug::Session::~Session</definition>
+        <argsstring>()</argsstring>
+        <name>~Session</name>
+        <qualifiedname>debug::Session::~Session</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="63" column="5" bodyfile="debug/Session_mac.cpp" bodystart="222" bodyend="225"/>
+        <references refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa831996cebc6c9bf7687e922c3437be69" compoundref="_session_8h" startline="32">debug::passive</references>
+        <references refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="350" endline="367">shutdown</references>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool debug::Session::initialize</definition>
+        <argsstring>(const juce::File &amp;sidecarDir) noexcept</argsstring>
+        <name>initialize</name>
+        <qualifiedname>debug::Session::initialize</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref> &amp;</type>
+          <declname>sidecarDir</declname>
+        </param>
+        <briefdescription>
+<para>Initialize COM, load dbgeng DLLs, create the client, QI all interfaces, and register callbacks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Performs the full COM setup sequence:<orderedlist>
+<listitem><para>CoInitializeEx (multithreaded)</para>
+</listitem><listitem><para>Loads dbgeng.dll from sidecarDir via <ref refid="classdebug_1_1_loader" kindref="compound">Loader</ref></para>
+</listitem><listitem><para>Calls DebugCreate to obtain IDebugClient5</para>
+</listitem><listitem><para>QueryInterface for IDebugControl4, IDebugSymbols3, IDebugDataSpaces4, IDebugSystemObjects</para>
+</listitem><listitem><para>Registers <ref refid="classdebug_1_1_output_callbacks" kindref="compound">OutputCallbacks</ref> and <ref refid="classdebug_1_1_event_callbacks" kindref="compound">EventCallbacks</ref></para>
+</listitem><listitem><para>Sets source-level code level for stepping</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sidecarDir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Directory containing extracted dbgeng sidecar DLLs. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if all COM interfaces initialized successfully.</para>
+</simplesect>
+<simplesect kind="note"><para>Must be called on the main thread before any other <ref refid="classdebug_1_1_session" kindref="compound">Session</ref> method. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="80" column="10" bodyfile="debug/Session_mac.cpp" bodystart="231" bodyend="247"/>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="471">debugger</references>
+        <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
+        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="472">listener</references>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool debug::Session::launch</definition>
+        <argsstring>(const juce::String &amp;program) noexcept</argsstring>
+        <name>launch</name>
+        <qualifiedname>debug::Session::launch</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>program</declname>
+        </param>
+        <briefdescription>
+<para>Launch a process for debugging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls IDebugClient5::CreateProcess2 with the given program path. Does NOT call WaitForEvent — the caller must poll via <ref refid="classdebug_1_1_session_1adc898d1115e730d8a24677e708bcc7fa" kindref="member">pollEvents()</ref> to receive the initial CreateProcess and loader-breakpoint events.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>program</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full path to the executable to launch. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if CreateProcess2 succeeded.</para>
+</simplesect>
+<simplesect kind="note"><para>The process is launched suspended until the first pollEvents call. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="93" column="10" bodyfile="debug/Session_mac.cpp" bodystart="253" bodyend="276"/>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="471">debugger</references>
+        <references refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140">jam::Instance&lt; State &gt;::getInstance</references>
+        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="472">listener</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="474">process</references>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="473">target</references>
+        <referencedby refid="class_whatdbg_1a915d31b44bfab74c161a43170582c5cc" compoundref="_whatdbg_handlers_8cpp" startline="21" endline="44">Whatdbg::onLaunch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool debug::Session::attach</definition>
+        <argsstring>(std::uint32_t processId) noexcept</argsstring>
+        <name>attach</name>
+        <qualifiedname>debug::Session::attach</qualifiedname>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>processId</declname>
+        </param>
+        <briefdescription>
+<para>Attach to a running process by OS process ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls IDebugClient5::AttachProcess. Does NOT call WaitForEvent — the caller must poll via <ref refid="classdebug_1_1_session_1adc898d1115e730d8a24677e708bcc7fa" kindref="member">pollEvents()</ref> to receive the initial attach-break event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>processId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OS process ID of the target process. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if AttachProcess succeeded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="103" column="10" bodyfile="debug/Session_mac.cpp" bodystart="282" bodyend="302"/>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="471">debugger</references>
+        <references refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140">jam::Instance&lt; State &gt;::getInstance</references>
+        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="472">listener</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="474">process</references>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="473">target</references>
+        <referencedby refid="class_whatdbg_1a5dfa0d2f778277c1d3b07c3b6a24690f" compoundref="_whatdbg_handlers_8cpp" startline="66" endline="103">Whatdbg::onAttach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::Session::resume</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>resume</name>
+        <qualifiedname>debug::Session::resume</qualifiedname>
+        <briefdescription>
+<para>Resume execution after a break. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls IDebugControl4::SetExecutionStatus(DEBUG_STATUS_GO) to release the engine from a stopped state.</para>
+<para><simplesect kind="note"><para>No-op if the engine is already running. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="112" column="10" bodyfile="debug/Session_mac.cpp" bodystart="308" bodyend="311"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="474">process</references>
+        <referencedby refid="class_whatdbg_1a834b68aae2e580ba9b29ab9b0f8dc48f" compoundref="_whatdbg_8cpp" startline="387" endline="419">Whatdbg::addPendingBreakpointsAndResume</referencedby>
+        <referencedby refid="class_whatdbg_1a782112f5a9e514b84d1047131029259a" compoundref="_whatdbg_handlers_8cpp" startline="299" endline="311">Whatdbg::onContinue</referencedby>
+        <referencedby refid="class_whatdbg_1a07b46b4a97afc003e7aa8f8690cff2c0" compoundref="_whatdbg_8cpp" startline="227" endline="262">Whatdbg::onModuleLoaded</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1adc898d1115e730d8a24677e708bcc7fa" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool debug::Session::pollEvents</definition>
+        <argsstring>(std::uint32_t timeoutMs) noexcept</argsstring>
+        <name>pollEvents</name>
+        <qualifiedname>debug::Session::pollEvents</qualifiedname>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>timeoutMs</declname>
+        </param>
+        <briefdescription>
+<para>Poll for debug events with a timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls IDebugControl4::WaitForEvent with the specified timeout. Should be called repeatedly from the main loop while the target is running or stopping.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeoutMs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait in milliseconds. Pass 0 for non-blocking poll. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if an event was consumed; false on timeout with no event or on error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="122" column="10" bodyfile="debug/Session_mac.cpp" bodystart="317" bodyend="344"/>
+        <references refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140">jam::Instance&lt; State &gt;::getInstance</references>
+        <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
+        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="472">listener</references>
+        <references refid="namespacedebug_1a426fa0f286156911294af408e668008b" compoundref="_session__mac_8cpp" startline="175" endline="196">debug::onBreakpointEvent</references>
+        <references refid="namespacedebug_1ad1a8ba9ad50f1fa35415e3e5728ceab9" compoundref="_session__mac_8cpp" startline="114" endline="173">debug::onProcessEvent</references>
+        <references refid="namespacedebug_1adad083523a5ca92bd2394ea93d8a93d3" compoundref="_session__mac_8cpp" startline="198" endline="216">debug::onTargetEvent</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="474">process</references>
+        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="57" endline="116">Whatdbg::run</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::Session::shutdown</definition>
+        <argsstring>(EndMode mode) noexcept</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>debug::Session::shutdown</qualifiedname>
+        <param>
+          <type><ref refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90a" kindref="member">EndMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Detach from the target and release all COM resources. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls IDebugClient5::EndSession with the dbgeng flag corresponding to mode, then releases all COM interface pointers. Calls CoUninitialize if this <ref refid="classdebug_1_1_session" kindref="compound">Session</ref> owns the COM apartment.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How to end the session:<itemizedlist>
+<listitem><para><ref refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa1459e53d3fbaa95cebaf90860dd7a259" kindref="member">EndMode::terminate</ref> — target is alive; kill it on detach</para>
+</listitem><listitem><para><ref refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aab6bc015ea9587c510c9017988e94e60d" kindref="member">EndMode::detach</ref> — target is alive; leave it running after detach</para>
+</listitem><listitem><para><ref refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa831996cebc6c9bf7687e922c3437be69" kindref="member">EndMode::passive</ref> — target has already exited; release state only</para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Callers must pass an explicit mode. The destructor passes <ref refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa831996cebc6c9bf7687e922c3437be69" kindref="member">EndMode::passive</ref>. Passing terminate or detach for a target that has already exited will hang; check <ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6" kindref="member">ExecutionState</ref> before calling. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="139" column="10" bodyfile="debug/Session_mac.cpp" bodystart="350" bodyend="367"/>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="471">debugger</references>
+        <references refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aab6bc015ea9587c510c9017988e94e60d" compoundref="_session_8h" startline="31">debug::detach</references>
+        <references refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa831996cebc6c9bf7687e922c3437be69" compoundref="_session_8h" startline="32">debug::passive</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="474">process</references>
+        <references refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa1459e53d3fbaa95cebaf90860dd7a259" compoundref="_session_8h" startline="30">debug::terminate</references>
+        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="57" endline="116">Whatdbg::run</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a2ae6441e2bb4fa3f6a616a6f8b0ce8d5" compoundref="_session__mac_8cpp" startline="222" endline="225">~Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0e" kindref="member">debug::OffsetStatus</ref></type>
+        <definition>debug::OffsetStatus debug::Session::getOffsetStatus</definition>
+        <argsstring>(const juce::String &amp;filePath, std::uint16_t line) noexcept</argsstring>
+        <name>getOffsetStatus</name>
+        <qualifiedname>debug::Session::getOffsetStatus</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>filePath</declname>
+        </param>
+        <param>
+          <type>std::uint16_t</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+<para>Resolve a source file path and line number to a resolution status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls IDebugSymbols3::GetOffsetByLine. Requires that symbols are loaded for the module containing the specified source file.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full Windows path to the source file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One-based source line number. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea6cfe61694ee1bb13ae719d47c2f80b7a" kindref="member">OffsetStatus::found</ref> — symbol found; <ref refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" kindref="member">getOffset()</ref> returns the address. <ref refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea5ccf4d5c325b7db68777f400f66fd1b1" kindref="member">OffsetStatus::notFound</ref> — no code at this line or module not loaded. <ref refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0eae64262c3b87ee801f8f096c390dfae8d" kindref="member">OffsetStatus::engineBusy</ref> — engine transient error (E_UNEXPECTED); retry later. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="154" column="25" bodyfile="debug/Session_mac.cpp" bodystart="493" bodyend="501"/>
+        <references refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea6cfe61694ee1bb13ae719d47c2f80b7a" compoundref="_state_8h" startline="46">debug::found</references>
+        <references refid="namespacedebug_1ae1ad323362d43c9c1a534c76584e2d41" compoundref="_session__mac_8cpp" startline="452" endline="487">debug::getLineEntry</references>
+        <references refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea5ccf4d5c325b7db68777f400f66fd1b1" compoundref="_state_8h" startline="47">debug::notFound</references>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="473">target</references>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t debug::Session::getOffset</definition>
+        <argsstring>(const juce::String &amp;filePath, std::uint16_t line) noexcept</argsstring>
+        <name>getOffset</name>
+        <qualifiedname>debug::Session::getOffset</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>filePath</declname>
+        </param>
+        <param>
+          <type>std::uint16_t</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+<para>Resolve a source file path and line number to a target virtual address. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls IDebugSymbols3::GetOffsetByLine. Requires that symbols are loaded for the module containing the specified source file.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full Windows path to the source file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One-based source line number. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Resolved virtual address, or 0 when there is none. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="166" column="19" bodyfile="debug/Session_mac.cpp" bodystart="503" bodyend="511"/>
+        <references refid="namespacedebug_1ae1ad323362d43c9c1a534c76584e2d41" compoundref="_session__mac_8cpp" startline="452" endline="487">debug::getLineEntry</references>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="473">target</references>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1aaf7e9ab4904549e614e5bba1f92b2f5e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::int32_t</type>
+        <definition>std::int32_t debug::Session::addBreakpoint</definition>
+        <argsstring>(std::uint64_t offset) noexcept</argsstring>
+        <name>addBreakpoint</name>
+        <qualifiedname>debug::Session::addBreakpoint</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>offset</declname>
+        </param>
+        <briefdescription>
+<para>Create a code breakpoint at the given virtual address. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls IDebugControl4::AddBreakpoint to insert an execution breakpoint. The returned engine ID is used for subsequent removeBreakpoint calls and to match incoming Breakpoint callback notifications.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Virtual address at which to set the breakpoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Engine-assigned breakpoint ID on success, or 0 on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="178" column="18" bodyfile="debug/Session_mac.cpp" bodystart="401" bodyend="410"/>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="473">target</references>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a847a6aeced35fa8c8c2f27bc04c15dff" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacedebug_1aee0526408c2ffc82c78a9e7ed793c19e" kindref="member">BreakpointLocation</ref></type>
+        <definition>BreakpointLocation debug::Session::addBreakpointByLocation</definition>
+        <argsstring>(const juce::String &amp;filePath, std::uint16_t line) noexcept</argsstring>
+        <name>addBreakpointByLocation</name>
+        <qualifiedname>debug::Session::addBreakpointByLocation</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>filePath</declname>
+        </param>
+        <param>
+          <type>std::uint16_t</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+<para>Create a breakpoint by source file and line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cross-platform entry: Windows wraps the existing <computeroutput><ref refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" kindref="member">getOffsetStatus</ref></computeroutput> / <computeroutput><ref refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" kindref="member">getOffset</ref></computeroutput> → <computeroutput><ref refid="classdebug_1_1_session_1aaf7e9ab4904549e614e5bba1f92b2f5e" kindref="member">addBreakpoint</ref> (offset)</computeroutput> chain; macOS delegates to <computeroutput>SBTarget::BreakpointCreateByLocation</computeroutput>, which lets liblldb track pending locations itself and auto-resolve as modules load (no adapter-side retry loop).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source file path as received from the DAP client (backslash-form on Windows, forward-slash on macOS; <computeroutput>BreakpointManagerHandlers</computeroutput> handles the platform branch before calling). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Requested line (1-based, matching DAP). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacedebug_1aee0526408c2ffc82c78a9e7ed793c19e" kindref="member">BreakpointLocation</ref> packing (engineId, resolvedLine). engineId is 0 only when BP creation itself errored. resolvedLine is 0 when the BP has no location yet (caller treats 0 as pending — liblldb will auto-resolve). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="198" column="24" bodyfile="debug/Session_mac.cpp" bodystart="412" bodyend="439"/>
+        <references refid="structjam_1_1Union_1a1ea5d51075b691d9e08a751836b4cd88">jam::Union&lt; std::int32_t, std::uint16_t &gt;::pack</references>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="473">target</references>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a421a443c3e9d1a72bc5e172d7a94b43b" compoundref="_breakpoint_manager_handlers_8cpp" startline="72" endline="118">debug::BreakpointManager::addBreakpoint</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classjuce_1_1Result" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Result</ref></type>
+        <definition>juce::Result debug::Session::removeBreakpoint</definition>
+        <argsstring>(std::int32_t engineId) noexcept</argsstring>
+        <name>removeBreakpoint</name>
+        <qualifiedname>debug::Session::removeBreakpoint</qualifiedname>
+        <param>
+          <type>std::int32_t</type>
+          <declname>engineId</declname>
+        </param>
+        <briefdescription>
+<para>Remove a previously created breakpoint by its engine ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls IDebugControl4::RemoveBreakpoint. The engine ID is no longer valid after a successful removal.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engineId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The engine-assigned breakpoint ID returned by addBreakpoint. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classjuce_1_1Result_1ac2133128eeba510367bfe1b83383ae0f" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Result::ok()</ref> on success, or juce::Result::fail(...) if the ID is not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="209" column="18" bodyfile="debug/Session_mac.cpp" bodystart="441" bodyend="446"/>
+        <references refid="classjuce_1_1Result_1a27205a4dc7a973aebd1976270867be80">juce::Result::fail</references>
+        <references refid="classjuce_1_1Result_1ac2133128eeba510367bfe1b83383ae0f">juce::Result::ok</references>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="473">target</references>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1ae364294579824230c01de3132bb00e42" compoundref="_breakpoint_manager_handlers_8cpp" startline="36" endline="66">debug::BreakpointManager::removeOrphanedBreakpoints</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a244b110c3c6cfa7e9371f2f6b5b61203" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classjuce_1_1Result" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Result</ref></type>
+        <definition>juce::Result debug::Session::loadModuleSymbols</definition>
+        <argsstring>(const juce::String &amp;imageName) noexcept</argsstring>
+        <name>loadModuleSymbols</name>
+        <qualifiedname>debug::Session::loadModuleSymbols</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>imageName</declname>
+        </param>
+        <briefdescription>
+<para>Force-reload PDB symbols for a specific module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Executes &quot;.reload /f &lt;imageName&gt;&quot; via IDebugControl4::Execute. Used after a new module loads to ensure its symbols are available before breakpoint resolution is attempted.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>imageName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The image file name (basename or full path) as reported by the LoadModule event. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classjuce_1_1Result_1ac2133128eeba510367bfe1b83383ae0f" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Result::ok()</ref> if the command executed without error.</para>
+</simplesect>
+<simplesect kind="note"><para>Symbol loading may still fail silently if the PDB is not locatable. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="223" column="18" bodyfile="debug/Session_mac.cpp" bodystart="517" bodyend="522"/>
+        <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
+        <references refid="classjuce_1_1Result_1ac2133128eeba510367bfe1b83383ae0f">juce::Result::ok</references>
+        <referencedby refid="class_whatdbg_1a07b46b4a97afc003e7aa8f8690cff2c0" compoundref="_whatdbg_8cpp" startline="227" endline="262">Whatdbg::onModuleLoaded</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a915743cdb0adf4eadd461e03a6d6c5b4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classjuce_1_1Result" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Result</ref></type>
+        <definition>juce::Result debug::Session::forceReloadAllSymbols</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>forceReloadAllSymbols</name>
+        <qualifiedname>debug::Session::forceReloadAllSymbols</qualifiedname>
+        <briefdescription>
+<para>Force-reload PDB symbols for all currently loaded modules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Executes &quot;.reload /f&quot; via IDebugControl4::Execute. Intended as a fallback when per-module reload is insufficient.</para>
+<para><simplesect kind="return"><para><ref refid="classjuce_1_1Result_1ac2133128eeba510367bfe1b83383ae0f" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Result::ok()</ref> if the command executed without error.</para>
+</simplesect>
+<simplesect kind="note"><para>Can be slow when many modules are loaded. Prefer loadModuleSymbols for targeted reloads after individual module-load events. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="235" column="18" bodyfile="debug/Session_mac.cpp" bodystart="524" bodyend="528"/>
+        <references refid="classjuce_1_1Result_1ac2133128eeba510367bfe1b83383ae0f">juce::Result::ok</references>
+        <referencedby refid="class_whatdbg_1a834b68aae2e580ba9b29ab9b0f8dc48f" compoundref="_whatdbg_8cpp" startline="387" endline="419">Whatdbg::addPendingBreakpointsAndResume</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a7b9aca28055e0c3c3c97d59d51a1941b" compoundref="_breakpoint_manager_handlers_8cpp" startline="200" endline="225">debug::BreakpointManager::addReloadedBreakpoints</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a60c1171499fc598e2124c6097a96d1ee" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::Session::stepOver</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>stepOver</name>
+        <qualifiedname>debug::Session::stepOver</qualifiedname>
+        <briefdescription>
+<para>Step over one source line without entering function calls. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls IDebugControl4::SetExecutionStatus(DEBUG_STATUS_STEP_OVER). Requires source-level code level (set during initialize).</para>
+<para><simplesect kind="note"><para>The step completes asynchronously. <ref refid="classdebug_1_1_event_callbacks" kindref="compound">EventCallbacks</ref> sets <ref refid="classdebug_1_1_state_1a96a76f5ef14e110b1fd577ee43a40daf" kindref="member">State::hasStepCompleted</ref> when the step is done. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="245" column="10" bodyfile="debug/Session_mac.cpp" bodystart="373" bodyend="376"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="474">process</references>
+        <referencedby refid="class_whatdbg_1a897c4a96a9be1b1ab1ff3b9ab18801bb" compoundref="_whatdbg_handlers_8cpp" startline="313" endline="325">Whatdbg::onNext</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a1816fd6de2ca88d638adacef4cd0e40f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::Session::stepInto</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>stepInto</name>
+        <qualifiedname>debug::Session::stepInto</qualifiedname>
+        <briefdescription>
+<para>Step into the next function call on the current source line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls IDebugControl4::SetExecutionStatus(DEBUG_STATUS_STEP_INTO). Requires source-level code level (set during initialize).</para>
+<para><simplesect kind="note"><para>The step completes asynchronously. <ref refid="classdebug_1_1_event_callbacks" kindref="compound">EventCallbacks</ref> sets <ref refid="classdebug_1_1_state_1a96a76f5ef14e110b1fd577ee43a40daf" kindref="member">State::hasStepCompleted</ref> when the step is done. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="255" column="10" bodyfile="debug/Session_mac.cpp" bodystart="378" bodyend="381"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="474">process</references>
+        <referencedby refid="class_whatdbg_1af628bdbba100fbe6e7db2c7b4ec85b03" compoundref="_whatdbg_handlers_8cpp" startline="327" endline="339">Whatdbg::onStepIn</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1af2b1a168dd413d9aec686598fa733146" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::Session::stepOut</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>stepOut</name>
+        <qualifiedname>debug::Session::stepOut</qualifiedname>
+        <briefdescription>
+<para>Step out of the current function to its call site. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls IDebugControl4::SetExecutionStatus(DEBUG_STATUS_STEP_BRANCH) to execute until the current function returns.</para>
+<para><simplesect kind="note"><para>The step completes asynchronously. <ref refid="classdebug_1_1_event_callbacks" kindref="compound">EventCallbacks</ref> sets <ref refid="classdebug_1_1_state_1a96a76f5ef14e110b1fd577ee43a40daf" kindref="member">State::hasStepCompleted</ref> when the step is done. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="265" column="10" bodyfile="debug/Session_mac.cpp" bodystart="383" bodyend="388"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="474">process</references>
+        <referencedby refid="class_whatdbg_1aa309669a65e130f843f8bf617b6da56e" compoundref="_whatdbg_handlers_8cpp" startline="341" endline="350">Whatdbg::onStepOut</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::Session::interrupt</definition>
+        <argsstring>(std::uint32_t processId) noexcept</argsstring>
+        <name>interrupt</name>
+        <qualifiedname>debug::Session::interrupt</qualifiedname>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>processId</declname>
+        </param>
+        <briefdescription>
+<para>Interrupt a running target process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls DebugBreakProcess on the target to force it into a stopped state. The resulting break is reported via <ref refid="classdebug_1_1_event_callbacks" kindref="compound">EventCallbacks</ref> as a normal stop event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>processId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OS process ID of the target to interrupt. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="274" column="10" bodyfile="debug/Session_mac.cpp" bodystart="390" bodyend="395"/>
+        <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="474">process</references>
+        <referencedby refid="class_whatdbg_1a919304746e0b3a5c05bc18e497f2296d" compoundref="_whatdbg_handlers_8cpp" startline="352" endline="360">Whatdbg::onPause</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::Session::appendSymbolPath</definition>
+        <argsstring>(const juce::String &amp;path) noexcept</argsstring>
+        <name>appendSymbolPath</name>
+        <qualifiedname>debug::Session::appendSymbolPath</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Append a path to the dbgeng symbol search path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls IDebugSymbols3::AppendSymbolPath. The appended path is searched in addition to any path set at initialization time.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Semicolon-delimited symbol path to append (e.g. &quot;C:\\Symbols;srv*&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="283" column="10" bodyfile="debug/Session_mac.cpp" bodystart="534" bodyend="538"/>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="471">debugger</references>
+        <referencedby refid="class_whatdbg_1a479be5d71f4ad7df6b84bc5094be28d7" compoundref="_whatdbg_handlers_8cpp" startline="46" endline="64">Whatdbg::addSearchPaths</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::Session::appendSourcePath</definition>
+        <argsstring>(const juce::String &amp;path) noexcept</argsstring>
+        <name>appendSourcePath</name>
+        <qualifiedname>debug::Session::appendSourcePath</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Append a path to the dbgeng source search path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls IDebugSymbols3::AppendSourcePath. Used to help dbgeng locate source files when resolving line information.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Semicolon-delimited source path to append. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="292" column="10" bodyfile="debug/Session_mac.cpp" bodystart="540" bodyend="547"/>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="471">debugger</references>
+        <referencedby refid="class_whatdbg_1a479be5d71f4ad7df6b84bc5094be28d7" compoundref="_whatdbg_handlers_8cpp" startline="46" endline="64">Whatdbg::addSearchPaths</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a0be177f0be97bcf65af0a98b22034916" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classjuce_1_1Array" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Array</ref>&lt; <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> &gt;</type>
+        <definition>juce::Array&lt; juce::var &gt; debug::Session::getStackTrace</definition>
+        <argsstring>(int maxFrames) noexcept</argsstring>
+        <name>getStackTrace</name>
+        <qualifiedname>debug::Session::getStackTrace</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>maxFrames</declname>
+        </param>
+        <briefdescription>
+<para>Return stack frames for the current thread as a DAP-formatted array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Walks the call stack up to maxFrames deep using IDebugControl4::GetStackTrace and resolves each frame to source file, line, and function name via IDebugSymbols3::GetLineByOffset and GetNameByOffset.</para>
+<para>Each element in the returned array is a DynamicObject with fields:<itemizedlist>
+<listitem><para>id (int) — DAP frame ID (allocated by <ref refid="class_whatdbg" kindref="compound">Whatdbg</ref>, not here)</para>
+</listitem><listitem><para>name (String) — demangled function name or &quot;??&quot;</para>
+</listitem><listitem><para>source (Object) — { name, path } if source info is available</para>
+</listitem><listitem><para>line (int) — one-based source line number</para>
+</listitem><listitem><para>column (int) — always 1 (column not resolved; 1-based per DAP convention)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>maxFrames</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of frames to return. Clamped to stack depth. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Array of frame objects. Empty if the stack cannot be walked.</para>
+</simplesect>
+<simplesect kind="note"><para>Must be called while the target is stopped. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="312" column="17" bodyfile="debug/SessionInspection_mac.cpp" bodystart="99" bodyend="140"/>
+        <references refid="classjuce_1_1Array_1a76b59834b9d3d5b654f27dbaf2d6c09f">juce::Array&lt; typename ElementType, typename TypeOfCriticalSectionToUse, int minimumAllocatedSize &gt;::add</references>
+        <references refid="classjuce_1_1String_1af5084463343819f82187154ccb62ea3a">juce::String::isNotEmpty</references>
+        <references refid="namespacejuce_1a31dc5897289f074362c29fe54016f2dd">juce::jmin</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="474">process</references>
+        <referencedby refid="class_whatdbg_1a11b1b5b975c27c575f9087a188eda93b" compoundref="_whatdbg_handlers_8cpp" startline="163" endline="192">Whatdbg::onStackTrace</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classjuce_1_1Array" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Array</ref>&lt; <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> &gt;</type>
+        <definition>juce::Array&lt; juce::var &gt; debug::Session::getLocals</definition>
+        <argsstring>(int frameIndex) noexcept</argsstring>
+        <name>getLocals</name>
+        <qualifiedname>debug::Session::getLocals</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>frameIndex</declname>
+        </param>
+        <briefdescription>
+<para>Return local variables for a given stack frame as a DAP-formatted array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses IDebugSymbols3::GetScopeSymbolGroup2 to obtain the symbol group for the specified frame, then iterates top-level symbols to build the variable list. Delegates value formatting to <ref refid="namespacedebug_1a427707e424eb066a294bab023d93796f" kindref="member">debug::prettyPrint</ref> and debug::formatSymbolValue.</para>
+<para>Each element in the returned array is a DynamicObject with fields:<itemizedlist>
+<listitem><para>name (String) — symbol name</para>
+</listitem><listitem><para>value (String) — formatted value string</para>
+</listitem><listitem><para>type (String) — type name from dbgeng</para>
+</listitem><listitem><para>variablesReference (int) — non-zero if the variable can be expanded</para>
+</listitem><listitem><para>symbolIndex (int) — index in the symbol group (for child expansion)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>frameIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zero-based stack frame index (0 = innermost frame). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Array of variable objects. Empty if the frame has no locals or an error occurs.</para>
+</simplesect>
+<simplesect kind="note"><para>Must be called while the target is stopped. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="333" column="17" bodyfile="debug/SessionInspection_mac.cpp" bodystart="146" bodyend="165"/>
+        <references refid="classjuce_1_1Array_1a76b59834b9d3d5b654f27dbaf2d6c09f">juce::Array&lt; typename ElementType, typename TypeOfCriticalSectionToUse, int minimumAllocatedSize &gt;::add</references>
+        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="475">cachedFrameVariables</references>
+        <references refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session_inspection__mac_8cpp" startline="38" endline="46">cacheFrameVariables</references>
+        <references refid="classdebug_1_1_session_1ac9134d9d16c28951a72e161d227b9376" compoundref="_session_inspection__mac_8cpp" startline="72" endline="93">makeVariableDynObj</references>
+        <references refid="namespacedebug_1a191848ee2cdb58506405e23d9ffab168" compoundref="_session_inspection__mac_8cpp" startline="26" endline="32">debug::shouldSkipSymbol</references>
+        <referencedby refid="class_whatdbg_1adfdf65edd62332431edae566f516a265" compoundref="_whatdbg_handlers_8cpp" startline="235" endline="272">Whatdbg::onVariables</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classjuce_1_1Array" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Array</ref>&lt; <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> &gt;</type>
+        <definition>juce::Array&lt; juce::var &gt; debug::Session::getVariableChildren</definition>
+        <argsstring>(int frameIndex, int symbolIndex) noexcept</argsstring>
+        <name>getVariableChildren</name>
+        <qualifiedname>debug::Session::getVariableChildren</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>frameIndex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>symbolIndex</declname>
+        </param>
+        <briefdescription>
+<para>Return child variables of an expanded composite variable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls IDebugSymbolGroup2::ExpandSymbol on the symbol at symbolIndex, then iterates the newly exposed children. Used to implement DAP variable expansion (struct fields, array elements, pointer dereferences).</para>
+<para>Each element in the returned array has the same schema as getLocals entries.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>frameIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zero-based stack frame index containing the parent variable. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>symbolIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index of the parent symbol in the frame&apos;s symbol group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Array of child variable objects. Empty if the symbol has no children or errors.</para>
+</simplesect>
+<simplesect kind="note"><para>Must be called while the target is stopped. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="349" column="17" bodyfile="debug/SessionInspection_mac.cpp" bodystart="171" bodyend="197"/>
+        <references refid="classjuce_1_1Array_1a76b59834b9d3d5b654f27dbaf2d6c09f">juce::Array&lt; typename ElementType, typename TypeOfCriticalSectionToUse, int minimumAllocatedSize &gt;::add</references>
+        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="475">cachedFrameVariables</references>
+        <references refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session_inspection__mac_8cpp" startline="38" endline="46">cacheFrameVariables</references>
+        <references refid="classdebug_1_1_session_1ac9134d9d16c28951a72e161d227b9376" compoundref="_session_inspection__mac_8cpp" startline="72" endline="93">makeVariableDynObj</references>
+        <references refid="namespacedebug_1a191848ee2cdb58506405e23d9ffab168" compoundref="_session_inspection__mac_8cpp" startline="26" endline="32">debug::shouldSkipSymbol</references>
+        <referencedby refid="class_whatdbg_1adfdf65edd62332431edae566f516a265" compoundref="_whatdbg_handlers_8cpp" startline="235" endline="272">Whatdbg::onVariables</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a15f2549ebb9c9ea74349ba4ae7a46c6a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
+        <definition>juce::String debug::Session::evaluateExpression</definition>
+        <argsstring>(const juce::String &amp;expression, int frameIndex) noexcept</argsstring>
+        <name>evaluateExpression</name>
+        <qualifiedname>debug::Session::evaluateExpression</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>expression</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>frameIndex</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate a C++ expression in the context of a specific stack frame. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the debug scope to frameIndex, then executes &quot;?? &lt;expression&gt;&quot; via IDebugControl4::Execute with captured output. The raw output is passed through debug::formatSymbolValue before being returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>expression</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>C++ expression string to evaluate (e.g. &quot;myVar-&gt;field&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>frameIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zero-based stack frame index for symbol resolution context. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted result string, or an error description if evaluation fails.</para>
+</simplesect>
+<simplesect kind="note"><para>Must be called while the target is stopped. Complex expressions may cause the engine to execute target code (function calls in expression). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="364" column="18" bodyfile="debug/SessionInspection_mac.cpp" bodystart="203" bodyend="225"/>
+        <references refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session_inspection__mac_8cpp" startline="52" endline="66">debug::getDisplayValue</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="474">process</references>
+        <referencedby refid="class_whatdbg_1a5c53bfe14d5a61d11b537327f1d9acdf" compoundref="_whatdbg_handlers_8cpp" startline="378" endline="417">Whatdbg::onEvaluate</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1ac1ddb41377e5b0eac6ed58c9e938a05f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classjuce_1_1Array" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Array</ref>&lt; <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> &gt;</type>
+        <definition>juce::Array&lt; juce::var &gt; debug::Session::getThreads</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>getThreads</name>
+        <qualifiedname>debug::Session::getThreads</qualifiedname>
+        <briefdescription>
+<para>Enumerate all threads in the target process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses IDebugSystemObjects::GetNumberThreads and GetThreadIdsByIndex to list all threads, resolving each to its OS thread ID.</para>
+<para>Each element in the returned array is a DynamicObject with fields:<itemizedlist>
+<listitem><para>id (int) — OS thread ID (system TID, not dbgeng internal index)</para>
+</listitem><listitem><para>name (String) — always empty (thread naming not implemented)</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>Array of thread objects. Empty if enumeration fails.</para>
+</simplesect>
+<simplesect kind="note"><para>Must be called while the target is stopped. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="379" column="17" bodyfile="debug/Session_mac.cpp" bodystart="553" bodyend="572"/>
+        <references refid="classjuce_1_1Array_1a76b59834b9d3d5b654f27dbaf2d6c09f">juce::Array&lt; typename ElementType, typename TypeOfCriticalSectionToUse, int minimumAllocatedSize &gt;::add</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="474">process</references>
+        <referencedby refid="class_whatdbg_1a4eb1d0bebc12fb2289c402d8c1ca62c6" compoundref="_whatdbg_handlers_8cpp" startline="152" endline="161">Whatdbg::onThreads</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t debug::Session::getEventThreadSystemId</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>getEventThreadSystemId</name>
+        <qualifiedname>debug::Session::getEventThreadSystemId</qualifiedname>
+        <briefdescription>
+<para>Return the OS thread ID of the thread that triggered the last debug event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls IDebugSystemObjects::GetCurrentThreadSystemId. Valid only immediately after a WaitForEvent call returns an event (i.e., while stopped).</para>
+<para><simplesect kind="return"><para>OS system thread ID, or 0 if the query fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="388" column="19" bodyfile="debug/Session_mac.cpp" bodystart="578" bodyend="583"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="474">process</references>
+        <referencedby refid="class_whatdbg_1a198c935398a902e826f1bce42c7e3d53" compoundref="_whatdbg_8cpp" startline="157" endline="186">Whatdbg::onBreakpointHit</referencedby>
+        <referencedby refid="class_whatdbg_1a83a95b50014018a2569b37ff417cc164" compoundref="_whatdbg_8cpp" startline="316" endline="350">Whatdbg::onExceptionStopped</referencedby>
+        <referencedby refid="class_whatdbg_1aff4f0452320284237ee7984b054ba9a5" compoundref="_whatdbg_8cpp" startline="208" endline="225">Whatdbg::onPauseCompleted</referencedby>
+        <referencedby refid="class_whatdbg_1a802d7c4bdc8a1c32e6c9f1bb823f3364" compoundref="_whatdbg_8cpp" startline="188" endline="206">Whatdbg::onStepCompleted</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::Session::setCurrentThreadBySystemId</definition>
+        <argsstring>(std::uint32_t systemId) noexcept</argsstring>
+        <name>setCurrentThreadBySystemId</name>
+        <qualifiedname>debug::Session::setCurrentThreadBySystemId</qualifiedname>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>systemId</declname>
+        </param>
+        <briefdescription>
+<para>Set the current debug context to the thread with the given OS thread ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Looks up the dbgeng internal thread index for systemId and calls IDebugSystemObjects::SetCurrentThreadId. All subsequent symbol queries (getLocals, getStackTrace, evaluateExpression) operate on this thread&apos;s context.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>systemId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OS system thread ID to make current.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Must be called while the target is stopped. Invalid systemId is silently ignored. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="400" column="10" bodyfile="debug/Session_mac.cpp" bodystart="589" bodyend="592"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="474">process</references>
+        <referencedby refid="class_whatdbg_1a5c53bfe14d5a61d11b537327f1d9acdf" compoundref="_whatdbg_handlers_8cpp" startline="378" endline="417">Whatdbg::onEvaluate</referencedby>
+        <referencedby refid="class_whatdbg_1ad05bdb6a5305ac76780d959d10025cbb" compoundref="_whatdbg_handlers_8cpp" startline="194" endline="233">Whatdbg::onScopes</referencedby>
+        <referencedby refid="class_whatdbg_1a11b1b5b975c27c575f9087a188eda93b" compoundref="_whatdbg_handlers_8cpp" startline="163" endline="192">Whatdbg::onStackTrace</referencedby>
+        <referencedby refid="class_whatdbg_1adfdf65edd62332431edae566f516a265" compoundref="_whatdbg_handlers_8cpp" startline="235" endline="272">Whatdbg::onVariables</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::Session::resetSymbolGroupCache</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>resetSymbolGroupCache</name>
+        <qualifiedname>debug::Session::resetSymbolGroupCache</qualifiedname>
+        <briefdescription>
+<para>Invalidate the cached symbol group so the next getLocals call rebuilds it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The symbol group cache is keyed on frame index. After a stop event the program counter changes, so the cached group is stale and must be discarded. Call this at the start of every stopped event before any variable queries. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="408" column="10" bodyfile="debug/Session_mac.cpp" bodystart="598" bodyend="602"/>
+        <references refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" compoundref="_session_8h" startline="476" endline="476">cachedFrameIndex</references>
+        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="475">cachedFrameVariables</references>
+        <referencedby refid="class_whatdbg_1aaeaeadff98b6f113eb777735213455ba" compoundref="_whatdbg_8cpp" startline="452" endline="460">Whatdbg::resetVariablesState</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::Session::cacheFrameVariables</definition>
+        <argsstring>(int frameIndex) noexcept</argsstring>
+        <name>cacheFrameVariables</name>
+        <qualifiedname>debug::Session::cacheFrameVariables</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>frameIndex</declname>
+        </param>
+        <briefdescription>
+<para>Refresh cachedFrameVariables for the given frame if stale. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Mirrors Windows getOrCreateSymbolGroup — keyed on frame index; regenerates the SBValueList when the cached index does not match. Callers may rely on cachedFrameVariables being valid for frameIndex after this returns.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>frameIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zero-based stack frame index (0 = innermost). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="456" column="10" bodyfile="debug/SessionInspection_mac.cpp" bodystart="38" bodyend="46"/>
+        <references refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" compoundref="_session_8h" startline="476" endline="476">cachedFrameIndex</references>
+        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="475">cachedFrameVariables</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="474">process</references>
+        <referencedby refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" compoundref="_session_inspection__mac_8cpp" startline="146" endline="165">getLocals</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" compoundref="_session_inspection__mac_8cpp" startline="171" endline="197">getVariableChildren</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_session_1ac9134d9d16c28951a72e161d227b9376" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref></type>
+        <definition>juce::var debug::Session::makeVariableDynObj</definition>
+        <argsstring>(lldb::SBValue &amp;value, int symbolIndex) noexcept</argsstring>
+        <name>makeVariableDynObj</name>
+        <qualifiedname>debug::Session::makeVariableDynObj</qualifiedname>
+        <param>
+          <type>lldb::SBValue &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>symbolIndex</declname>
+        </param>
+        <briefdescription>
+<para>Build a DAP variable object from an SBValue. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructs a <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> wrapping a DynamicObject with the schema: name, value, type, hasChildren, symbolIndex. Null-safe on every const char* return from SBValue. Used by getLocals and getVariableChildren to share a single source of truth for the variable schema.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The SBValue to format. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>symbolIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index to embed as the DAP symbolIndex field. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> holding the DynamicObject. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="469" column="15" bodyfile="debug/SessionInspection_mac.cpp" bodystart="72" bodyend="93"/>
+        <references refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session_inspection__mac_8cpp" startline="52" endline="66">debug::getDisplayValue</references>
+        <references refid="classjuce_1_1String_1a1f0c785b3834720c20a115ff82f138de">juce::String::isEmpty</references>
+        <referencedby refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" compoundref="_session_inspection__mac_8cpp" startline="146" endline="165">getLocals</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" compoundref="_session_inspection__mac_8cpp" startline="171" endline="197">getVariableChildren</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>COM wrapper around the dbgeng debug engine interfaces. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classdebug_1_1_session" kindref="compound">Session</ref> owns and manages the lifetime of all IDebug* COM interfaces acquired from dbgeng.dll. It provides a high-level API used by <ref refid="class_whatdbg" kindref="compound">Whatdbg</ref> and <ref refid="classdebug_1_1_breakpoint_manager" kindref="compound">BreakpointManager</ref> to drive a debug session: launching/attaching processes, polling for events, setting breakpoints, inspecting symbols, and stepping.</para>
+<para>Ownership:<itemizedlist>
+<listitem><para>Owns the <ref refid="classdebug_1_1_loader" kindref="compound">Loader</ref> that loaded dbgeng.dll.</para>
+</listitem><listitem><para>Owns <ref refid="classdebug_1_1_output_callbacks" kindref="compound">OutputCallbacks</ref> and <ref refid="classdebug_1_1_event_callbacks" kindref="compound">EventCallbacks</ref> registered with IDebugClient5.</para>
+</listitem><listitem><para>Owns all COM interface ComPtrs; releases them in ~Session.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="note"><para>All methods must be called on the main thread. On Windows, COM is initialized in multithreaded mode by <ref refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" kindref="member">initialize()</ref>. Calling any method before <ref refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" kindref="member">initialize()</ref> succeeds will assert or produce undefined behavior. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="debug/Session.h" line="59" column="1" bodyfile="debug/Session.h" bodystart="60" bodyend="480"/>
+    <listofallmembers>
+      <member refid="classdebug_1_1_session_1aaf7e9ab4904549e614e5bba1f92b2f5e" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>addBreakpoint</name></member>
+      <member refid="classdebug_1_1_session_1a847a6aeced35fa8c8c2f27bc04c15dff" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>addBreakpointByLocation</name></member>
+      <member refid="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>appendSourcePath</name></member>
+      <member refid="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>appendSymbolPath</name></member>
+      <member refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>attach</name></member>
+      <member refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>cachedFrameIndex</name></member>
+      <member refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>cachedFrameVariables</name></member>
+      <member refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>cacheFrameVariables</name></member>
+      <member refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>debugger</name></member>
+      <member refid="classdebug_1_1_session_1a15f2549ebb9c9ea74349ba4ae7a46c6a" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>evaluateExpression</name></member>
+      <member refid="classdebug_1_1_session_1a915743cdb0adf4eadd461e03a6d6c5b4" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>forceReloadAllSymbols</name></member>
+      <member refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>getEventThreadSystemId</name></member>
+      <member refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>getLocals</name></member>
+      <member refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>getOffset</name></member>
+      <member refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>getOffsetStatus</name></member>
+      <member refid="classdebug_1_1_session_1a0be177f0be97bcf65af0a98b22034916" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>getStackTrace</name></member>
+      <member refid="classdebug_1_1_session_1ac1ddb41377e5b0eac6ed58c9e938a05f" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>getThreads</name></member>
+      <member refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>getVariableChildren</name></member>
+      <member refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>initialize</name></member>
+      <member refid="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>interrupt</name></member>
+      <member refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>launch</name></member>
+      <member refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>listener</name></member>
+      <member refid="classdebug_1_1_session_1a244b110c3c6cfa7e9371f2f6b5b61203" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>loadModuleSymbols</name></member>
+      <member refid="classdebug_1_1_session_1ac9134d9d16c28951a72e161d227b9376" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>makeVariableDynObj</name></member>
+      <member refid="classdebug_1_1_session_1adc898d1115e730d8a24677e708bcc7fa" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>pollEvents</name></member>
+      <member refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>process</name></member>
+      <member refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>removeBreakpoint</name></member>
+      <member refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>resetSymbolGroupCache</name></member>
+      <member refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>resume</name></member>
+      <member refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>Session</name></member>
+      <member refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>setCurrentThreadBySystemId</name></member>
+      <member refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>shutdown</name></member>
+      <member refid="classdebug_1_1_session_1a1816fd6de2ca88d638adacef4cd0e40f" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>stepInto</name></member>
+      <member refid="classdebug_1_1_session_1af2b1a168dd413d9aec686598fa733146" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>stepOut</name></member>
+      <member refid="classdebug_1_1_session_1a60c1171499fc598e2124c6097a96d1ee" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>stepOver</name></member>
+      <member refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>target</name></member>
+      <member refid="classdebug_1_1_session_1a2ae6441e2bb4fa3f6a616a6f8b0ce8d5" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>~Session</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classdebug_1_1_loader" kind="class" language="C++" prot="public">
+    <compoundname>debug::Loader</compoundname>
+    <includes refid="_loader_8h" local="no">Loader.h</includes>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classdebug_1_1_loader_1ad3b8ed8285fa9cb19a7f61aa40048916" prot="private" static="no">
+        <type>HRESULT(STDAPICALLTYPE *)(REFIID, PVOID *)</type>
+        <definition>using debug::Loader::DebugCreateFn = HRESULT (STDAPICALLTYPE*) (REFIID, PVOID*)</definition>
+        <argsstring></argsstring>
+        <name>DebugCreateFn</name>
+        <qualifiedname>debug::Loader::DebugCreateFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Loader.h" line="52" column="5" bodyfile="debug/Loader.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classdebug_1_1_loader_1a8a730cb0b007bf2f0f1b8ebc800cc3e6" prot="private" static="no" mutable="no">
+        <type>HMODULE</type>
+        <definition>HMODULE debug::Loader::dbgengModule</definition>
+        <argsstring></argsstring>
+        <name>dbgengModule</name>
+        <qualifiedname>debug::Loader::dbgengModule</qualifiedname>
+        <initializer>{ nullptr }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Loader.h" line="54" column="13" bodyfile="debug/Loader.h" bodystart="54" bodyend="54"/>
+        <referencedby refid="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" compoundref="_loader_8cpp" startline="24" endline="45">load</referencedby>
+        <referencedby refid="classdebug_1_1_loader_1aa437e7263d8721db1adacd8b98771389" compoundref="_loader_8cpp" startline="15" endline="22">~Loader</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_loader_1aae70f534011e62ad2ea9f990abf7d988" prot="private" static="no" mutable="no">
+        <type><ref refid="classdebug_1_1_loader_1ad3b8ed8285fa9cb19a7f61aa40048916" kindref="member">DebugCreateFn</ref></type>
+        <definition>DebugCreateFn debug::Loader::debugCreateFn</definition>
+        <argsstring></argsstring>
+        <name>debugCreateFn</name>
+        <qualifiedname>debug::Loader::debugCreateFn</qualifiedname>
+        <initializer>{ nullptr }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Loader.h" line="55" column="19" bodyfile="debug/Loader.h" bodystart="55" bodyend="55"/>
+        <referencedby refid="classdebug_1_1_loader_1a62ba00feaf2f23de7bfdf46767f2e493" compoundref="_loader_8cpp" startline="47" endline="55">createDebugClient</referencedby>
+        <referencedby refid="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" compoundref="_loader_8cpp" startline="24" endline="45">load</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdebug_1_1_loader_1ab7518ba453d253d36be0d44da562da60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>debug::Loader::Loader</definition>
+        <argsstring>()=default</argsstring>
+        <name>Loader</name>
+        <qualifiedname>debug::Loader::Loader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Loader.h" line="24" column="5"/>
+        <references refid="classdebug_1_1_loader_1a62ba00feaf2f23de7bfdf46767f2e493" compoundref="_loader_8cpp" startline="47" endline="55">createDebugClient</references>
+        <references refid="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" compoundref="_loader_8cpp" startline="24" endline="45">load</references>
+        <references refid="classdebug_1_1_loader_1ab7518ba453d253d36be0d44da562da60">Loader</references>
+        <referencedby refid="classdebug_1_1_loader_1ab7518ba453d253d36be0d44da562da60">Loader</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_loader_1aa437e7263d8721db1adacd8b98771389" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>debug::Loader::~Loader</definition>
+        <argsstring>()</argsstring>
+        <name>~Loader</name>
+        <qualifiedname>debug::Loader::~Loader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Loader.h" line="25" column="5" bodyfile="debug/Loader.cpp" bodystart="15" bodyend="22"/>
+        <references refid="classdebug_1_1_loader_1a8a730cb0b007bf2f0f1b8ebc800cc3e6" compoundref="_loader_8h" startline="54" endline="54">dbgengModule</references>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool debug::Loader::load</definition>
+        <argsstring>(const juce::File &amp;sidecarDirectory) noexcept</argsstring>
+        <name>load</name>
+        <qualifiedname>debug::Loader::load</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref> &amp;</type>
+          <declname>sidecarDirectory</declname>
+        </param>
+        <briefdescription>
+<para>Load dbgeng.dll from the given sidecar directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls LoadLibraryW on &quot;&lt;sidecarDirectory&gt;/dbgeng.dll&quot; and resolves the &quot;DebugCreate&quot; export. On success <ref refid="classdebug_1_1_loader_1a62ba00feaf2f23de7bfdf46767f2e493" kindref="member">createDebugClient()</ref> may be called.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sidecarDirectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Directory containing dbgeng.dll and its dependencies. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the DLL was loaded and DebugCreate was resolved successfully.</para>
+</simplesect>
+<simplesect kind="note"><para>Calling <ref refid="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" kindref="member">load()</ref> more than once is undefined. Create a new <ref refid="classdebug_1_1_loader" kindref="compound">Loader</ref> instead. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Loader.h" line="37" column="10" bodyfile="debug/Loader.cpp" bodystart="24" bodyend="45"/>
+        <references refid="classdebug_1_1_loader_1a8a730cb0b007bf2f0f1b8ebc800cc3e6" compoundref="_loader_8h" startline="54" endline="54">dbgengModule</references>
+        <references refid="classdebug_1_1_loader_1aae70f534011e62ad2ea9f990abf7d988" compoundref="_loader_8h" startline="55" endline="55">debugCreateFn</references>
+        <references refid="classjuce_1_1File_1a515fa016b189068f365cc875e241e2a1">juce::File::getFullPathName</references>
+        <references refid="classjuce_1_1String_1a9ea0b29bd5ad162c3259d43c8f7a491c">juce::String::toWideCharPointer</references>
+        <referencedby refid="classdebug_1_1_loader_1ab7518ba453d253d36be0d44da562da60">Loader</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_loader_1a62ba00feaf2f23de7bfdf46767f2e493" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>IDebugClient5 *</type>
+        <definition>IDebugClient5 * debug::Loader::createDebugClient</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>createDebugClient</name>
+        <qualifiedname>debug::Loader::createDebugClient</qualifiedname>
+        <briefdescription>
+<para>Call DebugCreate to obtain an IDebugClient5 interface pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delegates to the resolved DebugCreate function pointer. The caller receives ownership of the returned COM pointer and must call Release (or wrap it in a ComPtr) when done.</para>
+<para><simplesect kind="return"><para>the IDebugClient5 pointer on success, or nullptr on failure.</para>
+</simplesect>
+<simplesect kind="note"><para>Requires a prior successful call to <ref refid="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" kindref="member">load()</ref>. Asserts if not loaded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Loader.h" line="49" column="19" bodyfile="debug/Loader.cpp" bodystart="47" bodyend="55"/>
+        <references refid="classdebug_1_1_loader_1aae70f534011e62ad2ea9f990abf7d988" compoundref="_loader_8h" startline="55" endline="55">debugCreateFn</references>
+        <referencedby refid="classdebug_1_1_loader_1ab7518ba453d253d36be0d44da562da60">Loader</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Loads dbgeng.dll from a sidecar directory and exposes DebugCreate. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Windows ships dbgeng.dll in the system directory, but the version bundled with the Debugging Tools for Windows SDK may be newer and more capable. <ref refid="classdebug_1_1_loader" kindref="compound">Loader</ref> loads the DLL explicitly from a caller-supplied sidecar directory so that the correct version is used regardless of what is installed system-wide.</para>
+<para>Usage sequence:<orderedlist>
+<listitem><para>Call <ref refid="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" kindref="member">load()</ref> to LoadLibraryW the DLL and resolve the DebugCreate export.</para>
+</listitem><listitem><para>Call <ref refid="classdebug_1_1_loader_1a62ba00feaf2f23de7bfdf46767f2e493" kindref="member">createDebugClient()</ref> to obtain an IDebugClient5 pointer.</para>
+</listitem><listitem><para><ref refid="classdebug_1_1_loader" kindref="compound">Loader</ref>&apos;s destructor calls FreeLibrary on the loaded module. </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <location file="debug/Loader.h" line="21" column="1" bodyfile="debug/Loader.h" bodystart="22" bodyend="58"/>
+    <listofallmembers>
+      <member refid="classdebug_1_1_loader_1a62ba00feaf2f23de7bfdf46767f2e493" prot="public" virt="non-virtual"><scope>debug::Loader</scope><name>createDebugClient</name></member>
+      <member refid="classdebug_1_1_loader_1a8a730cb0b007bf2f0f1b8ebc800cc3e6" prot="private" virt="non-virtual"><scope>debug::Loader</scope><name>dbgengModule</name></member>
+      <member refid="classdebug_1_1_loader_1ad3b8ed8285fa9cb19a7f61aa40048916" prot="private" virt="non-virtual"><scope>debug::Loader</scope><name>DebugCreateFn</name></member>
+      <member refid="classdebug_1_1_loader_1aae70f534011e62ad2ea9f990abf7d988" prot="private" virt="non-virtual"><scope>debug::Loader</scope><name>debugCreateFn</name></member>
+      <member refid="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" prot="public" virt="non-virtual"><scope>debug::Loader</scope><name>load</name></member>
+      <member refid="classdebug_1_1_loader_1ab7518ba453d253d36be0d44da562da60" prot="public" virt="non-virtual"><scope>debug::Loader</scope><name>Loader</name></member>
+      <member refid="classdebug_1_1_loader_1aa437e7263d8721db1adacd8b98771389" prot="public" virt="non-virtual"><scope>debug::Loader</scope><name>~Loader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

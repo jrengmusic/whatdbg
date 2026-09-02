@@ -1,0 +1,398 @@
+```cmake
+cmake_minimum_required(VERSION :::minimumVersion:::)
+
+set(CMAKE_CXX_STANDARD :::cxxStandard:::)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE INTERNAL "")
+option(CAST_SIGN "Run the sign/pkg/notarize/staple chain on a Release build" ON)
+set(CMAKE_OSX_DEPLOYMENT_TARGET :::deploymentTarget::: CACHE STRING "macOS deployment target")
+
+if(APPLE)
+    message(STATUS "Supported macOS architectures: :::list:::")
+elseif(WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY :::msvcRuntime:::)
+endif()
+
+project(:::targetName:::
+    VERSION :::versionString:::
+    LANGUAGES C CXX
+    DESCRIPTION ":::description:::"
+)
+
+execute_process(
+    COMMAND git rev-parse --short HEAD
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    OUTPUT_VARIABLE CAST_COMMIT_HASH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+message(STATUS "CAST: configuring ${PROJECT_NAME} ${PROJECT_VERSION}")
+
+if(APPLE)
+    set(CAST_RELEASE_COMPILE_FLAGS
+:::list:::
+    )
+    set(CAST_RELEASE_LINK_FLAGS
+:::list:::
+    )
+    set(CAST_DEBUG_COMPILE_FLAGS
+:::list:::
+    )
+elseif(WIN32)
+    set(CAST_RELEASE_COMPILE_FLAGS
+:::list:::
+    )
+    set(CAST_RELEASE_LINK_FLAGS
+:::list:::
+    )
+    set(CAST_DEBUG_COMPILE_FLAGS
+:::list:::
+    )
+endif()
+
+if(WIN32)
+    if(CMAKE_SYSTEM_PROCESSOR STREQUAL "ARM64")
+        set(BINARY_DATA_ARCH "arm64")
+    else()
+        set(BINARY_DATA_ARCH "x64")
+    endif()
+
+    set(BINARY_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Resources/windows/${BINARY_DATA_ARCH}")
+
+    set(WHATDBG_BINARY_FILES
+:::list:::
+    )
+
+    message(STATUS "BinaryData arch: ${BINARY_DATA_ARCH}")
+endif()
+
+if(APPLE)
+    if(CMAKE_OSX_ARCHITECTURES STREQUAL "arm64")
+        set(BINARY_DATA_ARCH "arm64")
+    elseif(CMAKE_OSX_ARCHITECTURES STREQUAL "x86_64")
+        set(BINARY_DATA_ARCH "x86_64")
+    else()
+        execute_process(
+            COMMAND uname -m
+            OUTPUT_VARIABLE NATIVE_ARCH
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+        if(NATIVE_ARCH STREQUAL "arm64")
+            set(BINARY_DATA_ARCH "arm64")
+        elseif(NATIVE_ARCH STREQUAL "x86_64")
+            set(BINARY_DATA_ARCH "x86_64")
+        else()
+            message(FATAL_ERROR "Unsupported macOS architecture: ${NATIVE_ARCH}")
+        endif()
+        set(CMAKE_OSX_ARCHITECTURES "${BINARY_DATA_ARCH}" CACHE STRING "" FORCE)
+    endif()
+
+    set(BINARY_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Resources/macos/${BINARY_DATA_ARCH}")
+
+    set(WHATDBG_BINARY_FILES
+:::list:::
+    )
+
+    message(STATUS "BinaryData arch: ${BINARY_DATA_ARCH}")
+endif()
+
+set(WHATDBG_WIN_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Session.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/SessionInspection.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/SessionPrettyPrint.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Loader.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Loader.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Callbacks.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Callbacks.cpp"
+)
+
+set(WHATDBG_MAC_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Session_mac.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/SessionInspection_mac.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/SessionPrettyPrint_mac.cpp"
+)
+
+set(CAST_JUCE_PATH ":::jucePath:::")
+
+set(CAST_JUCE_VERSION :::juceVersion:::)
+
+find_package(Git REQUIRED)
+
+message(STATUS "CAST: using JUCE at ${CAST_JUCE_PATH}")
+
+add_subdirectory("${CAST_JUCE_PATH}" "${CMAKE_BINARY_DIR}/JUCE")
+
+get_directory_property(CAST_FOUND_JUCE_VERSION DIRECTORY "${CAST_JUCE_PATH}" DEFINITION JUCE_VERSION)
+
+if(NOT CAST_FOUND_JUCE_VERSION VERSION_EQUAL CAST_JUCE_VERSION)
+    message(FATAL_ERROR "CAST: JUCE ${CAST_FOUND_JUCE_VERSION} found, ${CAST_JUCE_VERSION} required — exact match")
+endif()
+
+message(STATUS "CAST: JUCE ${CAST_FOUND_JUCE_VERSION} found at ${CAST_JUCE_PATH}")
+
+:::list:::
+
+message(STATUS "CAST: user modules added from :::userModulePath:::")
+
+:::juceTargetFunction:::(${PROJECT_NAME}
+    PRODUCT_NAME ":::productName:::"
+    VERSION :::versionString:::
+    BUILD_VERSION ":::buildVersion:::"
+    BUNDLE_ID ":::bundleIdentifier:::"
+    COMPANY_NAME :::companyName:::
+    COMPANY_COPYRIGHT ":::companyCopyright:::"
+    COMPANY_WEBSITE :::productWebsite:::
+    COMPANY_EMAIL :::companyEmail:::
+    DOCUMENT_EXTENSIONS :::documentExtensions:::
+    NEEDS_CURL :::needsCurl:::
+    NEEDS_WEB_BROWSER :::needsWebBrowser:::
+    NEEDS_WEBVIEW2 :::needsWebview2:::
+    NEEDS_STORE_KIT :::needsStoreKit:::
+)
+
+juce_generate_juce_header(${PROJECT_NAME})
+
+file(GLOB_RECURSE CAST_SOURCE_FILES CONFIGURE_DEPENDS
+:::list:::
+)
+
+list(REMOVE_ITEM CAST_SOURCE_FILES ${WHATDBG_WIN_SOURCES} ${WHATDBG_MAC_SOURCES})
+
+if(WIN32)
+    list(APPEND CAST_SOURCE_FILES ${WHATDBG_WIN_SOURCES})
+elseif(APPLE)
+    list(APPEND CAST_SOURCE_FILES ${WHATDBG_MAC_SOURCES})
+endif()
+
+target_sources(${PROJECT_NAME} PRIVATE ${CAST_SOURCE_FILES})
+
+target_compile_definitions(${PROJECT_NAME} PUBLIC
+    CAST_COMMIT="${CAST_COMMIT_HASH}"
+:::list:::
+)
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+:::list:::
+)
+
+if(APPLE)
+    target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/Resources/macos/include")
+endif()
+
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+:::list:::
+:::list:::
+    PUBLIC
+        juce::juce_recommended_config_flags
+)
+
+if(APPLE)
+    target_link_libraries(${PROJECT_NAME} PRIVATE "${BINARY_DATA_DIR}/liblldb.dylib")
+elseif(WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ole32 oleaut32)
+endif()
+
+target_compile_options(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Release>:${CAST_RELEASE_COMPILE_FLAGS}>
+    $<$<CONFIG:Debug>:${CAST_DEBUG_COMPILE_FLAGS}>
+)
+
+target_link_options(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Release>:${CAST_RELEASE_LINK_FLAGS}>
+)
+
+juce_add_binary_data(${PROJECT_NAME}_BinaryData
+    NAMESPACE ":::binaryDataNamespace:::"
+    SOURCES
+        ${WHATDBG_BINARY_FILES}
+)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_BinaryData)
+
+include(CheckIPOSupported)
+
+add_custom_target(post-build ALL)
+add_dependencies(post-build ${PROJECT_NAME})
+
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    check_ipo_supported(RESULT CAST_IPO_SUPPORTED OUTPUT CAST_IPO_ERROR)
+
+    if(CAST_IPO_SUPPORTED)
+        set_target_properties(${PROJECT_NAME} PROPERTIES INTERPROCEDURAL_OPTIMIZATION :::interproceduralOptimization:::)
+        message(STATUS "CAST: LTO enabled")
+    else()
+        message(WARNING "CAST: LTO not supported — ${CAST_IPO_ERROR}")
+    endif()
+
+    if(CAST_SIGN AND APPLE)
+        string(TIMESTAMP CAST_BUILD_DATE "%Y-%m-%d" UTC)
+        set(CAST_QA_PATH :::qaDirectory:::)
+        set(CAST_QA_DIRECTORY "${CAST_QA_PATH}/${CAST_BUILD_DATE} ${PROJECT_NAME} v${PROJECT_VERSION} macOS")
+:::postinstall:::
+        add_custom_command(TARGET post-build POST_BUILD
+:::strip:::
+:::xattr:::
+:::codesign:::
+:::verify:::
+:::pkg-staging:::
+:::pkgbuild:::
+:::productsign:::
+:::notarize:::
+:::staple:::
+:::qa-directory:::
+:::qa-copy:::
+            COMMENT "CAST: sign"
+        )
+    endif()
+endif()
+
+add_custom_command(TARGET post-build POST_BUILD
+:::install-directory:::
+:::install-copy:::
+:::install-rename:::
+    COMMENT "CAST: post-build"
+)
+
+message(STATUS "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+message(STATUS "CAST: ${PROJECT_NAME} configured")
+message(STATUS "Generator: ${CMAKE_GENERATOR}")
+message(STATUS "Build directory: ${CMAKE_BINARY_DIR}")
+message(STATUS "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+```
+
+```value
+:::value:::
+```
+
+```mac
+:::mac:::
+```
+
+```win
+:::win:::
+```
+
+```link
+:::name:::
+```
+
+```module
+juce_add_module(":::root:::/:::name:::"):::comment:::
+```
+
+```glob-pattern
+:::path:::/*.:::extension:::
+```
+
+```strip
+COMMAND ${CMAKE_STRIP} $<TARGET_FILE:${PROJECT_NAME}>
+```
+
+```codesign
+COMMAND codesign --force --options runtime --entitlements "${CMAKE_SOURCE_DIR}/:::entitlementsPath:::" --sign ":::identity:::" $<TARGET_FILE:${PROJECT_NAME}>
+```
+
+```xattr
+COMMAND xattr -cr $<TARGET_FILE:${PROJECT_NAME}>
+```
+
+```verify
+COMMAND codesign --verify --verbose $<TARGET_FILE:${PROJECT_NAME}>
+```
+
+```postinstall
+        file(WRITE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_scripts/postinstall"
+"#!/bin/bash
+REAL_USER=$(stat -f \"%Su\" /dev/console)
+REAL_HOME=$(eval echo ~$REAL_USER)
+mkdir -p \"$REAL_HOME/.local/bin\"
+mv \"/private/tmp/${PROJECT_NAME}_pkg_root/${PROJECT_NAME}\" \"$REAL_HOME/.local/bin/${PROJECT_NAME}\"
+rm -rf \"/private/tmp/${PROJECT_NAME}_pkg_root\"
+")
+        file(CHMOD "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_scripts/postinstall" PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
+```
+
+```pkg-staging
+COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_root"
+COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_root/"
+```
+
+```pkgbuild
+COMMAND pkgbuild --root "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_root" --install-location "/private/tmp/${PROJECT_NAME}_pkg_root" --scripts "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_scripts" --identifier ":::bundleIdentifier:::" --version "${PROJECT_VERSION}" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg"
+```
+
+```productsign
+COMMAND productsign --sign ":::installerIdentity:::" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg.signed"
+COMMAND ${CMAKE_COMMAND} -E rename "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg.signed" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg"
+```
+
+```notarize
+COMMAND xcrun notarytool submit "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg" --keychain-profile ":::notaryProfile:::" --wait
+```
+
+```staple
+COMMAND xcrun stapler staple "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg"
+```
+
+```qa-directory
+COMMAND ${CMAKE_COMMAND} -E make_directory "${CAST_QA_DIRECTORY}"
+```
+
+```qa-copy
+COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg" "${CAST_QA_DIRECTORY}/${PROJECT_NAME}.pkg"
+```
+
+```install-directory
+COMMAND ${CMAKE_COMMAND} -E make_directory ":::installDirectory:::"
+```
+
+```install-copy
+COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ":::installDirectory:::/$<TARGET_FILE_NAME:${PROJECT_NAME}>.tmp"
+```
+
+```install-rename
+COMMAND ${CMAKE_COMMAND} -E rename ":::installDirectory:::/$<TARGET_FILE_NAME:${PROJECT_NAME}>.tmp" ":::installDirectory:::/$<TARGET_FILE_NAME:${PROJECT_NAME}>"
+```
+
+```windows-build
+#!/usr/bin/env bash
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
+CONFIG="Release"
+
+VSWHERE="$(cygpath -u "$PROGRAMFILES/Microsoft Visual Studio/Installer/vswhere.exe")"
+VS_PATH="$("$VSWHERE" -latest -property installationPath)"
+VCVARSALL="$(cygpath -w "$VS_PATH")\VC\Auxiliary\Build\vcvarsall.bat"
+
+echo "Setting up MSVC x64 environment..."
+eval "$(cmd.exe //c "\"$VCVARSALL\" x64 >nul 2>&1 && set" 2>/dev/null | sed 's/\r$//' | sed -n 's/^\([^=]*\)=\(.*\)$/export \1="\2"/p')"
+
+export CC=cl
+export CXX=cl
+
+VS_CMAKE="$(cygpath -u "$VS_PATH/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin")"
+VS_NINJA="$(cygpath -u "$VS_PATH/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja")"
+export PATH="$VS_CMAKE:$VS_NINJA:$PATH"
+
+echo "Configuring [$CONFIG]..."
+cmake -S . -B "Builds/$CONFIG" -G Ninja \
+    -DCMAKE_BUILD_TYPE="$CONFIG" \
+    -DCMAKE_C_COMPILER="$CC" \
+    -DCMAKE_CXX_COMPILER="$CXX"
+
+echo "Building [$CONFIG]..."
+cmake --build "Builds/$CONFIG" -- -j$(nproc)
+
+ARTIFACT="Builds/$CONFIG/whatdbg_artefacts/$CONFIG/whatdbg.exe"
+
+ARCH="$(uname -m)"
+if [[ "$ARCH" == "x86_64" ]]; then ARCH="x64"; fi
+mkdir -p dist
+zip -j "dist/whatdbg-win-${ARCH}.zip" "$ARTIFACT"
+echo "Dist: dist/whatdbg-win-${ARCH}.zip"
+```

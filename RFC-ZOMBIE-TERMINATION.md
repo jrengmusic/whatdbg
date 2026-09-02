@@ -1,12 +1,11 @@
 # RFC: Debuggee Becomes an Unreapable Zombie on macOS terminate/disconnect
 
-**Status:** Draft — pre-flight research, not yet planned or approved.
+**Status:** Implemented — the fix described in §5 shipped this sprint.
 **Origin:** ARCHITECT/MACHINIST session debugging nvim's `<leader>dt` (`core/build.lua` in the
 `~/.config` monorepo) reported a debuggee GUI dangling in the Dock after termination. Root cause
-traced into whatdbg itself. Filed here per RFC Fidelity Protocol; no scope decided, no code
-touched in `Source/`. A separate, unrelated RFC (`RFC.md`, TUI/CLI terminal attachment) already
-occupies the canonical RFC.md path in this repo — this is a new file to avoid clobbering that
-draft.
+traced into whatdbg itself. Filed here per RFC Fidelity Protocol. A separate, unrelated RFC
+(`RFC.md`, TUI/CLI terminal attachment) already occupies the canonical RFC.md path in this repo —
+this is a new file to avoid clobbering that draft.
 
 ---
 
@@ -198,9 +197,39 @@ Two independent, convergent tests — full methodology available on request:
   response/main-loop teardown for up to the timeout) or should be moved off the path that
   `Whatdbg.cpp:138` calls synchronously today.
 
-## 7. Non-Goals (this RFC)
+## 7. Shipped Fix and Deviation from §5
 
-- No implementation performed. No PLAN.md written. No code touched in `Source/`.
-- No recommendation between Option A, B, or C — all are correct-direction candidates targeting the
-  same root cause (nothing reaps the debuggee's exit status before the tracer is torn down); the
-  choice and exact wait/timeout shape is ARCHITECT's call.
+None of Options A, B, or C shipped as originally scoped. The implemented design
+kills early and observes the exit through the existing main-loop poll instead of
+adding a dedicated wait/timeout:
+
+- **`Session::terminateDebuggee` (`Source/debug/Session_mac.cpp`), called from
+  `Whatdbg::onDisconnect`:** sends `SIGKILL` via `process.Signal` (closer to
+  Option B's intent than Option B's literal `SBProcess::Kill()`, which was never
+  called), then calls `Session::resume()` — this hands the exit observation back
+  to `pollEvents`'s existing `onProcessStateStopped` dispatch, the same path
+  every other stop event already uses, instead of the polling or listener loop
+  Options A and C proposed adding to `shutdown` itself.
+- **`Session::shutdown`'s `EndMode::terminate` case:** performs the identical
+  `Signal (SIGKILL)` + `resume()` pair as a fallback for the case where
+  `shutdown` runs without a prior `onDisconnect` kill (e.g. `run()`'s own exit
+  path). `SBDebugger::Destroy`/`Terminate` now run only when `debugger.IsValid()`
+  is still true, making a second `shutdown()` call a no-op — `run()` calls it
+  explicitly, and `~Session()` calls it again unconditionally.
+- **No bounded wait/timeout was added to `shutdown`** (§6's open question on
+  timeout behavior). The kill is issued from `onDisconnect`, well before `run()`
+  reaches `shutdown()` — by the time `shutdown` runs, `run()`'s own loop has
+  already been polling for the exit event via the normal `executionState ==
+  running` gate, so a separate wait inside `shutdown` was unnecessary.
+- **`detach` was not touched** — §6 flagged it as unverified; it remains
+  `process.Detach()` with no kill involved, so the zombie mechanism (kill +
+  torn-down tracer with no reap) does not apply to it.
+
+Verified by `tests/smoke/scenario_terminate.lua`'s `scenarioTerminateNoZombie`,
+one of the ten scenarios `run_smoke.lua` runs; all ten pass.
+
+## 8. Non-Goals (superseded)
+
+The original scope statement — "No implementation performed, no PLAN.md written,
+no code touched in `Source/`" — described the state of this RFC before the fix
+above shipped. It no longer applies.

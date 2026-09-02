@@ -8,46 +8,42 @@
  */
 
 #include "Whatdbg.h"
-#include "Log.h"
 
-#include <cstdint>
-#include <iostream>
 #if JUCE_WINDOWS
 #include <fcntl.h>
 #include <io.h>
 #endif
 
 static constexpr std::uint32_t pollTimeoutMs { 50 };
+static constexpr int idleSleepMs { 10 };
 
 using dap::DynObj;
 
-/** Constructs the adapter and populates the command dispatch table. */
 Whatdbg::Whatdbg ()
     : breakpointManager { session }
 {
-    commandHandlers = {
-        { "initialize",        [this] (const juce::var& m) { handleInitialize (m); } },
-        { "launch",            [this] (const juce::var& m) { handleLaunch (m); } },
-        { "attach",            [this] (const juce::var& m) { handleAttach (m); } },
-        { "configurationDone", [this] (const juce::var& m) { handleConfigurationDone (m); } },
-        { "disconnect",        [this] (const juce::var& m) { handleDisconnect (m); } },
-        { "terminate",         [this] (const juce::var& m) { handleDisconnect (m); } },
-        { "setBreakpoints",    [this] (const juce::var& m) { handleSetBreakpoints (m); } },
-        { "threads",           [this] (const juce::var& m) { handleThreads (m); } },
-        { "stackTrace",        [this] (const juce::var& m) { handleStackTrace (m); } },
-        { "scopes",            [this] (const juce::var& m) { handleScopes (m); } },
-        { "variables",         [this] (const juce::var& m) { handleVariables (m); } },
-        { "continue",          [this] (const juce::var& m) { handleContinue (m); } },
-        { "next",              [this] (const juce::var& m) { handleNext (m); } },
-        { "stepIn",            [this] (const juce::var& m) { handleStepIn (m); } },
-        { "stepOut",           [this] (const juce::var& m) { handleStepOut (m); } },
-        { "pause",             [this] (const juce::var& m) { handlePause (m); } },
-        { "evaluate",          [this] (const juce::var& m) { handleEvaluate (m); } },
-        { "exceptionInfo",     [this] (const juce::var& m) { handleExceptionInfo (m); } },
+    commands = {
+        { "initialize",        [this] (const juce::var& m) { onInitialize (m); } },
+        { "launch",            [this] (const juce::var& m) { onLaunch (m); } },
+        { "attach",            [this] (const juce::var& m) { onAttach (m); } },
+        { "configurationDone", [this] (const juce::var& m) { onConfigurationDone (m); } },
+        { "disconnect",        [this] (const juce::var& m) { onDisconnect (m); } },
+        { "terminate",         [this] (const juce::var& m) { onDisconnect (m); } },
+        { "setBreakpoints",    [this] (const juce::var& m) { onSetBreakpoints (m); } },
+        { "threads",           [this] (const juce::var& m) { onThreads (m); } },
+        { "stackTrace",        [this] (const juce::var& m) { onStackTrace (m); } },
+        { "scopes",            [this] (const juce::var& m) { onScopes (m); } },
+        { "variables",         [this] (const juce::var& m) { onVariables (m); } },
+        { "continue",          [this] (const juce::var& m) { onContinue (m); } },
+        { "next",              [this] (const juce::var& m) { onNext (m); } },
+        { "stepIn",            [this] (const juce::var& m) { onStepIn (m); } },
+        { "stepOut",           [this] (const juce::var& m) { onStepOut (m); } },
+        { "pause",             [this] (const juce::var& m) { onPause (m); } },
+        { "evaluate",          [this] (const juce::var& m) { onEvaluate (m); } },
+        { "exceptionInfo",     [this] (const juce::var& m) { onExceptionInfo (m); } },
     };
 }
 
-/** Sets stdout to binary mode (Windows) and initialises the debug Session. */
 bool Whatdbg::initialize (const juce::File& sidecarDir) noexcept
 {
 #if JUCE_WINDOWS
@@ -58,63 +54,24 @@ bool Whatdbg::initialize (const juce::File& sidecarDir) noexcept
     return session.initialize (sidecarDir);
 }
 
-/** Starts the Reader thread and enters the poll loop: drain DAP FIFO, poll debug
- *  events, process deferred state, yield when idle. Runs until isRunning is cleared. */
 void Whatdbg::run ()
 {
     reader.start ();
-    logWrite ("[Whatdbg] main loop started\n");
+#if JUCE_DEBUG
+    jam::debug::Log::write ("[Whatdbg] main loop started");
+#endif
 
-    while (isRunning)
+    while (state.isRunning)
     {
         // 1. Drain FIFO — process all pending DAP commands
-        juce::var message;
-
-        while (reader.tryPop (message))
-        {
-            handleCommand (message);
-        }
+        for (juce::var message { reader.tryPop () }; not message.isVoid (); message = reader.tryPop ())
+            onCommand (message);
 
         // 2. Poll dbgeng events (skip when target stopped or idle)
         if (state.executionState == debug::ExecutionState::running
             or state.executionState == debug::ExecutionState::launching)
         {
-            bool hadEvent { false };
-            const juce::Result pollResult { session.pollEvents (pollTimeoutMs, hadEvent) };
-
-            if (pollResult.wasOk () and hadEvent)
-            {
-                if (isStepPending
-                    and not state.hasBreakpointHit
-                    and not state.hasStepCompleted
-                    and not state.hasNewModuleLoaded
-                    and not state.hasProcessExited)
-                {
-                    state.hasStepCompleted = true;
-                    state.executionState = debug::ExecutionState::stopped;
-                    isStepPending = false;
-                    logWrite ("[Whatdbg] step completed (detected from WaitForEvent)\n");
-                }
-
-                if (isPausePending
-                    and not state.hasBreakpointHit
-                    and not state.hasStepCompleted
-                    and not state.hasNewModuleLoaded
-                    and not state.hasProcessExited)
-                {
-                    state.executionState = debug::ExecutionState::stopped;
-                    isPausePending = false;
-
-                    DynObj body { new juce::DynamicObject () };
-                    body->setProperty ("reason",            "pause");
-                    body->setProperty ("threadId",          static_cast<int> (session.getEventThreadSystemId ()));
-                    body->setProperty ("allThreadsStopped", true);
-
-                    sendEvent (dap::makeEvent ("stopped", juce::var (body)));
-                    resetVariablesState ();
-                    logWrite ("[Whatdbg] pause completed, emitted stopped event\n");
-                }
-            }
+            juce::ignoreUnused (session.pollEvents (pollTimeoutMs));
         }
 
         // 3. Process deferred events
@@ -123,24 +80,14 @@ void Whatdbg::run ()
         // 4. Yield when idle (no target)
         if (state.executionState == debug::ExecutionState::idle)
         {
-            juce::Thread::sleep (10);
+            juce::Thread::sleep (idleSleepMs);
         }
     }
 
-    reader.stop ();
-    debug::EndMode endMode { debug::EndMode::detach };
-
-    if (state.executionState == debug::ExecutionState::exited)
-        endMode = debug::EndMode::passive;
-    else if (shouldTerminateOnExit)
-        endMode = debug::EndMode::terminate;
-
-    session.shutdown (endMode);
+    session.shutdown (getEndModeForExit ());
 }
 
-/** Routes a single parsed DAP message to its registered handler; sends an error
- *  response for unknown commands. */
-void Whatdbg::handleCommand (const juce::var& message)
+void Whatdbg::onCommand (const juce::var& message)
 {
     const juce::String type { message["type"].toString () };
 
@@ -149,67 +96,80 @@ void Whatdbg::handleCommand (const juce::var& message)
         const juce::String command { message["command"].toString () };
         const int seq { static_cast<int> (message["seq"]) };
 
-        logWrite ("[Whatdbg] command=%s seq=%d\n", command.toRawUTF8 (), seq);
+#if JUCE_DEBUG
+        jam::debug::Log::write ("[Whatdbg] command=" + command + " seq=" + juce::String (seq));
+#endif
 
-        const auto it { commandHandlers.find (command.toStdString ()) };
+        const auto commandEntry { commands.find (command.toStdString ()) };
 
-        if (it != commandHandlers.end ())
+        if (commandEntry != commands.end ())
         {
-            it->second (message);
+            commandEntry->second (message);
         }
         else
         {
-            sendResponse (dap::makeErrorResponse (seq, command, "Unknown command"));
+            writeMessage (dap::getErrorResponse (seq, command, "Unknown command"));
         }
     }
 }
 
-/** Inspects all pending state flags set by Session callbacks and emits the
- *  corresponding DAP events (stopped, breakpoint, output, exited, terminated). */
-void Whatdbg::processDeferredEvents ()
+void Whatdbg::drainInitialBreak ()
 {
     // Initial breakpoint: resume if configurationDone already received
     if (state.initialBreakPhase == debug::InitialBreakPhase::pending
         and state.executionState == debug::ExecutionState::stopped
-        and isConfigurationDone
+        and state.isConfigurationDone
         and not state.hasBreakpointHit
         and not state.hasStepCompleted)
     {
-        resolveAndResumeAfterInitialBreak ();
+        resumeAfterInitialBreak ();
     }
+}
 
-    // Breakpoint hit — check if it's a user BP or an internal BP (e.g., stepOut's "gu")
+void Whatdbg::emitBreakpointStoppedEvent ()
+{
+    juce::var stoppedBody { breakpointManager.onBreakpointHit (
+        state.breakpointEngineId,
+        session.getEventThreadSystemId ()) };
+
+    writeMessage (dap::getEvent ("stopped", stoppedBody));
+    resetVariablesState ();
+#if JUCE_DEBUG
+    jam::debug::Log::write ("[Whatdbg] breakpoint hit, emitted stopped event");
+#endif
+}
+
+bool Whatdbg::drainBreakpointHit ()
+{
+    bool emittedStoppedEvent { false };
+
     if (state.hasBreakpointHit)
     {
         state.hasBreakpointHit = false;
 
-        if (isStepPending and not breakpointManager.isUserBreakpoint (state.breakpointEngineId))
+        if (state.isStepPending and not breakpointManager.isUserBreakpoint (state.breakpointEngineId))
         {
             // Internal breakpoint from stepOut ("gu") — treat as step completion
-            isStepPending = false;
-
-            DynObj body { new juce::DynamicObject () };
-            body->setProperty ("reason",            "step");
-            body->setProperty ("threadId",          static_cast<int> (session.getEventThreadSystemId ()));
-            body->setProperty ("allThreadsStopped", true);
-
-            sendEvent (dap::makeEvent ("stopped", juce::var (body)));
-            resetVariablesState ();
-            logWrite ("[Whatdbg] stepOut completed (internal BP), emitted stopped event\n");
+            state.isStepPending = false;
+            state.hasStepCompleted = true;
+#if JUCE_DEBUG
+            jam::debug::Log::write ("[Whatdbg] stepOut completed (internal BP)");
+#endif
         }
         else
         {
-            juce::var stoppedBody { breakpointManager.onBreakpointHit (
-                state.breakpointEngineId,
-                session.getEventThreadSystemId ()) };
-
-            sendEvent (dap::makeEvent ("stopped", stoppedBody));
-            resetVariablesState ();
-            logWrite ("[Whatdbg] breakpoint hit, emitted stopped event\n");
+            emitBreakpointStoppedEvent ();
+            emittedStoppedEvent = true;
         }
     }
 
-    // Step completed — emit stopped event
+    return emittedStoppedEvent;
+}
+
+bool Whatdbg::drainStepCompleted ()
+{
+    bool emittedStoppedEvent { false };
+
     if (state.hasStepCompleted)
     {
         state.hasStepCompleted = false;
@@ -219,31 +179,68 @@ void Whatdbg::processDeferredEvents ()
         body->setProperty ("threadId",          static_cast<int> (session.getEventThreadSystemId ()));
         body->setProperty ("allThreadsStopped", true);
 
-        sendEvent (dap::makeEvent ("stopped", juce::var (body)));
+        writeMessage (dap::getEvent ("stopped", juce::var (body)));
         resetVariablesState ();
-        logWrite ("[Whatdbg] step completed, emitted stopped event\n");
+        emittedStoppedEvent = true;
+#if JUCE_DEBUG
+        jam::debug::Log::write ("[Whatdbg] step completed, emitted stopped event");
+#endif
     }
 
-    // Module load with pending breakpoints — resolve
+    return emittedStoppedEvent;
+}
+
+void Whatdbg::drainPauseCompleted ()
+{
+    if (state.hasPauseCompleted)
+    {
+        state.hasPauseCompleted = false;
+
+        DynObj body { new juce::DynamicObject () };
+        body->setProperty ("reason",            "pause");
+        body->setProperty ("threadId",          static_cast<int> (session.getEventThreadSystemId ()));
+        body->setProperty ("allThreadsStopped", true);
+
+        writeMessage (dap::getEvent ("stopped", juce::var (body)));
+        resetVariablesState ();
+#if JUCE_DEBUG
+        jam::debug::Log::write ("[Whatdbg] pause completed, emitted stopped event");
+#endif
+    }
+}
+
+void Whatdbg::resumeExecution ()
+{
+    session.resume ();
+    state.executionState = debug::ExecutionState::running;
+}
+
+void Whatdbg::emitResolvedBreakpointEvents ()
+{
+    juce::Array<juce::var> events { breakpointManager.onModuleLoad () };
+
+    for (const auto& event : events)
+    {
+        writeMessage (event);
+    }
+
+#if JUCE_DEBUG
+    if (not events.isEmpty ())
+        jam::debug::Log::write ("[Whatdbg] resolved", events.size (), "pending breakpoints");
+#endif
+}
+
+void Whatdbg::drainModuleLoaded ()
+{
     if (state.hasNewModuleLoaded)
     {
         state.hasNewModuleLoaded = false;
         const bool wasStopped { state.executionState == debug::ExecutionState::stopped };
 
-        if (breakpointManager.hasPending ())
+        if (state.hasPendingBreakpoints)
         {
             juce::ignoreUnused (session.loadModuleSymbols (state.lastLoadedImageName));
-            juce::Array<juce::var> events { breakpointManager.onModuleLoad () };
-
-            if (not events.isEmpty ())
-            {
-                for (const auto& event : events)
-                {
-                    sendEvent (event);
-                }
-
-                logWrite ("[Whatdbg] resolved %d pending BPs after module load\n", events.size ());
-            }
+            emitResolvedBreakpointEvents ();
         }
 
         // Windows: dbgeng's LoadModule callback returns DEBUG_STATUS_BREAK, so state
@@ -251,141 +248,207 @@ void Whatdbg::processDeferredEvents ()
         // from an already-running target — no pause ever occurred, skip the resume.
         if (wasStopped)
         {
-            session.resume ();
-            state.executionState = debug::ExecutionState::running;
+            resumeExecution ();
         }
     }
+}
 
+juce::var Whatdbg::getBreakpointChangedEvent (int dapId, std::uint32_t resolvedLine)
+{
+    DynObj bpObj { new juce::DynamicObject () };
+    bpObj->setProperty ("id",       dapId);
+    bpObj->setProperty ("verified", true);
+    bpObj->setProperty ("line",     static_cast<int> (resolvedLine));
+
+    DynObj body { new juce::DynamicObject () };
+    body->setProperty ("reason",     "changed");
+    body->setProperty ("breakpoint", juce::var (bpObj));
+
+    return dap::getEvent ("breakpoint", juce::var (body));
+}
+
+void Whatdbg::drainBreakpointLocationResolved ()
+{
     // Breakpoint location resolved asynchronously by liblldb (target loaded
     // a new module that resolved a previously-pending BP location).
     if (state.hasBreakpointLocationsResolved)
     {
         state.hasBreakpointLocationsResolved = false;
 
-        const std::uint32_t engineId     { state.resolvedBreakpointEngineId };
+        const std::int32_t  engineId     { state.resolvedBreakpointEngineId };
         const std::uint32_t resolvedLine { state.resolvedBreakpointLine };
 
-        const int dapId { breakpointManager.onBreakpointLocationsResolved (engineId, resolvedLine) };
+        const int dapId { breakpointManager.onBreakpointLocationFound (engineId,
+                                                                        static_cast<std::uint16_t> (resolvedLine)) };
 
         if (dapId > 0)
         {
-            DynObj bpObj { new juce::DynamicObject () };
-            bpObj->setProperty ("id",       dapId);
-            bpObj->setProperty ("verified", true);
-            bpObj->setProperty ("line",     static_cast<int> (resolvedLine));
+            writeMessage (getBreakpointChangedEvent (dapId, resolvedLine));
 
-            DynObj body { new juce::DynamicObject () };
-            body->setProperty ("reason",     "changed");
-            body->setProperty ("breakpoint", juce::var (bpObj));
-
-            sendEvent (dap::makeEvent ("breakpoint", juce::var (body)));
-
-            logWrite ("[Whatdbg] BP resolved async: engineId=%u dapId=%d line=%u\n",
-                      engineId, dapId, resolvedLine);
+#if JUCE_DEBUG
+            jam::debug::Log::write ("[Whatdbg] BP resolved async: engineId=" + juce::String (engineId)
+                                     + " dapId=" + juce::String (dapId) + " line=" + juce::String (resolvedLine));
+#endif
         }
     }
+}
 
-    // Debuggee output (OutputDebugString)
+void Whatdbg::drainDebuggeeOutput ()
+{
     if (state.hasDebuggeeOutput)
     {
         state.hasDebuggeeOutput = false;
         const juce::String text { state.debuggeeOutputText };
+        const juce::String category { state.debuggeeOutputCategory };
         state.debuggeeOutputText.clear ();
 
         DynObj body { new juce::DynamicObject () };
-        body->setProperty ("category", "console");
+        body->setProperty ("category", category);
         body->setProperty ("output",   text);
 
-        sendEvent (dap::makeEvent ("output", juce::var (body)));
+        writeMessage (dap::getEvent ("output", juce::var (body)));
     }
+}
 
-    // Unhandled exception (target crash)
+juce::var Whatdbg::getExceptionStoppedEvent (const juce::String& exceptionName,
+                                              const juce::String& description,
+                                              int threadId)
+{
+    DynObj stoppedBody { new juce::DynamicObject () };
+    stoppedBody->setProperty ("reason",            "exception");
+    stoppedBody->setProperty ("text",              exceptionName);
+    stoppedBody->setProperty ("description",       description);
+    stoppedBody->setProperty ("threadId",          threadId);
+    stoppedBody->setProperty ("allThreadsStopped", true);
+
+    return dap::getEvent ("stopped", juce::var (stoppedBody));
+}
+
+juce::var Whatdbg::getExceptionOutputEvent (const juce::String& exceptionName,
+                                             const juce::String& description)
+{
+    DynObj outputBody { new juce::DynamicObject () };
+    outputBody->setProperty ("category", "stderr");
+    outputBody->setProperty ("output",   "Unhandled exception: " + exceptionName + " " + description + "\n");
+
+    return dap::getEvent ("output", juce::var (outputBody));
+}
+
+void Whatdbg::drainExceptionStopped ()
+{
     if (state.hasExceptionStopped)
     {
         state.hasExceptionStopped = false;
 
-        const juce::String addressHex   { juce::String::toHexString (static_cast<juce::int64> (state.exceptionAddress)) };
-        const juce::String exceptionName { debug::getExceptionName (state.exceptionCode) };
+        const juce::String addressHex    { juce::String::toHexString (static_cast<juce::int64> (state.exceptionAddress)) };
+        const juce::String exceptionName { debug::getExceptionName (state.exceptionCode, state.isMachException) };
         const juce::String codeHex       { juce::String::toHexString (static_cast<juce::int64> (state.exceptionCode)) };
-
-        const juce::String description { juce::String ("0x") + codeHex + " at 0x" + addressHex };
+        const juce::String description   { juce::String ("0x") + codeHex + " at 0x" + addressHex };
         const int threadId { static_cast<int> (session.getEventThreadSystemId ()) };
 
-        logWrite ("[Whatdbg] exception stopped: %s %s (threadId=%d)\n",
-                  exceptionName.toRawUTF8 (), description.toRawUTF8 (), threadId);
+#if JUCE_DEBUG
+        jam::debug::Log::write ("[Whatdbg] exception stopped: " + exceptionName + " " + description
+                                 + " (threadId=" + juce::String (threadId) + ")");
+#endif
 
-        DynObj stoppedBody { new juce::DynamicObject () };
-        stoppedBody->setProperty ("reason",            "exception");
-        stoppedBody->setProperty ("text",              exceptionName);
-        stoppedBody->setProperty ("description",       description);
-        stoppedBody->setProperty ("threadId",          threadId);
-        stoppedBody->setProperty ("allThreadsStopped", true);
-        sendEvent (dap::makeEvent ("stopped", juce::var (stoppedBody)));
-
-        DynObj outputBody { new juce::DynamicObject () };
-        outputBody->setProperty ("category", "stderr");
-        outputBody->setProperty ("output",   "Unhandled exception: " + exceptionName + " " + description + "\n");
-        sendEvent (dap::makeEvent ("output", juce::var (outputBody)));
-
+        writeMessage (getExceptionStoppedEvent (exceptionName, description, threadId));
+        writeMessage (getExceptionOutputEvent (exceptionName, description));
         resetVariablesState ();
     }
+}
 
+void Whatdbg::drainProcessExited ()
+{
     // Process exit
     if (state.hasProcessExited)
     {
-        logWrite ("[Whatdbg] emitting exited (code=%d) + terminated events\n", state.processExitCode);
+#if JUCE_DEBUG
+        jam::debug::Log::write ("[Whatdbg] emitting exited (code=" + juce::String (state.processExitCode)
+                                 + ") + terminated events");
+#endif
         state.hasProcessExited = false;
 
         DynObj exitBody { new juce::DynamicObject () };
         exitBody->setProperty ("exitCode", state.processExitCode);
-        sendEvent (dap::makeEvent ("exited", juce::var (exitBody)));
+        writeMessage (dap::getEvent ("exited", juce::var (exitBody)));
 
-        sendEvent (dap::makeEvent ("terminated"));
+        writeMessage (dap::getEvent ("terminated"));
 
         state.executionState = debug::ExecutionState::exited;
-        isRunning = false;
+        state.isRunning = false;
+        state.terminateDeadlineMs = 0;
     }
 }
 
-/** Resolves any pending breakpoints at the initial loader break, resumes the
- *  target, and emits a DAP thread-started event for the main thread. */
-void Whatdbg::resolveAndResumeAfterInitialBreak ()
+void Whatdbg::drainTerminateTimeout ()
 {
-    if (breakpointManager.hasPending ())
+    if (state.terminateDeadlineMs != 0
+        and juce::Time::getMillisecondCounter () >= state.terminateDeadlineMs)
+    {
+#if JUCE_DEBUG
+        jam::debug::Log::write ("[Whatdbg] terminate timed out after "
+                                 + juce::String (terminateTimeoutMs) + "ms, forcing exit");
+#endif
+        state.terminateDeadlineMs = 0;
+        state.executionState = debug::ExecutionState::exited;
+        state.isRunning = false;
+    }
+}
+
+void Whatdbg::processDeferredEvents ()
+{
+    drainInitialBreak ();
+
+    // A real breakpoint hit and a step completion are mutually exclusive for a
+    // single stop — drainBreakpointHit converts an internal stepOut breakpoint into
+    // a step completion internally, so drainStepCompleted must still run in that
+    // case, but must not run again once a real breakpoint stop was emitted.
+    if (not drainBreakpointHit ())
+        drainStepCompleted ();
+
+    drainPauseCompleted ();
+    drainModuleLoaded ();
+    drainBreakpointLocationResolved ();
+    drainDebuggeeOutput ();
+    drainExceptionStopped ();
+    drainProcessExited ();
+    drainTerminateTimeout ();
+}
+
+void Whatdbg::resumeAfterInitialBreak ()
+{
+    if (state.hasPendingBreakpoints)
     {
         juce::ignoreUnused (session.forceReloadAllSymbols ());
-        juce::Array<juce::var> events { breakpointManager.onModuleLoad () };
-
-        for (const auto& event : events)
-        {
-            sendEvent (event);
-        }
-
-        if (not events.isEmpty ())
-        {
-            logWrite ("[Whatdbg] resolved %d pending BPs at initial break\n", events.size ());
-        }
+        emitResolvedBreakpointEvents ();
     }
 
-    session.resume ();
-    state.executionState = debug::ExecutionState::running;
+    resumeExecution ();
     state.initialBreakPhase = debug::InitialBreakPhase::resolved;
 
     DynObj threadBody { new juce::DynamicObject () };
     threadBody->setProperty ("reason",   "started");
     threadBody->setProperty ("threadId", 1);
-    sendEvent (dap::makeEvent ("thread", juce::var (threadBody)));
+    writeMessage (dap::getEvent ("thread", juce::var (threadBody)));
 
-    logWrite ("[Whatdbg] resumed after initial break\n");
+#if JUCE_DEBUG
+    jam::debug::Log::write ("[Whatdbg] resumed after initial break");
+#endif
 }
 
-/** Serialises a DAP message to JSON and writes it to stdout with the
- *  Content-Length header framing required by the DAP wire format. */
+debug::EndMode Whatdbg::getEndModeForExit () const noexcept
+{
+    if (state.executionState == debug::ExecutionState::exited) return debug::EndMode::passive;
+    if (state.shouldTerminateOnExit) return debug::EndMode::terminate;
+
+    return debug::EndMode::detach;
+}
+
 void Whatdbg::writeMessage (const juce::var& message) noexcept
 {
     const juce::String jsonBody { juce::JSON::toString (message, true) };
     const juce::CharPointer_UTF8 utf8 { jsonBody.toUTF8 () };
-    const size_t byteCount { strlen (utf8.getAddress ()) };
+    const size_t byteCount { jsonBody.getNumBytesAsUTF8 () };
 
     const std::string header { "Content-Length: " + std::to_string (byteCount) + "\r\n\r\n" };
 
@@ -394,26 +457,12 @@ void Whatdbg::writeMessage (const juce::var& message) noexcept
     std::cout.flush ();
 }
 
-/** Writes a DAP response object to stdout via writeMessage(). */
-void Whatdbg::sendResponse (const juce::var& response) noexcept
-{
-    writeMessage (response);
-}
-
-/** Writes a DAP event object to stdout via writeMessage(). */
-void Whatdbg::sendEvent (const juce::var& event) noexcept
-{
-    writeMessage (event);
-}
-
-/** Clears all frame/variable reference maps and resets the session's symbol group
- *  cache; called whenever the target stops at a new location. */
 void Whatdbg::resetVariablesState () noexcept
 {
-    nextVariablesRef = 1;
-    variablesRefMap.clear ();
-    nextFrameId = 1;
-    frameIdMap.clear ();
-    lastScopesThreadId = 0;
+    state.nextVariablesRef = 1;
+    state.variablesRefMap.clear ();
+    state.nextFrameId = 1;
+    state.frameIdMap.clear ();
+    state.lastScopesThreadId = 0;
     session.resetSymbolGroupCache ();
 }

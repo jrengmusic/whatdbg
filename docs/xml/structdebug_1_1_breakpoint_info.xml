@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="structdebug_1_1_breakpoint_info" kind="struct" language="C++" prot="public">
+    <compoundname>debug::BreakpointInfo</compoundname>
+    <includes refid="_breakpoint_manager_8h" local="no">BreakpointManager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structdebug_1_1_breakpoint_info_1a082eee9bacbb823540beb00c68c99d6b" prot="public" static="no" mutable="no">
+        <type><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
+        <definition>juce::String debug::BreakpointInfo::sourcePath</definition>
+        <argsstring></argsstring>
+        <name>sourcePath</name>
+        <qualifiedname>debug::BreakpointInfo::sourcePath</qualifiedname>
+        <briefdescription>
+<para>Source path in backend-native form for <ref refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" kindref="member">Session::getOffsetStatus</ref> / <ref refid="classdebug_1_1_breakpoint_manager_1a937505c1609af82fa67ac1b2a7fb0500" kindref="member">BreakpointManager::getBreakpoint</ref> (backslash-separated on Windows, forward-slash on macOS). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/BreakpointManager.h" line="24" column="19" bodyfile="debug/BreakpointManager.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structdebug_1_1_breakpoint_info_1aa2a4738909a0d7fba3af6bcca5dc0c38" prot="public" static="no" mutable="no">
+        <type><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
+        <definition>juce::String debug::BreakpointInfo::normalizedPath</definition>
+        <argsstring></argsstring>
+        <name>normalizedPath</name>
+        <qualifiedname>debug::BreakpointInfo::normalizedPath</qualifiedname>
+        <briefdescription>
+<para>Normalized source path (forward slashes, lowercase) used as the sourceBreakpoints registry key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/BreakpointManager.h" line="29" column="19" bodyfile="debug/BreakpointManager.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structdebug_1_1_breakpoint_info_1a1b2a417a812e056e29a216399fe59668" prot="public" static="no" mutable="no">
+        <type>std::uint16_t</type>
+        <definition>std::uint16_t debug::BreakpointInfo::dapId</definition>
+        <argsstring></argsstring>
+        <name>dapId</name>
+        <qualifiedname>debug::BreakpointInfo::dapId</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+<para>DAP-assigned breakpoint ID, reported to the client in the setBreakpoints response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/BreakpointManager.h" line="32" column="19" bodyfile="debug/BreakpointManager.h" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="variable" id="structdebug_1_1_breakpoint_info_1a6be5a5941825d07e11457828a448e345" prot="public" static="no" mutable="no">
+        <type>std::uint16_t</type>
+        <definition>std::uint16_t debug::BreakpointInfo::line</definition>
+        <argsstring></argsstring>
+        <name>line</name>
+        <qualifiedname>debug::BreakpointInfo::line</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+<para>Requested source line number from the DAP client. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/BreakpointManager.h" line="35" column="19" bodyfile="debug/BreakpointManager.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="structdebug_1_1_breakpoint_info_1adf813a68303f2d367c2ce418fadc0396" prot="public" static="no" mutable="no">
+        <type>std::uint16_t</type>
+        <definition>std::uint16_t debug::BreakpointInfo::resolvedLine</definition>
+        <argsstring></argsstring>
+        <name>resolvedLine</name>
+        <qualifiedname>debug::BreakpointInfo::resolvedLine</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+<para>Resolved source line number, which may differ from the requested line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The engine resolves breakpoints to the nearest valid instruction, so the actual line may be offset from what the client requested. 0 until resolved. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/BreakpointManager.h" line="42" column="19" bodyfile="debug/BreakpointManager.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="variable" id="structdebug_1_1_breakpoint_info_1a8269b630a2cff646156eda9edf72642b" prot="public" static="no" mutable="no">
+        <type>std::int32_t</type>
+        <definition>std::int32_t debug::BreakpointInfo::engineId</definition>
+        <argsstring></argsstring>
+        <name>engineId</name>
+        <qualifiedname>debug::BreakpointInfo::engineId</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+<para>Engine-assigned breakpoint ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>0 until the engine has assigned one.</para>
+<para>Used to match incoming Breakpoint callback notifications and to call <ref refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" kindref="member">Session::removeBreakpoint</ref> during cleanup. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/BreakpointManager.h" line="49" column="19" bodyfile="debug/BreakpointManager.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Persistent record for a single breakpoint known to the DAP client. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Created by onSetBreakpoints and kept alive until the client removes it or sends a new setBreakpoints for the same source file (which replaces all breakpoints for that file). </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>debug::BreakpointInfo</label>
+        <link refid="structdebug_1_1_breakpoint_info"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>normalizedPath</edgelabel>
+          <edgelabel>sourcePath</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>juce::String</label>
+        <link refid="classjuce_1_1String" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+    </collaborationgraph>
+    <location file="debug/BreakpointManager.h" line="18" column="1" bodyfile="debug/BreakpointManager.h" bodystart="19" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structdebug_1_1_breakpoint_info_1a1b2a417a812e056e29a216399fe59668" prot="public" virt="non-virtual"><scope>debug::BreakpointInfo</scope><name>dapId</name></member>
+      <member refid="structdebug_1_1_breakpoint_info_1a8269b630a2cff646156eda9edf72642b" prot="public" virt="non-virtual"><scope>debug::BreakpointInfo</scope><name>engineId</name></member>
+      <member refid="structdebug_1_1_breakpoint_info_1a6be5a5941825d07e11457828a448e345" prot="public" virt="non-virtual"><scope>debug::BreakpointInfo</scope><name>line</name></member>
+      <member refid="structdebug_1_1_breakpoint_info_1aa2a4738909a0d7fba3af6bcca5dc0c38" prot="public" virt="non-virtual"><scope>debug::BreakpointInfo</scope><name>normalizedPath</name></member>
+      <member refid="structdebug_1_1_breakpoint_info_1adf813a68303f2d367c2ce418fadc0396" prot="public" virt="non-virtual"><scope>debug::BreakpointInfo</scope><name>resolvedLine</name></member>
+      <member refid="structdebug_1_1_breakpoint_info_1a082eee9bacbb823540beb00c68c99d6b" prot="public" virt="non-virtual"><scope>debug::BreakpointInfo</scope><name>sourcePath</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

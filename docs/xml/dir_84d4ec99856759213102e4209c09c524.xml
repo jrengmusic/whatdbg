@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="dir_84d4ec99856759213102e4209c09c524" kind="dir">
+    <compoundname>debug</compoundname>
+    <innerfile refid="_breakpoint_manager_8cpp">BreakpointManager.cpp</innerfile>
+    <innerfile refid="_breakpoint_manager_8h">BreakpointManager.h</innerfile>
+    <innerfile refid="_breakpoint_manager_handlers_8cpp">BreakpointManagerHandlers.cpp</innerfile>
+    <innerfile refid="_callbacks_8cpp">Callbacks.cpp</innerfile>
+    <innerfile refid="_callbacks_8h">Callbacks.h</innerfile>
+    <innerfile refid="_loader_8cpp">Loader.cpp</innerfile>
+    <innerfile refid="_loader_8h">Loader.h</innerfile>
+    <innerfile refid="_pretty_print_8h">PrettyPrint.h</innerfile>
+    <innerfile refid="_session_8cpp">Session.cpp</innerfile>
+    <innerfile refid="_session_8h">Session.h</innerfile>
+    <innerfile refid="_session__mac_8cpp">Session_mac.cpp</innerfile>
+    <innerfile refid="_session_inspection_8cpp">SessionInspection.cpp</innerfile>
+    <innerfile refid="_session_inspection__mac_8cpp">SessionInspection_mac.cpp</innerfile>
+    <innerfile refid="_session_pretty_print_8cpp">SessionPrettyPrint.cpp</innerfile>
+    <innerfile refid="_session_pretty_print__mac_8cpp">SessionPrettyPrint_mac.cpp</innerfile>
+    <innerfile refid="_state_8h">State.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="debug/"/>
+  </compounddef>
+</doxygen>

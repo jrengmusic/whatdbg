@@ -1,0 +1,342 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classdebug_1_1_output_callbacks" kind="class" language="C++" prot="public">
+    <compoundname>debug::OutputCallbacks</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IDebugOutputCallbacks2</basecompoundref>
+    <includes refid="_callbacks_8h" local="no">Callbacks.h</includes>
+    <sectiondef kind="user-defined">
+      <header>IUnknown</header>
+      <memberdef kind="function" id="classdebug_1_1_output_callbacks_1a6574743c1cfd29521d57e5d41b05e33d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>debug::OutputCallbacks::STDMETHOD_</definition>
+        <argsstring>(ULONG, AddRef)() override</argsstring>
+        <name>STDMETHOD_</name>
+        <qualifiedname>debug::OutputCallbacks::STDMETHOD_</qualifiedname>
+        <param>
+          <type>ULONG</type>
+        </param>
+        <param>
+          <type>AddRef</type>
+        </param>
+        <briefdescription>
+<para>Increment the reference count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Updated reference count. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="34" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>debug::OutputCallbacks::STDMETHOD_</definition>
+        <argsstring>(ULONG, Release)() override</argsstring>
+        <name>STDMETHOD_</name>
+        <qualifiedname>debug::OutputCallbacks::STDMETHOD_</qualifiedname>
+        <param>
+          <type>ULONG</type>
+        </param>
+        <param>
+          <type>Release</type>
+        </param>
+        <briefdescription>
+<para>Decrement the reference count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Updated reference count.</para>
+</simplesect>
+<simplesect kind="note"><para>This object is stack-allocated inside <ref refid="classdebug_1_1_session" kindref="compound">Session</ref>; the reference count is managed manually but the object is never deleted via Release. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="43" column="5"/>
+        <references refid="classdebug_1_1_output_callbacks_1a7b53d1ebf9716fe903739326e6088578" compoundref="_callbacks_8cpp" startline="160" endline="164">GetInterestMask</references>
+        <references refid="classdebug_1_1_output_callbacks_1ae7585eb0c1e5a6397ab1f78313179724" compoundref="_callbacks_8cpp" startline="148" endline="154">Output</references>
+        <references refid="classdebug_1_1_output_callbacks_1aadd3810605f6ea389591feeee73a026f" compoundref="_callbacks_8cpp" startline="166" endline="186">Output2</references>
+        <references refid="classdebug_1_1_output_callbacks_1ae8ec1d39b891624fcc2167ce4210da01" compoundref="_callbacks_8cpp" startline="117" endline="142">QueryInterface</references>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_output_callbacks_1ae8ec1d39b891624fcc2167ce4210da01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::OutputCallbacks::QueryInterface</definition>
+        <argsstring>(REFIID interfaceId, PVOID *outInterface) override</argsstring>
+        <name>QueryInterface</name>
+        <qualifiedname>debug::OutputCallbacks::QueryInterface</qualifiedname>
+        <param>
+          <type>REFIID</type>
+          <declname>interfaceId</declname>
+        </param>
+        <param>
+          <type>PVOID *</type>
+          <declname>outInterface</declname>
+        </param>
+        <briefdescription>
+<para>Return a pointer to the requested interface. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Supports IUnknown, IDebugOutputCallbacks, and IDebugOutputCallbacks2.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>interfaceId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>IID of the requested interface. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>outInterface</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the interface pointer on success. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>S_OK on success, E_NOINTERFACE if the IID is not supported. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="53" column="5" bodyfile="debug/Callbacks.cpp" bodystart="117" bodyend="142"/>
+        <referencedby refid="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d">STDMETHOD_</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="user-defined">
+      <header>IDebugOutputCallbacks</header>
+      <memberdef kind="function" id="classdebug_1_1_output_callbacks_1ae7585eb0c1e5a6397ab1f78313179724" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::OutputCallbacks::Output</definition>
+        <argsstring>(ULONG mask, PCSTR text) override</argsstring>
+        <name>Output</name>
+        <qualifiedname>debug::OutputCallbacks::Output</qualifiedname>
+        <param>
+          <type>ULONG</type>
+          <declname>mask</declname>
+        </param>
+        <param>
+          <type>PCSTR</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Receive plain-text debug output (legacy callback path). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called by dbgeng for output routed through the non-DML path. Forwards text to the <ref refid="classdebug_1_1_state" kindref="compound">State</ref> output fields.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mask</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output mask bits (e.g. DEBUG_OUTPUT_NORMAL, DEBUG_OUTPUT_ERROR). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Null-terminated output text. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>S_OK always. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="69" column="5" bodyfile="debug/Callbacks.cpp" bodystart="148" bodyend="154"/>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d">STDMETHOD_</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="user-defined">
+      <header>IDebugOutputCallbacks2</header>
+      <memberdef kind="function" id="classdebug_1_1_output_callbacks_1a7b53d1ebf9716fe903739326e6088578" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::OutputCallbacks::GetInterestMask</definition>
+        <argsstring>(PULONG mask) override</argsstring>
+        <name>GetInterestMask</name>
+        <qualifiedname>debug::OutputCallbacks::GetInterestMask</qualifiedname>
+        <param>
+          <type>PULONG</type>
+          <declname>mask</declname>
+        </param>
+        <briefdescription>
+<para>Report which output categories this callback is interested in. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets the mask to DEBUG_OUTCBI_ANY_FORMAT so that all output types are routed through Output2, bypassing the legacy Output callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mask</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives the interest mask bitmask. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>S_OK always. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="84" column="5" bodyfile="debug/Callbacks.cpp" bodystart="160" bodyend="164"/>
+        <referencedby refid="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d">STDMETHOD_</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_output_callbacks_1aadd3810605f6ea389591feeee73a026f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>STDMETHOD</type>
+        <definition>HRESULT debug::OutputCallbacks::Output2</definition>
+        <argsstring>(ULONG which, ULONG flags, ULONG64 arg, PCWSTR text) override</argsstring>
+        <name>Output2</name>
+        <qualifiedname>debug::OutputCallbacks::Output2</qualifiedname>
+        <param>
+          <type>ULONG</type>
+          <declname>which</declname>
+        </param>
+        <param>
+          <type>ULONG</type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type>ULONG64</type>
+          <declname>arg</declname>
+        </param>
+        <param>
+          <type>PCWSTR</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Receive rich debug output including OutputDebugString from the target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called by dbgeng when the callback QIs for IDebugOutputCallbacks2 and has set an interest mask. Captures target output into <ref refid="classdebug_1_1_state" kindref="compound">State</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>which</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output type (DEBUG_OUTCBI_*). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>flags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output flags. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type-specific argument (e.g. address for memory output). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Null-terminated wide output text. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>S_OK always. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="97" column="5" bodyfile="debug/Callbacks.cpp" bodystart="166" bodyend="186"/>
+        <references refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140">jam::Instance&lt; State &gt;::getInstance</references>
+        <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
+        <referencedby refid="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d">STDMETHOD_</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classdebug_1_1_output_callbacks_1a45b9e75bb91dff19d9e99ea8ee9610c8" prot="private" static="no" mutable="no">
+        <type>ULONG</type>
+        <definition>ULONG debug::OutputCallbacks::refCount</definition>
+        <argsstring></argsstring>
+        <name>refCount</name>
+        <qualifiedname>debug::OutputCallbacks::refCount</qualifiedname>
+        <initializer>{ 1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="102" column="11" bodyfile="debug/Callbacks.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdebug_1_1_output_callbacks_1a9e3a13ed4c109a256db7fd377aa15c5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>debug::OutputCallbacks::OutputCallbacks</definition>
+        <argsstring>()=default</argsstring>
+        <name>OutputCallbacks</name>
+        <qualifiedname>debug::OutputCallbacks::OutputCallbacks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="25" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Receives debug output from the target process via dbgeng. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Registered with IDebugClient5::SetOutputCallbacks. Implements IDebugOutputCallbacks2 because dbgeng routes output through Output2 when the callback object QIs for IDebugOutputCallbacks2.</para>
+<para>When the target writes to OutputDebugString, Output2 is called with DEBUG_OUTCBI_DML or DEBUG_OUTCBI_ANY_FORMAT. The text is forwarded to <ref refid="classdebug_1_1_state_1a75eddef264990eb7abd182485ea3de46" kindref="member">State::debuggeeOutputText</ref> and <ref refid="classdebug_1_1_state_1ae4bd04e1fd7930cad73dece33f9d2109" kindref="member">State::hasDebuggeeOutput</ref> is set so that the main loop can emit a DAP output event.</para>
+<para><simplesect kind="note"><para>Registered and unregistered by <ref refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" kindref="member">Session::initialize</ref> and <ref refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" kindref="member">Session::shutdown</ref>. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IDebugOutputCallbacks2</label>
+      </node>
+      <node id="1">
+        <label>debug::OutputCallbacks</label>
+        <link refid="classdebug_1_1_output_callbacks"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IDebugOutputCallbacks2</label>
+      </node>
+      <node id="1">
+        <label>debug::OutputCallbacks</label>
+        <link refid="classdebug_1_1_output_callbacks"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="debug/Callbacks.h" line="22" column="1" bodyfile="debug/Callbacks.h" bodystart="23" bodyend="105"/>
+    <listofallmembers>
+      <member refid="classdebug_1_1_output_callbacks_1a7b53d1ebf9716fe903739326e6088578" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>GetInterestMask</name></member>
+      <member refid="classdebug_1_1_output_callbacks_1ae7585eb0c1e5a6397ab1f78313179724" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>Output</name></member>
+      <member refid="classdebug_1_1_output_callbacks_1aadd3810605f6ea389591feeee73a026f" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>Output2</name></member>
+      <member refid="classdebug_1_1_output_callbacks_1a9e3a13ed4c109a256db7fd377aa15c5d" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>OutputCallbacks</name></member>
+      <member refid="classdebug_1_1_output_callbacks_1ae8ec1d39b891624fcc2167ce4210da01" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>QueryInterface</name></member>
+      <member refid="classdebug_1_1_output_callbacks_1a45b9e75bb91dff19d9e99ea8ee9610c8" prot="private" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>refCount</name></member>
+      <member refid="classdebug_1_1_output_callbacks_1a6574743c1cfd29521d57e5d41b05e33d" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>STDMETHOD_</name></member>
+      <member refid="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>STDMETHOD_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

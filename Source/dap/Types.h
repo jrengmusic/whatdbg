@@ -12,19 +12,27 @@ namespace dap
  */
 using DynObj = juce::ReferenceCountedObjectPtr<juce::DynamicObject>;
 
-/** Return the next monotonically increasing DAP sequence number.
+/** Process-wide DAP sequence counter.
  *
  *  Every DAP message (request, response, event) must carry a unique seq field.
- *  This function provides the global counter shared across all message types.
+ *  This is the single shared counter consulted by getResponse, getErrorResponse,
+ *  and getEvent. Declared as a C++17 inline variable so every translation unit
+ *  that includes this header shares the same instance.
+ *
+ *  @note Not thread-safe. Must only be touched on the main thread.
+ *  @note This is DAP protocol session state and belongs, in the fully migrated
+ *        architecture, to debug::State (the Model) rather than to this header —
+ *        tracked as outstanding work pending a State.h change outside this file.
+ */
+inline int nextSequenceNumber { 1 };
+
+/** Return the next monotonically increasing DAP sequence number.
  *
  *  @return The next sequence number, starting at 1.
- *
- *  @note Not thread-safe. Must only be called on the main thread.
  */
 inline int nextSeq () noexcept
 {
-    static int seq { 1 };
-    return seq++;
+    return nextSequenceNumber++;
 }
 
 /** Build a DAP response object.
@@ -38,10 +46,10 @@ inline int nextSeq () noexcept
  *  @param body        Optional response body. Omitted when void (default).
  *  @return A juce::var containing the fully formed response DynamicObject.
  */
-inline juce::var makeResponse (int requestSeq,
-                               const juce::String& command,
-                               bool isSuccess,
-                               juce::var body = juce::var ()) noexcept
+inline juce::var getResponse (int requestSeq,
+                              const juce::String& command,
+                              bool isSuccess,
+                              juce::var body = juce::var ()) noexcept
 {
     DynObj obj { new juce::DynamicObject () };
     obj->setProperty ("seq",         nextSeq ());
@@ -58,17 +66,17 @@ inline juce::var makeResponse (int requestSeq,
 
 /** Build a DAP error response object.
  *
- *  Convenience wrapper around makeResponse for the failure case. Sets
- *  success=false and attaches a human-readable message string.
+ *  Builds the same response envelope as getResponse for the failure case,
+ *  with success=false and a human-readable message attached instead of a body.
  *
  *  @param requestSeq  The seq value of the originating request.
  *  @param command     The command name being responded to.
  *  @param message     Human-readable description of the error.
  *  @return A juce::var containing the error response DynamicObject.
  */
-inline juce::var makeErrorResponse (int requestSeq,
-                                    const juce::String& command,
-                                    const juce::String& message) noexcept
+inline juce::var getErrorResponse (int requestSeq,
+                                   const juce::String& command,
+                                   const juce::String& message) noexcept
 {
     DynObj obj { new juce::DynamicObject () };
     obj->setProperty ("seq",         nextSeq ());
@@ -89,8 +97,8 @@ inline juce::var makeErrorResponse (int requestSeq,
  *  @param body   Optional event body. Omitted when void (default).
  *  @return A juce::var containing the fully formed event DynamicObject.
  */
-inline juce::var makeEvent (const juce::String& event,
-                            juce::var body = juce::var ()) noexcept
+inline juce::var getEvent (const juce::String& event,
+                           juce::var body = juce::var ()) noexcept
 {
     DynObj obj { new juce::DynamicObject () };
     obj->setProperty ("seq",   nextSeq ());
@@ -113,40 +121,48 @@ inline juce::var makeEvent (const juce::String& event,
  *
  *  @note Update this function whenever a new capability is implemented or dropped.
  */
-inline juce::var makeCapabilities () noexcept
+inline juce::var getCapabilities () noexcept
 {
+    static const std::vector<std::pair<juce::Identifier, bool>> capabilityFlags
+    {
+        { "supportsConfigurationDoneRequest",   true },
+        { "supportsFunctionBreakpoints",        false },
+        { "supportsConditionalBreakpoints",     false },
+        { "supportsHitConditionalBreakpoints",  false },
+        { "supportsEvaluateForHovers",          true },
+        { "supportsSetVariable",                false },
+        { "supportsStepBack",                   false },
+        { "supportsRestartFrame",               false },
+        { "supportsGotoTargetsRequest",         false },
+        { "supportsStepInTargetsRequest",       false },
+        { "supportsCompletionsRequest",         false },
+        { "supportsModulesRequest",             false },
+        { "supportsExceptionOptions",           false },
+        { "supportsValueFormattingOptions",     false },
+        { "supportsExceptionInfoRequest",       true },
+        { "supportTerminateDebuggee",           true },
+        { "supportsDelayedStackTraceLoading",   false },
+        { "supportsLoadedSourcesRequest",       false },
+        { "supportsLogPoints",                  false },
+        { "supportsTerminateThreadsRequest",    false },
+        { "supportsSetExpression",              false },
+        { "supportsTerminateRequest",           true },
+        { "supportsDataBreakpoints",            false },
+        { "supportsReadMemoryRequest",          false },
+        { "supportsDisassembleRequest",         false },
+        { "supportsCancelRequest",              false },
+        { "supportsBreakpointLocationsRequest", false },
+        { "supportsClipboardContext",           false },
+        { "supportsSteppingGranularity",        false },
+        { "supportsInstructionBreakpoints",     false },
+        { "supportsExceptionFilterOptions",     false }
+    };
+
     DynObj caps { new juce::DynamicObject () };
-    caps->setProperty ("supportsConfigurationDoneRequest",   true);
-    caps->setProperty ("supportsFunctionBreakpoints",        false);
-    caps->setProperty ("supportsConditionalBreakpoints",     false);
-    caps->setProperty ("supportsHitConditionalBreakpoints",  false);
-    caps->setProperty ("supportsEvaluateForHovers",          true);
-    caps->setProperty ("supportsSetVariable",                false);
-    caps->setProperty ("supportsStepBack",                   false);
-    caps->setProperty ("supportsRestartFrame",               false);
-    caps->setProperty ("supportsGotoTargetsRequest",         false);
-    caps->setProperty ("supportsStepInTargetsRequest",       false);
-    caps->setProperty ("supportsCompletionsRequest",         false);
-    caps->setProperty ("supportsModulesRequest",             false);
-    caps->setProperty ("supportsExceptionOptions",           false);
-    caps->setProperty ("supportsValueFormattingOptions",     false);
-    caps->setProperty ("supportsExceptionInfoRequest",       true);
-    caps->setProperty ("supportTerminateDebuggee",           true);
-    caps->setProperty ("supportsDelayedStackTraceLoading",   false);
-    caps->setProperty ("supportsLoadedSourcesRequest",       false);
-    caps->setProperty ("supportsLogPoints",                  false);
-    caps->setProperty ("supportsTerminateThreadsRequest",    false);
-    caps->setProperty ("supportsSetExpression",              false);
-    caps->setProperty ("supportsTerminateRequest",           true);
-    caps->setProperty ("supportsDataBreakpoints",            false);
-    caps->setProperty ("supportsReadMemoryRequest",          false);
-    caps->setProperty ("supportsDisassembleRequest",         false);
-    caps->setProperty ("supportsCancelRequest",              false);
-    caps->setProperty ("supportsBreakpointLocationsRequest", false);
-    caps->setProperty ("supportsClipboardContext",           false);
-    caps->setProperty ("supportsSteppingGranularity",        false);
-    caps->setProperty ("supportsInstructionBreakpoints",     false);
-    caps->setProperty ("supportsExceptionFilterOptions",     false);
+
+    for (const auto& [capabilityName, isSupported] : capabilityFlags)
+        caps->setProperty (capabilityName, isSupported);
+
     return juce::var (caps);
 }
 
@@ -166,6 +182,5 @@ inline juce::String getString (const juce::var& obj, const juce::Identifier& key
 
     return {};
 }
-
 
 } // namespace dap

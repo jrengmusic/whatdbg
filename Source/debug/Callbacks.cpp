@@ -9,18 +9,16 @@
 #include <JuceHeader.h>
 #include "Callbacks.h"
 #include "State.h"
-#include "../Log.h"
 
-static constexpr DWORD MS_VC_EXCEPTION { 0x406D1388 };
+static constexpr DWORD msvcThreadNameException { 0x406D1388 };
 
 //==============================================================================
-// Exception handlers
+// Exception callbacks
 //==============================================================================
 
-using ExceptionHandler = HRESULT (*) (debug::State*, PEXCEPTION_RECORD64, ULONG firstChance);
+using ExceptionCallback = HRESULT (*) (debug::State*, PEXCEPTION_RECORD64, ULONG firstChance);
 
-/** Handles EXCEPTION_BREAKPOINT — advances initialBreakPhase and stops execution. */
-static HRESULT handleBreakpoint (debug::State* state, PEXCEPTION_RECORD64 /*exception*/, ULONG /*firstChance*/)
+static HRESULT onBreakpoint (debug::State* state, PEXCEPTION_RECORD64 /*exception*/, ULONG /*firstChance*/)
 {
     if (state->initialBreakPhase == debug::InitialBreakPhase::notHit)
         state->initialBreakPhase = debug::InitialBreakPhase::pending;
@@ -29,15 +27,12 @@ static HRESULT handleBreakpoint (debug::State* state, PEXCEPTION_RECORD64 /*exce
     return DEBUG_STATUS_BREAK;
 }
 
-/** Handles MS_VC_EXCEPTION (0x406D1388) thread-name notification — passes through unhandled. */
-static HRESULT handleThreadName (debug::State* /*state*/, PEXCEPTION_RECORD64 /*exception*/, ULONG /*firstChance*/)
+static HRESULT onThreadName (debug::State* /*state*/, PEXCEPTION_RECORD64 /*exception*/, ULONG /*firstChance*/)
 {
     return DEBUG_STATUS_GO_NOT_HANDLED;
 }
 
-/** Handles all other exceptions — passes first-chance through, breaks on second-chance
- *  and records exception code and address on State for DAP stopped event surfacing. */
-static HRESULT handleUnknownException (debug::State* state, PEXCEPTION_RECORD64 exception, ULONG firstChance)
+static HRESULT onUnknownException (debug::State* state, PEXCEPTION_RECORD64 exception, ULONG firstChance)
 {
     HRESULT result { DEBUG_STATUS_BREAK };
 
@@ -47,22 +42,19 @@ static HRESULT handleUnknownException (debug::State* state, PEXCEPTION_RECORD64 
     }
     else
     {
-        if (state != nullptr and exception != nullptr)
-        {
-            state->hasExceptionStopped = true;
-            state->exceptionCode       = static_cast<std::uint32_t> (exception->ExceptionCode);
-            state->exceptionAddress    = static_cast<std::uint64_t> (exception->ExceptionAddress);
-            state->executionState      = debug::ExecutionState::stopped;
-        }
+        state->hasExceptionStopped = true;
+        state->exceptionCode       = static_cast<std::uint32_t> (exception->ExceptionCode);
+        state->exceptionAddress    = static_cast<std::uint64_t> (exception->ExceptionAddress);
+        state->executionState      = debug::ExecutionState::stopped;
     }
 
     return result;
 }
 
-static const std::unordered_map<DWORD, ExceptionHandler> exceptionHandlers
+static const std::unordered_map<DWORD, ExceptionCallback> exceptions
 {
-    { EXCEPTION_BREAKPOINT, handleBreakpoint  },
-    { MS_VC_EXCEPTION,      handleThreadName  },
+    { EXCEPTION_BREAKPOINT,     onBreakpoint  },
+    { msvcThreadNameException,  onThreadName  },
 };
 
 static const std::unordered_map<DWORD, const char*> exceptionNames
@@ -89,15 +81,19 @@ static const std::unordered_map<DWORD, const char*> exceptionNames
 namespace debug
 {
 
-/** Returns a human-readable name for a Windows exception code, or a hex string if unknown. */
-juce::String getExceptionName (std::uint32_t code) noexcept
+juce::String getExceptionName (std::uint32_t code, bool isMachException) noexcept
 {
+    juce::ignoreUnused (isMachException);
+
     juce::String result { juce::String ("0x") + juce::String::toHexString (static_cast<juce::int64> (code)) };
 
-    const auto entry { exceptionNames.find (static_cast<DWORD> (code)) };
+    const auto exceptionEntry { exceptionNames.find (static_cast<DWORD> (code)) };
 
-    if (entry != exceptionNames.end ())
-        result = juce::String (entry->second);
+    if (exceptionEntry != exceptionNames.end ())
+    {
+        const auto& [exceptionCode, exceptionName] { *exceptionEntry };
+        result = juce::String (exceptionName);
+    }
 
     return result;
 }
@@ -106,20 +102,16 @@ juce::String getExceptionName (std::uint32_t code) noexcept
 // OutputCallbacks — IUnknown
 //==============================================================================
 
-/** Increments the COM reference count. */
 ULONG OutputCallbacks::AddRef ()
 {
     return ++refCount;
 }
 
-/** Decrements the COM reference count. Does not delete — lifetime is stack-managed. */
 ULONG OutputCallbacks::Release ()
 {
-    const ULONG remaining { --refCount };
-    return remaining;
+    return --refCount;
 }
 
-/** Returns the requested interface pointer for IUnknown, IDebugOutputCallbacks, or IDebugOutputCallbacks2. */
 HRESULT OutputCallbacks::QueryInterface (REFIID interfaceId, PVOID* outInterface)
 {
     HRESULT result { E_NOINTERFACE };
@@ -133,7 +125,7 @@ HRESULT OutputCallbacks::QueryInterface (REFIID interfaceId, PVOID* outInterface
     }
     else if (interfaceId == IID_IDebugOutputCallbacks)
     {
-        *outInterface = reinterpret_cast<IDebugOutputCallbacks*> (this);
+        *outInterface = static_cast<IDebugOutputCallbacks*> (this);
         AddRef ();
         result = S_OK;
     }
@@ -151,10 +143,11 @@ HRESULT OutputCallbacks::QueryInterface (REFIID interfaceId, PVOID* outInterface
 // OutputCallbacks — IDebugOutputCallbacks
 //==============================================================================
 
-/** Receives narrow-char debugger output and routes it to the log file. */
 HRESULT OutputCallbacks::Output (ULONG /*mask*/, PCSTR text)
 {
-    logWrite ("%s", text);
+#if JUCE_DEBUG
+    jam::debug::Log::write (juce::String (text));
+#endif
     return S_OK;
 }
 
@@ -162,14 +155,12 @@ HRESULT OutputCallbacks::Output (ULONG /*mask*/, PCSTR text)
 // OutputCallbacks — IDebugOutputCallbacks2
 //==============================================================================
 
-/** Reports interest in all output formats so Output2 receives wide-char text. */
 HRESULT OutputCallbacks::GetInterestMask (PULONG mask)
 {
     *mask = DEBUG_OUTCBI_ANY_FORMAT;
     return S_OK;
 }
 
-/** Receives wide-char output; captures debuggee stdout text onto State for main-thread pickup. */
 HRESULT OutputCallbacks::Output2 (ULONG which, ULONG flags, ULONG64 arg, PCWSTR text)
 {
     juce::ignoreUnused (flags);
@@ -179,11 +170,11 @@ HRESULT OutputCallbacks::Output2 (ULONG which, ULONG flags, ULONG64 arg, PCWSTR 
     if (isText and text != nullptr)
     {
         const ULONG mask { static_cast<ULONG> (arg) };
-        const bool isDebuggeeOutput { (mask & DEBUG_OUTPUT_DEBUGGEE) != 0 };
+        const bool isDebuggeeOutput { (mask bitand DEBUG_OUTPUT_DEBUGGEE) != 0 };
 
         if (isDebuggeeOutput)
         {
-            auto* state { State::getContext () };
+            auto* state { State::getInstance () };
             state->debuggeeOutputText += juce::String (text);
             state->hasDebuggeeOutput = true;
         }
@@ -196,20 +187,16 @@ HRESULT OutputCallbacks::Output2 (ULONG which, ULONG flags, ULONG64 arg, PCWSTR 
 // EventCallbacks — IUnknown
 //==============================================================================
 
-/** Increments the COM reference count. */
 ULONG EventCallbacks::AddRef ()
 {
     return ++refCount;
 }
 
-/** Decrements the COM reference count. Does not delete — lifetime is stack-managed. */
 ULONG EventCallbacks::Release ()
 {
-    const ULONG remaining { --refCount };
-    return remaining;
+    return --refCount;
 }
 
-/** Returns the requested interface pointer for IUnknown or IDebugEventCallbacks. */
 HRESULT EventCallbacks::QueryInterface (REFIID interfaceId, PVOID* outInterface)
 {
     HRESULT result { E_NOINTERFACE };
@@ -235,22 +222,20 @@ HRESULT EventCallbacks::QueryInterface (REFIID interfaceId, PVOID* outInterface)
 // EventCallbacks — IDebugEventCallbacks
 //==============================================================================
 
-/** Declares the set of dbgeng events this object handles — breakpoint, exception,
- *  process create/exit, and module load. */
 HRESULT EventCallbacks::GetInterestMask (PULONG mask)
 {
     *mask = DEBUG_EVENT_BREAKPOINT
           | DEBUG_EVENT_EXCEPTION
           | DEBUG_EVENT_CREATE_PROCESS
           | DEBUG_EVENT_EXIT_PROCESS
-          | DEBUG_EVENT_LOAD_MODULE;
+          | DEBUG_EVENT_LOAD_MODULE
+          | DEBUG_EVENT_CHANGE_ENGINE_STATE;
     return S_OK;
 }
 
-/** Fires when the engine hits a breakpoint — records engineId on State and stops execution. */
 HRESULT EventCallbacks::Breakpoint (PDEBUG_BREAKPOINT bp)
 {
-    auto* state { State::getContext () };
+    auto* state { State::getInstance () };
 
     if (bp != nullptr)
     {
@@ -258,45 +243,47 @@ HRESULT EventCallbacks::Breakpoint (PDEBUG_BREAKPOINT bp)
         bp->GetId (&engineId);
 
         state->hasBreakpointHit = true;
-        state->breakpointEngineId = engineId;
+        state->breakpointEngineId = static_cast<std::int32_t> (engineId);
         state->executionState = ExecutionState::stopped;
 
-        logWrite ("WHATDBG: Breakpoint hit, engineId=%lu\n", engineId);
+#if JUCE_DEBUG
+        jam::debug::Log::write ("WHATDBG: Breakpoint hit, engineId=" + juce::String (engineId));
+#endif
     }
 
     return DEBUG_STATUS_BREAK;
 }
 
-/** Dispatches the exception to its registered handler, or handleUnknownException as fallback. */
 HRESULT EventCallbacks::Exception (PEXCEPTION_RECORD64 exception, ULONG firstChance)
 {
-    logWrite ("WHATDBG: Exception code=0x%08lX firstChance=%lu\n",
-              static_cast<unsigned long> (exception->ExceptionCode),
-              static_cast<unsigned long> (firstChance));
+#if JUCE_DEBUG
+    jam::debug::Log::write ("WHATDBG: Exception code=0x"
+                             + juce::String::toHexString (static_cast<unsigned long> (exception->ExceptionCode))
+                             + " firstChance=" + juce::String (static_cast<unsigned long> (firstChance)));
+#endif
 
-    const auto entry { exceptionHandlers.find (exception->ExceptionCode) };
-    const ExceptionHandler handler { entry != exceptionHandlers.end ()
-                                         ? entry->second
-                                         : handleUnknownException };
+    const auto exceptionEntry { exceptions.find (exception->ExceptionCode) };
+    ExceptionCallback onException { onUnknownException };
 
-    return handler (State::getContext (), exception, firstChance);
+    if (exceptionEntry != exceptions.end ())
+    {
+        const auto& [exceptionCode, exceptionCallback] { *exceptionEntry };
+        onException = exceptionCallback;
+    }
+
+    return onException (State::getInstance (), exception, firstChance);
 }
 
-/** Thread creation notification — logged, no state change. */
 HRESULT EventCallbacks::CreateThread (ULONG64 /*handle*/, ULONG64 /*dataOffset*/, ULONG64 /*startOffset*/)
 {
-    logWrite ("WHATDBG: CreateThread\n");
     return DEBUG_STATUS_NO_CHANGE;
 }
 
-/** Thread exit notification — logged, no state change. */
 HRESULT EventCallbacks::ExitThread (ULONG /*exitCode*/)
 {
-    logWrite ("WHATDBG: ExitThread\n");
     return DEBUG_STATUS_NO_CHANGE;
 }
 
-/** Process creation notification — extracts PID from the process handle and stores it on State. */
 HRESULT EventCallbacks::CreateProcess (ULONG64 /*imageFileHandle*/, ULONG64 handle,
                                        ULONG64 /*baseOffset*/, ULONG /*moduleSize*/,
                                        PCSTR moduleName, PCSTR /*imageName*/,
@@ -307,38 +294,41 @@ HRESULT EventCallbacks::CreateProcess (ULONG64 /*imageFileHandle*/, ULONG64 hand
     const HANDLE processHandle { reinterpret_cast<HANDLE> (static_cast<ULONG_PTR> (handle)) };
     const DWORD pid { GetProcessId (processHandle) };
 
-    State::getContext ()->targetProcessId = static_cast<ULONG> (pid);
+    State::getInstance ()->targetProcessId = static_cast<ULONG> (pid);
 
-    logWrite ("WHATDBG: CreateProcess: %s (PID=%lu)\n",
-              moduleName != nullptr ? moduleName : "(null)",
-              static_cast<unsigned long> (pid));
+#if JUCE_DEBUG
+    jam::debug::Log::write (juce::String ("WHATDBG: CreateProcess: ")
+                             + (moduleName != nullptr ? moduleName : "(null)")
+                             + " (PID=" + juce::String (static_cast<unsigned long> (pid)) + ")");
+#endif
 
     return DEBUG_STATUS_NO_CHANGE;
 }
 
-/** Process exit notification — records exit code on State and transitions executionState to exited. */
 HRESULT EventCallbacks::ExitProcess (ULONG exitCode)
 {
-    logWrite ("WHATDBG: ExitProcess: code=%lu\n", static_cast<unsigned long> (exitCode));
-    State::getContext ()->executionState = ExecutionState::exited;
-    State::getContext ()->processExitCode = static_cast<int> (exitCode);
-    State::getContext ()->hasProcessExited = true;
+#if JUCE_DEBUG
+    jam::debug::Log::write ("WHATDBG: ExitProcess: code=" + juce::String (static_cast<unsigned long> (exitCode)));
+#endif
+    auto* state { State::getInstance () };
+    state->executionState = ExecutionState::exited;
+    state->processExitCode = static_cast<int> (exitCode);
+    state->hasProcessExited = true;
     return DEBUG_STATUS_NO_CHANGE;
 }
 
-/** Module load notification — sets hasNewModuleLoaded on State; breaks if pending breakpoints
- *  exist so the main loop can safely call tryResolve. */
 HRESULT EventCallbacks::LoadModule (ULONG64 /*imageFileHandle*/, ULONG64 /*baseOffset*/,
                                     ULONG /*moduleSize*/, PCSTR moduleName, PCSTR imageName,
                                     ULONG /*checkSum*/, ULONG /*timeDateStamp*/)
 {
-    auto* state { State::getContext () };
+    auto* state { State::getInstance () };
     state->hasNewModuleLoaded = true;
-    state->lastLoadedModuleName = moduleName != nullptr ? juce::String (moduleName) : juce::String ();
     state->lastLoadedImageName = imageName != nullptr ? juce::String (imageName) : juce::String ();
-    logWrite ("WHATDBG: LoadModule: %s (%s)\n",
-              moduleName != nullptr ? moduleName : "(null)",
-              imageName != nullptr ? imageName : "(null)");
+#if JUCE_DEBUG
+    jam::debug::Log::write (juce::String ("WHATDBG: LoadModule: ")
+                             + (moduleName != nullptr ? moduleName : "(null)")
+                             + " (" + (imageName != nullptr ? imageName : "(null)") + ")");
+#endif
 
     // Stop the target when pending BPs exist so main loop can safely resolve
     HRESULT result { DEBUG_STATUS_NO_CHANGE };
@@ -351,46 +341,49 @@ HRESULT EventCallbacks::LoadModule (ULONG64 /*imageFileHandle*/, ULONG64 /*baseO
     return result;
 }
 
-/** Module unload notification — logged, no state change. */
 HRESULT EventCallbacks::UnloadModule (PCSTR /*imageBaseName*/, ULONG64 /*baseOffset*/)
 {
-    logWrite ("WHATDBG: UnloadModule\n");
     return DEBUG_STATUS_NO_CHANGE;
 }
 
-/** System error notification — logged, no state change. */
 HRESULT EventCallbacks::SystemError (ULONG /*error*/, ULONG /*level*/)
 {
-    logWrite ("WHATDBG: SystemError\n");
     return DEBUG_STATUS_NO_CHANGE;
 }
 
-/** Session status change notification — logged, no state change. */
 HRESULT EventCallbacks::SessionStatus (ULONG /*status*/)
 {
-    logWrite ("WHATDBG: SessionStatus\n");
-    return DEBUG_STATUS_NO_CHANGE;
+    return S_OK;
 }
 
-/** Debuggee state change notification — logged, no state change. */
 HRESULT EventCallbacks::ChangeDebuggeeState (ULONG /*flags*/, ULONG64 /*argument*/)
 {
-    logWrite ("WHATDBG: ChangeDebuggeeState\n");
-    return DEBUG_STATUS_NO_CHANGE;
+    return S_OK;
 }
 
-/** Engine state change notification — logged, no state change. */
-HRESULT EventCallbacks::ChangeEngineState (ULONG /*flags*/, ULONG64 /*argument*/)
+HRESULT EventCallbacks::ChangeEngineState (ULONG flags, ULONG64 argument)
 {
-    logWrite ("WHATDBG: ChangeEngineState\n");
-    return DEBUG_STATUS_NO_CHANGE;
+    if ((flags bitand DEBUG_CES_EXECUTION_STATUS) != 0)
+    {
+        const ULONG executionStatus { static_cast<ULONG> (argument) };
+        auto* state { State::getInstance () };
+
+        if (executionStatus == DEBUG_STATUS_BREAK and state->isStepPending)
+        {
+            state->hasStepCompleted = true;
+            state->isStepPending = false;
+#if JUCE_DEBUG
+            jam::debug::Log::write ("WHATDBG: ChangeEngineState: step completed");
+#endif
+        }
+    }
+
+    return S_OK;
 }
 
-/** Symbol state change notification — logged, no state change. */
 HRESULT EventCallbacks::ChangeSymbolState (ULONG /*flags*/, ULONG64 /*argument*/)
 {
-    logWrite ("WHATDBG: ChangeSymbolState\n");
-    return DEBUG_STATUS_NO_CHANGE;
+    return S_OK;
 }
 
 } // namespace debug

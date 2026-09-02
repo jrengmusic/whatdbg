@@ -12,19 +12,12 @@
 namespace debug
 {
 
-/** @brief Intentionally leaks @c dbgengModule — see body comment for rationale. */
-Loader::~Loader ()
-{
-    // Intentionally leak dbgengModule: FreeLibrary on dbgeng.dll hangs or crashes
-    // because dbgeng spawns symsrv threads and holds COM state that cannot be safely
-    // torn down at module unload. The HMODULE lives for the entire process lifetime,
-    // so OS process teardown reclaims it. Named threat: FreeLibrary(dbgeng) hang.
-    dbgengModule = nullptr;
-}
+// Intentionally leaks dbgengModule: FreeLibrary on dbgeng.dll hangs or crashes
+// because dbgeng spawns symsrv threads and holds COM state that cannot be safely
+// torn down at module unload. The HMODULE lives for the entire process lifetime,
+// so OS process teardown reclaims it. Named threat: FreeLibrary(dbgeng) hang.
+Loader::~Loader () = default;
 
-/** @brief Loads dbgeng.dll from @p sidecarDirectory and resolves the DebugCreate export.
- *  @return True if both LoadLibrary and GetProcAddress succeeded.
- */
 bool Loader::load (const juce::File& sidecarDirectory) noexcept
 {
     const juce::File dllPath { sidecarDirectory.getChildFile ("dbgeng.dll") };
@@ -45,22 +38,25 @@ bool Loader::load (const juce::File& sidecarDirectory) noexcept
         }
     }
 
-    return isLoaded ();
+    return dbgengModule != nullptr and debugCreateFn != nullptr;
 }
 
-/** @brief Invokes the resolved DebugCreate export to obtain an IDebugClient5 instance.
- *  @pre @c isLoaded() must be true.
- */
-HRESULT Loader::createDebugClient (IDebugClient5** outClient) const noexcept
+IDebugClient5* Loader::createDebugClient () const noexcept
 {
     jassert (debugCreateFn != nullptr);
-    return debugCreateFn (__uuidof (IDebugClient5), reinterpret_cast<PVOID*> (outClient));
-}
 
-/** @brief Returns true if the module is loaded and DebugCreate is resolved. */
-bool Loader::isLoaded () const noexcept
-{
-    return dbgengModule != nullptr and debugCreateFn != nullptr;
+    IDebugClient5* client { nullptr };
+    const HRESULT result { debugCreateFn (__uuidof (IDebugClient5), reinterpret_cast<PVOID*> (&client)) };
+
+    if (FAILED (result))
+    {
+#if JUCE_DEBUG
+        jam::debug::Log::write ("WHATDBG: DebugCreate failed, hr=0x"
+                                 + juce::String::toHexString (static_cast<unsigned long> (result)));
+#endif
+    }
+
+    return client;
 }
 
 } // namespace debug

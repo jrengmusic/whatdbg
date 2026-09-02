@@ -1,10 +1,59 @@
 #pragma once
 #include <JuceHeader.h>
 
-namespace debug { namespace detail {
-
 #if JUCE_WINDOWS
 #include <dbgeng.h>
+#endif // JUCE_WINDOWS
+
+#if JUCE_MAC
+#include <lldb/API/LLDB.h>
+#endif // JUCE_MAC
+
+namespace debug
+{
+
+/** Return true if a symbol/variable name should be hidden from the DAP variable panel.
+ *
+ *  Filters out compiler- and framework-injected symbols that carry no user-visible
+ *  meaning: RTTI/vtable artifacts, the JUCE leak detector member, and the per-TU
+ *  compile-unit-mismatch sentinel.
+ *
+ *  @param name  Symbol or variable name as reported by the debug engine.
+ *  @return true if the symbol should be skipped.
+ */
+inline bool shouldSkipSymbol (const juce::String& name) noexcept
+{
+    return name.startsWithChar ('<')
+        or name.startsWith ("leakDetector")
+        or name.startsWith ("__vfptr")
+        or name == "juce::compileUnitMismatchSentinel";
+}
+
+/** Extract a hexadecimal address from a debug engine value text string.
+ *
+ *  Scans the input for a "0x" prefixed hex token and parses it as a 64-bit
+ *  unsigned integer. Used to extract pointer values from formatted symbol
+ *  text such as "0x0000000010db01b0 \"hello\"". Backtick digit-group padding
+ *  (dbgeng's 64-bit address formatting) is stripped before parsing.
+ *
+ *  @param valueText  Symbol value text that may contain a hex address.
+ *  @return Parsed address, or 0 if no hex address is found.
+ */
+inline std::uint64_t parseHexAddress (const juce::String& valueText) noexcept
+{
+    const juce::String cleaned { valueText.replace ("`", "").trim () };
+    std::uint64_t address { 0 };
+
+    if (cleaned.startsWith ("0x"))
+    {
+        const juce::String hexPart { cleaned.substring (2).upToFirstOccurrenceOf (" ", false, false) };
+        address = static_cast<std::uint64_t> (hexPart.getHexValue64 ());
+    }
+
+    return address;
+}
+
+#if JUCE_WINDOWS
 
 /** Strip the dbgeng "0n" decimal prefix from a numeric value string.
  *
@@ -50,17 +99,6 @@ juce::String formatSymbolValue (const juce::String& rawValue) noexcept;
  *  @note Returns an empty string if address is null or the read fails.
  */
 juce::String readTargetString (IDebugDataSpaces4* dataSpaces, ULONG64 address) noexcept;
-
-/** Extract a hexadecimal address from a dbgeng value text string.
- *
- *  Scans the input for a "0x" prefixed hex token and parses it as a 64-bit
- *  unsigned integer. Used to extract pointer values from formatted symbol text
- *  such as "0x0000000010db01b0 \"hello\"".
- *
- *  @param valueText  Symbol value text that may contain a hex address.
- *  @return Parsed address, or 0 if no hex address is found.
- */
-ULONG64 parseHexAddress (const juce::String& valueText) noexcept;
 
 /** Find a child symbol by name within an expanded symbol group.
  *
@@ -111,7 +149,6 @@ juce::String prettyPrint (IDebugSymbolGroup2* group, IDebugDataSpaces4* dataSpac
 #endif // JUCE_WINDOWS
 
 #if JUCE_MAC
-#include <lldb/API/LLDB.h>
 
 /** Attempt to pretty-print an SBValue using its known type name.
  *
@@ -126,4 +163,4 @@ juce::String prettyPrint (IDebugSymbolGroup2* group, IDebugDataSpaces4* dataSpac
 juce::String prettyPrint (lldb::SBValue& value, const juce::String& typeName) noexcept;
 #endif // JUCE_MAC
 
-}} // namespace debug::detail
+} // namespace debug

@@ -29,7 +29,7 @@ First cross-platform release. macOS support via liblldb sidecar, matching full W
 
 ## macOS Installation
 
-Double-click the `.pkg` -- installs to `/opt/whatdbg/` with symlink to `~/.local/bin/whatdbg`. Add `~/.local/bin` to your PATH if not already present.
+Double-click the `.pkg` -- installs `whatdbg` to `~/.local/bin/`. Add `~/.local/bin` to your PATH if not already present.
 
 ## Windows Installation
 

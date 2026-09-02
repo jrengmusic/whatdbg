@@ -7,217 +7,136 @@
  */
 
 #include <JuceHeader.h>
-#include <cstdint>
 #include "BreakpointManager.h"
-#include "State.h"
-#include "../Log.h"
 
 namespace debug
 {
 
 using dap::DynObj;
 
-// ---------------------------------------------------------------------------
-// BreakpointManager::BreakpointManager
-// ---------------------------------------------------------------------------
-
-/** Constructs the manager and binds it to the owning Session. */
-BreakpointManager::BreakpointManager (Session& session)
-    : session (session)
+BreakpointManager::BreakpointManager (Session& newSession)
+    : session { newSession }
 {
 }
 
-// ---------------------------------------------------------------------------
-// BreakpointManager::hasPending
-// ---------------------------------------------------------------------------
-
-/** Returns true if any breakpoints are waiting for a module load before they can resolve. */
-bool BreakpointManager::hasPending () const noexcept
+bool BreakpointManager::isUserBreakpoint (std::int32_t engineId) const noexcept
 {
-    return not pending.isEmpty ();
-}
-
-// ---------------------------------------------------------------------------
-// BreakpointManager::isUserBreakpoint
-// ---------------------------------------------------------------------------
-
-/** Returns true if engineId belongs to a DAP-managed breakpoint (not an internal engine BP). */
-bool BreakpointManager::isUserBreakpoint (std::uint32_t engineId) const noexcept
-{
-    return engineToDap.count (engineId) > 0;
-}
-
-// ---------------------------------------------------------------------------
-// BreakpointManager::tryResolve
-// ---------------------------------------------------------------------------
-
-/** Attempts to resolve a source location to a code address and create an engine breakpoint.
- *  Tries the full Windows path first, then the basename as a PDB-relative fallback.
- *  Returns {engineId, resolvedLine, isSuccess}; on failure all fields are zero/false. */
-// Returns {engineId, resolvedLine, isSuccess}.
-//
-// Resolution strategy (ordered by specificity):
-//   1. Full Windows path — exact match, no cross-module ambiguity.
-//   2. Filename only — lets the symbol engine search all loaded PDBs by
-//      basename.  Necessary because PDBs may store relative paths that don't
-//      match the absolute path nvim-dap sends.  Safe here because we
-//      reverse-verify the resolved address with getLineByOffset before
-//      creating the breakpoint.
-//
-// Why NOT SetOffsetExpression:
-//   Backtick source-line syntax uses partial filename matching and creates
-//   deferred breakpoints re-evaluated on every module load.  In multi-DLL
-//   processes (REAPER loads 100+ JUCE-based DLLs) it resolves to wrong
-//   addresses → crash.
-//
-ResolveResult BreakpointManager::tryResolve (const juce::String& windowsPath,
-                                             std::uint32_t requestedLine) noexcept
-{
-    logWrite ("WHATDBG: tryResolve attempting %s:%lu\n",
-              windowsPath.toRawUTF8 (),
-              static_cast<unsigned long> (requestedLine));
-
-    // Extract basename once — used as fallback when PDB stores relative paths.
-    juce::String basename { windowsPath };
+    return std::any_of (breakpoints.begin (), breakpoints.end (), [engineId] (const auto& breakpointEntry)
     {
-        const int lastSep { windowsPath.lastIndexOfChar ('\\') };
-        if (lastSep >= 0)
-            basename = windowsPath.substring (lastSep + 1);
-    }
+        const auto& [entryDapId, entryInfo] { breakpointEntry };
+        return entryInfo.engineId == engineId;
+    });
+}
 
-    // Step 1 — Resolve file:line to a code address.
-    //
-    // For each candidate line:
-    //   a) Try full path (exact match, no cross-module ambiguity).
-    //   b) Try basename (handles PDBs that store relative paths).
-    //      Verify the resolved address with getLineByOffset to prevent
-    //      wrong-module hits in multi-DLL processes like REAPER.
-    //
-    // engineBusy = symbol engine not ready (target still running) — stop.
-    // notFound   = no code at this line (blank/comment) OR module not loaded.
+bool BreakpointManager::hasUnresolvedBreakpoints () const noexcept
+{
+    return std::any_of (breakpoints.begin (), breakpoints.end (), [] (const auto& breakpointEntry)
+    {
+        const auto& [entryDapId, entryInfo] { breakpointEntry };
+        return entryInfo.engineId == 0;
+    });
+}
+
+std::pair<std::uint64_t, std::uint16_t> BreakpointManager::getBreakpointOffset (
+    const juce::String& sourcePath,
+    std::uint16_t       requestedLine) noexcept
+{
+#if JUCE_DEBUG
+    jam::debug::Log::write ("WHATDBG: getBreakpointOffset attempting " + sourcePath + ":"
+                             + juce::String (static_cast<unsigned long> (requestedLine)));
+#endif
+
     std::uint64_t offset       { 0 };
-    std::uint32_t resolvedLine { 0 };
-    bool          isResolved   { false };
+    std::uint16_t resolvedLine { 0 };
     bool          isBusy       { false };
 
-    for (std::uint32_t delta { 0 }; delta <= lineSearchWindow and not isResolved and not isBusy; ++delta)
+    for (std::uint32_t delta { 0 }; delta <= lineSearchWindow and offset == 0 and not isBusy; ++delta)
     {
-        const std::uint32_t candidate { requestedLine + delta };
+        const std::uint16_t candidate { static_cast<std::uint16_t> (requestedLine + delta) };
+        const OffsetStatus  status    { session.getOffsetStatus (sourcePath, candidate) };
 
-        // a) Full path attempt.
-        const ResolveStatus fullStatus { session.getOffsetByLine (windowsPath, candidate, &offset) };
+        isBusy = status == OffsetStatus::engineBusy;
 
-        if (fullStatus == ResolveStatus::engineBusy)
+#if JUCE_DEBUG
+        if (isBusy)
         {
-            logWrite ("WHATDBG: getOffsetByLine returned E_UNEXPECTED — symbol engine not ready\n");
-            isBusy = true;
+            jam::debug::Log::write ("WHATDBG: getOffsetStatus returned E_UNEXPECTED -- symbol engine not ready");
         }
+#endif
 
-        if (not isBusy and fullStatus == ResolveStatus::resolved)
+        if (not isBusy and status == OffsetStatus::found)
         {
+            offset       = session.getOffset (sourcePath, candidate);
             resolvedLine = candidate;
-            isResolved   = true;
-            logWrite ("WHATDBG: resolved (full path) %s:%lu -> 0x%llX\n",
-                      windowsPath.toRawUTF8 (),
-                      static_cast<unsigned long> (candidate),
-                      static_cast<unsigned long long> (offset));
+
+#if JUCE_DEBUG
+            jam::debug::Log::write ("WHATDBG: resolved " + sourcePath + ":"
+                                     + juce::String (static_cast<unsigned long> (candidate)) + " -> 0x"
+                                     + juce::String::toHexString (static_cast<unsigned long long> (offset)));
+#endif
         }
 
-        if (not isBusy and not isResolved)
+#if JUCE_DEBUG
+        if (not isBusy and status != OffsetStatus::found and delta == 0)
         {
-            // b) Basename fallback.
-            const ResolveStatus baseStatus { session.getOffsetByLine (basename, candidate, &offset) };
-
-            if (baseStatus == ResolveStatus::engineBusy)
-            {
-                logWrite ("WHATDBG: getOffsetByLine returned E_UNEXPECTED — symbol engine not ready\n");
-                isBusy = true;
-            }
-
-            if (not isBusy and baseStatus == ResolveStatus::resolved)
-            {
-                // Reverse-verify: confirm this address belongs to our source file,
-                // not a same-named file in another DLL.
-                juce::String  verifyFile;
-                std::uint32_t verifyLine { 0 };
-
-                const juce::Result verifyResult { session.getLineByOffset (offset, verifyFile, &verifyLine) };
-
-                if (verifyResult.wasOk ())
-                {
-                    resolvedLine = verifyLine;
-                    isResolved   = true;
-                    logWrite ("WHATDBG: resolved (basename) %s:%lu -> 0x%llX (PDB: %s:%lu)\n",
-                              basename.toRawUTF8 (),
-                              static_cast<unsigned long> (candidate),
-                              static_cast<unsigned long long> (offset),
-                              verifyFile.toRawUTF8 (),
-                              static_cast<unsigned long> (verifyLine));
-                }
-                else
-                {
-                    logWrite ("WHATDBG: basename resolved but reverse verify failed: %s\n",
-                              verifyResult.getErrorMessage ().toRawUTF8 ());
-                }
-            }
-            else if (not isBusy and delta == 0)
-            {
-                // First attempt failed — no code here or module not loaded.
-                // Subsequent delta attempts are silent.
-                logWrite ("WHATDBG: getOffsetByLine notFound for %s:%lu\n",
-                          basename.toRawUTF8 (),
-                          static_cast<unsigned long> (candidate));
-            }
+            jam::debug::Log::write ("WHATDBG: getOffsetStatus notFound for " + sourcePath + ":"
+                                     + juce::String (static_cast<unsigned long> (candidate)));
         }
+#endif
     }
 
-    ResolveResult result {};
+    const bool isResolved { offset != 0 };
 
+#if JUCE_DEBUG
     if (not isResolved)
     {
-        logWrite ("WHATDBG: tryResolve failed for %s:%lu (and %lu lines forward) — pending\n",
-                  windowsPath.toRawUTF8 (),
-                  static_cast<unsigned long> (requestedLine),
-                  static_cast<unsigned long> (lineSearchWindow));
+        jam::debug::Log::write ("WHATDBG: getBreakpointOffset failed for " + sourcePath + ":"
+                                 + juce::String (static_cast<unsigned long> (requestedLine)) + " (and "
+                                 + juce::String (static_cast<unsigned long> (lineSearchWindow))
+                                 + " lines forward) -- pending");
     }
-
-    // Step 2 — Create the breakpoint at the resolved address.
-    if (isResolved)
+    else
     {
-        std::uint32_t     engineId  { 0 };
-        const juce::Result addResult { session.addBreakpoint (offset, &engineId) };
-
-        if (addResult.failed ())
-        {
-            logWrite ("WHATDBG: addBreakpoint failed: %s\n",
-                      addResult.getErrorMessage ().toRawUTF8 ());
-        }
-
-        if (addResult.wasOk ())
-        {
-            engineToDap[engineId] = 0;
-
-            logWrite ("WHATDBG: breakpoint set %s:%lu (requested %lu) engineId=%lu offset=0x%llX\n",
-                      windowsPath.toRawUTF8 (),
-                      static_cast<unsigned long> (resolvedLine),
-                      static_cast<unsigned long> (requestedLine),
-                      static_cast<unsigned long> (engineId),
-                      static_cast<unsigned long long> (offset));
-
-            result = { engineId, resolvedLine, true };
-        }
+        jam::debug::Log::write ("WHATDBG: resolved offset for " + sourcePath + ":"
+                                 + juce::String (static_cast<unsigned long> (resolvedLine))
+                                 + " offset=0x"
+                                 + juce::String::toHexString (static_cast<unsigned long long> (offset)));
     }
+#endif
 
-    return result;
+    return { offset, resolvedLine };
 }
 
-// ---------------------------------------------------------------------------
-// BreakpointManager::onBreakpointHit
-// ---------------------------------------------------------------------------
+void BreakpointManager::setBreakpointLocation (BreakpointInfo& entryInfo) noexcept
+{
+    const auto [offset, candidateResolvedLine] { getBreakpointOffset (entryInfo.sourcePath, entryInfo.line) };
 
-/** Builds the DAP stopped event body for a breakpoint hit, including the DAP breakpoint ID
- *  mapped from engineId and the stopping thread. */
-juce::var BreakpointManager::onBreakpointHit (std::uint32_t engineId, std::uint32_t threadId)
+    if (offset != 0)
+    {
+        const std::int32_t engineId { session.addBreakpoint (offset) };
+
+        if (engineId != 0)
+        {
+            entryInfo.engineId     = engineId;
+            entryInfo.resolvedLine = candidateResolvedLine;
+
+#if JUCE_DEBUG
+            jam::debug::Log::write ("WHATDBG: breakpoint set dapId="
+                                     + juce::String (static_cast<unsigned long> (entryInfo.dapId))
+                                     + " line=" + juce::String (static_cast<unsigned long> (candidateResolvedLine))
+                                     + " engineId=" + juce::String (engineId));
+#endif
+        }
+#if JUCE_DEBUG
+        else
+        {
+            jam::debug::Log::write ("WHATDBG: addBreakpoint failed");
+        }
+#endif
+    }
+}
+
+juce::var BreakpointManager::onBreakpointHit (std::int32_t engineId, std::uint32_t threadId)
 {
     DynObj body { new juce::DynamicObject () };
     body->setProperty ("reason",            "breakpoint");
@@ -226,10 +145,17 @@ juce::var BreakpointManager::onBreakpointHit (std::uint32_t engineId, std::uint3
 
     juce::Array<juce::var> hitIds;
 
-    if (engineToDap.count (engineId) > 0)
+    const auto breakpointEntry { std::find_if (breakpoints.begin (), breakpoints.end (),
+        [engineId] (const auto& entry)
+        {
+            const auto& [entryDapId, entryInfo] { entry };
+            return entryInfo.engineId == engineId;
+        }) };
+
+    if (breakpointEntry != breakpoints.end ())
     {
-        const uint32_t dapId { engineToDap.at (engineId) };
-        hitIds.add (static_cast<int> (dapId));
+        const auto& [matchedDapId, matchedInfo] { *breakpointEntry };
+        hitIds.add (static_cast<int> (matchedDapId));
     }
 
     body->setProperty ("hitBreakpointIds", juce::var (hitIds));
@@ -237,27 +163,23 @@ juce::var BreakpointManager::onBreakpointHit (std::uint32_t engineId, std::uint3
     return juce::var (body);
 }
 
-// ---------------------------------------------------------------------------
-// BreakpointManager::onBreakpointLocationsResolved
-// ---------------------------------------------------------------------------
-
-/** Marks a breakpoint verified and updates its resolved line after deferred resolution.
- *  Returns the DAP breakpoint ID, or 0 if engineId is not tracked. */
-int BreakpointManager::onBreakpointLocationsResolved (std::uint32_t engineId,
-                                                      std::uint32_t resolvedLine) noexcept
+int BreakpointManager::onBreakpointLocationFound (std::int32_t  engineId,
+                                                  std::uint16_t resolvedLine) noexcept
 {
     int dapId { 0 };
 
-    if (engineToDap.count (engineId) > 0)
-    {
-        dapId = static_cast<int> (engineToDap.at (engineId));
-
-        if (breakpoints.count (static_cast<uint32_t> (dapId)) > 0)
+    const auto breakpointEntry { std::find_if (breakpoints.begin (), breakpoints.end (),
+        [engineId] (auto& entry)
         {
-            BreakpointInfo& info { breakpoints.at (static_cast<uint32_t> (dapId)) };
-            info.isVerified = true;
-            info.line       = resolvedLine;
-        }
+            const auto& [entryDapId, entryInfo] { entry };
+            return entryInfo.engineId == engineId;
+        }) };
+
+    if (breakpointEntry != breakpoints.end ())
+    {
+        auto& [matchedDapId, matchedInfo] { *breakpointEntry };
+        dapId = static_cast<int> (matchedDapId);
+        matchedInfo.resolvedLine = resolvedLine;
     }
 
     return dapId;

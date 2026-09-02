@@ -16,7 +16,11 @@ namespace debug
  *  Usage sequence:
  *  1. Call load() to LoadLibraryW the DLL and resolve the DebugCreate export.
  *  2. Call createDebugClient() to obtain an IDebugClient5 pointer.
- *  3. Loader's destructor calls FreeLibrary on the loaded module.
+ *  3. Loader's destructor intentionally does NOT call FreeLibrary — dbgeng.dll
+ *     spawns symsrv threads and holds COM state that cannot be safely torn
+ *     down at module unload, and FreeLibrary on it hangs or crashes. The
+ *     loaded module lives for the entire process lifetime; OS process
+ *     teardown reclaims it.
  */
 class Loader
 {
@@ -27,8 +31,7 @@ public:
     /** Load dbgeng.dll from the given sidecar directory.
      *
      *  Calls LoadLibraryW on "<sidecarDirectory>/dbgeng.dll" and resolves
-     *  the "DebugCreate" export. On success isLoaded() returns true and
-     *  createDebugClient() may be called.
+     *  the "DebugCreate" export. On success createDebugClient() may be called.
      *
      *  @param sidecarDirectory  Directory containing dbgeng.dll and its dependencies.
      *  @return true if the DLL was loaded and DebugCreate was resolved successfully.
@@ -43,23 +46,20 @@ public:
      *  receives ownership of the returned COM pointer and must call Release
      *  (or wrap it in a ComPtr) when done.
      *
-     *  @param outClient  Receives the IDebugClient5 pointer on success.
-     *  @return S_OK on success, or the HRESULT from DebugCreate on failure.
+     *  @return the IDebugClient5 pointer on success, or nullptr on failure.
      *
      *  @note Requires a prior successful call to load(). Asserts if not loaded.
      */
-    HRESULT createDebugClient (IDebugClient5** outClient) const noexcept;
-
-    /** Return true if dbgeng.dll is loaded and DebugCreate is resolved.
-     *
-     *  @return true if load() succeeded, false otherwise.
-     */
-    bool isLoaded () const noexcept;
+    IDebugClient5* createDebugClient () const noexcept;
 
 private:
+    /** Signature of dbgeng.dll's exported DebugCreate function. */
     using DebugCreateFn = HRESULT (STDAPICALLTYPE*) (REFIID, PVOID*);
 
+    /** Handle returned by LoadLibraryW for dbgeng.dll. Never freed — see class docs. */
     HMODULE dbgengModule { nullptr };
+
+    /** Address of the resolved "DebugCreate" export, or nullptr before a successful load(). */
     DebugCreateFn debugCreateFn { nullptr };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Loader)

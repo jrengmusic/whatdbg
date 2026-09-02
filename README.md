@@ -1,6 +1,6 @@
 # whatdbg
 
-**WYSIWYG Hybrid Abstraction Translator for Debugging**
+**WYSIWYG Hybrid Abstraction Translator for DAP Debug Adapter**
 
 A cross-platform DAP debug adapter for C/C++ with neovim -- Windows and macOS, one tool, identical DX.
 
@@ -21,7 +21,7 @@ Features apply to both Windows and macOS unless noted.
 **Execution Control**
 - Launch or attach to any process
 - Source-level stepping: next (F10), step in (F11), step out
-- Pause a running target (Windows: DebugBreakProcess / macOS: SIGSTOP via liblldb)
+- Pause a running target (Windows: DebugBreakProcess / macOS: SBProcess::SendAsyncInterrupt via liblldb)
 - Terminate kills the process, disconnect detaches cleanly
 
 **Breakpoints**
@@ -40,20 +40,22 @@ Features apply to both Windows and macOS unless noted.
 - `juce::String` expressions auto-resolve to string content
 
 **Multi-Thread**
-- Real thread enumeration with OS thread IDs and names
+- Thread enumeration with OS thread IDs. Windows resolves real thread names via `GetThreadDescription`; macOS reports `SBThread::GetName()`, which has no equivalent OS-level naming API behind it
 - Click any thread to inspect its stack trace and locals
 - Correct thread context for variables at any frame
 
 **Debug Output Capture**
 - Windows: `DBG()` and `OutputDebugString()` from the target appear in nvim-dap
-- macOS: `os_log` output from the target forwarded to nvim-dap
+- macOS: the target's own stdout/stderr streams are drained and forwarded to nvim-dap
 - Engine noise filtered -- only debuggee output forwarded
 
 **Architecture**
 - Two-thread model on both platforms: main thread owns the debug engine + DAP, stdin thread is a FIFO buffer
 - Sidecar debug engine embedded in the binary via JUCE BinaryData, extracted at runtime -- no external dependencies
 - Debug-only file logging (`#if JUCE_DEBUG`) -- zero overhead in Release
-- BLESSED-compliant: zero early returns, RAII resource management, named constants, dispatch table
+- BLESSED-compliant: no bail-out guards, RAII resource management, named constants, dispatch table
+- macOS termination kills and reaps the debuggee's exit through the normal event
+  loop -- no unreapable zombie left behind after `terminate`
 
 ---
 
@@ -71,7 +73,7 @@ Features apply to both Windows and macOS unless noted.
 - CMake 3.25+
 - Ninja
 - JUCE 8
-- JAM build system
+- `cast` build generator (`build-windows.sh`, generated, wraps vswhere + vcvarsall + cmake + ninja)
 
 ### macOS
 
@@ -85,33 +87,42 @@ Features apply to both Windows and macOS unless noted.
 - CMake 3.25+
 - Ninja
 - JUCE 8
-- JAM build system
-- liblldb.dylib built from LLVM source (see `scripts/build-liblldb-mac.sh`)
+- `cast` build generator, CMake + Ninja underneath
+- liblldb.dylib built from LLVM source (see `build-liblldb.sh`)
 
 ---
 
 ## Get Started
 
-### Windows
+`cast` builds whatdbg. It reads `project-info.md`, writes `CMakeLists.txt`, `Source/generated/ProjectInfo.h` and `build-windows.sh`, then runs the toolchain row you select. One command generates and builds.
 
-```bash
-./build.sh        # Release build + copy to ~/.local/bin
-./build.sh debug  # Debug build (with file logging)
-```
-
-The binary lands at `Builds/Ninja/whatdbg_App_artefacts/Release/whatdbg.exe`.
+Do not edit `CMakeLists.txt`. `cast` overwrites it.
 
 ### macOS
 
 ```bash
-./build.sh        # builds Release + installs to ~/.local/bin
-./build.sh debug  # Debug build (with file logging)
+cast              # Release, signed and notarized
+cast --debug      # Debug (file logging on)
+cast --no-sign    # Release, unsigned
 ```
 
-liblldb.dylib must be built first if not already present:
+The build targets the machine's own architecture. CMake reads `uname -m`, then picks the matching sidecar `liblldb.dylib` from `Resources/macos/`.
+
+The build installs the binary to `~/.local/bin/whatdbg`.
+
+`liblldb.dylib` must exist first. Build it once:
+
 ```bash
-./scripts/build-liblldb-mac.sh
+./build-liblldb.sh
 ```
+
+### Windows
+
+```bash
+cast --windows
+```
+
+The `windows` row runs the generated `build-windows.sh`. That script finds Visual Studio with `vswhere`, imports the MSVC environment from `vcvarsall.bat`, then runs cmake and ninja. It does all of this in one shell.
 
 ---
 
@@ -134,17 +145,15 @@ dap.configurations.cpp = {
     type = "whatdbg",
     request = "launch",
     program = "${workspaceFolder}/build/MyApp.exe",
-    sourcePath = "${workspaceFolder}",
-    symbolPath = "${workspaceFolder}",
+    cwd = "${workspaceFolder}",
   },
   -- Windows: attach
   {
     name = "Attach (Windows)",
     type = "whatdbg",
     request = "attach",
-    processId = "${command:pickProcess}",
-    sourcePath = "${workspaceFolder}",
-    symbolPath = "${workspaceFolder}",
+    pid = "${command:pickProcess}",
+    cwd = "${workspaceFolder}",
   },
   -- macOS: launch
   {
@@ -152,18 +161,22 @@ dap.configurations.cpp = {
     type = "whatdbg",
     request = "launch",
     program = "${workspaceFolder}/build/MyApp",
-    sourcePath = "${workspaceFolder}",
+    cwd = "${workspaceFolder}",
   },
   -- macOS: attach
   {
     name = "Attach (macOS)",
     type = "whatdbg",
     request = "attach",
-    processId = "${command:pickProcess}",
-    sourcePath = "${workspaceFolder}",
+    pid = "${command:pickProcess}",
+    cwd = "${workspaceFolder}",
   },
 }
 ```
+
+whatdbg reads `cwd` (source/symbol search path) and `pid` (attach target) from the
+DAP arguments — `sourcePath`, `symbolPath`, and `processId` are not read by
+`Source/WhatdbgHandlers.cpp` and have no effect if supplied.
 
 ### DAW plugin debugging (Windows -- JUCE + DAW)
 
@@ -173,12 +186,21 @@ dap.configurations.cpp = {
   type = "whatdbg",
   request = "launch",
   program = "C:/Program Files/DAW/yourDAWofChoice.exe",
-  sourcePath = "${workspaceFolder}",
-  symbolPath = "${workspaceFolder}",
+  cwd = "${workspaceFolder}",
 }
 ```
 
 Launch DAW, load your plugin, set breakpoints in plugin code, hit them.
+
+---
+
+## Testing
+
+`tests/smoke/` runs whatdbg end-to-end through an nvim-headless Lua DAP client
+(`run_smoke.lua`, driving `scenario_breakpoint.lua`, `scenario_process.lua`, and
+`scenario_terminate.lua` against three fixture binaries). Ten scenarios cover
+launch+breakpoint, step, attach, pause, variables, evaluate, output, crash,
+terminate-without-zombie, and disconnect-detach.
 
 ---
 

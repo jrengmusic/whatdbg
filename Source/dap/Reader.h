@@ -1,8 +1,6 @@
 #pragma once
 #include <JuceHeader.h>
 
-#include <vector>
-
 namespace dap
 {
 
@@ -13,10 +11,10 @@ namespace dap
  *  The main thread drains the FIFO via tryPop() on each event-loop iteration.
  *
  *  Capacity is fixed at fifoCapacity slots. If the FIFO is full the background
- *  thread blocks until space is available.
+ *  thread drops the message; in a debug build the drop is also logged.
  *
- *  @note start() must be called before the first tryPop(). stop() must be called
- *        before destruction to join the background thread cleanly.
+ *  @note start() must be called before the first tryPop(). ~Reader() is the sole
+ *        owner of stop() — it joins the background thread cleanly on destruction.
  */
 class Reader : private juce::Thread
 {
@@ -33,29 +31,56 @@ public:
      */
     void start ();
 
-    /** Signal the background thread to stop and wait for it to exit.
-     *
-     *  @note Blocks until the background thread has finished. Safe to call from
-     *        the main thread during shutdown.
-     */
-    void stop ();
-
     /** Pop one parsed DAP message from the FIFO.
      *
-     *  Non-blocking. Returns immediately with false if no message is available.
+     *  Non-blocking. Returns immediately with a void juce::var if no message is available.
      *
-     *  @param outMessage  Receives the parsed message if one was available.
-     *  @return true if a message was dequeued into outMessage, false if the FIFO was empty.
+     *  @return the dequeued message, or a void juce::var if the FIFO was empty.
      *
      *  @note Must be called on the main thread only.
      */
-    bool tryPop (juce::var& outMessage) noexcept;
+    juce::var tryPop () noexcept;
 
 private:
+    /** Signal the background thread to stop and wait for it to exit.
+     *
+     *  @note Blocks until the background thread has finished. Called exactly once,
+     *        by ~Reader() — sole owner of the reader's teardown.
+     */
+    void stop ();
+
     /** Background thread entry point — reads and parses stdin until signalled to stop. */
     void run () override;
 
+    /** Read and parse the DAP Content-Length header from stdin.
+     *
+     *  Blocks on std::getline until the blank line terminating the header block,
+     *  or until the background thread is signalled to stop.
+     *
+     *  @return the parsed Content-Length value, or -1 if no header was found.
+     */
+    int readContentLength ();
+
+    /** Read contentLength bytes of DAP message body from stdin and parse as JSON.
+     *
+     *  @param contentLength  Number of bytes to read, as reported by the Content-Length header.
+     *  @return the parsed message, or a void juce::var if the body was not valid JSON.
+     */
+    juce::var readMessage (int contentLength);
+
+    /** Enqueue a parsed DAP message into the FIFO for the main thread to consume.
+     *
+     *  @param message  The parsed message to enqueue. Dropped (and, in a debug
+     *                   build, logged) if the FIFO is full.
+     */
+    void addMessage (const juce::var& message);
+
+    /** Tracks free/ready read and write regions of storage for the producer
+     *  (background thread) and consumer (main thread) sides of tryPop().
+     */
     juce::AbstractFifo fifo { fifoCapacity };
+
+    /** Backing slots for queued messages, indexed by the ranges fifo hands out. */
     std::vector<juce::var> storage;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Reader)

@@ -1,0 +1,116 @@
+return {
+  compile = {
+    debug = {
+      database = "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Debug/compile_commands.json",
+      flags = {
+        "-DCAST_COMMIT=\\\"61fbf52\\\"",
+        "-DDEBUG=1",
+        "-DDONT_SET_USING_JUCE_NAMESPACE=1",
+        "-DJUCE_DONT_DECLARE_PROJECTINFO=1",
+        "-DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1",
+        "-DJUCE_IN_APP_PURCHASES=0",
+        "-DJUCE_MODULE_AVAILABLE_jam_core=1",
+        "-DJUCE_MODULE_AVAILABLE_juce_core=1",
+        "-DJUCE_MODULE_AVAILABLE_juce_data_structures=1",
+        "-DJUCE_MODULE_AVAILABLE_juce_events=1",
+        "-DJUCE_MODULE_AVAILABLE_juce_graphics=1",
+        "-DJUCE_STANDALONE_APPLICATION=1",
+        "-DJUCE_TARGET_HAS_BINARY_DATA=1",
+        "-D_DEBUG=1",
+        "-I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Debug/whatdbg_artefacts/JuceLibraryCode",
+        "-I/Users/jreng/Documents/Poems/dev/whatdbg/../jam",
+        "-I/Users/jreng/Documents/Poems/dev/whatdbg/Source/generated",
+        "-I/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/include",
+        "-I/Users/jreng/Documents/Poems/JUCE/modules",
+        "-I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Debug/juce_binarydata_whatdbg_BinaryData/JuceLibraryCode",
+        "-g",
+        "-std=c++17",
+        "-arch",
+        "arm64",
+        "-mmacosx-version-min=12.0",
+        "-Wno-shadow",
+        "-Wno-unused-parameter",
+        "-Wno-float-equal",
+        "-Wno-sign-conversion",
+        "-Wno-switch-enum",
+        "-Wno-implicit-float-conversion",
+        "-O0",
+      },
+      juceHeader = "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Debug/whatdbg_artefacts/JuceLibraryCode/JuceHeader.h",
+    },
+  },
+  configurations = {
+    debug = {
+      argument = "debug",
+      buildDir = "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Debug",
+      buildType = "Debug",
+    },
+    default = {
+      argument = "",
+      buildDir = "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Release",
+      buildType = "Release",
+    },
+    ["no-sign"] = {
+      argument = "no-sign",
+      buildDir = "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Release",
+      buildType = "Release",
+    },
+  },
+  dependencies = {
+    juce = {
+      modules = {
+        "juce_core",
+      },
+      root = "/Users/jreng/Documents/Poems/JUCE",
+    },
+    user = {
+      modules = {
+        {
+          name = "jam_core",
+          root = "/Users/jreng/Documents/Poems/dev/jam/jam_core",
+        },
+      },
+      root = "/Users/jreng/Documents/Poems/dev/jam",
+    },
+  },
+  launch = {
+    whatdbg = {
+      adapter = "whatdbg",
+      request = "launch",
+    },
+  },
+  manifest = {
+    id = "com.jrengmusic.whatdbg",
+    name = "whatdbg",
+    root = "/Users/jreng/Documents/Poems/dev/whatdbg",
+    version = "0.1.0",
+  },
+  selection = {
+    configuration = "debug",
+    host = "",
+    target = "whatdbg",
+  },
+  sources = {
+    "/Users/jreng/Documents/Poems/dev/whatdbg/project-info.md",
+    "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Debug/compile_commands.json",
+  },
+  targets = {
+    {
+      capabilities = {
+        debug = true,
+        run = true,
+      },
+      kind = "executable",
+      name = "whatdbg",
+      product = {
+        debug = "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Debug/whatdbg_artefacts/Debug/whatdbg",
+        default = "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Release/whatdbg_artefacts/Release/whatdbg",
+        ["no-sign"] = "/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Release/whatdbg_artefacts/Release/whatdbg",
+      },
+    },
+  },
+  toolchain = {
+    manifest = "cast/CAST.md",
+    name = "cast",
+  },
+}
