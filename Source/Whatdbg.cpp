@@ -27,8 +27,8 @@ Whatdbg::Whatdbg ()
         { "launch",            [this] (const juce::var& m) { onLaunch (m); } },
         { "attach",            [this] (const juce::var& m) { onAttach (m); } },
         { "configurationDone", [this] (const juce::var& m) { onConfigurationDone (m); } },
-        { "disconnect",        [this] (const juce::var& m) { onDisconnect (m); } },
-        { "terminate",         [this] (const juce::var& m) { onDisconnect (m); } },
+        { "disconnect",        [this] (const juce::var& m) { onDisconnect (m, false); } },
+        { "terminate",         [this] (const juce::var& m) { onDisconnect (m, true); } },
         { "setBreakpoints",    [this] (const juce::var& m) { onSetBreakpoints (m); } },
         { "threads",           [this] (const juce::var& m) { onThreads (m); } },
         { "stackTrace",        [this] (const juce::var& m) { onStackTrace (m); } },
@@ -91,7 +91,7 @@ void Whatdbg::onCommand (const juce::var& message)
 {
     const juce::String type { message["type"].toString () };
 
-    if (type == "request")
+    if (type.compare ("request") == 0)
     {
         const juce::String command { message["command"].toString () };
         const int seq { static_cast<int> (message["seq"]) };
@@ -253,20 +253,6 @@ void Whatdbg::drainModuleLoaded ()
     }
 }
 
-juce::var Whatdbg::getBreakpointChangedEvent (int dapId, std::uint32_t resolvedLine)
-{
-    DynObj bpObj { new juce::DynamicObject () };
-    bpObj->setProperty ("id",       dapId);
-    bpObj->setProperty ("verified", true);
-    bpObj->setProperty ("line",     static_cast<int> (resolvedLine));
-
-    DynObj body { new juce::DynamicObject () };
-    body->setProperty ("reason",     "changed");
-    body->setProperty ("breakpoint", juce::var (bpObj));
-
-    return dap::getEvent ("breakpoint", juce::var (body));
-}
-
 void Whatdbg::drainBreakpointLocationResolved ()
 {
     // Breakpoint location resolved asynchronously by liblldb (target loaded
@@ -308,30 +294,6 @@ void Whatdbg::drainDebuggeeOutput ()
 
         writeMessage (dap::getEvent ("output", juce::var (body)));
     }
-}
-
-juce::var Whatdbg::getExceptionStoppedEvent (const juce::String& exceptionName,
-                                              const juce::String& description,
-                                              int threadId)
-{
-    DynObj stoppedBody { new juce::DynamicObject () };
-    stoppedBody->setProperty ("reason",            "exception");
-    stoppedBody->setProperty ("text",              exceptionName);
-    stoppedBody->setProperty ("description",       description);
-    stoppedBody->setProperty ("threadId",          threadId);
-    stoppedBody->setProperty ("allThreadsStopped", true);
-
-    return dap::getEvent ("stopped", juce::var (stoppedBody));
-}
-
-juce::var Whatdbg::getExceptionOutputEvent (const juce::String& exceptionName,
-                                             const juce::String& description)
-{
-    DynObj outputBody { new juce::DynamicObject () };
-    outputBody->setProperty ("category", "stderr");
-    outputBody->setProperty ("output",   "Unhandled exception: " + exceptionName + " " + description + "\n");
-
-    return dap::getEvent ("output", juce::var (outputBody));
 }
 
 void Whatdbg::drainExceptionStopped ()
@@ -422,6 +384,11 @@ void Whatdbg::resumeAfterInitialBreak ()
         juce::ignoreUnused (session.forceReloadAllSymbols ());
         emitResolvedBreakpointEvents ();
     }
+
+    const bool isLaunchSession { state.targetProgram.isNotEmpty () };
+
+    if (isLaunchSession)
+        writeMessage (getProcessEvent (state.targetProgram, state.targetProcessId, "launch"));
 
     resumeExecution ();
     state.initialBreakPhase = debug::InitialBreakPhase::resolved;

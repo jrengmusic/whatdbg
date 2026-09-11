@@ -1,28 +1,25 @@
-
-                        Codegen Annotated Source of Truth
-————————————————————————————————————————————————————————————————————————————————
-
-            ░░████████████░░████████████░░████████████░░████████████
-            ░░████  ░░████░░████  ░░████░░████  ░░████    ░░████
-            ░░████        ░░████  ░░████░░████            ░░████
-            ░░████        ░░████████████░░████████████    ░░████
-            ░░████        ░░████  ░░████        ░░████    ░░████
-            ░░████  ░░████░░████  ░░████░░████  ░░████    ░░████
-            ░░████████████░░████  ░░████░░████████████    ░░████
-
-————————————————————————————————————————————————————————————————————————————————
-                         FOR YOUR EYES ONLY, DO NOT EDIT
-
-
 #!/usr/bin/env bash
+
+#                         Codegen Annotated Source of Truth
+# ————————————————————————————————————————————————————————————————————————————————
+# 
+#             ░░████████████░░████████████░░████████████░░████████████
+#             ░░████  ░░████░░████  ░░████░░████  ░░████    ░░████
+#             ░░████        ░░████  ░░████░░████            ░░████
+#             ░░████        ░░████████████░░████████████    ░░████
+#             ░░████        ░░████  ░░████        ░░████    ░░████
+#             ░░████  ░░████░░████  ░░████░░████  ░░████    ░░████
+#             ░░████████████░░████  ░░████░░████████████    ░░████
+# 
+# ————————————————————————————————————————————————————————————————————————————————
+#                          FOR YOUR EYES ONLY, DO NOT EDIT
+
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
 CONFIG="Release"
-INSTALL_DIR="$HOME/.local/bin"
-mkdir -p "$INSTALL_DIR"
 
 VSWHERE="$(cygpath -u "$PROGRAMFILES/Microsoft Visual Studio/Installer/vswhere.exe")"
 VS_PATH="$("$VSWHERE" -latest -property installationPath)"
@@ -48,9 +45,6 @@ echo "Building [$CONFIG]..."
 cmake --build "Builds/$CONFIG" -- -j$(nproc)
 
 ARTIFACT="Builds/$CONFIG/whatdbg_artefacts/$CONFIG/whatdbg.exe"
-
-echo "Installing..."
-cp "$ARTIFACT" "$INSTALL_DIR/whatdbg.exe"
 
 ARCH="$(uname -m)"
 if [[ "$ARCH" == "x86_64" ]]; then ARCH="x64"; fi

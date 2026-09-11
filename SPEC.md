@@ -45,8 +45,9 @@
 5. whatdbg captures PID from `CreateProcess` callback via `GetProcessId(handle)`
 6. Initial `EXCEPTION_BREAKPOINT` (INT3) fires — whatdbg holds target stopped
 7. User's DAP client sends `configurationDone`
-8. whatdbg resumes target, emits DAP `thread` event with `reason: "started"`
-9. DAW loads normally, user works with it
+8. whatdbg emits DAP `process` event with `name` (the program path), `systemProcessId`, `isLocalProcess: true`, and `startMethod: "launch"`
+9. whatdbg resumes target, emits DAP `thread` event with `reason: "started"`
+10. DAW loads normally, user works with it
 
 **User Flow (Happy Path), macOS:**
 1. User starts debug session in nvim-dap with launch configuration
@@ -55,13 +56,14 @@
 4. whatdbg captures PID from the returned `SBProcess`
 5. The target stops at entry (liblldb's own stop-at-entry, not an injected breakpoint)
 6. User's DAP client sends `configurationDone`
-7. whatdbg resumes target, emits DAP `thread` event with `reason: "started"`
-8. The program runs normally, user works with it
+7. whatdbg emits DAP `process` event with `name` (the program path), `systemProcessId`, `isLocalProcess: true`, and `startMethod: "launch"`
+8. whatdbg resumes target, emits DAP `thread` event with `reason: "started"`
+9. The program runs normally, user works with it
 
 **Edge Cases:**
 - Program path with spaces: quoted automatically (`"C:\Program Files\..."`) on Windows; macOS passes argv entries unquoted through `SBLaunchInfo`
 - Program not found: `CreateProcess2` (Windows) / `target.Launch` (macOS) returns failure, DAP error response sent
-- Target crashes during launch: exit is observed via the platform's own event path (Windows `ExitProcess` callback, macOS `onProcessStateStopped`/`eStateExited`), DAP `exited` + `terminated` events emitted
+- Target crashes during launch: exit is observed via the platform's own event path (Windows `ExitProcess` callback, macOS `onProcessStateStopped`/`eStateExited`), DAP `exited` + `terminated` events emitted; no `process` event is sent — the session never reaches the initial-break resume, and there is no live process to identify
 
 **Error Handling:**
 
@@ -78,8 +80,9 @@
 1. User starts debug session with attach configuration including PID
 2. whatdbg attaches to the running process — Windows: `AttachProcess(0, pid, 0)` (invasive attach); macOS: `SBTarget::AttachToProcessWithID`
 3. PID stored on `State::targetProcessId`
-4. Target stops at the current instruction
-5. User continues from configurationDone
+4. whatdbg emits DAP `process` event with `name` (`"pid <n>"`), `systemProcessId`, `isLocalProcess: true`, and `startMethod: "attach"`
+5. Target stops at the current instruction
+6. User continues from configurationDone
 
 **Edge Cases:**
 - Invalid PID: attach call returns failure on both platforms

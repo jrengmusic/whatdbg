@@ -37,6 +37,7 @@ void Whatdbg::onLaunch (const juce::var& request)
         addSearchPaths (dap::getString (args, "cwd"));
 
         state.executionState = debug::ExecutionState::launching;
+        state.targetProgram = program;
         writeMessage (dap::getResponse (seq, "launch", true));
     }
     else
@@ -67,10 +68,10 @@ void Whatdbg::onAttach (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
     const juce::var& args { request["arguments"] };
-    const std::uint32_t pid { static_cast<std::uint32_t> (static_cast<int> (args["pid"])) };
+    const std::uint32_t pid { static_cast<std::uint32_t> (static_cast<juce::int64> (args["pid"])) };
 
 #if JUCE_DEBUG
-    jam::debug::Log::write ("[Whatdbg] attach: pid=" + juce::String (static_cast<unsigned long> (pid)));
+    jam::debug::Log::write ("[Whatdbg] attach: pid=" + juce::String (pid));
 #endif
 
     const bool isAttached { session.attach (pid) };
@@ -81,14 +82,15 @@ void Whatdbg::onAttach (const juce::var& request)
 
         state.targetProcessId = pid;
 
-       #if JUCE_WINDOWS
+#if JUCE_WINDOWS
         state.executionState = debug::ExecutionState::launching;
-       #else
+#else
         state.executionState    = debug::ExecutionState::stopped;
         state.initialBreakPhase = debug::InitialBreakPhase::pending;
-       #endif
+#endif
 
         writeMessage (dap::getResponse (seq, "attach", true));
+        writeMessage (getProcessEvent ("pid " + juce::String (pid), pid, "attach"));
     }
     else
     {
@@ -101,7 +103,8 @@ void Whatdbg::onConfigurationDone (const juce::var& request)
     const int seq { static_cast<int> (request["seq"]) };
     state.isConfigurationDone = true;
 
-    if (state.executionState == debug::ExecutionState::stopped)
+    if (state.executionState == debug::ExecutionState::stopped
+        and state.initialBreakPhase == debug::InitialBreakPhase::pending)
     {
         resumeAfterInitialBreak ();
     }
@@ -109,13 +112,12 @@ void Whatdbg::onConfigurationDone (const juce::var& request)
     writeMessage (dap::getResponse (seq, "configurationDone", true));
 }
 
-void Whatdbg::onDisconnect (const juce::var& request)
+void Whatdbg::onDisconnect (const juce::var& request, bool isTerminate)
 {
     const int seq { static_cast<int> (request["seq"]) };
     const juce::String command { request["command"].toString () };
     const juce::var& args { request["arguments"] };
 
-    const bool isTerminate { command == "terminate" };
     state.shouldTerminateOnExit = isTerminate or static_cast<bool> (args["terminateDebuggee"]);
 
     writeMessage (dap::getResponse (seq, command, true));

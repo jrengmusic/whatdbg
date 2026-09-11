@@ -55,10 +55,10 @@
         <inbodydescription>
         </inbodydescription>
         <location file="debug/Callbacks.h" line="43" column="5"/>
-        <references refid="classdebug_1_1_output_callbacks_1a7b53d1ebf9716fe903739326e6088578" compoundref="_callbacks_8cpp" startline="160" endline="164">GetInterestMask</references>
-        <references refid="classdebug_1_1_output_callbacks_1ae7585eb0c1e5a6397ab1f78313179724" compoundref="_callbacks_8cpp" startline="148" endline="154">Output</references>
-        <references refid="classdebug_1_1_output_callbacks_1aadd3810605f6ea389591feeee73a026f" compoundref="_callbacks_8cpp" startline="166" endline="186">Output2</references>
-        <references refid="classdebug_1_1_output_callbacks_1ae8ec1d39b891624fcc2167ce4210da01" compoundref="_callbacks_8cpp" startline="117" endline="142">QueryInterface</references>
+        <references refid="classdebug_1_1_output_callbacks_1a7b53d1ebf9716fe903739326e6088578" compoundref="_callbacks_8cpp" startline="158" endline="162">GetInterestMask</references>
+        <references refid="classdebug_1_1_output_callbacks_1ae7585eb0c1e5a6397ab1f78313179724" compoundref="_callbacks_8cpp" startline="146" endline="152">Output</references>
+        <references refid="classdebug_1_1_output_callbacks_1aadd3810605f6ea389591feeee73a026f" compoundref="_callbacks_8cpp" startline="164" endline="184">Output2</references>
+        <references refid="classdebug_1_1_output_callbacks_1ae8ec1d39b891624fcc2167ce4210da01" compoundref="_callbacks_8cpp" startline="115" endline="140">QueryInterface</references>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_output_callbacks_1ae8ec1d39b891624fcc2167ce4210da01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
@@ -102,7 +102,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="53" column="5" bodyfile="debug/Callbacks.cpp" bodystart="117" bodyend="142"/>
+        <location file="debug/Callbacks.h" line="53" column="5" bodyfile="debug/Callbacks.cpp" bodystart="115" bodyend="140"/>
         <referencedby refid="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d">STDMETHOD_</referencedby>
       </memberdef>
     </sectiondef>
@@ -126,7 +126,7 @@
 <para>Receive plain-text debug output (legacy callback path). </para>
         </briefdescription>
         <detaileddescription>
-<para>Called by dbgeng for output routed through the non-DML path. Forwards text to the <ref refid="classdebug_1_1_state" kindref="compound">State</ref> output fields.</para>
+<para>Called by dbgeng for output routed through the non-DML path. Writes the text to debug::Log; does not forward it to <ref refid="classdebug_1_1_state" kindref="compound">State</ref>.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>mask</parametername>
@@ -150,8 +150,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="69" column="5" bodyfile="debug/Callbacks.cpp" bodystart="148" bodyend="154"/>
-        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <location file="debug/Callbacks.h" line="69" column="5" bodyfile="debug/Callbacks.cpp" bodystart="146" bodyend="152"/>
         <referencedby refid="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d">STDMETHOD_</referencedby>
       </memberdef>
     </sectiondef>
@@ -187,7 +186,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="84" column="5" bodyfile="debug/Callbacks.cpp" bodystart="160" bodyend="164"/>
+        <location file="debug/Callbacks.h" line="84" column="5" bodyfile="debug/Callbacks.cpp" bodystart="158" bodyend="162"/>
         <referencedby refid="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d">STDMETHOD_</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_output_callbacks_1aadd3810605f6ea389591feeee73a026f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -256,9 +255,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="97" column="5" bodyfile="debug/Callbacks.cpp" bodystart="166" bodyend="186"/>
-        <references refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140">jam::Instance&lt; State &gt;::getInstance</references>
-        <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
+        <location file="debug/Callbacks.h" line="97" column="5" bodyfile="debug/Callbacks.cpp" bodystart="164" bodyend="184"/>
         <referencedby refid="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d">STDMETHOD_</referencedby>
       </memberdef>
     </sectiondef>
@@ -271,12 +268,14 @@
         <qualifiedname>debug::OutputCallbacks::refCount</qualifiedname>
         <initializer>{ 1 }</initializer>
         <briefdescription>
+<para>COM reference count, tracked by AddRef/Release. </para>
         </briefdescription>
         <detaileddescription>
+<para>Never reaches zero in practice — this object is stack-allocated inside <ref refid="classdebug_1_1_session" kindref="compound">Session</ref> and never deleted. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="102" column="11" bodyfile="debug/Callbacks.h" bodystart="102" bodyend="102"/>
+        <location file="debug/Callbacks.h" line="105" column="11" bodyfile="debug/Callbacks.h" bodystart="105" bodyend="105"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -327,7 +326,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="debug/Callbacks.h" line="22" column="1" bodyfile="debug/Callbacks.h" bodystart="23" bodyend="105"/>
+    <location file="debug/Callbacks.h" line="22" column="1" bodyfile="debug/Callbacks.h" bodystart="23" bodyend="108"/>
     <listofallmembers>
       <member refid="classdebug_1_1_output_callbacks_1a7b53d1ebf9716fe903739326e6088578" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>GetInterestMask</name></member>
       <member refid="classdebug_1_1_output_callbacks_1ae7585eb0c1e5a6397ab1f78313179724" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>Output</name></member>

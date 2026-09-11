@@ -114,9 +114,12 @@ private:
 
     /** Handle DAP disconnect request — detach or terminate the debuggee.
      *
-     *  @param request  The full DAP disconnect request object.
+     *  @param request      The full DAP disconnect request object.
+     *  @param isTerminate  True when the dispatch entry was "terminate"; forces
+     *                      debuggee termination regardless of the
+     *                      terminateDebuggee argument.
      */
-    void onDisconnect (const juce::var& request);
+    void onDisconnect (const juce::var& request, bool isTerminate);
 
     /** Handle DAP setBreakpoints request — sync client breakpoints with dbgeng.
      *
@@ -261,7 +264,7 @@ private:
      *  @param dapId         The DAP breakpoint ID resolved by BreakpointManager.
      *  @param resolvedLine  The source line the breakpoint resolved to.
      */
-    juce::var getBreakpointChangedEvent (int dapId, std::uint32_t resolvedLine);
+    juce::var getBreakpointChangedEvent (int dapId, std::uint32_t resolvedLine) const;
 
     /** Emit a DAP breakpoint(changed) event if a breakpoint location was resolved asynchronously. */
     void drainBreakpointLocationResolved ();
@@ -277,7 +280,7 @@ private:
      */
     juce::var getExceptionStoppedEvent (const juce::String& exceptionName,
                                         const juce::String& description,
-                                        int threadId);
+                                        int threadId) const;
 
     /** Build a DAP output(stderr) event body summarizing an unhandled exception.
      *
@@ -285,7 +288,20 @@ private:
      *  @param description    Formatted "0x<code> at 0x<address>" crash description.
      */
     juce::var getExceptionOutputEvent (const juce::String& exceptionName,
-                                       const juce::String& description);
+                                       const juce::String& description) const;
+
+    /** Build a DAP process event body announcing the debuggee's identity.
+     *
+     *  Sent once per session: from resumeAfterInitialBreak for a launch, from
+     *  onAttach for an attach. isLocalProcess is always true — whatdbg debugs
+     *  the machine it runs on.
+     *
+     *  @param name         Logical process name: the program path for a launch,
+     *                      "pid \<n\>" for an attach.
+     *  @param processId    OS process id of the debuggee.
+     *  @param startMethod  DAP start method: "launch" or "attach".
+     */
+    juce::var getProcessEvent (const juce::String& name, std::uint32_t processId, const juce::String& startMethod) const;
 
     /** Emit DAP stopped(exception) and output events if an unhandled exception fired. */
     void drainExceptionStopped ();

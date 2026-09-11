@@ -112,6 +112,79 @@
 
 ## SPRINT HISTORY
 
+## Sprint 27: DAP process Event + --help + Clean Sweep + Doxygen ✅
+
+**Date:** 2026-09-12
+**Primary:** COUNSELOR
+
+### Agents Participated
+- COUNSELOR: plan, delegation, per-step validation, finding triage, SPEC/CLAUDE/HANDOFF edits
+- Pathfinder ×2: emission-site discovery, doxygen-gap inventory
+- Engineer ×9: builder + State field, emission sites, two remediation rounds, clean-sweep implementation, doxygen pass ×2, file deletion, four build+smoke verification runs
+- Auditor ×2: full-sprint pass (17 findings), remediation + --help pass (17 findings)
+- Librarian ×1: JUCE banner trace (stopped by ARCHITECT — Debug-build banner accepted)
+
+### Objectives
+1. Emit the DAP `process` event so the client stops guessing the debuggee's identity (RFC-PROCESS-EVENT.md; the guess killed ARCHITECT's own END terminal).
+2. `whatdbg --help` with comprehensive usage so agents drive whatdbg without reading nvim config or source.
+3. Clean-sweep both audit passes; comprehensive doxygen; RFC/PLAN hygiene.
+
+### process Event
+- Emission point **B** (ARCHITECT-ratified): launch event from `resumeAfterInitialBreak`, before `resumeExecution`, before the `thread`/`started` event; attach event from `onAttach` after the response. One event per session on all four platform paths.
+- Body: `name` (program path on launch, `"pid <n>"` on attach), `systemProcessId`, `isLocalProcess: true`, `startMethod`. No capabilities entry — DAP events are not capability-gated.
+- `State::targetProgram` (value data, `target*` family) discriminates launch from attach — no was-sent flag, no machinery state.
+- `Whatdbg::getProcessEvent (name, processId, startMethod) const` joins the builder family, all values as parameters.
+- `onConfigurationDone` now also requires `initialBreakPhase == pending` — a repeated `configurationDone` while stopped no longer re-enters (spurious resume, duplicate `thread`/`process` events).
+- Launch that dies before the initial break sends no `process` event — closed by design and documented in SPEC.md edge cases: there is no live process to identify.
+
+### --help
+- `Main.cpp`: `helpText` raw string (ratified verbatim), `juce::ArgumentList::containsOption ("--help")`, `ProjectInfo::projectName`/`versionString` — nothing hardcoded. Runs before the macOS re-exec; no sidecar needed for help.
+- The Debug-build `JUCE v8.0.14` banner line precedes the help text — ARCHITECT accepted; Release builds are the clean surface.
+- HANDOFF.md (`~/.config`) addendum lifts the client-side block and carries ARCHITECT's directive: recommend CAROL.md name whatdbg the first-class headless debugger — agents never reach raw lldb (Developer-Tools dialog hangs an unclicked process).
+
+### Clean Sweep — Two Audit Passes, 34 Findings
+- **Pass 1 (17):** `const` on all four event builders; declaration into the family block; parameter `program` → `name` (one call site passes a pid string); emission order aligned with RFC and SPEC; `isLocalProcess` added to SPEC steps; string `==` → `compare (…) == 0` at both pre-existing sites; the `configurationDone` re-entry gate above.
+- **Pass 2 (17):** hand-rolled argv parse → `juce::ArgumentList`; hardcoded product name → `ProjectInfo::projectName`; `getProcessEvent` joins the all-parameters family shape (MANIFESTO E outranked the RFC snippet, per hierarchy); redundant `unsigned long` widening casts dropped (`juce::String (unsigned int)` is exact); pid extraction routed through `juce::int64` so a pid above 2^31 cannot narrow through signed int; continuation alignment; preprocessor indent.
+- **Structure (ARCHITECT-ratified):** four builders extracted to `Source/WhatdbgEvents.cpp` (Whatdbg* family; picked up by the cast glob) — Whatdbg.cpp back under the L-300 detector. `main` decomposed into `execWithSidecar` (macOS re-exec trampoline) + `runAdapter` — 14-line main.
+- **Terminate dispatch:** the command table's two entries now pass the resolved key as data — `onDisconnect (request, bool isTerminate)`; the text re-test is gone, zero new names.
+- **Closed by citation:** attach-timing suspicion (a late-drained attach-stop event reads the thread's current stop reason; a resumed thread matches none of the six `stopReasons` entries — nothing emitted); `"pid "` literal, int32 wire cast, braceless one-line if, `juce::String` field init — all sibling-pattern or spec-typed.
+
+### RFC/PLAN Hygiene
+Deleted (ARCHITECT-directed): RFC-PROCESS-EVENT.md, RFC-ZOMBIE-TERMINATION.md (both implemented), PLAN-process-event.md (completed). RFC.md (TTY draft, open) retained. CLAUDE.md doc table updated.
+
+### Doxygen
+- Authored: `getProcessEvent` block, `targetProgram` block, `@param isTerminate` on `onDisconnect`, `@file` for WhatdbgEvents.cpp. `docs/xml` regenerated from the recorded settings — zero warnings in the authored set.
+- Four residual warnings are a parser artifact, root-caused with XML evidence: doxygen cannot parse the `STDMETHOD_ (ULONG, Name)` two-argument macro shape (Callbacks.h:34,43,141,147) and records the member as `STDMETHOD_`, orphaning the `.cpp` definitions. Header docs are complete and correctly placed. Fix would be a Doxyfile `PREDEFINED` entry (no canonical Doxyfile exists — standing Sprint 26 risk) or a Windows-only code reshape (unverifiable here).
+
+### Verification
+- Four Debug builds this sprint, zero errors; `WhatdbgEvents.cpp` compiles via the regenerated glob.
+- Smoke suite 10/10 after every code round — final run includes the reworked `onDisconnect` (09 terminate-no-zombie, 10 disconnect-detach both verified verbatim).
+- `--help`: exit 0, ratified text, all ten section headers.
+
+### Alignment Check
+- [x] BLESSED — E (all parameters visible, explicit intent locals), S (adapter is SSOT for process identity; no shadow state), Stateless (no machinery flags), L (Whatdbg.cpp and main back under detectors)
+- [x] NAMES.md — new names ratified: `targetProgram`, `getProcessEvent`, `WhatdbgEvents.cpp`, `execWithSidecar`, `runAdapter`, params `name`/`processId`/`isTerminate`; families cited for each
+- [x] CODING.md — CRITICAL RULES swept both passes; doxygen header-only, @param matches every signature
+
+### Problems Solved
+- Windows/macOS learn the pid at different times; emission point B is the one uniform site after both, with Model value data as the launch/attach discriminator
+- A dispatch table that maps two commands to one handler must pass the resolved key as data, not let the handler re-test text
+- Doxygen's declarator heuristic silently mis-parses two-argument COM macros — warnings can indicate parser limits, not misplaced prose
+
+### Debts Paid
+- None in ledger scope this sprint
+
+### Debts Deferred
+- `DEBT-20260902T184427` — Windows bootstrap via cast toolchain. Unchanged; resolution still belongs in cast. Standing ARCHITECT deferral.
+
+### Recorded Risks — facts ARCHITECT must weigh
+- **Windows still never compiled here.** This sprint's Windows-visible changes (`onDisconnect` signature, `fprintf`/`<cstdio>` transitivity in Main.cpp outside the mac-only include) rest on reading, not a compiler.
+- **Four doxygen warnings persist** from the `STDMETHOD_` parser artifact; joins the standing no-runnable-Doxyfile risk.
+- **WhatdbgHandlers.cpp at ~328 non-comment lines** — single responsibility (request handlers), LANGUAGE.md single-header/large-unit reasoning applied; not decomposed.
+- **`nvim/lua` client work remains** — HANDOFF.md Steps 0-6 in `~/.config` are MACHINIST's, now unblocked.
+
+---
+
 ## Sprint 26: cast Migration + Zombie Termination Fix + 277-Finding Clean Sweep ✅
 
 **Date:** 2026-09-03
@@ -175,7 +248,7 @@ Root cause was never the raw signal. Three defects, each found by evidence:
 - None outstanding at sprint start
 
 ### Debts Deferred
-- None
+- `DEBT-20260902T184427` — Windows bootstrap, chain vcvarsall into the toolchain. whatdbg is the only CAST-managed project generating a wrapper build script; cast has no `windows` row and no wrapper. Toolchain rows are argv with no shell and no environment carried between rows, so a `vcvarsall.bat` row cannot hand MSVC's environment to the following `cmake` row — one row must run one script that does both. Resolution belongs in `cast`'s toolchain execution path and lands for both projects. ARCHITECT-directed deferral.
 
 ### Recorded Risks — not deferrals, facts ARCHITECT must weigh
 - **Windows code written this sprint has never been compiled.** No Windows toolchain on this machine. `Session.cpp` and `Callbacks.cpp` changes rest on reading, not on a compiler.

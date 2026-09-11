@@ -9,7 +9,7 @@ option(CAST_SIGN "Run the sign/pkg/notarize/staple chain on a Release build" ON)
 set(CMAKE_OSX_DEPLOYMENT_TARGET :::deploymentTarget::: CACHE STRING "macOS deployment target")
 
 if(APPLE)
-    message(STATUS "Supported macOS architectures: :::list:::")
+    message(STATUS "Supported macOS architectures: :::[list]:::")
 elseif(WIN32)
     set(CMAKE_MSVC_RUNTIME_LIBRARY :::msvcRuntime:::)
 endif()
@@ -31,23 +31,23 @@ message(STATUS "CAST: configuring ${PROJECT_NAME} ${PROJECT_VERSION}")
 
 if(APPLE)
     set(CAST_RELEASE_COMPILE_FLAGS
-:::list:::
+:::[list]:::
     )
     set(CAST_RELEASE_LINK_FLAGS
-:::list:::
+:::[list]:::
     )
     set(CAST_DEBUG_COMPILE_FLAGS
-:::list:::
+:::[list]:::
     )
 elseif(WIN32)
     set(CAST_RELEASE_COMPILE_FLAGS
-:::list:::
+:::[list]:::
     )
     set(CAST_RELEASE_LINK_FLAGS
-:::list:::
+:::[list]:::
     )
     set(CAST_DEBUG_COMPILE_FLAGS
-:::list:::
+:::[list]:::
     )
 endif()
 
@@ -61,7 +61,7 @@ if(WIN32)
     set(BINARY_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Resources/windows/${BINARY_DATA_ARCH}")
 
     set(WHATDBG_BINARY_FILES
-:::list:::
+:::[list]:::
     )
 
     message(STATUS "BinaryData arch: ${BINARY_DATA_ARCH}")
@@ -91,7 +91,7 @@ if(APPLE)
     set(BINARY_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Resources/macos/${BINARY_DATA_ARCH}")
 
     set(WHATDBG_BINARY_FILES
-:::list:::
+:::[list]:::
     )
 
     message(STATUS "BinaryData arch: ${BINARY_DATA_ARCH}")
@@ -131,7 +131,7 @@ endif()
 
 message(STATUS "CAST: JUCE ${CAST_FOUND_JUCE_VERSION} found at ${CAST_JUCE_PATH}")
 
-:::list:::
+:::[list]:::
 
 message(STATUS "CAST: user modules added from :::userModulePath:::")
 
@@ -154,7 +154,7 @@ message(STATUS "CAST: user modules added from :::userModulePath:::")
 juce_generate_juce_header(${PROJECT_NAME})
 
 file(GLOB_RECURSE CAST_SOURCE_FILES CONFIGURE_DEPENDS
-:::list:::
+:::[list]:::
 )
 
 list(REMOVE_ITEM CAST_SOURCE_FILES ${WHATDBG_WIN_SOURCES} ${WHATDBG_MAC_SOURCES})
@@ -169,11 +169,11 @@ target_sources(${PROJECT_NAME} PRIVATE ${CAST_SOURCE_FILES})
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC
     CAST_COMMIT="${CAST_COMMIT_HASH}"
-:::list:::
+:::[list]:::
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
-:::list:::
+:::[list]:::
 )
 
 if(APPLE)
@@ -182,8 +182,8 @@ endif()
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
-:::list:::
-:::list:::
+:::[list]:::
+:::[list]:::
     PUBLIC
         juce::juce_recommended_config_flags
 )
@@ -279,7 +279,7 @@ message(STATUS "━━━━━━━━━━━━━━━━━━━━━�
 ```
 
 ```module
-juce_add_module(":::root:::/:::name:::"):::comment:::
+juce_add_module(":::root:::/:::name:::"):::[comment]:::
 ```
 
 ```glob-pattern
@@ -358,6 +358,9 @@ COMMAND ${CMAKE_COMMAND} -E rename ":::installDirectory:::/$<TARGET_FILE_NAME:${
 
 ```windows-build
 #!/usr/bin/env bash
+
+:::[banner]:::
+
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

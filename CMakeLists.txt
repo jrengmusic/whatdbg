@@ -37,7 +37,7 @@ elseif(WIN32)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 
-project("whatdbg"
+project(whatdbg
     VERSION "0.1.0"
     LANGUAGES C CXX
     DESCRIPTION "DAP adapter for Windows DbgEng / macOS liblldb"
@@ -259,13 +259,13 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
         string(TIMESTAMP CAST_BUILD_DATE "%Y-%m-%d" UTC)
         set(CAST_QA_PATH "$ENV{HOME}/Documents/Poems/dev/___builds___")
         set(CAST_QA_DIRECTORY "${CAST_QA_PATH}/${CAST_BUILD_DATE} ${PROJECT_NAME} v${PROJECT_VERSION} macOS")
-        set(CAST_INSTALL_ROOT /opt)
         file(WRITE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_scripts/postinstall"
 "#!/bin/bash
 REAL_USER=$(stat -f \"%Su\" /dev/console)
 REAL_HOME=$(eval echo ~$REAL_USER)
 mkdir -p \"$REAL_HOME/.local/bin\"
-ln -sf \"${CAST_INSTALL_ROOT}/${PROJECT_NAME}/${PROJECT_NAME}\" \"$REAL_HOME/.local/bin/${PROJECT_NAME}\"
+mv \"/private/tmp/${PROJECT_NAME}_pkg_root/${PROJECT_NAME}\" \"$REAL_HOME/.local/bin/${PROJECT_NAME}\"
+rm -rf \"/private/tmp/${PROJECT_NAME}_pkg_root\"
 ")
         file(CHMOD "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_scripts/postinstall" PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
         add_custom_command(TARGET post-build POST_BUILD
@@ -273,9 +273,9 @@ COMMAND ${CMAKE_STRIP} $<TARGET_FILE:${PROJECT_NAME}>
 COMMAND xattr -cr $<TARGET_FILE:${PROJECT_NAME}>
 COMMAND codesign --force --options runtime --entitlements "${CMAKE_SOURCE_DIR}/entitlements.plist" --sign "Developer ID Application: Bayu Ardianto \\(9BDSN9TDX3\\)" $<TARGET_FILE:${PROJECT_NAME}>
 COMMAND codesign --verify --verbose $<TARGET_FILE:${PROJECT_NAME}>
-COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_root${CAST_INSTALL_ROOT}/${PROJECT_NAME}"
-COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_root${CAST_INSTALL_ROOT}/${PROJECT_NAME}/"
-COMMAND pkgbuild --root "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_root${CAST_INSTALL_ROOT}" --install-location "${CAST_INSTALL_ROOT}" --scripts "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_scripts" --identifier "com.jrengmusic.whatdbg" --version "${PROJECT_VERSION}" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg"
+COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_root"
+COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_root/"
+COMMAND pkgbuild --root "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_root" --install-location "/private/tmp/${PROJECT_NAME}_pkg_root" --scripts "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_scripts" --identifier "com.jrengmusic.whatdbg" --version "${PROJECT_VERSION}" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg"
 COMMAND productsign --sign "Developer ID Installer: Bayu Ardianto \\(9BDSN9TDX3\\)" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg.signed"
 COMMAND ${CMAKE_COMMAND} -E rename "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg.signed" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg"
 COMMAND xcrun notarytool submit "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg" --keychain-profile "notary" --wait
@@ -287,14 +287,12 @@ COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg" "${CA
     endif()
 endif()
 
-if(NOT WIN32)
-    add_custom_command(TARGET post-build POST_BUILD
+add_custom_command(TARGET post-build POST_BUILD
 COMMAND ${CMAKE_COMMAND} -E make_directory "$ENV{HOME}/.local/bin"
-COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> "$ENV{HOME}/.local/bin/${PROJECT_NAME}.tmp"
-COMMAND ${CMAKE_COMMAND} -E rename "$ENV{HOME}/.local/bin/${PROJECT_NAME}.tmp" "$ENV{HOME}/.local/bin/${PROJECT_NAME}"
-        COMMENT "CAST: post-build"
-    )
-endif()
+COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> "$ENV{HOME}/.local/bin/$<TARGET_FILE_NAME:${PROJECT_NAME}>.tmp"
+COMMAND ${CMAKE_COMMAND} -E rename "$ENV{HOME}/.local/bin/$<TARGET_FILE_NAME:${PROJECT_NAME}>.tmp" "$ENV{HOME}/.local/bin/$<TARGET_FILE_NAME:${PROJECT_NAME}>"
+    COMMENT "CAST: post-build"
+)
 
 message(STATUS "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 message(STATUS "CAST: ${PROJECT_NAME} configured")

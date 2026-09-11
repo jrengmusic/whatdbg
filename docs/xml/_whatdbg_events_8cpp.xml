@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_whatdbg_events_8cpp" kind="file" language="C++">
+    <compoundname>WhatdbgEvents.cpp</compoundname>
+    <includes refid="_whatdbg_8h" local="yes">Whatdbg.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>Whatdbg.h</label>
+        <link refid="_whatdbg_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>WhatdbgEvents.cpp</label>
+        <link refid="_whatdbg_events_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>dap/Reader.h</label>
+        <link refid="_reader_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>../dap/Types.h</label>
+        <link refid="_types_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>debug/BreakpointManager.h</label>
+        <link refid="_breakpoint_manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>debug/Session.h</label>
+        <link refid="_session_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>debug/State.h</label>
+        <link refid="_state_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>JuceHeader.h</label>
+      </node>
+      <node id="6">
+        <label>lldb/API/LLDB.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="_whatdbg_events_8cpp_1a780e3d0082c1cbb3161850f93e8f1a5a" prot="public" static="no">
+        <type>juce::ReferenceCountedObjectPtr&lt; juce::DynamicObject &gt;</type>
+        <definition>using dap::DynObj = juce::ReferenceCountedObjectPtr&lt;juce::DynamicObject&gt;</definition>
+        <argsstring></argsstring>
+        <name>DynObj</name>
+        <briefdescription>
+<para>Convenience alias for a reference-counted DynamicObject pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used throughout the DAP layer to build JSON objects without manual reference counting. The underlying DynamicObject is heap-allocated and kept alive by the juce::var that wraps it. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="WhatdbgEvents.cpp" line="8" column="1" bodyfile="dap/Types.h" bodystart="13" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>DAP event builders — breakpoint(changed), stopped(exception), output(stderr), and process event bodies. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_whatdbg_8h" kindref="compound">Whatdbg.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacedap_1a780e3d0082c1cbb3161850f93e8f1a5a" kindref="member">dap::DynObj</ref>;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="class_whatdbg_1aa0d4b10e747820c25b51a948386415a2" refkind="member"><highlight class="normal">juce::var<sp/><ref refid="class_whatdbg_1aa0d4b10e747820c25b51a948386415a2" kindref="member">Whatdbg::getBreakpointChangedEvent</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dapId,<sp/>std::uint32_t<sp/>resolvedLine)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="11"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedap_1a780e3d0082c1cbb3161850f93e8f1a5a" kindref="member">DynObj</ref><sp/>bpObj<sp/>{<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>juce::DynamicObject<sp/>()<sp/>};</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>bpObj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>dapId);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>bpObj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;verified&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>bpObj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;line&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(resolvedLine));</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedap_1a780e3d0082c1cbb3161850f93e8f1a5a" kindref="member">DynObj</ref><sp/>body<sp/>{<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>juce::DynamicObject<sp/>()<sp/>};</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>body-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;reason&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;changed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>body-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;breakpoint&quot;</highlight><highlight class="normal">,<sp/>juce::var<sp/>(bpObj));</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1a74709ba88468f50222850818b75bbe86" kindref="member">dap::getEvent</ref><sp/>(</highlight><highlight class="stringliteral">&quot;breakpoint&quot;</highlight><highlight class="normal">,<sp/>juce::var<sp/>(body));</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="class_whatdbg_1a15e43a9531f58c2380747f916e685eb9" refkind="member"><highlight class="normal">juce::var<sp/><ref refid="class_whatdbg_1a15e43a9531f58c2380747f916e685eb9" kindref="member">Whatdbg::getExceptionStoppedEvent</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::String&amp;<sp/>exceptionName,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::String&amp;<sp/>description,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>threadId)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="27"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedap_1a780e3d0082c1cbb3161850f93e8f1a5a" kindref="member">DynObj</ref><sp/>stoppedBody<sp/>{<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>juce::DynamicObject<sp/>()<sp/>};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>stoppedBody-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;reason&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;exception&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>stoppedBody-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exceptionName);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>stoppedBody-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;description&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>description);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>stoppedBody-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;threadId&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threadId);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>stoppedBody-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;allThreadsStopped&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1a74709ba88468f50222850818b75bbe86" kindref="member">dap::getEvent</ref><sp/>(</highlight><highlight class="stringliteral">&quot;stopped&quot;</highlight><highlight class="normal">,<sp/>juce::var<sp/>(stoppedBody));</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="class_whatdbg_1af011028a80824e1eb500867221c920af" refkind="member"><highlight class="normal">juce::var<sp/><ref refid="class_whatdbg_1af011028a80824e1eb500867221c920af" kindref="member">Whatdbg::getExceptionOutputEvent</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::String&amp;<sp/>exceptionName,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::String&amp;<sp/>description)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="40"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedap_1a780e3d0082c1cbb3161850f93e8f1a5a" kindref="member">DynObj</ref><sp/>outputBody<sp/>{<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>juce::DynamicObject<sp/>()<sp/>};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>outputBody-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;category&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;stderr&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>outputBody-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;output&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Unhandled<sp/>exception:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>exceptionName<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>description<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1a74709ba88468f50222850818b75bbe86" kindref="member">dap::getEvent</ref><sp/>(</highlight><highlight class="stringliteral">&quot;output&quot;</highlight><highlight class="normal">,<sp/>juce::var<sp/>(outputBody));</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="class_whatdbg_1aaf34a68938aeafb008158a050adda487" refkind="member"><highlight class="normal">juce::var<sp/><ref refid="class_whatdbg_1aaf34a68938aeafb008158a050adda487" kindref="member">Whatdbg::getProcessEvent</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::String&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint32_t<sp/>processId,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::String&amp;<sp/>startMethod)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="51"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedap_1a780e3d0082c1cbb3161850f93e8f1a5a" kindref="member">DynObj</ref><sp/>body<sp/>{<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>juce::DynamicObject<sp/>()<sp/>};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>body-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>body-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;systemProcessId&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(processId));</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>body-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;isLocalProcess&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>body-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;startMethod&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>startMethod);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1a74709ba88468f50222850818b75bbe86" kindref="member">dap::getEvent</ref><sp/>(</highlight><highlight class="stringliteral">&quot;process&quot;</highlight><highlight class="normal">,<sp/>juce::var<sp/>(body));</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="WhatdbgEvents.cpp"/>
+  </compounddef>
+</doxygen>

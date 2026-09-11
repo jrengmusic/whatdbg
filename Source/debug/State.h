@@ -103,6 +103,15 @@ public:
      */
     std::uint32_t targetProcessId { 0 };
 
+    /** Program path from the launch request; empty for attach sessions.
+     *
+     *  Set by Whatdbg::onLaunch after Session::launch succeeds. Read by
+     *  Whatdbg::resumeAfterInitialBreak, where non-empty selects the
+     *  launch-path process event; attach sessions announce theirs from
+     *  Whatdbg::onAttach instead.
+     */
+    juce::String targetProgram;
+
     /** juce::Time::getMillisecondCounter() deadline for the debuggee's exit event
      *  after Whatdbg::onDisconnect issues a terminate. 0 means no deadline is pending.
      *
