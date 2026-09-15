@@ -443,7 +443,7 @@ bespoke wait loop.
 whatdbg/
     project-info.md                     Build manifest — cast reads this
     cast/
-        CAST.md                         Output rows and toolchain wiring
+        spell.md                        Output rows and toolchain wiring
         cmake.cast                      CMakeLists template
     CMakeLists.txt                      GENERATED — do not edit
     entitlements.plist                  macOS codesign entitlements
@@ -530,7 +530,7 @@ whatdbg/
 | DynObj | `juce::ReferenceCountedObjectPtr<juce::DynamicObject>`. Alias defined in dap::Types. |
 | prettyPrint | Per-type value formatter for juce::String, std::string, std::unique_ptr, std::vector. |
 | dispatch table | `std::unordered_map<std::string, Command>` in `Whatdbg`. It replaces an else-if chain. `onCommand` looks up the DAP command name. |
-| cast | Code generator. It reads `project-info.md` and `cast/CAST.md`. It writes `CMakeLists.txt`, `Source/generated/ProjectInfo.h`, and `build-windows.sh`. It then runs the selected toolchain row. One invocation generates and builds. |
+| cast | Code generator. It reads `project-info.md` and `cast/spell.md`. It writes `CMakeLists.txt`, `Source/generated/ProjectInfo.h`, and `build-windows.sh`. It then runs the selected toolchain row. One invocation generates and builds. |
 | toolchain row | A row in the `## toolchain` table of `project-info.md`. Each row names one architecture. `cast --arm64` selects one row. |
 | `jam::Instance<T>` | CRTP base in jam_core. It gives `getInstance()`. `debug::State` derives from it. |
 | `jam::Union` | Packed transport type in jam_core. It holds 2 to 4 trivially copyable values in one word. `BreakpointLocation` uses it. |
@@ -546,7 +546,7 @@ whatdbg/
 | 0.2 | 2026-03-31 | COUNSELOR | Simplified to two-thread model, dropped JUCE message system |
 | 0.3 | 2026-04-01 | MACHINIST | Session split (3 files), variable inspection, expression eval, OutputDebugString, pause, multi-thread, stepping, terminate/disconnect, symbol group cache, dispatch table, DynObj consolidation |
 | 0.4.0 | 2026-04-24 | ENGINEER | Cross-platform: macOS liblldb backend (Session_mac, SessionInspection_mac, SessionPrettyPrint_mac), per-arch sidecar layout, re-exec trampoline, JAM build system (`configure_app()`), updated stack and module map |
-| 0.5.0 | 2026-09-02 | COUNSELOR | Build moved to `cast` (`project-info.md`, `cast/CAST.md`, `cast/cmake.cast`); `jam::Context` replaced by `jam::Instance`; `Log.h` replaced by `jam::debug::Log`; `BreakpointInfo` collapsed and `BreakpointLocation` added; Session out-parameters removed; `getOffsetByLine` split into `getOffsetStatus` and `getOffset` |
+| 0.5.0 | 2026-09-02 | COUNSELOR | Build moved to `cast` (`project-info.md`, `cast/spell.md`, `cast/cmake.cast`); `jam::Context` replaced by `jam::Instance`; `Log.h` replaced by `jam::debug::Log`; `BreakpointInfo` collapsed and `BreakpointLocation` added; Session out-parameters removed; `getOffsetByLine` split into `getOffsetStatus` and `getOffset` |
 | 0.6.0 | 2026-09-03 | COUNSELOR | Corrected this document against the current codebase: main loop, module map, and data-flow diagrams rewritten cross-platform; `debug::detail`/`Context<State>`/`handleCommand`/`handleUnknownException`/`handleStackTrace`/`handleExceptionInfo`/`handleDisconnect`/`handleSetBreakpoints`/`tryResolve` (none exist) replaced with the real `onCommand`/`onUnknownException`/`onStackTrace`/`onExceptionInfo`/`onDisconnect`/`onSetBreakpoints`/`getBreakpointOffset` names; `State::targetProcessId` corrected from `ULONG` to `std::uint32_t`; macOS zombie-termination fix (`Session::terminateDebuggee`/`Session::shutdown` kill-then-resume) documented under Terminate vs Disconnect; stepping/pause/multi-thread sections given macOS equivalents; `tests/smoke/` and `Resources/macos/` (LFS, not gitignored) added to File Structure |
 
 ---
