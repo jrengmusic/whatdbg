@@ -119,7 +119,7 @@ HRESULT OutputCallbacks::QueryInterface (REFIID interfaceId, PVOID* outInterface
 
     if (interfaceId == IID_IUnknown)
     {
-        *outInterface = static_cast<IUnknown*> (this);
+        *outInterface = static_cast<IUnknown*> (static_cast<IDebugOutputCallbacks2*> (this));
         AddRef ();
         result = S_OK;
     }

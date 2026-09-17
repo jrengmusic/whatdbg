@@ -19,7 +19,8 @@ namespace debug
  *
  *  @note Registered and unregistered by Session::initialize and Session::shutdown.
  */
-class OutputCallbacks : public IDebugOutputCallbacks2
+class OutputCallbacks : public IDebugOutputCallbacks,
+                        public IDebugOutputCallbacks2
 {
 public:
     OutputCallbacks () = default;

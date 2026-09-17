@@ -12,6 +12,8 @@ if(APPLE)
     message(STATUS "Supported macOS architectures: :::[list]:::")
 elseif(WIN32)
     set(CMAKE_MSVC_RUNTIME_LIBRARY :::msvcRuntime:::)
+    set(CMAKE_RC_FLAGS "/C65001")
+    set(CMAKE_NINJA_CMCLDEPS_RC OFF)
 endif()
 
 project(:::targetName:::
@@ -29,6 +31,11 @@ execute_process(
 
 message(STATUS "CAST: configuring ${PROJECT_NAME} ${PROJECT_VERSION}")
 
+set(CMAKE_C_FLAGS_RELEASE "")
+set(CMAKE_CXX_FLAGS_RELEASE "")
+set(CMAKE_C_FLAGS_DEBUG "")
+set(CMAKE_CXX_FLAGS_DEBUG "")
+
 if(APPLE)
     set(CAST_RELEASE_COMPILE_FLAGS
 :::[list]:::
@@ -40,15 +47,31 @@ if(APPLE)
 :::[list]:::
     )
 elseif(WIN32)
-    set(CAST_RELEASE_COMPILE_FLAGS
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        set(CAST_RELEASE_COMPILE_FLAGS
 :::[list]:::
-    )
-    set(CAST_RELEASE_LINK_FLAGS
+        )
+        set(CAST_RELEASE_LINK_FLAGS
 :::[list]:::
-    )
-    set(CAST_DEBUG_COMPILE_FLAGS
+        )
+        set(CAST_DEBUG_COMPILE_FLAGS
 :::[list]:::
-    )
+        )
+    else()
+        set(CAST_RELEASE_COMPILE_FLAGS
+:::[list]:::
+        )
+        list(REMOVE_ITEM CAST_RELEASE_COMPILE_FLAGS "-O3")
+        list(APPEND CAST_RELEASE_COMPILE_FLAGS "/clang:-O3")
+        set(CAST_RELEASE_LINK_FLAGS
+:::[list]:::
+        )
+        set(CAST_DEBUG_COMPILE_FLAGS
+:::[list]:::
+        )
+        list(REMOVE_ITEM CAST_DEBUG_COMPILE_FLAGS "-O0" "-g")
+        list(APPEND CAST_DEBUG_COMPILE_FLAGS "/Z7")
+    endif()
 endif()
 
 if(WIN32)
@@ -353,49 +376,8 @@ COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ":::installDirec
 ```
 
 ```install-rename
+COMMAND ${CMAKE_COMMAND} -E rm -f ":::installDirectory:::/${PROJECT_NAME}.old"
+COMMAND ${CMAKE_COMMAND} -E touch ":::installDirectory:::/$<TARGET_FILE_NAME:${PROJECT_NAME}>"
+COMMAND ${CMAKE_COMMAND} -E rename ":::installDirectory:::/$<TARGET_FILE_NAME:${PROJECT_NAME}>" ":::installDirectory:::/${PROJECT_NAME}.old"
 COMMAND ${CMAKE_COMMAND} -E rename ":::installDirectory:::/$<TARGET_FILE_NAME:${PROJECT_NAME}>.tmp" ":::installDirectory:::/$<TARGET_FILE_NAME:${PROJECT_NAME}>"
-```
-
-```windows-build
-#!/usr/bin/env bash
-
-:::[banner]:::
-
-set -e
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR"
-
-CONFIG="Release"
-
-VSWHERE="$(cygpath -u "$PROGRAMFILES/Microsoft Visual Studio/Installer/vswhere.exe")"
-VS_PATH="$("$VSWHERE" -latest -property installationPath)"
-VCVARSALL="$(cygpath -w "$VS_PATH")\VC\Auxiliary\Build\vcvarsall.bat"
-
-echo "Setting up MSVC x64 environment..."
-eval "$(cmd.exe //c "\"$VCVARSALL\" x64 >nul 2>&1 && set" 2>/dev/null | sed 's/\r$//' | sed -n 's/^\([^=]*\)=\(.*\)$/export \1="\2"/p')"
-
-export CC=cl
-export CXX=cl
-
-VS_CMAKE="$(cygpath -u "$VS_PATH/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin")"
-VS_NINJA="$(cygpath -u "$VS_PATH/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja")"
-export PATH="$VS_CMAKE:$VS_NINJA:$PATH"
-
-echo "Configuring [$CONFIG]..."
-cmake -S . -B "Builds/$CONFIG" -G Ninja \
-    -DCMAKE_BUILD_TYPE="$CONFIG" \
-    -DCMAKE_C_COMPILER="$CC" \
-    -DCMAKE_CXX_COMPILER="$CXX"
-
-echo "Building [$CONFIG]..."
-cmake --build "Builds/$CONFIG" -- -j$(nproc)
-
-ARTIFACT="Builds/$CONFIG/whatdbg_artefacts/$CONFIG/whatdbg.exe"
-
-ARCH="$(uname -m)"
-if [[ "$ARCH" == "x86_64" ]]; then ARCH="x64"; fi
-mkdir -p dist
-zip -j "dist/whatdbg-win-${ARCH}.zip" "$ARTIFACT"
-echo "Dist: dist/whatdbg-win-${ARCH}.zip"
 ```
