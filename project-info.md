@@ -81,6 +81,10 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 +-----------------------------+------------------------------------------------+------------------------------------+
 | interproceduralOptimization | ON                                             | CMAKE_INTERPROCEDURAL_OPTIMIZATION |
 +-----------------------------+------------------------------------------------+------------------------------------+
+| compileJobMemory            | 1280                                           | Compile pool RAM per job, MiB      |
++-----------------------------+------------------------------------------------+------------------------------------+
+| precompiledHeader           | JuceHeader.h                                   | Project-source precompiled header  |
++-----------------------------+------------------------------------------------+------------------------------------+
 | qaDirectory                 | `$ENV{HOME}/Documents/Poems/dev/___builds___`  | QA build archive root              |
 +-----------------------------+------------------------------------------------+------------------------------------+
 

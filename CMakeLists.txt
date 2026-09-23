@@ -28,6 +28,19 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE INTERNAL "")
+
+cmake_host_system_information(RESULT CAST_TOTAL_MEMORY QUERY TOTAL_PHYSICAL_MEMORY)
+cmake_host_system_information(RESULT CAST_LOGICAL_CORES QUERY NUMBER_OF_LOGICAL_CORES)
+math(EXPR CAST_COMPILE_JOBS "${CAST_TOTAL_MEMORY} / 1280")
+
+if(CAST_COMPILE_JOBS GREATER CAST_LOGICAL_CORES)
+    set(CAST_COMPILE_JOBS ${CAST_LOGICAL_CORES})
+endif()
+
+set_property(GLOBAL PROPERTY JOB_POOLS compile=${CAST_COMPILE_JOBS})
+set(CMAKE_JOB_POOL_COMPILE compile)
+set(CMAKE_JOB_POOL_PRECOMPILE_HEADER compile)
+
 option(CAST_SIGN "Run the sign/pkg/notarize/staple chain on a Release build" ON)
 set(CMAKE_OSX_DEPLOYMENT_TARGET "12.0" CACHE STRING "macOS deployment target")
 
@@ -216,6 +229,17 @@ elseif(APPLE)
 endif()
 
 target_sources(${PROJECT_NAME} PRIVATE ${CAST_SOURCE_FILES})
+
+target_precompile_headers(${PROJECT_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:<JuceHeader.h$<ANGLE-R>>")
+
+file(GLOB CAST_MODULE_SOURCES
+    "${CAST_JUCE_PATH}/modules/*/*.cpp"
+    "${CAST_JUCE_PATH}/modules/*/*.mm"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../jam/*/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../jam/*/*.mm"
+)
+
+set_source_files_properties(${CAST_MODULE_SOURCES} PROPERTIES SKIP_PRECOMPILE_HEADERS ON)
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC
     CAST_COMMIT="${CAST_COMMIT_HASH}"
