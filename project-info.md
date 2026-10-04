@@ -21,7 +21,7 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 ```
 
 +------------------+-------+--------------------------------------------------+-----------+-------------------------------------+
-| name             | type  | value                                            | format    | comment                             |
+| name             | type  | value                                            | format    | description                         |
 +==================+=======+==================================================+===========+=====================================+
 | projectName      | @char | whatdbg                                          | toLiteral | Product name.                       |
 | companyName      | @char | JRENG                                            | toLiteral | Company name.                       |
@@ -35,7 +35,7 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 ## cmake
 
 +-----------------------------+------------------------------------------------+------------------------------------+
-| key                         | value                                          | comment                            |
+| key                         | value                                          | description                        |
 +=============================+================================================+====================================+
 | description                 | DAP adapter for Windows DbgEng / macOS liblldb | Project description, single line   |
 +-----------------------------+------------------------------------------------+------------------------------------+
@@ -84,20 +84,6 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 | qaDirectory                 | `$ENV{HOME}/Documents/Poems/dev/___builds___`  | QA build archive root              |
 +-----------------------------+------------------------------------------------+------------------------------------+
 
-## signing
-
-+-------------------+--------------------------------------------------------------+---------------------------------+
-| key               | value                                                        | comment                         |
-+===================+==============================================================+=================================+
-| identity          | Developer ID Application: Bayu Ardianto \\\\(9BDSN9TDX3\\\\) | Code signing identity           |
-+-------------------+--------------------------------------------------------------+---------------------------------+
-| installerIdentity | Developer ID Installer: Bayu Ardianto \\\\(9BDSN9TDX3\\\\)   | Installer signing identity      |
-+-------------------+--------------------------------------------------------------+---------------------------------+
-| entitlementsPath  | entitlements.plist                                           | Entitlements file, project root |
-+-------------------+--------------------------------------------------------------+---------------------------------+
-| notaryProfile     | notary                                                       | Keychain notarization profile   |
-+-------------------+--------------------------------------------------------------+---------------------------------+
-
 ## architecture
 
 +--------+
@@ -117,16 +103,16 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 
 ## user module
 
-+--------------+----------+----------+
-| root         | name     | comment  |
-+==============+==========+==========+
-| @user-module | jam_core | JAM Core |
-+--------------+----------+----------+
++--------------+----------+-------------+
+| root         | name     | description |
++==============+==========+=============+
+| @user-module | jam_core | JAM Core    |
++--------------+----------+-------------+
 
 ## source glob
 
 +---------+-----------+-------------------------------------+
-| path    | extension | comment                             |
+| path    | extension | description                         |
 +=========+===========+=====================================+
 | @source | cpp       | Source .cpp files                   |
 | @source | h         | Source headers, including generated |
@@ -135,7 +121,7 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 ## define
 
 +--------------------+---------------------------------+-----------------------------------------+
-| name               | value                           | comment                                 |
+| name               | value                           | description                             |
 +====================+=================================+=========================================+
 | useJuceNamespace   | DONT_SET_USING_JUCE_NAMESPACE=1 | No using namespace juce in JuceHeader.h |
 | declareProjectInfo | JUCE_DONT_DECLARE_PROJECTINFO=1 | No auto-generated ProjectInfo namespace |
@@ -144,7 +130,7 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 ## include
 
 +------------+--------------+-------------------------------------------+
-| name       | value        | comment                                   |
+| name       | value        | description                               |
 +============+==============+===========================================+
 | userModule | @user-module | User module root, for #include resolution |
 | generated  | @generated   | Generated headers                         |
@@ -153,7 +139,7 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 ## binary data
 
 +---------+----------------------------------+--------------------------------+------------------------------+
-| name    | mac                              | win                            | comment                      |
+| name    | mac                              | win                            | description                  |
 +=========+==================================+================================+==============================+
 | liblldb | ${BINARY_DATA_DIR}/liblldb.dylib |                                | macOS LLDB engine            |
 | dbgeng  |                                  | ${BINARY_DATA_DIR}/dbgeng.dll  | Windows debug engine         |
@@ -193,7 +179,7 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 ## release
 
 +-------------------------+--------------------------------+----------------+--------+----------------------------------------------------------------------------------------------------------------------------------+
-| name                    | mac                            | win            | stage  | comment                                                                                                                          |
+| name                    | mac                            | win            | stage  | description                                                                                                                      |
 +=========================+================================+================+========+==================================================================================================================================+
 | shadow                  | -Wno-shadow                    | /wd4456        |        | Lambda captures / declarations may shadow intentionally                                                                          |
 +-------------------------+--------------------------------+----------------+--------+----------------------------------------------------------------------------------------------------------------------------------+
@@ -229,7 +215,7 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 ## debug
 
 +-------------------------+--------------------------------+----------------+-------+----------------------------------------------------------------------------------------------------------------------------------+
-| name                    | mac                            | win            | stage | comment                                                                                                                          |
+| name                    | mac                            | win            | stage | description                                                                                                                      |
 +=========================+================================+================+=======+==================================================================================================================================+
 | shadow                  | -Wno-shadow                    | /wd4456        |       | Lambda captures / declarations may shadow intentionally                                                                          |
 +-------------------------+--------------------------------+----------------+-------+----------------------------------------------------------------------------------------------------------------------------------+

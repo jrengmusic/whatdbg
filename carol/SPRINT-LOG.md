@@ -112,6 +112,35 @@
 
 ## SPRINT HISTORY
 
+## Sprint 28: `[description]` Migration; `cast/signing.md`; Generated `entitlements.plist` ✅
+
+**Date:** 2026-10-04
+**Duration:** part of one session (jam Sprint 150 is the primary record)
+**Plan:** `dev/jam/PLAN-signing.md` (locked)
+
+### Decisions (ARCHITECT)
+1. *"now let's fix the entitlements generation for ALL project"*; *"ensure everything is table driven"*.
+2. **"Migrate in this sprint"**; lane switch **"Own file per chain (Recommended)"**; keys **"Rows in ## signing"**, **"type column"**.
+
+### Files Modified
+- Migration `[comment]` → `[description]`: `cast/cmake.cast:282`, `cast/spell.md` (2 bindings, 1 header cell), `project-info.md` (10 header cells).
+- `cast/signing.md` — NEW. `## signing` moved from `project-info.md`; entitlement rows `cs.allow-unsigned-executable-memory`, `cs.disable-library-validation`, `cs.debugger`.
+- `cast/spell.md` — index `@signing`, `@Entitlements`; `- [list]: @signing:signing`; output group `@code:[xml]entitlements` → `@Entitlements`; `CMakeLists.txt` brief names `cast/signing.md`.
+- `CMakeLists.txt:21` — the brief line. `entitlements.plist` — now generated.
+
+### Problems Solved
+- Oracle (scratch mirror, `## toolchain` removed): `entitlements.plist` = the previous file plus the banner; `CMakeLists.txt`, `ProjectInfo.h`, `build-windows.sh` otherwise byte-identical.
+
+### State for Continuation
+- Not built. `tests/mac/*entitlements*.plist` are outside this sprint.
+- This log holds more than its "keep last 5" rule; no entry was rotated.
+
+### Debts Paid
+- None
+
+### Debts Deferred
+- None
+
 ## Sprint 27: DAP process Event + --help + Clean Sweep + Doxygen ✅
 
 **Date:** 2026-09-12

@@ -279,7 +279,7 @@ message(STATUS "━━━━━━━━━━━━━━━━━━━━━�
 ```
 
 ```module
-juce_add_module(":::root:::/:::name:::"):::[comment]:::
+juce_add_module(":::root:::/:::name:::"):::[description]:::
 ```
 
 ```glob-pattern
