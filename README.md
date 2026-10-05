@@ -73,7 +73,7 @@ Features apply to both Windows and macOS unless noted.
 - CMake 3.25+
 - Ninja
 - JUCE 8
-- `cast` build generator (`build-windows.sh`, generated, wraps vswhere + vcvarsall + cmake + ninja)
+- `cast` build generator. Run `cast cast/spell.md` from the MSVC shell of the host architecture.
 
 ### macOS
 
@@ -94,7 +94,7 @@ Features apply to both Windows and macOS unless noted.
 
 ## Get Started
 
-`cast` builds whatdbg. It reads `project-info.md`, writes `CMakeLists.txt`, `Source/generated/ProjectInfo.h` and `build-windows.sh`, then runs the toolchain row you select. One command generates and builds.
+`cast` builds whatdbg. It reads `project-info.md`, writes `CMakeLists.txt`, `Source/generated/ProjectInfo.h`, `gh.cmake` and `RELEASE.md`, then runs the toolchain row you select. One command generates and builds.
 
 Do not edit `CMakeLists.txt`. `cast` overwrites it.
 
@@ -119,10 +119,10 @@ The build installs the binary to `~/.local/bin/whatdbg`.
 ### Windows
 
 ```bash
-cast --windows
+cast cast/spell.md
 ```
 
-The `windows` row runs the generated `build-windows.sh`. That script finds Visual Studio with `vswhere`, imports the MSVC environment from `vcvarsall.bat`, then runs cmake and ninja. It does all of this in one shell.
+Windows builds run `cast cast/spell.md` from the MSVC shell of the host architecture. `build.sh` (a copy of `cast/build.sh`) is the escape hatch.
 
 ---
 

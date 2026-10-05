@@ -112,6 +112,31 @@
 
 ## SPRINT HISTORY
 
+## Sprint 29: Release Lane — Per-Arch macOS pkg, Windows NSIS (x64, arm64), gh Upload; `build.bat` → `build.sh` ✅
+
+**Date:** 2026-10-05
+**Duration:** part of one session (cast sprint `release-lane` is the primary record)
+**Plan:** `dev/cast/PLAN-release-lane.md` (locked)
+
+### Decisions (ARCHITECT)
+1. One release lane for cast, whatdbg, ggwp, stamp and END; *"installer is installer"*.
+2. **"Delete it and build.bat"**; *"i think whatdbg still need escape hatch exactly like cast/build.sh"*; mac **"Per-arch assets"**.
+
+### Files Modified
+- `project-info.md` — `## pack`, `## release notes` (former RELEASE.md text), `## cmake` `repository`, `installerResourceDirectory`, `installDirectoryWindows`, `compileJobMemory`, `precompiledHeader`; `## toolchain` `windows` rows deleted, `cmake -P gh.cmake` added.
+- `cast/cmake.cast`, `cast/installer.cast` (new), `cast/spell.md` (three clang-cl flag pairs added, `@build-windows` removed), `cast/signing.md`; generated `CMakeLists.txt`, `gh.cmake`, `RELEASE.md`, `cast/installer/{mac,win}/*`.
+- `build.bat` deleted; `build.sh` = `cast/build.sh`. `CLAUDE.md`, `README.md`, `ARCHITECTURE.md`.
+
+### State for Continuation
+- Debug build green. Release per host by ARCHITECT: `whatdbg v0.1.0 macOS <arch>.pkg` from each mac, `Windows <arch>.exe` from each Windows host.
+- `DEBT.md:13-15` still names `build-windows.sh`.
+
+### Debts Paid
+- None
+
+### Debts Deferred
+- None
+
 ## Sprint 28: `[description]` Migration; `cast/signing.md`; Generated `entitlements.plist` ✅
 
 **Date:** 2026-10-04

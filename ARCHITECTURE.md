@@ -502,7 +502,7 @@ whatdbg/
             llvm-project/               (pinned clone of llvm/llvm-project at LLVM_TAG)
             cmake/                      (out-of-source cmake build tree)
     build-liblldb.sh                    (pinned LLVM build — writes Builds/liblldb + Resources/macos/)
-    build-windows.sh                    GENERATED — vcvarsall, cmake, ninja. Run by the windows toolchain row.
+    build.sh                            Copy of cast/build.sh — escape hatch for Windows builds from the MSVC shell of the host architecture.
     carol/
         SPRINT-LOG.md                   Cross-session sprint memory
         SMOKE-*.md                      Per-run smoke test reports
@@ -530,7 +530,7 @@ whatdbg/
 | DynObj | `juce::ReferenceCountedObjectPtr<juce::DynamicObject>`. Alias defined in dap::Types. |
 | prettyPrint | Per-type value formatter for juce::String, std::string, std::unique_ptr, std::vector. |
 | dispatch table | `std::unordered_map<std::string, Command>` in `Whatdbg`. It replaces an else-if chain. `onCommand` looks up the DAP command name. |
-| cast | Code generator. It reads `project-info.md` and `cast/spell.md`. It writes `CMakeLists.txt`, `Source/generated/ProjectInfo.h`, and `build-windows.sh`. It then runs the selected toolchain row. One invocation generates and builds. |
+| cast | Code generator. It reads `project-info.md` and `cast/spell.md`. It writes `CMakeLists.txt`, `Source/generated/ProjectInfo.h`, `gh.cmake`, and `RELEASE.md`. It then runs the selected toolchain row. One invocation generates and builds. |
 | toolchain row | A row in the `## toolchain` table of `project-info.md`. Each row names one architecture. `cast --arm64` selects one row. |
 | `jam::Instance<T>` | CRTP base in jam_core. It gives `getInstance()`. `debug::State` derives from it. |
 | `jam::Union` | Packed transport type in jam_core. It holds 2 to 4 trivially copyable values in one word. `BreakpointLocation` uses it. |

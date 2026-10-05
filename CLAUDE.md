@@ -73,7 +73,9 @@ Whatdbg (main loop, top-level coordination)
 | `tests/smoke/` | DAP smoke test suite: `run_smoke.lua` orchestrator, `scenario_breakpoint.lua`, `scenario_process.lua`, `scenario_terminate.lua`, `scenario_runner.lua`, `dap_client.lua`, `report.lua`, plus fixtures `fixture.cpp`, `fixture_wait.cpp`, `fixture_crash.cpp`. Ten scenarios (`01`–`10`), all passing. `run_smoke.lua` takes `<whatdbg> <fixture> <fixture_wait> <fixture.cpp> <fixture_crash>` as positional args under `nvim --headless -l`. |
 | `cast/` | `spell.md` (output rows, toolchain wiring) and `cmake.cast` (CMakeLists template) |
 | `build-liblldb.sh` | Pinned LLVM build — writes `Builds/liblldb` and `Resources/macos/` |
-| `build-windows.sh` | GENERATED — vswhere, vcvarsall, cmake, ninja in one shell. Run by the `windows` toolchain row. |
+| `build.sh` | Escape hatch, a copy of `cast/build.sh`: on Windows it imports the vcvarsall x64 environment, then runs cmake and ninja (Release) |
+| `cast/installer.cast` | Installer templates: `distribution.xml` (macOS pkg), `installer.nsi` (Windows NSIS), `RELEASE.md` |
+| `cast/installer/resources/` | Installer artwork: `background.png`, `background-dark.png`, `header.bmp`, `welcome.bmp` |
 
 ---
 
@@ -124,9 +126,11 @@ Members added in the 2026-09-02 sprint carry no doxygen yet. Header prose is a d
 
 ## Build Notes
 
-**Generator:** `cast`. It reads `project-info.md` and `cast/spell.md`, writes `CMakeLists.txt`, `Source/generated/ProjectInfo.h` and `build-windows.sh`, then runs the toolchain row you select.
+**Generator:** `cast`. It reads `project-info.md` and `cast/spell.md`, writes `CMakeLists.txt`, `Source/generated/ProjectInfo.h`, `gh.cmake`, `RELEASE.md`, `cast/installer/mac/distribution.xml` and `cast/installer/win/installer.nsi`, then runs the toolchain row you select.
 
-**Commands:** `cast` (Release, signed), `cast --debug`, `cast --no-sign`, `cast --windows`. The argument set matches cast, eve and jfs.
+**Commands:** `cast cast/spell.md` (Release, signed, installer, GitHub upload through `cmake -P gh.cmake`), `cast cast/spell.md --debug`, `cast cast/spell.md --no-sign`. On Windows, run them from the MSVC shell of the host architecture.
+
+**Release:** each host uploads its installer to the GitHub release `v<versionString>` of `jrengmusic/whatdbg`. The first host creates the release with `RELEASE.md` as its notes; the other hosts add their asset.
 
 **Architecture:** native. CMake reads `uname -m` and forces `CMAKE_OSX_ARCHITECTURES` to it, then selects the matching sidecar from `Resources/macos/`. There is no universal binary.
 
@@ -139,7 +143,7 @@ Members added in the 2026-09-02 sprint carry no doxygen yet. Header prose is a d
 - Sidecar path: `~/.config/whatdbg/dbgeng/` (DLLs embedded as BinaryData, extracted at startup)
 - Binaries: x64, ARM64 (per CMAKE_GENERATOR_PLATFORM)
 - Linking: ole32, oleaut32 (COM APIs)
-- Signing: No codesigning (Windows binaries unsigned)
+- Signing: Release only. makensis signs `whatdbg.exe`, the installer and the uninstaller with signtool and the `identityWindows` thumbprint (`cast/signing.md`). The NSIS installer puts `whatdbg.exe` in `%USERPROFILE%\.local\bin` and adds that folder to the user PATH (EnVar plugin).
 
 **macOS:**
 - Toolchain: Xcode clang
@@ -147,17 +151,18 @@ Members added in the 2026-09-02 sprint carry no doxygen yet. Header prose is a d
 - Sidecar path: `~/Library/Application Support/whatdbg/liblldb/` (per-arch liblldb.dylib, extracted + re-exec trampoline)
 - Re-exec pattern: Main.cpp extracts liblldb.dylib, sets DYLD_LIBRARY_PATH, execv's itself
 - Linking: direct link against `Resources/macos/<arch>/liblldb.dylib`. At run time `Main.cpp` extracts the sidecar copy, sets `DYLD_LIBRARY_PATH`, and re-execs so dyld resolves the SB API symbols.
-- Signing: Release only. The generated `CMakeLists.txt` runs strip, `xattr -cr`, `codesign` with `entitlements.plist`, `pkgbuild`, `productsign`, `notarytool submit --wait`, then `stapler staple`. The project owns `entitlements.plist` — it depends on no shared signing directory.
+- Signing: Release only. The generated `CMakeLists.txt` runs strip, `xattr -cr`, `codesign` with `entitlements.plist`, `pkgbuild`, `productbuild` (with `cast/installer/mac/distribution.xml`), `productsign`, `notarytool submit --wait`, then `stapler staple`. The project owns `entitlements.plist` — it depends on no shared signing directory.
 - Deployment target: macOS 12.0 (Monterey)
 
 **Build Output:**
 - `Builds/Release/` and `Builds/Debug/` — CMake out-of-source trees, one per build type (generated)
-- `Builds/Release/whatdbg.pkg` — macOS installer (signed, notarized, stapled)
+- `../Release/whatdbg v<version> macOS <arch>.pkg` — macOS installer (signed, notarized, stapled), one per mac architecture
+- `../Release/whatdbg v<version> Windows <arch>.exe` — Windows installer (signed), x64 or arm64
 - `~/.local/bin/whatdbg` — post-build copy on every non-Windows build
 
 **Build Scripts:**
 - `build-liblldb.sh` — LLVM pinned-version build, per-arch strip, sidecar layout. Also writes `Resources/macos/licenses/LLVM-LICENSE.TXT`.
-- `build-windows.sh` — GENERATED. vswhere, vcvarsall, cmake, ninja in one shell. The `windows` toolchain row runs it.
+- `build.sh` — escape hatch, a copy of `cast/build.sh`.
 
 **Special Notes:**
 - BinaryData embedding: `juce_add_binary_data` consumes `WHATDBG_BINARY_FILES`, which the generated CMake fills per architecture from `BINARY_DATA_DIR`

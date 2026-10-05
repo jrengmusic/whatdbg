@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+                        Codegen Annotated Source of Truth
+————————————————————————————————————————————————————————————————————————————————
+
+            ░░████████████░░████████████░░████████████░░████████████
+            ░░████  ░░████░░████  ░░████░░████  ░░████    ░░████
+            ░░████        ░░████  ░░████░░████            ░░████
+            ░░████        ░░████████████░░████████████    ░░████
+            ░░████        ░░████  ░░████        ░░████    ░░████
+            ░░████  ░░████░░████  ░░████░░████  ░░████    ░░████
+            ░░████████████░░████  ░░████░░████████████    ░░████
+
+————————————————————————————————————————————————————————————————————————————————
+                         FOR YOUR EYES ONLY, DO NOT EDIT
+-->
+<installer-gui-script minSpecVersion="2">
+    <title>whatdbg</title>
+    <license file="LICENSE" mime-type="text/plain"/>
+    <background file="background.png" mime-type="image/png" alignment="bottomleft" scaling="proportional"/>
+    <background-darkAqua file="background-dark.png" mime-type="image/png" alignment="bottomleft" scaling="proportional"/>
+    <domains enable_anywhere="false" enable_currentUserHome="false" enable_localSystem="true"/>
+    <options customize="never" require-scripts="false" hostArchitectures="@CAST_HOST_ARCHITECTURES@"/>
+    <volume-check>
+        <allowed-os-versions>
+            <os-version min="12.0"/>
+        </allowed-os-versions>
+    </volume-check>
+    <choices-outline>
+        <line choice="com.jrengmusic.whatdbg"/>
+    </choices-outline>
+    <choice id="com.jrengmusic.whatdbg" title="whatdbg" start_selected="true">
+        <pkg-ref id="com.jrengmusic.whatdbg"/>
+    </choice>
+    <pkg-ref id="com.jrengmusic.whatdbg" version="0.1.0" onConclusion="none">whatdbg.pkg</pkg-ref>
+</installer-gui-script>
