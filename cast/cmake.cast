@@ -150,22 +150,15 @@ set(WHATDBG_MAC_SOURCES
 )
 
 set(CAST_JUCE_PATH ":::jucePath:::")
+set(CAST_USER_MODULE_PATH ":::userModulePath:::")
+
+# ==============================================================================
+# JUCE — patched working copy, exact version gate
+# ==============================================================================
 
 set(CAST_JUCE_VERSION :::juceVersion:::)
 
-find_package(Git REQUIRED)
-
-message(STATUS "CAST: using JUCE at ${CAST_JUCE_PATH}")
-
-add_subdirectory("${CAST_JUCE_PATH}" "${CMAKE_BINARY_DIR}/JUCE")
-
-get_directory_property(CAST_FOUND_JUCE_VERSION DIRECTORY "${CAST_JUCE_PATH}" DEFINITION JUCE_VERSION)
-
-if(NOT CAST_FOUND_JUCE_VERSION VERSION_EQUAL CAST_JUCE_VERSION)
-    message(FATAL_ERROR "CAST: JUCE ${CAST_FOUND_JUCE_VERSION} found, ${CAST_JUCE_VERSION} required — exact match")
-endif()
-
-message(STATUS "CAST: JUCE ${CAST_FOUND_JUCE_VERSION} found at ${CAST_JUCE_PATH}")
+:::patched-juce:::
 
 :::[list]:::
 

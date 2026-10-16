@@ -6,6 +6,8 @@
 | @code         | ../../jam/cast/code.cast          |
 | @cmake        | cmake.cast                        |
 | @project-info | ../project-info.md                |
+| @modules      | ../../jam/user-modules-info.md    |
+| @juce         | ../../jam/cast/juce.cast          |
 | @ProjectInfo  | ../Source/generated/ProjectInfo.h |
 | @CMakeLists   | ../CMakeLists.txt                 |
 | @signing      | signing.md                        |
@@ -82,6 +84,8 @@
 |                                               |                      | - qa-copy: @cmake:qa-copy                     |               |
 |                                               |                      | - productbuild: @cmake:productbuild           |               |
 |                                               |                      | - makensis: @cmake:makensis                   |               |
+|                                               |                      | - patched-juce: @juce:patched-juce            |               |
+| - [list]: @modules:submodule:module=patch     |                      | - [list]: @juce:patch                         |               |
 +-----------------------------------------------+----------------------+-----------------------------------------------+---------------+
 | - [list]: @project-info:cmake                 |                      | @installer:distribution                       | @Distribution |
 | - [list]: @project-info:project info          |                      |                                               |               |
