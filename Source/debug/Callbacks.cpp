@@ -7,8 +7,10 @@
  */
 
 #include <JuceHeader.h>
-#include "Callbacks.h"
 #include "State.h"
+
+#if JUCE_WINDOWS
+#include "Callbacks.h"
 
 static constexpr DWORD msvcThreadNameException { 0x406D1388 };
 
@@ -387,3 +389,5 @@ HRESULT EventCallbacks::ChangeSymbolState (ULONG /*flags*/, ULONG64 /*argument*/
 }
 
 } // namespace debug
+
+#endif

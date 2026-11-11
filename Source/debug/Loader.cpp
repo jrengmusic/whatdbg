@@ -7,6 +7,8 @@
  *  IDebugClient5 pointer.
  */
 #include <JuceHeader.h>
+
+#if JUCE_WINDOWS
 #include "Loader.h"
 
 namespace debug
@@ -60,3 +62,5 @@ IDebugClient5* Loader::createDebugClient () const noexcept
 }
 
 } // namespace debug
+
+#endif

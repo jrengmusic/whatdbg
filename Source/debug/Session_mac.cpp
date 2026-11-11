@@ -17,6 +17,8 @@
 #include "../dap/Types.h"
 #include <csignal>
 
+#if JUCE_MAC
+
 namespace debug
 {
 
@@ -644,3 +646,5 @@ juce::String getExceptionName (std::uint32_t code, bool isMachException) noexcep
 }
 
 } // namespace debug
+
+#endif

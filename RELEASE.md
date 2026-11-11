@@ -21,13 +21,12 @@ DAP adapter for Windows DbgEng / macOS liblldb
 
 | Platform | Architecture       | Format                            |
 | -------- | ------------------ | --------------------------------- |
-| macOS    | arm64              | .pkg (signed, notarized)          |
-| macOS    | x86_64             | .pkg (signed, notarized)          |
+| macOS    | universal          | .pkg (signed, notarized)          |
 | Windows  | x64                | .exe installer                    |
 | Windows  | arm64              | .exe installer                    |
 
 ## Installation
 
-macOS: open the .pkg for your Mac's architecture. It installs `whatdbg` on your PATH.
+macOS: open the .pkg. It installs `whatdbg` on your PATH.
 
 Windows: run the installer. It installs `whatdbg.exe` and adds its folder to your user PATH.

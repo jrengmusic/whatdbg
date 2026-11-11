@@ -14,14 +14,6 @@
                          FOR YOUR EYES ONLY, DO NOT EDIT
 ******************************************************************************]]
 
-#[[
-@file CMakeLists.txt
-@brief whatdbg build manifest — a self-sufficient console app.
-
-Generated from project-info.md and cast/signing.md; every value traces to one table row.
-Edit the table, run cast, then configure.
-]]
-
 cmake_minimum_required(VERSION 3.25)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -45,7 +37,7 @@ option(CAST_SIGN "Run the sign/pkg/notarize/staple chain on a Release build" ON)
 set(CMAKE_OSX_DEPLOYMENT_TARGET "12.0" CACHE STRING "macOS deployment target")
 
 if(APPLE)
-    message(STATUS "Supported macOS architectures: x86_64;arm64")
+    set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "macOS architectures")
 elseif(WIN32)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set(CMAKE_RC_FLAGS "/C65001")
@@ -57,6 +49,8 @@ project(whatdbg
     LANGUAGES C CXX
     DESCRIPTION "DAP adapter for Windows DbgEng / macOS liblldb"
 )
+
+message(STATUS "\nwhatdbg")
 
 execute_process(
     COMMAND git rev-parse --short HEAD
@@ -110,78 +104,105 @@ elseif(WIN32)
     endif()
 endif()
 
-if(WIN32)
-    if(CMAKE_SYSTEM_PROCESSOR STREQUAL "ARM64")
-        set(BINARY_DATA_ARCH "arm64")
-    else()
-        set(BINARY_DATA_ARCH "x64")
-    endif()
-
-    set(BINARY_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Resources/windows/${BINARY_DATA_ARCH}")
-
-    set(WHATDBG_BINARY_FILES
-${BINARY_DATA_DIR}/dbgeng.dll
-${BINARY_DATA_DIR}/dbghelp.dll
-${BINARY_DATA_DIR}/dbgcore.dll
-${BINARY_DATA_DIR}/symsrv.dll
-    )
-
-    message(STATUS "BinaryData arch: ${BINARY_DATA_ARCH}")
-endif()
-
-if(APPLE)
-    if(CMAKE_OSX_ARCHITECTURES STREQUAL "arm64")
-        set(BINARY_DATA_ARCH "arm64")
-    elseif(CMAKE_OSX_ARCHITECTURES STREQUAL "x86_64")
-        set(BINARY_DATA_ARCH "x86_64")
-    else()
-        execute_process(
-            COMMAND uname -m
-            OUTPUT_VARIABLE NATIVE_ARCH
-            OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
-        if(NATIVE_ARCH STREQUAL "arm64")
-            set(BINARY_DATA_ARCH "arm64")
-        elseif(NATIVE_ARCH STREQUAL "x86_64")
-            set(BINARY_DATA_ARCH "x86_64")
-        else()
-            message(FATAL_ERROR "Unsupported macOS architecture: ${NATIVE_ARCH}")
-        endif()
-        set(CMAKE_OSX_ARCHITECTURES "${BINARY_DATA_ARCH}" CACHE STRING "" FORCE)
-    endif()
-
-    set(BINARY_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Resources/macos/${BINARY_DATA_ARCH}")
-
-    set(WHATDBG_BINARY_FILES
-${BINARY_DATA_DIR}/liblldb.dylib
-    )
-
-    message(STATUS "BinaryData arch: ${BINARY_DATA_ARCH}")
-endif()
-
-set(WHATDBG_WIN_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Session.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/SessionInspection.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/SessionPrettyPrint.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Loader.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Loader.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Callbacks.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Callbacks.cpp"
-)
-
-set(WHATDBG_MAC_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/Session_mac.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/SessionInspection_mac.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source/debug/SessionPrettyPrint_mac.cpp"
-)
-
 set(CAST_JUCE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../JUCE")
+set(CAST_USER_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../jam")
 
 set(CAST_JUCE_VERSION 8.0.14)
 
 find_package(Git REQUIRED)
 
-message(STATUS "CAST: using JUCE at ${CAST_JUCE_PATH}")
+set(CAST_JUCE_PATCHES
+"${CAST_USER_MODULE_PATH}/patch/juce-cached-image-factory-hook.patch"       # External CachedComponentImage factory
+"${CAST_USER_MODULE_PATH}/patch/juce-direct2d-helpers-visibility-hook.patch"# Direct2D helpers visibility gate
+"${CAST_USER_MODULE_PATH}/patch/juce-image-subsection-hook.patch"           # Root image and subsection bounds hooks
+"${CAST_USER_MODULE_PATH}/patch/juce-vulkan-engine-hook.patch"              # External graphics context factory for Vulkan
+"${CAST_USER_MODULE_PATH}/patch/juce-paint-update-rect-hook.patch"          # OS dirty rectangle before native paint; applies after juce-vulkan-engine-hook.patch
+"${CAST_USER_MODULE_PATH}/patch/juce-attributed-text-hook.patch"            # Attributed text virtual on LowLevelGraphicsContext; applies after juce-vulkan-engine-hook.patch
+"${CAST_USER_MODULE_PATH}/patch/juce-adhoc-sign-hook.patch"                 # No ad-hoc signature on the VST3 bundle
+"${CAST_USER_MODULE_PATH}/patch/juce-display-changed-hook.patch"            # Callback after refresh() finds a display change
+"${CAST_USER_MODULE_PATH}/patch/juce-plugin-transparency-hook.patch"        # Plugin editor wrappers (VST2, VST3) transparent when the host is END; host plugin windows transparent; applies after juce-vulkan-engine-hook.patch
+"${CAST_USER_MODULE_PATH}/patch/juce-key-pressed-hook.patch"                # Host key press callback before a peer's components; applies after juce-plugin-transparency-hook.patch
+"${CAST_USER_MODULE_PATH}/patch/juce-plugin-host-type-hook.patch"           # END registered as a known PluginHostType host: HostType END, isEND(), description, host file name detection
+"${CAST_USER_MODULE_PATH}/patch/juce-plugin-window-focus-hook.patch"        # VST2 and AU host plugin windows take keyboard focus and make the plugin view first responder; applies after juce-plugin-transparency-hook.patch
+"${CAST_USER_MODULE_PATH}/patch/juce-mouse-event-hook.patch"                # Host mouse event callback before a peer's components; applies after juce-key-pressed-hook.patch
+"${CAST_USER_MODULE_PATH}/patch/juce-plugin-editor-once-hook.patch"         # VST2 plugin client opens the editor that effEditGetRect created, so the editor is built once; applies after juce-plugin-transparency-hook.patch
+)
+
+if(WIN32)
+    set(CAST_JUCE_CACHE_DIR "$ENV{LOCALAPPDATA}/cast/juce")
+else()
+    set(CAST_JUCE_CACHE_DIR "$ENV{HOME}/.cache/cast/juce")
+endif()
+
+set(CAST_JUCE_PATCH_SET_CONCAT "${CAST_JUCE_VERSION}")
+foreach(CAST_JUCE_PATCH ${CAST_JUCE_PATCHES})
+    file(READ "${CAST_JUCE_PATCH}" CAST_JUCE_PATCH_CONTENT)
+    string(APPEND CAST_JUCE_PATCH_SET_CONCAT "${CAST_JUCE_PATCH_CONTENT}")
+endforeach()
+
+set(CAST_JUCE_PATCH_SET_CONCAT_FILE "${CMAKE_BINARY_DIR}/cast_juce_patch_set_concat.tmp")
+file(WRITE "${CAST_JUCE_PATCH_SET_CONCAT_FILE}" "${CAST_JUCE_PATCH_SET_CONCAT}")
+file(SHA256 "${CAST_JUCE_PATCH_SET_CONCAT_FILE}" CAST_JUCE_PATCH_SET_HASH)
+file(REMOVE "${CAST_JUCE_PATCH_SET_CONCAT_FILE}")
+
+set(CAST_PATCHED_JUCE_PATH "${CAST_JUCE_CACHE_DIR}/${CAST_JUCE_PATCH_SET_HASH}")
+set(CAST_JUCE_PATCH_STAMP_FILE "${CAST_PATCHED_JUCE_PATH}/.patch-stamp")
+
+if(NOT EXISTS "${CAST_JUCE_PATCH_STAMP_FILE}")
+    message(STATUS "CAST: patching JUCE into ${CAST_PATCHED_JUCE_PATH}")
+
+    if(EXISTS "${CAST_PATCHED_JUCE_PATH}")
+        file(REMOVE_RECURSE "${CAST_PATCHED_JUCE_PATH}")
+    endif()
+
+    file(REAL_PATH "${CAST_JUCE_PATH}" CAST_JUCE_PATH)
+
+    file(COPY "${CAST_JUCE_PATH}/"
+        DESTINATION "${CAST_PATCHED_JUCE_PATH}"
+        PATTERN ".git" EXCLUDE
+        PATTERN "docs" EXCLUDE
+        PATTERN "DOCS.html" EXCLUDE
+    )
+
+    foreach(CAST_JUCE_PATCH ${CAST_JUCE_PATCHES})
+        get_filename_component(CAST_JUCE_PATCH_NAME "${CAST_JUCE_PATCH}" NAME)
+
+        execute_process(
+            COMMAND "${GIT_EXECUTABLE}" apply --check --ignore-whitespace "${CAST_JUCE_PATCH}"
+            WORKING_DIRECTORY "${CAST_PATCHED_JUCE_PATH}"
+            RESULT_VARIABLE CAST_JUCE_PATCH_CHECK_RESULT
+            ERROR_VARIABLE CAST_JUCE_PATCH_CHECK_ERROR
+        )
+        if(NOT CAST_JUCE_PATCH_CHECK_RESULT EQUAL 0)
+            message(FATAL_ERROR "CAST: JUCE patch failed --check: ${CAST_JUCE_PATCH_NAME}\n${CAST_JUCE_PATCH_CHECK_ERROR}")
+        endif()
+
+        execute_process(
+            COMMAND "${GIT_EXECUTABLE}" apply --ignore-whitespace "${CAST_JUCE_PATCH}"
+            WORKING_DIRECTORY "${CAST_PATCHED_JUCE_PATH}"
+            RESULT_VARIABLE CAST_JUCE_PATCH_RESULT
+            ERROR_VARIABLE CAST_JUCE_PATCH_ERROR
+        )
+        if(NOT CAST_JUCE_PATCH_RESULT EQUAL 0)
+            message(FATAL_ERROR "CAST: JUCE patch failed to apply: ${CAST_JUCE_PATCH_NAME}\n${CAST_JUCE_PATCH_ERROR}")
+        endif()
+    endforeach()
+
+    file(WRITE "${CAST_JUCE_PATCH_STAMP_FILE}" "${CAST_JUCE_PATCH_SET_HASH}")
+endif()
+
+set(CAST_JUCE_PATH "${CAST_PATCHED_JUCE_PATH}")
+
+set(CAST_JUCE_PATCH_SET_STAMP_FILE "${CMAKE_BINARY_DIR}/cast_juce_patch_set")
+
+if(EXISTS "${CAST_JUCE_PATCH_SET_STAMP_FILE}")
+    file(READ "${CAST_JUCE_PATCH_SET_STAMP_FILE}" CAST_BUILT_JUCE_PATCH_SET_HASH)
+endif()
+
+if(NOT "${CAST_BUILT_JUCE_PATCH_SET_HASH}" STREQUAL "${CAST_JUCE_PATCH_SET_HASH}")
+    file(REMOVE_RECURSE "${CMAKE_BINARY_DIR}/JUCE" "${CMAKE_BINARY_DIR}/vst3_helpers")
+    file(WRITE "${CAST_JUCE_PATCH_SET_STAMP_FILE}" "${CAST_JUCE_PATCH_SET_HASH}")
+endif()
 
 add_subdirectory("${CAST_JUCE_PATH}" "${CMAKE_BINARY_DIR}/JUCE")
 
@@ -191,7 +212,7 @@ if(NOT CAST_FOUND_JUCE_VERSION VERSION_EQUAL CAST_JUCE_VERSION)
     message(FATAL_ERROR "CAST: JUCE ${CAST_FOUND_JUCE_VERSION} found, ${CAST_JUCE_VERSION} required — exact match")
 endif()
 
-message(STATUS "CAST: JUCE ${CAST_FOUND_JUCE_VERSION} found at ${CAST_JUCE_PATH}")
+message(STATUS "CAST: JUCE ${CAST_FOUND_JUCE_VERSION} patched at ${CAST_JUCE_PATH}")
 
 juce_add_module("${CMAKE_CURRENT_SOURCE_DIR}/../jam/jam_core")# JAM Core
 
@@ -220,14 +241,6 @@ ${CMAKE_CURRENT_SOURCE_DIR}/Source/*.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/Source/*.h
 )
 
-list(REMOVE_ITEM CAST_SOURCE_FILES ${WHATDBG_WIN_SOURCES} ${WHATDBG_MAC_SOURCES})
-
-if(WIN32)
-    list(APPEND CAST_SOURCE_FILES ${WHATDBG_WIN_SOURCES})
-elseif(APPLE)
-    list(APPEND CAST_SOURCE_FILES ${WHATDBG_MAC_SOURCES})
-endif()
-
 target_sources(${PROJECT_NAME} PRIVATE ${CAST_SOURCE_FILES})
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:<JuceHeader.h$<ANGLE-R>>")
@@ -250,24 +263,31 @@ JUCE_DONT_DECLARE_PROJECTINFO=1
 target_include_directories(${PROJECT_NAME} PRIVATE
 ${CMAKE_CURRENT_SOURCE_DIR}/../jam
 ${CMAKE_CURRENT_SOURCE_DIR}/Source/generated
+"${CMAKE_SOURCE_DIR}/Resources/macos/include"
 )
-
-if(APPLE)
-    target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/Resources/macos/include")
-endif()
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
 juce_core
 jam_core
+"$<$<PLATFORM_ID:Darwin>:${CMAKE_SOURCE_DIR}/Resources/macos/liblldb.dylib>"
+"$<$<PLATFORM_ID:Windows>:ole32>"
+"$<$<PLATFORM_ID:Windows>:oleaut32>"
     PUBLIC
         juce::juce_recommended_config_flags
 )
 
-if(APPLE)
-    target_link_libraries(${PROJECT_NAME} PRIVATE "${BINARY_DATA_DIR}/liblldb.dylib")
-elseif(WIN32)
-    target_link_libraries(${PROJECT_NAME} PRIVATE ole32 oleaut32)
+if(MSVC)
+    set_source_files_properties(
+        "${CAST_USER_MODULE_PATH}/jam_freetype/jam_freetype.cpp"
+        PROPERTIES COMPILE_FLAGS "/wd4005 /wd4804"
+    )
+else()
+    set_source_files_properties(
+        "${CAST_USER_MODULE_PATH}/jam_freetype/jam_freetype.cpp"
+        "${CAST_USER_MODULE_PATH}/jam_freetype/jam_freetype.mm"
+        PROPERTIES COMPILE_FLAGS "-Wno-macro-redefined"
+    )
 endif()
 
 target_compile_options(${PROJECT_NAME} PRIVATE
@@ -279,18 +299,26 @@ target_link_options(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:${CAST_RELEASE_LINK_FLAGS}>
 )
 
+file(GLOB CAST_BINARY_FILES CONFIGURE_DEPENDS
+Resources/macos/liblldb.dylib
+"Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbgeng.dll"
+"Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbghelp.dll"
+"Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbgcore.dll"
+"Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/symsrv.dll"
+)
+
 juce_add_binary_data(${PROJECT_NAME}_BinaryData
     NAMESPACE "BinaryData"
     SOURCES
-        ${WHATDBG_BINARY_FILES}
+        ${CAST_BINARY_FILES}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_BinaryData)
 
 include(CheckIPOSupported)
 
-add_custom_target(post-build ALL)
-add_dependencies(post-build ${PROJECT_NAME})
+set(CAST_POST_BUILD_STAMP_FILE "${CMAKE_BINARY_DIR}/post-build.stamp")
+set(CAST_POST_BUILD_DEPENDS $<TARGET_FILE:${PROJECT_NAME}>)
 
 if(APPLE)
     set(CAST_PACK_folder "../Release")
@@ -308,9 +336,7 @@ elseif(WIN32)
     set(CAST_PACK_platform "Windows")
 endif()
 
-if(APPLE)
-    set(CAST_PACK_platform "${CAST_PACK_platform} ${CMAKE_OSX_ARCHITECTURES}")
-elseif(WIN32)
+if(WIN32)
     string(TOLOWER "${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}" CAST_PACK_architecture)
     set(CAST_PACK_platform "${CAST_PACK_platform} ${CAST_PACK_architecture}")
 endif()
@@ -328,28 +354,30 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     endif()
 
     if(CAST_SIGN AND APPLE)
-        string(REPLACE ";" "," CAST_HOST_ARCHITECTURES "${CMAKE_OSX_ARCHITECTURES}")
-        configure_file("${CMAKE_SOURCE_DIR}/cast/installer/mac/distribution.xml" "${CMAKE_BINARY_DIR}/installer/distribution.xml" @ONLY)
         string(TIMESTAMP CAST_BUILD_DATE "%Y-%m-%d" UTC)
         set(CAST_QA_PATH "$ENV{HOME}/Documents/Poems/dev/___builds___")
         set(CAST_QA_DIRECTORY "${CAST_QA_PATH}/${CAST_BUILD_DATE} ${PROJECT_NAME} v${PROJECT_VERSION} ${CAST_PACK_platform}")
+        set(CAST_INSTALL_ROOT /opt)
         file(WRITE "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_scripts/postinstall"
 "#!/bin/bash
 REAL_USER=$(stat -f \"%Su\" /dev/console)
 REAL_HOME=$(eval echo ~$REAL_USER)
 mkdir -p \"$REAL_HOME/.local/bin\"
-mv \"/private/tmp/${PROJECT_NAME}_pkg_root/${PROJECT_NAME}\" \"$REAL_HOME/.local/bin/${PROJECT_NAME}\"
-rm -rf \"/private/tmp/${PROJECT_NAME}_pkg_root\"
+ln -sf \"${CAST_INSTALL_ROOT}/${PROJECT_NAME}/${PROJECT_NAME}\" \"$REAL_HOME/.local/bin/${PROJECT_NAME}\"
 ")
         file(CHMOD "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_scripts/postinstall" PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
-        add_custom_command(TARGET post-build POST_BUILD
+        set(CAST_SIGN_STAMP_FILE "${CMAKE_BINARY_DIR}/sign.stamp")
+        string(REPLACE ";" "," CAST_HOST_ARCHITECTURES "${CMAKE_OSX_ARCHITECTURES}")
+        configure_file("${CMAKE_SOURCE_DIR}/cast/installer/mac/distribution.xml" "${CMAKE_BINARY_DIR}/installer/distribution.xml" @ONLY)
+        add_custom_command(OUTPUT "${CAST_SIGN_STAMP_FILE}"
+            DEPENDS $<TARGET_FILE:${PROJECT_NAME}>
 COMMAND ${CMAKE_STRIP} $<TARGET_FILE:${PROJECT_NAME}>
 COMMAND xattr -cr $<TARGET_FILE:${PROJECT_NAME}>
 COMMAND codesign --force --options runtime --entitlements "${CMAKE_SOURCE_DIR}/entitlements.plist" --sign "Developer ID Application: Bayu Ardianto \\(9BDSN9TDX3\\)" $<TARGET_FILE:${PROJECT_NAME}>
 COMMAND codesign --verify --verbose $<TARGET_FILE:${PROJECT_NAME}>
-COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_root"
-COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_root/"
-COMMAND pkgbuild --root "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_root" --install-location "/private/tmp/${PROJECT_NAME}_pkg_root" --scripts "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_scripts" --identifier "com.jrengmusic.whatdbg" --version "${PROJECT_VERSION}" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg"
+COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_root${CAST_INSTALL_ROOT}/${PROJECT_NAME}"
+COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_root${CAST_INSTALL_ROOT}/${PROJECT_NAME}/"
+COMMAND pkgbuild --root "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_root${CAST_INSTALL_ROOT}" --install-location "${CAST_INSTALL_ROOT}" --scripts "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_pkg_scripts" --identifier "com.jrengmusic.whatdbg" --version "${PROJECT_VERSION}" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pkg"
 COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/installer/resources" "${CMAKE_SOURCE_DIR}/${CAST_PACK_folder}"
 COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/cast/installer/resources/background.png" "${CMAKE_SOURCE_DIR}/cast/installer/resources/background-dark.png" "${CMAKE_SOURCE_DIR}/LICENSE" "${CMAKE_BINARY_DIR}/installer/resources/"
 COMMAND productbuild --distribution "${CMAKE_BINARY_DIR}/installer/distribution.xml" --package-path "${CMAKE_BINARY_DIR}" --resources "${CMAKE_BINARY_DIR}/installer/resources" "${CMAKE_BINARY_DIR}/unsigned.pkg"
@@ -358,32 +386,41 @@ COMMAND xcrun notarytool submit "${CAST_PACK_ARCHIVE}" --keychain-profile "notar
 COMMAND xcrun stapler staple "${CAST_PACK_ARCHIVE}"
 COMMAND ${CMAKE_COMMAND} -E make_directory "${CAST_QA_DIRECTORY}"
 COMMAND ${CMAKE_COMMAND} -E copy "${CAST_PACK_ARCHIVE}" "${CAST_QA_DIRECTORY}/"
+COMMAND ${CMAKE_COMMAND} -E touch "${CAST_SIGN_STAMP_FILE}"
             COMMENT "CAST: sign"
         )
+        set(CAST_POST_BUILD_DEPENDS "${CAST_SIGN_STAMP_FILE}")
     elseif(CAST_SIGN AND WIN32)
         cmake_host_system_information(RESULT CAST_INSTALLER_KITS_ROOT QUERY WINDOWS_REGISTRY "HKLM/SOFTWARE/Microsoft/Windows Kits/Installed Roots" VALUE KitsRoot10 VIEW 64_32)
         file(GLOB CAST_INSTALLER_KITS_VERSIONS LIST_DIRECTORIES true "${CAST_INSTALLER_KITS_ROOT}bin/10.*")
         list(SORT CAST_INSTALLER_KITS_VERSIONS COMPARE NATURAL ORDER DESCENDING)
         find_program(CAST_INSTALLER_SIGNTOOL signtool PATHS ${CAST_INSTALLER_KITS_VERSIONS} PATH_SUFFIXES x64 NO_DEFAULT_PATH NO_CACHE REQUIRED)
         file(TO_NATIVE_PATH "${CMAKE_SOURCE_DIR}/cast/installer/resources" CAST_INSTALLER_RESOURCES)
-        add_custom_command(TARGET post-build POST_BUILD
+        set(CAST_SIGN_STAMP_FILE "${CMAKE_BINARY_DIR}/sign.stamp")
+        add_custom_command(OUTPUT "${CAST_SIGN_STAMP_FILE}"
+            DEPENDS $<TARGET_FILE:${PROJECT_NAME}>
 COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_SOURCE_DIR}/${CAST_PACK_folder}"
 COMMAND makensis "/DARTEFACT=$<SHELL_PATH:$<TARGET_FILE:${PROJECT_NAME}>>" "/DOUTFILE=$<SHELL_PATH:${CAST_PACK_ARCHIVE}>" "/DRESOURCES=${CAST_INSTALLER_RESOURCES}" "/DLICENSE=$<SHELL_PATH:${CMAKE_SOURCE_DIR}/LICENSE>" "/DSIGNTOOL=$<SHELL_PATH:${CAST_INSTALLER_SIGNTOOL}>" "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/cast/installer/win/installer.nsi>"
+COMMAND ${CMAKE_COMMAND} -E touch "${CAST_SIGN_STAMP_FILE}"
             COMMENT "CAST: installer"
             VERBATIM
         )
+        set(CAST_POST_BUILD_DEPENDS "${CAST_SIGN_STAMP_FILE}")
     endif()
 endif()
 
-add_custom_command(TARGET post-build POST_BUILD
+add_custom_command(OUTPUT "${CAST_POST_BUILD_STAMP_FILE}"
+    DEPENDS ${CAST_POST_BUILD_DEPENDS}
 COMMAND ${CMAKE_COMMAND} -E make_directory "$ENV{HOME}/.local/bin"
-COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> "$ENV{HOME}/.local/bin/$<TARGET_FILE_NAME:${PROJECT_NAME}>.tmp"
+COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> "$ENV{HOME}/.local/bin/${PROJECT_NAME}.tmp"
 COMMAND ${CMAKE_COMMAND} -E rm -f "$ENV{HOME}/.local/bin/${PROJECT_NAME}.old"
-COMMAND ${CMAKE_COMMAND} -E touch "$ENV{HOME}/.local/bin/$<TARGET_FILE_NAME:${PROJECT_NAME}>"
-COMMAND ${CMAKE_COMMAND} -E rename "$ENV{HOME}/.local/bin/$<TARGET_FILE_NAME:${PROJECT_NAME}>" "$ENV{HOME}/.local/bin/${PROJECT_NAME}.old"
-COMMAND ${CMAKE_COMMAND} -E rename "$ENV{HOME}/.local/bin/$<TARGET_FILE_NAME:${PROJECT_NAME}>.tmp" "$ENV{HOME}/.local/bin/$<TARGET_FILE_NAME:${PROJECT_NAME}>"
+COMMAND ${CMAKE_COMMAND} -E touch "$ENV{HOME}/.local/bin/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}"
+COMMAND ${CMAKE_COMMAND} -E rename "$ENV{HOME}/.local/bin/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}" "$ENV{HOME}/.local/bin/${PROJECT_NAME}.old"
+COMMAND ${CMAKE_COMMAND} -E rename "$ENV{HOME}/.local/bin/${PROJECT_NAME}.tmp" "$ENV{HOME}/.local/bin/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}"
+COMMAND ${CMAKE_COMMAND} -E touch "${CAST_POST_BUILD_STAMP_FILE}"
     COMMENT "CAST: post-build"
 )
+add_custom_target(post-build ALL DEPENDS "${CAST_POST_BUILD_STAMP_FILE}")
 
 message(STATUS "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 message(STATUS "CAST: ${PROJECT_NAME} configured")

@@ -22,22 +22,14 @@
 
 ## headers
 
-+----------------+------------------------------------------------------------------------------------------+-------------+
-| file           | brief                                                                                    | description |
-+================+==========================================================================================+=============+
-| ProjectInfo.h  | ```                                                                                      |             |
-|                | @file ProjectInfo.h                                                                      |             |
-|                | @brief Project metadata — the ProjectInfo namespace, generated.                          |             |
-|                | ```                                                                                      |             |
-+----------------+------------------------------------------------------------------------------------------+-------------+
-| CMakeLists.txt | ```                                                                                      |             |
-|                | @file CMakeLists.txt                                                                     |             |
-|                | @brief whatdbg build manifest — a self-sufficient console app.                           |             |
-|                |                                                                                          |             |
-|                | Generated from project-info.md and cast/signing.md; every value traces to one table row. |             |
-|                | Edit the table, run cast, then configure.                                                |             |
-|                | ```                                                                                      |             |
-+----------------+------------------------------------------------------------------------------------------+-------------+
++---------------+-----------------------------------------------------------------+-------------+
+| file          | brief                                                           | description |
++===============+=================================================================+=============+
+| ProjectInfo.h | ```                                                             |             |
+|               | @file ProjectInfo.h                                             |             |
+|               | @brief Project metadata — the ProjectInfo namespace, generated. |             |
+|               | ```                                                             |             |
++---------------+-----------------------------------------------------------------+-------------+
 
 ## output
 
@@ -45,10 +37,8 @@
 | list                                          | separator            | structure                                     | file          |
 +===============================================+======================+===============================================+===============+
 | - [list]: @project-info:cmake                 | - [list]: @semicolon | @cmake:cmake                                  | @CMakeLists   |
-|                                               |                      | - [description]: @headers:brief               |               |
 | - [list]: @project-info:project info          |                      |                                               |               |
 | - [list]: @signing:signing                    |                      |                                               |               |
-| - [list]: @project-info:architecture          | - [list]: @semicolon | - [list]: @cmake:value                        |               |
 | - [list]: @project-info:release:stage=        | - [list]: @semicolon | - [list]: @cmake:mac                          |               |
 | - [list]: @project-info:release:stage=linker  | - [list]: @semicolon | - [list]: @cmake:mac                          |               |
 | - [list]: @project-info:debug:stage=          | - [list]: @semicolon | - [list]: @cmake:mac                          |               |
@@ -58,14 +48,14 @@
 | - [list]: @project-info:release:stage=        | - [list]: @semicolon | - [list]: @cmake:mac                          |               |
 | - [list]: @project-info:release:stage=linker  | - [list]: @semicolon | - [list]: @cmake:win                          |               |
 | - [list]: @project-info:debug:stage=          | - [list]: @semicolon | - [list]: @cmake:mac                          |               |
-| - [list]: @project-info:binary data           |                      | - [list]: @cmake:win                          |               |
-| - [list]: @project-info:binary data           |                      | - [list]: @cmake:mac                          |               |
 | - [list]: @project-info:user module           |                      | - [list]: @cmake:module                       |               |
 | - [list]: @project-info:source glob           |                      | - [list]: @cmake:glob-pattern                 |               |
-| - [list]: @project-info:define                |                      | - [list]: @cmake:value                        |               |
+| - [list]: @project-info:macro                 |                      | - [list]: @cmake:value                        |               |
 | - [list]: @project-info:include               |                      | - [list]: @cmake:value                        |               |
 | - [list]: @project-info:juce module           |                      | - [list]: @cmake:value                        |               |
 | - [list]: @project-info:user module           |                      | - [list]: @cmake:link                         |               |
+| - [list]: @project-info:library               |                      | - [list]: @cmake:value                        |               |
+| - [list]: @project-info:binary                |                      | - [list]: @cmake:value                        |               |
 | - [list]: @project-info:pack                  |                      | - [list]: @cmake:pack-value                   |               |
 |                                               |                      | - strip: @cmake:strip                         |               |
 |                                               |                      | - codesign: @cmake:codesign                   |               |

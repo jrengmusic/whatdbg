@@ -112,6 +112,51 @@
 
 ## SPRINT HISTORY
 
+## Sprint 30: whatdbg Builds with cast's Templates — Universal macOS, `## library`, ccache ✅
+
+**Date:** 2026-11-12
+**Duration:** not measured (one session)
+**Scope:** ARCHITECT: *"whatdbg might be stale, it also dont have `spell` symlinks on its root. just make it verbatim like cast"*; *"whatdbg could still universal. but must work as cast"*; *"fix it for mac. i will run on mac later"*.
+
+### Agents Participated
+- COUNSELOR: scaffold diff against cast, key and wiring edits, `## binary` conversion, validation of each return by read, two AskUserQuestion rulings, this log.
+- Engineer (sonnet): byte copies of `installer.cast` and `cmake.cast`; manifest conformance; whole-file platform guards; `## library` and `## include` rows; `build-liblldb.sh` universal staging; the `spell` symlink.
+- Pathfinder (haiku): `git diff --no-index` of `cmake.cast`, `signing.md`, `.cast-format`, `build.sh`, `distribution.xml` against cast.
+
+### Files Modified (12 total)
+- `cast/installer.cast` — byte copy of cast's. Replaces the `EnVar` plugin (`Plugin not found, cannot call EnVar::SetHKCU`, installer.nsi line 57) with cast's `System::Call` PATH write.
+- `cast/cmake.cast` — byte copy of cast's (ARCHITECT: *"Byte-for-byte copy"*). Drops the whatdbg-only blocks; their content moved to data rows below.
+- `cast/spell.md` — CMakeLists row as cast's: no `[description]` binding, no `architecture` list row, `define` → `macro`, `binary data` ×2 → one `binary` → `value` row, new `library` → `value` row; CMakeLists.txt row removed from `## headers`.
+- `project-info.md` — `description` → `projectDescription`; new `banner` (`whatdbg`) and `architecture` (`x86_64;arm64`) keys; `## architecture` deleted; `## define` → `## macro`; `## binary data` (mac/win columns) → `## binary` (`name | value`), DLLs at `` `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/<dll>` `` (`x64` on this host, `CMakeCXXCompiler.cmake:24`), `liblldb` at `Resources/macos/liblldb.dylib`; `## include` row `lldb` → `${CMAKE_SOURCE_DIR}/Resources/macos/include`; `## library`: `liblldb` (Darwin genex), `ole32`, `oleaut32` (Windows genex).
+- `Source/debug/Session_mac.cpp:20,650` — `#if JUCE_MAC` … `#endif`, sibling `SessionInspection_mac.cpp:15`. cast's template compiles every file under `Source/`.
+- `Source/debug/Loader.cpp:11,66` — `#if JUCE_WINDOWS` … `#endif`, `Loader.h` include inside, sibling `SessionInspection.cpp:14`.
+- `Source/debug/Callbacks.cpp:12,393` — `#if JUCE_WINDOWS` … `#endif`, `Callbacks.h` include inside.
+- `build-liblldb.sh` — stages one universal `Resources/macos/liblldb.dylib` (install name `@rpath/liblldb.dylib`, `strip -x`), removes the thin `arm64/`, `x86_64/` dirs, reports with `lipo -info`.
+- `spell` — symlink → `cast/spell.md`, relative, like cast's.
+
+### Alignment Check
+- [x] BLESSED principles followed
+- [x] NAMES.md adhered
+- [x] MANIFESTO.md principles applied
+- [ ] Two Engineer deviations, results validated by read: Python writers without dry-run/backup (CAROL Destructive-Edit Discipline); a second `mklink` method after the prompt said stop.
+
+### Problems Solved
+- NSIS `EnVar` plugin missing on Windows — cast's installer template.
+- `nested shape has more than one candidate` (spell.md:39) — wiring arity matched to cast's template.
+- Per-arch BinaryData and liblldb link expressed through data lanes, no project block in the template.
+
+### State for Continuation
+- Windows: ARCHITECT reported *"whatdbg built"* before the `## library` lane and ccache were added; rebuild to confirm.
+- macOS: `Resources/macos/liblldb.dylib` (universal) does not exist yet. Before the first Mac build run `lipo -create Resources/macos/arm64/liblldb.dylib Resources/macos/x86_64/liblldb.dylib -output Resources/macos/liblldb.dylib`, or rerun `build-liblldb.sh`.
+- Windows arm64: `CMAKE_CXX_COMPILER_ARCHITECTURE_ID` value on an arm64 host is not verified against the folder name `arm64`.
+- `.cast-format` differs from cast's (`comment` vs `description` reflow row); not changed.
+
+### Debts Paid
+- None
+
+### Debts Deferred
+- None
+
 ## Sprint 29: Release Lane — Per-Arch macOS pkg, Windows NSIS (x64, arm64), gh Upload; `build.bat` → `build.sh` ✅
 
 **Date:** 2026-10-05

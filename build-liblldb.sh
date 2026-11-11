@@ -77,10 +77,7 @@ cmake -G Ninja \
 cmake --build "$BUILD_DIR" --target liblldb
 
 # Stage outputs under $DIST_DIR
-mkdir -p "$DIST_DIR/arm64" "$DIST_DIR/x86_64" "$DIST_DIR/include/lldb/API" "$DIST_DIR/licenses"
-
-# Remove stale universal dylib from previous layout
-rm -f "$DIST_DIR/liblldb.dylib"
+mkdir -p "$DIST_DIR/include/lldb/API" "$DIST_DIR/licenses"
 
 # Resolve versioned dylib — fail loud on zero or multiple matches
 DYLIB_MATCHES=()
@@ -99,18 +96,10 @@ if [[ ${#DYLIB_MATCHES[@]} -gt 1 ]]; then
     exit 1
 fi
 
-# Stage universal with corrected install_name, then split into per-arch thin dylibs
-cp "${DYLIB_MATCHES[0]}" "$DIST_DIR/liblldb-universal.dylib"
-install_name_tool -id "@rpath/liblldb.dylib" "$DIST_DIR/liblldb-universal.dylib"
-
-lipo "$DIST_DIR/liblldb-universal.dylib" -thin arm64  -output "$DIST_DIR/arm64/liblldb.dylib"
-lipo "$DIST_DIR/liblldb-universal.dylib" -thin x86_64 -output "$DIST_DIR/x86_64/liblldb.dylib"
-
-# Strip local symbols — keep externals for dlopen resolution
-strip -x "$DIST_DIR/arm64/liblldb.dylib"
-strip -x "$DIST_DIR/x86_64/liblldb.dylib"
-
-rm -f "$DIST_DIR/liblldb-universal.dylib"
+cp "${DYLIB_MATCHES[0]}" "$DIST_DIR/liblldb.dylib"
+install_name_tool -id "@rpath/liblldb.dylib" "$DIST_DIR/liblldb.dylib"
+strip -x "$DIST_DIR/liblldb.dylib"
+rm -rf "$DIST_DIR/arm64" "$DIST_DIR/x86_64"
 
 # Copy SB API headers
 cp -R "$SRC_DIR/lldb/include/lldb/API/." "$DIST_DIR/include/lldb/API/"
@@ -127,22 +116,15 @@ else
     exit 1
 fi
 
-# Report sizes
-ARM64_SIZE_BYTES="$(stat -f%z "$DIST_DIR/arm64/liblldb.dylib")"
-ARM64_SIZE_MB="$(echo "scale=2; $ARM64_SIZE_BYTES / 1048576" | bc)"
-X86_SIZE_BYTES="$(stat -f%z "$DIST_DIR/x86_64/liblldb.dylib")"
-X86_SIZE_MB="$(echo "scale=2; $X86_SIZE_BYTES / 1048576" | bc)"
+UNIVERSAL_SIZE_BYTES="$(stat -f%z "$DIST_DIR/liblldb.dylib")"
+UNIVERSAL_SIZE_MB="$(echo "scale=2; $UNIVERSAL_SIZE_BYTES / 1048576" | bc)"
 
 echo ""
 echo "==================================================================="
 echo "=== BUILD REPORT ==================================================="
 echo "==================================================================="
 echo "LLVM_TAG:     $LLVM_TAG"
-echo "arm64:        $DIST_DIR/arm64/liblldb.dylib  (${ARM64_SIZE_MB} MB)"
-echo "x86_64:       $DIST_DIR/x86_64/liblldb.dylib (${X86_SIZE_MB} MB)"
+echo "universal:    $DIST_DIR/liblldb.dylib (${UNIVERSAL_SIZE_MB} MB)"
 echo ""
-echo "--- arm64 ---"
-file "$DIST_DIR/arm64/liblldb.dylib"
-echo "--- x86_64 ---"
-file "$DIST_DIR/x86_64/liblldb.dylib"
+lipo -info "$DIST_DIR/liblldb.dylib"
 echo "==================================================================="
