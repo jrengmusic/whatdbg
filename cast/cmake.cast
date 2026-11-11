@@ -133,6 +133,10 @@ target_sources(${PROJECT_NAME} PRIVATE ${CAST_SOURCE_FILES})
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:<:::precompiledHeader:::$<ANGLE-R>>")
 
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    target_compile_options(${PROJECT_NAME} PRIVATE "SHELL:-Xclang -fno-pch-timestamp")
+endif()
+
 file(GLOB CAST_MODULE_SOURCES
     "${CAST_JUCE_PATH}/modules/*/*.cpp"
     "${CAST_JUCE_PATH}/modules/*/*.mm"
