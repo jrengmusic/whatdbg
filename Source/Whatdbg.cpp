@@ -217,7 +217,7 @@ void Whatdbg::resumeExecution ()
 
 void Whatdbg::emitResolvedBreakpointEvents ()
 {
-    juce::Array<juce::var> events { breakpointManager.onModuleLoad () };
+    juce::Array<juce::var> events (breakpointManager.onModuleLoad ());
 
     for (const auto& event : events)
     {

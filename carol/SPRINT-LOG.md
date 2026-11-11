@@ -112,6 +112,48 @@
 
 ## SPRINT HISTORY
 
+## Sprint 31: Windows stackTrace Sends the Frames — No Nested Array ✅
+
+**Date:** 2026-11-12
+**Duration:** not measured (one session)
+**Scope:** ARCHITECT: *"must fix first [] whatdbg [] cast then after that we could continue to debug eve"*; *"if whatdbg fixed: remove instrumentations, /log at whatdbg repo"*.
+
+### Agents Participated
+- COUNSELOR: trace spec, read of the stack path (Session → handler → JSON), diagnosis from the logged response body, delegation, validation of each return by read, audit filter, this log.
+- Pathfinder (haiku): whatdbg crash traces of EVE.exe with the trace skill driver, binary provenance (SHA-256 of the installed and built `whatdbg.exe`), whatdbg.log extraction.
+- Engineer (sonnet): temporary `stackTrace body` log in `onStackTrace` (added, then removed); brace → parentheses fix at six sites; audit fixes.
+- Auditor (opus): sprint audit of the two changed files.
+
+### Files Modified (2 total)
+- `Source/WhatdbgHandlers.cpp:184` — `juce::Array<juce::var> frames (session.getStackTrace (maxStackFrames));`. The brace form `frames { session.getStackTrace (...) }` selected `juce::Array`'s template `initializer_list` constructor under clang-cl (`juce_Array.h:137-141`), so the array held one `var` that held the real array. Runtime evidence: `"stackFrames": [[{...}]], "totalFrames": 1`. CODING.md: parentheses when the initializer is the same container type.
+- `Source/WhatdbgHandlers.cpp:160, 169, 288` — `onSetBreakpoints`, `onThreads`, `onVariables` build the response `var` straight from the call result (`var (Array<var>&&)`, `juce_Variant.h:109`); the named locals `resultBps`, `threads`, `dapVariables` and their copy through `var (const Array<var>&)` (`juce_Variant.h:86`) are gone (audit F1, MANIFESTO E "A second copy of the same complete data").
+- `Source/WhatdbgHandlers.cpp:199-200, 251` — `stackFrames` and `scopes` move into the `var`; `totalFrames` is set before the move (audit F2). Every response array uses one form, `juce::var (...)` (audit F4, NAMES Rule 5).
+- `Source/WhatdbgHandlers.cpp:271-273` — `rawVars (symbolIndex < 0 ? getLocals (...) : getVariableChildren (...))`, brace → parentheses, same defect class.
+- `Source/WhatdbgHandlers.cpp` `onStackTrace` — comment `// Assign unique frame IDs and store threadId mapping` deleted (audit F5, CODING.md COMMENTS). Temporary `#if JUCE_DEBUG` `stackTrace body=` log removed.
+- `Source/Whatdbg.cpp:220` — `events (breakpointManager.onModuleLoad ());`, brace → parentheses, same defect class.
+
+### Alignment Check
+- [x] BLESSED principles followed
+- [x] NAMES.md adhered
+- [x] MANIFESTO.md principles applied
+
+### Problems Solved
+- Every Windows DAP client got an empty or broken stack: nvim showed no frames; the trace driver failed at `driver.lua:141` (`attempt to concatenate field 'name' (a nil value)`). Cause: the nested array above. After the fix the trace prints 13 frames with locals and ends `outcome=crash`.
+- Same nesting removed from `threads`, `variables` (both lanes), `setBreakpoints` and module-load breakpoint events.
+- Audit: F1, F2, F4, F5 resolved as above. F3 (`onStackTrace` overwrites the Session frame `id`) rejected: the handler assigns DAP frame identity through its own registry, `state.nextFrameId` / `state.frameIdMap` (MANIFESTO E: "identity is assigned and released through the registry's own API"); the Session index is read first (`:190`) and stored as the frame location (`:193-194`).
+
+### State for Continuation
+- The audit fixes (F1, F2, F4, F5) are not built yet. Run `cast cast/spell.md --debug`, then rerun the EVE crash trace and confirm `FRAME` lines and `END outcome=crash`.
+- Verified at runtime before the audit fixes: Debug build SHA-256 `9c3c9dc5…` printed all frames.
+- `git status` shows 330 entries, including 301 staged deletions (57220 lines: `CMakeLists.txt`, `Source/`, `.gitattributes` and others) for files that exist on disk. Not touched by this sprint; resolve before a commit.
+- This log holds more than its "keep last 5" rule; no entry was rotated.
+
+### Debts Paid
+- None
+
+### Debts Deferred
+- None
+
 ## Sprint 30: whatdbg Builds with cast's Templates — Universal macOS, `## library`, ccache ✅
 
 **Date:** 2026-11-12

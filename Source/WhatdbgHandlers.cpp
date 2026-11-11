@@ -156,10 +156,8 @@ void Whatdbg::onSetBreakpoints (const juce::var& request)
                              + " breakpoints)");
 #endif
 
-    juce::Array<juce::var> resultBps { breakpointManager.onSetBreakpoints (sourcePath, requestedBps) };
-
     DynObj body { new juce::DynamicObject () };
-    body->setProperty ("breakpoints", juce::var (resultBps));
+    body->setProperty ("breakpoints", juce::var (breakpointManager.onSetBreakpoints (sourcePath, requestedBps)));
     writeMessage (dap::getResponse (seq, "setBreakpoints", true, juce::var (body)));
 }
 
@@ -167,10 +165,8 @@ void Whatdbg::onThreads (const juce::var& request)
 {
     const int seq { static_cast<int> (request["seq"]) };
 
-    juce::Array<juce::var> threads { session.getThreads () };
-
     DynObj body { new juce::DynamicObject () };
-    body->setProperty ("threads", juce::var { threads });
+    body->setProperty ("threads", juce::var (session.getThreads ()));
     writeMessage (dap::getResponse (seq, "threads", true, juce::var (body)));
 }
 
@@ -185,9 +181,8 @@ void Whatdbg::onStackTrace (const juce::var& request)
         session.setCurrentThreadBySystemId (static_cast<std::uint32_t> (threadId));
     }
 
-    juce::Array<juce::var> frames { session.getStackTrace (maxStackFrames) };
+    juce::Array<juce::var> frames (session.getStackTrace (maxStackFrames));
 
-    // Assign unique frame IDs and store threadId mapping
     for (auto& frameVar : frames)
     {
         if (auto* frameObj { frameVar.getDynamicObject () })
@@ -201,8 +196,8 @@ void Whatdbg::onStackTrace (const juce::var& request)
     }
 
     DynObj body { new juce::DynamicObject () };
-    body->setProperty ("stackFrames", juce::var { frames });
     body->setProperty ("totalFrames", frames.size ());
+    body->setProperty ("stackFrames", juce::var (std::move (frames)));
     writeMessage (dap::getResponse (seq, "stackTrace", true, juce::var (body)));
 }
 
@@ -253,7 +248,7 @@ void Whatdbg::onScopes (const juce::var& request)
     scopes.add (juce::var (localsScope));
 
     DynObj body { new juce::DynamicObject () };
-    body->setProperty ("scopes", juce::var { scopes });
+    body->setProperty ("scopes", juce::var (std::move (scopes)));
     writeMessage (dap::getResponse (seq, "scopes", true, juce::var (body)));
 }
 
@@ -268,9 +263,9 @@ juce::Array<juce::var> Whatdbg::getDapVariables (int ref)
         const auto& [variablesKey, variablesLocation] { *variablesEntry };
         const auto& [frameIndex, symbolIndex] { variablesLocation };
 
-        juce::Array<juce::var> rawVars { symbolIndex < 0
+        juce::Array<juce::var> rawVars (symbolIndex < 0
             ? session.getLocals (frameIndex)
-            : session.getVariableChildren (frameIndex, symbolIndex) };
+            : session.getVariableChildren (frameIndex, symbolIndex));
 
         for (const auto& rawVar : rawVars)
             addDapVariable (dapVariables, rawVar, frameIndex);
@@ -289,10 +284,8 @@ void Whatdbg::onVariables (const juce::var& request)
         session.setCurrentThreadBySystemId (state.lastScopesThreadId);
     }
 
-    juce::Array<juce::var> dapVariables { getDapVariables (ref) };
-
     DynObj body { new juce::DynamicObject () };
-    body->setProperty ("variables", juce::var { dapVariables });
+    body->setProperty ("variables", juce::var (getDapVariables (ref)));
     writeMessage (dap::getResponse (seq, "variables", true, juce::var (body)));
 }
 

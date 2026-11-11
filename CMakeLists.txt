@@ -50,6 +50,13 @@ project(whatdbg
     DESCRIPTION "DAP adapter for Windows DbgEng / macOS liblldb"
 )
 
+find_program(CAST_CCACHE ccache NO_CACHE REQUIRED)
+get_property(CAST_LANGUAGES GLOBAL PROPERTY ENABLED_LANGUAGES)
+
+foreach(CAST_LANGUAGE ${CAST_LANGUAGES})
+    set(CMAKE_${CAST_LANGUAGE}_COMPILER_LAUNCHER "${CAST_CCACHE}")
+endforeach()
+
 message(STATUS "\nwhatdbg")
 
 execute_process(
@@ -107,7 +114,7 @@ endif()
 set(CAST_JUCE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../JUCE")
 set(CAST_USER_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../jam")
 
-set(CAST_JUCE_VERSION 8.0.14)
+set(CAST_JUCE_VERSION 8.0.17)
 
 find_package(Git REQUIRED)
 
