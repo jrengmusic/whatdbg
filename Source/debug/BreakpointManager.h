@@ -6,9 +6,6 @@
 namespace debug
 {
 
-/** A set of one-based source line numbers requested in a single setBreakpoints call. */
-using Lines = std::unordered_set<std::uint16_t>;
-
 /** Persistent record for a single breakpoint known to the DAP client.
  *
  *  Created by onSetBreakpoints and kept alive until the client removes it
@@ -36,19 +33,19 @@ struct BreakpointInfo
      */
     std::uint16_t resolvedLine { 0 };
 
-    /** Engine-assigned breakpoint ID. 0 until the engine has assigned one.
+    /** Engine-assigned breakpoint ID. Empty until the engine has assigned one.
      *
-     *  Used to match incoming Breakpoint callback notifications and to call
+     *  Used to match a stop or a location change to its entry, and to call
      *  Session::removeBreakpoint during cleanup.
      */
-    std::int32_t  engineId     { 0 };
+    std::optional<std::int32_t> engineId {};
 };
 
 /** Manages the full lifecycle of DAP breakpoints against a debug engine session.
  *
  *  Responsibilities:
  *  - Translate DAP setBreakpoints requests into engine breakpoint objects.
- *  - Retry unresolved breakpoints each time a new module loads.
+ *  - Retry unresolved breakpoints when a module loads or symbols reload.
  *  - Match incoming engine Breakpoint callbacks to DAP IDs for stopped events.
  *  - Remove stale breakpoints when a source file's breakpoint set is replaced.
  *
@@ -69,11 +66,12 @@ public:
      *  Replaces all existing breakpoints for rawSourcePath with the new set.
      *  For each requested breakpoint:
      *  - If symbols are available, resolves immediately via Session::addBreakpointByLocation.
-     *  - If resolution fails (symbols not yet loaded), the entry is recorded with
-     *    engineId == 0 and retried by onModuleLoad.
+     *  - If resolution fails (symbols not yet loaded), the entry is recorded with an
+     *    empty engineId. onReload and onModuleLoad retry it.
      *
      *  Old breakpoints for the file that are not in the new set are removed via
-     *  Session::removeBreakpoint.
+     *  Session::removeBreakpoint. This method does not reload symbols. Whatdbg calls
+     *  onReload after it writes the response.
      *
      *  @param rawSourcePath          Raw source path from the DAP client (may use any separator).
      *  @param requestedBreakpoints   Array of DAP breakpoint objects, each with a "line" field.
@@ -82,58 +80,60 @@ public:
     juce::Array<juce::var> onSetBreakpoints (const juce::String& rawSourcePath,
                                                  const juce::var&    requestedBreakpoints);
 
-    /** Attempt to resolve all unresolved breakpoints after a new module has loaded.
+    /** Reload the symbols of one module and resolve breakpoints that are still unresolved.
      *
-     *  Iterates the breakpoint registry and calls setBreakpointLocation for each
-     *  entry whose engineId is 0. Successfully resolved entries have engineId and
-     *  resolvedLine written in place.
+     *  Calls Session::loadModuleSymbols for imageName only when an entry has an empty
+     *  engineId. Then resolves every unresolved entry through onSymbolsLoaded.
      *
-     *  @return Array of DAP breakpoint changed event bodies for each newly resolved breakpoint.
+     *  @param imageName  Image file name of the module that loaded, from State::lastLoadedImageName.
+     *  @return Array of DAP breakpoint(changed) events, one per newly resolved entry.
      *          The caller is responsible for sending these as DAP events.
      */
-    juce::Array<juce::var> onModuleLoad ();
+    juce::Array<juce::var> onModuleLoad (const juce::String& imageName);
 
-    /** Build the DAP stopped event body for a breakpoint hit.
+    /** Reload all symbols and resolve breakpoints that are still unresolved.
      *
-     *  Finds the tracked breakpoint whose engineId matches, then constructs a
-     *  stopped-event body with reason "breakpoint" and the hitBreakpointIds array.
+     *  Calls Session::forceReloadAllSymbols only when an entry has an empty engineId.
+     *  Then resolves every unresolved entry through onSymbolsLoaded.
      *
-     *  @param engineId  Engine breakpoint ID from the Breakpoint callback.
-     *  @param threadId  OS thread ID of the thread that hit the breakpoint.
-     *  @return DAP stopped event body object, or an empty object if engineId is not found.
+     *  @return Array of DAP breakpoint(changed) events, one per newly resolved entry.
      */
-    juce::var onBreakpointHit (std::int32_t engineId, std::uint32_t threadId);
+    juce::Array<juce::var> onReload ();
 
-    /** Update an existing breakpoint to reflect async liblldb resolution.
+    /** Build the DAP stopped event for a breakpoint or step stop.
      *
-     *  Called from `processDeferredEvents` when `state.hasBreakpointLocationsResolved`
-     *  fires — typically when a module loads that resolves a BP created via
-     *  `Session::addBreakpointByLocation` before the module was present.
+     *  Gives reason "breakpoint" with hitBreakpointIds when an entry holds engineId.
+     *  Gives reason "step" when no entry holds engineId.
      *
-     *  Updates the stored `BreakpointInfo::resolvedLine`. Returns the DAP breakpoint
-     *  ID so the caller can emit a DAP `breakpoint` event with reason=`changed`.
+     *  @param engineId  Engine breakpoint ID from State::breakpointEngineId.
+     *  @param threadId  OS thread ID of the thread that stopped.
+     *  @return DAP stopped event.
+     */
+    juce::var getBreakpointStoppedEvent (std::int32_t engineId, std::uint32_t threadId) const;
+
+    /** Update the stored line of a tracked breakpoint after asynchronous liblldb resolution.
+     *
+     *  Called from Whatdbg::drainBreakpointLocationResolved when
+     *  State::hasBreakpointLocationsResolved is set. Writes resolvedLine into the
+     *  entry that holds engineId.
      *
      *  @param engineId      The engine breakpoint ID.
      *  @param resolvedLine  The source line the engine resolved the BP to.
-     *  @return Matching DAP BP ID, or 0 if the engineId is not tracked
-     *          (e.g. spurious event for a BP we didn't create).
+     *  @return Array holding one DAP breakpoint(changed) event for the matched entry,
+     *          or an empty array when no entry holds engineId.
      */
-    int onBreakpointLocationFound (std::int32_t  engineId,
-                                   std::uint16_t resolvedLine) noexcept;
-
-    /** Return true if engineId belongs to a user-registered breakpoint.
-     *
-     *  Used by Whatdbg to distinguish user breakpoints from the initial loader
-     *  breakpoint (which has no DAP registration).
-     *
-     *  @param engineId  Engine breakpoint ID to check.
-     *  @return true if engineId matches a tracked breakpoint's engineId.
-     */
-    bool isUserBreakpoint (std::int32_t engineId) const noexcept;
+    juce::Array<juce::var> onBreakpointLocationFound (std::int32_t  engineId,
+                                                      std::uint16_t resolvedLine);
 
 private:
     /** Return true if any tracked breakpoint has not yet been assigned an engine ID. */
     bool hasUnresolvedBreakpoints () const noexcept;
+
+    /** Resolve every entry without an engineId through setBreakpointLocation.
+     *
+     *  @return Array of DAP breakpoint(changed) events, one per entry that resolved.
+     */
+    juce::Array<juce::var> onSymbolsLoaded ();
 
     /** Resolve sourcePath:requestedLine to a target offset, without creating
      *  an engine breakpoint.
@@ -158,8 +158,7 @@ private:
      *  to a target offset, then creates the engine breakpoint via
      *  Session::addBreakpoint. On success, writes engineId and resolvedLine
      *  into entryInfo. No-op if resolution or breakpoint creation fails —
-     *  entryInfo is left unchanged. Shared by addReloadedBreakpoints and
-     *  onModuleLoad, which each apply the result differently.
+     *  entryInfo is left unchanged. Called by onSymbolsLoaded for each unresolved entry.
      *
      *  @param entryInfo  Breakpoint entry to resolve and update in place.
      */
@@ -175,26 +174,26 @@ private:
      *  are returned so the caller can reuse their existing DAP ID.
      *
      *  @param normalizedKey    Normalized source path key for the file being processed.
-     *  @param requestedLines   Set of requested lines from the current setBreakpoints call.
+     *  @param requestedLines   Requested lines from the current setBreakpoints call.
      *  @return Map of requested line -> DAP ID for breakpoints that remain registered.
      */
     std::unordered_map<std::uint16_t, std::uint16_t> removeOrphanedBreakpoints (
-        const std::string& normalizedKey,
-        const Lines&       requestedLines);
+        const juce::String&               normalizedKey,
+        const std::vector<std::uint16_t>& requestedLines);
 
     /** Create and register a new breakpoint for a single requested line.
      *
-     *  Resolves via Session::addBreakpointByLocation, records the result in the
-     *  primary registry under dapId, and returns the stored entry.
+     *  Resolves via Session::addBreakpointByLocation and records the entry in the
+     *  primary registry under dapId. An entry whose location is not found keeps an
+     *  empty engineId.
      *
      *  @param rawSourcePath  Raw source path from the DAP client.
      *  @param line           Requested one-based source line number.
      *  @param dapId          DAP breakpoint ID assigned to this entry.
-     *  @return The stored BreakpointInfo.
      */
-    BreakpointInfo addBreakpoint (const juce::String& rawSourcePath,
-                                  std::uint16_t       line,
-                                  std::uint16_t       dapId);
+    void addBreakpoint (const juce::String& rawSourcePath,
+                        std::uint16_t       line,
+                        std::uint16_t       dapId);
 
     /** Build the DAP setBreakpoints response object for a single breakpoint entry.
      *
@@ -204,15 +203,6 @@ private:
      */
     juce::var getBreakpointResponse (const BreakpointInfo& info,
                                      const juce::String&   rawSourcePath) const noexcept;
-
-    /** Force a global symbol reload and retry resolution for every unresolved
-     *  breakpoint.
-     *
-     *  @return Map of DAP ID -> BreakpointInfo for every entry newly resolved
-     *          by this call. The caller rebuilds and replaces the matching
-     *          setBreakpoints response entries via getBreakpointResponse.
-     */
-    std::unordered_map<std::uint16_t, BreakpointInfo> addReloadedBreakpoints ();
 
     /** The debug session breakpoints are created against. Not owned — must outlive this object. */
     Session& session;

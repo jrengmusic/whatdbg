@@ -103,15 +103,15 @@ Whatdbg (main loop, owns everything)
     +-- debug::Session (debug engine wrapper)
     |       [Windows]
     |       Session.cpp              — lifecycle: initialize, launch, attach, resume, shutdown,
-    |                                  stepping, thread control, symbol path, breakpoint API
-    |       SessionInspection.cpp    — variable inspection: getStackTrace, getLocals,
-    |                                  getVariableChildren, evaluateExpression, CaptureOutputCallback
+    |                                  stepping, thread control, symbol path, breakpoint API;
+    |                                  variable inspection: getStackTrace, getLocals,
+    |                                  getVariableChildren, evaluateExpression
     |       SessionPrettyPrint.cpp   — type formatters: prettyPrint, formatSymbolValue,
-    |                                  readTargetString, parseHexAddress, findChildByName
+    |                                  readTargetString, findChildByName
     |       [macOS]
     |       Session_mac.cpp          — lifecycle: initialize, launch, attach, resume, shutdown,
-    |                                  stepping, thread control, breakpoint API (liblldb SB API)
-    |       SessionInspection_mac.cpp — variable inspection: getStackTrace, getLocals,
+    |                                  stepping, thread control, breakpoint API (liblldb SB API);
+    |                                  variable inspection: getStackTrace, getLocals,
     |                                  getVariableChildren, evaluateExpression (SBValue tree)
     |       SessionPrettyPrint_mac.cpp — type formatters: prettyPrint for juce::String,
     |                                  unique_ptr, and filtered types (SB API)
@@ -126,19 +126,15 @@ Whatdbg (main loop, owns everything)
 
 | Module | Location | Responsibility |
 |--------|----------|----------------|
-| Whatdbg | `Source/Whatdbg.h/.cpp` | Main loop. Owns all objects. Drains FIFO, dispatches commands via table, polls the engine, writes stdout. |
-| Whatdbg handlers | `Source/WhatdbgHandlers.cpp` | Bodies of the DAP request handlers declared in `Whatdbg.h` (`onInitialize`, `onLaunch`, `onSetBreakpoints`, `onDisconnect`, etc.). |
+| Whatdbg | `Source/Whatdbg.h/.cpp` | Main loop. Owns all objects. Drains FIFO, dispatches commands via table, polls the engine, writes stdout. Holds the DAP request handlers (`onInitialize`, `onLaunch`, `onSetBreakpoints`, `onDisconnect`, etc.) and the deferred-event drains. |
 | debug::State | `Source/debug/State.h` | SSOT. Execution state, pending events, breakpoint data. Main-thread-local, no atomics. Derives from `jam::Instance<State>`. |
 | debug::Session | `Source/debug/Session.h` | Cross-platform engine wrapper interface. `ComPtr<T>` (Windows) or SB API value types (macOS) behind one shared header. |
-| debug::Session lifecycle (Win) | `Source/debug/Session.cpp` | initialize, launch, attach, resume, pollEvents, shutdown, stepping, thread ops, breakpoint API, symbol path. |
-| debug::Session inspection (Win) | `Source/debug/SessionInspection.cpp` | getStackTrace, getLocals, getVariableChildren, evaluateExpression, getSymbols (file-local static), CaptureOutputCallback. |
-| debug::Session pretty-print (Win) | `Source/debug/SessionPrettyPrint.cpp` | File-local static formatters: prettyPrint, formatSymbolValue, stripDecimalPrefix, readTargetString, parseHexAddress, findChildByName, getChildValueText. |
-| debug::Session lifecycle (mac) | `Source/debug/Session_mac.cpp` | liblldb SB API: initialize, launch, attach, resume, pollEvents, shutdown, stepping, thread ops, breakpoint API. |
-| debug::Session inspection (mac) | `Source/debug/SessionInspection_mac.cpp` | getStackTrace, getLocals, getVariableChildren, evaluateExpression, getVariableObject via SBValue tree. |
+| debug::Session (Win) | `Source/debug/Session.cpp` | initialize, launch, attach, resume, pollEvents, shutdown, stepping, thread ops, breakpoint API, symbol path, getStackTrace, getLocals, getVariableChildren, evaluateExpression, getSymbols (file-local static). |
+| debug::Session pretty-print (Win) | `Source/debug/SessionPrettyPrint.cpp` | Formatters declared in `PrettyPrint.h` and defined non-static here: prettyPrint, formatSymbolValue, stripDecimalPrefix, readTargetString, findChildByName, getChildValueText. The per-type helpers are file-local static. |
+| debug::Session (mac) | `Source/debug/Session_mac.cpp` | liblldb SB API: initialize, launch, attach, resume, pollEvents, shutdown, stepping, thread ops, breakpoint API, getStackTrace, getLocals, getVariableChildren, evaluateExpression, getVariableObject via SBValue tree. |
 | debug::Session pretty-print (mac) | `Source/debug/SessionPrettyPrint_mac.cpp` | type formatters for juce::String, unique_ptr, and filtered types via SB API. |
-| debug::PrettyPrint | `Source/debug/PrettyPrint.h` | Shared, header-only helpers used across both platforms' Inspection and PrettyPrint files: `shouldSkipSymbol`, `parseHexAddress`. |
-| debug::BreakpointManager | `Source/debug/BreakpointManager.h/.cpp` | DAP-to-engine breakpoint mapping. `onSetBreakpoints()`, `onModuleLoad()`, `onBreakpointHit()`, `onBreakpointLocationFound()`, `isUserBreakpoint()`. |
-| debug::BreakpointManager handlers | `Source/debug/BreakpointManagerHandlers.cpp` | Private resolution machinery: `getBreakpointOffset`, `setBreakpointLocation`, `removeOrphanedBreakpoints`, `addBreakpoint`, `addReloadedBreakpoints`. |
+| debug::PrettyPrint | `Source/debug/PrettyPrint.h` | Shared, header-only helpers used across both platforms' Session and PrettyPrint files: `shouldSkipSymbol`, `parseHexAddress`. |
+| debug::BreakpointManager | `Source/debug/BreakpointManager.h/.cpp` | DAP-to-engine breakpoint mapping. `onSetBreakpoints()`, `onModuleLoad()`, `onReload()`, `getBreakpointStoppedEvent()`, `onBreakpointLocationFound()`. Private resolution machinery: `getBreakpointOffset`, `setBreakpointLocation`, `removeOrphanedBreakpoints`, `addBreakpoint`, `hasUnresolvedBreakpoints`. |
 | debug::Callbacks | `Source/debug/Callbacks.h/.cpp` | COM callback classes. Write to State during WaitForEvent. [Windows only] |
 | debug::Loader | `Source/debug/Loader.h/.cpp` | LoadLibrary from sidecar path, resolve DebugCreate. [Windows only] |
 | dap::Reader | `Source/dap/Reader.h/.cpp` | juce::Thread. Reads stdin, parses Content-Length framing, pushes to AbstractFifo. |
@@ -167,15 +163,20 @@ stdin -> [Reader thread] -> FIFO -> [Main thread] -> commands table (onCommand) 
 
 ```
 setBreakpoints arrives in FIFO
-    -> Main thread pops, calls BreakpointManager::onSetBreakpoints()
-    -> getBreakpointOffset() resolves sourcePath:line to an offset
-       [Windows] Session::getOffsetStatus / Session::getOffset (file-local getSourceOffset helper)
-       [macOS]   Session::getOffsetStatus / Session::getOffset (SBFileSpec + SBCompileUnit search)
-    -> On success: setBreakpointLocation() creates the engine breakpoint, writes engineId/resolvedLine
-    -> Immediate result: verified or pending (engineId == 0)
+    -> Main thread pops, calls Whatdbg::onSetBreakpoints -> BreakpointManager::onSetBreakpoints()
+    -> addBreakpoint() -> Session::addBreakpointByLocation, writes engineId/resolvedLine on success
+       [Windows] Session::getOffsetStatus / Session::getOffset (file-local getSourceOffset helper), then Session::addBreakpoint
+       [macOS]   SBTarget::BreakpointCreateByLocation
+    -> Immediate result: verified or pending (engineId is empty)
     -> Write DAP response to stdout
-    -> Pending BPs resolved later on module-load (Windows LoadModule callback,
-       macOS onProcessStateStopped module list) via BreakpointManager::onModuleLoad()
+    -> Whatdbg::onSetBreakpoints calls onReload(); it reloads symbols only when an entry is unresolved
+    -> [Windows] Pending BPs resolve on module load: LoadModule callback (stopReason moduleLoad)
+       -> drainModuleLoaded -> BreakpointManager::onModuleLoad() -> onSymbolsLoaded()
+       -> setBreakpointLocation() -> getBreakpointOffset()
+       (onReload() runs the same onSymbolsLoaded path after setBreakpoints, a step, and the initial break)
+    -> [macOS] liblldb resolves pending BPs: onBreakpointEvent (locations resolved or added)
+       -> State::hasBreakpointLocationsResolved -> Whatdbg::drainBreakpointLocationResolved
+       -> BreakpointManager::onBreakpointLocationFound()
 ```
 
 ### Variable Inspection
@@ -194,12 +195,13 @@ variables  -> looks up (frameIndex, symbolIndex) from variablesRefMap
 
 ```
 [Windows]
-evaluate -> evaluateExpression -> secondary IDebugClient + CaptureOutputCallback
-         -> ?? command output captured -> stripDecimalPrefix applied
-         -> juce::String: Evaluate(.text.data) -> readTargetString for actual content
+evaluate -> Session::evaluateExpression -> scope symbol group (getOrCreateSymbolGroup, frameIndex)
+         -> AddSymbol (expression) with SYMOPT_NO_PUBLICS; success only when AddSymbol returns S_OK
+         -> value from getSymbolValue (formatSymbolValue, prettyPrint); symbol removed on scope exit
+         -> empty result: Whatdbg::onEvaluate sends the error response "Could not evaluate: <expr>"
 
 [macOS]
-evaluate -> evaluateStringValue -> SBFrame::EvaluateExpression on the selected frame
+evaluate -> Session::evaluateExpression -> SBFrame::EvaluateExpression on the frame at frameIndex
          -> result formatted through the same prettyPrint dispatch as variable inspection
 ```
 
@@ -225,13 +227,13 @@ drainProcessStdio (Session_mac.cpp) polls process.GetSTDOUT / process.GetSTDERR
 [Windows] Exception (SEH, second-chance)
   -> EventCallbacks::Exception (dbgeng callback)
   -> onUnknownException (Callbacks.cpp)
-      -- populates State::hasExceptionStopped, exceptionCode, exceptionAddress
+      -- sets State::stopReason = exception, and populates exceptionCode, exceptionAddress
       -- sets executionState = stopped
       -- returns DEBUG_STATUS_BREAK
 
 [macOS] Signal or Mach exception stop
   -> onProcessStateStopped -> onSignalStop / onExceptionStop (Session_mac.cpp)
-      -- populates State::hasExceptionStopped, exceptionCode, exceptionAddress, isMachException
+      -- sets State::stopReason = exception, and populates exceptionCode, exceptionAddress, isMachException
 
   -> Whatdbg::processDeferredEvents (Whatdbg.cpp) -> drainExceptionStopped
       -- emits DAP `stopped` event (reason=exception)
@@ -251,34 +253,33 @@ while (state.isRunning)
     while (message = reader.tryPop ())
         onCommand (message)  // dispatch via commands table
 
-    // 2. Poll the engine (only while running or launching)
+    // 2. Poll the engine while running or launching, else sleep
     if (executionState == running or executionState == launching)
         session.pollEvents (pollTimeoutMs)   // 50 ms
+    else
+        juce::Thread::sleep (idleSleepMs)    // 10 ms
 
     // 3. Process deferred events (processDeferredEvents)
-    drainInitialBreak ()
-    if (not drainBreakpointHit ())
-        drainStepCompleted ()
-    drainPauseCompleted ()
-    drainModuleLoaded ()
+    stops.find (stopReason) -> one drain:
+        initialBreak -> drainInitialBreak ()
+        moduleLoad   -> drainModuleLoaded ()
+        breakpoint   -> drainBreakpointHit ()
+        step         -> drainStepCompleted ()
+        pause        -> drainPauseCompleted ()
+        exception    -> drainExceptionStopped ()
     drainBreakpointLocationResolved ()
     drainDebuggeeOutput ()
-    drainExceptionStopped ()
     drainProcessExited ()
     drainTerminateTimeout ()
-
-    // 4. Yield when idle (no target attached)
-    if (executionState == idle)
-        juce::Thread::sleep (idleSleepMs)   // 10 ms
 }
 
 session.shutdown (getEndModeForExit ())
 ```
 
-`drainBreakpointHit` converts an internal stepOut breakpoint (an engine breakpoint
-not tracked by `BreakpointManager`) into a step completion instead of a user
-breakpoint stop — the two are mutually exclusive for a single stop, which is why
-`drainStepCompleted` only runs when `drainBreakpointHit` returns `false`.
+`State::stopReason` holds one stop cause at a time, so one drain runs per iteration.
+`drainBreakpointHit` asks `BreakpointManager::getBreakpointStoppedEvent` for the
+stopped event. That event has `reason: "step"` when no registry entry holds the engine
+id, as for the internal stepOut breakpoint.
 
 ---
 
@@ -289,15 +290,15 @@ breakpoint stop — the two are mutually exclusive for a single stop, which is w
 Main-thread-local. No atomics (except what FIFO handles). Plain data.
 
 - `ExecutionState executionState` — idle, launching, running, stopped, exited
-- `InitialBreakPhase initialBreakPhase` — `notHit`, `pending`, `resolved`; collapsed from the former paired bools `isInitialBreakSeen` / `isInitialBreakHandled` (SSOT, single enum field)
+- `StopReason stopReason` — `none`, `initialBreak`, `moduleLoad`, `breakpoint`, `step`, `pause`, `exception`; one enum field replaces the former per-event bools and the initial-break phase enum (SSOT). `processDeferredEvents` looks it up in the `stops` `jam::Function::Map` and runs one drain. Each drain sets it back to `none`; `drainInitialBreak` does so once `isConfigurationDone` is true
 - `int processExitCode`
 - `std::uint32_t targetProcessId` — set on CreateProcess callback (Windows) or launch/attach (macOS); used by `Session::interrupt`
 - `std::uint32_t terminateDeadlineMs` — set by `onDisconnect`; `drainTerminateTimeout` forces `isRunning = false` if the debuggee's exit event never arrives
 - `bool isRunning` — main loop continuation flag; `onDisconnect` and `drainTerminateTimeout` are the only writers
 - `bool shouldTerminateOnExit` — set by `onDisconnect`; read by `getEndModeForExit` to choose `EndMode::terminate` vs `EndMode::detach`
-- `bool isConfigurationDone`, `bool isStepPending`, `bool isPausePending` — request-driven flags consumed by `drainInitialBreak`, `drainStepCompleted`/`drainBreakpointHit`, `drainPauseCompleted`
-- Deferred event fields: `hasBreakpointHit` + `breakpointEngineId`, `hasStepCompleted`, `hasPauseCompleted`, `hasNewModuleLoaded`, `hasBreakpointLocationsResolved` + `resolvedBreakpointEngineId`/`resolvedBreakpointLine`, `hasPendingBreakpoints`, `hasProcessExited`, `hasDebuggeeOutput` + `debuggeeOutputText`/`debuggeeOutputCategory`
-- `bool hasExceptionStopped` — deferred flag; set by `onUnknownException` (Windows, second-chance) or `onSignalStop`/`onExceptionStop` (macOS); consumed by `drainExceptionStopped` to emit DAP `stopped` event
+- `bool isConfigurationDone`, `bool isStepPending`, `bool isPausePending` — request-driven flags. `drainInitialBreak` reads `isConfigurationDone`. `Session::pollEvents` and `LoadModule` read `isStepPending`. `onBreakpoint` (Windows) and the macOS stop-reason handler read `isPausePending`
+- Deferred event fields: `breakpointEngineId`, `lastLoadedImageName`, `hasBreakpointLocationsResolved` + `resolvedBreakpointEngineId`/`resolvedBreakpointLine`, `hasProcessExited`, `hasDebuggeeOutput` + `debuggeeOutputText`/`debuggeeOutputCategory`. `BreakpointManager::hasUnresolvedBreakpoints` (private) derives the unresolved state from the registry
+- `StopReason::exception` — set by `onBreakpoint` or `onUnknownException` (Windows, second-chance) or `onSignalStop`/`onExceptionStop` (macOS); `drainExceptionStopped` sets `stopReason` to `none` and emits the DAP `stopped` event
 - `std::uint32_t exceptionCode` — NTSTATUS code (Windows) or signal/Mach exception code (macOS); persists after consumption for the `exceptionInfo` request response
 - `std::uint64_t exceptionAddress` — faulting virtual address; persists after consumption
 - `bool isMachException` — macOS only; distinguishes a Mach exception from a POSIX signal stop for `getExceptionName`'s table lookup
@@ -341,17 +342,17 @@ access via `getInstance()` — there is no `jam::Context<T>` in this codebase.
 
 **Context:** An earlier revision used an else-if chain across DAP command names.
 
-**Decision:** `std::unordered_map<std::string, Command>` (`Command = std::function<void (const juce::var&)>`), populated in the `Whatdbg` constructor. `onCommand` does a single map lookup.
+**Decision:** The `commands` table is a `jam::Function::Map<juce::String, jam::Function::pointerCapacity, void (const juce::var&)>`. The `Whatdbg` constructor fills it with `.add (name, lambda)`. `onCommand` does a single map lookup.
 
 **Rationale:** O(1) dispatch, no branch cascade, new commands added by inserting one map entry.
 
-### Decision: Session Split (three files per platform)
+### Decision: Session Split (two files per platform)
 
 **Context:** A single Session file grows past the point where lifecycle, inspection, and type-formatting concerns stay separable.
 
-**Decision:** Split per platform into `Session[_mac].cpp` (lifecycle), `SessionInspection[_mac].cpp` (variable inspection), `SessionPrettyPrint[_mac].cpp` (type formatters). Shared helpers usable from both platforms' inspection/pretty-print files live in `PrettyPrint.h` as header-only free functions — there is no `debug::detail` namespace; CODING.md forbids implementation-hiding namespaces outright.
+**Decision:** Split per platform into `Session[_mac].cpp` and `SessionPrettyPrint[_mac].cpp`. `Session[_mac].cpp` holds the lifecycle and the variable inspection. `SessionPrettyPrint[_mac].cpp` holds the type formatters. ARCHITECT: "Merge only". The inspection files merged into the Session files. The handler files merged into `Whatdbg.cpp` and `BreakpointManager.cpp`. `PrettyPrint.h` declares the type formatters that the Session files call. It also holds the inline helpers `shouldSkipSymbol` and `parseHexAddress`. There is no `debug::detail` namespace; CODING.md forbids implementation-hiding namespaces outright.
 
-**Rationale:** Each file has one concern. `Session.h`'s interface is the same on both platforms — the split is implementation-only, selected by `JUCE_WINDOWS`/`JUCE_MAC` at the build-target level.
+**Rationale:** One object is one header and one `.cpp` (CODING.md). Each `Session[_mac].cpp` holds the whole Session object. The free functions of `PrettyPrint.h` keep their own files. `Session.h`'s interface is the same on both platforms — the split is implementation-only, selected by `JUCE_WINDOWS`/`JUCE_MAC` at the build-target level.
 
 ### Decision: Symbol Group Cache
 
@@ -365,7 +366,7 @@ access via `getInstance()` — there is no `jam::Context<T>` in this codebase.
 
 **Context:** DAP specifies separate `terminate` and `disconnect` commands with optional `terminateDebuggee`.
 
-**Decision:** Both route to `Whatdbg::onDisconnect` (`Source/WhatdbgHandlers.cpp`). `EndMode` enum (`Source/debug/Session.h`) selects behavior. `Session::shutdown (EndMode)` (`Source/debug/Session.cpp` on Windows, `Source/debug/Session_mac.cpp` on macOS) dispatches on three cases:
+**Decision:** Both route to `Whatdbg::onDisconnect` (`Source/Whatdbg.cpp`). `EndMode` enum (`Source/debug/Session.h`) selects behavior. `Session::shutdown (EndMode)` (`Source/debug/Session.cpp` on Windows, `Source/debug/Session_mac.cpp` on macOS) dispatches on three cases:
 - `terminate` — kills the debuggee; used when `terminate` arrives, or `disconnect` arrives with `terminateDebuggee: true`. Windows: `DEBUG_END_ACTIVE_TERMINATE`. macOS: `process.Signal (SIGKILL)` followed by `resume()` (see zombie fix below).
 - `detach` — releases the debuggee, which keeps running; used when `disconnect` arrives without `terminateDebuggee`. Windows: `DEBUG_END_ACTIVE_DETACH`. macOS: `process.Detach()`.
 - `passive` — target has already exited; releases session state only, without acting on a target that no longer exists. Required because ending an active session against an already-exited target hangs or double-frees on both platforms.
@@ -409,11 +410,11 @@ bespoke wait loop.
   - Windows: `SetExecutionStatus(DEBUG_STATUS_STEP_INTO)` + `isStepPending = true`
   - macOS: `Session::stepInto` → `SBThread::StepInto()`
 - `stepOut` (step out):
-  - Windows: `Execute("gu")` — runs until return; the resulting internal BP is detected by checking `isUserBreakpoint(engineId)` in the main loop
+  - Windows: `Execute("gu")` — runs until return; the stop at the resulting internal BP gives `reason: "step"`, because `getBreakpointStoppedEvent` finds no registry entry for its engine id
   - macOS: `Session::stepOut` → `SBThread::StepOutOfFrame(frame)`
 - Step completion detection:
-  - Windows: WaitForEvent returns `S_OK` with no breakpoint/module/exit flags set while `isStepPending`; `EXCEPTION_SINGLE_STEP` also sets `hasStepCompleted` directly
-  - macOS: `pollEvents` dispatches to `onProcessStateStopped`, whose `lldb::eStopReasonTrace` and `lldb::eStopReasonPlanComplete` cases both route to `onStepStop`, setting `hasStepCompleted`
+  - Windows: `Session::pollEvents` sees `WaitForEvent` return `S_OK` while `isStepPending` and `stopReason` is `none`, and sets `stopReason` to `step`
+  - macOS: `pollEvents` dispatches to `onProcessStateStopped`, whose `lldb::eStopReasonTrace` and `lldb::eStopReasonPlanComplete` cases both route to `onStepStop`, setting `stopReason` to `step`
 
 ## Pause Implementation
 
@@ -421,8 +422,8 @@ bespoke wait loop.
   - Windows: `DebugBreakProcess(OpenProcess(pid))` + `isPausePending = true`
   - macOS: `Session::interrupt` → `SBProcess::SendAsyncInterrupt()` (the bound `process` member already knows the target; the `processId` parameter is unused on this platform) + `isPausePending = true`
 - Pause detection:
-  - Windows: WaitForEvent returns `S_OK` with no other events while `isPausePending`
-  - macOS: `onProcessStateStopped` dispatches `lldb::eStopReasonInterrupt` to `onInterruptStop`, setting `hasPauseCompleted`
+  - Windows: the injected int3 arrives at `onBreakpoint` (`Callbacks.cpp`), which sets `stopReason` to `pause` while `isPausePending`
+  - macOS: `onProcessStateStopped` dispatches `lldb::eStopReasonInterrupt` to `onInterruptStop`, setting `stopReason` to `pause`. A stop while `isPausePending` also goes to `onInterruptStop`
 - Emits stopped/pause event with the current event thread's system ID
 
 ## Multi-Thread Support
@@ -451,24 +452,20 @@ whatdbg/
     SPEC.md
     Source/
         Main.cpp                        Entry point, sidecar extraction, re-exec trampoline (macOS)
-        Whatdbg.h / .cpp                Main loop, deferred event drains
-        WhatdbgHandlers.cpp             DAP request handlers
+        Whatdbg.h / .cpp                Main loop, DAP request handlers, deferred event drains
         generated/
             ProjectInfo.h               GENERATED — do not edit
         debug/
             State.h                     SSOT, main-thread-local
             Session.h                   Debug engine wrapper interface (shared)
-            Session.cpp                 [Windows] Lifecycle, stepping, thread ops, breakpoint API
-            SessionInspection.cpp       [Windows] Stack trace, locals, children, expression eval
+            Session.cpp                 [Windows] Lifecycle, stepping, thread ops, breakpoint API, stack trace, locals, children, expression eval
             SessionPrettyPrint.cpp      [Windows] Type formatters (file-local static functions)
-            Session_mac.cpp             [macOS] Lifecycle, stepping, thread ops, breakpoint API (SB API)
-            SessionInspection_mac.cpp   [macOS] Stack trace, locals, children, expression eval (SBValue)
+            Session_mac.cpp             [macOS] Lifecycle, stepping, thread ops, breakpoint API (SB API), stack trace, locals, children, expression eval (SBValue)
             SessionPrettyPrint_mac.cpp  [macOS] Type formatters (juce::String, unique_ptr, filters)
             PrettyPrint.h               Shared header-only helpers (shouldSkipSymbol, parseHexAddress)
             Loader.h / .cpp             [Windows] Sidecar DLL loader
             Callbacks.h / .cpp          [Windows] COM callbacks -> State
-            BreakpointManager.h / .cpp  DAP-to-engine BP mapping
-            BreakpointManagerHandlers.cpp  Resolution machinery (getBreakpointOffset, setBreakpointLocation, orphan removal)
+            BreakpointManager.h / .cpp  DAP-to-engine BP mapping, resolution machinery (getBreakpointOffset, setBreakpointLocation, orphan removal)
         dap/
             Reader.h / .cpp             stdin thread + FIFO
             Types.h                     DAP message builders, DynObj alias
@@ -529,7 +526,7 @@ whatdbg/
 | SPSC | Single Producer Single Consumer. |
 | DynObj | `juce::ReferenceCountedObjectPtr<juce::DynamicObject>`. Alias defined in dap::Types. |
 | prettyPrint | Per-type value formatter for juce::String, std::string, std::unique_ptr, std::vector. |
-| dispatch table | `std::unordered_map<std::string, Command>` in `Whatdbg`. It replaces an else-if chain. `onCommand` looks up the DAP command name. |
+| dispatch table | `commands`, a `jam::Function::Map<juce::String, jam::Function::pointerCapacity, void (const juce::var&)>`, in `Whatdbg`. It replaces an else-if chain. `onCommand` looks up the DAP command name. |
 | cast | Code generator. It reads `project-info.md` and `cast/spell.md`. It writes `CMakeLists.txt`, `Source/generated/ProjectInfo.h`, `gh.cmake`, and `RELEASE.md`. It then runs the selected toolchain row. One invocation generates and builds. |
 | toolchain row | A row in the `## toolchain` table of `project-info.md`. Each row names one architecture. `cast --arm64` selects one row. |
 | `jam::Instance<T>` | CRTP base in jam_core. It gives `getInstance()`. `debug::State` derives from it. |

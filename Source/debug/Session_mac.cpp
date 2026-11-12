@@ -1,19 +1,23 @@
 /** @file Session_mac.cpp
  *  @brief macOS debug session implementation using LLVM's liblldb SB API.
  *
- *  Platform counterpart to Session.cpp (Windows dbgeng). Implements the Session
- *  interface declared in Session.h using lldb::SBDebugger, SBTarget, SBProcess,
- *  SBThread, and SBFrame.
+ *  Platform counterpart to Session.cpp (Windows dbgeng). Implements the whole Session
+ *  interface from Session.h using lldb::SBDebugger, SBTarget, SBProcess, SBThread,
+ *  and SBFrame. The file holds the lifecycle, the event dispatch that pollEvents runs
+ *  for process, stop, exit, and breakpoint events, the stop-reason and process-state
+ *  handlers that write State, breakpoint creation and location lookup, thread and
+ *  frame queries, variable inspection, expression evaluation, and getExceptionName.
  *
  *  Threading model: single-threaded. All SB API calls happen on the main thread.
- *  Event polling via SBListener::WaitForEvent drives the deferred-event state
- *  machine defined in State.h (State class).
+ *  pollEvents drives the event handlers, which write the deferred state defined in
+ *  State.h. Whatdbg drains that state.
  *
  *  Lifecycle: initialize → (launch | attach) → pollEvents loop → shutdown.
  */
 #include <JuceHeader.h>
 #include "Session.h"
 #include "State.h"
+#include "PrettyPrint.h"
 #include "../dap/Types.h"
 #include <csignal>
 
@@ -22,31 +26,33 @@
 namespace debug
 {
 
-static void onBreakpointStop (debug::State& state, lldb::SBThread& thread) noexcept
+using dap::DynObj;
+
+static void onBreakpointStop (const lldb::StopReason& /*stopReason*/, debug::State& state, lldb::SBThread& thread) noexcept
 {
-    state.hasBreakpointHit = true;
+    state.stopReason = debug::StopReason::breakpoint;
     state.breakpointEngineId =
         static_cast<std::int32_t> (thread.GetStopReasonDataAtIndex (0));
     state.executionState = debug::ExecutionState::stopped;
 }
 
-static void onStepStop (debug::State& state, lldb::SBThread& thread) noexcept
+static void onStepStop (const lldb::StopReason& /*stopReason*/, debug::State& state, lldb::SBThread& thread) noexcept
 {
     juce::ignoreUnused (thread);
-    state.hasStepCompleted = true;
+    state.stopReason = debug::StopReason::step;
     state.executionState = debug::ExecutionState::stopped;
 }
 
-static void onInterruptStop (debug::State& state, lldb::SBThread& thread) noexcept
+static void onInterruptStop (const lldb::StopReason& /*stopReason*/, debug::State& state, lldb::SBThread& thread) noexcept
 {
     juce::ignoreUnused (thread);
-    state.hasPauseCompleted = true;
+    state.stopReason = debug::StopReason::pause;
     state.executionState = debug::ExecutionState::stopped;
 }
 
-static void onSignalStop (debug::State& state, lldb::SBThread& thread) noexcept
+static void onSignalStop (const lldb::StopReason& /*stopReason*/, debug::State& state, lldb::SBThread& thread) noexcept
 {
-    state.hasExceptionStopped = true;
+    state.stopReason          = debug::StopReason::exception;
     state.isMachException     = false;
     state.exceptionCode       =
         static_cast<std::uint32_t> (thread.GetStopReasonDataAtIndex (0));
@@ -54,9 +60,9 @@ static void onSignalStop (debug::State& state, lldb::SBThread& thread) noexcept
     state.executionState      = debug::ExecutionState::stopped;
 }
 
-static void onExceptionStop (debug::State& state, lldb::SBThread& thread) noexcept
+static void onExceptionStop (const lldb::StopReason& /*stopReason*/, debug::State& state, lldb::SBThread& thread) noexcept
 {
-    state.hasExceptionStopped = true;
+    state.stopReason          = debug::StopReason::exception;
     state.isMachException     = true;
     state.exceptionCode       =
         static_cast<std::uint32_t> (thread.GetStopReasonDataAtIndex (0));
@@ -91,38 +97,39 @@ static void drainProcessStdio (debug::State* state,
     while (bytesRead > 0);
 }
 
-static const std::unordered_map<lldb::StopReason,
-                                void (*)(debug::State&, lldb::SBThread&)>
-    stopReasons
-    {
-        { lldb::eStopReasonBreakpoint,   onBreakpointStop   },
-        { lldb::eStopReasonTrace,        onStepStop         },
-        { lldb::eStopReasonPlanComplete, onStepStop         },
-        { lldb::eStopReasonInterrupt,    onInterruptStop    },
-        { lldb::eStopReasonSignal,       onSignalStop       },
-        { lldb::eStopReasonException,    onExceptionStop    }
-    };
-
-static void onStopReason (debug::State& state, lldb::SBThread& thread, lldb::StopReason stopReason) noexcept
+static void onStopReason (debug::State& state, lldb::SBThread& thread, lldb::StopReason lldbStopReason) noexcept
 {
+    static const auto stopReasons ([] {
+        jam::Function::Map<lldb::StopReason, jam::Function::pointerCapacity, void (debug::State&, lldb::SBThread&)> stopReasons;
+
+        stopReasons.add (lldb::eStopReasonBreakpoint,   onBreakpointStop);
+        stopReasons.add (lldb::eStopReasonTrace,        onStepStop);
+        stopReasons.add (lldb::eStopReasonPlanComplete, onStepStop);
+        stopReasons.add (lldb::eStopReasonInterrupt,    onInterruptStop);
+        stopReasons.add (lldb::eStopReasonSignal,       onSignalStop);
+        stopReasons.add (lldb::eStopReasonException,    onExceptionStop);
+        return stopReasons;
+    } ());
+
     if (state.isPausePending)
     {
         state.isPausePending = false;
-        onInterruptStop (state, thread);
+        onInterruptStop (lldbStopReason, state, thread);
     }
     else
     {
-        const auto stopReasonEntry { stopReasons.find (stopReason) };
+        const auto stopReasonEntry { stopReasons.find (lldbStopReason) };
 
         if (stopReasonEntry != stopReasons.end ())
         {
             const auto& [stopReasonCode, stopReasonCallback] { *stopReasonEntry };
-            stopReasonCallback (state, thread);
+            stopReasonCallback (stopReasonCode, state, thread);
         }
     }
 }
 
-static void onProcessStateStopped (debug::State* state,
+static void onProcessStateStopped (const lldb::StateType& /*stateType*/,
+                                   debug::State* state,
                                    lldb::SBProcess& process,
                                    lldb::SBEvent& event) noexcept
 {
@@ -130,10 +137,10 @@ static void onProcessStateStopped (debug::State* state,
     {
         auto thread { process.GetSelectedThread () };
 
-        if (state->initialBreakPhase == debug::InitialBreakPhase::notHit)
+        if (state->executionState == debug::ExecutionState::launching)
         {
-            state->initialBreakPhase = debug::InitialBreakPhase::pending;
-            state->executionState    = debug::ExecutionState::stopped;
+            state->stopReason     = debug::StopReason::initialBreak;
+            state->executionState = debug::ExecutionState::stopped;
         }
         else
         {
@@ -142,7 +149,8 @@ static void onProcessStateStopped (debug::State* state,
     }
 }
 
-static void onProcessStateExited (debug::State* state,
+static void onProcessStateExited (const lldb::StateType& /*stateType*/,
+                                  debug::State* state,
                                   lldb::SBProcess& process,
                                   lldb::SBEvent& event) noexcept
 {
@@ -152,7 +160,8 @@ static void onProcessStateExited (debug::State* state,
     state->executionState   = debug::ExecutionState::exited;
 }
 
-static void onProcessStateRunning (debug::State* state,
+static void onProcessStateRunning (const lldb::StateType& /*stateType*/,
+                                   debug::State* state,
                                    lldb::SBProcess& process,
                                    lldb::SBEvent& event) noexcept
 {
@@ -160,24 +169,24 @@ static void onProcessStateRunning (debug::State* state,
     state->executionState = debug::ExecutionState::running;
 }
 
-static const std::unordered_map<lldb::StateType,
-                                void (*)(debug::State*, lldb::SBProcess&, lldb::SBEvent&)>
-    processStates
-    {
-        { lldb::eStateStopped,   onProcessStateStopped },
-        { lldb::eStateCrashed,   onProcessStateStopped },
-        { lldb::eStateSuspended, onProcessStateStopped },
-        { lldb::eStateExited,    onProcessStateExited  },
-        { lldb::eStateRunning,   onProcessStateRunning },
-        { lldb::eStateStepping,  onProcessStateRunning }
-    };
-
 static void onProcessEvent (debug::State* state,
                             lldb::SBProcess& process,
                             lldb::SBEvent& event) noexcept
 {
     static constexpr bool isStandardOutput { false };
     static constexpr bool isStandardError  { true };
+
+    static const auto processStates ([] {
+        jam::Function::Map<lldb::StateType, jam::Function::pointerCapacity, void (debug::State*, lldb::SBProcess&, lldb::SBEvent&)> processStates;
+
+        processStates.add (lldb::eStateStopped,   onProcessStateStopped);
+        processStates.add (lldb::eStateCrashed,   onProcessStateStopped);
+        processStates.add (lldb::eStateSuspended, onProcessStateStopped);
+        processStates.add (lldb::eStateExited,    onProcessStateExited);
+        processStates.add (lldb::eStateRunning,   onProcessStateRunning);
+        processStates.add (lldb::eStateStepping,  onProcessStateRunning);
+        return processStates;
+    } ());
 
     const std::uint32_t mask { event.GetType () };
 
@@ -197,7 +206,7 @@ static void onProcessEvent (debug::State* state,
     if (processStateEntry != processStates.end ())
     {
         const auto& [stateCode, stateCallback] { *processStateEntry };
-        stateCallback (state, process, event);
+        stateCallback (stateCode, state, process, event);
     }
 }
 
@@ -220,26 +229,6 @@ static void onBreakpointEvent (debug::State* state, lldb::SBEvent& event) noexce
             state->resolvedBreakpointEngineId = bp.GetID ();
             state->resolvedBreakpointLine     = lineEntry.IsValid () ? lineEntry.GetLine () : 0u;
             state->hasBreakpointLocationsResolved = true;
-        }
-    }
-}
-
-static void onTargetEvent (debug::State* state, lldb::SBEvent& event) noexcept
-{
-    const std::uint32_t mask { event.GetType () };
-
-    if ((mask bitand lldb::SBTarget::eBroadcastBitModulesLoaded) != 0)
-    {
-        const std::uint32_t numModules {
-            static_cast<std::uint32_t> (
-                lldb::SBTarget::GetNumModulesFromEvent (event)) };
-
-        if (numModules > 0)
-        {
-            auto moduleRef { lldb::SBTarget::GetModuleAtIndexFromEvent (0, event) };
-            state->lastLoadedImageName =
-                juce::String (moduleRef.GetFileSpec ().GetFilename ());
-            state->hasNewModuleLoaded = true;
         }
     }
 }
@@ -318,7 +307,7 @@ void Session::resume () noexcept
     process.Continue ();
 }
 
-bool Session::pollEvents (std::uint32_t timeoutMs) noexcept
+void Session::pollEvents (std::uint32_t timeoutMs) noexcept
 {
     // SBListener::WaitForEvent only accepts whole-second timeouts. Round the
     // caller's millisecond timeout up so the wait actually blocks instead of
@@ -338,17 +327,11 @@ bool Session::pollEvents (std::uint32_t timeoutMs) noexcept
         {
             onProcessEvent (debugState, process, event);
         }
-        else if (lldb::SBTarget::EventIsTargetEvent (event))
-        {
-            onTargetEvent (debugState, event);
-        }
         else if (lldb::SBBreakpoint::EventIsBreakpointEvent (event))
         {
             onBreakpointEvent (debugState, event);
         }
     }
-
-    return hasEvent;
 }
 
 void Session::terminateDebuggee (std::uint32_t processId) noexcept
@@ -420,10 +403,10 @@ void Session::interrupt (std::uint32_t processId) noexcept
     process.SendAsyncInterrupt ();
 }
 
-std::int32_t Session::addBreakpoint (std::uint64_t offset) noexcept
+std::optional<std::int32_t> Session::addBreakpoint (std::uint64_t offset) noexcept
 {
     auto bp { target.BreakpointCreateByAddress (static_cast<lldb::addr_t> (offset)) };
-    std::int32_t engineId { 0 };
+    std::optional<std::int32_t> engineId;
 
     if (bp.IsValid ())
         engineId = bp.GetID ();
@@ -431,11 +414,11 @@ std::int32_t Session::addBreakpoint (std::uint64_t offset) noexcept
     return engineId;
 }
 
-BreakpointLocation Session::addBreakpointByLocation (const juce::String& filePath,
-                                                     std::uint16_t       line) noexcept
+std::optional<BreakpointLocation> Session::addBreakpointByLocation (const juce::String& filePath,
+                                                                    std::uint16_t       line) noexcept
 {
     auto bp { target.BreakpointCreateByLocation (filePath.toRawUTF8 (), line) };
-    BreakpointLocation location { BreakpointLocation::pack (0, 0) };
+    std::optional<BreakpointLocation> location;
 
     if (bp.IsValid ())
     {
@@ -587,43 +570,39 @@ void Session::resetSymbolGroupCache () noexcept
     cachedFrameIndex = -1;
 }
 
-static const std::unordered_map<std::uint32_t, const char*> machExceptionNames
-{
-    { 1,  "EXC_BAD_ACCESS"      },
-    { 2,  "EXC_BAD_INSTRUCTION" },
-    { 3,  "EXC_ARITHMETIC"      },
-    { 4,  "EXC_EMULATION"       },
-    { 5,  "EXC_SOFTWARE"        },
-    { 6,  "EXC_BREAKPOINT"      },
-    { 7,  "EXC_SYSCALL"         },
-    { 8,  "EXC_MACH_SYSCALL"    },
-    { 9,  "EXC_RPC_ALERT"       },
-    { 10, "EXC_CRASH"           }
-};
-
-// Same-TU static initialization runs in declaration order, so signalNames may
-// safely read machExceptionNames here — reusing its strings instead of
-// duplicating them (SIGILL/SIGTRAP/SIGFPE/SIGBUS/SIGSEGV report through the
-// Mach exception name their POSIX signal corresponds to).
-static const std::unordered_map<std::uint32_t, const char*> signalNames
-{
-    { 1,  "SIGHUP"                     },
-    { 2,  "SIGINT"                     },
-    { 3,  "SIGQUIT"                    },
-    { 4,  machExceptionNames.at (2)    },
-    { 5,  machExceptionNames.at (6)    },
-    { 6,  "SIGABRT"                    },
-    { 8,  machExceptionNames.at (3)    },
-    { 9,  "SIGKILL"                    },
-    { 10, machExceptionNames.at (1)    },
-    { 11, machExceptionNames.at (1)    },
-    { 13, "SIGPIPE"                    },
-    { 14, "SIGALRM"                    },
-    { 15, "SIGTERM"                    }
-};
-
 juce::String getExceptionName (std::uint32_t code, bool isMachException) noexcept
 {
+    static const jam::HashMap<std::uint32_t, const char*> machExceptionNames
+    {
+        { 1,  "EXC_BAD_ACCESS"      },
+        { 2,  "EXC_BAD_INSTRUCTION" },
+        { 3,  "EXC_ARITHMETIC"      },
+        { 4,  "EXC_EMULATION"       },
+        { 5,  "EXC_SOFTWARE"        },
+        { 6,  "EXC_BREAKPOINT"      },
+        { 7,  "EXC_SYSCALL"         },
+        { 8,  "EXC_MACH_SYSCALL"    },
+        { 9,  "EXC_RPC_ALERT"       },
+        { 10, "EXC_CRASH"           }
+    };
+
+    static const jam::HashMap<std::uint32_t, const char*> signalNames
+    {
+        { 1,  "SIGHUP"                     },
+        { 2,  "SIGINT"                     },
+        { 3,  "SIGQUIT"                    },
+        { 4,  machExceptionNames.at (2)    },
+        { 5,  machExceptionNames.at (6)    },
+        { 6,  "SIGABRT"                    },
+        { 8,  machExceptionNames.at (3)    },
+        { 9,  "SIGKILL"                    },
+        { 10, machExceptionNames.at (1)    },
+        { 11, machExceptionNames.at (1)    },
+        { 13, "SIGPIPE"                    },
+        { 14, "SIGALRM"                    },
+        { 15, "SIGTERM"                    }
+    };
+
     const auto& table { isMachException
         ? machExceptionNames
         : signalNames };
@@ -640,6 +619,172 @@ juce::String getExceptionName (std::uint32_t code, bool isMachException) noexcep
     else
     {
         result = "0x" + juce::String::toHexString (static_cast<juce::int64> (code));
+    }
+
+    return result;
+}
+
+void Session::cacheFrameVariables (int frameIndex) noexcept
+{
+    if (cachedFrameIndex != frameIndex)
+    {
+        auto frame { process.GetSelectedThread ().GetFrameAtIndex (static_cast<std::uint32_t> (frameIndex)) };
+        cachedFrameVariables = frame.GetVariables (true, true, true, true);
+        cachedFrameIndex = frameIndex;
+    }
+}
+
+static juce::String getDisplayValue (lldb::SBValue& value, const juce::String& typeName) noexcept
+{
+    const juce::String prettyValue { prettyPrint (value, typeName) };
+
+    if (prettyValue.isNotEmpty ())
+        return prettyValue;
+
+    if (value.GetValue () != nullptr)
+        return juce::String { value.GetValue () };
+
+    if (value.GetSummary () != nullptr)
+        return juce::String { value.GetSummary () };
+
+    return juce::String ();
+}
+
+juce::var Session::getVariableObject (lldb::SBValue& value, int symbolIndex) noexcept
+{
+    const char* rawType { value.GetTypeName () };
+    const juce::String typeName { rawType != nullptr ? rawType : "" };
+
+    juce::String displayValue { getDisplayValue (value, typeName) };
+
+    if (displayValue.isEmpty ())
+    {
+        displayValue = "<unavailable>";
+    }
+
+    DynObj obj { new juce::DynamicObject () };
+    const char* rawName { value.GetName () };
+    obj->setProperty ("name",        juce::String (rawName != nullptr ? rawName : ""));
+    obj->setProperty ("value",       displayValue);
+    obj->setProperty ("type",        typeName);
+    obj->setProperty ("hasChildren", value.MightHaveChildren ());
+    obj->setProperty ("symbolIndex", symbolIndex);
+
+    return juce::var (obj);
+}
+
+static juce::var getStackFrame (lldb::SBFrame frame, int frameId) noexcept
+{
+    DynObj frameEntry { new juce::DynamicObject () };
+
+    const char* rawName { frame.GetFunctionName () };
+    frameEntry->setProperty ("id",   frameId);
+    frameEntry->setProperty ("name", juce::String (rawName != nullptr ? rawName : "??"));
+
+    auto lineEntry { frame.GetLineEntry () };
+
+    if (lineEntry.IsValid ())
+    {
+        DynObj source { new juce::DynamicObject () };
+        const char* rawFileName { lineEntry.GetFileSpec ().GetFilename () };
+        const char* rawFilePath { lineEntry.GetFileSpec ().GetDirectory () };
+        const juce::String fileName { rawFileName != nullptr ? rawFileName : "" };
+        const juce::String dirPath  { rawFilePath  != nullptr ? rawFilePath  : "" };
+        source->setProperty ("name", fileName);
+        source->setProperty ("path", dirPath.isNotEmpty ()
+                                         ? dirPath + "/" + fileName
+                                         : fileName);
+        frameEntry->setProperty ("source", juce::var (source));
+        frameEntry->setProperty ("line",   static_cast<int> (lineEntry.GetLine ()));
+        frameEntry->setProperty ("column", 1);
+    }
+
+    return juce::var (frameEntry);
+}
+
+juce::Array<juce::var> Session::getStackTrace (int maxFrames, int firstFrameId) noexcept
+{
+    jassert (maxFrames > 0);
+
+    juce::Array<juce::var> frames;
+    auto thread { process.GetSelectedThread () };
+    const int numFrames { static_cast<int> (thread.GetNumFrames ()) };
+    const int clampedMax { juce::jmin (maxFrames, numFrames) };
+
+    for (int i { 0 }; i < clampedMax; ++i)
+        frames.add (getStackFrame (thread.GetFrameAtIndex (static_cast<std::uint32_t> (i)), firstFrameId + i));
+
+    return frames;
+}
+
+juce::Array<juce::var> Session::getLocals (int frameIndex) noexcept
+{
+    juce::Array<juce::var> result;
+
+    cacheFrameVariables (frameIndex);
+
+    for (std::uint32_t i { 0 }; i < cachedFrameVariables.GetSize (); ++i)
+    {
+        auto value { cachedFrameVariables.GetValueAtIndex (i) };
+        const char* rawName { value.GetName () };
+        const juce::String name { rawName != nullptr ? rawName : "" };
+
+        if (not shouldSkipSymbol (name))
+        {
+            result.add (getVariableObject (value, static_cast<int> (i)));
+        }
+    }
+
+    return result;
+}
+
+juce::Array<juce::var> Session::getVariableChildren (int frameIndex, int symbolIndex) noexcept
+{
+    juce::Array<juce::var> result;
+
+    cacheFrameVariables (frameIndex);
+
+    if (symbolIndex >= 0
+        and symbolIndex < static_cast<int> (cachedFrameVariables.GetSize ()))
+    {
+        auto parent { cachedFrameVariables.GetValueAtIndex (static_cast<std::uint32_t> (symbolIndex)) };
+        const std::uint32_t numChildren { parent.GetNumChildren () };
+
+        for (std::uint32_t i { 0 }; i < numChildren; ++i)
+        {
+            auto child { parent.GetChildAtIndex (i) };
+            const char* rawName { child.GetName () };
+            const juce::String name { rawName != nullptr ? rawName : "" };
+
+            if (not shouldSkipSymbol (name))
+            {
+                result.add (getVariableObject (child, static_cast<int> (i)));
+            }
+        }
+    }
+
+    return result;
+}
+
+juce::String Session::evaluateExpression (const juce::String& expression, int frameIndex) noexcept
+{
+    juce::String result;
+    auto thread { process.GetSelectedThread () };
+    auto frame { thread.GetFrameAtIndex (static_cast<std::uint32_t> (frameIndex)) };
+    auto value { frame.EvaluateExpression (expression.toRawUTF8 ()) };
+
+    if (value.IsValid () and value.GetError ().Success ())
+    {
+        const char* rawType { value.GetTypeName () };
+        const juce::String typeName { rawType != nullptr ? rawType : "" };
+        result = getDisplayValue (value, typeName);
+    }
+    else
+    {
+        if (value.GetError ().GetCString () != nullptr)
+            result = juce::String { value.GetError ().GetCString () };
+        else
+            result = "evaluation failed";
     }
 
     return result;

@@ -1,19 +1,23 @@
 /** @file Session.cpp
  *  @brief Windows debug session implementation using Microsoft's dbgeng COM API.
  *
- *  Platform counterpart to Session_mac.cpp (macOS liblldb). Implements the Session
- *  interface declared in Session.h using IDebugClient5, IDebugControl4,
- *  IDebugSymbols3, IDebugDataSpaces4, and IDebugSystemObjects.
+ *  Platform counterpart to Session_mac.cpp (macOS liblldb). Implements the whole
+ *  Session interface from Session.h using IDebugClient5, IDebugControl4,
+ *  IDebugSymbols3, IDebugDataSpaces4, and IDebugSystemObjects. The file holds the
+ *  lifecycle (initialize, launch, attach, shutdown), event polling, stepping and
+ *  interrupt, breakpoint resolution, thread queries, stack trace, locals, child
+ *  variables, and expression evaluation, with file-local helpers for symbol formatting.
  *
- *  Threading model: single-threaded main loop. COM callbacks (Callbacks.cpp) fire
- *  on the dbgeng thread and store deferred flags on State. Main thread polls and
- *  processes those flags.
+ *  Threading model: single-threaded main loop. dbgeng invokes the callbacks in
+ *  Callbacks.cpp during WaitForEvent, on the main thread. The callbacks store state
+ *  on State. Whatdbg drains that state after pollEvents returns.
  *
  *  Lifecycle: initialize (Loader → COM) → (launch | attach) → pollEvents loop → shutdown.
  */
 
 #include <JuceHeader.h>
 #include "Session.h"
+#include "PrettyPrint.h"
 #include "../dap/Types.h"
 
 #if JUCE_WINDOWS
@@ -206,23 +210,32 @@ bool Session::attach (std::uint32_t processId) noexcept
 
 void Session::resume () noexcept
 {
-    if (control != nullptr)
-    {
-        control->SetExecutionStatus (DEBUG_STATUS_GO);
-    }
+    control->SetExecutionStatus (DEBUG_STATUS_GO);
 }
 
-bool Session::pollEvents (std::uint32_t timeoutMs) noexcept
+void Session::pollEvents (std::uint32_t timeoutMs) noexcept
 {
-    bool hadEvent { false };
+    const HRESULT hr { control->WaitForEvent (0, static_cast<ULONG> (timeoutMs)) };
 
-    if (control != nullptr)
+    auto* debugState { State::getInstance () };
+
+    if (hr == E_UNEXPECTED)
     {
-        const HRESULT hr { control->WaitForEvent (0, static_cast<ULONG> (timeoutMs)) };
-        hadEvent = hr == S_OK;
+        debugState->hasProcessExited = true;
+        debugState->executionState   = ExecutionState::exited;
     }
+    else if (hr == S_OK and debugState->isStepPending)
+    {
+        debugState->isStepPending  = false;
+        debugState->executionState = ExecutionState::stopped;
 
-    return hadEvent;
+        if (debugState->stopReason == StopReason::none)
+            debugState->stopReason = StopReason::step;
+
+#if JUCE_DEBUG
+        jam::debug::Log::write ("WHATDBG: step completed");
+#endif
+    }
 }
 
 void Session::shutdown (EndMode mode) noexcept
@@ -257,48 +270,33 @@ void Session::shutdown (EndMode mode) noexcept
 
 void Session::appendSymbolPath (const juce::String& path) noexcept
 {
-    if (symbols != nullptr)
-    {
-        symbols->AppendSymbolPath (path.toRawUTF8 ());
+    symbols->AppendSymbolPath (path.toRawUTF8 ());
 #if JUCE_DEBUG
-        jam::debug::Log::write ("WHATDBG: appended symbol path: " + path);
+    jam::debug::Log::write ("WHATDBG: appended symbol path: " + path);
 #endif
-    }
 }
 
 void Session::appendSourcePath (const juce::String& path) noexcept
 {
-    if (symbols != nullptr)
-    {
-        symbols->AppendSourcePath (path.toRawUTF8 ());
+    symbols->AppendSourcePath (path.toRawUTF8 ());
 #if JUCE_DEBUG
-        jam::debug::Log::write ("WHATDBG: appended source path: " + path);
+    jam::debug::Log::write ("WHATDBG: appended source path: " + path);
 #endif
-    }
 }
 
 void Session::stepOver () noexcept
 {
-    if (control != nullptr)
-    {
-        control->SetExecutionStatus (DEBUG_STATUS_STEP_OVER);
-    }
+    control->SetExecutionStatus (DEBUG_STATUS_STEP_OVER);
 }
 
 void Session::stepInto () noexcept
 {
-    if (control != nullptr)
-    {
-        control->SetExecutionStatus (DEBUG_STATUS_STEP_INTO);
-    }
+    control->SetExecutionStatus (DEBUG_STATUS_STEP_INTO);
 }
 
 void Session::stepOut () noexcept
 {
-    if (control != nullptr)
-    {
-        control->Execute (DEBUG_OUTCTL_IGNORE, "gu", DEBUG_EXECUTE_NOT_LOGGED);
-    }
+    control->Execute (DEBUG_OUTCTL_IGNORE, "gu", DEBUG_EXECUTE_NOT_LOGGED);
 }
 
 void Session::interrupt (std::uint32_t processId) noexcept
@@ -366,189 +364,149 @@ void Session::terminateDebuggee (std::uint32_t processId) noexcept
 
 juce::Result Session::loadModuleSymbols (const juce::String& imageName) noexcept
 {
-    juce::Result result { juce::Result::fail ("loadModuleSymbols: control is null") };
-
-    if (control != nullptr)
-    {
-        const juce::String basename { juce::File (imageName).getFileName () };
-        const juce::String command { ".reload /f " + basename.quoted () };
-        const HRESULT hr { control->Execute (DEBUG_OUTCTL_IGNORE,
-                                             command.toRawUTF8 (),
-                                             DEBUG_EXECUTE_NOT_LOGGED) };
+    const juce::String basename { juce::File (imageName).getFileName () };
+    const juce::String command { ".reload /f " + basename.quoted () };
+    const HRESULT hr { control->Execute (DEBUG_OUTCTL_IGNORE,
+                                         command.toRawUTF8 (),
+                                         DEBUG_EXECUTE_NOT_LOGGED) };
 #if JUCE_DEBUG
-        jam::debug::Log::write ("WHATDBG: .reload /f " + basename + " hr=0x"
-                                 + juce::String::toHexString (static_cast<unsigned long> (hr)));
+    jam::debug::Log::write ("WHATDBG: .reload /f " + basename + " hr=0x"
+                             + juce::String::toHexString (static_cast<unsigned long> (hr)));
 #endif
-        result = hr == S_OK ? juce::Result::ok ()
-                            : juce::Result::fail ("loadModuleSymbols: HRESULT 0x"
-                                + juce::String::toHexString (static_cast<int> (hr)));
-    }
-
-    return result;
+    return hr == S_OK ? juce::Result::ok ()
+                      : juce::Result::fail ("loadModuleSymbols: HRESULT 0x"
+                          + juce::String::toHexString (static_cast<int> (hr)));
 }
 
 juce::Result Session::forceReloadAllSymbols () noexcept
 {
-    juce::Result result { juce::Result::fail ("forceReloadAllSymbols: control is null") };
-
-    if (control != nullptr)
-    {
-        const HRESULT hr { control->Execute (DEBUG_OUTCTL_IGNORE,
-                                             ".reload /f",
-                                             DEBUG_EXECUTE_NOT_LOGGED) };
+    const HRESULT hr { control->Execute (DEBUG_OUTCTL_IGNORE,
+                                         ".reload /f",
+                                         DEBUG_EXECUTE_NOT_LOGGED) };
 #if JUCE_DEBUG
-        jam::debug::Log::write ("WHATDBG: .reload /f (all) hr=0x"
-                                 + juce::String::toHexString (static_cast<unsigned long> (hr)));
+    jam::debug::Log::write ("WHATDBG: .reload /f (all) hr=0x"
+                             + juce::String::toHexString (static_cast<unsigned long> (hr)));
 #endif
-        result = hr == S_OK ? juce::Result::ok ()
-                            : juce::Result::fail ("forceReloadAllSymbols: HRESULT 0x"
-                                + juce::String::toHexString (static_cast<int> (hr)));
+    return hr == S_OK ? juce::Result::ok ()
+                      : juce::Result::fail ("forceReloadAllSymbols: HRESULT 0x"
+                          + juce::String::toHexString (static_cast<int> (hr)));
+}
+
+static OffsetStatus getLineStatus (HRESULT lineResult) noexcept
+{
+    static const jam::HashMap<HRESULT, OffsetStatus> lineStatuses
+    {
+        { S_OK,         OffsetStatus::found      },
+        { E_UNEXPECTED, OffsetStatus::engineBusy }
+    };
+
+    const auto lineStatus { lineStatuses.find (lineResult) };
+
+    if (lineStatus != lineStatuses.end ())
+    {
+        const auto& [statusResult, status] { *lineStatus };
+        return status;
     }
 
-    return result;
+    return OffsetStatus::notFound;
 }
 
 static std::pair<OffsetStatus, std::uint64_t> getSourceOffset (IDebugSymbols3*     symbols,
                                                                 const juce::String& filePath,
                                                                 std::uint16_t       line) noexcept
 {
-    jassert (symbols != nullptr);
-
-    OffsetStatus  status { OffsetStatus::notFound };
     std::uint64_t offset { 0 };
+    OffsetStatus  status { getLineStatus (symbols->GetOffsetByLine (static_cast<ULONG> (line),
+                                                                     filePath.toRawUTF8 (),
+                                                                     &offset)) };
 
-    std::uint64_t fullPathOffset { 0 };
-    const HRESULT fullPathResult { symbols->GetOffsetByLine (static_cast<ULONG> (line),
-                                                              filePath.toRawUTF8 (),
-                                                              &fullPathOffset) };
-
-    if (fullPathResult == S_OK)
+    if (status == OffsetStatus::notFound)
     {
-        status = OffsetStatus::found;
-        offset = fullPathOffset;
-    }
-    else if (fullPathResult == E_UNEXPECTED)
-    {
-        status = OffsetStatus::engineBusy;
-    }
-    else
-    {
-        juce::String basename { filePath };
-        const int lastSeparator { filePath.lastIndexOfChar ('\\') };
+        const juce::String basename { filePath.fromLastOccurrenceOf ("\\", false, false) };
+        status = getLineStatus (symbols->GetOffsetByLine (static_cast<ULONG> (line),
+                                                           basename.toRawUTF8 (),
+                                                           &offset));
 
-        if (lastSeparator >= 0)
-            basename = filePath.substring (lastSeparator + 1);
-
-        std::uint64_t basenameOffset { 0 };
-        const HRESULT basenameResult { symbols->GetOffsetByLine (static_cast<ULONG> (line),
-                                                                  basename.toRawUTF8 (),
-                                                                  &basenameOffset) };
-
-        if (basenameResult == S_OK)
+        if (status == OffsetStatus::found)
         {
             char pathBuffer[MAX_PATH] {};
             ULONG pathSize { 0 };
             ULONG lineOut { 0 };
-            const HRESULT lineResult { symbols->GetLineByOffset (basenameOffset, &lineOut,
+            const HRESULT lineResult { symbols->GetLineByOffset (offset, &lineOut,
                                                                   pathBuffer, MAX_PATH,
                                                                   &pathSize, nullptr) };
 
-            if (lineResult == S_OK)
-            {
-                const juce::String storedPath    { juce::String (pathBuffer).replace ("\\", "/") };
-                const juce::String requestedPath { filePath.replace ("\\", "/") };
-                const bool isSourceMatch { storedPath.endsWithIgnoreCase (requestedPath)
-                                           or requestedPath.endsWithIgnoreCase (storedPath) };
+            const juce::String storedPath    { juce::String (pathBuffer).replace ("\\", "/") };
+            const juce::String requestedPath { filePath.replace ("\\", "/") };
+            const bool isSourceMatch { storedPath.endsWithIgnoreCase (requestedPath)
+                                       or requestedPath.endsWithIgnoreCase (storedPath) };
 
-                if (isSourceMatch)
-                {
-                    status = OffsetStatus::found;
-                    offset = basenameOffset;
-                }
-            }
-        }
-        else if (basenameResult == E_UNEXPECTED)
-        {
-            status = OffsetStatus::engineBusy;
+            if (lineResult != S_OK or not isSourceMatch)
+                status = OffsetStatus::notFound;
         }
     }
 
-    return { status, offset };
+    return { status, status == OffsetStatus::found ? offset : std::uint64_t { 0 } };
 }
 
 OffsetStatus Session::getOffsetStatus (const juce::String& filePath,
                                        std::uint16_t       line) noexcept
 {
-    OffsetStatus status { OffsetStatus::notFound };
+    const auto [resolvedStatus, resolvedOffset] { getSourceOffset (symbols.Get (), filePath, line) };
+    juce::ignoreUnused (resolvedOffset);
 
-    if (symbols != nullptr)
-    {
-        const auto [resolvedStatus, resolvedOffset] { getSourceOffset (symbols.Get (), filePath, line) };
-        juce::ignoreUnused (resolvedOffset);
-        status = resolvedStatus;
-    }
-
-    return status;
+    return resolvedStatus;
 }
 
 std::uint64_t Session::getOffset (const juce::String& filePath,
                                   std::uint16_t       line) noexcept
 {
-    std::uint64_t offset { 0 };
+    const auto [resolvedStatus, resolvedOffset] { getSourceOffset (symbols.Get (), filePath, line) };
+    juce::ignoreUnused (resolvedStatus);
 
-    if (symbols != nullptr)
-    {
-        const auto [resolvedStatus, resolvedOffset] { getSourceOffset (symbols.Get (), filePath, line) };
-        juce::ignoreUnused (resolvedStatus);
-        offset = resolvedOffset;
-    }
-
-    return offset;
+    return resolvedOffset;
 }
 
-std::int32_t Session::addBreakpoint (std::uint64_t offset) noexcept
+std::optional<std::int32_t> Session::addBreakpoint (std::uint64_t offset) noexcept
 {
-    std::int32_t engineId { 0 };
+    std::optional<std::int32_t> engineId;
 
-    if (control != nullptr)
+    IDebugBreakpoint2* bp { nullptr };
+    const HRESULT hr { control->AddBreakpoint2 (DEBUG_BREAKPOINT_CODE, DEBUG_ANY_ID, &bp) };
+
+    if (hr == S_OK and bp != nullptr)
     {
-        IDebugBreakpoint2* bp { nullptr };
-        const HRESULT hr { control->AddBreakpoint2 (DEBUG_BREAKPOINT_CODE, DEBUG_ANY_ID, &bp) };
-
-        if (hr == S_OK and bp != nullptr)
-        {
-            bp->SetOffset (offset);
-            bp->AddFlags (DEBUG_BREAKPOINT_ENABLED);
-            ULONG rawEngineId { 0 };
-            bp->GetId (&rawEngineId);
-            engineId = static_cast<std::int32_t> (rawEngineId);
-        }
-        else
-        {
+        bp->SetOffset (offset);
+        bp->AddFlags (DEBUG_BREAKPOINT_ENABLED);
+        ULONG rawEngineId { 0 };
+        bp->GetId (&rawEngineId);
+        engineId = static_cast<std::int32_t> (rawEngineId);
+    }
+    else
+    {
 #if JUCE_DEBUG
-            jam::debug::Log::write ("WHATDBG: addBreakpoint: HRESULT 0x"
-                + juce::String::toHexString (static_cast<int> (hr)));
+        jam::debug::Log::write ("WHATDBG: addBreakpoint: HRESULT 0x"
+            + juce::String::toHexString (static_cast<int> (hr)));
 #endif
-        }
     }
 
     return engineId;
 }
 
-BreakpointLocation Session::addBreakpointByLocation (const juce::String& filePath,
-                                                     std::uint16_t       line) noexcept
+std::optional<BreakpointLocation> Session::addBreakpointByLocation (const juce::String& filePath,
+                                                                    std::uint16_t       line) noexcept
 {
-    BreakpointLocation location { BreakpointLocation::pack (0, 0) };
+    std::optional<BreakpointLocation> location;
 
     const OffsetStatus status { getOffsetStatus (filePath, line) };
 
     if (status == OffsetStatus::found)
     {
-        const std::uint64_t offset   { getOffset (filePath, line) };
-        const std::int32_t  engineId { addBreakpoint (offset) };
+        const std::uint64_t               offset   { getOffset (filePath, line) };
+        const std::optional<std::int32_t> engineId { addBreakpoint (offset) };
 
-        if (engineId != 0)
-            location = BreakpointLocation::pack (engineId, line);
+        if (engineId.has_value ())
+            location = BreakpointLocation::pack (*engineId, line);
     }
 
     return location;
@@ -556,28 +514,19 @@ BreakpointLocation Session::addBreakpointByLocation (const juce::String& filePat
 
 juce::Result Session::removeBreakpoint (std::int32_t engineId) noexcept
 {
-    juce::Result result { juce::Result::fail ("removeBreakpoint: control is null") };
+    IDebugBreakpoint2* bp { nullptr };
+    const HRESULT hr { control->GetBreakpointById2 (static_cast<ULONG> (engineId), &bp) };
 
-    if (control != nullptr)
+    if (hr == S_OK and bp != nullptr)
     {
-        IDebugBreakpoint2* bp { nullptr };
-        const HRESULT hr { control->GetBreakpointById2 (static_cast<ULONG> (engineId), &bp) };
-
-        if (hr == S_OK and bp != nullptr)
-        {
-            const HRESULT hrRemove { control->RemoveBreakpoint2 (bp) };
-            result = hrRemove == S_OK ? juce::Result::ok ()
-                                      : juce::Result::fail ("removeBreakpoint: HRESULT 0x"
-                                          + juce::String::toHexString (static_cast<int> (hrRemove)));
-        }
-        else
-        {
-            result = juce::Result::fail ("removeBreakpoint: GetBreakpointById2 HRESULT 0x"
-                + juce::String::toHexString (static_cast<int> (hr)));
-        }
+        const HRESULT hrRemove { control->RemoveBreakpoint2 (bp) };
+        return hrRemove == S_OK ? juce::Result::ok ()
+                                : juce::Result::fail ("removeBreakpoint: HRESULT 0x"
+                                    + juce::String::toHexString (static_cast<int> (hrRemove)));
     }
 
-    return result;
+    return juce::Result::fail ("removeBreakpoint: GetBreakpointById2 HRESULT 0x"
+        + juce::String::toHexString (static_cast<int> (hr)));
 }
 
 void Session::resetSymbolGroupCache () noexcept
@@ -590,28 +539,25 @@ IDebugSymbolGroup2* Session::getOrCreateSymbolGroup (int frameIndex) noexcept
 {
     IDebugSymbolGroup2* result { nullptr };
 
-    if (symbols != nullptr)
+    if (cachedSymbolGroup != nullptr and cachedFrameIndex == frameIndex)
     {
-        if (cachedSymbolGroup != nullptr and cachedFrameIndex == frameIndex)
+        result = cachedSymbolGroup.Get ();
+    }
+    else
+    {
+        cachedSymbolGroup.Reset ();
+
+        symbols->SetScopeFrameByIndex (static_cast<ULONG> (frameIndex));
+
+        IDebugSymbolGroup2* group { nullptr };
+        const HRESULT hr { symbols->GetScopeSymbolGroup2 (
+            DEBUG_SCOPE_GROUP_ALL, nullptr, &group) };
+
+        if (SUCCEEDED (hr) and group != nullptr)
         {
+            cachedSymbolGroup.Attach (group);
+            cachedFrameIndex = frameIndex;
             result = cachedSymbolGroup.Get ();
-        }
-        else
-        {
-            cachedSymbolGroup.Reset ();
-
-            symbols->SetScopeFrameByIndex (static_cast<ULONG> (frameIndex));
-
-            IDebugSymbolGroup2* group { nullptr };
-            const HRESULT hr { symbols->GetScopeSymbolGroup2 (
-                DEBUG_SCOPE_GROUP_ALL, nullptr, &group) };
-
-            if (SUCCEEDED (hr) and group != nullptr)
-            {
-                cachedSymbolGroup.Attach (group);
-                cachedFrameIndex = frameIndex;
-                result = cachedSymbolGroup.Get ();
-            }
         }
     }
 
@@ -622,56 +568,53 @@ juce::Array<juce::var> Session::getThreads () noexcept
 {
     juce::Array<juce::var> threads;
 
-    if (systemObjects != nullptr)
+    ULONG threadCount { 0 };
+    systemObjects->GetNumberThreads (&threadCount);
+
+    if (threadCount > 0)
     {
-        ULONG threadCount { 0 };
-        systemObjects->GetNumberThreads (&threadCount);
+        std::vector<ULONG> engineIds (threadCount);
+        std::vector<ULONG> systemIds (threadCount);
+        systemObjects->GetThreadIdsByIndex (0, threadCount,
+                                            engineIds.data (), systemIds.data ());
 
-        if (threadCount > 0)
+        ULONG savedEngineId { 0 };
+        systemObjects->GetCurrentThreadId (&savedEngineId);
+
+        for (ULONG i { 0 }; i < threadCount; ++i)
         {
-            std::vector<ULONG> engineIds (threadCount);
-            std::vector<ULONG> systemIds (threadCount);
-            systemObjects->GetThreadIdsByIndex (0, threadCount,
-                                                engineIds.data (), systemIds.data ());
+            systemObjects->SetCurrentThreadId (engineIds.at (i));
 
-            ULONG savedEngineId { 0 };
-            systemObjects->GetCurrentThreadId (&savedEngineId);
+            juce::String name { "Thread " + juce::String (systemIds.at (i)) };
 
-            for (ULONG i { 0 }; i < threadCount; ++i)
+            ULONG64 handle { 0 };
+            systemObjects->GetCurrentThreadHandle (&handle);
+
+            if (handle != 0)
             {
-                systemObjects->SetCurrentThreadId (engineIds.at (i));
+                PWSTR desc { nullptr };
+                const HRESULT descResult { GetThreadDescription (
+                    reinterpret_cast<HANDLE> (static_cast<ULONG_PTR> (handle)), &desc) };
 
-                juce::String name { "Thread " + juce::String (systemIds.at (i)) };
-
-                ULONG64 handle { 0 };
-                systemObjects->GetCurrentThreadHandle (&handle);
-
-                if (handle != 0)
+                if (SUCCEEDED (descResult) and desc != nullptr)
                 {
-                    PWSTR desc { nullptr };
-                    const HRESULT descResult { GetThreadDescription (
-                        reinterpret_cast<HANDLE> (static_cast<ULONG_PTR> (handle)), &desc) };
+                    const juce::String threadName { desc };
+                    LocalFree (desc);
 
-                    if (SUCCEEDED (descResult) and desc != nullptr)
+                    if (threadName.isNotEmpty ())
                     {
-                        const juce::String threadName { desc };
-                        LocalFree (desc);
-
-                        if (threadName.isNotEmpty ())
-                        {
-                            name = threadName;
-                        }
+                        name = threadName;
                     }
                 }
-
-                DynObj thread { new juce::DynamicObject () };
-                thread->setProperty ("id",   static_cast<int> (systemIds.at (i)));
-                thread->setProperty ("name", name);
-                threads.add (juce::var (thread));
             }
 
-            systemObjects->SetCurrentThreadId (savedEngineId);
+            DynObj thread { new juce::DynamicObject () };
+            thread->setProperty ("id",   static_cast<int> (systemIds.at (i)));
+            thread->setProperty ("name", name);
+            threads.add (juce::var (thread));
         }
+
+        systemObjects->SetCurrentThreadId (savedEngineId);
     }
 
     return threads;
@@ -681,21 +624,18 @@ std::uint32_t Session::getEventThreadSystemId () noexcept
 {
     std::uint32_t systemId { 0 };
 
-    if (systemObjects != nullptr)
-    {
-        ULONG eventEngineId { 0 };
-        const HRESULT hr { systemObjects->GetEventThread (&eventEngineId) };
+    ULONG eventEngineId { 0 };
+    const HRESULT hr { systemObjects->GetEventThread (&eventEngineId) };
 
-        if (SUCCEEDED (hr))
-        {
-            ULONG savedId { 0 };
-            systemObjects->GetCurrentThreadId (&savedId);
-            systemObjects->SetCurrentThreadId (eventEngineId);
-            ULONG rawSystemId { 0 };
-            systemObjects->GetCurrentThreadSystemId (&rawSystemId);
-            systemObjects->SetCurrentThreadId (savedId);
-            systemId = static_cast<std::uint32_t> (rawSystemId);
-        }
+    if (SUCCEEDED (hr))
+    {
+        ULONG savedId { 0 };
+        systemObjects->GetCurrentThreadId (&savedId);
+        systemObjects->SetCurrentThreadId (eventEngineId);
+        ULONG rawSystemId { 0 };
+        systemObjects->GetCurrentThreadSystemId (&rawSystemId);
+        systemObjects->SetCurrentThreadId (savedId);
+        systemId = static_cast<std::uint32_t> (rawSystemId);
     }
 
     return systemId;
@@ -703,16 +643,222 @@ std::uint32_t Session::getEventThreadSystemId () noexcept
 
 void Session::setCurrentThreadBySystemId (std::uint32_t systemId) noexcept
 {
-    if (systemObjects != nullptr and systemId != 0)
-    {
-        ULONG engineId { 0 };
-        const HRESULT hr { systemObjects->GetThreadIdBySystemId (static_cast<ULONG> (systemId), &engineId) };
+    jassert (systemId != 0);
 
-        if (SUCCEEDED (hr))
+    ULONG engineId { 0 };
+    const HRESULT hr { systemObjects->GetThreadIdBySystemId (static_cast<ULONG> (systemId), &engineId) };
+
+    if (SUCCEEDED (hr))
+    {
+        systemObjects->SetCurrentThreadId (engineId);
+    }
+}
+
+static juce::String getSymbolTypeName (IDebugSymbolGroup2* group, ULONG index) noexcept
+{
+    static constexpr int symbolTypeSize { 256 };
+
+    char typeBuffer[symbolTypeSize] {};
+    group->GetSymbolTypeName (index, typeBuffer, symbolTypeSize, nullptr);
+
+    return juce::String { typeBuffer };
+}
+
+static juce::String getSymbolValue (IDebugSymbolGroup2* group, IDebugDataSpaces4* dataSpaces,
+                                    IDebugSymbols3* symbols, ULONG index,
+                                    const juce::String& typeName) noexcept
+{
+    static constexpr int symbolValueSize { 512 };
+
+    char valueBuffer[symbolValueSize] {};
+    const HRESULT valueResult { group->GetSymbolValueText (index, valueBuffer, symbolValueSize, nullptr) };
+
+    juce::String displayValue { SUCCEEDED (valueResult)
+        ? formatSymbolValue (juce::String (valueBuffer))
+        : juce::String ("<unavailable>") };
+
+    const juce::String prettyValue { prettyPrint (group, dataSpaces, symbols, static_cast<int> (index), typeName) };
+
+    if (prettyValue.isNotEmpty ())
+        displayValue = prettyValue;
+
+    return displayValue;
+}
+
+static juce::var getVariableObject (IDebugSymbolGroup2* group, IDebugDataSpaces4* dataSpaces,
+                                      IDebugSymbols3* symbols, ULONG index,
+                                      const juce::String& symbolName, bool hasChildren) noexcept
+{
+    const juce::String typeName { getSymbolTypeName (group, index) };
+    const juce::String displayValue { getSymbolValue (group, dataSpaces, symbols, index, typeName) };
+
+    DynObj variableObj { new juce::DynamicObject () };
+    variableObj->setProperty ("name",        symbolName);
+    variableObj->setProperty ("value",       displayValue);
+    variableObj->setProperty ("type",        typeName);
+    variableObj->setProperty ("symbolIndex", static_cast<int> (index));
+    variableObj->setProperty ("hasChildren", hasChildren);
+
+    return juce::var (variableObj);
+}
+
+static juce::Array<juce::var> getSymbols (IDebugSymbolGroup2* group, IDebugDataSpaces4* dataSpaces,
+                                          IDebugSymbols3* symbols, ULONG parentFilter) noexcept
+{
+    static constexpr int symbolNameSize { 256 };
+
+    juce::Array<juce::var> outVariables;
+    ULONG count { 0 };
+    group->GetNumberSymbols (&count);
+
+    for (ULONG i { 0 }; i < count; ++i)
+    {
+        DEBUG_SYMBOL_PARAMETERS params {};
+        const HRESULT paramResult { group->GetSymbolParameters (i, 1, &params) };
+
+        if (SUCCEEDED (paramResult) and params.ParentSymbol == parentFilter)
         {
-            systemObjects->SetCurrentThreadId (engineId);
+            char nameBuffer[symbolNameSize] {};
+            group->GetSymbolName (i, nameBuffer, symbolNameSize, nullptr);
+            const juce::String symbolName { nameBuffer };
+
+            if (not shouldSkipSymbol (symbolName))
+            {
+                outVariables.add (getVariableObject (group, dataSpaces, symbols, i,
+                                                       symbolName, params.SubElements > 0));
+            }
         }
     }
+
+    return outVariables;
+}
+
+static juce::var getStackFrame (IDebugSymbols3* symbols, const DEBUG_STACK_FRAME& stackFrame,
+                                  int frameId) noexcept
+{
+    static constexpr int nameBufferSize { 512 };
+    static constexpr int fileBufferSize { 1024 };
+
+    DynObj frame { new juce::DynamicObject () };
+    frame->setProperty ("id", frameId);
+    frame->setProperty ("name", "frame");
+
+    char nameBuffer[nameBufferSize] {};
+    ULONG nameSize { 0 };
+    ULONG64 displacement { 0 };
+
+    const HRESULT nameResult { symbols->GetNameByOffset (
+        stackFrame.InstructionOffset, nameBuffer, nameBufferSize, &nameSize, &displacement) };
+
+    if (SUCCEEDED (nameResult))
+        frame->setProperty ("name", juce::String (nameBuffer));
+
+    char fileBuffer[fileBufferSize] {};
+    ULONG fileSize { 0 };
+    ULONG line { 0 };
+
+    const HRESULT lineResult { symbols->GetLineByOffset (
+        stackFrame.InstructionOffset, &line, fileBuffer, fileBufferSize, &fileSize, nullptr) };
+
+    if (SUCCEEDED (lineResult))
+    {
+        DynObj source { new juce::DynamicObject () };
+        source->setProperty ("name", juce::File (juce::String (fileBuffer)).getFileName ());
+        source->setProperty ("path", juce::String (fileBuffer).replace ("\\", "/"));
+        frame->setProperty ("source", juce::var (source));
+        frame->setProperty ("line", static_cast<int> (line));
+        frame->setProperty ("column", 1);
+    }
+
+    return juce::var (frame);
+}
+
+juce::Array<juce::var> Session::getStackTrace (int maxFrames, int firstFrameId) noexcept
+{
+    jassert (maxFrames > 0);
+
+    juce::Array<juce::var> frames;
+    const int frameCount { maxFrames };
+
+    std::vector<DEBUG_STACK_FRAME> stackFrames (static_cast<size_t> (frameCount));
+    ULONG framesFilled { 0 };
+
+    const HRESULT hr { control->GetStackTrace (
+        0, 0, 0,
+        stackFrames.data (),
+        static_cast<ULONG> (frameCount),
+        &framesFilled) };
+
+    if (SUCCEEDED (hr))
+    {
+        for (ULONG i { 0 }; i < framesFilled; ++i)
+            frames.add (getStackFrame (symbols.Get (), stackFrames.at (static_cast<size_t> (i)),
+                                       firstFrameId + static_cast<int> (i)));
+    }
+
+    return frames;
+}
+
+juce::Array<juce::var> Session::getLocals (int frameIndex) noexcept
+{
+    juce::Array<juce::var> variables;
+
+    IDebugSymbolGroup2* group { getOrCreateSymbolGroup (frameIndex) };
+
+    if (group != nullptr)
+    {
+        variables = getSymbols (group, dataSpaces.Get (), symbols.Get (),
+                                 DEBUG_ANY_ID);
+    }
+
+    return variables;
+}
+
+juce::Array<juce::var> Session::getVariableChildren (int frameIndex, int symbolIndex) noexcept
+{
+    juce::Array<juce::var> variables;
+
+    IDebugSymbolGroup2* group { getOrCreateSymbolGroup (frameIndex) };
+
+    if (group != nullptr)
+    {
+        const ULONG parentIndex { static_cast<ULONG> (symbolIndex) };
+        const HRESULT expandResult { group->ExpandSymbol (parentIndex, TRUE) };
+
+        if (SUCCEEDED (expandResult))
+        {
+            variables = getSymbols (group, dataSpaces.Get (), symbols.Get (),
+                                     parentIndex);
+        }
+    }
+
+    return variables;
+}
+
+juce::String Session::evaluateExpression (const juce::String& expression, int frameIndex) noexcept
+{
+    juce::String result;
+
+    IDebugSymbolGroup2* group { getOrCreateSymbolGroup (frameIndex) };
+
+    if (group != nullptr)
+    {
+        ULONG previousOptions { 0 };
+        symbols->GetSymbolOptions (&previousOptions);
+        symbols->AddSymbolOptions (SYMOPT_NO_PUBLICS);
+        const juce::ErasedScopeGuard optionsRestore { [this, previousOptions] { symbols->SetSymbolOptions (previousOptions); } };
+
+        ULONG index { DEBUG_ANY_ID };
+        const HRESULT addResult { group->AddSymbol (expression.toRawUTF8 (), &index) };
+
+        if (addResult == S_OK)
+        {
+            const juce::ErasedScopeGuard symbolRemove { [group, index] { group->RemoveSymbolByIndex (index); } };
+            result = getSymbolValue (group, dataSpaces.Get (), symbols.Get (), index, getSymbolTypeName (group, index));
+        }
+    }
+
+    return result;
 }
 
 } // namespace debug

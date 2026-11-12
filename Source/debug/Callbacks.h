@@ -113,17 +113,18 @@ private:
 /** Receives debug lifecycle events from dbgeng.
  *
  *  Registered with IDebugClient5::SetEventCallbacks. Handles the full set of
- *  IDebugEventCallbacks methods. Each callback writes deferred-event flags into
- *  debug::State rather than acting immediately, so that the main thread processes
- *  all state changes in processDeferredEvents() without COM re-entrancy concerns.
+ *  IDebugEventCallbacks methods. Each callback writes its state into debug::State
+ *  rather than acting immediately, so that the main thread processes all state
+ *  changes in Whatdbg::processDeferredEvents without COM re-entrancy concerns.
  *
  *  Key events and their State effects:
- *  - Breakpoint     → sets hasBreakpointHit / breakpointEngineId. The initial
- *                     loader breakpoint is a first-chance EXCEPTION_BREAKPOINT
- *                     handled separately, in Exception, which sets initialBreakPhase::pending.
- *  - LoadModule     → sets hasNewModuleLoaded, lastLoadedImageName
+ *  - Breakpoint     → sets stopReason breakpoint and breakpointEngineId.
+ *  - Exception      → EXCEPTION_BREAKPOINT sets stopReason initialBreak while launching,
+ *                     pause while isPausePending, and exception otherwise. Other codes
+ *                     set stopReason exception on a second-chance notification.
+ *  - LoadModule     → sets stopReason moduleLoad and lastLoadedImageName, unless a step is pending.
  *  - ExitProcess    → sets hasProcessExited, processExitCode
- *  - ChangeEngineState → sets hasStepCompleted when step finishes
+ *  - CreateProcess  → sets targetProcessId
  *
  *  @note Registered and unregistered by Session::initialize and Session::shutdown.
  */
@@ -164,11 +165,10 @@ public:
 
     /** Report which event categories this callback is interested in.
      *
-     *  Sets the mask to cover exactly the events this class implements and
-     *  acts on: breakpoints, exceptions, process creation/exit, module load,
-     *  and engine state changes (step-completion detection). Every other
-     *  IDebugEventCallbacks method is a required override of the COM interface
-     *  that dbgeng will never invoke, because its event bit is not in this mask.
+     *  Sets the mask to breakpoints, exceptions, process creation and exit, and
+     *  module load. Every other IDebugEventCallbacks method is a required override
+     *  of the COM interface that dbgeng never invokes, because its event bit is not
+     *  in this mask.
      *
      *  @param mask  Receives the interest mask bitmask (DEBUG_EVENT_*).
      *  @return S_OK always.
@@ -177,9 +177,9 @@ public:
 
     /** Called when a user-registered breakpoint is hit.
      *
-     *  Always sets hasBreakpointHit and breakpointEngineId. The initial loader
-     *  breakpoint is reported separately, as a first-chance EXCEPTION_BREAKPOINT
-     *  through Exception, before any user breakpoint exists to trigger this method.
+     *  Sets stopReason to breakpoint and breakpointEngineId, and sets executionState
+     *  to stopped. EXCEPTION_BREAKPOINT events, including the initial loader break,
+     *  go to Exception instead.
      *
      *  @param bp  Pointer to the IDebugBreakpoint that was hit.
      *  @return DEBUG_STATUS_BREAK to keep the target stopped.
@@ -188,9 +188,12 @@ public:
 
     /** Called when an exception occurs in the target.
      *
-     *  Dispatches on exception code: the initial loader breakpoint sets
-     *  initialBreakPhase::pending, a first-chance exception is passed to the
-     *  target, and a second-chance exception sets hasExceptionStopped.
+     *  Dispatches on exception code. EXCEPTION_BREAKPOINT goes to onBreakpoint: while
+     *  launching it sets stopReason initialBreak, while isPausePending it sets pause,
+     *  and otherwise (an int3 after launch) it sets exception, exceptionCode, and
+     *  exceptionAddress. The MSVC thread-name exception is passed to the target. Other
+     *  codes go to onUnknownException, which passes a first-chance exception to the
+     *  target and sets exception on a second-chance exception.
      *
      *  @param exception    Exception record describing the exception.
      *  @param firstChance  Non-zero if this is the first-chance notification.
@@ -250,10 +253,10 @@ public:
 
     /** Called when a DLL or EXE is loaded into the target.
      *
-     *  Unconditionally records the image name into State and sets
-     *  hasNewModuleLoaded to trigger deferred BP resolution. Additionally stops
-     *  the target when State::hasPendingBreakpoints is set, so the main loop can
-     *  safely resolve pending breakpoints against the newly loaded module.
+     *  Stops the target so the main loop can resolve pending breakpoints against the
+     *  new module. While a step is pending the method records nothing and returns
+     *  DEBUG_STATUS_NO_CHANGE. Otherwise it sets stopReason to moduleLoad and records
+     *  the image name in State::lastLoadedImageName.
      *
      *  @param imageFileHandle  Handle to the module image file.
      *  @param baseOffset       Base load address of the module.
@@ -262,7 +265,7 @@ public:
      *  @param imageName        Full path to the module image file.
      *  @param checkSum         PE checksum of the module.
      *  @param timeDateStamp    PE timestamp of the module.
-     *  @return DEBUG_STATUS_BREAK if breakpoints are pending, otherwise DEBUG_STATUS_NO_CHANGE.
+     *  @return DEBUG_STATUS_BREAK when the module load stops the target, otherwise DEBUG_STATUS_NO_CHANGE.
      */
     STDMETHOD (LoadModule) (ULONG64 imageFileHandle, ULONG64 baseOffset,
                             ULONG moduleSize, PCSTR moduleName, PCSTR imageName,
@@ -306,14 +309,11 @@ public:
      */
     STDMETHOD (ChangeDebuggeeState) (ULONG flags, ULONG64 argument) override;
 
-    /** Called when the engine execution state changes.
-     *
-     *  Used to detect step completion: when flags include DEBUG_CES_EXECUTION_STATUS
-     *  and the new status is DEBUG_STATUS_BREAK after a step was issued, sets
-     *  State::hasStepCompleted.
+    /** Required IDebugEventCallbacks override; never invoked. DEBUG_EVENT_CHANGE_ENGINE_STATE
+     *  is not in the GetInterestMask result, so dbgeng never calls this method.
      *
      *  @param flags     Flags indicating which engine state changed (DEBUG_CES_*).
-     *  @param argument  New execution status when flags include DEBUG_CES_EXECUTION_STATUS.
+     *  @param argument  Additional argument depending on flags.
      *  @return S_OK.
      */
     STDMETHOD (ChangeEngineState) (ULONG flags, ULONG64 argument) override;

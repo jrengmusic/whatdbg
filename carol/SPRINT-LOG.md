@@ -112,6 +112,64 @@
 
 ## SPRINT HISTORY
 
+## Sprint 32: Windows Debugging of EVE — Fast Evaluate, Exit on Terminate, One Stop Reason, Audit Sweep ✅
+
+**Date:** 2026-11-12
+**Duration:** not measured (one session, continued across a context compaction)
+**Scope:** ARCHITECT: *"must fix first [] whatdbg [] cast then after that we could continue to debug eve"*; evaluate hang: *"Fix now"*; audit findings: *"fix whatdbg first"*; finding 18: *"Merge only"*; ledger: *"just delete debt, not relevant anymore"*; build.sh: *"cast build.sh leave it"*; log: *"at whatdbg repo after all done"*.
+
+### Agents Participated
+- COUNSELOR: ODE diagnosis from runtime logs, trace specs (`eve-locals-probe`, `eve-step-probe`, `eve-stepout-probe`, `eve-pause-probe`), every Engineer brief, validation of each return by read, audit filter, RFC, doc corrections, this log.
+- Pathfinder (haiku): every whatdbg probe run against EVE.exe and log extraction; the doxygen pass.
+- Librarian (haiku): DbgEng research — AddSymbol, symbol options, name-lookup cost, TerminateProcesses, WaitForEvent return values.
+- Engineer (sonnet): ODE probes (added, then removed), the fixes below, Steps 1 and 2 of the audit sweep, the TU merge, the ARCHITECTURE.md / SPEC.md corrections, the debt clear.
+- Auditor (opus): one sprint audit — 26 findings, 20 stale-doc items.
+
+### Files Modified (21 total; 5 deleted)
+- `Source/debug/Session.cpp` `evaluateExpression` — evaluate through the frame's scope symbol group `AddSymbol`, with `SYMOPT_NO_PUBLICS` for the lookup and the previous options restored by `juce::ErasedScopeGuard`; success only on `S_OK`. Runtime: a failed `EVE!shell` lookup took 7022 ms with the public table and 44 ms without it. The secondary-client `??` path (`CaptureOutputCallback`, `getOrCreateCaptureClient`, `getExecutedOutput`, `evaluateStringValue`, `.symopt- 100`) is deleted; its `SetExpressionSyntax` was engine-global.
+- `Source/debug/Session.cpp` `pollEvents` — returns `void`. `E_UNEXPECTED` (DbgEng: all targets exited, session ended) sets `hasProcessExited` / `exited`: disconnect after `TerminateProcesses` no longer spins 5 s. `S_OK` while `isStepPending` completes the step: `ChangeEngineState` reported `DEBUG_STATUS_BREAK` during `gu` with no stop, so stepOut lost its stop.
+- `Source/debug/Session.cpp` — initialize-invariant null checks removed from every method except `shutdown` (Main.cpp runs `run` only after `initialize` succeeds); `getLineStatus` HRESULT lookup (`jam::HashMap`) in `getSourceOffset`; `getStackTrace (maxFrames, firstFrameId)` gives each frame its final id; `getSymbolTypeName` / `getSymbolValue` shared by `getVariableObject` and `evaluateExpression`; `SessionInspection.cpp` merged in.
+- `Source/debug/Session_mac.cpp` — mirrors: `pollEvents` void, `getStackTrace` ids, `jam::Function::Map` / `jam::HashMap` tables inside their one user, `lldbStopReason` parameter name, `SessionInspection_mac.cpp` merged in. Not compiled (Windows host).
+- `Source/debug/Callbacks.cpp` — `onBreakpoint`: initial break while launching, `pause` while `isPausePending` (a Windows pause had reported `exception`), else exception with code and address; `BREAKPOINT` in `exceptionNames`; `Breakpoint` asserts `bp`; `LoadModule` sets `moduleLoad` except while a step is pending; `ChangeEngineState` does nothing and leaves `GetInterestMask`; tables are `jam::Function::Map` / `jam::HashMap` inside their one user.
+- `Source/debug/State.h` — `enum class StopReason` and `stopReason` replace `hasBreakpointHit`, `hasStepCompleted`, `hasPauseCompleted`, `hasNewModuleLoaded`, `hasExceptionStopped`, `InitialBreakPhase`; `hasPendingBreakpoints` removed.
+- `Source/Whatdbg.h`, `Source/Whatdbg.cpp` — `commands` and `stops` are `jam::Function::Map`; `processDeferredEvents` runs one drain per `stopReason`; the loop sleeps when it does not poll (it spun while stopped); `getStoppedEvent`, `getExceptionDescription`, `writeMessages` (was `emitResolvedBreakpointEvents`); thread event uses the event thread id; `WhatdbgHandlers.cpp` and `WhatdbgEvents.cpp` merged in.
+- `Source/debug/BreakpointManager.h`, `.cpp` — engine ids are `std::optional` (dbgeng assigns id 0, which the 0 sentinel read as unresolved); `getBreakpointStoppedEvent` gives `breakpoint` for a tracked id and `step` otherwise; `onModuleLoad (imageName)`, `onReload`, `onSymbolsLoaded`; `onSetBreakpoints` parses lines once and builds each response once; `isUserBreakpoint`, `onBreakpointHit`, `addReloadedBreakpoints`, `Lines` removed; `BreakpointManagerHandlers.cpp` merged in; `-` replaces an em dash that arrived as mojibake.
+- `Source/dap/Types.h` — `getBreakpointChangedEvent`, one builder for both former copies.
+- `Source/debug/Session.h`, `Callbacks.h`, `State.h`, `Whatdbg.h`, `BreakpointManager.h`, `Types.h`, and the merged `.cpp` `@file` blocks — doxygen pass; false `resume` "No-op" note removed.
+- `ARCHITECTURE.md`, `SPEC.md` — every line that named a removed symbol, a deleted file, or old behaviour now matches the code; the session-split decision quotes ARCHITECT: *"Merge only"*.
+- `CLAUDE.md:38` — `**Active Debt:** None.`
+- `DEBT.md` — `DEBT-20260902T184427` cleared.
+- `RFC-message-loop-model.md` (new) — jam::Model / message-thread redesign, status open, as *"future consideration to plan"*.
+- `CMakeLists.txt` (generated) — PCH `-Xclang -fno-pch-timestamp` under Clang, from the cast template.
+
+### Alignment Check
+- [x] BLESSED principles followed
+- [x] NAMES.md adhered
+- [x] MANIFESTO.md principles applied
+- [ ] Lean 300: `Whatdbg.cpp` 786, `Session.cpp` 863, `Session_mac.cpp` 792, `BreakpointManager.cpp` 385 lines — ARCHITECT's ruling *"Merge only"* (one object, one `.cpp`, no new types).
+
+### Problems Solved
+- `evaluate` at an exception stop blocked about 10 s, then timed out the client: DbgEng searched the public symbol table on a miss.
+- Disconnect waited 5 s: no `ExitProcess` arrives after `TerminateProcesses`; `WaitForEvent` returns `E_UNEXPECTED`.
+- stepOut reported a stop with `thread=0` and no frames, or hung: a `ChangeEngineState` BREAK status is not a stop.
+- Windows pause reported `exception`.
+- Audit: findings 1-17, 19, 22, 24-26 resolved; 18 by ARCHITECT's *"Merge only"*. Rejected with the read that refutes them: 20 (engine id and resolved line are two facts, `Session.h` addBreakpointByLocation doc), 21 (the breakpoint registry is the Model; the symbol group cache is a Session materialisation, MANIFESTO E), 23 and the `addDapVariable` part of 13 (NAMES Rule 1 `add`; DAP message building is creation). Sprint 31's rejection of the frame-id overwrite is superseded: Session now gives the final id at creation (finding 14).
+- Runtime evidence (EVE Debug, `EVETerminalProcessor.cpp:431`): breakpoint pending then `changed`; `evaluate shell` returns the value, a miss returns the error at once; `next` stops at 432 and 434 with `step`; `pause` stops with `pause`; stepOut no longer reports a false stop; disconnect exits at once; no EVE or whatdbg process survives.
+
+### State for Continuation
+- `Session_mac.cpp` (all macOS hunks, the merge included) is not compiled. Build on macOS and run the same probes before relying on it.
+- No stepOut probe has returned normally to `prepare`: EVE's assert at `juce_File.cpp:162` (from `EVETerminalProcessor.cpp:438`, stale `cwd = "/c/Users/jreng"` in `~/.config/dev/EVE.settings`) stops every run first. ARCHITECT deletes that file.
+- `docs/xml` is stale (lists the deleted files); regenerate before a zero-warning doxygen check.
+- The Windows `compile_commands.json` is the macOS one; LSP results on Windows-only files are invalid until it is regenerated.
+- `build.sh` still uses vcvarsall; kept by ARCHITECT's ruling.
+- Probe specs and logs: the session scratchpad (`eve-*-probe.json`, `whatdbg-*.log`).
+
+### Debts Paid
+- None
+
+### Debts Deferred
+- None
+
 ## Sprint 31: Windows stackTrace Sends the Frames — No Nested Array ✅
 
 **Date:** 2026-11-12

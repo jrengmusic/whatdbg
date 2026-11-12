@@ -54,8 +54,9 @@ public:
      *
      *  Blocks until the client sends a disconnect or terminate request, or the
      *  debuggee process exits. In each iteration the loop pops DAP messages from
-     *  the Reader FIFO, dispatches them, polls the debug engine for events, and
-     *  forwards deferred callback events as DAP events to stdout.
+     *  the Reader FIFO and dispatches them. It polls the debug engine while the
+     *  execution state is running or launching, and sleeps briefly otherwise. Then
+     *  it processes the deferred events.
      *
      *  @note Blocks the calling thread (expected to be called from main()).
      */
@@ -64,16 +65,21 @@ public:
 private:
     // ── DAP command dispatch ───────────────────────────────────────────
 
-    /** Signature of a DAP command handler bound to a specific `on*` method. */
-    using Command = std::function<void (const juce::var&)>;
-
-    /** Dispatch table mapping a DAP command name to its bound handler.
+    /** Dispatch table mapping a DAP command name to its handler.
      *
-     *  Populated once in the constructor with one entry per supported DAP
-     *  request ("initialize", "launch", "setBreakpoints", ...); "terminate"
-     *  shares its entry with "disconnect". Looked up by onCommand.
+     *  Filled once in the constructor, one entry per supported DAP request.
+     *  "disconnect" and "terminate" both call onDisconnect, with isTerminate false
+     *  and true. Looked up by onCommand. Each handler receives the command name and
+     *  the request message.
      */
-    std::unordered_map<std::string, Command> commands;
+    jam::Function::Map<juce::String, jam::Function::pointerCapacity, void (const juce::var&)> commands;
+
+    /** Dispatch table mapping a debug::StopReason to the drain that emits its DAP event.
+     *
+     *  Filled once in the constructor. processDeferredEvents looks up State::stopReason
+     *  here and runs the matching drain. StopReason::none has no entry.
+     */
+    jam::Function::Map<debug::StopReason, jam::Function::pointerCapacity, void ()> stops;
 
     /** Dispatch a parsed DAP message to the registered handler.
      *
@@ -224,47 +230,39 @@ private:
 
     // ── Deferred event processing ──────────────────────────────────────
 
-    /** Drain deferred events set by the debug engine and emit corresponding DAP events.
+    /** Emit the DAP events for the deferred state that the engine left in debug::State.
      *
-     *  COM callbacks (Windows EventCallbacks) or Session_mac's event handlers (macOS)
-     *  write flags into debug::State. This method reads those flags on the main thread
-     *  and sends DAP stopped, output, exited, and terminated events as appropriate.
-     *  Called once per main loop iteration.
+     *  Looks up State::stopReason in the stops table and runs the matching drain. Then
+     *  drains breakpoint location changes, debuggee output, process exit, and the
+     *  terminate deadline. Called once per main loop iteration, on the main thread.
      */
     void processDeferredEvents ();
 
     /** Resolve pending breakpoints and resume once the initial break is fully configured. */
     void drainInitialBreak ();
 
-    /** Emit a DAP stopped(breakpoint) event for the pending breakpoint hit. */
-    void emitBreakpointStoppedEvent ();
+    /** Emit a DAP stopped(breakpoint) event for a user breakpoint stop, and clear stopReason. */
+    void drainBreakpointHit ();
 
-    /** Emit a DAP stopped(breakpoint) event if a user breakpoint hit is pending.
-     *
-     *  @return true if state.hasBreakpointHit was consumed as a real breakpoint stop.
-     *          false if no breakpoint was pending, or the hit was an internal
-     *          stepOut breakpoint converted into a step completion.
-     */
-    bool drainBreakpointHit ();
+    /** Emit a DAP stopped(step) event for a completed step, and clear stopReason. */
+    void drainStepCompleted ();
 
-    /** Emit a DAP stopped(step) event if a step completion is pending.
-     *
-     *  @return true if a stopped event was emitted.
-     */
-    bool drainStepCompleted ();
-
-    /** Emit a DAP stopped(pause) event if a pause completion is pending. */
+    /** Emit a DAP stopped(pause) event for a completed pause, and clear stopReason. */
     void drainPauseCompleted ();
 
-    /** Resolve pending breakpoints against a newly loaded module and resume if needed. */
+    /** Resolve pending breakpoints against the module that loaded, then resume the debuggee. */
     void drainModuleLoaded ();
 
-    /** Build a DAP breakpoint(changed) event body for an asynchronously resolved location.
+    /** Build a DAP stopped event body with the given reason, for the event thread.
      *
-     *  @param dapId         The DAP breakpoint ID resolved by BreakpointManager.
-     *  @param resolvedLine  The source line the breakpoint resolved to.
+     *  drainStepCompleted passes "step" and drainPauseCompleted passes "pause".
+     *
+     *  @param reason  DAP stopped reason.
      */
-    juce::var getBreakpointChangedEvent (int dapId, std::uint32_t resolvedLine) const;
+    juce::var getStoppedEvent (const juce::String& reason);
+
+    /** Format State::exceptionCode and State::exceptionAddress as "0x<code> at 0x<address>". */
+    juce::String getExceptionDescription () const;
 
     /** Emit a DAP breakpoint(changed) event if a breakpoint location was resolved asynchronously. */
     void drainBreakpointLocationResolved ();
@@ -319,27 +317,29 @@ private:
 
     /** Tell the Session to continue and mark executionState running.
      *
-     *  Shared by onContinue, resumeAfterInitialBreak, and drainModuleLoaded's
-     *  re-resume after a paused module load.
+     *  Called by onContinue and resumeAfterInitialBreak. drainModuleLoaded resumes
+     *  the Session directly and leaves executionState unchanged.
      */
     void resumeExecution ();
 
-    /** Forward any DAP events produced by resolving pending breakpoints.
+    /** Write each DAP message in an array to stdout, in order.
      *
-     *  Shared by resumeAfterInitialBreak and drainModuleLoaded — both call
-     *  BreakpointManager::onModuleLoad after their own platform-specific symbol
-     *  reload, then must forward the resulting breakpoint-resolution events
-     *  identically.
+     *  Callers pass the arrays that BreakpointManager returns: onReload from
+     *  resumeAfterInitialBreak, drainStepCompleted, and onSetBreakpoints; onModuleLoad
+     *  from drainModuleLoaded; onBreakpointLocationFound from drainBreakpointLocationResolved.
+     *  Each message goes through writeMessage.
+     *
+     *  @param messages  Array of DAP message objects.
      */
-    void emitResolvedBreakpointEvents ();
+    void writeMessages (const juce::Array<juce::var>& messages);
 
     /** Resolve any pending breakpoints and resume the debuggee after the initial break.
      *
      *  At the initial break the exe module is fully loaded and the symbol engine
      *  is ready. This resolves standalone breakpoints that went pending because
      *  the exe loaded before setBreakpoints arrived. Plugin DLLs resolve later
-     *  via the LoadModule path. Called from both onConfigurationDone and
-     *  drainInitialBreak depending on message arrival order.
+     *  via the LoadModule path. Called only from drainInitialBreak, after
+     *  configurationDone has arrived.
      */
     void resumeAfterInitialBreak ();
 

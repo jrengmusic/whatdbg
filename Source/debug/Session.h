@@ -34,10 +34,10 @@ enum class EndMode
     passive     ///< Target has already exited; release session state only.
 };
 
-/** Packed (engineId, resolvedLine) pair returned by getBreakpoint.
+/** Packed (engineId, resolvedLine) pair returned by addBreakpointByLocation.
  *
- *  engineId is 0 when the engine has not assigned a breakpoint ID.
- *  resolvedLine is 0 when the engine has not resolved a source line.
+ *  engineId is the engine-assigned breakpoint ID. resolvedLine is 0 when the
+ *  engine has not resolved a source line yet.
  */
 using BreakpointLocation = jam::Union<std::int32_t,     // engineId
                                       std::uint16_t>;   // resolvedLine
@@ -125,25 +125,25 @@ public:
      *
      *  Windows calls IDebugControl4::SetExecutionStatus(DEBUG_STATUS_GO). macOS calls
      *  SBProcess::Continue.
-     *
-     *  @note No-op if the engine is already running.
      */
     void resume () noexcept;
 
     /** Poll for debug events with a timeout.
      *
      *  Should be called repeatedly from the main loop while the target is running
-     *  or stopping. Windows calls IDebugControl4::WaitForEvent with the specified
-     *  millisecond timeout directly. macOS calls SBListener::WaitForEvent, which
-     *  only accepts whole-second timeouts, so timeoutMs is rounded up to the next
-     *  second before the wait — a timeoutMs of 0 still blocks for one second rather
-     *  than busy-spinning; a received event is dispatched to the matching
-     *  onProcessEvent / onTargetEvent / onBreakpointEvent handler before returning.
+     *  or stopping. Windows calls IDebugControl4::WaitForEvent with timeoutMs directly.
+     *  dbgeng invokes the callbacks in Callbacks.cpp during that call, on the main
+     *  thread. Afterwards, E_UNEXPECTED from the wait marks the process exited, and
+     *  S_OK with a step pending completes the step. macOS calls
+     *  SBListener::WaitForEvent, which only accepts whole-second timeouts, so timeoutMs
+     *  is rounded up to the next second before the wait. Each timeoutMs from 1 to 1000
+     *  waits one second. A received process event goes to the stop-reason dispatch, and
+     *  a received breakpoint event goes to onBreakpointEvent.
      *
-     *  @param timeoutMs  Maximum time to wait in milliseconds. Pass 0 for non-blocking poll.
-     *  @return true if an event was consumed; false on timeout with no event or on error.
+     *  @param timeoutMs  Maximum time to wait in milliseconds. On Windows and macOS, 0
+     *                    is a non-blocking poll.
      */
-    bool pollEvents (std::uint32_t timeoutMs) noexcept;
+    void pollEvents (std::uint32_t timeoutMs) noexcept;
 
     /** Detach from the target and release all engine resources.
      *
@@ -212,9 +212,9 @@ public:
      *  to match incoming breakpoint-hit notifications.
      *
      *  @param offset  Virtual address at which to set the breakpoint.
-     *  @return Engine-assigned breakpoint ID on success, or 0 on failure.
+     *  @return The engine-assigned breakpoint ID, or an empty optional when creation fails.
      */
-    std::int32_t addBreakpoint (std::uint64_t offset) noexcept;
+    std::optional<std::int32_t> addBreakpoint (std::uint64_t offset) noexcept;
 
     /** Create a breakpoint by source file and line.
      *
@@ -227,13 +227,13 @@ public:
      *  @param filePath  Source file path, in the path form the target platform
      *                   expects (backslash-form on Windows, forward-slash on macOS).
      *  @param line      Requested line (1-based, matching DAP).
-     *  @return BreakpointLocation packing (engineId, resolvedLine).
-     *          engineId is 0 only when BP creation itself errored.
-     *          resolvedLine is 0 when the BP has no location yet (caller
-     *          treats 0 as pending — liblldb will auto-resolve).
+     *  @return BreakpointLocation packing (engineId, resolvedLine), or an empty
+     *          optional when no location was found or BP creation failed.
+     *          On macOS resolvedLine is 0 when the BP has no location yet; the
+     *          caller then treats it as pending, and liblldb resolves it later.
      */
-    BreakpointLocation addBreakpointByLocation (const juce::String& filePath,
-                                                std::uint16_t       line) noexcept;
+    std::optional<BreakpointLocation> addBreakpointByLocation (const juce::String& filePath,
+                                                               std::uint16_t       line) noexcept;
 
     /** Remove a previously created breakpoint by its engine ID.
      *
@@ -278,9 +278,9 @@ public:
      *  source-level code level, set during initialize. macOS calls
      *  SBThread::StepOver(eOnlyDuringStepping) on the selected thread.
      *
-     *  @note The step completes asynchronously. Windows' EventCallbacks sets
-     *        State::hasStepCompleted via ChangeEngineState; macOS sets it from the
-     *        stop-reason dispatch in pollEvents.
+     *  @note The step completes asynchronously. pollEvents sets State::stopReason to
+     *        step: on Windows when a wait returns S_OK with a step pending, and on
+     *        macOS through the stop-reason dispatch.
      */
     void stepOver () noexcept;
 
@@ -362,21 +362,25 @@ public:
      *  IDebugControl4::GetStackTrace and resolves each frame to source file, line, and
      *  function name via IDebugSymbols3::GetNameByOffset and GetLineByOffset. macOS
      *  reads SBThread::GetNumFrames and each SBFrame's function name and SBLineEntry
-     *  directly, clamped to maxFrames.
+     *  directly, clamped to the real stack depth.
      *
      *  Each element in the returned array is a DynamicObject with fields:
-     *  - id          (int)    — DAP frame ID (allocated by Whatdbg, not here)
-     *  - name        (String) — demangled function name, or "??" (macOS) when unavailable
+     *  - id          (int)    — firstFrameId plus the frame's index in the returned array
+     *  - name        (String) — function name, or "frame" (Windows) or "??" (macOS) when unavailable
      *  - source      (Object) — { name, path } if source info is available
      *  - line        (int)    — one-based source line number
      *  - column      (int)    — always 1 (column not resolved; 1-based per DAP convention)
      *
-     *  @param maxFrames  Maximum number of frames to return. Clamped to stack depth.
+     *  @param maxFrames     Maximum number of frames to request. Windows requests maxFrames
+     *                       frames and returns those that GetStackTrace fills. macOS returns
+     *                       at most the stack depth.
+     *  @param firstFrameId  DAP ID of the first returned frame. Each following frame takes
+     *                       the next ID.
      *  @return Array of frame objects. Empty if the stack cannot be walked.
      *
      *  @note Must be called while the target is stopped.
      */
-    juce::Array<juce::var> getStackTrace (int maxFrames) noexcept;
+    juce::Array<juce::var> getStackTrace (int maxFrames, int firstFrameId) noexcept;
 
     /** Return local variables for a given stack frame as a DAP-formatted array.
      *
@@ -422,18 +426,18 @@ public:
 
     /** Evaluate a C++ expression in the context of a specific stack frame.
      *
-     *  Windows sets the debug scope to frameIndex, then executes "?? <expression>" on a
-     *  secondary IDebugClient/IDebugControl4 pair with captured output (so the
-     *  evaluation's own output does not pollute the primary client), passing the
-     *  result through debug::formatSymbolValue; a juce::String result additionally
-     *  resolves through a dedicated `.text.data` expression and readTargetString.
+     *  Windows gets the frame's symbol group, adds the expression to that group with
+     *  AddSymbol while SYMOPT_NO_PUBLICS is set, and formats the new symbol. The
+     *  previous symbol options are restored on exit, and the added symbol is removed
+     *  from the group. A result is returned only when AddSymbol returns S_OK.
      *  macOS calls SBFrame::EvaluateExpression directly on the requested frame and
-     *  formats the resulting SBValue the same way as getLocals, or returns the SBError
-     *  description on failure.
+     *  formats the resulting SBValue the same way as getLocals. On failure it returns
+     *  the SBError description, or "evaluation failed" when the error has no text.
      *
      *  @param expression  C++ expression string to evaluate (e.g. "myVar->field").
      *  @param frameIndex  Zero-based stack frame index for symbol resolution context.
-     *  @return Formatted result string, or an error description if evaluation fails.
+     *  @return Formatted result string. On Windows, an empty string when AddSymbol
+     *          does not return S_OK.
      *
      *  @note Must be called while the target is stopped. Complex expressions may cause
      *        the engine to execute target code (function calls in expression).

@@ -111,6 +111,28 @@ inline juce::var getEvent (const juce::String& event,
     return juce::var (obj);
 }
 
+/** Build a DAP breakpoint event with reason "changed" for a resolved breakpoint.
+ *
+ *  Sets the breakpoint's id, verified (true), and line in the breakpoint object.
+ *
+ *  @param dapId  DAP breakpoint ID of the resolved breakpoint.
+ *  @param line   Resolved source line.
+ *  @return A juce::var containing the fully formed event DynamicObject.
+ */
+inline juce::var getBreakpointChangedEvent (int dapId, int line) noexcept
+{
+    DynObj bpObj { new juce::DynamicObject () };
+    bpObj->setProperty ("id",       dapId);
+    bpObj->setProperty ("verified", true);
+    bpObj->setProperty ("line",     line);
+
+    DynObj body { new juce::DynamicObject () };
+    body->setProperty ("reason",     "changed");
+    body->setProperty ("breakpoint", juce::var (bpObj));
+
+    return getEvent ("breakpoint", juce::var (body));
+}
+
 /** Build the DAP capabilities object advertised during the initialize handshake.
  *
  *  Lists every capability flag defined by the DAP specification with its current

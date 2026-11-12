@@ -35,7 +35,7 @@ rebuilt to ten scenarios, all passing ✅
 **Status:** Shipped, cross-platform build and zombie fix verified via `tests/smoke/`
 
 **Active ODE:** None  
-**Active Debt:** `DEBT.md` at project root — `DEBT-20260902T184427`, Windows bootstrap: chain vcvarsall into the toolchain so no project needs a generated wrapper script. Resolution belongs in `cast` and lands for both `cast` and whatdbg.
+**Active Debt:** None.
 
 **Critical Path:**
 - DAP protocol handler dispatch table (std::unordered_map-based, O(1) lookup)

@@ -7,7 +7,7 @@ namespace debug
 /** Execution lifecycle states for the debug target.
  *
  *  Represents the coarse state machine of a debug session as seen by the DAP layer.
- *  Transitions are driven by Session and surfaced to Whatdbg via processDeferredEvents.
+ *  Whatdbg and the engine event paths write the state. Whatdbg::run reads it.
  */
 enum class ExecutionState : int
 {
@@ -18,21 +18,30 @@ enum class ExecutionState : int
     exited    = 4   ///< Target process has exited. Session is shutting down.
 };
 
-/** Lifecycle phase of the initial loader breakpoint.
+/** Cause of the current stop, held as one value in State::stopReason.
  *
- *  Three-state machine, transitioned by EventCallbacks::Breakpoint (Windows) or
- *  Session_mac's onProcessStateStopped (macOS), and consumed by processDeferredEvents /
- *  Whatdbg::resumeAfterInitialBreak.
- *
- *  - notHit    — the engine has not yet raised the initial loader breakpoint.
- *  - pending   — loader breakpoint fired; resolve+resume not yet run.
- *  - resolved  — initial break consumed; subsequent breakpoints are user BPs.
+ *  Whatdbg::processDeferredEvents reads stopReason and runs the drain for it.
+ *  Writers, by value:
+ *  - none:         The default. The drains set it back to none when they run.
+ *                  drainInitialBreak does so only after configurationDone.
+ *  - initialBreak: Callbacks.cpp onBreakpoint while launching; Session_mac
+ *                  onProcessStateStopped while launching; Whatdbg::onAttach on macOS.
+ *  - moduleLoad:   Callbacks.cpp LoadModule, when no step is pending.
+ *  - breakpoint:   Callbacks.cpp Breakpoint; Session_mac onBreakpointStop.
+ *  - step:         Session::pollEvents on Windows, when no other stop is set; Session_mac onStepStop.
+ *  - pause:        Callbacks.cpp onBreakpoint while isPausePending; Session_mac onInterruptStop.
+ *  - exception:    Callbacks.cpp onBreakpoint and onUnknownException (second chance);
+ *                  Session_mac onSignalStop and onExceptionStop.
  */
-enum class InitialBreakPhase
+enum class StopReason
 {
-    notHit,    ///< The engine has not yet raised the initial loader breakpoint.
-    pending,   ///< Loader breakpoint fired; resolve+resume not yet run.
-    resolved   ///< Initial break consumed; subsequent breakpoints are user BPs.
+    none,
+    initialBreak,
+    moduleLoad,
+    breakpoint,
+    step,
+    pause,
+    exception
 };
 
 /** Outcome of a Session::getOffsetStatus call.
@@ -56,9 +65,11 @@ enum class OffsetStatus
  *  It is registered as a jam::Instance so that any subsystem can resolve it
  *  without an explicit pointer argument.
  *
- *  Fields are grouped by concern. COM callbacks (EventCallbacks) write deferred-event
- *  flags; the Whatdbg main loop reads and clears them in processDeferredEvents().
- *  All access must occur on the main thread unless a field is explicitly noted otherwise.
+ *  Fields are grouped by concern. The engine event paths write the stop cause into
+ *  stopReason and its payload fields: Callbacks.cpp on Windows, Session::pollEvents on
+ *  Windows for steps, and Session_mac.cpp on macOS. Whatdbg::processDeferredEvents
+ *  reads stopReason and runs the drain for it. All access must occur on the main
+ *  thread unless a field is explicitly noted otherwise.
  *
  *  @note Declared first in Whatdbg so that jam::Instance registration happens before
  *        any dependent object is constructed.
@@ -72,24 +83,23 @@ public:
 
     /** Current execution lifecycle state of the debug target.
      *
-     *  Set by Whatdbg command handlers and by processDeferredEvents in response
-     *  to deferred callback flags. Read by Whatdbg::onContinue, Whatdbg::onNext,
-     *  and others to guard against invalid operations in the wrong state.
+     *  Set by the Whatdbg command handlers and drains, and by the engine event paths:
+     *  the Callbacks.cpp and Session_mac.cpp stop and exit handlers, and Session::pollEvents
+     *  on Windows for E_UNEXPECTED. Read by Whatdbg::run to choose between polling the
+     *  engine and sleeping, by Whatdbg::onDisconnect, and by Whatdbg::getEndModeForExit.
      */
     ExecutionState executionState { ExecutionState::idle };
 
-    /** Lifecycle phase of the dbgeng initial (loader) breakpoint.
+    /** Cause of the current stop. See StopReason for the writers of each value.
      *
-     *  Transitions: notHit → pending (loader BP fires) → resolved (processDeferredEvents
-     *  runs Whatdbg::resumeAfterInitialBreak). Replaces former paired booleans
-     *  `isInitialBreakSeen` + `isInitialBreakHandled`.
+     *  Read by Whatdbg::processDeferredEvents. A drain resets it to none.
      */
-    InitialBreakPhase initialBreakPhase { InitialBreakPhase::notHit };
+    StopReason stopReason { StopReason::none };
 
     /** Exit code of the debuggee process.
      *
      *  Set by EventCallbacks::ExitProcess (Windows) or onProcessStateExited (macOS).
-     *  Read by processDeferredEvents to include in the DAP exited event body.
+     *  Read by Whatdbg::drainProcessExited for the DAP exited event body.
      */
     int processExitCode { 0 };
 
@@ -126,8 +136,8 @@ public:
     /** True while the main loop should continue running.
      *
      *  Set to false by Whatdbg::onDisconnect (also registered for the "terminate"
-     *  command) to exit run(), or by Whatdbg::drainProcessExited once the debuggee's
-     *  exit has been observed.
+     *  command) to exit run(), by Whatdbg::drainProcessExited once the debuggee's
+     *  exit has been observed, or by Whatdbg::drainTerminateTimeout when the deadline passes.
      */
     bool isRunning               { true };
 
@@ -145,63 +155,36 @@ public:
 
     /** Set to true between a step request and the corresponding step-complete event.
      *
-     *  Prevents the main loop from issuing redundant resume calls while stepping.
+     *  Set by Whatdbg::onNext, onStepIn, and onStepOut, and cleared by Session::pollEvents
+     *  on Windows when a wait returns S_OK. Read by Session::pollEvents on Windows and by
+     *  Callbacks.cpp LoadModule, which does not stop for a module load while a step is pending.
      */
     bool isStepPending  { false };
 
     /** Set to true between a pause request and the corresponding pause-complete event.
      *
-     *  Consumed by Session_mac's onProcessEvent to classify the next stop as a pause,
-     *  since a user pause on some liblldb builds reports eStopReasonBreakpoint rather
-     *  than eStopReasonInterrupt. Cleared once the stop has been classified.
+     *  Set by Whatdbg::onPause. Consumed by Callbacks.cpp onBreakpoint (Windows) and by
+     *  Session_mac onStopReason (macOS) to classify the next stop as a pause, since a
+     *  user pause on some liblldb builds reports eStopReasonBreakpoint rather than
+     *  eStopReasonInterrupt. Cleared once the stop has been classified, and by Whatdbg::onContinue.
      */
     bool isPausePending { false };
 
-    // ── Deferred events (set by COM callbacks, consumed by main loop) ──
-
-    /** Set by EventCallbacks::Breakpoint (Windows) or onBreakpointStop (macOS)
-     *  when a user-registered breakpoint is hit.
-     *
-     *  Consumed by processDeferredEvents to emit a DAP stopped event with
-     *  reason "breakpoint". Cleared after consumption.
-     */
-    bool  hasBreakpointHit   { false };
+    // ── Deferred events (written by the engine event paths, read by Whatdbg) ──
 
     /** Engine breakpoint ID that caused the most recent breakpoint stop.
      *
-     *  Set alongside hasBreakpointHit. Passed to BreakpointManager::onBreakpointHit
-     *  to produce the correct hitBreakpointIds array in the DAP stopped body.
+     *  Set with stopReason breakpoint by Callbacks.cpp Breakpoint and Session_mac
+     *  onBreakpointStop. Read by Whatdbg::drainBreakpointHit and passed to
+     *  BreakpointManager::getBreakpointStoppedEvent to build hitBreakpointIds.
      */
     std::int32_t breakpointEngineId { 0 };
 
-    /** Set by EventCallbacks (Windows) or onStepStop (macOS) when a step
-     *  operation has completed.
-     *
-     *  Consumed by processDeferredEvents to emit a DAP stopped event with
-     *  reason "step". Cleared after consumption.
-     */
-    bool hasStepCompleted { false };
-
-    /** Set by Session_mac's onInterruptStop when a pause operation has completed.
-     *
-     *  Consumed by processDeferredEvents to emit a DAP stopped event with
-     *  reason "pause". Cleared after consumption.
-     */
-    bool hasPauseCompleted { false };
-
-    /** Set by EventCallbacks::LoadModule (Windows) or onTargetEvent (macOS)
-     *  when a new module is loaded into the target.
-     *
-     *  Consumed by processDeferredEvents to trigger BreakpointManager::onModuleLoad
-     *  so that pending breakpoints can be resolved against the new module's symbols.
-     *  Cleared after consumption.
-     */
-    bool hasNewModuleLoaded { false };
-
     /** Image file name (full path) of the most recently loaded module.
      *
-     *  Set alongside hasNewModuleLoaded. Passed to Session::loadModuleSymbols so
-     *  dbgeng reloads PDB symbols for that specific DLL.
+     *  Set by Callbacks.cpp LoadModule when no step is pending. Read by
+     *  Whatdbg::drainModuleLoaded and passed to BreakpointManager::onModuleLoad, which
+     *  reloads that module's symbols when a breakpoint is unresolved.
      */
     juce::String lastLoadedImageName;
 
@@ -226,47 +209,33 @@ public:
      */
     std::uint32_t resolvedBreakpointLine { 0 };
 
-    /** True when at least one breakpoint is waiting to be resolved.
+    /** Set when the target process exits: by Callbacks.cpp ExitProcess (Windows),
+     *  by Session::pollEvents when WaitForEvent returns E_UNEXPECTED (Windows), or by
+     *  Session_mac onProcessStateExited (macOS).
      *
-     *  Set by BreakpointManager::onSetBreakpoints when a breakpoint cannot be
-     *  resolved immediately (symbols not yet loaded). Read by EventCallbacks::LoadModule
-     *  to decide whether to set hasNewModuleLoaded and trigger resolution.
-     */
-    bool hasPendingBreakpoints { false };
-
-    /** Set by EventCallbacks::ExitProcess (Windows) or onProcessStateExited
-     *  (macOS) when the target process exits.
-     *
-     *  Consumed by processDeferredEvents to emit DAP exited and terminated events
-     *  and transition executionState to exited. Cleared after consumption.
+     *  Consumed by Whatdbg::drainProcessExited, which emits DAP exited and terminated
+     *  events and transitions executionState to exited. Cleared after consumption.
      */
     bool hasProcessExited { false };
 
-    /** Set by onUnknownException (Windows) on a second-chance unhandled exception,
-     *  or by onSignalStop / onExceptionStop (macOS) on a signal or Mach exception stop.
-     *
-     *  Consumed by processDeferredEvents to emit a DAP stopped event with
-     *  reason "exception" and an output event with the crash summary.
-     *  Cleared after consumption.
-     */
-    bool hasExceptionStopped { false };
-
     /** Platform-native exception/signal code.
      *
-     *  Windows: NTSTATUS / SEH exception code (e.g., 0xC0000005 for ACCESS_VIOLATION),
-     *           captured by onUnknownException on 2nd-chance.
+     *  Windows: NTSTATUS / SEH exception code (e.g., 0xC0000005 for ACCESS_VIOLATION).
+     *           Written by Callbacks.cpp onUnknownException on a second-chance exception,
+     *           and by onBreakpoint for an int3 that is neither the initial break nor a pause.
      *  macOS:   POSIX signal number from SBThread::GetStopReasonDataAtIndex(0) when
      *           stop reason is eStopReasonSignal; Mach exception type when eStopReasonException.
+     *           Written by Session_mac onSignalStop and onExceptionStop.
      *
-     *  Set alongside hasExceptionStopped. Persists after consumption so that
+     *  Written with stopReason exception. Persists after consumption so that
      *  Whatdbg::onExceptionInfo can respond with the exception details.
      */
     std::uint32_t exceptionCode { 0 };
 
     /** Virtual address at which the exception occurred.
      *
-     *  Set alongside hasExceptionStopped. Persists after consumption for
-     *  Whatdbg::onExceptionInfo's response.
+     *  Written with exceptionCode, under stopReason exception. Persists after
+     *  consumption for Whatdbg::onExceptionInfo's response.
      */
     std::uint64_t exceptionAddress { 0 };
 
@@ -331,8 +300,8 @@ public:
 
     /** Maps frameId -> (threadSystemId, frameIndex).
      *
-     *  Populated by onStackTrace. Consumed by onScopes and onVariables
-     *  to restore the correct thread/frame context before querying locals.
+     *  Populated by onStackTrace. Read by Whatdbg::selectFrameFromId, which onScopes
+     *  and onEvaluate call to restore the thread and frame context before a query.
      */
     std::unordered_map<int, std::pair<std::uint32_t, int>> frameIdMap;
 

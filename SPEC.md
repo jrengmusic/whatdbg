@@ -97,15 +97,15 @@
 2. DAP `setBreakpoints` request received with source path and line numbers
 3. whatdbg calls `Session::addBreakpointByLocation`, which internally calls `getOffsetStatus`, then `getOffset`, then `addBreakpoint` on both platforms
 4. If resolved: response has `verified: true`
-5. If not resolved (module not loaded yet): the registry entry keeps `engineId == 0`, response has `verified: false`
-6. When a module loads: pending BPs are retried — Windows via the `LoadModule` callback after a per-module `.reload /f`; macOS via `onProcessStateStopped`'s module-list check
+5. If not resolved (module not loaded yet): the registry entry keeps an empty `engineId`, response has `verified: false`
+6. When a module loads: pending BPs are retried — Windows via the `LoadModule` callback after a per-module `.reload /f`; macOS via `onBreakpointEvent` (locations resolved or added), which sets `State::hasBreakpointLocationsResolved`; `Whatdbg::drainBreakpointLocationResolved` then calls `BreakpointManager::onBreakpointLocationFound`
 7. When a BP hits: DAP `stopped` event with `reason: "breakpoint"` — Windows via the `Breakpoint` callback, macOS via `onProcessStateStopped`'s `lldb::eStopReasonBreakpoint` case
 
 **Deferred Resolution:**
-- BPs set before module load: `engineId == 0`, resolved once the owning module loads
+- BPs set before module load: `engineId` is empty, resolved once the owning module loads
 - Windows: BPs set after module load call `forceReloadAllSymbols()` (global `.reload /f`) once, then retry
 - Resolution strategy: `getSourceOffset` (`Source/debug/Session.cpp`, a file-local `static` function — not a `Session` member) tries the full Windows path first. If that fails it retries with the basename, then matches the stored PDB path against the requested path before it returns the address. `Session` owns this match. The caller does not re-check it. macOS resolves via `getLineEntry` (`Session_mac.cpp`, file-local `static`), which scans every loaded module's compile units with `SBCompileUnit::FindLineEntryIndex` against an `SBFileSpec` for the requested path.
-- `State::hasPendingBreakpoints` is the one truth for unresolved work. `BreakpointManager::hasUnresolvedBreakpoints()` derives it from the registry.
+- `BreakpointManager::hasUnresolvedBreakpoints()` (private) is the one truth for unresolved work. It derives the answer from the registry.
 
 **Edge Cases:**
 - BP on function signature line: resolves to first executable line inside body (PDB/MSVC behavior)
@@ -118,7 +118,7 @@
 
 | Condition | User Sees | System Action |
 |-----------|-----------|---------------|
-| Source file not in any loaded module | `verified: false`, pending message | Registry entry keeps `engineId == 0` |
+| Source file not in any loaded module | `verified: false`, pending message | Registry entry keeps an empty `engineId` |
 | `getOffsetStatus` E_UNEXPECTED | BP stays unresolved | `engineBusy` stops the line search, no crash |
 | Module load storm (100+ modules) | Brief delay during startup | Per-module `.reload /f` (not global) |
 
@@ -131,18 +131,18 @@
 2. User presses F10 (next), F11 (stepIn), or stepOut keybinding
 3. whatdbg calls `SetExecutionStatus(STEP_OVER/STEP_INTO)` or `Execute("gu")` for stepOut
 4. `SetCodeLevel(DEBUG_LEVEL_SOURCE)` ensures source-level stepping (not instruction-level)
-5. `WaitForEvent` returns `S_OK` — step completion detected by `isStepPending` flag + no other callback flags
+5. `Session::pollEvents` sees `WaitForEvent` return `S_OK` while `isStepPending`; `stopReason` becomes `step` when no other stop set it
 6. DAP `stopped` event emitted with `reason: "step"`
 
 **User Flow (Happy Path), macOS:**
 1. Target stopped at breakpoint or after pause
 2. User presses F10 (next), F11 (stepIn), or stepOut keybinding
 3. whatdbg calls `Session::stepOver` (`SBThread::StepOver`), `Session::stepInto` (`SBThread::StepInto`), or `Session::stepOut` (`SBThread::StepOutOfFrame`)
-4. `session.pollEvents` dispatches the resulting stop to `onStepStop` on `lldb::eStopReasonTrace` or `lldb::eStopReasonPlanComplete`, setting `hasStepCompleted`
+4. `session.pollEvents` dispatches the resulting stop to `onStepStop` on `lldb::eStopReasonTrace` or `lldb::eStopReasonPlanComplete`, setting `State::stopReason` to `step`
 5. DAP `stopped` event emitted with `reason: "step"`
 
 **stepOut Detection (Windows only):**
-stepOut (`gu`) uses an internal breakpoint at the return address. The `Breakpoint` callback fires with an `engineId` not tracked by `BreakpointManager`. When `isStepPending` is true and `BreakpointManager::isUserBreakpoint(engineId)` returns false: treated as step completion, emits `reason: "step"` instead of `"breakpoint"`. macOS's `SBThread::StepOutOfFrame` reports its completion directly as `eStopReasonPlanComplete` — no internal breakpoint or `isUserBreakpoint` check is needed on that platform.
+stepOut (`gu`) uses an internal breakpoint at the return address. The `Breakpoint` callback fires with an `engineId` that no registry entry holds. `BreakpointManager::getBreakpointStoppedEvent` then emits `reason: "step"` instead of `"breakpoint"`. macOS's `SBThread::StepOutOfFrame` reports its completion directly as `eStopReasonPlanComplete` — no internal breakpoint is needed on that platform.
 
 **Edge Cases:**
 - Step into system code (no source): cursor shows disassembly location in stack, no source mapping
@@ -155,9 +155,9 @@ stepOut (`gu`) uses an internal breakpoint at the return address. The `Breakpoin
 **User Flow (Happy Path), Windows:**
 1. Target running, user presses pause in nvim-dap
 2. DAP `pause` request received
-3. whatdbg calls `OpenProcess(PROCESS_ALL_ACCESS, FALSE, targetProcessId)` + `DebugBreakProcess(handle)` + `CloseHandle(handle)`
+3. whatdbg calls `OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_CREATE_THREAD, FALSE, targetProcessId)` + `DebugBreakProcess(handle)` + `CloseHandle(handle)`
 4. Injected `EXCEPTION_BREAKPOINT` arrives via `Exception` callback
-5. `WaitForEvent` returns `S_OK` — pause detected by `isPausePending` flag + no other callback flags
+5. `onBreakpoint` (`Source/debug/Callbacks.cpp`) sees `isPausePending` and sets `State::stopReason` to `pause`
 6. DAP `stopped` event emitted with `reason: "pause"`
 7. Stack trace shows current location (typically system code, not plugin code)
 8. User can continue, set breakpoints, step, or inspect variables
@@ -166,7 +166,7 @@ stepOut (`gu`) uses an internal breakpoint at the return address. The `Breakpoin
 1. Target running, user presses pause in nvim-dap
 2. DAP `pause` request received
 3. whatdbg calls `Session::interrupt`, which calls `SBProcess::SendAsyncInterrupt()` on the bound process
-4. `session.pollEvents` dispatches the resulting stop to `onInterruptStop` on `lldb::eStopReasonInterrupt`, setting `hasPauseCompleted`
+4. `session.pollEvents` dispatches the resulting stop to `onInterruptStop` on `lldb::eStopReasonInterrupt`, setting `State::stopReason` to `pause`. A stop while `isPausePending` also goes to `onInterruptStop`
 5. DAP `stopped` event emitted with `reason: "pause"`
 6. User can continue, set breakpoints, step, or inspect variables
 
@@ -245,11 +245,11 @@ stepOut (`gu`) uses an internal breakpoint at the return address. The `Breakpoin
 **User Flow (Happy Path), Windows:**
 1. Target stopped, user types expression in nvim-dap REPL
 2. DAP `evaluate` request received with expression string and optional frameId
-3. whatdbg creates secondary client via `client->CreateClient`
-4. `.symopt- 100` enables unqualified local variable resolution
-5. `Execute("?? expression")` via secondary client, output captured by `CaptureOutputCallback`
-6. Result parsed by `evaluateStringValue`: backtick stripped, `0n` prefix stripped
-7. If result contains `juce::String`: additionally evaluates `(expr).text.data` or `(expr)->text.data` via `Evaluate`, reads string content via `ReadMultiByteStringVirtual`
+3. `Session::evaluateExpression` gets the scope symbol group with `getOrCreateSymbolGroup (frameIndex)`
+4. It adds `SYMOPT_NO_PUBLICS` to the symbol options. A scope guard restores the previous options.
+5. `AddSymbol (expression)` adds the expression to the group. Success needs the result `S_OK`.
+6. `getSymbolValue` reads the value through `formatSymbolValue` and `prettyPrint`. A scope guard removes the symbol.
+7. An empty result gives the error response `Could not evaluate: <expr>` from `Whatdbg::onEvaluate`
 8. DAP evaluate response with formatted result
 
 **User Flow (Happy Path), macOS:**
@@ -363,15 +363,15 @@ called it explicitly) a no-op instead of a double-terminate. Covered by
 **Trigger, macOS:** A POSIX signal or Mach exception stop (`lldb::eStopReasonSignal` or `lldb::eStopReasonException`) reported through `onProcessStateStopped`.
 
 **Detection:**
-- Windows: `onUnknownException` (`Source/debug/Callbacks.cpp`) populates `State::hasExceptionStopped`, `State::exceptionCode`, `State::exceptionAddress` on second-chance, sets `State::executionState = stopped`, returns `DEBUG_STATUS_BREAK`
+- Windows: `onUnknownException` (`Source/debug/Callbacks.cpp`) sets `State::stopReason` to `exception` and populates `State::exceptionCode`, `State::exceptionAddress` on second-chance. `onBreakpoint` does the same for an int3 that is neither the initial break nor a pause. Both set `State::executionState = stopped` and return `DEBUG_STATUS_BREAK`
 - macOS: `onSignalStop`/`onExceptionStop` (`Source/debug/Session_mac.cpp`) populate the same `State` fields plus `State::isMachException`, distinguishing a Mach exception from a POSIX signal
 
 **DAP Surfacing (`drainExceptionStopped` in `Source/Whatdbg.cpp`):**
 - Emits `stopped` event with `reason: "exception"`, `text: <exception name>`, `description: "0x<code> at 0x<address>"`, `threadId: <event thread system id>`, `allThreadsStopped: true`
 - Emits `output` event with `category: "stderr"` containing formatted crash summary
-- Clears `hasExceptionStopped`; preserves `exceptionCode` and `exceptionAddress` for subsequent `exceptionInfo` request
+- Sets `stopReason` to `none`; preserves `exceptionCode` and `exceptionAddress` for subsequent `exceptionInfo` request
 
-**`exceptionInfo` DAP Request Handler (`Whatdbg::onExceptionInfo`, `Source/WhatdbgHandlers.cpp`):**
+**`exceptionInfo` DAP Request Handler (`Whatdbg::onExceptionInfo`, `Source/Whatdbg.cpp`):**
 - Responds with `exceptionId` (name or hex fallback), `description`, `breakMode: "unhandled"`
 
 **Capability:** `supportsExceptionInfoRequest: true` advertised in `Source/dap/Types.h`.
