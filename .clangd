@@ -2,7 +2,7 @@ CompileFlags:
   CompilationDatabase: /Users/jreng/Documents/Poems/dev/whatdbg
   Remove: [--target=*]
   Add:
-    - -DCAST_COMMIT=\"61fbf52\"
+    - -DCAST_COMMIT=\"c04f504\"
     - -DDEBUG=1
     - -DDONT_SET_USING_JUCE_NAMESPACE=1
     - -DJUCE_DONT_DECLARE_PROJECTINFO=1
@@ -22,7 +22,6 @@ CompileFlags:
     - -I/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/include
     - -I/Users/jreng/Documents/Poems/JUCE/modules
     - -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Debug/juce_binarydata_whatdbg_BinaryData/JuceLibraryCode
-    - -g
     - -std=c++17
     - -arch
     - arm64
@@ -34,6 +33,16 @@ CompileFlags:
     - -Wno-switch-enum
     - -Wno-implicit-float-conversion
     - -O0
+    - -g
+    - -Winvalid-pch
+    - -Xclang
+    - -include-pch
+    - -Xclang
+    - /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Debug/CMakeFiles/whatdbg.dir/cmake_pch.hxx.pch
+    - -Xclang
+    - -include
+    - -Xclang
+    - /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Debug/CMakeFiles/whatdbg.dir/cmake_pch.hxx
 Diagnostics:
   MissingIncludes: None
   UnusedIncludes: None

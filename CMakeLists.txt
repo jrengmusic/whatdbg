@@ -23,6 +23,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE INTERNAL "")
 
 cmake_host_system_information(RESULT CAST_TOTAL_MEMORY QUERY TOTAL_PHYSICAL_MEMORY)
 cmake_host_system_information(RESULT CAST_LOGICAL_CORES QUERY NUMBER_OF_LOGICAL_CORES)
+cmake_host_system_information(RESULT CAST_HOST_PROCESSOR QUERY OS_PLATFORM)
 math(EXPR CAST_COMPILE_JOBS "${CAST_TOTAL_MEMORY} / 1280")
 
 if(CAST_COMPILE_JOBS GREATER CAST_LOGICAL_CORES)
@@ -37,7 +38,7 @@ option(CAST_SIGN "Run the sign/pkg/notarize/staple chain on a Release build" ON)
 set(CMAKE_OSX_DEPLOYMENT_TARGET "12.0" CACHE STRING "macOS deployment target")
 
 if(APPLE)
-    set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "macOS architectures")
+    set(CMAKE_OSX_ARCHITECTURES "${CAST_HOST_PROCESSOR}" CACHE STRING "macOS architectures")
 elseif(WIN32)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set(CMAKE_RC_FLAGS "/C65001")
@@ -281,7 +282,7 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE
 juce_core
 jam_core
-"$<$<PLATFORM_ID:Darwin>:${CMAKE_SOURCE_DIR}/Resources/macos/liblldb.dylib>"
+"$<$<PLATFORM_ID:Darwin>:${CMAKE_SOURCE_DIR}/Resources/macos/${CMAKE_OSX_ARCHITECTURES}/liblldb.dylib>"
 "$<$<PLATFORM_ID:Windows>:ole32>"
 "$<$<PLATFORM_ID:Windows>:oleaut32>"
     PUBLIC
@@ -311,7 +312,7 @@ target_link_options(${PROJECT_NAME} PRIVATE
 )
 
 file(GLOB CAST_BINARY_FILES CONFIGURE_DEPENDS
-Resources/macos/liblldb.dylib
+"Resources/macos/${CMAKE_OSX_ARCHITECTURES}/liblldb.dylib"
 "Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbgeng.dll"
 "Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbghelp.dll"
 "Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbgcore.dll"
@@ -342,7 +343,7 @@ elseif(WIN32)
     set(CAST_PACK_format "exe")
 endif()
 if(APPLE)
-    set(CAST_PACK_platform "macOS")
+    set(CAST_PACK_platform "macOS ${CMAKE_OSX_ARCHITECTURES}")
 elseif(WIN32)
     set(CAST_PACK_platform "Windows")
 endif()

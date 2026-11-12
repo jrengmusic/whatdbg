@@ -96,10 +96,12 @@ if [[ ${#DYLIB_MATCHES[@]} -gt 1 ]]; then
     exit 1
 fi
 
-cp "${DYLIB_MATCHES[0]}" "$DIST_DIR/liblldb.dylib"
-install_name_tool -id "@rpath/liblldb.dylib" "$DIST_DIR/liblldb.dylib"
-strip -x "$DIST_DIR/liblldb.dylib"
-rm -rf "$DIST_DIR/arm64" "$DIST_DIR/x86_64"
+for ARCH in arm64 x86_64; do
+    mkdir -p "$DIST_DIR/$ARCH"
+    lipo "${DYLIB_MATCHES[0]}" -thin "$ARCH" -output "$DIST_DIR/$ARCH/liblldb.dylib"
+    install_name_tool -id "@rpath/liblldb.dylib" "$DIST_DIR/$ARCH/liblldb.dylib"
+    strip -x "$DIST_DIR/$ARCH/liblldb.dylib"
+done
 
 # Copy SB API headers
 cp -R "$SRC_DIR/lldb/include/lldb/API/." "$DIST_DIR/include/lldb/API/"
@@ -116,15 +118,17 @@ else
     exit 1
 fi
 
-UNIVERSAL_SIZE_BYTES="$(stat -f%z "$DIST_DIR/liblldb.dylib")"
-UNIVERSAL_SIZE_MB="$(echo "scale=2; $UNIVERSAL_SIZE_BYTES / 1048576" | bc)"
-
 echo ""
 echo "==================================================================="
 echo "=== BUILD REPORT ==================================================="
 echo "==================================================================="
 echo "LLVM_TAG:     $LLVM_TAG"
-echo "universal:    $DIST_DIR/liblldb.dylib (${UNIVERSAL_SIZE_MB} MB)"
-echo ""
-lipo -info "$DIST_DIR/liblldb.dylib"
+
+for ARCH in arm64 x86_64; do
+    ARCH_SIZE_BYTES="$(stat -f%z "$DIST_DIR/$ARCH/liblldb.dylib")"
+    ARCH_SIZE_MB="$(echo "scale=2; $ARCH_SIZE_BYTES / 1048576" | bc)"
+    echo "$ARCH:        $DIST_DIR/$ARCH/liblldb.dylib (${ARCH_SIZE_MB} MB)"
+    lipo -info "$DIST_DIR/$ARCH/liblldb.dylib"
+done
+
 echo "==================================================================="

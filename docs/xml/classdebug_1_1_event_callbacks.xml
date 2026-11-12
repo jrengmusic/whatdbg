@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="141" column="5"/>
+        <location file="debug/Callbacks.h" line="143" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -52,26 +52,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="147" column="5"/>
-        <references refid="classdebug_1_1_event_callbacks_1ac02c50a34f8500e044560afa92efc6cb" compoundref="_callbacks_8cpp" startline="236" endline="255">Breakpoint</references>
-        <references refid="classdebug_1_1_event_callbacks_1af3d0c4748dac01c787f7aac019adbb4f" compoundref="_callbacks_8cpp" startline="359" endline="362">ChangeDebuggeeState</references>
-        <references refid="classdebug_1_1_event_callbacks_1ad7d3870483f375d8c58d653e16151195" compoundref="_callbacks_8cpp" startline="364" endline="382">ChangeEngineState</references>
-        <references refid="classdebug_1_1_event_callbacks_1a111f33ce93664cdd476484e9ef4bb21c" compoundref="_callbacks_8cpp" startline="384" endline="387">ChangeSymbolState</references>
-        <references refid="classdebug_1_1_event_callbacks_1a4e81450a433595744f81bbedfbc66b90" compoundref="_callbacks_8cpp" startline="287" endline="306">CreateProcess</references>
-        <references refid="classdebug_1_1_event_callbacks_1a34a3413c11b429f2177c710dc62808c7" compoundref="_callbacks_8cpp" startline="277" endline="280">CreateThread</references>
-        <references refid="classdebug_1_1_event_callbacks_1a96ead16320ba94b8f040e68564c5e2f4" compoundref="_callbacks_8cpp" startline="257" endline="275">Exception</references>
-        <references refid="classdebug_1_1_event_callbacks_1ad0b567581d7b33ffebdd402abd788623" compoundref="_callbacks_8cpp" startline="308" endline="318">ExitProcess</references>
-        <references refid="classdebug_1_1_event_callbacks_1a17487c8177971e9f4d1e39a345ecbd3f" compoundref="_callbacks_8cpp" startline="282" endline="285">ExitThread</references>
-        <references refid="classdebug_1_1_event_callbacks_1aabfc1dc5cc191da52b2e9b30972c6286" compoundref="_callbacks_8cpp" startline="225" endline="234">GetInterestMask</references>
-        <references refid="classdebug_1_1_event_callbacks_1ac81921e484f7ddf83fd941c664ef8201" compoundref="_callbacks_8cpp" startline="320" endline="342">LoadModule</references>
-        <references refid="classdebug_1_1_event_callbacks_1aea948dace17853fb50374cd83f6a3216" compoundref="_callbacks_8cpp" startline="200" endline="219">QueryInterface</references>
-        <references refid="classdebug_1_1_event_callbacks_1a463fe1f056559c03da4bb42877d43514" compoundref="_callbacks_8cpp" startline="354" endline="357">SessionStatus</references>
-        <references refid="classdebug_1_1_event_callbacks_1a934b0003a49e40eeaf59efb47bb0e6b8" compoundref="_callbacks_8cpp" startline="349" endline="352">SystemError</references>
-        <references refid="classdebug_1_1_event_callbacks_1ae188391cb510895aed54cc3d88ede1bf" compoundref="_callbacks_8cpp" startline="344" endline="347">UnloadModule</references>
+        <location file="debug/Callbacks.h" line="149" column="5"/>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1aea948dace17853fb50374cd83f6a3216" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a9e6fefe242b068cd4317c5005fb2174b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::EventCallbacks::QueryInterface</definition>
+        <definition>STDMETHOD debug::EventCallbacks::QueryInterface</definition>
         <argsstring>(REFIID interfaceId, PVOID *outInterface) override</argsstring>
         <name>QueryInterface</name>
         <qualifiedname>debug::EventCallbacks::QueryInterface</qualifiedname>
@@ -111,15 +96,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="157" column="5" bodyfile="debug/Callbacks.cpp" bodystart="200" bodyend="219"/>
-        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="159" column="5"/>
+        <references refid="classdebug_1_1_event_callbacks_1a9e6fefe242b068cd4317c5005fb2174b">QueryInterface</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a9e6fefe242b068cd4317c5005fb2174b">QueryInterface</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="user-defined">
       <header>IDebugEventCallbacks</header>
-      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1aabfc1dc5cc191da52b2e9b30972c6286" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1af20e2b9b120f323f4552f55e3902cd4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::EventCallbacks::GetInterestMask</definition>
+        <definition>STDMETHOD debug::EventCallbacks::GetInterestMask</definition>
         <argsstring>(PULONG mask) override</argsstring>
         <name>GetInterestMask</name>
         <qualifiedname>debug::EventCallbacks::GetInterestMask</qualifiedname>
@@ -131,7 +117,7 @@
 <para>Report which event categories this callback is interested in. </para>
         </briefdescription>
         <detaileddescription>
-<para>Sets the mask to cover exactly the events this class implements and acts on: breakpoints, exceptions, process creation/exit, module load, and engine state changes (step-completion detection). Every other IDebugEventCallbacks method is a required override of the COM interface that dbgeng will never invoke, because its event bit is not in this mask.</para>
+<para>Sets the mask to breakpoints, exceptions, process creation and exit, and module load. Every other IDebugEventCallbacks method is a required override of the COM interface that dbgeng never invokes, because its event bit is not in this mask.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>mask</parametername>
@@ -147,12 +133,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="175" column="5" bodyfile="debug/Callbacks.cpp" bodystart="225" bodyend="234"/>
-        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="176" column="5"/>
+        <references refid="classdebug_1_1_event_callbacks_1af20e2b9b120f323f4552f55e3902cd4d">GetInterestMask</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1af20e2b9b120f323f4552f55e3902cd4d">GetInterestMask</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1ac02c50a34f8500e044560afa92efc6cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1af733324938bfd61f1199ae4896a719c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::EventCallbacks::Breakpoint</definition>
+        <definition>STDMETHOD debug::EventCallbacks::Breakpoint</definition>
         <argsstring>(PDEBUG_BREAKPOINT bp) override</argsstring>
         <name>Breakpoint</name>
         <qualifiedname>debug::EventCallbacks::Breakpoint</qualifiedname>
@@ -164,7 +151,7 @@
 <para>Called when a user-registered breakpoint is hit. </para>
         </briefdescription>
         <detaileddescription>
-<para>Always sets hasBreakpointHit and breakpointEngineId. The initial loader breakpoint is reported separately, as a first-chance EXCEPTION_BREAKPOINT through Exception, before any user breakpoint exists to trigger this method.</para>
+<para>Sets stopReason to breakpoint and breakpointEngineId, and sets executionState to stopped. EXCEPTION_BREAKPOINT events, including the initial loader break, go to Exception instead.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>bp</parametername>
@@ -180,13 +167,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="186" column="5" bodyfile="debug/Callbacks.cpp" bodystart="236" bodyend="255"/>
-        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" compoundref="_state_8h" startline="17">debug::stopped</references>
-        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="187" column="5"/>
+        <references refid="classdebug_1_1_event_callbacks_1af733324938bfd61f1199ae4896a719c8">Breakpoint</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1af733324938bfd61f1199ae4896a719c8">Breakpoint</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a96ead16320ba94b8f040e68564c5e2f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1aef32a24e120836a6cb6da34f39a3fa6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::EventCallbacks::Exception</definition>
+        <definition>STDMETHOD debug::EventCallbacks::Exception</definition>
         <argsstring>(PEXCEPTION_RECORD64 exception, ULONG firstChance) override</argsstring>
         <name>Exception</name>
         <qualifiedname>debug::EventCallbacks::Exception</qualifiedname>
@@ -202,7 +189,7 @@
 <para>Called when an exception occurs in the target. </para>
         </briefdescription>
         <detaileddescription>
-<para>Dispatches on exception code: the initial loader breakpoint sets initialBreakPhase::pending, a first-chance exception is passed to the target, and a second-chance exception sets hasExceptionStopped.</para>
+<para>Dispatches on exception code. EXCEPTION_BREAKPOINT goes to onBreakpoint: while launching it sets stopReason initialBreak, while isPausePending it sets pause, and otherwise (an int3 after launch) it sets exception, exceptionCode, and exceptionAddress. The MSVC thread-name exception is passed to the target. Other codes go to onUnknownException, which passes a first-chance exception to the target and sets exception on a second-chance exception.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>exception</parametername>
@@ -226,14 +213,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="199" column="5" bodyfile="debug/Callbacks.cpp" bodystart="257" bodyend="275"/>
-        <references refid="_callbacks_8cpp_1a318119932aef1f7149259fedc216e13f" compoundref="_callbacks_8cpp" startline="55" endline="58">exceptions</references>
-        <references refid="_callbacks_8cpp_1ad642254fa0bd56ab574c9b794dcd66e4" compoundref="_callbacks_8cpp" startline="35" endline="52">onUnknownException</references>
-        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="203" column="5"/>
+        <references refid="classdebug_1_1_event_callbacks_1aef32a24e120836a6cb6da34f39a3fa6a">Exception</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a42552b1f133f9f8eb406d4f306ea9fd1" compoundref="_state_8h" startline="44">debug::exception</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1aef32a24e120836a6cb6da34f39a3fa6a">Exception</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a34a3413c11b429f2177c710dc62808c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1afec3d85563766979717b676ec3c2bbfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::EventCallbacks::CreateThread</definition>
+        <definition>STDMETHOD debug::EventCallbacks::CreateThread</definition>
         <argsstring>(ULONG64 handle, ULONG64 dataOffset, ULONG64 startOffset) override</argsstring>
         <name>CreateThread</name>
         <qualifiedname>debug::EventCallbacks::CreateThread</qualifiedname>
@@ -285,12 +272,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="209" column="5" bodyfile="debug/Callbacks.cpp" bodystart="277" bodyend="280"/>
-        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="213" column="5"/>
+        <references refid="classdebug_1_1_event_callbacks_1afec3d85563766979717b676ec3c2bbfa">CreateThread</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1afec3d85563766979717b676ec3c2bbfa">CreateThread</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a17487c8177971e9f4d1e39a345ecbd3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1ac3d9c55b970d3ac7bb7755fcf69b289a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::EventCallbacks::ExitThread</definition>
+        <definition>STDMETHOD debug::EventCallbacks::ExitThread</definition>
         <argsstring>(ULONG exitCode) override</argsstring>
         <name>ExitThread</name>
         <qualifiedname>debug::EventCallbacks::ExitThread</qualifiedname>
@@ -318,12 +306,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="217" column="5" bodyfile="debug/Callbacks.cpp" bodystart="282" bodyend="285"/>
-        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="221" column="5"/>
+        <references refid="classdebug_1_1_event_callbacks_1ac3d9c55b970d3ac7bb7755fcf69b289a">ExitThread</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1ac3d9c55b970d3ac7bb7755fcf69b289a">ExitThread</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a4e81450a433595744f81bbedfbc66b90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a413822966c447b5f87722b3e0aa5be0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::EventCallbacks::CreateProcess</definition>
+        <definition>STDMETHOD debug::EventCallbacks::CreateProcess</definition>
         <argsstring>(ULONG64 imageFileHandle, ULONG64 handle, ULONG64 baseOffset, ULONG moduleSize, PCSTR moduleName, PCSTR imageName, ULONG checkSum, ULONG timeDateStamp, ULONG64 initialThreadHandle, ULONG64 threadDataOffset, ULONG64 startOffset) override</argsstring>
         <name>CreateProcess</name>
         <qualifiedname>debug::EventCallbacks::CreateProcess</qualifiedname>
@@ -470,12 +459,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="234" column="5" bodyfile="debug/Callbacks.cpp" bodystart="287" bodyend="306"/>
-        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="238" column="5"/>
+        <references refid="classdebug_1_1_event_callbacks_1a413822966c447b5f87722b3e0aa5be0a">CreateProcess</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a413822966c447b5f87722b3e0aa5be0a">CreateProcess</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1ad0b567581d7b33ffebdd402abd788623" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1ad35e8d11e029719ffe99c130b2219dd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::EventCallbacks::ExitProcess</definition>
+        <definition>STDMETHOD debug::EventCallbacks::ExitProcess</definition>
         <argsstring>(ULONG exitCode) override</argsstring>
         <name>ExitProcess</name>
         <qualifiedname>debug::EventCallbacks::ExitProcess</qualifiedname>
@@ -503,13 +493,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="248" column="5" bodyfile="debug/Callbacks.cpp" bodystart="308" bodyend="318"/>
-        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6ab854d4deac1316c8d36e519393f3f2ae" compoundref="_state_8h" startline="18">debug::exited</references>
-        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="252" column="5"/>
+        <references refid="classdebug_1_1_event_callbacks_1ad35e8d11e029719ffe99c130b2219dd8">ExitProcess</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1ad35e8d11e029719ffe99c130b2219dd8">ExitProcess</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1ac81921e484f7ddf83fd941c664ef8201" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a658f76fa3f83a3784738b3da38f930dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::EventCallbacks::LoadModule</definition>
+        <definition>STDMETHOD debug::EventCallbacks::LoadModule</definition>
         <argsstring>(ULONG64 imageFileHandle, ULONG64 baseOffset, ULONG moduleSize, PCSTR moduleName, PCSTR imageName, ULONG checkSum, ULONG timeDateStamp) override</argsstring>
         <name>LoadModule</name>
         <qualifiedname>debug::EventCallbacks::LoadModule</qualifiedname>
@@ -545,7 +535,7 @@
 <para>Called when a DLL or EXE is loaded into the target. </para>
         </briefdescription>
         <detaileddescription>
-<para>Unconditionally records the image name into <ref refid="classdebug_1_1_state" kindref="compound">State</ref> and sets hasNewModuleLoaded to trigger deferred BP resolution. Additionally stops the target when <ref refid="classdebug_1_1_state_1a611662f4eb4fcf2f2a98e66b796266f9" kindref="member">State::hasPendingBreakpoints</ref> is set, so the main loop can safely resolve pending breakpoints against the newly loaded module.</para>
+<para>Stops the target so the main loop can resolve pending breakpoints against the new module. While a step is pending the method records nothing and returns DEBUG_STATUS_NO_CHANGE. Otherwise it sets stopReason to moduleLoad and records the image name in <ref refid="classdebug_1_1_state_1a3de08ce6e5b86e52f6e9fc2644f3d0f1" kindref="member">State::lastLoadedImageName</ref>.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>imageFileHandle</parametername>
@@ -603,18 +593,19 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>DEBUG_STATUS_BREAK if breakpoints are pending, otherwise DEBUG_STATUS_NO_CHANGE. </para>
+<simplesect kind="return"><para>DEBUG_STATUS_BREAK when the module load stops the target, otherwise DEBUG_STATUS_NO_CHANGE. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="266" column="5" bodyfile="debug/Callbacks.cpp" bodystart="320" bodyend="342"/>
-        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="270" column="5"/>
+        <references refid="classdebug_1_1_event_callbacks_1a658f76fa3f83a3784738b3da38f930dd">LoadModule</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a658f76fa3f83a3784738b3da38f930dd">LoadModule</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1ae188391cb510895aed54cc3d88ede1bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a29ebb784233f0152eae24ab5655b5573" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::EventCallbacks::UnloadModule</definition>
+        <definition>STDMETHOD debug::EventCallbacks::UnloadModule</definition>
         <argsstring>(PCSTR imageBaseName, ULONG64 baseOffset) override</argsstring>
         <name>UnloadModule</name>
         <qualifiedname>debug::EventCallbacks::UnloadModule</qualifiedname>
@@ -654,12 +645,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="279" column="5" bodyfile="debug/Callbacks.cpp" bodystart="344" bodyend="347"/>
-        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="283" column="5"/>
+        <references refid="classdebug_1_1_event_callbacks_1a29ebb784233f0152eae24ab5655b5573">UnloadModule</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a29ebb784233f0152eae24ab5655b5573">UnloadModule</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a934b0003a49e40eeaf59efb47bb0e6b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1aab0f7b83e2c9e1a318b68cb9202c6612" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::EventCallbacks::SystemError</definition>
+        <definition>STDMETHOD debug::EventCallbacks::SystemError</definition>
         <argsstring>(ULONG error, ULONG level) override</argsstring>
         <name>SystemError</name>
         <qualifiedname>debug::EventCallbacks::SystemError</qualifiedname>
@@ -699,12 +691,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="288" column="5" bodyfile="debug/Callbacks.cpp" bodystart="349" bodyend="352"/>
-        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="292" column="5"/>
+        <references refid="classdebug_1_1_event_callbacks_1aab0f7b83e2c9e1a318b68cb9202c6612">SystemError</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1aab0f7b83e2c9e1a318b68cb9202c6612">SystemError</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a463fe1f056559c03da4bb42877d43514" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a1d2b155dcad0ec91f1d6a687dc86b23d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::EventCallbacks::SessionStatus</definition>
+        <definition>STDMETHOD debug::EventCallbacks::SessionStatus</definition>
         <argsstring>(ULONG status) override</argsstring>
         <name>SessionStatus</name>
         <qualifiedname>debug::EventCallbacks::SessionStatus</qualifiedname>
@@ -732,12 +725,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="296" column="5" bodyfile="debug/Callbacks.cpp" bodystart="354" bodyend="357"/>
-        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="300" column="5"/>
+        <references refid="classdebug_1_1_event_callbacks_1a1d2b155dcad0ec91f1d6a687dc86b23d">SessionStatus</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a1d2b155dcad0ec91f1d6a687dc86b23d">SessionStatus</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1af3d0c4748dac01c787f7aac019adbb4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a3e011387931e6f7dd8c7b0a126f68260" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::EventCallbacks::ChangeDebuggeeState</definition>
+        <definition>STDMETHOD debug::EventCallbacks::ChangeDebuggeeState</definition>
         <argsstring>(ULONG flags, ULONG64 argument) override</argsstring>
         <name>ChangeDebuggeeState</name>
         <qualifiedname>debug::EventCallbacks::ChangeDebuggeeState</qualifiedname>
@@ -777,12 +771,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="306" column="5" bodyfile="debug/Callbacks.cpp" bodystart="359" bodyend="362"/>
-        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="310" column="5"/>
+        <references refid="classdebug_1_1_event_callbacks_1a3e011387931e6f7dd8c7b0a126f68260">ChangeDebuggeeState</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a3e011387931e6f7dd8c7b0a126f68260">ChangeDebuggeeState</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1ad7d3870483f375d8c58d653e16151195" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1ac0febd27da577e72f6b335c99cedfa0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::EventCallbacks::ChangeEngineState</definition>
+        <definition>STDMETHOD debug::EventCallbacks::ChangeEngineState</definition>
         <argsstring>(ULONG flags, ULONG64 argument) override</argsstring>
         <name>ChangeEngineState</name>
         <qualifiedname>debug::EventCallbacks::ChangeEngineState</qualifiedname>
@@ -795,10 +790,10 @@
           <declname>argument</declname>
         </param>
         <briefdescription>
-<para>Called when the engine execution state changes. </para>
+<para>Required IDebugEventCallbacks override; never invoked. </para>
         </briefdescription>
         <detaileddescription>
-<para>Used to detect step completion: when flags include DEBUG_CES_EXECUTION_STATUS and the new status is DEBUG_STATUS_BREAK after a step was issued, sets <ref refid="classdebug_1_1_state_1a96a76f5ef14e110b1fd577ee43a40daf" kindref="member">State::hasStepCompleted</ref>.</para>
+<para>DEBUG_EVENT_CHANGE_ENGINE_STATE is not in the GetInterestMask result, so dbgeng never calls this method.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>flags</parametername>
@@ -812,7 +807,7 @@
 <parametername>argument</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>New execution status when flags include DEBUG_CES_EXECUTION_STATUS. </para>
+<para>Additional argument depending on flags. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -822,12 +817,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="318" column="5" bodyfile="debug/Callbacks.cpp" bodystart="364" bodyend="382"/>
-        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="319" column="5"/>
+        <references refid="classdebug_1_1_event_callbacks_1ac0febd27da577e72f6b335c99cedfa0d">ChangeEngineState</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1ac0febd27da577e72f6b335c99cedfa0d">ChangeEngineState</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a111f33ce93664cdd476484e9ef4bb21c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a3980117444c9d20a5c83f7b80966dfd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::EventCallbacks::ChangeSymbolState</definition>
+        <definition>STDMETHOD debug::EventCallbacks::ChangeSymbolState</definition>
         <argsstring>(ULONG flags, ULONG64 argument) override</argsstring>
         <name>ChangeSymbolState</name>
         <qualifiedname>debug::EventCallbacks::ChangeSymbolState</qualifiedname>
@@ -867,8 +863,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="327" column="5" bodyfile="debug/Callbacks.cpp" bodystart="384" bodyend="387"/>
-        <referencedby refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="328" column="5"/>
+        <references refid="classdebug_1_1_event_callbacks_1a3980117444c9d20a5c83f7b80966dfd6">ChangeSymbolState</references>
+        <referencedby refid="classdebug_1_1_event_callbacks_1a3980117444c9d20a5c83f7b80966dfd6">ChangeSymbolState</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -887,7 +884,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="335" column="11" bodyfile="debug/Callbacks.h" bodystart="335" bodyend="335"/>
+        <location file="debug/Callbacks.h" line="336" column="11" bodyfile="debug/Callbacks.h" bodystart="336" bodyend="336"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -903,19 +900,20 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="132" column="5"/>
+        <location file="debug/Callbacks.h" line="134" column="5"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
 <para>Receives debug lifecycle events from dbgeng. </para>
     </briefdescription>
     <detaileddescription>
-<para>Registered with IDebugClient5::SetEventCallbacks. Handles the full set of IDebugEventCallbacks methods. Each callback writes deferred-event flags into <ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> rather than acting immediately, so that the main thread processes all state changes in processDeferredEvents() without COM re-entrancy concerns.</para>
+<para>Registered with IDebugClient5::SetEventCallbacks. Handles the full set of IDebugEventCallbacks methods. Each callback writes its state into <ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> rather than acting immediately, so that the main thread processes all state changes in <ref refid="class_whatdbg_1a9e7a05509ec294098ecb40a9cc509615" kindref="member">Whatdbg::processDeferredEvents</ref> without COM re-entrancy concerns.</para>
 <para>Key events and their <ref refid="classdebug_1_1_state" kindref="compound">State</ref> effects:<itemizedlist>
-<listitem><para>Breakpoint → sets hasBreakpointHit / breakpointEngineId. The initial loader breakpoint is a first-chance EXCEPTION_BREAKPOINT handled separately, in Exception, which sets initialBreakPhase::pending.</para>
-</listitem><listitem><para>LoadModule → sets hasNewModuleLoaded, lastLoadedImageName</para>
+<listitem><para>Breakpoint → sets stopReason breakpoint and breakpointEngineId.</para>
+</listitem><listitem><para>Exception → EXCEPTION_BREAKPOINT sets stopReason initialBreak while launching, pause while isPausePending, and exception otherwise. Other codes set stopReason exception on a second-chance notification.</para>
+</listitem><listitem><para>LoadModule → sets stopReason moduleLoad and lastLoadedImageName, unless a step is pending.</para>
 </listitem><listitem><para>ExitProcess → sets hasProcessExited, processExitCode</para>
-</listitem><listitem><para>ChangeEngineState → sets hasStepCompleted when step finishes</para>
+</listitem><listitem><para>CreateProcess → sets targetProcessId</para>
 </listitem></itemizedlist>
 </para>
 <para><simplesect kind="note"><para>Registered and unregistered by <ref refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" kindref="member">Session::initialize</ref> and <ref refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" kindref="member">Session::shutdown</ref>. </para>
@@ -944,27 +942,27 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="debug/Callbacks.h" line="129" column="1" bodyfile="debug/Callbacks.h" bodystart="130" bodyend="338"/>
+    <location file="debug/Callbacks.h" line="131" column="1" bodyfile="debug/Callbacks.h" bodystart="132" bodyend="339"/>
     <listofallmembers>
-      <member refid="classdebug_1_1_event_callbacks_1ac02c50a34f8500e044560afa92efc6cb" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>Breakpoint</name></member>
-      <member refid="classdebug_1_1_event_callbacks_1af3d0c4748dac01c787f7aac019adbb4f" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ChangeDebuggeeState</name></member>
-      <member refid="classdebug_1_1_event_callbacks_1ad7d3870483f375d8c58d653e16151195" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ChangeEngineState</name></member>
-      <member refid="classdebug_1_1_event_callbacks_1a111f33ce93664cdd476484e9ef4bb21c" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ChangeSymbolState</name></member>
-      <member refid="classdebug_1_1_event_callbacks_1a4e81450a433595744f81bbedfbc66b90" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>CreateProcess</name></member>
-      <member refid="classdebug_1_1_event_callbacks_1a34a3413c11b429f2177c710dc62808c7" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>CreateThread</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1af733324938bfd61f1199ae4896a719c8" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>Breakpoint</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a3e011387931e6f7dd8c7b0a126f68260" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ChangeDebuggeeState</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1ac0febd27da577e72f6b335c99cedfa0d" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ChangeEngineState</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a3980117444c9d20a5c83f7b80966dfd6" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ChangeSymbolState</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a413822966c447b5f87722b3e0aa5be0a" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>CreateProcess</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1afec3d85563766979717b676ec3c2bbfa" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>CreateThread</name></member>
       <member refid="classdebug_1_1_event_callbacks_1a3e3d40f7b3df1431a491418bd13e8080" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>EventCallbacks</name></member>
-      <member refid="classdebug_1_1_event_callbacks_1a96ead16320ba94b8f040e68564c5e2f4" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>Exception</name></member>
-      <member refid="classdebug_1_1_event_callbacks_1ad0b567581d7b33ffebdd402abd788623" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ExitProcess</name></member>
-      <member refid="classdebug_1_1_event_callbacks_1a17487c8177971e9f4d1e39a345ecbd3f" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ExitThread</name></member>
-      <member refid="classdebug_1_1_event_callbacks_1aabfc1dc5cc191da52b2e9b30972c6286" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>GetInterestMask</name></member>
-      <member refid="classdebug_1_1_event_callbacks_1ac81921e484f7ddf83fd941c664ef8201" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>LoadModule</name></member>
-      <member refid="classdebug_1_1_event_callbacks_1aea948dace17853fb50374cd83f6a3216" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>QueryInterface</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1aef32a24e120836a6cb6da34f39a3fa6a" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>Exception</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1ad35e8d11e029719ffe99c130b2219dd8" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ExitProcess</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1ac3d9c55b970d3ac7bb7755fcf69b289a" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ExitThread</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1af20e2b9b120f323f4552f55e3902cd4d" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>GetInterestMask</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a658f76fa3f83a3784738b3da38f930dd" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>LoadModule</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a9e6fefe242b068cd4317c5005fb2174b" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>QueryInterface</name></member>
       <member refid="classdebug_1_1_event_callbacks_1a18a737a0ccb8ddb808351d40273fff6f" prot="private" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>refCount</name></member>
-      <member refid="classdebug_1_1_event_callbacks_1a463fe1f056559c03da4bb42877d43514" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>SessionStatus</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a1d2b155dcad0ec91f1d6a687dc86b23d" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>SessionStatus</name></member>
       <member refid="classdebug_1_1_event_callbacks_1a72793df67996cc3da682fb9b2fde4471" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>STDMETHOD_</name></member>
       <member refid="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>STDMETHOD_</name></member>
-      <member refid="classdebug_1_1_event_callbacks_1a934b0003a49e40eeaf59efb47bb0e6b8" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>SystemError</name></member>
-      <member refid="classdebug_1_1_event_callbacks_1ae188391cb510895aed54cc3d88ede1bf" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>UnloadModule</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1aab0f7b83e2c9e1a318b68cb9202c6612" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>SystemError</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a29ebb784233f0152eae24ab5655b5573" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>UnloadModule</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

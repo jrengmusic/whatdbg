@@ -197,7 +197,7 @@
     </sectiondef>
     <sectiondef kind="func">
       <memberdef kind="function" id="_main_8cpp_1a9e28d6c81d15aba125bb092565676e96" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type>juce::File</type>
+        <type><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref></type>
         <definition>static juce::File getConfigDirectory</definition>
         <argsstring>() noexcept</argsstring>
         <name>getConfigDirectory</name>
@@ -208,14 +208,17 @@
         <inbodydescription>
         </inbodydescription>
         <location file="Main.cpp" line="106" column="19" bodyfile="Main.cpp" bodystart="106" bodyend="110"/>
+        <references refid="classjuce_1_1File_1a57b992aacb19e09ee5905cd0f0e9bb31">juce::File::getChildFile</references>
         <references refid="_main_8cpp_1a9e28d6c81d15aba125bb092565676e96" compoundref="_main_8cpp" startline="106" endline="110">getConfigDirectory</references>
+        <references refid="classjuce_1_1File_1a3e0950b0d0dbe71a8bc4a7ed3c7ab067">juce::File::getSpecialLocation</references>
         <references refid="_main_8cpp_1a755bf4a1b1440c4dae1f2367d4ce4710" compoundref="_main_8cpp" startline="27" endline="27">sidecarDirName</references>
+        <references refid="classjuce_1_1File_1a6efe0648697f59af5952171d5e7b0317a8125a563332d94c32da9ccf24c4e7c40">juce::File::userApplicationDataDirectory</references>
         <referencedby refid="_main_8cpp_1a9e28d6c81d15aba125bb092565676e96" compoundref="_main_8cpp" startline="106" endline="110">getConfigDirectory</referencedby>
         <referencedby refid="_main_8cpp_1a1951d9cf65e38f5c80689cbd8f04c778" compoundref="_main_8cpp" startline="112" endline="118">getOrCreateConfigDirectory</referencedby>
         <referencedby refid="_main_8cpp_1ae713e20d6c6b74bc5f07142d15972a4d" compoundref="_main_8cpp" startline="157" endline="163">getOrCreateSidecarDirectory</referencedby>
       </memberdef>
       <memberdef kind="function" id="_main_8cpp_1a1951d9cf65e38f5c80689cbd8f04c778" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type>juce::File</type>
+        <type><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref></type>
         <definition>static juce::File getOrCreateConfigDirectory</definition>
         <argsstring>() noexcept</argsstring>
         <name>getOrCreateConfigDirectory</name>
@@ -226,6 +229,7 @@
         <inbodydescription>
         </inbodydescription>
         <location file="Main.cpp" line="112" column="19" bodyfile="Main.cpp" bodystart="112" bodyend="118"/>
+        <references refid="classjuce_1_1File_1af540d2875c87e47836e7deef02537ea4">juce::File::createDirectory</references>
         <references refid="_main_8cpp_1a9e28d6c81d15aba125bb092565676e96" compoundref="_main_8cpp" startline="106" endline="110">getConfigDirectory</references>
         <references refid="_main_8cpp_1a1951d9cf65e38f5c80689cbd8f04c778" compoundref="_main_8cpp" startline="112" endline="118">getOrCreateConfigDirectory</references>
         <referencedby refid="_main_8cpp_1a4a9530d5c1cf1abc329ad14ed1d96872" compoundref="_main_8cpp" startline="215" endline="235">execWithSidecar</referencedby>
@@ -233,7 +237,7 @@
         <referencedby refid="_main_8cpp_1aeddecab0d9e1bceee572278bfbe205b8" compoundref="_main_8cpp" startline="238" endline="292">runAdapter</referencedby>
       </memberdef>
       <memberdef kind="function" id="_main_8cpp_1ae713e20d6c6b74bc5f07142d15972a4d" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type>juce::File</type>
+        <type><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref></type>
         <definition>static juce::File getOrCreateSidecarDirectory</definition>
         <argsstring>(const char *subdir) noexcept</argsstring>
         <name>getOrCreateSidecarDirectory</name>
@@ -248,6 +252,8 @@
         <inbodydescription>
         </inbodydescription>
         <location file="Main.cpp" line="157" column="19" bodyfile="Main.cpp" bodystart="157" bodyend="163"/>
+        <references refid="classjuce_1_1File_1af540d2875c87e47836e7deef02537ea4">juce::File::createDirectory</references>
+        <references refid="classjuce_1_1File_1a57b992aacb19e09ee5905cd0f0e9bb31">juce::File::getChildFile</references>
         <references refid="_main_8cpp_1a9e28d6c81d15aba125bb092565676e96" compoundref="_main_8cpp" startline="106" endline="110">getConfigDirectory</references>
         <references refid="_main_8cpp_1ae713e20d6c6b74bc5f07142d15972a4d" compoundref="_main_8cpp" startline="157" endline="163">getOrCreateSidecarDirectory</references>
         <referencedby refid="_main_8cpp_1a72e656306a62f770baf4bd3d99f79156" compoundref="_main_8cpp" startline="205" endline="213">getOrCreateSidecar</referencedby>
@@ -259,7 +265,7 @@
         <argsstring>(const juce::File &amp;sidecarDir, const char *name, const char *data, int size) noexcept</argsstring>
         <name>applySidecarBinary</name>
         <param>
-          <type>const juce::File &amp;</type>
+          <type>const <ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref> &amp;</type>
           <declname>sidecarDir</declname>
         </param>
         <param>
@@ -282,11 +288,15 @@
         </inbodydescription>
         <location file="Main.cpp" line="165" column="13" bodyfile="Main.cpp" bodystart="165" bodyend="182"/>
         <references refid="_main_8cpp_1aa4780b3b04ec66c8de810082f76b6ba4" compoundref="_main_8cpp" startline="165" endline="182">applySidecarBinary</references>
+        <references refid="classjuce_1_1File_1a37e88fbc390d78f3d79675974f53fa78">juce::File::existsAsFile</references>
+        <references refid="classjuce_1_1File_1a398e2a96b04991d8d5885a473afd59c3">juce::File::getSize</references>
+        <references refid="classjuce_1_1FileOutputStream_1ad6b06739dc4e5fcc51eac443a885661d">juce::FileOutputStream::openedOk</references>
+        <references refid="classjuce_1_1FileOutputStream_1a3ed02675ac8d56c0afdbe9d7f11316f7">juce::FileOutputStream::write</references>
         <referencedby refid="_main_8cpp_1aa4780b3b04ec66c8de810082f76b6ba4" compoundref="_main_8cpp" startline="165" endline="182">applySidecarBinary</referencedby>
         <referencedby refid="_main_8cpp_1a72e656306a62f770baf4bd3d99f79156" compoundref="_main_8cpp" startline="205" endline="213">getOrCreateSidecar</referencedby>
       </memberdef>
       <memberdef kind="function" id="_main_8cpp_1a72e656306a62f770baf4bd3d99f79156" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type>juce::File</type>
+        <type><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref></type>
         <definition>static juce::File getOrCreateSidecar</definition>
         <argsstring>() noexcept</argsstring>
         <name>getOrCreateSidecar</name>
@@ -323,9 +333,12 @@
         </inbodydescription>
         <location file="Main.cpp" line="215" column="12" bodyfile="Main.cpp" bodystart="215" bodyend="235"/>
         <references refid="_main_8cpp_1a4a9530d5c1cf1abc329ad14ed1d96872" compoundref="_main_8cpp" startline="215" endline="235">execWithSidecar</references>
+        <references refid="classjuce_1_1File_1a515fa016b189068f365cc875e241e2a1">juce::File::getFullPathName</references>
         <references refid="_main_8cpp_1a1951d9cf65e38f5c80689cbd8f04c778" compoundref="_main_8cpp" startline="112" endline="118">getOrCreateConfigDirectory</references>
         <references refid="_main_8cpp_1a72e656306a62f770baf4bd3d99f79156" compoundref="_main_8cpp" startline="205" endline="213">getOrCreateSidecar</references>
+        <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
         <references refid="_main_8cpp_1afeffa852a1e56db4852ad3dcc752b5a1" compoundref="_main_8cpp" startline="103" endline="103">reexecMarker</references>
+        <references refid="classjuce_1_1String_1a276c7c57f1d1a2fc76a8b47aed0823e7">juce::String::toRawUTF8</references>
         <referencedby refid="_main_8cpp_1a4a9530d5c1cf1abc329ad14ed1d96872" compoundref="_main_8cpp" startline="215" endline="235">execWithSidecar</referencedby>
         <referencedby refid="_main_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" compoundref="_main_8cpp" startline="294" endline="308">main</referencedby>
       </memberdef>
@@ -341,12 +354,15 @@
         <inbodydescription>
         </inbodydescription>
         <location file="Main.cpp" line="238" column="12" bodyfile="Main.cpp" bodystart="238" bodyend="292"/>
+        <references refid="classjuce_1_1File_1a57b992aacb19e09ee5905cd0f0e9bb31">juce::File::getChildFile</references>
         <references refid="_main_8cpp_1a1951d9cf65e38f5c80689cbd8f04c778" compoundref="_main_8cpp" startline="112" endline="118">getOrCreateConfigDirectory</references>
         <references refid="_main_8cpp_1a72e656306a62f770baf4bd3d99f79156" compoundref="_main_8cpp" startline="205" endline="213">getOrCreateSidecar</references>
-        <references refid="class_whatdbg_1aeac62eb73f2533f878e2919b3985410e" compoundref="_whatdbg_8cpp" startline="47" endline="55">Whatdbg::initialize</references>
+        <references refid="class_whatdbg_1aeac62eb73f2533f878e2919b3985410e" compoundref="_whatdbg_8cpp" startline="53" endline="61">Whatdbg::initialize</references>
         <references refid="_main_8cpp_1a88bafac5ca287c987806ecc777bf33a7" compoundref="_main_8cpp" startline="30" endline="30">logFileName</references>
-        <references refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="57" endline="88">Whatdbg::run</references>
+        <references refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="63" endline="91">Whatdbg::run</references>
         <references refid="_main_8cpp_1aeddecab0d9e1bceee572278bfbe205b8" compoundref="_main_8cpp" startline="238" endline="292">runAdapter</references>
+        <references refid="classjuce_1_1SystemStats_1a079c8e41487e3c04dfe29c3e0749f3d0">juce::SystemStats::setApplicationCrashHandler</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
         <referencedby refid="_main_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" compoundref="_main_8cpp" startline="294" endline="308">main</referencedby>
         <referencedby refid="_main_8cpp_1aeddecab0d9e1bceee572278bfbe205b8" compoundref="_main_8cpp" startline="238" endline="292">runAdapter</referencedby>
       </memberdef>
@@ -384,7 +400,7 @@
     </briefdescription>
     <detaileddescription>
 <para>Startup sequence:<orderedlist>
-<listitem><para>Extract platform debug engine from BinaryData to sidecar directory.</para>
+<listitem><para>Extract platform debug engine from <ref refid="namespaceBinaryData" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">BinaryData</ref> to sidecar directory.</para>
 </listitem><listitem><para>[macOS] Re-exec with DYLD_LIBRARY_PATH pointing to sidecar dir so dyld resolves liblldb SB API symbols on the second invocation.</para>
 </listitem><listitem><para>Initialize logging (Debug builds only).</para>
 </listitem><listitem><para>Initialize <ref refid="class_whatdbg" kindref="compound">Whatdbg</ref> with the sidecar directory.</para>
@@ -489,16 +505,16 @@
 <codeline lineno="103" refid="_main_8cpp_1afeffa852a1e56db4852ad3dcc752b5a1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="_main_8cpp_1afeffa852a1e56db4852ad3dcc752b5a1" kindref="member">reexecMarker</ref><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;WHATDBG_REEXEC&quot;</highlight><highlight class="normal"><sp/>};</highlight></codeline>
 <codeline lineno="104"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="105"><highlight class="normal"></highlight></codeline>
-<codeline lineno="106" refid="_main_8cpp_1a9e28d6c81d15aba125bb092565676e96" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>juce::File<sp/><ref refid="_main_8cpp_1a9e28d6c81d15aba125bb092565676e96" kindref="member">getConfigDirectory</ref><sp/>()<sp/>noexcept</highlight></codeline>
+<codeline lineno="106" refid="_main_8cpp_1a9e28d6c81d15aba125bb092565676e96" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/><ref refid="_main_8cpp_1a9e28d6c81d15aba125bb092565676e96" kindref="member">getConfigDirectory</ref><sp/>()<sp/>noexcept</highlight></codeline>
 <codeline lineno="107"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>juce::File::getSpecialLocation<sp/>(juce::File::userApplicationDataDirectory)</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.getChildFile<sp/>(<ref refid="_main_8cpp_1a755bf4a1b1440c4dae1f2367d4ce4710" kindref="member">sidecarDirName</ref>);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File_1a3e0950b0d0dbe71a8bc4a7ed3c7ab067" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File::getSpecialLocation</ref><sp/>(<ref refid="classjuce_1_1File_1a6efe0648697f59af5952171d5e7b0317a8125a563332d94c32da9ccf24c4e7c40" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File::userApplicationDataDirectory</ref>)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classjuce_1_1File_1a57b992aacb19e09ee5905cd0f0e9bb31" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">getChildFile</ref><sp/>(<ref refid="_main_8cpp_1a755bf4a1b1440c4dae1f2367d4ce4710" kindref="member">sidecarDirName</ref>);</highlight></codeline>
 <codeline lineno="110"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="111"><highlight class="normal"></highlight></codeline>
-<codeline lineno="112" refid="_main_8cpp_1a1951d9cf65e38f5c80689cbd8f04c778" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>juce::File<sp/><ref refid="_main_8cpp_1a1951d9cf65e38f5c80689cbd8f04c778" kindref="member">getOrCreateConfigDirectory</ref><sp/>()<sp/>noexcept</highlight></codeline>
+<codeline lineno="112" refid="_main_8cpp_1a1951d9cf65e38f5c80689cbd8f04c778" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/><ref refid="_main_8cpp_1a1951d9cf65e38f5c80689cbd8f04c778" kindref="member">getOrCreateConfigDirectory</ref><sp/>()<sp/>noexcept</highlight></codeline>
 <codeline lineno="113"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::File<sp/>configDir<sp/>{<sp/><ref refid="_main_8cpp_1a9e28d6c81d15aba125bb092565676e96" kindref="member">getConfigDirectory</ref><sp/>()<sp/>};</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>configDir.createDirectory<sp/>();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/>configDir<sp/>{<sp/><ref refid="_main_8cpp_1a9e28d6c81d15aba125bb092565676e96" kindref="member">getConfigDirectory</ref><sp/>()<sp/>};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>configDir.<ref refid="classjuce_1_1File_1af540d2875c87e47836e7deef02537ea4" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">createDirectory</ref><sp/>();</highlight></codeline>
 <codeline lineno="116"><highlight class="normal"></highlight></codeline>
 <codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>configDir;</highlight></codeline>
 <codeline lineno="118"><highlight class="normal">}</highlight></codeline>
@@ -506,8 +522,8 @@
 <codeline lineno="120"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="121"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>onApplicationCrash<sp/>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>context)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="122"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>juce::ignoreUnused<sp/>(context);</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>jam::debug::Log::write<sp/>(juce::String<sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>CRASH\n&quot;</highlight><highlight class="normal">)<sp/>+<sp/>juce::SystemStats::getStackBacktrace<sp/>());</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::ignoreUnused</ref><sp/>(context);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(<ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>CRASH\n&quot;</highlight><highlight class="normal">)<sp/>+<sp/><ref refid="classjuce_1_1SystemStats_1ad7537645879a15a0e7f2a7e537225672" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::SystemStats::getStackBacktrace</ref><sp/>());</highlight></codeline>
 <codeline lineno="125"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="126"><highlight class="normal"></highlight></codeline>
 <codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>onApplicationTerminate<sp/>()<sp/>noexcept</highlight></codeline>
@@ -522,55 +538,55 @@
 <codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)</highlight></codeline>
 <codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jam::debug::Log::write<sp/>(juce::String<sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>TERMINATE<sp/>std::exception:<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>e.what<sp/>());</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(<ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>TERMINATE<sp/>std::exception:<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>e.what<sp/>());</highlight></codeline>
 <codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)</highlight></codeline>
 <codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jam::debug::Log::write<sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>TERMINATE<sp/>unknown<sp/>exception&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>TERMINATE<sp/>unknown<sp/>exception&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jam::debug::Log::write<sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>TERMINATE<sp/>(no<sp/>active<sp/>exception)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>TERMINATE<sp/>(no<sp/>active<sp/>exception)&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="150"><highlight class="normal"></highlight></codeline>
-<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>jam::debug::Log::write<sp/>(juce::SystemStats::getStackBacktrace<sp/>());</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(<ref refid="classjuce_1_1SystemStats_1ad7537645879a15a0e7f2a7e537225672" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::SystemStats::getStackBacktrace</ref><sp/>());</highlight></codeline>
 <codeline lineno="152"><highlight class="normal"></highlight></codeline>
 <codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::abort<sp/>();</highlight></codeline>
 <codeline lineno="154"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="155"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="156"><highlight class="normal"></highlight></codeline>
-<codeline lineno="157" refid="_main_8cpp_1ae713e20d6c6b74bc5f07142d15972a4d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>juce::File<sp/><ref refid="_main_8cpp_1ae713e20d6c6b74bc5f07142d15972a4d" kindref="member">getOrCreateSidecarDirectory</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>subdir)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="_main_8cpp_1ae713e20d6c6b74bc5f07142d15972a4d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/><ref refid="_main_8cpp_1ae713e20d6c6b74bc5f07142d15972a4d" kindref="member">getOrCreateSidecarDirectory</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>subdir)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="158"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::File<sp/>sidecarDir<sp/>{<sp/><ref refid="_main_8cpp_1a9e28d6c81d15aba125bb092565676e96" kindref="member">getConfigDirectory</ref><sp/>().getChildFile<sp/>(subdir)<sp/>};</highlight></codeline>
-<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>sidecarDir.createDirectory<sp/>();</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/>sidecarDir<sp/>{<sp/><ref refid="_main_8cpp_1a9e28d6c81d15aba125bb092565676e96" kindref="member">getConfigDirectory</ref><sp/>().<ref refid="classjuce_1_1File_1a57b992aacb19e09ee5905cd0f0e9bb31" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">getChildFile</ref><sp/>(subdir)<sp/>};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>sidecarDir.<ref refid="classjuce_1_1File_1af540d2875c87e47836e7deef02537ea4" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">createDirectory</ref><sp/>();</highlight></codeline>
 <codeline lineno="161"><highlight class="normal"></highlight></codeline>
 <codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sidecarDir;</highlight></codeline>
 <codeline lineno="163"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="164"><highlight class="normal"></highlight></codeline>
-<codeline lineno="165" refid="_main_8cpp_1aa4780b3b04ec66c8de810082f76b6ba4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="_main_8cpp_1aa4780b3b04ec66c8de810082f76b6ba4" kindref="member">applySidecarBinary</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::File&amp;<sp/>sidecarDir,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name,</highlight></codeline>
+<codeline lineno="165" refid="_main_8cpp_1aa4780b3b04ec66c8de810082f76b6ba4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="_main_8cpp_1aa4780b3b04ec66c8de810082f76b6ba4" kindref="member">applySidecarBinary</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref>&amp;<sp/>sidecarDir,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="juce__UnityPluginInterface_8h_1a010e50efcb9d6d393b9414f09f368dbc" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">name</ref>,</highlight></codeline>
 <codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>data,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>size)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="167"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::File<sp/>dest<sp/>{<sp/>sidecarDir.getChildFile<sp/>(name)<sp/>};</highlight></codeline>
-<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>shouldWrite<sp/>{<sp/>not<sp/>dest.existsAsFile<sp/>()</highlight></codeline>
-<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>or<sp/>dest.getSize<sp/>()<sp/>!=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">juce::int64</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(size)<sp/>};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/>dest<sp/>{<sp/>sidecarDir.getChildFile<sp/>(<ref refid="juce__UnityPluginInterface_8h_1a010e50efcb9d6d393b9414f09f368dbc" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">name</ref>)<sp/>};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>shouldWrite<sp/>{<sp/>not<sp/>dest.<ref refid="classjuce_1_1File_1a37e88fbc390d78f3d79675974f53fa78" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">existsAsFile</ref><sp/>()</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>or<sp/>dest.<ref refid="classjuce_1_1File_1a398e2a96b04991d8d5885a473afd59c3" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">getSize</ref><sp/>()<sp/>!=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacejuce_1a6afa306885ea6220ef17d2a02cfa7f0a" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::int64</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(size)<sp/>};</highlight></codeline>
 <codeline lineno="171"><highlight class="normal"></highlight></codeline>
 <codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isOk<sp/>{<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"><sp/>};</highlight></codeline>
 <codeline lineno="173"><highlight class="normal"></highlight></codeline>
 <codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(shouldWrite)</highlight></codeline>
 <codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>juce::FileOutputStream<sp/>stream<sp/>{<sp/>dest<sp/>};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1FileOutputStream" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::FileOutputStream</ref><sp/>stream<sp/>{<sp/>dest<sp/>};</highlight></codeline>
 <codeline lineno="177"><highlight class="normal"></highlight></codeline>
-<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>isOk<sp/>=<sp/>stream.openedOk<sp/>()<sp/>and<sp/>stream.write<sp/>(data,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(size));</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>isOk<sp/>=<sp/>stream.<ref refid="classjuce_1_1FileOutputStream_1ad6b06739dc4e5fcc51eac443a885661d" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">openedOk</ref><sp/>()<sp/>and<sp/>stream.<ref refid="classjuce_1_1FileOutputStream_1a3ed02675ac8d56c0afdbe9d7f11316f7" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">write</ref><sp/>(data,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(size));</highlight></codeline>
 <codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="180"><highlight class="normal"></highlight></codeline>
 <codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>isOk;</highlight></codeline>
 <codeline lineno="182"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="183"><highlight class="normal"></highlight></codeline>
 <codeline lineno="184"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_WINDOWS</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="185"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>juce::File<sp/><ref refid="_main_8cpp_1a72e656306a62f770baf4bd3d99f79156" kindref="member">getOrCreateSidecar</ref><sp/>()<sp/>noexcept</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/><ref refid="_main_8cpp_1a72e656306a62f770baf4bd3d99f79156" kindref="member">getOrCreateSidecar</ref><sp/>()<sp/>noexcept</highlight></codeline>
 <codeline lineno="186"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::File<sp/>sidecarDir<sp/>{<sp/><ref refid="_main_8cpp_1ae713e20d6c6b74bc5f07142d15972a4d" kindref="member">getOrCreateSidecarDirectory</ref><sp/>(<ref refid="_main_8cpp_1a05de6c31938aca69cf8183b9015febf1" kindref="member">dbgengSubdir</ref>)<sp/>};</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/>sidecarDir<sp/>{<sp/><ref refid="_main_8cpp_1ae713e20d6c6b74bc5f07142d15972a4d" kindref="member">getOrCreateSidecarDirectory</ref><sp/>(<ref refid="_main_8cpp_1a05de6c31938aca69cf8183b9015febf1" kindref="member">dbgengSubdir</ref>)<sp/>};</highlight></codeline>
 <codeline lineno="188"><highlight class="normal"></highlight></codeline>
 <codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>wroteDbgeng<sp/><sp/>{<sp/><ref refid="_main_8cpp_1aa4780b3b04ec66c8de810082f76b6ba4" kindref="member">applySidecarBinary</ref><sp/>(sidecarDir,<sp/></highlight><highlight class="stringliteral">&quot;dbgeng.dll&quot;</highlight><highlight class="normal">,</highlight></codeline>
 <codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BinaryData::dbgeng_dll,<sp/>BinaryData::dbgeng_dllSize)<sp/>};</highlight></codeline>
@@ -583,30 +599,30 @@
 <codeline lineno="197"><highlight class="normal"></highlight></codeline>
 <codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isAllOk<sp/>{<sp/>wroteDbgeng<sp/>and<sp/>wroteDbghelp<sp/>and<sp/>wroteDbgcore<sp/>and<sp/>wroteSymsrv<sp/>};</highlight></codeline>
 <codeline lineno="199"><highlight class="normal"></highlight></codeline>
-<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>isAllOk<sp/>?<sp/>sidecarDir<sp/>:<sp/>juce::File<sp/>{};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>isAllOk<sp/>?<sp/>sidecarDir<sp/>:<sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/>{};</highlight></codeline>
 <codeline lineno="201"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="202"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="203"><highlight class="normal"></highlight></codeline>
 <codeline lineno="204"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_MAC</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="205" refid="_main_8cpp_1a72e656306a62f770baf4bd3d99f79156" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>juce::File<sp/><ref refid="_main_8cpp_1a72e656306a62f770baf4bd3d99f79156" kindref="member">getOrCreateSidecar</ref><sp/>()<sp/>noexcept</highlight></codeline>
+<codeline lineno="205" refid="_main_8cpp_1a72e656306a62f770baf4bd3d99f79156" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/><ref refid="_main_8cpp_1a72e656306a62f770baf4bd3d99f79156" kindref="member">getOrCreateSidecar</ref><sp/>()<sp/>noexcept</highlight></codeline>
 <codeline lineno="206"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::File<sp/>sidecarDir<sp/>{<sp/><ref refid="_main_8cpp_1ae713e20d6c6b74bc5f07142d15972a4d" kindref="member">getOrCreateSidecarDirectory</ref><sp/>(<ref refid="_main_8cpp_1a9ca3e4e7f948745a0a657783a780fff1" kindref="member">liblldbSubdir</ref>)<sp/>};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/>sidecarDir<sp/>{<sp/><ref refid="_main_8cpp_1ae713e20d6c6b74bc5f07142d15972a4d" kindref="member">getOrCreateSidecarDirectory</ref><sp/>(<ref refid="_main_8cpp_1a9ca3e4e7f948745a0a657783a780fff1" kindref="member">liblldbSubdir</ref>)<sp/>};</highlight></codeline>
 <codeline lineno="208"><highlight class="normal"></highlight></codeline>
 <codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isAllOk<sp/>{<sp/><ref refid="_main_8cpp_1aa4780b3b04ec66c8de810082f76b6ba4" kindref="member">applySidecarBinary</ref><sp/>(sidecarDir,<sp/></highlight><highlight class="stringliteral">&quot;liblldb.dylib&quot;</highlight><highlight class="normal">,</highlight></codeline>
 <codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BinaryData::liblldb_dylib,<sp/>BinaryData::liblldb_dylibSize)<sp/>};</highlight></codeline>
 <codeline lineno="211"><highlight class="normal"></highlight></codeline>
-<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>isAllOk<sp/>?<sp/>sidecarDir<sp/>:<sp/>juce::File<sp/>{};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>isAllOk<sp/>?<sp/>sidecarDir<sp/>:<sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/>{};</highlight></codeline>
 <codeline lineno="213"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="214"><highlight class="normal"></highlight></codeline>
 <codeline lineno="215" refid="_main_8cpp_1a4a9530d5c1cf1abc329ad14ed1d96872" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="_main_8cpp_1a4a9530d5c1cf1abc329ad14ed1d96872" kindref="member">execWithSidecar</ref><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[])</highlight></codeline>
 <codeline lineno="216"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>juce::ignoreUnused<sp/>(<ref refid="_main_8cpp_1a1951d9cf65e38f5c80689cbd8f04c778" kindref="member">getOrCreateConfigDirectory</ref><sp/>());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::ignoreUnused</ref><sp/>(<ref refid="_main_8cpp_1a1951d9cf65e38f5c80689cbd8f04c778" kindref="member">getOrCreateConfigDirectory</ref><sp/>());</highlight></codeline>
 <codeline lineno="218"><highlight class="normal"></highlight></codeline>
-<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::File<sp/>sidecarDir<sp/>{<sp/><ref refid="_main_8cpp_1a72e656306a62f770baf4bd3d99f79156" kindref="member">getOrCreateSidecar</ref><sp/>()<sp/>};</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/>sidecarDir<sp/>{<sp/><ref refid="_main_8cpp_1a72e656306a62f770baf4bd3d99f79156" kindref="member">getOrCreateSidecar</ref><sp/>()<sp/>};</highlight></codeline>
 <codeline lineno="220"><highlight class="normal"></highlight></codeline>
-<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sidecarDir<sp/>!=<sp/>juce::File<sp/>{})</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sidecarDir<sp/>!=<sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/>{})</highlight></codeline>
 <codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setenv<sp/>(</highlight><highlight class="stringliteral">&quot;DYLD_LIBRARY_PATH&quot;</highlight><highlight class="normal">,<sp/>sidecarDir.getFullPathName<sp/>().toRawUTF8<sp/>(),<sp/>1);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setenv<sp/>(</highlight><highlight class="stringliteral">&quot;DYLD_LIBRARY_PATH&quot;</highlight><highlight class="normal">,<sp/>sidecarDir.<ref refid="classjuce_1_1File_1a515fa016b189068f365cc875e241e2a1" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">getFullPathName</ref><sp/>().<ref refid="classjuce_1_1String_1a276c7c57f1d1a2fc76a8b47aed0823e7" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">toRawUTF8</ref><sp/>(),<sp/>1);</highlight></codeline>
 <codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setenv<sp/>(<ref refid="_main_8cpp_1afeffa852a1e56db4852ad3dcc752b5a1" kindref="member">reexecMarker</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
 <codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>execv<sp/>(argv[0],<sp/>argv);</highlight></codeline>
 <codeline lineno="226"><highlight class="normal"></highlight></codeline>
@@ -625,23 +641,23 @@
 <codeline lineno="239"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>exitCode<sp/>{<sp/>0<sp/>};</highlight></codeline>
 <codeline lineno="241"><highlight class="normal"></highlight></codeline>
-<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::File<sp/>configDir<sp/>{<sp/><ref refid="_main_8cpp_1a1951d9cf65e38f5c80689cbd8f04c778" kindref="member">getOrCreateConfigDirectory</ref><sp/>()<sp/>};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/>configDir<sp/>{<sp/><ref refid="_main_8cpp_1a1951d9cf65e38f5c80689cbd8f04c778" kindref="member">getOrCreateConfigDirectory</ref><sp/>()<sp/>};</highlight></codeline>
 <codeline lineno="243"><highlight class="normal"></highlight></codeline>
 <codeline lineno="244"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::File<sp/>logPath<sp/>{<sp/>configDir.getChildFile<sp/>(<ref refid="_main_8cpp_1a88bafac5ca287c987806ecc777bf33a7" kindref="member">logFileName</ref>)<sp/>};</highlight></codeline>
-<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>jam::debug::Log::Scope<sp/>logScope<sp/>{<sp/>logPath<sp/>};</highlight></codeline>
-<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>juce::SystemStats::setApplicationCrashHandler<sp/>(&amp;onApplicationCrash);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/>logPath<sp/>{<sp/>configDir.<ref refid="classjuce_1_1File_1a57b992aacb19e09ee5905cd0f0e9bb31" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">getChildFile</ref><sp/>(<ref refid="_main_8cpp_1a88bafac5ca287c987806ecc777bf33a7" kindref="member">logFileName</ref>)<sp/>};</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1_1Scope" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::Scope</ref><sp/>logScope<sp/>{<sp/>logPath<sp/>};</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1SystemStats_1a079c8e41487e3c04dfe29c3e0749f3d0" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::SystemStats::setApplicationCrashHandler</ref><sp/>(&amp;onApplicationCrash);</highlight></codeline>
 <codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set_terminate<sp/>(&amp;onApplicationTerminate);</highlight></codeline>
 <codeline lineno="249"><highlight class="normal"></highlight></codeline>
-<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>jam::debug::Log::write<sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>started&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>started&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="251"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="252"><highlight class="normal"></highlight></codeline>
 <codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sidecarDir<sp/>{<sp/><ref refid="_main_8cpp_1a72e656306a62f770baf4bd3d99f79156" kindref="member">getOrCreateSidecar</ref><sp/>()<sp/>};</highlight></codeline>
 <codeline lineno="254"><highlight class="normal"></highlight></codeline>
-<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sidecarDir<sp/>!=<sp/>juce::File<sp/>{})</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sidecarDir<sp/>!=<sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref><sp/>{})</highlight></codeline>
 <codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="257"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jam::debug::Log::write<sp/>(juce::String<sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>sidecar<sp/>at<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>sidecarDir.getFullPathName<sp/>());</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(<ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>sidecar<sp/>at<sp/>&quot;</highlight><highlight class="normal">)<sp/>+<sp/>sidecarDir.getFullPathName<sp/>());</highlight></codeline>
 <codeline lineno="259"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="260"><highlight class="normal"></highlight></codeline>
 <codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_whatdbg" kindref="compound">Whatdbg</ref><sp/>whatdbg;</highlight></codeline>
@@ -650,14 +666,14 @@
 <codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isInitialized)</highlight></codeline>
 <codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="266"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jam::debug::Log::write<sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>initialized&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>initialized&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="268"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>whatdbg.<ref refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" kindref="member">run</ref><sp/>();</highlight></codeline>
 <codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="273"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jam::debug::Log::write<sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>initialization<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>initialization<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="275"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exitCode<sp/>=<sp/>1;</highlight></codeline>
 <codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -665,13 +681,13 @@
 <codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="281"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>jam::debug::Log::write<sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>sidecar<sp/>extraction<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>sidecar<sp/>extraction<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="283"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exitCode<sp/>=<sp/>1;</highlight></codeline>
 <codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="286"><highlight class="normal"></highlight></codeline>
 <codeline lineno="287"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_DEBUG</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>jam::debug::Log::write<sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>exit<sp/>code&quot;</highlight><highlight class="normal">,<sp/>exitCode);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::debug::Log::write</ref><sp/>(</highlight><highlight class="stringliteral">&quot;WHATDBG:<sp/>exit<sp/>code&quot;</highlight><highlight class="normal">,<sp/>exitCode);</highlight></codeline>
 <codeline lineno="289"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="290"><highlight class="normal"></highlight></codeline>
 <codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>exitCode;</highlight></codeline>
@@ -679,7 +695,7 @@
 <codeline lineno="293"><highlight class="normal"></highlight></codeline>
 <codeline lineno="294" refid="_main_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="_main_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" kindref="member">main</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[])</highlight></codeline>
 <codeline lineno="295"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(juce::ArgumentList<sp/>(argc,<sp/>argv).containsOption<sp/>(</highlight><highlight class="stringliteral">&quot;--help&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structjuce_1_1ArgumentList" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::ArgumentList</ref><sp/>(argc,<sp/>argv).containsOption<sp/>(</highlight><highlight class="stringliteral">&quot;--help&quot;</highlight><highlight class="normal">))</highlight></codeline>
 <codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
 <codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fprintf<sp/>(stdout,<sp/></highlight><highlight class="stringliteral">&quot;%s<sp/>%s%s&quot;</highlight><highlight class="normal">,<sp/>ProjectInfo::projectName,<sp/>ProjectInfo::versionString,<sp/><ref refid="_main_8cpp_1aeb6ac31ca0fc754e66ea386cb63d3be4" kindref="member">helpText</ref>);</highlight></codeline>
 <codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>

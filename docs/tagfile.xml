@@ -25,7 +25,6 @@
     <path>debug/</path>
     <filename>_breakpoint_manager_8cpp.html</filename>
     <includes id="_breakpoint_manager_8h" name="BreakpointManager.h" local="yes" import="no" module="no" objc="no">BreakpointManager.h</includes>
-    <includes id="_state_8h" name="State.h" local="yes" import="no" module="no" objc="no">State.h</includes>
     <namespace>debug</namespace>
   </compound>
   <compound kind="file">
@@ -39,69 +38,10 @@
     <namespace>debug</namespace>
   </compound>
   <compound kind="file">
-    <name>BreakpointManagerHandlers.cpp</name>
-    <path>debug/</path>
-    <filename>_breakpoint_manager_handlers_8cpp.html</filename>
-    <includes id="_breakpoint_manager_8h" name="BreakpointManager.h" local="yes" import="no" module="no" objc="no">BreakpointManager.h</includes>
-    <includes id="_state_8h" name="State.h" local="yes" import="no" module="no" objc="no">State.h</includes>
-    <namespace>debug</namespace>
-  </compound>
-  <compound kind="file">
     <name>Callbacks.cpp</name>
     <path>debug/</path>
     <filename>_callbacks_8cpp.html</filename>
-    <includes id="_callbacks_8h" name="Callbacks.h" local="yes" import="no" module="no" objc="no">Callbacks.h</includes>
     <includes id="_state_8h" name="State.h" local="yes" import="no" module="no" objc="no">State.h</includes>
-    <namespace>debug</namespace>
-    <member kind="typedef">
-      <type>HRESULT(*)(debug::State *, PEXCEPTION_RECORD64, ULONG firstChance)</type>
-      <name>ExceptionCallback</name>
-      <anchorfile>_callbacks_8cpp.html</anchorfile>
-      <anchor>aa9d758e99e82d5b8be12ebbf28db90b4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static HRESULT</type>
-      <name>onBreakpoint</name>
-      <anchorfile>_callbacks_8cpp.html</anchorfile>
-      <anchor>af57d30afd5c00fdb42ff43da26024c6d</anchor>
-      <arglist>(debug::State *state, PEXCEPTION_RECORD64, ULONG)</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static HRESULT</type>
-      <name>onThreadName</name>
-      <anchorfile>_callbacks_8cpp.html</anchorfile>
-      <anchor>acca841c091f5a56b4aec96ea3198df42</anchor>
-      <arglist>(debug::State *, PEXCEPTION_RECORD64, ULONG)</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static HRESULT</type>
-      <name>onUnknownException</name>
-      <anchorfile>_callbacks_8cpp.html</anchorfile>
-      <anchor>ad642254fa0bd56ab574c9b794dcd66e4</anchor>
-      <arglist>(debug::State *state, PEXCEPTION_RECORD64 exception, ULONG firstChance)</arglist>
-    </member>
-    <member kind="variable" static="yes">
-      <type>static constexpr DWORD</type>
-      <name>MS_VC_EXCEPTION</name>
-      <anchorfile>_callbacks_8cpp.html</anchorfile>
-      <anchor>abea773ce2e1da7d43a210c6411ebcc4b</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" static="yes">
-      <type>static const std::unordered_map&lt; DWORD, ExceptionCallback &gt;</type>
-      <name>exceptions</name>
-      <anchorfile>_callbacks_8cpp.html</anchorfile>
-      <anchor>a318119932aef1f7149259fedc216e13f</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" static="yes">
-      <type>static const std::unordered_map&lt; DWORD, const char * &gt;</type>
-      <name>exceptionNames</name>
-      <anchorfile>_callbacks_8cpp.html</anchorfile>
-      <anchor>af563ae0464a33bfcf3baacc48a2681fe</anchor>
-      <arglist></arglist>
-    </member>
   </compound>
   <compound kind="file">
     <name>Callbacks.h</name>
@@ -115,8 +55,6 @@
     <name>Loader.cpp</name>
     <path>debug/</path>
     <filename>_loader_8cpp.html</filename>
-    <includes id="_loader_8h" name="Loader.h" local="yes" import="no" module="no" objc="no">Loader.h</includes>
-    <namespace>debug</namespace>
   </compound>
   <compound kind="file">
     <name>Loader.h</name>
@@ -136,7 +74,7 @@
     <path>debug/</path>
     <filename>_session_8cpp.html</filename>
     <includes id="_session_8h" name="Session.h" local="yes" import="no" module="no" objc="no">Session.h</includes>
-    <includes id="_state_8h" name="State.h" local="yes" import="no" module="no" objc="no">State.h</includes>
+    <includes id="_pretty_print_8h" name="PrettyPrint.h" local="yes" import="no" module="no" objc="no">PrettyPrint.h</includes>
     <includes id="_types_8h" name="Types.h" local="yes" import="no" module="no" objc="no">../dap/Types.h</includes>
   </compound>
   <compound kind="file">
@@ -153,23 +91,6 @@
     <filename>_session__mac_8cpp.html</filename>
     <includes id="_session_8h" name="Session.h" local="yes" import="no" module="no" objc="no">Session.h</includes>
     <includes id="_state_8h" name="State.h" local="yes" import="no" module="no" objc="no">State.h</includes>
-    <includes id="_types_8h" name="Types.h" local="yes" import="no" module="no" objc="no">../dap/Types.h</includes>
-    <namespace>debug</namespace>
-  </compound>
-  <compound kind="file">
-    <name>SessionInspection.cpp</name>
-    <path>debug/</path>
-    <filename>_session_inspection_8cpp.html</filename>
-    <includes id="_session_8h" name="Session.h" local="yes" import="no" module="no" objc="no">Session.h</includes>
-    <includes id="_state_8h" name="State.h" local="yes" import="no" module="no" objc="no">State.h</includes>
-    <includes id="_pretty_print_8h" name="PrettyPrint.h" local="yes" import="no" module="no" objc="no">PrettyPrint.h</includes>
-    <includes id="_types_8h" name="Types.h" local="yes" import="no" module="no" objc="no">../dap/Types.h</includes>
-  </compound>
-  <compound kind="file">
-    <name>SessionInspection_mac.cpp</name>
-    <path>debug/</path>
-    <filename>_session_inspection__mac_8cpp.html</filename>
-    <includes id="_session_8h" name="Session.h" local="yes" import="no" module="no" objc="no">Session.h</includes>
     <includes id="_pretty_print_8h" name="PrettyPrint.h" local="yes" import="no" module="no" objc="no">PrettyPrint.h</includes>
     <includes id="_types_8h" name="Types.h" local="yes" import="no" module="no" objc="no">../dap/Types.h</includes>
     <namespace>debug</namespace>
@@ -207,7 +128,6 @@
     <path></path>
     <filename>_main_8cpp.html</filename>
     <includes id="_whatdbg_8h" name="Whatdbg.h" local="yes" import="no" module="no" objc="no">Whatdbg.h</includes>
-    <class kind="struct">BinaryEntry</class>
     <member kind="function" static="yes">
       <type>static juce::File</type>
       <name>getConfigDirectory</name>
@@ -217,17 +137,45 @@
     </member>
     <member kind="function" static="yes">
       <type>static juce::File</type>
-      <name>extractSidecarBinaries</name>
+      <name>getOrCreateConfigDirectory</name>
       <anchorfile>_main_8cpp.html</anchorfile>
-      <anchor>a2cf03d0b20951a91b5a0e222d6ccfd25</anchor>
-      <arglist>(const char *subdir, const BinaryEntry *entries, int entryCount) noexcept</arglist>
+      <anchor>a1951d9cf65e38f5c80689cbd8f04c778</anchor>
+      <arglist>() noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static juce::File</type>
-      <name>extractSidecarBinaries</name>
+      <name>getOrCreateSidecarDirectory</name>
       <anchorfile>_main_8cpp.html</anchorfile>
-      <anchor>a7d6ad34031104ac2f3b9b5990e4a7000</anchor>
+      <anchor>ae713e20d6c6b74bc5f07142d15972a4d</anchor>
+      <arglist>(const char *subdir) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static bool</type>
+      <name>applySidecarBinary</name>
+      <anchorfile>_main_8cpp.html</anchorfile>
+      <anchor>aa4780b3b04ec66c8de810082f76b6ba4</anchor>
+      <arglist>(const juce::File &amp;sidecarDir, const char *name, const char *data, int size) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static juce::File</type>
+      <name>getOrCreateSidecar</name>
+      <anchorfile>_main_8cpp.html</anchorfile>
+      <anchor>a72e656306a62f770baf4bd3d99f79156</anchor>
       <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static int</type>
+      <name>execWithSidecar</name>
+      <anchorfile>_main_8cpp.html</anchorfile>
+      <anchor>a4a9530d5c1cf1abc329ad14ed1d96872</anchor>
+      <arglist>(char *argv[])</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static int</type>
+      <name>runAdapter</name>
+      <anchorfile>_main_8cpp.html</anchorfile>
+      <anchor>aeddecab0d9e1bceee572278bfbe205b8</anchor>
+      <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>int</type>
@@ -266,6 +214,13 @@
     </member>
     <member kind="variable" static="yes">
       <type>static constexpr const char *</type>
+      <name>helpText</name>
+      <anchorfile>_main_8cpp.html</anchorfile>
+      <anchor>aeb6ac31ca0fc754e66ea386cb63d3be4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr const char *</type>
       <name>reexecMarker</name>
       <anchorfile>_main_8cpp.html</anchorfile>
       <anchor>afeffa852a1e56db4852ad3dcc752b5a1</anchor>
@@ -291,6 +246,20 @@
       <anchor>a3e37955cc7416c09ce88b5188be7def0</anchor>
       <arglist></arglist>
     </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr int</type>
+      <name>idleSleepMs</name>
+      <anchorfile>_whatdbg_8cpp.html</anchorfile>
+      <anchor>a5bfa315521f485d7227e7f477e639a8c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr int</type>
+      <name>maxStackFrames</name>
+      <anchorfile>_whatdbg_8cpp.html</anchorfile>
+      <anchor>a94a1f8709eaad546f3fa7a93da72e7a1</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>Whatdbg.h</name>
@@ -303,44 +272,6 @@
     <includes id="_types_8h" name="Types.h" local="yes" import="no" module="no" objc="no">dap/Types.h</includes>
     <class kind="class">Whatdbg</class>
   </compound>
-  <compound kind="file">
-    <name>WhatdbgHandlers.cpp</name>
-    <path></path>
-    <filename>_whatdbg_handlers_8cpp.html</filename>
-    <includes id="_whatdbg_8h" name="Whatdbg.h" local="yes" import="no" module="no" objc="no">Whatdbg.h</includes>
-    <member kind="typedef">
-      <type>juce::ReferenceCountedObjectPtr&lt; juce::DynamicObject &gt;</type>
-      <name>DynObj</name>
-      <anchorfile>_whatdbg_handlers_8cpp.html</anchorfile>
-      <anchor>a780e3d0082c1cbb3161850f93e8f1a5a</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="struct">
-    <name>BinaryEntry</name>
-    <filename>struct_binary_entry.html</filename>
-    <member kind="variable">
-      <type>const char *</type>
-      <name>name</name>
-      <anchorfile>struct_binary_entry.html</anchorfile>
-      <anchor>a7a1443334a403c634f3f79e1ef4feb44</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>const char *</type>
-      <name>data</name>
-      <anchorfile>struct_binary_entry.html</anchorfile>
-      <anchor>a31f8f5f0d784b77d2fae3389194f6896</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>int</type>
-      <name>size</name>
-      <anchorfile>struct_binary_entry.html</anchorfile>
-      <anchor>a6c1f020e776b61b58db7c7e4fd6d847b</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
   <compound kind="struct">
     <name>debug::BreakpointInfo</name>
     <filename>structdebug_1_1_breakpoint_info.html</filename>
@@ -349,13 +280,6 @@
       <name>sourcePath</name>
       <anchorfile>structdebug_1_1_breakpoint_info.html</anchorfile>
       <anchor>a082eee9bacbb823540beb00c68c99d6b</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>juce::String</type>
-      <name>normalizedPath</name>
-      <anchorfile>structdebug_1_1_breakpoint_info.html</anchorfile>
-      <anchor>aa2a4738909a0d7fba3af6bcca5dc0c38</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -380,10 +304,10 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
-      <type>std::int32_t</type>
+      <type>std::optional&lt; std::int32_t &gt;</type>
       <name>engineId</name>
       <anchorfile>structdebug_1_1_breakpoint_info.html</anchorfile>
-      <anchor>a8269b630a2cff646156eda9edf72642b</anchor>
+      <anchor>a3b417aa7c235babae8869f2bb37b7038</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -408,29 +332,29 @@
       <type>juce::Array&lt; juce::var &gt;</type>
       <name>onModuleLoad</name>
       <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
-      <anchor>a42204301931af1fe6ef33640082791b3</anchor>
+      <anchor>ab33e93513dba5405c9b6489b74ec6b33</anchor>
+      <arglist>(const juce::String &amp;imageName)</arglist>
+    </member>
+    <member kind="function">
+      <type>juce::Array&lt; juce::var &gt;</type>
+      <name>onReload</name>
+      <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
+      <anchor>a508303c7dff59a73a656951e8c610826</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>juce::var</type>
-      <name>onBreakpointHit</name>
+      <name>getBreakpointStoppedEvent</name>
       <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
-      <anchor>a584cabcc697924a15239890ac7fa312c</anchor>
-      <arglist>(std::int32_t engineId, std::uint32_t threadId)</arglist>
+      <anchor>ae342182608006b645d0eaa696d974138</anchor>
+      <arglist>(std::int32_t engineId, std::uint32_t threadId) const</arglist>
     </member>
     <member kind="function">
-      <type>int</type>
+      <type>juce::Array&lt; juce::var &gt;</type>
       <name>onBreakpointLocationFound</name>
       <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
-      <anchor>affb93d5ab99b84245d620a6d90bc6235</anchor>
-      <arglist>(std::int32_t engineId, std::uint16_t resolvedLine) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>bool</type>
-      <name>isUserBreakpoint</name>
-      <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
-      <anchor>ab9b2c47623808e592b027739dd6fd3dd</anchor>
-      <arglist>(std::int32_t engineId) const noexcept</arglist>
+      <anchor>afd5f558bf3f9a2791564741f06a9f7a1</anchor>
+      <arglist>(std::int32_t engineId, std::uint16_t resolvedLine)</arglist>
     </member>
     <member kind="function" protection="private">
       <type>bool</type>
@@ -440,31 +364,38 @@
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function" protection="private">
-      <type>BreakpointLocation</type>
-      <name>getBreakpoint</name>
+      <type>juce::Array&lt; juce::var &gt;</type>
+      <name>onSymbolsLoaded</name>
       <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
-      <anchor>a937505c1609af82fa67ac1b2a7fb0500</anchor>
+      <anchor>a726ac59e219749df0fcd789e8f5d8311</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>std::pair&lt; std::uint64_t, std::uint16_t &gt;</type>
+      <name>getBreakpointOffset</name>
+      <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
+      <anchor>a5ddc2c795c2ea490eb4c5d0465f549fe</anchor>
       <arglist>(const juce::String &amp;sourcePath, std::uint16_t requestedLine) noexcept</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
       <name>setBreakpointLocation</name>
       <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
-      <anchor>a98c14e53fab5d383cf537f3655d113f0</anchor>
-      <arglist>(std::uint16_t entryDapId, BreakpointInfo &amp;entryInfo) noexcept</arglist>
+      <anchor>a857430dcd1c0812d31898288a8d0f4dc</anchor>
+      <arglist>(BreakpointInfo &amp;entryInfo) noexcept</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>std::unordered_map&lt; std::uint16_t, std::uint16_t &gt;</type>
+      <name>removeOrphanedBreakpoints</name>
+      <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
+      <anchor>a17b4dc2b534dafca568e5cd8b607284c</anchor>
+      <arglist>(const juce::String &amp;normalizedKey, const std::vector&lt; std::uint16_t &gt; &amp;requestedLines)</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
-      <name>removeOrphanedBreakpoints</name>
-      <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
-      <anchor>ae364294579824230c01de3132bb00e42</anchor>
-      <arglist>(const std::string &amp;normalizedKey, const Lines &amp;requestedLines)</arglist>
-    </member>
-    <member kind="function" protection="private">
-      <type>BreakpointInfo</type>
       <name>addBreakpoint</name>
       <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
-      <anchor>a421a443c3e9d1a72bc5e172d7a94b43b</anchor>
+      <anchor>a3cbdc59939bab61c6de38a6c0d7c4bd3</anchor>
       <arglist>(const juce::String &amp;rawSourcePath, std::uint16_t line, std::uint16_t dapId)</arglist>
     </member>
     <member kind="function" protection="private">
@@ -473,20 +404,6 @@
       <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
       <anchor>af4ad25ede8fa9d33b409e46fa2730b79</anchor>
       <arglist>(const BreakpointInfo &amp;info, const juce::String &amp;rawSourcePath) const noexcept</arglist>
-    </member>
-    <member kind="function" protection="private">
-      <type>void</type>
-      <name>addReloadedBreakpoints</name>
-      <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
-      <anchor>a7b9aca28055e0c3c3c97d59d51a1941b</anchor>
-      <arglist>(juce::Array&lt; juce::var &gt; &amp;responses)</arglist>
-    </member>
-    <member kind="function" protection="private">
-      <type>void</type>
-      <name>applyReloadedBreakpoint</name>
-      <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
-      <anchor>a9a828cb8759210fd4c46daaf1ebe15a1</anchor>
-      <arglist>(juce::Array&lt; juce::var &gt; &amp;responses, std::uint16_t dapId, std::uint16_t resolvedLine)</arglist>
     </member>
     <member kind="variable" protection="private">
       <type>Session &amp;</type>
@@ -500,20 +417,6 @@
       <name>breakpoints</name>
       <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
       <anchor>a00263c5daac7239c024c8cbdca1e135d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="private">
-      <type>std::unordered_map&lt; std::string, std::unordered_map&lt; std::uint16_t, std::uint16_t &gt; &gt;</type>
-      <name>sourceBreakpoints</name>
-      <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
-      <anchor>a1df7c50b4626d53c459671a4ffa06f46</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="private">
-      <type>std::unordered_map&lt; std::int32_t, std::uint16_t &gt;</type>
-      <name>engineToDap</name>
-      <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
-      <anchor>a4d04ecbbd634a399741dc5c2969eb6bf</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private">
@@ -559,105 +462,105 @@
       <type>STDMETHOD</type>
       <name>QueryInterface</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>aea948dace17853fb50374cd83f6a3216</anchor>
+      <anchor>a9e6fefe242b068cd4317c5005fb2174b</anchor>
       <arglist>(REFIID interfaceId, PVOID *outInterface) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>GetInterestMask</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>aabfc1dc5cc191da52b2e9b30972c6286</anchor>
+      <anchor>af20e2b9b120f323f4552f55e3902cd4d</anchor>
       <arglist>(PULONG mask) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>Breakpoint</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>ac02c50a34f8500e044560afa92efc6cb</anchor>
+      <anchor>af733324938bfd61f1199ae4896a719c8</anchor>
       <arglist>(PDEBUG_BREAKPOINT bp) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>Exception</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>a96ead16320ba94b8f040e68564c5e2f4</anchor>
+      <anchor>aef32a24e120836a6cb6da34f39a3fa6a</anchor>
       <arglist>(PEXCEPTION_RECORD64 exception, ULONG firstChance) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>CreateThread</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>a34a3413c11b429f2177c710dc62808c7</anchor>
+      <anchor>afec3d85563766979717b676ec3c2bbfa</anchor>
       <arglist>(ULONG64 handle, ULONG64 dataOffset, ULONG64 startOffset) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>ExitThread</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>a17487c8177971e9f4d1e39a345ecbd3f</anchor>
+      <anchor>ac3d9c55b970d3ac7bb7755fcf69b289a</anchor>
       <arglist>(ULONG exitCode) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>CreateProcess</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>a4e81450a433595744f81bbedfbc66b90</anchor>
+      <anchor>a413822966c447b5f87722b3e0aa5be0a</anchor>
       <arglist>(ULONG64 imageFileHandle, ULONG64 handle, ULONG64 baseOffset, ULONG moduleSize, PCSTR moduleName, PCSTR imageName, ULONG checkSum, ULONG timeDateStamp, ULONG64 initialThreadHandle, ULONG64 threadDataOffset, ULONG64 startOffset) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>ExitProcess</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>ad0b567581d7b33ffebdd402abd788623</anchor>
+      <anchor>ad35e8d11e029719ffe99c130b2219dd8</anchor>
       <arglist>(ULONG exitCode) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>LoadModule</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>ac81921e484f7ddf83fd941c664ef8201</anchor>
+      <anchor>a658f76fa3f83a3784738b3da38f930dd</anchor>
       <arglist>(ULONG64 imageFileHandle, ULONG64 baseOffset, ULONG moduleSize, PCSTR moduleName, PCSTR imageName, ULONG checkSum, ULONG timeDateStamp) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>UnloadModule</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>ae188391cb510895aed54cc3d88ede1bf</anchor>
+      <anchor>a29ebb784233f0152eae24ab5655b5573</anchor>
       <arglist>(PCSTR imageBaseName, ULONG64 baseOffset) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>SystemError</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>a934b0003a49e40eeaf59efb47bb0e6b8</anchor>
+      <anchor>aab0f7b83e2c9e1a318b68cb9202c6612</anchor>
       <arglist>(ULONG error, ULONG level) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>SessionStatus</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>a463fe1f056559c03da4bb42877d43514</anchor>
+      <anchor>a1d2b155dcad0ec91f1d6a687dc86b23d</anchor>
       <arglist>(ULONG status) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>ChangeDebuggeeState</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>af3d0c4748dac01c787f7aac019adbb4f</anchor>
+      <anchor>a3e011387931e6f7dd8c7b0a126f68260</anchor>
       <arglist>(ULONG flags, ULONG64 argument) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>ChangeEngineState</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>ad7d3870483f375d8c58d653e16151195</anchor>
+      <anchor>ac0febd27da577e72f6b335c99cedfa0d</anchor>
       <arglist>(ULONG flags, ULONG64 argument) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>ChangeSymbolState</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>a111f33ce93664cdd476484e9ef4bb21c</anchor>
+      <anchor>a3980117444c9d20a5c83f7b80966dfd6</anchor>
       <arglist>(ULONG flags, ULONG64 argument) override</arglist>
     </member>
     <member kind="variable" protection="private">
@@ -685,105 +588,105 @@
       <type>STDMETHOD</type>
       <name>QueryInterface</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>aea948dace17853fb50374cd83f6a3216</anchor>
+      <anchor>a9e6fefe242b068cd4317c5005fb2174b</anchor>
       <arglist>(REFIID interfaceId, PVOID *outInterface) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>GetInterestMask</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>aabfc1dc5cc191da52b2e9b30972c6286</anchor>
+      <anchor>af20e2b9b120f323f4552f55e3902cd4d</anchor>
       <arglist>(PULONG mask) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>Breakpoint</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>ac02c50a34f8500e044560afa92efc6cb</anchor>
+      <anchor>af733324938bfd61f1199ae4896a719c8</anchor>
       <arglist>(PDEBUG_BREAKPOINT bp) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>Exception</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>a96ead16320ba94b8f040e68564c5e2f4</anchor>
+      <anchor>aef32a24e120836a6cb6da34f39a3fa6a</anchor>
       <arglist>(PEXCEPTION_RECORD64 exception, ULONG firstChance) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>CreateThread</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>a34a3413c11b429f2177c710dc62808c7</anchor>
+      <anchor>afec3d85563766979717b676ec3c2bbfa</anchor>
       <arglist>(ULONG64 handle, ULONG64 dataOffset, ULONG64 startOffset) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>ExitThread</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>a17487c8177971e9f4d1e39a345ecbd3f</anchor>
+      <anchor>ac3d9c55b970d3ac7bb7755fcf69b289a</anchor>
       <arglist>(ULONG exitCode) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>CreateProcess</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>a4e81450a433595744f81bbedfbc66b90</anchor>
+      <anchor>a413822966c447b5f87722b3e0aa5be0a</anchor>
       <arglist>(ULONG64 imageFileHandle, ULONG64 handle, ULONG64 baseOffset, ULONG moduleSize, PCSTR moduleName, PCSTR imageName, ULONG checkSum, ULONG timeDateStamp, ULONG64 initialThreadHandle, ULONG64 threadDataOffset, ULONG64 startOffset) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>ExitProcess</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>ad0b567581d7b33ffebdd402abd788623</anchor>
+      <anchor>ad35e8d11e029719ffe99c130b2219dd8</anchor>
       <arglist>(ULONG exitCode) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>LoadModule</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>ac81921e484f7ddf83fd941c664ef8201</anchor>
+      <anchor>a658f76fa3f83a3784738b3da38f930dd</anchor>
       <arglist>(ULONG64 imageFileHandle, ULONG64 baseOffset, ULONG moduleSize, PCSTR moduleName, PCSTR imageName, ULONG checkSum, ULONG timeDateStamp) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>UnloadModule</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>ae188391cb510895aed54cc3d88ede1bf</anchor>
+      <anchor>a29ebb784233f0152eae24ab5655b5573</anchor>
       <arglist>(PCSTR imageBaseName, ULONG64 baseOffset) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>SystemError</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>a934b0003a49e40eeaf59efb47bb0e6b8</anchor>
+      <anchor>aab0f7b83e2c9e1a318b68cb9202c6612</anchor>
       <arglist>(ULONG error, ULONG level) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>SessionStatus</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>a463fe1f056559c03da4bb42877d43514</anchor>
+      <anchor>a1d2b155dcad0ec91f1d6a687dc86b23d</anchor>
       <arglist>(ULONG status) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>ChangeDebuggeeState</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>af3d0c4748dac01c787f7aac019adbb4f</anchor>
+      <anchor>a3e011387931e6f7dd8c7b0a126f68260</anchor>
       <arglist>(ULONG flags, ULONG64 argument) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>ChangeEngineState</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>ad7d3870483f375d8c58d653e16151195</anchor>
+      <anchor>ac0febd27da577e72f6b335c99cedfa0d</anchor>
       <arglist>(ULONG flags, ULONG64 argument) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>ChangeSymbolState</name>
       <anchorfile>classdebug_1_1_event_callbacks.html</anchorfile>
-      <anchor>a111f33ce93664cdd476484e9ef4bb21c</anchor>
+      <anchor>a3980117444c9d20a5c83f7b80966dfd6</anchor>
       <arglist>(ULONG flags, ULONG64 argument) override</arglist>
     </member>
   </compound>
@@ -868,28 +771,28 @@
       <type>STDMETHOD</type>
       <name>QueryInterface</name>
       <anchorfile>classdebug_1_1_output_callbacks.html</anchorfile>
-      <anchor>ae8ec1d39b891624fcc2167ce4210da01</anchor>
+      <anchor>a08cedc2fc792ef1771ce3b0f06db1ff4</anchor>
       <arglist>(REFIID interfaceId, PVOID *outInterface) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>Output</name>
       <anchorfile>classdebug_1_1_output_callbacks.html</anchorfile>
-      <anchor>ae7585eb0c1e5a6397ab1f78313179724</anchor>
+      <anchor>a41ad0df26b14aea0d9093e9bcaa077be</anchor>
       <arglist>(ULONG mask, PCSTR text) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>GetInterestMask</name>
       <anchorfile>classdebug_1_1_output_callbacks.html</anchorfile>
-      <anchor>a7b53d1ebf9716fe903739326e6088578</anchor>
+      <anchor>a819712bcd7bfef73973ab8671cd90362</anchor>
       <arglist>(PULONG mask) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>Output2</name>
       <anchorfile>classdebug_1_1_output_callbacks.html</anchorfile>
-      <anchor>aadd3810605f6ea389591feeee73a026f</anchor>
+      <anchor>a1caabfde7b221759b9df1690a072c5a9</anchor>
       <arglist>(ULONG which, ULONG flags, ULONG64 arg, PCWSTR text) override</arglist>
     </member>
     <member kind="variable" protection="private">
@@ -917,28 +820,28 @@
       <type>STDMETHOD</type>
       <name>QueryInterface</name>
       <anchorfile>classdebug_1_1_output_callbacks.html</anchorfile>
-      <anchor>ae8ec1d39b891624fcc2167ce4210da01</anchor>
+      <anchor>a08cedc2fc792ef1771ce3b0f06db1ff4</anchor>
       <arglist>(REFIID interfaceId, PVOID *outInterface) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>Output</name>
       <anchorfile>classdebug_1_1_output_callbacks.html</anchorfile>
-      <anchor>ae7585eb0c1e5a6397ab1f78313179724</anchor>
+      <anchor>a41ad0df26b14aea0d9093e9bcaa077be</anchor>
       <arglist>(ULONG mask, PCSTR text) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>GetInterestMask</name>
       <anchorfile>classdebug_1_1_output_callbacks.html</anchorfile>
-      <anchor>a7b53d1ebf9716fe903739326e6088578</anchor>
+      <anchor>a819712bcd7bfef73973ab8671cd90362</anchor>
       <arglist>(PULONG mask) override</arglist>
     </member>
     <member kind="function">
       <type>STDMETHOD</type>
       <name>Output2</name>
       <anchorfile>classdebug_1_1_output_callbacks.html</anchorfile>
-      <anchor>aadd3810605f6ea389591feeee73a026f</anchor>
+      <anchor>a1caabfde7b221759b9df1690a072c5a9</anchor>
       <arglist>(ULONG which, ULONG flags, ULONG64 arg, PCWSTR text) override</arglist>
     </member>
   </compound>
@@ -968,13 +871,6 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
-      <name>stop</name>
-      <anchorfile>classdap_1_1_reader.html</anchorfile>
-      <anchor>a4ef3503bdf9aaa16b363e6261e60fc1a</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
       <type>juce::var</type>
       <name>tryPop</name>
       <anchorfile>classdap_1_1_reader.html</anchorfile>
@@ -990,6 +886,13 @@
     </member>
     <member kind="function" protection="private">
       <type>void</type>
+      <name>stop</name>
+      <anchorfile>classdap_1_1_reader.html</anchorfile>
+      <anchor>a4ef3503bdf9aaa16b363e6261e60fc1a</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
       <name>run</name>
       <anchorfile>classdap_1_1_reader.html</anchorfile>
       <anchor>aa88b7cbd5562aace1eb2d91b0638fb26</anchor>
@@ -997,16 +900,16 @@
     </member>
     <member kind="function" protection="private">
       <type>int</type>
-      <name>getContentLength</name>
+      <name>readContentLength</name>
       <anchorfile>classdap_1_1_reader.html</anchorfile>
-      <anchor>ac6d519b9104372eb35d01195221a0472</anchor>
+      <anchor>a2ac9bd334b2534f79edfe7efc96d63db</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">
       <type>juce::var</type>
-      <name>getMessage</name>
+      <name>readMessage</name>
       <anchorfile>classdap_1_1_reader.html</anchorfile>
-      <anchor>a2fb171827446bd1a5acb1831a64c73f4</anchor>
+      <anchor>acc50a8c8f483851d55e6314ad19a77ff</anchor>
       <arglist>(int contentLength)</arglist>
     </member>
     <member kind="function" protection="private">
@@ -1077,10 +980,10 @@
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
-      <type>bool</type>
+      <type>void</type>
       <name>pollEvents</name>
       <anchorfile>classdebug_1_1_session.html</anchorfile>
-      <anchor>adc898d1115e730d8a24677e708bcc7fa</anchor>
+      <anchor>a14a9f1b159028358a6115c21592bb0d9</anchor>
       <arglist>(std::uint32_t timeoutMs) noexcept</arglist>
     </member>
     <member kind="function">
@@ -1105,17 +1008,17 @@
       <arglist>(const juce::String &amp;filePath, std::uint16_t line) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>std::int32_t</type>
+      <type>std::optional&lt; std::int32_t &gt;</type>
       <name>addBreakpoint</name>
       <anchorfile>classdebug_1_1_session.html</anchorfile>
-      <anchor>aaf7e9ab4904549e614e5bba1f92b2f5e</anchor>
+      <anchor>a02ef270b151bab75f4e20a5a48d84d41</anchor>
       <arglist>(std::uint64_t offset) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>BreakpointLocation</type>
+      <type>std::optional&lt; BreakpointLocation &gt;</type>
       <name>addBreakpointByLocation</name>
       <anchorfile>classdebug_1_1_session.html</anchorfile>
-      <anchor>a847a6aeced35fa8c8c2f27bc04c15dff</anchor>
+      <anchor>a0afce30b5eb95c22083d1516c3422d52</anchor>
       <arglist>(const juce::String &amp;filePath, std::uint16_t line) noexcept</arglist>
     </member>
     <member kind="function">
@@ -1169,6 +1072,13 @@
     </member>
     <member kind="function">
       <type>void</type>
+      <name>terminateDebuggee</name>
+      <anchorfile>classdebug_1_1_session.html</anchorfile>
+      <anchor>ac24c24c48d1bae46a1d5e29531076f45</anchor>
+      <arglist>(std::uint32_t processId) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
       <name>appendSymbolPath</name>
       <anchorfile>classdebug_1_1_session.html</anchorfile>
       <anchor>af9887fd2d4f3e2f90a08a484ea953e3c</anchor>
@@ -1185,8 +1095,8 @@
       <type>juce::Array&lt; juce::var &gt;</type>
       <name>getStackTrace</name>
       <anchorfile>classdebug_1_1_session.html</anchorfile>
-      <anchor>a0be177f0be97bcf65af0a98b22034916</anchor>
-      <arglist>(int maxFrames) noexcept</arglist>
+      <anchor>ad0ca1cb764126a3beada881324c58ef8</anchor>
+      <arglist>(int maxFrames, int firstFrameId) noexcept</arglist>
     </member>
     <member kind="function">
       <type>juce::Array&lt; juce::var &gt;</type>
@@ -1246,9 +1156,9 @@
     </member>
     <member kind="function" protection="private">
       <type>juce::var</type>
-      <name>makeVariableDynObj</name>
+      <name>getVariableObject</name>
       <anchorfile>classdebug_1_1_session.html</anchorfile>
-      <anchor>ac9134d9d16c28951a72e161d227b9376</anchor>
+      <anchor>a5fd39394862e89e52ae8831b85d7d199</anchor>
       <arglist>(lldb::SBValue &amp;value, int symbolIndex) noexcept</arglist>
     </member>
     <member kind="variable" protection="private">
@@ -1313,10 +1223,10 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
-      <type>InitialBreakPhase</type>
-      <name>initialBreakPhase</name>
+      <type>StopReason</type>
+      <name>stopReason</name>
       <anchorfile>classdebug_1_1_state.html</anchorfile>
-      <anchor>a50db56936181e0eb980402850b00b408</anchor>
+      <anchor>aaf00f1ecd87812817dbd47557747e23b</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -1331,6 +1241,20 @@
       <name>targetProcessId</name>
       <anchorfile>classdebug_1_1_state.html</anchorfile>
       <anchor>a38b92622d4758c341d86782c8e847255</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>juce::String</type>
+      <name>targetProgram</name>
+      <anchorfile>classdebug_1_1_state.html</anchorfile>
+      <anchor>ab395505e845bf21d4ff56f77dcf92ffa</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>std::uint32_t</type>
+      <name>terminateDeadlineMs</name>
+      <anchorfile>classdebug_1_1_state.html</anchorfile>
+      <anchor>a2e52b80895a7fc689f9a5777b6ff0a11</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -1369,45 +1293,10 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
-      <type>bool</type>
-      <name>hasBreakpointHit</name>
-      <anchorfile>classdebug_1_1_state.html</anchorfile>
-      <anchor>aa486c47f5e09c2fd78e7b903f1b6ce92</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
       <type>std::int32_t</type>
       <name>breakpointEngineId</name>
       <anchorfile>classdebug_1_1_state.html</anchorfile>
       <anchor>af74cd29bf5939405b30e9eda9f8f9bee</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>bool</type>
-      <name>hasStepCompleted</name>
-      <anchorfile>classdebug_1_1_state.html</anchorfile>
-      <anchor>a96a76f5ef14e110b1fd577ee43a40daf</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>bool</type>
-      <name>hasPauseCompleted</name>
-      <anchorfile>classdebug_1_1_state.html</anchorfile>
-      <anchor>a34dfd959262ddb06202d65d72bd652a0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>bool</type>
-      <name>hasNewModuleLoaded</name>
-      <anchorfile>classdebug_1_1_state.html</anchorfile>
-      <anchor>a615191b6876128888b8364d3161cb64a</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>juce::String</type>
-      <name>lastLoadedModuleName</name>
-      <anchorfile>classdebug_1_1_state.html</anchorfile>
-      <anchor>a8fe215f552970d6fa0afbcd5a82add20</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -1440,23 +1329,9 @@
     </member>
     <member kind="variable">
       <type>bool</type>
-      <name>hasPendingBreakpoints</name>
-      <anchorfile>classdebug_1_1_state.html</anchorfile>
-      <anchor>a611662f4eb4fcf2f2a98e66b796266f9</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>bool</type>
       <name>hasProcessExited</name>
       <anchorfile>classdebug_1_1_state.html</anchorfile>
       <anchor>a7ed9c16d75e24529be3216006ea5a82d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>bool</type>
-      <name>hasExceptionStopped</name>
-      <anchorfile>classdebug_1_1_state.html</anchorfile>
-      <anchor>adb709b18997016b74c8254a53d16d1cb</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -1492,6 +1367,13 @@
       <name>debuggeeOutputText</name>
       <anchorfile>classdebug_1_1_state.html</anchorfile>
       <anchor>a75eddef264990eb7abd182485ea3de46</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>juce::String</type>
+      <name>debuggeeOutputCategory</name>
+      <anchorfile>classdebug_1_1_state.html</anchorfile>
+      <anchor>a240f953ee36105498af783289c53e9c7</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -1554,11 +1436,11 @@
       <anchor>ae0ca2b6ba9f4a4e0043fab4dd2bd9851</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="typedef" protection="private">
-      <type>std::function&lt; void(const juce::var &amp;)&gt;</type>
-      <name>Command</name>
+    <member kind="variable" static="yes">
+      <type>static constexpr std::uint32_t</type>
+      <name>terminateTimeoutMs</name>
       <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>a152459386368015ed4fe22f22a3b85ca</anchor>
+      <anchor>a21733146f1ba38f3a28a3c49a7f93b83</anchor>
       <arglist></arglist>
     </member>
     <member kind="function" protection="private">
@@ -1607,8 +1489,8 @@
       <type>void</type>
       <name>onDisconnect</name>
       <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>a395d6e3959f5c911b0004155e12c63e4</anchor>
-      <arglist>(const juce::var &amp;request)</arglist>
+      <anchor>ab360b6abdbeb881c650087d96c339121</anchor>
+      <arglist>(const juce::var &amp;request, bool isTerminate)</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
@@ -1632,11 +1514,25 @@
       <arglist>(const juce::var &amp;request)</arglist>
     </member>
     <member kind="function" protection="private">
+      <type>std::pair&lt; std::uint32_t, int &gt;</type>
+      <name>selectFrameFromId</name>
+      <anchorfile>class_whatdbg.html</anchorfile>
+      <anchor>a12ecfdab6da144a5c16bc825a06ac25e</anchor>
+      <arglist>(int frameId)</arglist>
+    </member>
+    <member kind="function" protection="private">
       <type>void</type>
       <name>onScopes</name>
       <anchorfile>class_whatdbg.html</anchorfile>
       <anchor>ad05bdb6a5305ac76780d959d10025cbb</anchor>
       <arglist>(const juce::var &amp;request)</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>juce::Array&lt; juce::var &gt;</type>
+      <name>getDapVariables</name>
+      <anchorfile>class_whatdbg.html</anchorfile>
+      <anchor>ae1377c763879141cccc5fe65162058ba</anchor>
+      <arglist>(int ref)</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
@@ -1710,72 +1606,128 @@
     </member>
     <member kind="function" protection="private">
       <type>void</type>
-      <name>onInitialBreak</name>
+      <name>drainInitialBreak</name>
       <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>a66ca3ee668f1c162e194cca4e46dfc2a</anchor>
+      <anchor>a72403b8dedb1ece012d3d7a3ede49f31</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
-      <name>onBreakpointHit</name>
+      <name>drainBreakpointHit</name>
       <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>a198c935398a902e826f1bce42c7e3d53</anchor>
+      <anchor>a5268f55a4f83c022f94dcff9da2bd8a2</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
-      <name>onStepCompleted</name>
+      <name>drainStepCompleted</name>
       <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>a802d7c4bdc8a1c32e6c9f1bb823f3364</anchor>
+      <anchor>ac5a42ec5ebb4141d7eda82250ae960d7</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
-      <name>onPauseCompleted</name>
+      <name>drainPauseCompleted</name>
       <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>aff4f0452320284237ee7984b054ba9a5</anchor>
+      <anchor>a8495165708f3a84fa1d53aa49f56146a</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
-      <name>onModuleLoaded</name>
+      <name>drainModuleLoaded</name>
       <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>a07b46b4a97afc003e7aa8f8690cff2c0</anchor>
+      <anchor>a600297dfa1ac2640839e9fa468af2bd3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>juce::var</type>
+      <name>getStoppedEvent</name>
+      <anchorfile>class_whatdbg.html</anchorfile>
+      <anchor>ad7350b760bf54236f31c10d9d00d52b1</anchor>
+      <arglist>(const juce::String &amp;reason)</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>juce::String</type>
+      <name>getExceptionDescription</name>
+      <anchorfile>class_whatdbg.html</anchorfile>
+      <anchor>aff9999bb4420034f7b7cbbc5f8719121</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>drainBreakpointLocationResolved</name>
+      <anchorfile>class_whatdbg.html</anchorfile>
+      <anchor>afad86935089a96805f5e130bc7296bc0</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
-      <name>onBreakpointLocationResolved</name>
+      <name>drainDebuggeeOutput</name>
       <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>a810190c80e5c47d4b28c2c988b1779b1</anchor>
+      <anchor>ac5d4779dac50a9243a0d0b7fc9274999</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>juce::var</type>
+      <name>getExceptionStoppedEvent</name>
+      <anchorfile>class_whatdbg.html</anchorfile>
+      <anchor>a15e43a9531f58c2380747f916e685eb9</anchor>
+      <arglist>(const juce::String &amp;exceptionName, const juce::String &amp;description, int threadId) const</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>juce::var</type>
+      <name>getExceptionOutputEvent</name>
+      <anchorfile>class_whatdbg.html</anchorfile>
+      <anchor>af011028a80824e1eb500867221c920af</anchor>
+      <arglist>(const juce::String &amp;exceptionName, const juce::String &amp;description) const</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>juce::var</type>
+      <name>getProcessEvent</name>
+      <anchorfile>class_whatdbg.html</anchorfile>
+      <anchor>aaf34a68938aeafb008158a050adda487</anchor>
+      <arglist>(const juce::String &amp;name, std::uint32_t processId, const juce::String &amp;startMethod) const</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>drainExceptionStopped</name>
+      <anchorfile>class_whatdbg.html</anchorfile>
+      <anchor>a2d7768523d99418a0704d2158b96035e</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
-      <name>onDebuggeeOutput</name>
+      <name>drainProcessExited</name>
       <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>a57d4c6c48dad2ce8464912728f2a2b94</anchor>
+      <anchor>a80b11ad6cf1c9dded5b9e463910de35b</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
-      <name>onExceptionStopped</name>
+      <name>drainTerminateTimeout</name>
       <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>a83a95b50014018a2569b37ff417cc164</anchor>
+      <anchor>afe2ece59810b9365491ae1c5da68e11a</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
-      <name>onProcessExited</name>
+      <name>resumeExecution</name>
       <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>ae8d67f018347ebad330f8090f0ed2234</anchor>
+      <anchor>ad3944678f076dbf7165272599a9f52c6</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
-      <name>addPendingBreakpointsAndResume</name>
+      <name>writeMessages</name>
       <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>a834b68aae2e580ba9b29ab9b0f8dc48f</anchor>
+      <anchor>a8b7365b45a797fcefddcc22a6d1fb625</anchor>
+      <arglist>(const juce::Array&lt; juce::var &gt; &amp;messages)</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>resumeAfterInitialBreak</name>
+      <anchorfile>class_whatdbg.html</anchorfile>
+      <anchor>a12cfc43d31f91c8d477b91a46e284e90</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">
@@ -1794,30 +1746,23 @@
     </member>
     <member kind="function" protection="private">
       <type>void</type>
-      <name>sendResponse</name>
-      <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>af83732b02918182ea565526e17d8bcfa</anchor>
-      <arglist>(const juce::var &amp;response) noexcept</arglist>
-    </member>
-    <member kind="function" protection="private">
-      <type>void</type>
-      <name>sendEvent</name>
-      <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>a14eb219bf2fa527dd8d8f6f830ec1e20</anchor>
-      <arglist>(const juce::var &amp;event) noexcept</arglist>
-    </member>
-    <member kind="function" protection="private">
-      <type>void</type>
       <name>resetVariablesState</name>
       <anchorfile>class_whatdbg.html</anchorfile>
       <anchor>aaeaeadff98b6f113eb777735213455ba</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="variable" protection="private">
-      <type>std::unordered_map&lt; std::string, Command &gt;</type>
+      <type>jam::Function::Map&lt; juce::String, jam::Function::pointerCapacity, void(const juce::var &amp;)&gt;</type>
       <name>commands</name>
       <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>a47399e13d5b2caee2a528f2f4e8dc1ca</anchor>
+      <anchor>adb0938c3f74e37021c625dc1991ff590</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>jam::Function::Map&lt; debug::StopReason, jam::Function::pointerCapacity, void()&gt;</type>
+      <name>stops</name>
+      <anchorfile>class_whatdbg.html</anchorfile>
+      <anchor>a8ef9c30f162ea03e9eb6dda16e59fb8a</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private">
@@ -1869,30 +1814,37 @@
     </member>
     <member kind="function">
       <type>juce::var</type>
-      <name>makeResponse</name>
+      <name>getResponse</name>
       <anchorfile>namespacedap.html</anchorfile>
-      <anchor>acc0ff697b8a401f5d9afe00457a3cba7</anchor>
+      <anchor>add1b2361c42819aa26aac696c7343858</anchor>
       <arglist>(int requestSeq, const juce::String &amp;command, bool isSuccess, juce::var body=juce::var()) noexcept</arglist>
     </member>
     <member kind="function">
       <type>juce::var</type>
-      <name>makeErrorResponse</name>
+      <name>getErrorResponse</name>
       <anchorfile>namespacedap.html</anchorfile>
-      <anchor>a5a2ac619b609fedbf2c846a991d456f8</anchor>
+      <anchor>a7a4b0c612cd638fedd0f9f6d91ec59ae</anchor>
       <arglist>(int requestSeq, const juce::String &amp;command, const juce::String &amp;message) noexcept</arglist>
     </member>
     <member kind="function">
       <type>juce::var</type>
-      <name>makeEvent</name>
+      <name>getEvent</name>
       <anchorfile>namespacedap.html</anchorfile>
-      <anchor>a1b0dd546882147a77e43f8b8651403b8</anchor>
+      <anchor>a74709ba88468f50222850818b75bbe86</anchor>
       <arglist>(const juce::String &amp;event, juce::var body=juce::var()) noexcept</arglist>
     </member>
     <member kind="function">
       <type>juce::var</type>
-      <name>makeCapabilities</name>
+      <name>getBreakpointChangedEvent</name>
       <anchorfile>namespacedap.html</anchorfile>
-      <anchor>afe331e1b658092c8b53428057bb6e101</anchor>
+      <anchor>aa99fea0a9ed5b481f91f0da5020eccfc</anchor>
+      <arglist>(int dapId, int line) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>juce::var</type>
+      <name>getCapabilities</name>
+      <anchorfile>namespacedap.html</anchorfile>
+      <anchor>a08d8217d7aa900631c295ac4081aaec4</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
@@ -1901,6 +1853,13 @@
       <anchorfile>namespacedap.html</anchorfile>
       <anchor>a4767022a06d6fc84ff9949309b4fd644</anchor>
       <arglist>(const juce::var &amp;obj, const juce::Identifier &amp;key) noexcept</arglist>
+    </member>
+    <member kind="variable">
+      <type>int</type>
+      <name>nextSequenceNumber</name>
+      <anchorfile>namespacedap.html</anchorfile>
+      <anchor>a65f9c317d9b0866cc69a63779a12fc77</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="namespace">
@@ -1914,24 +1873,10 @@
     <class kind="class">debug::Session</class>
     <class kind="class">debug::State</class>
     <member kind="typedef">
-      <type>std::unordered_set&lt; std::uint16_t &gt;</type>
-      <name>Lines</name>
-      <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>abd24eb62b8979b63f857ab446f38d6b2</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
       <type>jam::Union&lt; std::int32_t, std::uint16_t &gt;</type>
       <name>BreakpointLocation</name>
       <anchorfile>namespacedebug.html</anchorfile>
       <anchor>aee0526408c2ffc82c78a9e7ed793c19e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>juce::ReferenceCountedObjectPtr&lt; juce::DynamicObject &gt;</type>
-      <name>DynObj</name>
-      <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>a780e3d0082c1cbb3161850f93e8f1a5a</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -1972,13 +1917,17 @@
     </member>
     <member kind="enumeration">
       <type></type>
-      <name>InitialBreakPhase</name>
+      <name>StopReason</name>
       <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>a29cf1e1d311453d8a011a3c45309ec40</anchor>
+      <anchor>a3d1ff6297f0a624ceee5d58abb16c3d1</anchor>
       <arglist></arglist>
-      <enumvalue file="namespacedebug.html" anchor="a29cf1e1d311453d8a011a3c45309ec40a170793c95efb1cc850e8036fc41a07e1">notHit</enumvalue>
-      <enumvalue file="namespacedebug.html" anchor="a29cf1e1d311453d8a011a3c45309ec40a7c6c2e5d48ab37a007cbf70d3ea25fa4">pending</enumvalue>
-      <enumvalue file="namespacedebug.html" anchor="a29cf1e1d311453d8a011a3c45309ec40afafdd4fbb3fee9a56e17d43689f48d18">resolved</enumvalue>
+      <enumvalue file="namespacedebug.html" anchor="a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8">none</enumvalue>
+      <enumvalue file="namespacedebug.html" anchor="a3d1ff6297f0a624ceee5d58abb16c3d1a02ffbaf2c33dfa38c9f01c3546190fcd">initialBreak</enumvalue>
+      <enumvalue file="namespacedebug.html" anchor="a3d1ff6297f0a624ceee5d58abb16c3d1a52e70aaa8740d19f45d6a5661663dd87">moduleLoad</enumvalue>
+      <enumvalue file="namespacedebug.html" anchor="a3d1ff6297f0a624ceee5d58abb16c3d1ad36231bfe8094177a5104fea07cdf7fd">breakpoint</enumvalue>
+      <enumvalue file="namespacedebug.html" anchor="a3d1ff6297f0a624ceee5d58abb16c3d1a2764ca9d34e90313978d044f27ae433b">step</enumvalue>
+      <enumvalue file="namespacedebug.html" anchor="a3d1ff6297f0a624ceee5d58abb16c3d1aec1b81965109165de6b38cd92c1e39f9">pause</enumvalue>
+      <enumvalue file="namespacedebug.html" anchor="a3d1ff6297f0a624ceee5d58abb16c3d1a42552b1f133f9f8eb406d4f306ea9fd1">exception</enumvalue>
     </member>
     <member kind="enumeration">
       <type></type>
@@ -1997,19 +1946,19 @@
       <anchor>ad59b60cb019c5f6433812ad6a56ecac8</anchor>
       <arglist>(const juce::String &amp;path) noexcept</arglist>
     </member>
-    <member kind="function" static="yes">
-      <type>static juce::String</type>
-      <name>toWindowsPath</name>
+    <member kind="function">
+      <type>bool</type>
+      <name>shouldSkipSymbol</name>
       <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>aba3b3e6981ed315caa7d1a4da3d679ac</anchor>
-      <arglist>(const juce::String &amp;path) noexcept</arglist>
+      <anchor>a5f8bae060639d0487513b79a1e7ad204</anchor>
+      <arglist>(const juce::String &amp;name) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>juce::String</type>
-      <name>getExceptionName</name>
+      <type>std::uint64_t</type>
+      <name>parseHexAddress</name>
       <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>aa7ddcf171359ed1c5b3158fc5f4028ae</anchor>
-      <arglist>(std::uint32_t code) noexcept</arglist>
+      <anchor>a7ac333b705ec6f55b0297b1cda1e85bd</anchor>
+      <arglist>(const juce::String &amp;valueText) noexcept</arglist>
     </member>
     <member kind="function">
       <type>juce::String</type>
@@ -2022,36 +1971,36 @@
       <type>static void</type>
       <name>onBreakpointStop</name>
       <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>adc4b7b0dcd7eb88ded18efa080c65515</anchor>
-      <arglist>(debug::State *state, lldb::SBThread &amp;thread) noexcept</arglist>
+      <anchor>ad0a7868a0b9f32784537c8497e729955</anchor>
+      <arglist>(const lldb::StopReason &amp;, debug::State &amp;state, lldb::SBThread &amp;thread) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static void</type>
       <name>onStepStop</name>
       <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>af9564f3d3d6e7cbaf531ec1b2b5a9422</anchor>
-      <arglist>(debug::State *state, lldb::SBThread &amp;thread) noexcept</arglist>
+      <anchor>a2290f9967aeda9f104ce5c5a18edf649</anchor>
+      <arglist>(const lldb::StopReason &amp;, debug::State &amp;state, lldb::SBThread &amp;thread) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static void</type>
       <name>onInterruptStop</name>
       <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>aa581f25ff395686d403be7f07721d4ec</anchor>
-      <arglist>(debug::State *state, lldb::SBThread &amp;thread) noexcept</arglist>
+      <anchor>a010d7d40dcd1704d29cfbb19ff68f91f</anchor>
+      <arglist>(const lldb::StopReason &amp;, debug::State &amp;state, lldb::SBThread &amp;thread) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static void</type>
       <name>onSignalStop</name>
       <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>ac591239028ba24d1acbdb739b09e6bff</anchor>
-      <arglist>(debug::State *state, lldb::SBThread &amp;thread) noexcept</arglist>
+      <anchor>a2abda46d02223abf11bba60da2bca195</anchor>
+      <arglist>(const lldb::StopReason &amp;, debug::State &amp;state, lldb::SBThread &amp;thread) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static void</type>
       <name>onExceptionStop</name>
       <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>a65566579192de95b635e614b9513bc0c</anchor>
-      <arglist>(debug::State *state, lldb::SBThread &amp;thread) noexcept</arglist>
+      <anchor>a96acb628ff7d6323e4cd9329c37f183c</anchor>
+      <arglist>(const lldb::StopReason &amp;, debug::State &amp;state, lldb::SBThread &amp;thread) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static void</type>
@@ -2059,6 +2008,34 @@
       <anchorfile>namespacedebug.html</anchorfile>
       <anchor>a00b01dbb410d280c5c76e224f862f869</anchor>
       <arglist>(debug::State *state, lldb::SBProcess &amp;process, bool isStderr) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>onStopReason</name>
+      <anchorfile>namespacedebug.html</anchorfile>
+      <anchor>afd1180565e721e2407bc946a650884e0</anchor>
+      <arglist>(debug::State &amp;state, lldb::SBThread &amp;thread, lldb::StopReason lldbStopReason) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>onProcessStateStopped</name>
+      <anchorfile>namespacedebug.html</anchorfile>
+      <anchor>a27dc19649757e9b2688d632fa4830634</anchor>
+      <arglist>(const lldb::StateType &amp;, debug::State *state, lldb::SBProcess &amp;process, lldb::SBEvent &amp;event) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>onProcessStateExited</name>
+      <anchorfile>namespacedebug.html</anchorfile>
+      <anchor>a8f1b5a01a02e011af0d61957fef613c8</anchor>
+      <arglist>(const lldb::StateType &amp;, debug::State *state, lldb::SBProcess &amp;process, lldb::SBEvent &amp;event) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>onProcessStateRunning</name>
+      <anchorfile>namespacedebug.html</anchorfile>
+      <anchor>ac2d936a1ed1e5cea83f5ac7767b4a90b</anchor>
+      <arglist>(const lldb::StateType &amp;, debug::State *state, lldb::SBProcess &amp;process, lldb::SBEvent &amp;event) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static void</type>
@@ -2075,25 +2052,18 @@
       <arglist>(debug::State *state, lldb::SBEvent &amp;event) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
-      <type>static void</type>
-      <name>onTargetEvent</name>
-      <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>adad083523a5ca92bd2394ea93d8a93d3</anchor>
-      <arglist>(debug::State *state, lldb::SBEvent &amp;event) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
       <type>static lldb::SBLineEntry</type>
       <name>getLineEntry</name>
       <anchorfile>namespacedebug.html</anchorfile>
       <anchor>ae1ad323362d43c9c1a534c76584e2d41</anchor>
       <arglist>(lldb::SBTarget &amp;target, const juce::String &amp;filePath, std::uint16_t line) noexcept</arglist>
     </member>
-    <member kind="function" static="yes">
-      <type>static bool</type>
-      <name>shouldSkipSymbol</name>
+    <member kind="function">
+      <type>juce::String</type>
+      <name>getExceptionName</name>
       <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>a191848ee2cdb58506405e23d9ffab168</anchor>
-      <arglist>(const juce::String &amp;name) noexcept</arglist>
+      <anchor>a2b622860668f5e41e30cda00fe8ff764</anchor>
+      <arglist>(std::uint32_t code, bool isMachException) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static juce::String</type>
@@ -2103,11 +2073,11 @@
       <arglist>(lldb::SBValue &amp;value, const juce::String &amp;typeName) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
-      <type>static std::uint64_t</type>
-      <name>parseHexAddress</name>
+      <type>static juce::var</type>
+      <name>getStackFrame</name>
       <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>ae05193331db1d90ce98a09599c0931ab</anchor>
-      <arglist>(const juce::String &amp;text) noexcept</arglist>
+      <anchor>adf79f77d9230851cb3c77e3980ca0508</anchor>
+      <arglist>(lldb::SBFrame frame, int frameId) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static juce::String</type>
@@ -2131,24 +2101,10 @@
       <arglist></arglist>
     </member>
     <member kind="variable" static="yes">
-      <type>static const std::unordered_map&lt; lldb::StopReason, void(*)(debug::State *, lldb::SBThread &amp;)&gt;</type>
-      <name>stopReasons</name>
+      <type>static constexpr std::uint32_t</type>
+      <name>allEventsMask</name>
       <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>ab4310ddc530bb516b017f5730f810993</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" static="yes">
-      <type>static const std::unordered_map&lt; std::uint32_t, const char * &gt;</type>
-      <name>signalNames</name>
-      <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>a1e3647d74cf8995bec526ab04340ec87</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" static="yes">
-      <type>static const std::unordered_map&lt; std::uint32_t, const char * &gt;</type>
-      <name>machExceptionNames</name>
-      <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>a390652217b5d65e3113f25d9d73413be</anchor>
+      <anchor>a96e6155ab83215a136891405e91e92c0</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -2223,7 +2179,6 @@
     <filename>dir_84d4ec99856759213102e4209c09c524.html</filename>
     <file>BreakpointManager.cpp</file>
     <file>BreakpointManager.h</file>
-    <file>BreakpointManagerHandlers.cpp</file>
     <file>Callbacks.cpp</file>
     <file>Callbacks.h</file>
     <file>Loader.cpp</file>
@@ -2232,8 +2187,6 @@
     <file>Session.cpp</file>
     <file>Session.h</file>
     <file>Session_mac.cpp</file>
-    <file>SessionInspection.cpp</file>
-    <file>SessionInspection_mac.cpp</file>
     <file>SessionPrettyPrint.cpp</file>
     <file>SessionPrettyPrint_mac.cpp</file>
     <file>State.h</file>

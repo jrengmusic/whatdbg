@@ -17,13 +17,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="602" column="22" bodyfile="debug/Session.h" bodystart="602" bodyend="-1"/>
-        <referencedby refid="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" compoundref="_session__mac_8cpp" startline="540" endline="547">appendSourcePath</referencedby>
-        <referencedby refid="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" compoundref="_session__mac_8cpp" startline="534" endline="538">appendSymbolPath</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="295" endline="312">attach</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="250" endline="268">initialize</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="270" endline="293">launch</referencedby>
-        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="371" endline="395">shutdown</referencedby>
+        <location file="debug/Session.h" line="606" column="22" bodyfile="debug/Session.h" bodystart="606" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" compoundref="_session__mac_8cpp" startline="525" endline="532">appendSourcePath</referencedby>
+        <referencedby refid="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" compoundref="_session__mac_8cpp" startline="519" endline="523">appendSymbolPath</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="286" endline="303">attach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="241" endline="259">initialize</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="261" endline="284">launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="356" endline="380">shutdown</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" prot="private" static="no" mutable="no">
         <type>lldb::SBListener</type>
@@ -38,11 +38,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="605" column="22" bodyfile="debug/Session.h" bodystart="605" bodyend="-1"/>
-        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="295" endline="312">attach</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="250" endline="268">initialize</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="270" endline="293">launch</referencedby>
-        <referencedby refid="classdebug_1_1_session_1adc898d1115e730d8a24677e708bcc7fa" compoundref="_session__mac_8cpp" startline="319" endline="350">pollEvents</referencedby>
+        <location file="debug/Session.h" line="609" column="22" bodyfile="debug/Session.h" bodystart="609" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="286" endline="303">attach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="241" endline="259">initialize</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="261" endline="284">launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="310" endline="335">pollEvents</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" prot="private" static="no" mutable="no">
         <type>lldb::SBTarget</type>
@@ -57,14 +57,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="608" column="20" bodyfile="debug/Session.h" bodystart="608" bodyend="-1"/>
-        <referencedby refid="classdebug_1_1_session_1aaf7e9ab4904549e614e5bba1f92b2f5e" compoundref="_session__mac_8cpp" startline="421" endline="430">addBreakpoint</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a847a6aeced35fa8c8c2f27bc04c15dff" compoundref="_session__mac_8cpp" startline="432" endline="459">addBreakpointByLocation</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="295" endline="312">attach</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" compoundref="_session__mac_8cpp" startline="513" endline="521">getOffset</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" compoundref="_session__mac_8cpp" startline="505" endline="511">getOffsetStatus</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="270" endline="293">launch</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" compoundref="_session__mac_8cpp" startline="461" endline="466">removeBreakpoint</referencedby>
+        <location file="debug/Session.h" line="612" column="20" bodyfile="debug/Session.h" bodystart="612" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1a02ef270b151bab75f4e20a5a48d84d41" compoundref="_session__mac_8cpp" startline="406" endline="415">addBreakpoint</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a0afce30b5eb95c22083d1516c3422d52" compoundref="_session__mac_8cpp" startline="417" endline="444">addBreakpointByLocation</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="286" endline="303">attach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" compoundref="_session__mac_8cpp" startline="498" endline="506">getOffset</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" compoundref="_session__mac_8cpp" startline="490" endline="496">getOffsetStatus</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="261" endline="284">launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" compoundref="_session__mac_8cpp" startline="446" endline="451">removeBreakpoint</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" prot="private" static="no" mutable="no">
         <type>lldb::SBProcess</type>
@@ -79,23 +79,23 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="611" column="21" bodyfile="debug/Session.h" bodystart="611" bodyend="-1"/>
-        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="295" endline="312">attach</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session_inspection__mac_8cpp" startline="22" endline="30">cacheFrameVariables</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a15f2549ebb9c9ea74349ba4ae7a46c6a" compoundref="_session_inspection__mac_8cpp" startline="162" endline="184">evaluateExpression</referencedby>
-        <referencedby refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" compoundref="_session__mac_8cpp" startline="570" endline="575">getEventThreadSystemId</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a0be177f0be97bcf65af0a98b22034916" compoundref="_session_inspection__mac_8cpp" startline="100" endline="111">getStackTrace</referencedby>
-        <referencedby refid="classdebug_1_1_session_1ac1ddb41377e5b0eac6ed58c9e938a05f" compoundref="_session__mac_8cpp" startline="549" endline="568">getThreads</referencedby>
-        <referencedby refid="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" compoundref="_session__mac_8cpp" startline="414" endline="419">interrupt</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="270" endline="293">launch</referencedby>
-        <referencedby refid="classdebug_1_1_session_1adc898d1115e730d8a24677e708bcc7fa" compoundref="_session__mac_8cpp" startline="319" endline="350">pollEvents</referencedby>
-        <referencedby refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="314" endline="317">resume</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="577" endline="580">setCurrentThreadBySystemId</referencedby>
-        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="371" endline="395">shutdown</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a1816fd6de2ca88d638adacef4cd0e40f" compoundref="_session__mac_8cpp" startline="402" endline="405">stepInto</referencedby>
-        <referencedby refid="classdebug_1_1_session_1af2b1a168dd413d9aec686598fa733146" compoundref="_session__mac_8cpp" startline="407" endline="412">stepOut</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a60c1171499fc598e2124c6097a96d1ee" compoundref="_session__mac_8cpp" startline="397" endline="400">stepOver</referencedby>
-        <referencedby refid="classdebug_1_1_session_1ac24c24c48d1bae46a1d5e29531076f45" compoundref="_session__mac_8cpp" startline="352" endline="369">terminateDebuggee</referencedby>
+        <location file="debug/Session.h" line="615" column="21" bodyfile="debug/Session.h" bodystart="615" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="286" endline="303">attach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session__mac_8cpp" startline="627" endline="635">cacheFrameVariables</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a15f2549ebb9c9ea74349ba4ae7a46c6a" compoundref="_session__mac_8cpp" startline="769" endline="791">evaluateExpression</referencedby>
+        <referencedby refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" compoundref="_session__mac_8cpp" startline="555" endline="560">getEventThreadSystemId</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ad0ca1cb764126a3beada881324c58ef8" compoundref="_session__mac_8cpp" startline="705" endline="718">getStackTrace</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ac1ddb41377e5b0eac6ed58c9e938a05f" compoundref="_session__mac_8cpp" startline="534" endline="553">getThreads</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" compoundref="_session__mac_8cpp" startline="399" endline="404">interrupt</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="261" endline="284">launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="310" endline="335">pollEvents</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="305" endline="308">resume</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="562" endline="565">setCurrentThreadBySystemId</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="356" endline="380">shutdown</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a1816fd6de2ca88d638adacef4cd0e40f" compoundref="_session__mac_8cpp" startline="387" endline="390">stepInto</referencedby>
+        <referencedby refid="classdebug_1_1_session_1af2b1a168dd413d9aec686598fa733146" compoundref="_session__mac_8cpp" startline="392" endline="397">stepOut</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a60c1171499fc598e2124c6097a96d1ee" compoundref="_session__mac_8cpp" startline="382" endline="385">stepOver</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ac24c24c48d1bae46a1d5e29531076f45" compoundref="_session__mac_8cpp" startline="337" endline="354">terminateDebuggee</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" prot="private" static="no" mutable="no">
         <type>lldb::SBValueList</type>
@@ -110,11 +110,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="616" column="23" bodyfile="debug/Session.h" bodystart="616" bodyend="-1"/>
-        <referencedby refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session_inspection__mac_8cpp" startline="22" endline="30">cacheFrameVariables</referencedby>
-        <referencedby refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" compoundref="_session_inspection__mac_8cpp" startline="113" endline="132">getLocals</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" compoundref="_session_inspection__mac_8cpp" startline="134" endline="160">getVariableChildren</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" compoundref="_session__mac_8cpp" startline="582" endline="586">resetSymbolGroupCache</referencedby>
+        <location file="debug/Session.h" line="620" column="23" bodyfile="debug/Session.h" bodystart="620" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session__mac_8cpp" startline="627" endline="635">cacheFrameVariables</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" compoundref="_session__mac_8cpp" startline="720" endline="739">getLocals</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" compoundref="_session__mac_8cpp" startline="741" endline="767">getVariableChildren</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" compoundref="_session__mac_8cpp" startline="567" endline="571">resetSymbolGroupCache</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" prot="private" static="no" mutable="no">
         <type>int</type>
@@ -130,9 +130,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="619" column="9" bodyfile="debug/Session.h" bodystart="619" bodyend="619"/>
-        <referencedby refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session_inspection__mac_8cpp" startline="22" endline="30">cacheFrameVariables</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" compoundref="_session__mac_8cpp" startline="582" endline="586">resetSymbolGroupCache</referencedby>
+        <location file="debug/Session.h" line="623" column="9" bodyfile="debug/Session.h" bodystart="623" bodyend="623"/>
+        <referencedby refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session__mac_8cpp" startline="627" endline="635">cacheFrameVariables</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" compoundref="_session__mac_8cpp" startline="567" endline="571">resetSymbolGroupCache</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
     </sectiondef>
@@ -150,36 +150,36 @@
         <inbodydescription>
         </inbodydescription>
         <location file="debug/Session.h" line="70" column="5"/>
-        <references refid="classdebug_1_1_session_1aaf7e9ab4904549e614e5bba1f92b2f5e" compoundref="_session__mac_8cpp" startline="421" endline="430">addBreakpoint</references>
-        <references refid="classdebug_1_1_session_1a847a6aeced35fa8c8c2f27bc04c15dff" compoundref="_session__mac_8cpp" startline="432" endline="459">addBreakpointByLocation</references>
-        <references refid="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" compoundref="_session__mac_8cpp" startline="540" endline="547">appendSourcePath</references>
-        <references refid="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" compoundref="_session__mac_8cpp" startline="534" endline="538">appendSymbolPath</references>
-        <references refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="295" endline="312">attach</references>
-        <references refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" compoundref="_session_8h" startline="619" endline="619">cachedFrameIndex</references>
-        <references refid="classdebug_1_1_session_1a15f2549ebb9c9ea74349ba4ae7a46c6a" compoundref="_session_inspection__mac_8cpp" startline="162" endline="184">evaluateExpression</references>
-        <references refid="classdebug_1_1_session_1a915743cdb0adf4eadd461e03a6d6c5b4" compoundref="_session__mac_8cpp" startline="529" endline="532">forceReloadAllSymbols</references>
-        <references refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" compoundref="_session__mac_8cpp" startline="570" endline="575">getEventThreadSystemId</references>
-        <references refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" compoundref="_session_inspection__mac_8cpp" startline="113" endline="132">getLocals</references>
-        <references refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" compoundref="_session__mac_8cpp" startline="513" endline="521">getOffset</references>
-        <references refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" compoundref="_session__mac_8cpp" startline="505" endline="511">getOffsetStatus</references>
-        <references refid="classdebug_1_1_session_1a0be177f0be97bcf65af0a98b22034916" compoundref="_session_inspection__mac_8cpp" startline="100" endline="111">getStackTrace</references>
-        <references refid="classdebug_1_1_session_1ac1ddb41377e5b0eac6ed58c9e938a05f" compoundref="_session__mac_8cpp" startline="549" endline="568">getThreads</references>
-        <references refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" compoundref="_session_inspection__mac_8cpp" startline="134" endline="160">getVariableChildren</references>
-        <references refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="250" endline="268">initialize</references>
-        <references refid="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" compoundref="_session__mac_8cpp" startline="414" endline="419">interrupt</references>
-        <references refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="270" endline="293">launch</references>
-        <references refid="classdebug_1_1_session_1a244b110c3c6cfa7e9371f2f6b5b61203" compoundref="_session__mac_8cpp" startline="523" endline="527">loadModuleSymbols</references>
-        <references refid="classdebug_1_1_session_1adc898d1115e730d8a24677e708bcc7fa" compoundref="_session__mac_8cpp" startline="319" endline="350">pollEvents</references>
-        <references refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" compoundref="_session__mac_8cpp" startline="461" endline="466">removeBreakpoint</references>
-        <references refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" compoundref="_session__mac_8cpp" startline="582" endline="586">resetSymbolGroupCache</references>
-        <references refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="314" endline="317">resume</references>
+        <references refid="classdebug_1_1_session_1a02ef270b151bab75f4e20a5a48d84d41" compoundref="_session__mac_8cpp" startline="406" endline="415">addBreakpoint</references>
+        <references refid="classdebug_1_1_session_1a0afce30b5eb95c22083d1516c3422d52" compoundref="_session__mac_8cpp" startline="417" endline="444">addBreakpointByLocation</references>
+        <references refid="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" compoundref="_session__mac_8cpp" startline="525" endline="532">appendSourcePath</references>
+        <references refid="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" compoundref="_session__mac_8cpp" startline="519" endline="523">appendSymbolPath</references>
+        <references refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="286" endline="303">attach</references>
+        <references refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" compoundref="_session_8h" startline="623" endline="623">cachedFrameIndex</references>
+        <references refid="classdebug_1_1_session_1a15f2549ebb9c9ea74349ba4ae7a46c6a" compoundref="_session__mac_8cpp" startline="769" endline="791">evaluateExpression</references>
+        <references refid="classdebug_1_1_session_1a915743cdb0adf4eadd461e03a6d6c5b4" compoundref="_session__mac_8cpp" startline="514" endline="517">forceReloadAllSymbols</references>
+        <references refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" compoundref="_session__mac_8cpp" startline="555" endline="560">getEventThreadSystemId</references>
+        <references refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" compoundref="_session__mac_8cpp" startline="720" endline="739">getLocals</references>
+        <references refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" compoundref="_session__mac_8cpp" startline="498" endline="506">getOffset</references>
+        <references refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" compoundref="_session__mac_8cpp" startline="490" endline="496">getOffsetStatus</references>
+        <references refid="classdebug_1_1_session_1ad0ca1cb764126a3beada881324c58ef8" compoundref="_session__mac_8cpp" startline="705" endline="718">getStackTrace</references>
+        <references refid="classdebug_1_1_session_1ac1ddb41377e5b0eac6ed58c9e938a05f" compoundref="_session__mac_8cpp" startline="534" endline="553">getThreads</references>
+        <references refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" compoundref="_session__mac_8cpp" startline="741" endline="767">getVariableChildren</references>
+        <references refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="241" endline="259">initialize</references>
+        <references refid="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" compoundref="_session__mac_8cpp" startline="399" endline="404">interrupt</references>
+        <references refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="261" endline="284">launch</references>
+        <references refid="classdebug_1_1_session_1a244b110c3c6cfa7e9371f2f6b5b61203" compoundref="_session__mac_8cpp" startline="508" endline="512">loadModuleSymbols</references>
+        <references refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="310" endline="335">pollEvents</references>
+        <references refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" compoundref="_session__mac_8cpp" startline="446" endline="451">removeBreakpoint</references>
+        <references refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" compoundref="_session__mac_8cpp" startline="567" endline="571">resetSymbolGroupCache</references>
+        <references refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="305" endline="308">resume</references>
         <references refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</references>
-        <references refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="577" endline="580">setCurrentThreadBySystemId</references>
-        <references refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="371" endline="395">shutdown</references>
-        <references refid="classdebug_1_1_session_1a1816fd6de2ca88d638adacef4cd0e40f" compoundref="_session__mac_8cpp" startline="402" endline="405">stepInto</references>
-        <references refid="classdebug_1_1_session_1af2b1a168dd413d9aec686598fa733146" compoundref="_session__mac_8cpp" startline="407" endline="412">stepOut</references>
-        <references refid="classdebug_1_1_session_1a60c1171499fc598e2124c6097a96d1ee" compoundref="_session__mac_8cpp" startline="397" endline="400">stepOver</references>
-        <references refid="classdebug_1_1_session_1ac24c24c48d1bae46a1d5e29531076f45" compoundref="_session__mac_8cpp" startline="352" endline="369">terminateDebuggee</references>
+        <references refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="562" endline="565">setCurrentThreadBySystemId</references>
+        <references refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="356" endline="380">shutdown</references>
+        <references refid="classdebug_1_1_session_1a1816fd6de2ca88d638adacef4cd0e40f" compoundref="_session__mac_8cpp" startline="387" endline="390">stepInto</references>
+        <references refid="classdebug_1_1_session_1af2b1a168dd413d9aec686598fa733146" compoundref="_session__mac_8cpp" startline="392" endline="397">stepOut</references>
+        <references refid="classdebug_1_1_session_1a60c1171499fc598e2124c6097a96d1ee" compoundref="_session__mac_8cpp" startline="382" endline="385">stepOver</references>
+        <references refid="classdebug_1_1_session_1ac24c24c48d1bae46a1d5e29531076f45" compoundref="_session__mac_8cpp" startline="337" endline="354">terminateDebuggee</references>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a2ae6441e2bb4fa3f6a616a6f8b0ce8d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -194,9 +194,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="71" column="5" bodyfile="debug/Session_mac.cpp" bodystart="245" bodyend="248"/>
+        <location file="debug/Session.h" line="71" column="5" bodyfile="debug/Session_mac.cpp" bodystart="236" bodyend="239"/>
         <references refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa831996cebc6c9bf7687e922c3437be69" compoundref="_session_8h" startline="34">debug::passive</references>
-        <references refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="371" endline="395">shutdown</references>
+        <references refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="356" endline="380">shutdown</references>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>bool</type>
@@ -205,7 +205,7 @@
         <name>initialize</name>
         <qualifiedname>debug::Session::initialize</qualifiedname>
         <param>
-          <type>const juce::File &amp;</type>
+          <type>const <ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref> &amp;</type>
           <declname>sidecarDir</declname>
         </param>
         <briefdescription>
@@ -232,9 +232,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="89" column="10" bodyfile="debug/Session_mac.cpp" bodystart="250" bodyend="268"/>
-        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="602">debugger</references>
-        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="605">listener</references>
+        <location file="debug/Session.h" line="89" column="10" bodyfile="debug/Session_mac.cpp" bodystart="241" bodyend="259"/>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="606">debugger</references>
+        <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
+        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="609">listener</references>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -244,15 +245,15 @@
         <name>launch</name>
         <qualifiedname>debug::Session::launch</qualifiedname>
         <param>
-          <type>const juce::String &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>program</declname>
         </param>
         <briefdescription>
 <para>Launch a process for debugging, stopped before user code runs. </para>
         </briefdescription>
         <detaileddescription>
-<para>Windows calls IDebugClient5::CreateProcess2 and returns immediately — it does NOT call WaitForEvent, so the caller must poll via <ref refid="classdebug_1_1_session_1adc898d1115e730d8a24677e708bcc7fa" kindref="member">pollEvents()</ref> to receive the initial CreateProcess and loader-breakpoint events.</para>
-<para>macOS creates the target, starts listening for its events, then calls SBTarget::Launch with eLaunchFlagDebug | eLaunchFlagStopAtEntry; on success the target/process members are already populated and <ref refid="classdebug_1_1_state_1a38b92622d4758c341d86782c8e847255" kindref="member">State::targetProcessId</ref> is set here. The caller still polls via <ref refid="classdebug_1_1_session_1adc898d1115e730d8a24677e708bcc7fa" kindref="member">pollEvents()</ref> for the resulting stop event.</para>
+<para>Windows calls IDebugClient5::CreateProcess2 and returns immediately — it does NOT call WaitForEvent, so the caller must poll via <ref refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" kindref="member">pollEvents()</ref> to receive the initial CreateProcess and loader-breakpoint events.</para>
+<para>macOS creates the target, starts listening for its events, then calls SBTarget::Launch with eLaunchFlagDebug | eLaunchFlagStopAtEntry; on success the target/process members are already populated and <ref refid="classdebug_1_1_state_1a38b92622d4758c341d86782c8e847255" kindref="member">State::targetProcessId</ref> is set here. The caller still polls via <ref refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" kindref="member">pollEvents()</ref> for the resulting stop event.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>program</parametername>
@@ -270,13 +271,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="107" column="10" bodyfile="debug/Session_mac.cpp" bodystart="270" bodyend="293"/>
-        <references refid="namespacedebug_1a96e6155ab83215a136891405e91e92c0" compoundref="_session__mac_8cpp" startline="66" endline="66">debug::allEventsMask</references>
-        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="602">debugger</references>
-        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="605">listener</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="611">process</references>
-        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="608">target</references>
-        <referencedby refid="class_whatdbg_1a915d31b44bfab74c161a43170582c5cc" compoundref="_whatdbg_handlers_8cpp" startline="23" endline="47">Whatdbg::onLaunch</referencedby>
+        <location file="debug/Session.h" line="107" column="10" bodyfile="debug/Session_mac.cpp" bodystart="261" bodyend="284"/>
+        <references refid="namespacedebug_1a96e6155ab83215a136891405e91e92c0" compoundref="_session__mac_8cpp" startline="74" endline="74">debug::allEventsMask</references>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="606">debugger</references>
+        <references refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140">jam::Instance&lt; State &gt;::getInstance</references>
+        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="609">listener</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="615">process</references>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="612">target</references>
+        <referencedby refid="class_whatdbg_1a915d31b44bfab74c161a43170582c5cc" compoundref="_whatdbg_8cpp" startline="341" endline="365">Whatdbg::onLaunch</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -293,7 +295,7 @@
 <para>Attach to a running process by OS process ID. </para>
         </briefdescription>
         <detaileddescription>
-<para>Windows calls IDebugClient5::AttachProcess and returns immediately — it does NOT call WaitForEvent, so the caller must poll via <ref refid="classdebug_1_1_session_1adc898d1115e730d8a24677e708bcc7fa" kindref="member">pollEvents()</ref> to receive the initial attach-break event.</para>
+<para>Windows calls IDebugClient5::AttachProcess and returns immediately — it does NOT call WaitForEvent, so the caller must poll via <ref refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" kindref="member">pollEvents()</ref> to receive the initial attach-break event.</para>
 <para>macOS creates an empty target, starts listening for its events, then calls SBTarget::AttachToProcessWithID. <ref refid="classdebug_1_1_state_1a38b92622d4758c341d86782c8e847255" kindref="member">State::targetProcessId</ref> is set by the caller once this returns success — the same single-writer contract Windows relies on.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -310,13 +312,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="122" column="10" bodyfile="debug/Session_mac.cpp" bodystart="295" bodyend="312"/>
-        <references refid="namespacedebug_1a96e6155ab83215a136891405e91e92c0" compoundref="_session__mac_8cpp" startline="66" endline="66">debug::allEventsMask</references>
-        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="602">debugger</references>
-        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="605">listener</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="611">process</references>
-        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="608">target</references>
-        <referencedby refid="class_whatdbg_1a5dfa0d2f778277c1d3b07c3b6a24690f" compoundref="_whatdbg_handlers_8cpp" startline="67" endline="99">Whatdbg::onAttach</referencedby>
+        <location file="debug/Session.h" line="122" column="10" bodyfile="debug/Session_mac.cpp" bodystart="286" bodyend="303"/>
+        <references refid="namespacedebug_1a96e6155ab83215a136891405e91e92c0" compoundref="_session__mac_8cpp" startline="74" endline="74">debug::allEventsMask</references>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="606">debugger</references>
+        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="609">listener</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="615">process</references>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="612">target</references>
+        <referencedby refid="class_whatdbg_1a5dfa0d2f778277c1d3b07c3b6a24690f" compoundref="_whatdbg_8cpp" startline="385" endline="417">Whatdbg::onAttach</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -329,23 +331,21 @@
 <para>Resume execution after a break. </para>
         </briefdescription>
         <detaileddescription>
-<para>Windows calls IDebugControl4::SetExecutionStatus(DEBUG_STATUS_GO). macOS calls SBProcess::Continue.</para>
-<para><simplesect kind="note"><para>No-op if the engine is already running. </para>
-</simplesect>
-</para>
+<para>Windows calls IDebugControl4::SetExecutionStatus(DEBUG_STATUS_GO). macOS calls SBProcess::Continue. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="131" column="10" bodyfile="debug/Session_mac.cpp" bodystart="314" bodyend="317"/>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="611">process</references>
-        <referencedby refid="class_whatdbg_1ad3944678f076dbf7165272599a9f52c6" compoundref="_whatdbg_8cpp" startline="212" endline="216">Whatdbg::resumeExecution</referencedby>
+        <location file="debug/Session.h" line="129" column="10" bodyfile="debug/Session_mac.cpp" bodystart="305" bodyend="308"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="615">process</references>
+        <referencedby refid="class_whatdbg_1a600297dfa1ac2640839e9fa468af2bd3" compoundref="_whatdbg_8cpp" startline="174" endline="180">Whatdbg::drainModuleLoaded</referencedby>
+        <referencedby refid="class_whatdbg_1ad3944678f076dbf7165272599a9f52c6" compoundref="_whatdbg_8cpp" startline="160" endline="164">Whatdbg::resumeExecution</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
-        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="371" endline="395">shutdown</referencedby>
-        <referencedby refid="classdebug_1_1_session_1ac24c24c48d1bae46a1d5e29531076f45" compoundref="_session__mac_8cpp" startline="352" endline="369">terminateDebuggee</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="356" endline="380">shutdown</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ac24c24c48d1bae46a1d5e29531076f45" compoundref="_session__mac_8cpp" startline="337" endline="354">terminateDebuggee</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_session_1adc898d1115e730d8a24677e708bcc7fa" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type>bool</type>
-        <definition>bool debug::Session::pollEvents</definition>
+      <memberdef kind="function" id="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::Session::pollEvents</definition>
         <argsstring>(std::uint32_t timeoutMs) noexcept</argsstring>
         <name>pollEvents</name>
         <qualifiedname>debug::Session::pollEvents</qualifiedname>
@@ -357,29 +357,27 @@
 <para>Poll for debug events with a timeout. </para>
         </briefdescription>
         <detaileddescription>
-<para>Should be called repeatedly from the main loop while the target is running or stopping. Windows calls IDebugControl4::WaitForEvent with the specified millisecond timeout directly. macOS calls SBListener::WaitForEvent, which only accepts whole-second timeouts, so timeoutMs is rounded up to the next second before the wait — a timeoutMs of 0 still blocks for one second rather than busy-spinning; a received event is dispatched to the matching onProcessEvent / onTargetEvent / onBreakpointEvent handler before returning.</para>
+<para>Should be called repeatedly from the main loop while the target is running or stopping. Windows calls IDebugControl4::WaitForEvent with timeoutMs directly. dbgeng invokes the callbacks in <ref refid="_callbacks_8cpp" kindref="compound">Callbacks.cpp</ref> during that call, on the main thread. Afterwards, E_UNEXPECTED from the wait marks the process exited, and S_OK with a step pending completes the step. macOS calls SBListener::WaitForEvent, which only accepts whole-second timeouts, so timeoutMs is rounded up to the next second before the wait. Each timeoutMs from 1 to 1000 waits one second. A received process event goes to the stop-reason dispatch, and a received breakpoint event goes to onBreakpointEvent.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>timeoutMs</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Maximum time to wait in milliseconds. Pass 0 for non-blocking poll. </para>
+<para>Maximum time to wait in milliseconds. On Windows and macOS, 0 is a non-blocking poll. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>true if an event was consumed; false on timeout with no event or on error. </para>
-</simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="146" column="10" bodyfile="debug/Session_mac.cpp" bodystart="319" bodyend="350"/>
-        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="605">listener</references>
-        <references refid="namespacedebug_1a426fa0f286156911294af408e668008b" compoundref="_session__mac_8cpp" startline="202" endline="223">debug::onBreakpointEvent</references>
-        <references refid="namespacedebug_1ad1a8ba9ad50f1fa35415e3e5728ceab9" compoundref="_session__mac_8cpp" startline="173" endline="200">debug::onProcessEvent</references>
-        <references refid="namespacedebug_1adad083523a5ca92bd2394ea93d8a93d3" compoundref="_session__mac_8cpp" startline="225" endline="243">debug::onTargetEvent</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="611">process</references>
-        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="57" endline="88">Whatdbg::run</referencedby>
+        <location file="debug/Session.h" line="146" column="10" bodyfile="debug/Session_mac.cpp" bodystart="310" bodyend="335"/>
+        <references refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140">jam::Instance&lt; State &gt;::getInstance</references>
+        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="609">listener</references>
+        <references refid="namespacedebug_1a426fa0f286156911294af408e668008b" compoundref="_session__mac_8cpp" startline="213" endline="234">debug::onBreakpointEvent</references>
+        <references refid="namespacedebug_1ad1a8ba9ad50f1fa35415e3e5728ceab9" compoundref="_session__mac_8cpp" startline="172" endline="211">debug::onProcessEvent</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="615">process</references>
+        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="63" endline="91">Whatdbg::run</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -418,16 +416,17 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="170" column="10" bodyfile="debug/Session_mac.cpp" bodystart="371" bodyend="395"/>
-        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="602">debugger</references>
+        <location file="debug/Session.h" line="170" column="10" bodyfile="debug/Session_mac.cpp" bodystart="356" bodyend="380"/>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="606">debugger</references>
         <references refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aab6bc015ea9587c510c9017988e94e60d" compoundref="_session_8h" startline="33">debug::detach</references>
+        <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
         <references refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa831996cebc6c9bf7687e922c3437be69" compoundref="_session_8h" startline="34">debug::passive</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="611">process</references>
-        <references refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="314" endline="317">resume</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="615">process</references>
+        <references refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="305" endline="308">resume</references>
         <references refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa1459e53d3fbaa95cebaf90860dd7a259" compoundref="_session_8h" startline="32">debug::terminate</references>
-        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="57" endline="88">Whatdbg::run</referencedby>
+        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="63" endline="91">Whatdbg::run</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a2ae6441e2bb4fa3f6a616a6f8b0ce8d5" compoundref="_session__mac_8cpp" startline="245" endline="248">~Session</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a2ae6441e2bb4fa3f6a616a6f8b0ce8d5" compoundref="_session__mac_8cpp" startline="236" endline="239">~Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0e" kindref="member">debug::OffsetStatus</ref></type>
@@ -436,7 +435,7 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         <name>getOffsetStatus</name>
         <qualifiedname>debug::Session::getOffsetStatus</qualifiedname>
         <param>
-          <type>const juce::String &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>filePath</declname>
         </param>
         <param>
@@ -472,11 +471,11 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="191" column="25" bodyfile="debug/Session_mac.cpp" bodystart="505" bodyend="511"/>
-        <references refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea6cfe61694ee1bb13ae719d47c2f80b7a" compoundref="_state_8h" startline="47">debug::found</references>
-        <references refid="namespacedebug_1ae1ad323362d43c9c1a534c76584e2d41" compoundref="_session__mac_8cpp" startline="468" endline="503">debug::getLineEntry</references>
-        <references refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea5ccf4d5c325b7db68777f400f66fd1b1" compoundref="_state_8h" startline="48">debug::notFound</references>
-        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="608">target</references>
+        <location file="debug/Session.h" line="191" column="25" bodyfile="debug/Session_mac.cpp" bodystart="490" bodyend="496"/>
+        <references refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea6cfe61694ee1bb13ae719d47c2f80b7a" compoundref="_state_8h" startline="56">debug::found</references>
+        <references refid="namespacedebug_1ae1ad323362d43c9c1a534c76584e2d41" compoundref="_session__mac_8cpp" startline="453" endline="488">debug::getLineEntry</references>
+        <references refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea5ccf4d5c325b7db68777f400f66fd1b1" compoundref="_state_8h" startline="57">debug::notFound</references>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="612">target</references>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -486,7 +485,7 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         <name>getOffset</name>
         <qualifiedname>debug::Session::getOffset</qualifiedname>
         <param>
-          <type>const juce::String &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>filePath</declname>
         </param>
         <param>
@@ -521,14 +520,14 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="204" column="19" bodyfile="debug/Session_mac.cpp" bodystart="513" bodyend="521"/>
-        <references refid="namespacedebug_1ae1ad323362d43c9c1a534c76584e2d41" compoundref="_session__mac_8cpp" startline="468" endline="503">debug::getLineEntry</references>
-        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="608">target</references>
+        <location file="debug/Session.h" line="204" column="19" bodyfile="debug/Session_mac.cpp" bodystart="498" bodyend="506"/>
+        <references refid="namespacedebug_1ae1ad323362d43c9c1a534c76584e2d41" compoundref="_session__mac_8cpp" startline="453" endline="488">debug::getLineEntry</references>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="612">target</references>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_session_1aaf7e9ab4904549e614e5bba1f92b2f5e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type>std::int32_t</type>
-        <definition>std::int32_t debug::Session::addBreakpoint</definition>
+      <memberdef kind="function" id="classdebug_1_1_session_1a02ef270b151bab75f4e20a5a48d84d41" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; std::int32_t &gt;</type>
+        <definition>std::optional&lt; std::int32_t &gt; debug::Session::addBreakpoint</definition>
         <argsstring>(std::uint64_t offset) noexcept</argsstring>
         <name>addBreakpoint</name>
         <qualifiedname>debug::Session::addBreakpoint</qualifiedname>
@@ -550,24 +549,24 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Engine-assigned breakpoint ID on success, or 0 on failure. </para>
+<simplesect kind="return"><para>The engine-assigned breakpoint ID, or an empty optional when creation fails. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="217" column="18" bodyfile="debug/Session_mac.cpp" bodystart="421" bodyend="430"/>
-        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="608">target</references>
+        <location file="debug/Session.h" line="217" column="19" bodyfile="debug/Session_mac.cpp" bodystart="406" bodyend="415"/>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="612">target</references>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_session_1a847a6aeced35fa8c8c2f27bc04c15dff" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type><ref refid="namespacedebug_1aee0526408c2ffc82c78a9e7ed793c19e" kindref="member">BreakpointLocation</ref></type>
-        <definition>BreakpointLocation debug::Session::addBreakpointByLocation</definition>
+      <memberdef kind="function" id="classdebug_1_1_session_1a0afce30b5eb95c22083d1516c3422d52" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacedebug_1aee0526408c2ffc82c78a9e7ed793c19e" kindref="member">BreakpointLocation</ref> &gt;</type>
+        <definition>std::optional&lt; BreakpointLocation &gt; debug::Session::addBreakpointByLocation</definition>
         <argsstring>(const juce::String &amp;filePath, std::uint16_t line) noexcept</argsstring>
         <name>addBreakpointByLocation</name>
         <qualifiedname>debug::Session::addBreakpointByLocation</qualifiedname>
         <param>
-          <type>const juce::String &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>filePath</declname>
         </param>
         <param>
@@ -578,7 +577,7 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
 <para>Create a breakpoint by source file and line. </para>
         </briefdescription>
         <detaileddescription>
-<para>Cross-platform entry: Windows wraps the existing <computeroutput><ref refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" kindref="member">getOffsetStatus</ref></computeroutput> / <computeroutput><ref refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" kindref="member">getOffset</ref></computeroutput> → <computeroutput><ref refid="classdebug_1_1_session_1aaf7e9ab4904549e614e5bba1f92b2f5e" kindref="member">addBreakpoint</ref> (offset)</computeroutput> chain; macOS delegates to <computeroutput>SBTarget::BreakpointCreateByLocation</computeroutput>, which lets liblldb track pending locations itself and auto-resolve as modules load (no adapter-side retry loop).</para>
+<para>Cross-platform entry: Windows wraps the existing <computeroutput><ref refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" kindref="member">getOffsetStatus</ref></computeroutput> / <computeroutput><ref refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" kindref="member">getOffset</ref></computeroutput> → <computeroutput><ref refid="classdebug_1_1_session_1a02ef270b151bab75f4e20a5a48d84d41" kindref="member">addBreakpoint</ref> (offset)</computeroutput> chain; macOS delegates to <computeroutput>SBTarget::BreakpointCreateByLocation</computeroutput>, which lets liblldb track pending locations itself and auto-resolve as modules load (no adapter-side retry loop).</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>filePath</parametername>
@@ -596,19 +595,19 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para><ref refid="namespacedebug_1aee0526408c2ffc82c78a9e7ed793c19e" kindref="member">BreakpointLocation</ref> packing (engineId, resolvedLine). engineId is 0 only when BP creation itself errored. resolvedLine is 0 when the BP has no location yet (caller treats 0 as pending — liblldb will auto-resolve). </para>
+<simplesect kind="return"><para><ref refid="namespacedebug_1aee0526408c2ffc82c78a9e7ed793c19e" kindref="member">BreakpointLocation</ref> packing (engineId, resolvedLine), or an empty optional when no location was found or BP creation failed. On macOS resolvedLine is 0 when the BP has no location yet; the caller then treats it as pending, and liblldb resolves it later. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="235" column="24" bodyfile="debug/Session_mac.cpp" bodystart="432" bodyend="459"/>
-        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="608">target</references>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a421a443c3e9d1a72bc5e172d7a94b43b" compoundref="_breakpoint_manager_handlers_8cpp" startline="62" endline="94">debug::BreakpointManager::addBreakpoint</referencedby>
+        <location file="debug/Session.h" line="235" column="19" bodyfile="debug/Session_mac.cpp" bodystart="417" bodyend="444"/>
+        <references refid="structjam_1_1Union_1a1ea5d51075b691d9e08a751836b4cd88">jam::Union&lt; std::int32_t, std::uint16_t &gt;::pack</references>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="612">target</references>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type>juce::Result</type>
+        <type><ref refid="classjuce_1_1Result" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Result</ref></type>
         <definition>juce::Result debug::Session::removeBreakpoint</definition>
         <argsstring>(std::int32_t engineId) noexcept</argsstring>
         <name>removeBreakpoint</name>
@@ -631,25 +630,26 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>juce::Result::ok() on success, or juce::Result::fail(...) if the ID is not found. </para>
+<simplesect kind="return"><para><ref refid="classjuce_1_1Result_1ac2133128eeba510367bfe1b83383ae0f" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Result::ok()</ref> on success, or juce::Result::fail(...) if the ID is not found. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="248" column="18" bodyfile="debug/Session_mac.cpp" bodystart="461" bodyend="466"/>
-        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="608">target</references>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a7a5ecf6ccc8ee9b6259dab245212efda" compoundref="_breakpoint_manager_handlers_8cpp" startline="31" endline="60">debug::BreakpointManager::removeOrphanedBreakpoints</referencedby>
+        <location file="debug/Session.h" line="248" column="18" bodyfile="debug/Session_mac.cpp" bodystart="446" bodyend="451"/>
+        <references refid="classjuce_1_1Result_1a27205a4dc7a973aebd1976270867be80">juce::Result::fail</references>
+        <references refid="classjuce_1_1Result_1ac2133128eeba510367bfe1b83383ae0f">juce::Result::ok</references>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="612">target</references>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a244b110c3c6cfa7e9371f2f6b5b61203" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type>juce::Result</type>
+        <type><ref refid="classjuce_1_1Result" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Result</ref></type>
         <definition>juce::Result debug::Session::loadModuleSymbols</definition>
         <argsstring>(const juce::String &amp;imageName) noexcept</argsstring>
         <name>loadModuleSymbols</name>
         <qualifiedname>debug::Session::loadModuleSymbols</qualifiedname>
         <param>
-          <type>const juce::String &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>imageName</declname>
         </param>
         <briefdescription>
@@ -666,18 +666,19 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>juce::Result::ok() if the reload executed without error, or always on macOS. </para>
+<simplesect kind="return"><para><ref refid="classjuce_1_1Result_1ac2133128eeba510367bfe1b83383ae0f" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Result::ok()</ref> if the reload executed without error, or always on macOS. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="262" column="18" bodyfile="debug/Session_mac.cpp" bodystart="523" bodyend="527"/>
-        <referencedby refid="class_whatdbg_1a600297dfa1ac2640839e9fa468af2bd3" compoundref="_whatdbg_8cpp" startline="233" endline="254">Whatdbg::drainModuleLoaded</referencedby>
+        <location file="debug/Session.h" line="262" column="18" bodyfile="debug/Session_mac.cpp" bodystart="508" bodyend="512"/>
+        <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
+        <references refid="classjuce_1_1Result_1ac2133128eeba510367bfe1b83383ae0f">juce::Result::ok</references>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a915743cdb0adf4eadd461e03a6d6c5b4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type>juce::Result</type>
+        <type><ref refid="classjuce_1_1Result" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Result</ref></type>
         <definition>juce::Result debug::Session::forceReloadAllSymbols</definition>
         <argsstring>() noexcept</argsstring>
         <name>forceReloadAllSymbols</name>
@@ -687,15 +688,14 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </briefdescription>
         <detaileddescription>
 <para>Windows executes &quot;.reload /f&quot; via IDebugControl4::Execute as a fallback when per-module reload is insufficient; can be slow when many modules are loaded, so loadModuleSymbols is preferred for targeted reloads. macOS is a no-op for the same reason as loadModuleSymbols and always returns ok().</para>
-<para><simplesect kind="return"><para>juce::Result::ok() if the reload executed without error, or always on macOS. </para>
+<para><simplesect kind="return"><para><ref refid="classjuce_1_1Result_1ac2133128eeba510367bfe1b83383ae0f" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Result::ok()</ref> if the reload executed without error, or always on macOS. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="273" column="18" bodyfile="debug/Session_mac.cpp" bodystart="529" bodyend="532"/>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a109c6bc67cfdf21652d3d443c83a2047" compoundref="_breakpoint_manager_handlers_8cpp" startline="121" endline="139">debug::BreakpointManager::addReloadedBreakpoints</referencedby>
-        <referencedby refid="class_whatdbg_1a12cfc43d31f91c8d477b91a46e284e90" compoundref="_whatdbg_8cpp" startline="380" endline="404">Whatdbg::resumeAfterInitialBreak</referencedby>
+        <location file="debug/Session.h" line="273" column="18" bodyfile="debug/Session_mac.cpp" bodystart="514" bodyend="517"/>
+        <references refid="classjuce_1_1Result_1ac2133128eeba510367bfe1b83383ae0f">juce::Result::ok</references>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a60c1171499fc598e2124c6097a96d1ee" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -709,15 +709,15 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </briefdescription>
         <detaileddescription>
 <para>Windows calls IDebugControl4::SetExecutionStatus(DEBUG_STATUS_STEP_OVER); requires source-level code level, set during initialize. macOS calls SBThread::StepOver(eOnlyDuringStepping) on the selected thread.</para>
-<para><simplesect kind="note"><para>The step completes asynchronously. Windows&apos; <ref refid="classdebug_1_1_event_callbacks" kindref="compound">EventCallbacks</ref> sets <ref refid="classdebug_1_1_state_1a96a76f5ef14e110b1fd577ee43a40daf" kindref="member">State::hasStepCompleted</ref> via ChangeEngineState; macOS sets it from the stop-reason dispatch in pollEvents. </para>
+<para><simplesect kind="note"><para>The step completes asynchronously. pollEvents sets <ref refid="classdebug_1_1_state_1aaf00f1ecd87812817dbd47557747e23b" kindref="member">State::stopReason</ref> to step: on Windows when a wait returns S_OK with a step pending, and on macOS through the stop-reason dispatch. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="285" column="10" bodyfile="debug/Session_mac.cpp" bodystart="397" bodyend="400"/>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="611">process</references>
-        <referencedby refid="class_whatdbg_1a897c4a96a9be1b1ab1ff3b9ab18801bb" compoundref="_whatdbg_handlers_8cpp" startline="337" endline="349">Whatdbg::onNext</referencedby>
+        <location file="debug/Session.h" line="285" column="10" bodyfile="debug/Session_mac.cpp" bodystart="382" bodyend="385"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="615">process</references>
+        <referencedby refid="class_whatdbg_1a897c4a96a9be1b1ab1ff3b9ab18801bb" compoundref="_whatdbg_8cpp" startline="639" endline="651">Whatdbg::onNext</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a1816fd6de2ca88d638adacef4cd0e40f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -737,9 +737,9 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="295" column="10" bodyfile="debug/Session_mac.cpp" bodystart="402" bodyend="405"/>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="611">process</references>
-        <referencedby refid="class_whatdbg_1af628bdbba100fbe6e7db2c7b4ec85b03" compoundref="_whatdbg_handlers_8cpp" startline="351" endline="363">Whatdbg::onStepIn</referencedby>
+        <location file="debug/Session.h" line="295" column="10" bodyfile="debug/Session_mac.cpp" bodystart="387" bodyend="390"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="615">process</references>
+        <referencedby refid="class_whatdbg_1af628bdbba100fbe6e7db2c7b4ec85b03" compoundref="_whatdbg_8cpp" startline="653" endline="665">Whatdbg::onStepIn</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1af2b1a168dd413d9aec686598fa733146" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -759,9 +759,9 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="304" column="10" bodyfile="debug/Session_mac.cpp" bodystart="407" bodyend="412"/>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="611">process</references>
-        <referencedby refid="class_whatdbg_1aa309669a65e130f843f8bf617b6da56e" compoundref="_whatdbg_handlers_8cpp" startline="365" endline="377">Whatdbg::onStepOut</referencedby>
+        <location file="debug/Session.h" line="304" column="10" bodyfile="debug/Session_mac.cpp" bodystart="392" bodyend="397"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="615">process</references>
+        <referencedby refid="class_whatdbg_1aa309669a65e130f843f8bf617b6da56e" compoundref="_whatdbg_8cpp" startline="667" endline="679">Whatdbg::onStepOut</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -792,9 +792,10 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="315" column="10" bodyfile="debug/Session_mac.cpp" bodystart="414" bodyend="419"/>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="611">process</references>
-        <referencedby refid="class_whatdbg_1a919304746e0b3a5c05bc18e497f2296d" compoundref="_whatdbg_handlers_8cpp" startline="379" endline="388">Whatdbg::onPause</referencedby>
+        <location file="debug/Session.h" line="315" column="10" bodyfile="debug/Session_mac.cpp" bodystart="399" bodyend="404"/>
+        <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="615">process</references>
+        <referencedby refid="class_whatdbg_1a919304746e0b3a5c05bc18e497f2296d" compoundref="_whatdbg_8cpp" startline="681" endline="690">Whatdbg::onPause</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1ac24c24c48d1bae46a1d5e29531076f45" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -827,10 +828,12 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="333" column="10" bodyfile="debug/Session_mac.cpp" bodystart="352" bodyend="369"/>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="611">process</references>
-        <references refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="314" endline="317">resume</references>
-        <referencedby refid="class_whatdbg_1ab360b6abdbeb881c650087d96c339121" compoundref="_whatdbg_handlers_8cpp" startline="115" endline="143">Whatdbg::onDisconnect</referencedby>
+        <location file="debug/Session.h" line="333" column="10" bodyfile="debug/Session_mac.cpp" bodystart="337" bodyend="354"/>
+        <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="615">process</references>
+        <references refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="305" endline="308">resume</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="class_whatdbg_1ab360b6abdbeb881c650087d96c339121" compoundref="_whatdbg_8cpp" startline="427" endline="455">Whatdbg::onDisconnect</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -840,7 +843,7 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         <name>appendSymbolPath</name>
         <qualifiedname>debug::Session::appendSymbolPath</qualifiedname>
         <param>
-          <type>const juce::String &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>path</declname>
         </param>
         <briefdescription>
@@ -861,9 +864,9 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="345" column="10" bodyfile="debug/Session_mac.cpp" bodystart="534" bodyend="538"/>
-        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="602">debugger</references>
-        <referencedby refid="class_whatdbg_1a479be5d71f4ad7df6b84bc5094be28d7" compoundref="_whatdbg_handlers_8cpp" startline="49" endline="65">Whatdbg::addSearchPaths</referencedby>
+        <location file="debug/Session.h" line="345" column="10" bodyfile="debug/Session_mac.cpp" bodystart="519" bodyend="523"/>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="606">debugger</references>
+        <referencedby refid="class_whatdbg_1a479be5d71f4ad7df6b84bc5094be28d7" compoundref="_whatdbg_8cpp" startline="367" endline="383">Whatdbg::addSearchPaths</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -873,7 +876,7 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         <name>appendSourcePath</name>
         <qualifiedname>debug::Session::appendSourcePath</qualifiedname>
         <param>
-          <type>const juce::String &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>path</declname>
         </param>
         <briefdescription>
@@ -894,29 +897,33 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="357" column="10" bodyfile="debug/Session_mac.cpp" bodystart="540" bodyend="547"/>
-        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="602">debugger</references>
-        <referencedby refid="class_whatdbg_1a479be5d71f4ad7df6b84bc5094be28d7" compoundref="_whatdbg_handlers_8cpp" startline="49" endline="65">Whatdbg::addSearchPaths</referencedby>
+        <location file="debug/Session.h" line="357" column="10" bodyfile="debug/Session_mac.cpp" bodystart="525" bodyend="532"/>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="606">debugger</references>
+        <referencedby refid="class_whatdbg_1a479be5d71f4ad7df6b84bc5094be28d7" compoundref="_whatdbg_8cpp" startline="367" endline="383">Whatdbg::addSearchPaths</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_session_1a0be177f0be97bcf65af0a98b22034916" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type>juce::Array&lt; juce::var &gt;</type>
+      <memberdef kind="function" id="classdebug_1_1_session_1ad0ca1cb764126a3beada881324c58ef8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classjuce_1_1Array" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Array</ref>&lt; <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> &gt;</type>
         <definition>juce::Array&lt; juce::var &gt; debug::Session::getStackTrace</definition>
-        <argsstring>(int maxFrames) noexcept</argsstring>
+        <argsstring>(int maxFrames, int firstFrameId) noexcept</argsstring>
         <name>getStackTrace</name>
         <qualifiedname>debug::Session::getStackTrace</qualifiedname>
         <param>
           <type>int</type>
           <declname>maxFrames</declname>
         </param>
+        <param>
+          <type>int</type>
+          <declname>firstFrameId</declname>
+        </param>
         <briefdescription>
 <para>Return stack frames for the current thread as a DAP-formatted array. </para>
         </briefdescription>
         <detaileddescription>
-<para>Windows walks the call stack up to maxFrames deep using IDebugControl4::GetStackTrace and resolves each frame to source file, line, and function name via IDebugSymbols3::GetNameByOffset and GetLineByOffset. macOS reads SBThread::GetNumFrames and each SBFrame&apos;s function name and SBLineEntry directly, clamped to maxFrames.</para>
+<para>Windows walks the call stack up to maxFrames deep using IDebugControl4::GetStackTrace and resolves each frame to source file, line, and function name via IDebugSymbols3::GetNameByOffset and GetLineByOffset. macOS reads SBThread::GetNumFrames and each SBFrame&apos;s function name and SBLineEntry directly, clamped to the real stack depth.</para>
 <para>Each element in the returned array is a DynamicObject with fields:<itemizedlist>
-<listitem><para>id (int) — DAP frame ID (allocated by <ref refid="class_whatdbg" kindref="compound">Whatdbg</ref>, not here)</para>
-</listitem><listitem><para>name (String) — demangled function name, or &quot;??&quot; (macOS) when unavailable</para>
+<listitem><para>id (int) — firstFrameId plus the frame&apos;s index in the returned array</para>
+</listitem><listitem><para>name (String) — function name, or &quot;frame&quot; (Windows) or &quot;??&quot; (macOS) when unavailable</para>
 </listitem><listitem><para>source (Object) — { name, path } if source info is available</para>
 </listitem><listitem><para>line (int) — one-based source line number</para>
 </listitem><listitem><para>column (int) — always 1 (column not resolved; 1-based per DAP convention)</para>
@@ -927,7 +934,15 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
 <parametername>maxFrames</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Maximum number of frames to return. Clamped to stack depth. </para>
+<para>Maximum number of frames to request. Windows requests maxFrames frames and returns those that GetStackTrace fills. macOS returns at most the stack depth. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>firstFrameId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>DAP ID of the first returned frame. Each following frame takes the next ID. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -939,14 +954,16 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="379" column="17" bodyfile="debug/SessionInspection_mac.cpp" bodystart="100" bodyend="111"/>
-        <references refid="namespacedebug_1a0beb1c9715a3a942d0538d19f6514033" compoundref="_session_inspection__mac_8cpp" startline="71" endline="98">debug::getStackFrame</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="611">process</references>
-        <referencedby refid="class_whatdbg_1a11b1b5b975c27c575f9087a188eda93b" compoundref="_whatdbg_handlers_8cpp" startline="177" endline="207">Whatdbg::onStackTrace</referencedby>
+        <location file="debug/Session.h" line="383" column="17" bodyfile="debug/Session_mac.cpp" bodystart="705" bodyend="718"/>
+        <references refid="classjuce_1_1Array_1a76b59834b9d3d5b654f27dbaf2d6c09f">juce::Array&lt; typename ElementType, typename TypeOfCriticalSectionToUse, int minimumAllocatedSize &gt;::add</references>
+        <references refid="namespacedebug_1adf79f77d9230851cb3c77e3980ca0508" compoundref="_session__mac_8cpp" startline="676" endline="703">debug::getStackFrame</references>
+        <references refid="namespacejuce_1a31dc5897289f074362c29fe54016f2dd">juce::jmin</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="615">process</references>
+        <referencedby refid="class_whatdbg_1a11b1b5b975c27c575f9087a188eda93b" compoundref="_whatdbg_8cpp" startline="486" endline="511">Whatdbg::onStackTrace</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type>juce::Array&lt; juce::var &gt;</type>
+        <type><ref refid="classjuce_1_1Array" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Array</ref>&lt; <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> &gt;</type>
         <definition>juce::Array&lt; juce::var &gt; debug::Session::getLocals</definition>
         <argsstring>(int frameIndex) noexcept</argsstring>
         <name>getLocals</name>
@@ -985,16 +1002,17 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="402" column="17" bodyfile="debug/SessionInspection_mac.cpp" bodystart="113" bodyend="132"/>
-        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="616">cachedFrameVariables</references>
-        <references refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session_inspection__mac_8cpp" startline="22" endline="30">cacheFrameVariables</references>
-        <references refid="classdebug_1_1_session_1a5fd39394862e89e52ae8831b85d7d199" compoundref="_session_inspection__mac_8cpp" startline="48" endline="69">getVariableObject</references>
+        <location file="debug/Session.h" line="406" column="17" bodyfile="debug/Session_mac.cpp" bodystart="720" bodyend="739"/>
+        <references refid="classjuce_1_1Array_1a76b59834b9d3d5b654f27dbaf2d6c09f">juce::Array&lt; typename ElementType, typename TypeOfCriticalSectionToUse, int minimumAllocatedSize &gt;::add</references>
+        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="620">cachedFrameVariables</references>
+        <references refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session__mac_8cpp" startline="627" endline="635">cacheFrameVariables</references>
+        <references refid="classdebug_1_1_session_1a5fd39394862e89e52ae8831b85d7d199" compoundref="_session__mac_8cpp" startline="653" endline="674">getVariableObject</references>
         <references refid="namespacedebug_1a5f8bae060639d0487513b79a1e7ad204" compoundref="_pretty_print_8h" startline="24" endline="30">debug::shouldSkipSymbol</references>
-        <referencedby refid="class_whatdbg_1ae1377c763879141cccc5fe65162058ba" compoundref="_whatdbg_handlers_8cpp" startline="260" endline="280">Whatdbg::getDapVariables</referencedby>
+        <referencedby refid="class_whatdbg_1ae1377c763879141cccc5fe65162058ba" compoundref="_whatdbg_8cpp" startline="564" endline="584">Whatdbg::getDapVariables</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type>juce::Array&lt; juce::var &gt;</type>
+        <type><ref refid="classjuce_1_1Array" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Array</ref>&lt; <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> &gt;</type>
         <definition>juce::Array&lt; juce::var &gt; debug::Session::getVariableChildren</definition>
         <argsstring>(int frameIndex, int symbolIndex) noexcept</argsstring>
         <name>getVariableChildren</name>
@@ -1038,22 +1056,23 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="421" column="17" bodyfile="debug/SessionInspection_mac.cpp" bodystart="134" bodyend="160"/>
-        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="616">cachedFrameVariables</references>
-        <references refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session_inspection__mac_8cpp" startline="22" endline="30">cacheFrameVariables</references>
-        <references refid="classdebug_1_1_session_1a5fd39394862e89e52ae8831b85d7d199" compoundref="_session_inspection__mac_8cpp" startline="48" endline="69">getVariableObject</references>
+        <location file="debug/Session.h" line="425" column="17" bodyfile="debug/Session_mac.cpp" bodystart="741" bodyend="767"/>
+        <references refid="classjuce_1_1Array_1a76b59834b9d3d5b654f27dbaf2d6c09f">juce::Array&lt; typename ElementType, typename TypeOfCriticalSectionToUse, int minimumAllocatedSize &gt;::add</references>
+        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="620">cachedFrameVariables</references>
+        <references refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session__mac_8cpp" startline="627" endline="635">cacheFrameVariables</references>
+        <references refid="classdebug_1_1_session_1a5fd39394862e89e52ae8831b85d7d199" compoundref="_session__mac_8cpp" startline="653" endline="674">getVariableObject</references>
         <references refid="namespacedebug_1a5f8bae060639d0487513b79a1e7ad204" compoundref="_pretty_print_8h" startline="24" endline="30">debug::shouldSkipSymbol</references>
-        <referencedby refid="class_whatdbg_1ae1377c763879141cccc5fe65162058ba" compoundref="_whatdbg_handlers_8cpp" startline="260" endline="280">Whatdbg::getDapVariables</referencedby>
+        <referencedby refid="class_whatdbg_1ae1377c763879141cccc5fe65162058ba" compoundref="_whatdbg_8cpp" startline="564" endline="584">Whatdbg::getDapVariables</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a15f2549ebb9c9ea74349ba4ae7a46c6a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type>juce::String</type>
+        <type><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
         <definition>juce::String debug::Session::evaluateExpression</definition>
         <argsstring>(const juce::String &amp;expression, int frameIndex) noexcept</argsstring>
         <name>evaluateExpression</name>
         <qualifiedname>debug::Session::evaluateExpression</qualifiedname>
         <param>
-          <type>const juce::String &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>expression</declname>
         </param>
         <param>
@@ -1064,7 +1083,7 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
 <para>Evaluate a C++ expression in the context of a specific stack frame. </para>
         </briefdescription>
         <detaileddescription>
-<para>Windows sets the debug scope to frameIndex, then executes &quot;?? &lt;expression&gt;&quot; on a secondary IDebugClient/IDebugControl4 pair with captured output (so the evaluation&apos;s own output does not pollute the primary client), passing the result through debug::formatSymbolValue; a juce::String result additionally resolves through a dedicated <computeroutput>.text.data</computeroutput> expression and readTargetString. macOS calls SBFrame::EvaluateExpression directly on the requested frame and formats the resulting SBValue the same way as getLocals, or returns the SBError description on failure.</para>
+<para>Windows gets the frame&apos;s symbol group, adds the expression to that group with AddSymbol while SYMOPT_NO_PUBLICS is set, and formats the new symbol. The previous symbol options are restored on exit, and the added symbol is removed from the group. A result is returned only when AddSymbol returns S_OK. macOS calls SBFrame::EvaluateExpression directly on the requested frame and formats the resulting SBValue the same way as getLocals. On failure it returns the SBError description, or &quot;evaluation failed&quot; when the error has no text.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>expression</parametername>
@@ -1082,7 +1101,7 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Formatted result string, or an error description if evaluation fails.</para>
+<simplesect kind="return"><para>Formatted result string. On Windows, an empty string when AddSymbol does not return S_OK.</para>
 </simplesect>
 <simplesect kind="note"><para>Must be called while the target is stopped. Complex expressions may cause the engine to execute target code (function calls in expression). </para>
 </simplesect>
@@ -1090,14 +1109,14 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="441" column="18" bodyfile="debug/SessionInspection_mac.cpp" bodystart="162" bodyend="184"/>
-        <references refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session_inspection__mac_8cpp" startline="32" endline="46">debug::getDisplayValue</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="611">process</references>
-        <referencedby refid="class_whatdbg_1a5c53bfe14d5a61d11b537327f1d9acdf" compoundref="_whatdbg_handlers_8cpp" startline="406" endline="431">Whatdbg::onEvaluate</referencedby>
+        <location file="debug/Session.h" line="445" column="18" bodyfile="debug/Session_mac.cpp" bodystart="769" bodyend="791"/>
+        <references refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="637" endline="651">debug::getDisplayValue</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="615">process</references>
+        <referencedby refid="class_whatdbg_1a5c53bfe14d5a61d11b537327f1d9acdf" compoundref="_whatdbg_8cpp" startline="706" endline="731">Whatdbg::onEvaluate</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1ac1ddb41377e5b0eac6ed58c9e938a05f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type>juce::Array&lt; juce::var &gt;</type>
+        <type><ref refid="classjuce_1_1Array" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Array</ref>&lt; <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> &gt;</type>
         <definition>juce::Array&lt; juce::var &gt; debug::Session::getThreads</definition>
         <argsstring>() noexcept</argsstring>
         <name>getThreads</name>
@@ -1120,9 +1139,10 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="459" column="17" bodyfile="debug/Session_mac.cpp" bodystart="549" bodyend="568"/>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="611">process</references>
-        <referencedby refid="class_whatdbg_1a4eb1d0bebc12fb2289c402d8c1ca62c6" compoundref="_whatdbg_handlers_8cpp" startline="166" endline="175">Whatdbg::onThreads</referencedby>
+        <location file="debug/Session.h" line="463" column="17" bodyfile="debug/Session_mac.cpp" bodystart="534" bodyend="553"/>
+        <references refid="classjuce_1_1Array_1a76b59834b9d3d5b654f27dbaf2d6c09f">juce::Array&lt; typename ElementType, typename TypeOfCriticalSectionToUse, int minimumAllocatedSize &gt;::add</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="615">process</references>
+        <referencedby refid="class_whatdbg_1a4eb1d0bebc12fb2289c402d8c1ca62c6" compoundref="_whatdbg_8cpp" startline="477" endline="484">Whatdbg::onThreads</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -1142,12 +1162,12 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="471" column="19" bodyfile="debug/Session_mac.cpp" bodystart="570" bodyend="575"/>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="611">process</references>
-        <referencedby refid="class_whatdbg_1a2d7768523d99418a0704d2158b96035e" compoundref="_whatdbg_8cpp" startline="299" endline="320">Whatdbg::drainExceptionStopped</referencedby>
-        <referencedby refid="class_whatdbg_1a8495165708f3a84fa1d53aa49f56146a" compoundref="_whatdbg_8cpp" startline="193" endline="210">Whatdbg::drainPauseCompleted</referencedby>
-        <referencedby refid="class_whatdbg_1a66947e40e907bd9140404745a84396a2" compoundref="_whatdbg_8cpp" startline="169" endline="191">Whatdbg::drainStepCompleted</referencedby>
-        <referencedby refid="class_whatdbg_1a8cb6e1fd95f0552104f122fff26a4666" compoundref="_whatdbg_8cpp" startline="129" endline="140">Whatdbg::emitBreakpointStoppedEvent</referencedby>
+        <location file="debug/Session.h" line="475" column="19" bodyfile="debug/Session_mac.cpp" bodystart="555" bodyend="560"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="615">process</references>
+        <referencedby refid="class_whatdbg_1a5268f55a4f83c022f94dcff9da2bd8a2" compoundref="_whatdbg_8cpp" startline="129" endline="135">Whatdbg::drainBreakpointHit</referencedby>
+        <referencedby refid="class_whatdbg_1a2d7768523d99418a0704d2158b96035e" compoundref="_whatdbg_8cpp" startline="210" endline="226">Whatdbg::drainExceptionStopped</referencedby>
+        <referencedby refid="class_whatdbg_1ad7350b760bf54236f31c10d9d00d52b1" compoundref="_whatdbg_8cpp" startline="733" endline="741">Whatdbg::getStoppedEvent</referencedby>
+        <referencedby refid="class_whatdbg_1a12cfc43d31f91c8d477b91a46e284e90" compoundref="_whatdbg_8cpp" startline="282" endline="301">Whatdbg::resumeAfterInitialBreak</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -1180,11 +1200,11 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="485" column="10" bodyfile="debug/Session_mac.cpp" bodystart="577" bodyend="580"/>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="611">process</references>
-        <referencedby refid="class_whatdbg_1a11b1b5b975c27c575f9087a188eda93b" compoundref="_whatdbg_handlers_8cpp" startline="177" endline="207">Whatdbg::onStackTrace</referencedby>
-        <referencedby refid="class_whatdbg_1adfdf65edd62332431edae566f516a265" compoundref="_whatdbg_handlers_8cpp" startline="282" endline="297">Whatdbg::onVariables</referencedby>
-        <referencedby refid="class_whatdbg_1a12ecfdab6da144a5c16bc825a06ac25e" compoundref="_whatdbg_handlers_8cpp" startline="209" endline="230">Whatdbg::selectFrameFromId</referencedby>
+        <location file="debug/Session.h" line="489" column="10" bodyfile="debug/Session_mac.cpp" bodystart="562" bodyend="565"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="615">process</references>
+        <referencedby refid="class_whatdbg_1a11b1b5b975c27c575f9087a188eda93b" compoundref="_whatdbg_8cpp" startline="486" endline="511">Whatdbg::onStackTrace</referencedby>
+        <referencedby refid="class_whatdbg_1adfdf65edd62332431edae566f516a265" compoundref="_whatdbg_8cpp" startline="586" endline="599">Whatdbg::onVariables</referencedby>
+        <referencedby refid="class_whatdbg_1a12ecfdab6da144a5c16bc825a06ac25e" compoundref="_whatdbg_8cpp" startline="513" endline="534">Whatdbg::selectFrameFromId</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -1201,10 +1221,10 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="493" column="10" bodyfile="debug/Session_mac.cpp" bodystart="582" bodyend="586"/>
-        <references refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" compoundref="_session_8h" startline="619" endline="619">cachedFrameIndex</references>
-        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="616">cachedFrameVariables</references>
-        <referencedby refid="class_whatdbg_1aaeaeadff98b6f113eb777735213455ba" compoundref="_whatdbg_8cpp" startline="427" endline="435">Whatdbg::resetVariablesState</referencedby>
+        <location file="debug/Session.h" line="497" column="10" bodyfile="debug/Session_mac.cpp" bodystart="567" bodyend="571"/>
+        <references refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" compoundref="_session_8h" startline="623" endline="623">cachedFrameIndex</references>
+        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="620">cachedFrameVariables</references>
+        <referencedby refid="class_whatdbg_1aaeaeadff98b6f113eb777735213455ba" compoundref="_whatdbg_8cpp" startline="324" endline="332">Whatdbg::resetVariablesState</referencedby>
         <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
       </memberdef>
     </sectiondef>
@@ -1237,15 +1257,15 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="586" column="10" bodyfile="debug/SessionInspection_mac.cpp" bodystart="22" bodyend="30"/>
-        <references refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" compoundref="_session_8h" startline="619" endline="619">cachedFrameIndex</references>
-        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="616">cachedFrameVariables</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="611">process</references>
-        <referencedby refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" compoundref="_session_inspection__mac_8cpp" startline="113" endline="132">getLocals</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" compoundref="_session_inspection__mac_8cpp" startline="134" endline="160">getVariableChildren</referencedby>
+        <location file="debug/Session.h" line="590" column="10" bodyfile="debug/Session_mac.cpp" bodystart="627" bodyend="635"/>
+        <references refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" compoundref="_session_8h" startline="623" endline="623">cachedFrameIndex</references>
+        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="620">cachedFrameVariables</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="615">process</references>
+        <referencedby refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" compoundref="_session__mac_8cpp" startline="720" endline="739">getLocals</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" compoundref="_session__mac_8cpp" startline="741" endline="767">getVariableChildren</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a5fd39394862e89e52ae8831b85d7d199" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type>juce::var</type>
+        <type><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref></type>
         <definition>juce::var debug::Session::getVariableObject</definition>
         <argsstring>(lldb::SBValue &amp;value, int symbolIndex) noexcept</argsstring>
         <name>getVariableObject</name>
@@ -1262,7 +1282,7 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
 <para>Return a DAP variable object built from an SBValue. </para>
         </briefdescription>
         <detaileddescription>
-<para>Constructs a juce::var wrapping a DynamicObject with the schema: name, value, type, hasChildren, symbolIndex. Null-safe on every const char* return from SBValue. Used by getLocals and getVariableChildren to share a single source of truth for the variable schema.</para>
+<para>Constructs a <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> wrapping a DynamicObject with the schema: name, value, type, hasChildren, symbolIndex. Null-safe on every const char* return from SBValue. Used by getLocals and getVariableChildren to share a single source of truth for the variable schema.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>value</parametername>
@@ -1280,16 +1300,17 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>juce::var holding the variable object. </para>
+<simplesect kind="return"><para><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> holding the variable object. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="599" column="15" bodyfile="debug/SessionInspection_mac.cpp" bodystart="48" bodyend="69"/>
-        <references refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session_inspection__mac_8cpp" startline="32" endline="46">debug::getDisplayValue</references>
-        <referencedby refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" compoundref="_session_inspection__mac_8cpp" startline="113" endline="132">getLocals</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" compoundref="_session_inspection__mac_8cpp" startline="134" endline="160">getVariableChildren</referencedby>
+        <location file="debug/Session.h" line="603" column="15" bodyfile="debug/Session_mac.cpp" bodystart="653" bodyend="674"/>
+        <references refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="637" endline="651">debug::getDisplayValue</references>
+        <references refid="classjuce_1_1String_1a1f0c785b3834720c20a115ff82f138de">juce::String::isEmpty</references>
+        <referencedby refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" compoundref="_session__mac_8cpp" startline="720" endline="739">getLocals</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" compoundref="_session__mac_8cpp" startline="741" endline="767">getVariableChildren</referencedby>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1315,10 +1336,10 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
 </simplesect>
 </para>
     </detaileddescription>
-    <location file="debug/Session.h" line="67" column="1" bodyfile="debug/Session.h" bodystart="68" bodyend="623"/>
+    <location file="debug/Session.h" line="67" column="1" bodyfile="debug/Session.h" bodystart="68" bodyend="627"/>
     <listofallmembers>
-      <member refid="classdebug_1_1_session_1aaf7e9ab4904549e614e5bba1f92b2f5e" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>addBreakpoint</name></member>
-      <member refid="classdebug_1_1_session_1a847a6aeced35fa8c8c2f27bc04c15dff" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>addBreakpointByLocation</name></member>
+      <member refid="classdebug_1_1_session_1a02ef270b151bab75f4e20a5a48d84d41" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>addBreakpoint</name></member>
+      <member refid="classdebug_1_1_session_1a0afce30b5eb95c22083d1516c3422d52" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>addBreakpointByLocation</name></member>
       <member refid="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>appendSourcePath</name></member>
       <member refid="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>appendSymbolPath</name></member>
       <member refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>attach</name></member>
@@ -1332,7 +1353,7 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
       <member refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>getLocals</name></member>
       <member refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>getOffset</name></member>
       <member refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>getOffsetStatus</name></member>
-      <member refid="classdebug_1_1_session_1a0be177f0be97bcf65af0a98b22034916" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>getStackTrace</name></member>
+      <member refid="classdebug_1_1_session_1ad0ca1cb764126a3beada881324c58ef8" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>getStackTrace</name></member>
       <member refid="classdebug_1_1_session_1ac1ddb41377e5b0eac6ed58c9e938a05f" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>getThreads</name></member>
       <member refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>getVariableChildren</name></member>
       <member refid="classdebug_1_1_session_1a5fd39394862e89e52ae8831b85d7d199" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>getVariableObject</name></member>
@@ -1341,7 +1362,7 @@ Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding to mo
       <member refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>launch</name></member>
       <member refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>listener</name></member>
       <member refid="classdebug_1_1_session_1a244b110c3c6cfa7e9371f2f6b5b61203" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>loadModuleSymbols</name></member>
-      <member refid="classdebug_1_1_session_1adc898d1115e730d8a24677e708bcc7fa" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>pollEvents</name></member>
+      <member refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>pollEvents</name></member>
       <member refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>process</name></member>
       <member refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>removeBreakpoint</name></member>
       <member refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>resetSymbolGroupCache</name></member>

@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
   <compounddef id="classdebug_1_1_output_callbacks" kind="class" language="C++" prot="public">
     <compoundname>debug::OutputCallbacks</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IDebugOutputCallbacks</basecompoundref>
     <basecompoundref prot="public" virt="non-virtual">IDebugOutputCallbacks2</basecompoundref>
     <includes refid="_callbacks_8h" local="no">Callbacks.h</includes>
     <sectiondef kind="user-defined">
@@ -28,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="34" column="5"/>
+        <location file="debug/Callbacks.h" line="35" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -54,15 +55,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="43" column="5"/>
-        <references refid="classdebug_1_1_output_callbacks_1a7b53d1ebf9716fe903739326e6088578" compoundref="_callbacks_8cpp" startline="158" endline="162">GetInterestMask</references>
-        <references refid="classdebug_1_1_output_callbacks_1ae7585eb0c1e5a6397ab1f78313179724" compoundref="_callbacks_8cpp" startline="146" endline="152">Output</references>
-        <references refid="classdebug_1_1_output_callbacks_1aadd3810605f6ea389591feeee73a026f" compoundref="_callbacks_8cpp" startline="164" endline="184">Output2</references>
-        <references refid="classdebug_1_1_output_callbacks_1ae8ec1d39b891624fcc2167ce4210da01" compoundref="_callbacks_8cpp" startline="115" endline="140">QueryInterface</references>
+        <location file="debug/Callbacks.h" line="44" column="5"/>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_output_callbacks_1ae8ec1d39b891624fcc2167ce4210da01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_output_callbacks_1a08cedc2fc792ef1771ce3b0f06db1ff4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::OutputCallbacks::QueryInterface</definition>
+        <definition>STDMETHOD debug::OutputCallbacks::QueryInterface</definition>
         <argsstring>(REFIID interfaceId, PVOID *outInterface) override</argsstring>
         <name>QueryInterface</name>
         <qualifiedname>debug::OutputCallbacks::QueryInterface</qualifiedname>
@@ -102,15 +99,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="53" column="5" bodyfile="debug/Callbacks.cpp" bodystart="115" bodyend="140"/>
-        <referencedby refid="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="54" column="5"/>
+        <references refid="classdebug_1_1_output_callbacks_1a08cedc2fc792ef1771ce3b0f06db1ff4">QueryInterface</references>
+        <referencedby refid="classdebug_1_1_output_callbacks_1a08cedc2fc792ef1771ce3b0f06db1ff4">QueryInterface</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="user-defined">
       <header>IDebugOutputCallbacks</header>
-      <memberdef kind="function" id="classdebug_1_1_output_callbacks_1ae7585eb0c1e5a6397ab1f78313179724" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_output_callbacks_1a41ad0df26b14aea0d9093e9bcaa077be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::OutputCallbacks::Output</definition>
+        <definition>STDMETHOD debug::OutputCallbacks::Output</definition>
         <argsstring>(ULONG mask, PCSTR text) override</argsstring>
         <name>Output</name>
         <qualifiedname>debug::OutputCallbacks::Output</qualifiedname>
@@ -150,15 +148,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="69" column="5" bodyfile="debug/Callbacks.cpp" bodystart="146" bodyend="152"/>
-        <referencedby refid="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="70" column="5"/>
+        <references refid="classdebug_1_1_output_callbacks_1a41ad0df26b14aea0d9093e9bcaa077be">Output</references>
+        <referencedby refid="classdebug_1_1_output_callbacks_1a41ad0df26b14aea0d9093e9bcaa077be">Output</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="user-defined">
       <header>IDebugOutputCallbacks2</header>
-      <memberdef kind="function" id="classdebug_1_1_output_callbacks_1a7b53d1ebf9716fe903739326e6088578" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_output_callbacks_1a819712bcd7bfef73973ab8671cd90362" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::OutputCallbacks::GetInterestMask</definition>
+        <definition>STDMETHOD debug::OutputCallbacks::GetInterestMask</definition>
         <argsstring>(PULONG mask) override</argsstring>
         <name>GetInterestMask</name>
         <qualifiedname>debug::OutputCallbacks::GetInterestMask</qualifiedname>
@@ -186,12 +185,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="84" column="5" bodyfile="debug/Callbacks.cpp" bodystart="158" bodyend="162"/>
-        <referencedby refid="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="85" column="5"/>
+        <references refid="classdebug_1_1_output_callbacks_1a819712bcd7bfef73973ab8671cd90362">GetInterestMask</references>
+        <referencedby refid="classdebug_1_1_output_callbacks_1a819712bcd7bfef73973ab8671cd90362">GetInterestMask</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_output_callbacks_1aadd3810605f6ea389591feeee73a026f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_output_callbacks_1a1caabfde7b221759b9df1690a072c5a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
-        <definition>HRESULT debug::OutputCallbacks::Output2</definition>
+        <definition>STDMETHOD debug::OutputCallbacks::Output2</definition>
         <argsstring>(ULONG which, ULONG flags, ULONG64 arg, PCWSTR text) override</argsstring>
         <name>Output2</name>
         <qualifiedname>debug::OutputCallbacks::Output2</qualifiedname>
@@ -255,8 +255,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="97" column="5" bodyfile="debug/Callbacks.cpp" bodystart="164" bodyend="184"/>
-        <referencedby refid="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d">STDMETHOD_</referencedby>
+        <location file="debug/Callbacks.h" line="98" column="5"/>
+        <references refid="classdebug_1_1_output_callbacks_1a1caabfde7b221759b9df1690a072c5a9">Output2</references>
+        <referencedby refid="classdebug_1_1_output_callbacks_1a1caabfde7b221759b9df1690a072c5a9">Output2</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -275,7 +276,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="105" column="11" bodyfile="debug/Callbacks.h" bodystart="105" bodyend="105"/>
+        <location file="debug/Callbacks.h" line="106" column="11" bodyfile="debug/Callbacks.h" bodystart="106" bodyend="106"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -291,7 +292,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="25" column="5"/>
+        <location file="debug/Callbacks.h" line="26" column="5"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -306,17 +307,25 @@
     </detaileddescription>
     <inheritancegraph>
       <node id="2">
+        <label>IDebugOutputCallbacks</label>
+      </node>
+      <node id="3">
         <label>IDebugOutputCallbacks2</label>
       </node>
       <node id="1">
         <label>debug::OutputCallbacks</label>
         <link refid="classdebug_1_1_output_callbacks"/>
         <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
       <node id="2">
+        <label>IDebugOutputCallbacks</label>
+      </node>
+      <node id="3">
         <label>IDebugOutputCallbacks2</label>
       </node>
       <node id="1">
@@ -324,15 +333,17 @@
         <link refid="classdebug_1_1_output_callbacks"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
       </node>
     </collaborationgraph>
-    <location file="debug/Callbacks.h" line="22" column="1" bodyfile="debug/Callbacks.h" bodystart="23" bodyend="108"/>
+    <location file="debug/Callbacks.h" line="22" column="1" bodyfile="debug/Callbacks.h" bodystart="24" bodyend="109"/>
     <listofallmembers>
-      <member refid="classdebug_1_1_output_callbacks_1a7b53d1ebf9716fe903739326e6088578" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>GetInterestMask</name></member>
-      <member refid="classdebug_1_1_output_callbacks_1ae7585eb0c1e5a6397ab1f78313179724" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>Output</name></member>
-      <member refid="classdebug_1_1_output_callbacks_1aadd3810605f6ea389591feeee73a026f" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>Output2</name></member>
+      <member refid="classdebug_1_1_output_callbacks_1a819712bcd7bfef73973ab8671cd90362" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>GetInterestMask</name></member>
+      <member refid="classdebug_1_1_output_callbacks_1a41ad0df26b14aea0d9093e9bcaa077be" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>Output</name></member>
+      <member refid="classdebug_1_1_output_callbacks_1a1caabfde7b221759b9df1690a072c5a9" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>Output2</name></member>
       <member refid="classdebug_1_1_output_callbacks_1a9e3a13ed4c109a256db7fd377aa15c5d" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>OutputCallbacks</name></member>
-      <member refid="classdebug_1_1_output_callbacks_1ae8ec1d39b891624fcc2167ce4210da01" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>QueryInterface</name></member>
+      <member refid="classdebug_1_1_output_callbacks_1a08cedc2fc792ef1771ce3b0f06db1ff4" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>QueryInterface</name></member>
       <member refid="classdebug_1_1_output_callbacks_1a45b9e75bb91dff19d9e99ea8ee9610c8" prot="private" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>refCount</name></member>
       <member refid="classdebug_1_1_output_callbacks_1a6574743c1cfd29521d57e5d41b05e33d" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>STDMETHOD_</name></member>
       <member refid="classdebug_1_1_output_callbacks_1af5bb09e7e08eb764720df17203c3d28d" prot="public" virt="non-virtual"><scope>debug::OutputCallbacks</scope><name>STDMETHOD_</name></member>

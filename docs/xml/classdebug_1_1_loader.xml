@@ -37,7 +37,6 @@
         <inbodydescription>
         </inbodydescription>
         <location file="debug/Loader.h" line="60" column="13" bodyfile="debug/Loader.h" bodystart="60" bodyend="60"/>
-        <referencedby refid="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" compoundref="_loader_8cpp" startline="21" endline="42">load</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_loader_1aae70f534011e62ad2ea9f990abf7d988" prot="private" static="no" mutable="no">
         <type><ref refid="classdebug_1_1_loader_1ad3b8ed8285fa9cb19a7f61aa40048916" kindref="member">DebugCreateFn</ref></type>
@@ -54,8 +53,6 @@
         <inbodydescription>
         </inbodydescription>
         <location file="debug/Loader.h" line="63" column="19" bodyfile="debug/Loader.h" bodystart="63" bodyend="63"/>
-        <referencedby refid="classdebug_1_1_loader_1a62ba00feaf2f23de7bfdf46767f2e493" compoundref="_loader_8cpp" startline="44" endline="60">createDebugClient</referencedby>
-        <referencedby refid="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" compoundref="_loader_8cpp" startline="21" endline="42">load</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -86,8 +83,6 @@
         <inbodydescription>
         </inbodydescription>
         <location file="debug/Loader.h" line="29" column="5"/>
-        <references refid="classdebug_1_1_loader_1a62ba00feaf2f23de7bfdf46767f2e493" compoundref="_loader_8cpp" startline="44" endline="60">createDebugClient</references>
-        <references refid="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" compoundref="_loader_8cpp" startline="21" endline="42">load</references>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>bool</type>
@@ -96,7 +91,7 @@
         <name>load</name>
         <qualifiedname>debug::Loader::load</qualifiedname>
         <param>
-          <type>const juce::File &amp;</type>
+          <type>const <ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref> &amp;</type>
           <declname>sidecarDirectory</declname>
         </param>
         <briefdescription>
@@ -121,10 +116,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Loader.h" line="41" column="10" bodyfile="debug/Loader.cpp" bodystart="21" bodyend="42"/>
-        <references refid="classdebug_1_1_loader_1a8a730cb0b007bf2f0f1b8ebc800cc3e6" compoundref="_loader_8h" startline="60" endline="60">dbgengModule</references>
-        <references refid="classdebug_1_1_loader_1aae70f534011e62ad2ea9f990abf7d988" compoundref="_loader_8h" startline="63" endline="63">debugCreateFn</references>
-        <referencedby refid="classdebug_1_1_loader_1aa437e7263d8721db1adacd8b98771389">~Loader</referencedby>
+        <location file="debug/Loader.h" line="41" column="10"/>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_loader_1a62ba00feaf2f23de7bfdf46767f2e493" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>IDebugClient5 *</type>
@@ -145,9 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Loader.h" line="53" column="19" bodyfile="debug/Loader.cpp" bodystart="44" bodyend="60"/>
-        <references refid="classdebug_1_1_loader_1aae70f534011e62ad2ea9f990abf7d988" compoundref="_loader_8h" startline="63" endline="63">debugCreateFn</references>
-        <referencedby refid="classdebug_1_1_loader_1aa437e7263d8721db1adacd8b98771389">~Loader</referencedby>
+        <location file="debug/Loader.h" line="53" column="19"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

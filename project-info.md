@@ -51,7 +51,7 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 +-----------------------------+------------------------------------------------+-------------------------------------------+
 | deploymentTarget            | `12.0`                                         | Minimum macOS deployment target           |
 +-----------------------------+------------------------------------------------+-------------------------------------------+
-| architecture                | x86_64;arm64                                   | macOS architectures                       |
+| architecture                | ${CAST_HOST_PROCESSOR}                         | macOS architectures                       |
 +-----------------------------+------------------------------------------------+-------------------------------------------+
 | msvcRuntime                 | `MultiThreaded$<$<CONFIG:Debug>:Debug>`        | MSVC runtime library selection            |
 +-----------------------------+------------------------------------------------+-------------------------------------------+
@@ -147,7 +147,7 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 +---------+-----------------------------------------------------------------------+------------------------------+
 | name    | value                                                                 | description                  |
 +=========+=======================================================================+==============================+
-| liblldb | Resources/macos/liblldb.dylib                                         | macOS LLDB engine            |
+| liblldb | `Resources/macos/${CMAKE_OSX_ARCHITECTURES}/liblldb.dylib`            | macOS LLDB engine            |
 | dbgeng  | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbgeng.dll`  | Windows debug engine         |
 | dbghelp | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbghelp.dll` | Windows symbol handling      |
 | dbgcore | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbgcore.dll` | Windows dump core            |
@@ -156,13 +156,13 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 
 ## library
 
-+----------+------------------------------------------------------------------------------+------------------------+
-| name     | value                                                                        | description            |
-+==========+==============================================================================+========================+
-| liblldb  | `$<$<PLATFORM_ID:Darwin>:${CMAKE_SOURCE_DIR}/Resources/macos/liblldb.dylib>` | macOS LLDB engine      |
-| ole32    | `$<$<PLATFORM_ID:Windows>:ole32>`                                            | Windows COM runtime    |
-| oleaut32 | `$<$<PLATFORM_ID:Windows>:oleaut32>`                                         | Windows COM automation |
-+----------+------------------------------------------------------------------------------+------------------------+
++----------+---------------------------------------------------------------------------------------------------------+------------------------+
+| name     | value                                                                                                   | description            |
++==========+=========================================================================================================+========================+
+| liblldb  | `$<$<PLATFORM_ID:Darwin>:${CMAKE_SOURCE_DIR}/Resources/macos/${CMAKE_OSX_ARCHITECTURES}/liblldb.dylib>` | macOS LLDB engine      |
+| ole32    | `$<$<PLATFORM_ID:Windows>:ole32>`                                                                       | Windows COM runtime    |
+| oleaut32 | `$<$<PLATFORM_ID:Windows>:oleaut32>`                                                                    | Windows COM automation |
++----------+---------------------------------------------------------------------------------------------------------+------------------------+
 
 ## toolchain
 
@@ -192,13 +192,13 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 
 ## pack
 
-+----------+------------+------------+-----------------------------------+
-| name     | mac        | win        | description                       |
-+==========+============+============+===================================+
-| folder   | ../Release | ../Release | Archive folder                    |
-| format   | pkg        | exe        | Archive format                    |
-| platform | macOS      | Windows    | Platform word in the archive name |
-+----------+------------+------------+-----------------------------------+
++----------+----------------------------------+------------+-----------------------------------+
+| name     | mac                              | win        | description                       |
++==========+==================================+============+===================================+
+| folder   | ../Release                       | ../Release | Archive folder                    |
+| format   | pkg                              | exe        | Archive format                    |
+| platform | macOS ${CMAKE_OSX_ARCHITECTURES} | Windows    | Platform word in the archive name |
++----------+----------------------------------+------------+-----------------------------------+
 
 ## release notes
 

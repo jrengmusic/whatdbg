@@ -4,7 +4,6 @@
     <compoundname>debug</compoundname>
     <innerfile refid="_breakpoint_manager_8cpp">BreakpointManager.cpp</innerfile>
     <innerfile refid="_breakpoint_manager_8h">BreakpointManager.h</innerfile>
-    <innerfile refid="_breakpoint_manager_handlers_8cpp">BreakpointManagerHandlers.cpp</innerfile>
     <innerfile refid="_callbacks_8cpp">Callbacks.cpp</innerfile>
     <innerfile refid="_callbacks_8h">Callbacks.h</innerfile>
     <innerfile refid="_loader_8cpp">Loader.cpp</innerfile>
@@ -13,8 +12,6 @@
     <innerfile refid="_session_8cpp">Session.cpp</innerfile>
     <innerfile refid="_session_8h">Session.h</innerfile>
     <innerfile refid="_session__mac_8cpp">Session_mac.cpp</innerfile>
-    <innerfile refid="_session_inspection_8cpp">SessionInspection.cpp</innerfile>
-    <innerfile refid="_session_inspection__mac_8cpp">SessionInspection_mac.cpp</innerfile>
     <innerfile refid="_session_pretty_print_8cpp">SessionPrettyPrint.cpp</innerfile>
     <innerfile refid="_session_pretty_print__mac_8cpp">SessionPrettyPrint_mac.cpp</innerfile>
     <innerfile refid="_state_8h">State.h</innerfile>

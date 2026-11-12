@@ -5,7 +5,6 @@
     <includes local="no">JuceHeader.h</includes>
     <includes local="no">windows.h</includes>
     <includes local="no">dbgeng.h</includes>
-    <includedby refid="_loader_8cpp" local="yes">debug/Loader.cpp</includedby>
     <incdepgraph>
       <node id="1">
         <label>debug/Loader.h</label>
@@ -27,18 +26,6 @@
         <label>windows.h</label>
       </node>
     </incdepgraph>
-    <invincdepgraph>
-      <node id="2">
-        <label>debug/Loader.cpp</label>
-        <link refid="_loader_8cpp"/>
-      </node>
-      <node id="1">
-        <label>debug/Loader.h</label>
-        <link refid="_loader_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-      </node>
-    </invincdepgraph>
     <innerclass refid="classdebug_1_1_loader" prot="public">debug::Loader</innerclass>
     <innernamespace refid="namespacedebug">debug</innernamespace>
     <briefdescription>
@@ -60,9 +47,9 @@
 <codeline lineno="28" refid="classdebug_1_1_loader_1ab7518ba453d253d36be0d44da562da60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_loader_1ab7518ba453d253d36be0d44da562da60" kindref="member">Loader</ref><sp/>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="29" refid="classdebug_1_1_loader_1aa437e7263d8721db1adacd8b98771389" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_loader_1aa437e7263d8721db1adacd8b98771389" kindref="member">~Loader</ref><sp/>();</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" kindref="member">load</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::File&amp;<sp/>sidecarDirectory)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41" refid="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_loader_1af874ec96d883550b797dd61c64499812" kindref="member">load</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref>&amp;<sp/>sidecarDirectory)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"></highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>IDebugClient5*<sp/><ref refid="classdebug_1_1_loader_1a62ba00feaf2f23de7bfdf46767f2e493" kindref="member">createDebugClient</ref><sp/>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="53" refid="classdebug_1_1_loader_1a62ba00feaf2f23de7bfdf46767f2e493" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>IDebugClient5*<sp/><ref refid="classdebug_1_1_loader_1a62ba00feaf2f23de7bfdf46767f2e493" kindref="member">createDebugClient</ref><sp/>()<sp/>const<sp/>noexcept;</highlight></codeline>
 <codeline lineno="54"><highlight class="normal"></highlight></codeline>
 <codeline lineno="55"><highlight class="normal">private:</highlight></codeline>
 <codeline lineno="57" refid="classdebug_1_1_loader_1ad3b8ed8285fa9cb19a7f61aa40048916" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>using<sp/><ref refid="classdebug_1_1_loader_1ad3b8ed8285fa9cb19a7f61aa40048916" kindref="member">DebugCreateFn</ref><sp/>=<sp/>HRESULT<sp/>(STDAPICALLTYPE*)<sp/>(REFIID,<sp/>PVOID*);</highlight></codeline>
@@ -71,7 +58,7 @@
 <codeline lineno="61"><highlight class="normal"></highlight></codeline>
 <codeline lineno="63" refid="classdebug_1_1_loader_1aae70f534011e62ad2ea9f990abf7d988" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_loader_1ad3b8ed8285fa9cb19a7f61aa40048916" kindref="member">DebugCreateFn</ref><sp/><ref refid="classdebug_1_1_loader_1aae70f534011e62ad2ea9f990abf7d988" kindref="member">debugCreateFn</ref><sp/>{<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>};</highlight></codeline>
 <codeline lineno="64"><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR<sp/>(<ref refid="classdebug_1_1_loader" kindref="compound">Loader</ref>)</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="juce__PlatformDefs_8h_1a851b02724a8158a7f746c66b5758b3dd" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR</ref><sp/>(<ref refid="classdebug_1_1_loader" kindref="compound">Loader</ref>)</highlight></codeline>
 <codeline lineno="66"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="67"><highlight class="normal"></highlight></codeline>
 <codeline lineno="68"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>debug</highlight><highlight class="normal"></highlight></codeline>

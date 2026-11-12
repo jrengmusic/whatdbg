@@ -5,7 +5,7 @@
     <includes refid="_breakpoint_manager_8h" local="no">BreakpointManager.h</includes>
     <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="structdebug_1_1_breakpoint_info_1a082eee9bacbb823540beb00c68c99d6b" prot="public" static="no" mutable="no">
-        <type>juce::String</type>
+        <type><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
         <definition>juce::String debug::BreakpointInfo::sourcePath</definition>
         <argsstring></argsstring>
         <name>sourcePath</name>
@@ -17,8 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="24" column="19" bodyfile="debug/BreakpointManager.h" bodystart="24" bodyend="-1"/>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a421a443c3e9d1a72bc5e172d7a94b43b" compoundref="_breakpoint_manager_handlers_8cpp" startline="62" endline="94">debug::BreakpointManager::addBreakpoint</referencedby>
+        <location file="debug/BreakpointManager.h" line="21" column="19" bodyfile="debug/BreakpointManager.h" bodystart="21" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structdebug_1_1_breakpoint_info_1a1b2a417a812e056e29a216399fe59668" prot="public" static="no" mutable="no">
         <type>std::uint16_t</type>
@@ -34,8 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="27" column="19" bodyfile="debug/BreakpointManager.h" bodystart="27" bodyend="27"/>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a421a443c3e9d1a72bc5e172d7a94b43b" compoundref="_breakpoint_manager_handlers_8cpp" startline="62" endline="94">debug::BreakpointManager::addBreakpoint</referencedby>
+        <location file="debug/BreakpointManager.h" line="24" column="19" bodyfile="debug/BreakpointManager.h" bodystart="24" bodyend="24"/>
       </memberdef>
       <memberdef kind="variable" id="structdebug_1_1_breakpoint_info_1a6be5a5941825d07e11457828a448e345" prot="public" static="no" mutable="no">
         <type>std::uint16_t</type>
@@ -51,8 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="30" column="19" bodyfile="debug/BreakpointManager.h" bodystart="30" bodyend="30"/>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a421a443c3e9d1a72bc5e172d7a94b43b" compoundref="_breakpoint_manager_handlers_8cpp" startline="62" endline="94">debug::BreakpointManager::addBreakpoint</referencedby>
+        <location file="debug/BreakpointManager.h" line="27" column="19" bodyfile="debug/BreakpointManager.h" bodystart="27" bodyend="27"/>
       </memberdef>
       <memberdef kind="variable" id="structdebug_1_1_breakpoint_info_1adf813a68303f2d367c2ce418fadc0396" prot="public" static="no" mutable="no">
         <type>std::uint16_t</type>
@@ -69,27 +66,25 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="37" column="19" bodyfile="debug/BreakpointManager.h" bodystart="37" bodyend="37"/>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a421a443c3e9d1a72bc5e172d7a94b43b" compoundref="_breakpoint_manager_handlers_8cpp" startline="62" endline="94">debug::BreakpointManager::addBreakpoint</referencedby>
+        <location file="debug/BreakpointManager.h" line="34" column="19" bodyfile="debug/BreakpointManager.h" bodystart="34" bodyend="34"/>
       </memberdef>
-      <memberdef kind="variable" id="structdebug_1_1_breakpoint_info_1a8269b630a2cff646156eda9edf72642b" prot="public" static="no" mutable="no">
-        <type>std::int32_t</type>
-        <definition>std::int32_t debug::BreakpointInfo::engineId</definition>
+      <memberdef kind="variable" id="structdebug_1_1_breakpoint_info_1a3b417aa7c235babae8869f2bb37b7038" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::int32_t &gt;</type>
+        <definition>std::optional&lt;std::int32_t&gt; debug::BreakpointInfo::engineId</definition>
         <argsstring></argsstring>
         <name>engineId</name>
         <qualifiedname>debug::BreakpointInfo::engineId</qualifiedname>
-        <initializer>{ 0 }</initializer>
+        <initializer>{}</initializer>
         <briefdescription>
 <para>Engine-assigned breakpoint ID. </para>
         </briefdescription>
         <detaileddescription>
-<para>0 until the engine has assigned one.</para>
-<para>Used to match incoming Breakpoint callback notifications and to call <ref refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" kindref="member">Session::removeBreakpoint</ref> during cleanup. </para>
+<para>Empty until the engine has assigned one.</para>
+<para>Used to match a stop or a location change to its entry, and to call <ref refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" kindref="member">Session::removeBreakpoint</ref> during cleanup. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="44" column="19" bodyfile="debug/BreakpointManager.h" bodystart="44" bodyend="44"/>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a421a443c3e9d1a72bc5e172d7a94b43b" compoundref="_breakpoint_manager_handlers_8cpp" startline="62" endline="94">debug::BreakpointManager::addBreakpoint</referencedby>
+        <location file="debug/BreakpointManager.h" line="41" column="19" bodyfile="debug/BreakpointManager.h" bodystart="41" bodyend="41"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -98,10 +93,23 @@
     <detaileddescription>
 <para>Created by onSetBreakpoints and kept alive until the client removes it or sends a new setBreakpoints for the same source file (which replaces all breakpoints for that file). </para>
     </detaileddescription>
-    <location file="debug/BreakpointManager.h" line="18" column="1" bodyfile="debug/BreakpointManager.h" bodystart="19" bodyend="45"/>
+    <collaborationgraph>
+      <node id="1">
+        <label>debug::BreakpointInfo</label>
+        <link refid="structdebug_1_1_breakpoint_info"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>sourcePath</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>juce::String</label>
+        <link refid="classjuce_1_1String" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+    </collaborationgraph>
+    <location file="debug/BreakpointManager.h" line="15" column="1" bodyfile="debug/BreakpointManager.h" bodystart="16" bodyend="42"/>
     <listofallmembers>
       <member refid="structdebug_1_1_breakpoint_info_1a1b2a417a812e056e29a216399fe59668" prot="public" virt="non-virtual"><scope>debug::BreakpointInfo</scope><name>dapId</name></member>
-      <member refid="structdebug_1_1_breakpoint_info_1a8269b630a2cff646156eda9edf72642b" prot="public" virt="non-virtual"><scope>debug::BreakpointInfo</scope><name>engineId</name></member>
+      <member refid="structdebug_1_1_breakpoint_info_1a3b417aa7c235babae8869f2bb37b7038" prot="public" virt="non-virtual"><scope>debug::BreakpointInfo</scope><name>engineId</name></member>
       <member refid="structdebug_1_1_breakpoint_info_1a6be5a5941825d07e11457828a448e345" prot="public" virt="non-virtual"><scope>debug::BreakpointInfo</scope><name>line</name></member>
       <member refid="structdebug_1_1_breakpoint_info_1adf813a68303f2d367c2ce418fadc0396" prot="public" virt="non-virtual"><scope>debug::BreakpointInfo</scope><name>resolvedLine</name></member>
       <member refid="structdebug_1_1_breakpoint_info_1a082eee9bacbb823540beb00c68c99d6b" prot="public" virt="non-virtual"><scope>debug::BreakpointInfo</scope><name>sourcePath</name></member>
