@@ -13,8 +13,6 @@
 namespace debug
 {
 
-using dap::DynObj;
-
 BreakpointManager::BreakpointManager (Session& newSession)
     : session { newSession }
 {
@@ -128,41 +126,40 @@ void BreakpointManager::setBreakpointLocation (BreakpointInfo& entryInfo) noexce
     }
 }
 
-juce::var BreakpointManager::getBreakpointStoppedEvent (std::int32_t engineId, std::uint32_t threadId) const
+void BreakpointManager::appendBreakpointStoppedEvent (std::string& json, std::int32_t engineId, std::uint32_t threadId) const
 {
-    DynObj body { new juce::DynamicObject () };
-    body->setProperty ("threadId",          static_cast<int> (threadId));
-    body->setProperty ("allThreadsStopped", true);
-
     const auto breakpointEntry { std::find_if (breakpoints.begin (), breakpoints.end (),
         [engineId] (const auto& entry)
         {
             const auto& [entryDapId, entryInfo] { entry };
             return entryInfo.engineId == engineId;
         }) };
+    const bool isBreakpoint { breakpointEntry != breakpoints.end () };
 
-    if (breakpointEntry != breakpoints.end ())
+    dap::appendEvent (json, jam::Strings::getView (Id::stopped.toString ()), [isBreakpoint, threadId, breakpointEntry] (std::string& body)
     {
-        const auto& [matchedDapId, matchedInfo] { *breakpointEntry };
+        jam::JsonWriter::appendKey (body, Id::threadId);
+        jam::Format::appendDecimal (body, static_cast<int> (threadId));
+        jam::JsonWriter::appendKey (body, Id::allThreadsStopped);
+        jam::JsonWriter::appendBoolean (body, true);
+        jam::JsonWriter::appendKey (body, Id::reason);
+        jam::JsonWriter::appendString (body, jam::Strings::getView ((isBreakpoint ? Id::breakpoint : Id::step).toString ()));
 
-        juce::Array<juce::var> hitIds;
-        hitIds.add (static_cast<int> (matchedDapId));
+        if (isBreakpoint)
+        {
+            const auto& [matchedDapId, matchedInfo] { *breakpointEntry };
+            const int hitBreakpointId { static_cast<int> (matchedDapId) };
 
-        body->setProperty ("reason",          "breakpoint");
-        body->setProperty ("hitBreakpointIds", juce::var (hitIds));
-    }
-    else
-    {
-        body->setProperty ("reason", "step");
-    }
-
-    return dap::getEvent ("stopped", juce::var (body));
+            jam::JsonWriter::appendKey (body, Id::hitBreakpointIds);
+            jam::JsonWriter::appendArray (body, [hitBreakpointId] (std::string& hitIds) { jam::Format::appendDecimal (hitIds, hitBreakpointId); });
+        }
+    });
 }
 
-juce::Array<juce::var> BreakpointManager::onBreakpointLocationFound (std::int32_t  engineId,
-                                                                     std::uint16_t resolvedLine)
+jam::Strings BreakpointManager::onBreakpointLocationFound (std::int32_t  engineId,
+                                                           std::uint16_t resolvedLine)
 {
-    juce::Array<juce::var> events;
+    jam::Strings events;
 
     const auto breakpointEntry { std::find_if (breakpoints.begin (), breakpoints.end (),
         [engineId] (auto& entry)
@@ -175,7 +172,10 @@ juce::Array<juce::var> BreakpointManager::onBreakpointLocationFound (std::int32_
     {
         auto& [matchedDapId, matchedInfo] { *breakpointEntry };
         matchedInfo.resolvedLine = resolvedLine;
-        events.add (dap::getBreakpointChangedEvent (static_cast<int> (matchedDapId), static_cast<int> (resolvedLine)));
+
+        std::string event;
+        dap::appendBreakpointChangedEvent (event, static_cast<int> (matchedDapId), static_cast<int> (resolvedLine));
+        events.add (event);
     }
 
     return events;
@@ -260,52 +260,58 @@ void BreakpointManager::addBreakpoint (const juce::String& rawSourcePath,
     breakpoints.insert_or_assign (dapId, std::move (info));
 }
 
-juce::var BreakpointManager::getBreakpointResponse (const BreakpointInfo& info,
-                                                     const juce::String&   rawSourcePath) const noexcept
+void BreakpointManager::appendBreakpoint (std::string& json, const BreakpointInfo& info, const juce::String& rawSourcePath) const noexcept
 {
     const bool isResolved { info.resolvedLine != 0 };
 
-    DynObj bpObj { new juce::DynamicObject () };
-    bpObj->setProperty ("id",       static_cast<int> (info.dapId));
-    bpObj->setProperty ("verified", isResolved);
-    bpObj->setProperty ("line",     isResolved ? static_cast<int> (info.resolvedLine)
-                                                : static_cast<int> (info.line));
-
-    if (not isResolved)
+    jam::JsonWriter::appendSeparator (json);
+    jam::JsonWriter::appendObject (json, [&info, &rawSourcePath, isResolved] (std::string& breakpoint)
     {
-        bpObj->setProperty ("message",
-            "WHATDBG: pending - module not loaded for "
-            + rawSourcePath + ":" + juce::String (info.line));
-    }
+        jam::JsonWriter::appendKey (breakpoint, Id::id);
+        jam::Format::appendDecimal (breakpoint, static_cast<int> (info.dapId));
+        jam::JsonWriter::appendKey (breakpoint, Id::verified);
+        jam::JsonWriter::appendBoolean (breakpoint, isResolved);
+        jam::JsonWriter::appendKey (breakpoint, Id::line);
+        jam::Format::appendDecimal (breakpoint, isResolved ? static_cast<int> (info.resolvedLine) : static_cast<int> (info.line));
 
-    DynObj sourceObj { new juce::DynamicObject () };
-    sourceObj->setProperty ("path", rawSourcePath);
-    bpObj->setProperty ("source", juce::var (sourceObj));
+        if (not isResolved)
+        {
+            const juce::String pendingMessage { "WHATDBG: pending - module not loaded for " + rawSourcePath + ":" + juce::String (info.line) };
+            jam::JsonWriter::appendKey (breakpoint, Id::message);
+            jam::JsonWriter::appendString (breakpoint, jam::Strings::getView (pendingMessage));
+        }
 
-    return juce::var (bpObj);
+        jam::JsonWriter::appendKey (breakpoint, Id::source);
+        jam::JsonWriter::appendObject (breakpoint, [&rawSourcePath] (std::string& source)
+        {
+            jam::JsonWriter::appendKey (source, Id::path);
+            jam::JsonWriter::appendString (source, jam::Strings::getView (rawSourcePath));
+        });
+    });
 }
 
-juce::Array<juce::var> BreakpointManager::onSetBreakpoints (
-    const juce::String& rawSourcePath,
-    const juce::var&    requestedBreakpoints)
+std::vector<std::uint16_t> BreakpointManager::getRequestedLines (const jam::JsonDocument& document, const jam::Document::Element* requestedBreakpoints) const
 {
-    const juce::String normalizedKey { normalizePath (rawSourcePath) };
-    auto*              bpsArr        { requestedBreakpoints.getArray () };
-    const int          bpsCount      { bpsArr != nullptr ? bpsArr->size () : 0 };
-
     std::vector<std::uint16_t> requestedLines;
 
-    for (int i { 0 }; i < bpsCount; ++i)
+    if (requestedBreakpoints != nullptr)
     {
-        auto* obj { bpsArr->getReference (i).getDynamicObject () };
-        jassert (obj != nullptr);
-
-        requestedLines.push_back (static_cast<std::uint16_t> (static_cast<int> (obj->getProperty ("line"))));
+        for (auto* requested : *requestedBreakpoints)
+        {
+            const auto* line { document.find (*requested, jam::Strings::getView (Id::line.toString ())) };
+            requestedLines.push_back (static_cast<std::uint16_t> (jam::Format::getNumber<int> (document.getView (*line))));
+        }
     }
 
-    const auto existingLines { removeOrphanedBreakpoints (normalizedKey, requestedLines) };
+    return requestedLines;
+}
 
-    juce::Array<juce::var> responses;
+void BreakpointManager::onSetBreakpoints (std::string& json, const juce::String& rawSourcePath, const jam::JsonDocument& document, const jam::Document::Element* requestedBreakpoints)
+{
+    const juce::String normalizedKey { normalizePath (rawSourcePath) };
+    const auto requestedLines (getRequestedLines (document, requestedBreakpoints));
+
+    const auto existingLines { removeOrphanedBreakpoints (normalizedKey, requestedLines) };
 
     for (const auto line : requestedLines)
     {
@@ -324,15 +330,13 @@ juce::Array<juce::var> BreakpointManager::onSetBreakpoints (
             ++nextDapId;
         }
 
-        responses.add (getBreakpointResponse (breakpoints.at (dapId), rawSourcePath));
+        appendBreakpoint (json, breakpoints.at (dapId), rawSourcePath);
     }
-
-    return responses;
 }
 
-juce::Array<juce::var> BreakpointManager::onModuleLoad (const juce::String& imageName)
+jam::Strings BreakpointManager::onModuleLoad (const juce::String& imageName)
 {
-    juce::Array<juce::var> events;
+    jam::Strings events;
 
     if (hasUnresolvedBreakpoints ())
     {
@@ -343,9 +347,9 @@ juce::Array<juce::var> BreakpointManager::onModuleLoad (const juce::String& imag
     return events;
 }
 
-juce::Array<juce::var> BreakpointManager::onReload ()
+jam::Strings BreakpointManager::onReload ()
 {
-    juce::Array<juce::var> events;
+    jam::Strings events;
 
     if (hasUnresolvedBreakpoints ())
     {
@@ -356,9 +360,9 @@ juce::Array<juce::var> BreakpointManager::onReload ()
     return events;
 }
 
-juce::Array<juce::var> BreakpointManager::onSymbolsLoaded ()
+jam::Strings BreakpointManager::onSymbolsLoaded ()
 {
-    juce::Array<juce::var> events;
+    jam::Strings events;
 
     for (auto& [entryDapId, entryInfo] : breakpoints)
     {
@@ -368,7 +372,9 @@ juce::Array<juce::var> BreakpointManager::onSymbolsLoaded ()
 
             if (entryInfo.engineId.has_value ())
             {
-                events.add (dap::getBreakpointChangedEvent (static_cast<int> (entryDapId), static_cast<int> (entryInfo.resolvedLine)));
+                std::string event;
+                dap::appendBreakpointChangedEvent (event, static_cast<int> (entryDapId), static_cast<int> (entryInfo.resolvedLine));
+                events.add (event);
 
 #if JUCE_DEBUG
                 jam::debug::Log::write ("WHATDBG: deferred breakpoint resolved on module load"

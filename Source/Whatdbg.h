@@ -72,7 +72,7 @@ private:
      *  and true. Looked up by onCommand. Each handler receives the command name and
      *  the request message.
      */
-    jam::Function::Map<juce::String, jam::Function::pointerCapacity, void (const juce::var&)> commands;
+    jam::Function::Map<juce::String, jam::Function::pointerCapacity, void (const jam::JsonDocument&)> commands;
 
     /** Dispatch table mapping a debug::StopReason to the drain that emits its DAP event.
      *
@@ -85,25 +85,43 @@ private:
      *
      *  @param message  Parsed JSON message as juce::var.
      */
-    void onCommand (const juce::var& message);
+    static int getRequestSeq (const jam::JsonDocument& request);
+
+    template <typename NumberType>
+    static NumberType getNumber (const jam::JsonDocument& request, const jam::Document::Element& object, const juce::Identifier& key)
+    {
+        return jam::Format::getNumber<NumberType> (request.getView (*request.find (object, jam::Strings::getView (key.toString ()))));
+    }
+
+    static juce::String getText (const jam::JsonDocument& request, const jam::Document::Element& object, const juce::Identifier& key);
+
+    static void appendLocalsScope (std::string& json, int localsRef);
+
+    void addFrameIds (std::uint32_t threadId, int frameCount);
+
+    void setAttachedState (std::uint32_t pid);
+
+    static const jam::Document::Element& getArguments (const jam::JsonDocument& request);
+
+    void onCommand (const jam::JsonDocument& document);
 
     /** Handle DAP initialize request — send capabilities response.
      *
      *  @param request  The full DAP initialize request object.
      */
-    void onInitialize (const juce::var& request);
+    void onInitialize (const jam::JsonDocument& document);
 
     /** Handle DAP launch request — launch the debuggee process.
      *
      *  @param request  The full DAP launch request object containing the program path.
      */
-    void onLaunch (const juce::var& request);
+    void onLaunch (const jam::JsonDocument& document);
 
     /** Handle DAP attach request — attach to a running process by PID.
      *
      *  @param request  The full DAP attach request object containing the process ID.
      */
-    void onAttach (const juce::var& request);
+    void onAttach (const jam::JsonDocument& document);
 
     /** Configure symbol and source search paths for the newly launched/attached target.
      *
@@ -116,7 +134,7 @@ private:
      *
      *  @param request  The full DAP configurationDone request object.
      */
-    void onConfigurationDone (const juce::var& request);
+    void onConfigurationDone (const jam::JsonDocument& document);
 
     /** Handle DAP disconnect request — detach or terminate the debuggee.
      *
@@ -125,25 +143,25 @@ private:
      *                      debuggee termination regardless of the
      *                      terminateDebuggee argument.
      */
-    void onDisconnect (const juce::var& request, bool isTerminate);
+    void onDisconnect (const jam::JsonDocument& document, bool isTerminate);
 
     /** Handle DAP setBreakpoints request — sync client breakpoints with dbgeng.
      *
      *  @param request  The full DAP setBreakpoints request containing source and breakpoints array.
      */
-    void onSetBreakpoints (const juce::var& request);
+    void onSetBreakpoints (const jam::JsonDocument& document);
 
     /** Handle DAP threads request — enumerate all threads in the debuggee.
      *
      *  @param request  The full DAP threads request object.
      */
-    void onThreads (const juce::var& request);
+    void onThreads (const jam::JsonDocument& document);
 
     /** Handle DAP stackTrace request — return call stack frames for a thread.
      *
      *  @param request  The full DAP stackTrace request containing threadId and optional startFrame/levels.
      */
-    void onStackTrace (const juce::var& request);
+    void onStackTrace (const jam::JsonDocument& document);
 
     /** Decode a DAP frameId to (threadSystemId, frameIndex) and select that thread.
      *
@@ -160,7 +178,7 @@ private:
      *
      *  @param request  The full DAP scopes request containing frameId.
      */
-    void onScopes (const juce::var& request);
+    void onScopes (const jam::JsonDocument& document);
 
     /** Resolve a variablesReference to its formatted DAP variable list.
      *
@@ -168,13 +186,13 @@ private:
      *              by onScopes (locals scope) or addDapVariable (expandable child).
      *  @return the formatted DAP variables, or an empty array if ref is not registered.
      */
-    juce::Array<juce::var> getDapVariables (int ref);
+    void appendVariables (std::string& json, int ref);
 
     /** Handle DAP variables request — return variables for a variablesReference.
      *
      *  @param request  The full DAP variables request containing variablesReference.
      */
-    void onVariables (const juce::var& request);
+    void onVariables (const jam::JsonDocument& document);
 
     /** Format one raw Session variable and add it to the DAP variables array.
      *
@@ -184,49 +202,49 @@ private:
      *  @param frameIndex    Stack frame index the variable belongs to, used to key
      *                       any child variablesReference registered for expansion.
      */
-    void addDapVariable (juce::Array<juce::var>& dapVariables, const juce::var& rawVar, int frameIndex);
+    void appendVariable (std::string& json, const juce::String& name, const juce::String& value, const juce::String& type, bool hasChildren, int symbolIndex, int frameIndex);
 
     /** Handle DAP continue request — resume execution.
      *
      *  @param request  The full DAP continue request object.
      */
-    void onContinue (const juce::var& request);
+    void onContinue (const jam::JsonDocument& document);
 
     /** Handle DAP next request — step over one source line.
      *
      *  @param request  The full DAP next request object.
      */
-    void onNext (const juce::var& request);
+    void onNext (const jam::JsonDocument& document);
 
     /** Handle DAP stepIn request — step into a function call.
      *
      *  @param request  The full DAP stepIn request object.
      */
-    void onStepIn (const juce::var& request);
+    void onStepIn (const jam::JsonDocument& document);
 
     /** Handle DAP stepOut request — step out of the current function.
      *
      *  @param request  The full DAP stepOut request object.
      */
-    void onStepOut (const juce::var& request);
+    void onStepOut (const jam::JsonDocument& document);
 
     /** Handle DAP pause request — interrupt a running debuggee.
      *
      *  @param request  The full DAP pause request object.
      */
-    void onPause (const juce::var& request);
+    void onPause (const jam::JsonDocument& document);
 
     /** Handle DAP evaluate request — evaluate a C++ expression in the stopped context.
      *
      *  @param request  The full DAP evaluate request containing expression, frameId, and context.
      */
-    void onEvaluate (const juce::var& request);
+    void onEvaluate (const jam::JsonDocument& document);
 
     /** Handle DAP exceptionInfo request — return crash details for the last unhandled exception.
      *
      *  @param request  The full DAP exceptionInfo request object.
      */
-    void onExceptionInfo (const juce::var& request);
+    void onExceptionInfo (const jam::JsonDocument& document);
 
     // ── Deferred event processing ──────────────────────────────────────
 
@@ -259,7 +277,7 @@ private:
      *
      *  @param reason  DAP stopped reason.
      */
-    juce::var getStoppedEvent (const juce::String& reason);
+    std::string getStoppedEvent (std::string_view reason);
 
     /** Format State::exceptionCode and State::exceptionAddress as "0x<code> at 0x<address>". */
     juce::String getExceptionDescription () const;
@@ -276,17 +294,17 @@ private:
      *  @param description    Formatted "0x<code> at 0x<address>" crash description.
      *  @param threadId       System thread ID that crashed.
      */
-    juce::var getExceptionStoppedEvent (const juce::String& exceptionName,
-                                        const juce::String& description,
-                                        int threadId) const;
+    std::string getExceptionStoppedEvent (const juce::String& exceptionName,
+                                          const juce::String& description,
+                                          int threadId) const;
 
     /** Build a DAP output(stderr) event body summarizing an unhandled exception.
      *
      *  @param exceptionName  Human-readable exception/signal name from debug::getExceptionName.
      *  @param description    Formatted "0x<code> at 0x<address>" crash description.
      */
-    juce::var getExceptionOutputEvent (const juce::String& exceptionName,
-                                       const juce::String& description) const;
+    std::string getExceptionOutputEvent (const juce::String& exceptionName,
+                                         const juce::String& description) const;
 
     /** Build a DAP process event body announcing the debuggee's identity.
      *
@@ -299,7 +317,7 @@ private:
      *  @param processId    OS process id of the debuggee.
      *  @param startMethod  DAP start method: "launch" or "attach".
      */
-    juce::var getProcessEvent (const juce::String& name, std::uint32_t processId, const juce::String& startMethod) const;
+    std::string getProcessEvent (const juce::String& name, std::uint32_t processId, std::string_view startMethod) const;
 
     /** Emit DAP stopped(exception) and output events if an unhandled exception fired. */
     void drainExceptionStopped ();
@@ -331,7 +349,7 @@ private:
      *
      *  @param messages  Array of DAP message objects.
      */
-    void writeMessages (const juce::Array<juce::var>& messages);
+    void writeMessages (const jam::Strings& messages);
 
     /** Resolve any pending breakpoints and resume the debuggee after the initial break.
      *
@@ -358,7 +376,7 @@ private:
      *
      *  @note Not thread-safe — must be called on the main thread only.
      */
-    void writeMessage (const juce::var& message) noexcept;
+    void writeMessage (std::string_view json) noexcept;
 
     // ── Owned objects ──────────────────────────────────────────────────
 

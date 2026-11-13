@@ -1,5 +1,6 @@
 #pragma once
 #include <JuceHeader.h>
+#include "../generated/Generated.h"
 
 namespace dap
 {
@@ -39,7 +40,7 @@ public:
      *
      *  @note Must be called on the main thread only.
      */
-    juce::var tryPop () noexcept;
+    std::optional<jam::JsonDocument> tryPop () noexcept;
 
 private:
     /** Signal the background thread to stop and wait for it to exit.
@@ -64,16 +65,16 @@ private:
     /** Read contentLength bytes of DAP message body from stdin and parse as JSON.
      *
      *  @param contentLength  Number of bytes to read, as reported by the Content-Length header.
-     *  @return the parsed message, or a void juce::var if the body was not valid JSON.
+     *  @return the parsed document from jam::JsonDocument::parse when stdin is still good, otherwise nullptr.
      */
-    juce::var readMessage (int contentLength);
+    std::unique_ptr<jam::JsonDocument> readMessage (int contentLength);
 
     /** Enqueue a parsed DAP message into the FIFO for the main thread to consume.
      *
      *  @param message  The parsed message to enqueue. Dropped (and, in a debug
      *                   build, logged) if the FIFO is full.
      */
-    void addMessage (const juce::var& message);
+    void addMessage (jam::JsonDocument&& message);
 
     /** Tracks free/ready read and write regions of storage for the producer
      *  (background thread) and consumer (main thread) sides of tryPop().
@@ -81,7 +82,7 @@ private:
     juce::AbstractFifo fifo { fifoCapacity };
 
     /** Backing slots for queued messages, indexed by the ranges fifo hands out. */
-    std::vector<juce::var> storage;
+    std::vector<jam::JsonDocument> storage;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Reader)
 };

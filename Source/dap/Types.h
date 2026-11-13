@@ -1,16 +1,9 @@
 #pragma once
 #include <JuceHeader.h>
+#include "../generated/Generated.h"
 
 namespace dap
 {
-
-/** Convenience alias for a reference-counted DynamicObject pointer.
- *
- *  Used throughout the DAP layer to build JSON objects without manual
- *  reference counting. The underlying DynamicObject is heap-allocated and
- *  kept alive by the juce::var that wraps it.
- */
-using DynObj = juce::ReferenceCountedObjectPtr<juce::DynamicObject>;
 
 /** Process-wide DAP sequence counter.
  *
@@ -35,115 +28,109 @@ inline int nextSeq () noexcept
     return nextSequenceNumber++;
 }
 
-/** Build a DAP response object.
- *
- *  Constructs the mandatory DAP response envelope with seq, type, request_seq,
- *  command, and success fields. Optionally attaches a body object.
- *
- *  @param requestSeq  The seq value of the originating request.
- *  @param command     The command name being responded to (e.g. "initialize").
- *  @param isSuccess   Whether the command succeeded.
- *  @param body        Optional response body. Omitted when void (default).
- *  @return A juce::var containing the fully formed response DynamicObject.
- */
-inline juce::var getResponse (int requestSeq,
-                              const juce::String& command,
-                              bool isSuccess,
-                              juce::var body = juce::var ()) noexcept
+inline void appendResponseMembers (std::string& json, int requestSeq, std::string_view command, bool isSuccess)
 {
-    DynObj obj { new juce::DynamicObject () };
-    obj->setProperty ("seq",         nextSeq ());
-    obj->setProperty ("type",        "response");
-    obj->setProperty ("request_seq", requestSeq);
-    obj->setProperty ("command",     command);
-    obj->setProperty ("success",     isSuccess);
-
-    if (not body.isVoid ())
-        obj->setProperty ("body", body);
-
-    return juce::var (obj);
+    jam::JsonWriter::appendKey (json, Id::seq);
+    jam::Format::appendDecimal (json, nextSeq ());
+    jam::JsonWriter::appendKey (json, Id::type);
+    jam::JsonWriter::appendString (json, jam::Strings::getView (Id::response.toString ()));
+    jam::JsonWriter::appendKey (json, Id::requestSeq);
+    jam::Format::appendDecimal (json, requestSeq);
+    jam::JsonWriter::appendKey (json, Id::command);
+    jam::JsonWriter::appendString (json, command);
+    jam::JsonWriter::appendKey (json, Id::success);
+    jam::JsonWriter::appendBoolean (json, isSuccess);
 }
 
-/** Build a DAP error response object.
- *
- *  Builds the same response envelope as getResponse for the failure case,
- *  with success=false and a human-readable message attached instead of a body.
- *
- *  @param requestSeq  The seq value of the originating request.
- *  @param command     The command name being responded to.
- *  @param message     Human-readable description of the error.
- *  @return A juce::var containing the error response DynamicObject.
- */
-inline juce::var getErrorResponse (int requestSeq,
-                                   const juce::String& command,
-                                   const juce::String& message) noexcept
+inline void appendEventMembers (std::string& json, std::string_view event)
 {
-    DynObj obj { new juce::DynamicObject () };
-    obj->setProperty ("seq",         nextSeq ());
-    obj->setProperty ("type",        "response");
-    obj->setProperty ("request_seq", requestSeq);
-    obj->setProperty ("command",     command);
-    obj->setProperty ("success",     false);
-    obj->setProperty ("message",     message);
-    return juce::var (obj);
+    jam::JsonWriter::appendKey (json, Id::seq);
+    jam::Format::appendDecimal (json, nextSeq ());
+    jam::JsonWriter::appendKey (json, Id::type);
+    jam::JsonWriter::appendString (json, jam::Strings::getView (Id::event.toString ()));
+    jam::JsonWriter::appendKey (json, Id::event);
+    jam::JsonWriter::appendString (json, event);
 }
 
-/** Build a DAP event object.
- *
- *  Constructs the mandatory DAP event envelope with seq, type, and event fields.
- *  Optionally attaches a body object.
- *
- *  @param event  The event name (e.g. "stopped", "output", "terminated").
- *  @param body   Optional event body. Omitted when void (default).
- *  @return A juce::var containing the fully formed event DynamicObject.
- */
-inline juce::var getEvent (const juce::String& event,
-                           juce::var body = juce::var ()) noexcept
+template <typename Function>
+inline void appendResponse (std::string& json, int requestSeq, std::string_view command, bool isSuccess, const Function& appendBody)
 {
-    DynObj obj { new juce::DynamicObject () };
-    obj->setProperty ("seq",   nextSeq ());
-    obj->setProperty ("type",  "event");
-    obj->setProperty ("event", event);
-
-    if (not body.isVoid ())
-        obj->setProperty ("body", body);
-
-    return juce::var (obj);
+    jam::JsonWriter::appendObject (json, [requestSeq, command, isSuccess, &appendBody] (std::string& members)
+    {
+        appendResponseMembers (members, requestSeq, command, isSuccess);
+        jam::JsonWriter::appendKey (members, Id::body);
+        jam::JsonWriter::appendObject (members, appendBody);
+    });
 }
 
-/** Build a DAP breakpoint event with reason "changed" for a resolved breakpoint.
- *
- *  Sets the breakpoint's id, verified (true), and line in the breakpoint object.
- *
- *  @param dapId  DAP breakpoint ID of the resolved breakpoint.
- *  @param line   Resolved source line.
- *  @return A juce::var containing the fully formed event DynamicObject.
- */
-inline juce::var getBreakpointChangedEvent (int dapId, int line) noexcept
+inline void appendResponse (std::string& json, int requestSeq, std::string_view command, bool isSuccess)
 {
-    DynObj bpObj { new juce::DynamicObject () };
-    bpObj->setProperty ("id",       dapId);
-    bpObj->setProperty ("verified", true);
-    bpObj->setProperty ("line",     line);
-
-    DynObj body { new juce::DynamicObject () };
-    body->setProperty ("reason",     "changed");
-    body->setProperty ("breakpoint", juce::var (bpObj));
-
-    return getEvent ("breakpoint", juce::var (body));
+    jam::JsonWriter::appendObject (json, [requestSeq, command, isSuccess] (std::string& members)
+    {
+        appendResponseMembers (members, requestSeq, command, isSuccess);
+    });
 }
 
-/** Build the DAP capabilities object advertised during the initialize handshake.
- *
- *  Lists every capability flag defined by the DAP specification with its current
- *  supported state. Unsupported capabilities are explicitly set to false so clients
- *  do not attempt to use them.
- *
- *  @return A juce::var containing the capabilities DynamicObject.
- *
- *  @note Update this function whenever a new capability is implemented or dropped.
- */
-inline juce::var getCapabilities () noexcept
+inline void appendErrorResponse (std::string& json, int requestSeq, std::string_view command, std::string_view message)
+{
+    jam::JsonWriter::appendObject (json, [requestSeq, command, message] (std::string& members)
+    {
+        appendResponseMembers (members, requestSeq, command, false);
+        jam::JsonWriter::appendKey (members, Id::message);
+        jam::JsonWriter::appendString (members, message);
+    });
+}
+
+template <typename Function>
+inline void appendEvent (std::string& json, std::string_view event, const Function& appendBody)
+{
+    jam::JsonWriter::appendObject (json, [event, &appendBody] (std::string& members)
+    {
+        appendEventMembers (members, event);
+        jam::JsonWriter::appendKey (members, Id::body);
+        jam::JsonWriter::appendObject (members, appendBody);
+    });
+}
+
+inline void appendEvent (std::string& json, std::string_view event)
+{
+    jam::JsonWriter::appendObject (json, [event] (std::string& members)
+    {
+        appendEventMembers (members, event);
+    });
+}
+
+inline void appendBreakpointChangedEvent (std::string& json, int dapId, int line)
+{
+    appendEvent (json, jam::Strings::getView (Id::breakpoint.toString ()), [dapId, line] (std::string& body)
+    {
+        jam::JsonWriter::appendKey (body, Id::reason);
+        jam::JsonWriter::appendString (body, jam::Strings::getView (Id::changed.toString ()));
+        jam::JsonWriter::appendKey (body, Id::breakpoint);
+        jam::JsonWriter::appendObject (body, [dapId, line] (std::string& breakpoint)
+        {
+            jam::JsonWriter::appendKey (breakpoint, Id::id);
+            jam::Format::appendDecimal (breakpoint, dapId);
+            jam::JsonWriter::appendKey (breakpoint, Id::verified);
+            jam::JsonWriter::appendBoolean (breakpoint, true);
+            jam::JsonWriter::appendKey (breakpoint, Id::line);
+            jam::Format::appendDecimal (breakpoint, line);
+        });
+    });
+}
+
+inline void appendSource (std::string& json, std::string_view name, std::string_view path)
+{
+    jam::JsonWriter::appendObject (json, [name, path] (std::string& members)
+    {
+        jam::JsonWriter::appendKey (members, Id::name);
+        jam::JsonWriter::appendString (members, name);
+        jam::JsonWriter::appendKey (members, Id::path);
+        jam::JsonWriter::appendString (members, path);
+    });
+}
+
+inline void appendCapabilities (std::string& json)
 {
     static const std::vector<std::pair<juce::Identifier, bool>> capabilityFlags
     {
@@ -180,29 +167,11 @@ inline juce::var getCapabilities () noexcept
         { "supportsExceptionFilterOptions",     false }
     };
 
-    DynObj caps { new juce::DynamicObject () };
-
     for (const auto& [capabilityName, isSupported] : capabilityFlags)
-        caps->setProperty (capabilityName, isSupported);
-
-    return juce::var (caps);
-}
-
-/** Extract a string property from a DAP message object.
- *
- *  Safe to call on any juce::var — returns an empty string if obj is not a
- *  DynamicObject or if the property does not exist.
- *
- *  @param obj  The juce::var expected to wrap a DynamicObject (parsed DAP message).
- *  @param key  The property name to retrieve.
- *  @return The property value as a string, or an empty string if not found.
- */
-inline juce::String getString (const juce::var& obj, const juce::Identifier& key) noexcept
-{
-    if (auto* dynObj { obj.getDynamicObject () })
-        return dynObj->getProperty (key).toString ();
-
-    return {};
+    {
+        jam::JsonWriter::appendKey (json, capabilityName);
+        jam::JsonWriter::appendBoolean (json, isSupported);
+    }
 }
 
 } // namespace dap

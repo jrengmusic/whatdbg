@@ -26,8 +26,6 @@
 namespace debug
 {
 
-using dap::DynObj;
-
 static void onBreakpointStop (const lldb::StopReason& /*stopReason*/, debug::State& state, lldb::SBThread& thread) noexcept
 {
     state.stopReason = debug::StopReason::breakpoint;
@@ -531,9 +529,8 @@ void Session::appendSourcePath (const juce::String& path) noexcept
     debugger.HandleCommand (command.toRawUTF8 ());
 }
 
-juce::Array<juce::var> Session::getThreads () noexcept
+void Session::appendThreads (std::string& json) noexcept
 {
-    juce::Array<juce::var> threads;
     const std::uint32_t numThreads { process.GetNumThreads () };
 
     for (std::uint32_t i { 0 }; i < numThreads; ++i)
@@ -543,13 +540,15 @@ juce::Array<juce::var> Session::getThreads () noexcept
         const lldb::tid_t tid { thread.GetThreadID () };
         jassert (tid <= std::numeric_limits<std::uint32_t>::max ());
 
-        dap::DynObj threadEntry { new juce::DynamicObject () };
-        threadEntry->setProperty ("id",   static_cast<int> (static_cast<std::uint32_t> (tid)));
-        threadEntry->setProperty ("name", juce::String (rawName != nullptr ? rawName : ""));
-        threads.add (juce::var (threadEntry));
+        jam::JsonWriter::appendSeparator (json);
+        jam::JsonWriter::appendObject (json, [tid, rawName] (std::string& threadEntry)
+        {
+            jam::JsonWriter::appendKey (threadEntry, Id::id);
+            jam::Format::appendDecimal (threadEntry, static_cast<int> (static_cast<std::uint32_t> (tid)));
+            jam::JsonWriter::appendKey (threadEntry, Id::name);
+            jam::JsonWriter::appendString (threadEntry, rawName != nullptr ? rawName : "");
+        });
     }
-
-    return threads;
 }
 
 std::uint32_t Session::getEventThreadSystemId () noexcept
@@ -650,77 +649,63 @@ static juce::String getDisplayValue (lldb::SBValue& value, const juce::String& t
     return juce::String ();
 }
 
-juce::var Session::getVariableObject (lldb::SBValue& value, int symbolIndex) noexcept
+template <typename Function>
+static void applyToVariable (lldb::SBValue& value, const juce::String& name, int symbolIndex, const Function& function) noexcept
 {
     const char* rawType { value.GetTypeName () };
     const juce::String typeName { rawType != nullptr ? rawType : "" };
+    const juce::String displayValue { getDisplayValue (value, typeName) };
 
-    juce::String displayValue { getDisplayValue (value, typeName) };
-
-    if (displayValue.isEmpty ())
-    {
-        displayValue = "<unavailable>";
-    }
-
-    DynObj obj { new juce::DynamicObject () };
-    const char* rawName { value.GetName () };
-    obj->setProperty ("name",        juce::String (rawName != nullptr ? rawName : ""));
-    obj->setProperty ("value",       displayValue);
-    obj->setProperty ("type",        typeName);
-    obj->setProperty ("hasChildren", value.MightHaveChildren ());
-    obj->setProperty ("symbolIndex", symbolIndex);
-
-    return juce::var (obj);
+    function (name, displayValue.isEmpty () ? juce::String ("<unavailable>") : displayValue, typeName, value.MightHaveChildren (), symbolIndex);
 }
 
-static juce::var getStackFrame (lldb::SBFrame frame, int frameId) noexcept
+void Session::appendStackFrame (std::string& json, lldb::SBFrame frame, int frameId) noexcept
 {
-    DynObj frameEntry { new juce::DynamicObject () };
-
+    static constexpr int firstColumn { 1 };
     const char* rawName { frame.GetFunctionName () };
-    frameEntry->setProperty ("id",   frameId);
-    frameEntry->setProperty ("name", juce::String (rawName != nullptr ? rawName : "??"));
-
     auto lineEntry { frame.GetLineEntry () };
 
-    if (lineEntry.IsValid ())
+    jam::JsonWriter::appendSeparator (json);
+    jam::JsonWriter::appendObject (json, [rawName, frameId, &lineEntry] (std::string& frameEntry)
     {
-        DynObj source { new juce::DynamicObject () };
-        const char* rawFileName { lineEntry.GetFileSpec ().GetFilename () };
-        const char* rawFilePath { lineEntry.GetFileSpec ().GetDirectory () };
-        const juce::String fileName { rawFileName != nullptr ? rawFileName : "" };
-        const juce::String dirPath  { rawFilePath  != nullptr ? rawFilePath  : "" };
-        source->setProperty ("name", fileName);
-        source->setProperty ("path", dirPath.isNotEmpty ()
-                                         ? dirPath + "/" + fileName
-                                         : fileName);
-        frameEntry->setProperty ("source", juce::var (source));
-        frameEntry->setProperty ("line",   static_cast<int> (lineEntry.GetLine ()));
-        frameEntry->setProperty ("column", 1);
-    }
+        jam::JsonWriter::appendKey (frameEntry, Id::id);
+        jam::Format::appendDecimal (frameEntry, frameId);
+        jam::JsonWriter::appendKey (frameEntry, Id::name);
+        jam::JsonWriter::appendString (frameEntry, rawName != nullptr ? rawName : "??");
 
-    return juce::var (frameEntry);
+        if (lineEntry.IsValid ())
+        {
+            const char* rawFileName { lineEntry.GetFileSpec ().GetFilename () };
+            const char* rawFilePath { lineEntry.GetFileSpec ().GetDirectory () };
+            const juce::String fileName { rawFileName != nullptr ? rawFileName : "" };
+            const juce::String dirPath  { rawFilePath  != nullptr ? rawFilePath  : "" };
+            const juce::String filePath { dirPath.isNotEmpty () ? dirPath + "/" + fileName : fileName };
+            jam::JsonWriter::appendKey (frameEntry, Id::source);
+            dap::appendSource (frameEntry, jam::Strings::getView (fileName), jam::Strings::getView (filePath));
+            jam::JsonWriter::appendKey (frameEntry, Id::line);
+            jam::Format::appendDecimal (frameEntry, static_cast<int> (lineEntry.GetLine ()));
+            jam::JsonWriter::appendKey (frameEntry, Id::column);
+            jam::Format::appendDecimal (frameEntry, firstColumn);
+        }
+    });
 }
 
-juce::Array<juce::var> Session::getStackTrace (int maxFrames, int firstFrameId) noexcept
+int Session::appendStackFrames (std::string& json, int maxFrames, int firstFrameId) noexcept
 {
     jassert (maxFrames > 0);
 
-    juce::Array<juce::var> frames;
     auto thread { process.GetSelectedThread () };
     const int numFrames { static_cast<int> (thread.GetNumFrames ()) };
     const int clampedMax { juce::jmin (maxFrames, numFrames) };
 
     for (int i { 0 }; i < clampedMax; ++i)
-        frames.add (getStackFrame (thread.GetFrameAtIndex (static_cast<std::uint32_t> (i)), firstFrameId + i));
+        appendStackFrame (json, thread.GetFrameAtIndex (static_cast<std::uint32_t> (i)), firstFrameId + i);
 
-    return frames;
+    return clampedMax;
 }
 
-juce::Array<juce::var> Session::getLocals (int frameIndex) noexcept
+void Session::applyToLocals (int frameIndex, const std::function<void (const juce::String& name, const juce::String& value, const juce::String& type, bool hasChildren, int symbolIndex)>& function) noexcept
 {
-    juce::Array<juce::var> result;
-
     cacheFrameVariables (frameIndex);
 
     for (std::uint32_t i { 0 }; i < cachedFrameVariables.GetSize (); ++i)
@@ -731,17 +716,13 @@ juce::Array<juce::var> Session::getLocals (int frameIndex) noexcept
 
         if (not shouldSkipSymbol (name))
         {
-            result.add (getVariableObject (value, static_cast<int> (i)));
+            applyToVariable (value, name, static_cast<int> (i), function);
         }
     }
-
-    return result;
 }
 
-juce::Array<juce::var> Session::getVariableChildren (int frameIndex, int symbolIndex) noexcept
+void Session::applyToVariableChildren (int frameIndex, int symbolIndex, const std::function<void (const juce::String& name, const juce::String& value, const juce::String& type, bool hasChildren, int symbolIndex)>& function) noexcept
 {
-    juce::Array<juce::var> result;
-
     cacheFrameVariables (frameIndex);
 
     if (symbolIndex >= 0
@@ -758,12 +739,10 @@ juce::Array<juce::var> Session::getVariableChildren (int frameIndex, int symbolI
 
             if (not shouldSkipSymbol (name))
             {
-                result.add (getVariableObject (child, static_cast<int> (i)));
+                applyToVariable (child, name, static_cast<int> (i), function);
             }
         }
     }
-
-    return result;
 }
 
 juce::String Session::evaluateExpression (const juce::String& expression, int frameIndex) noexcept

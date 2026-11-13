@@ -112,6 +112,36 @@
 
 ## SPRINT HISTORY
 
+## Sprint 33: DAP JSON Through jam::JsonDocument and jam::JsonWriter ✅
+
+**Date:** 2026-11-14
+**Duration:** part of one session. `jam/carol/SPRINT-LOG.md` Sprint 187 is the primary record.
+**Scope:** `jam/PLAN-json.md` ruling 3, ARCHITECT: *"All of them"* — "whatdbg's full DAP path: DynamicObject builds replaced by JsonWriter appends, reads by JsonDocument, JSON::toString removed."
+
+### Files Modified
+- `Source/dap/Reader.h`, `.cpp` — DAP messages read through `jam::JsonDocument`.
+- `Source/dap/Types.h`, `Source/Whatdbg.h`, `.cpp`, `Source/debug/BreakpointManager.h`, `.cpp`, `Source/debug/Session.h`, `.cpp`, `Source/debug/Session_mac.cpp` — responses and events built through `jam::JsonWriter`; `juce::DynamicObject` builds and `JSON::toString` removed.
+- `cast/identifiers.md`, `cast/source.cast` (new), `cast/spell.md`, `Source/generated/*` (new) — the identifier lane and its cast output.
+- `CMakeLists.txt` — the `juce-plugin-window-size-hook.patch` row.
+
+### Alignment Check
+- [x] BLESSED principles followed
+- [x] NAMES.md adhered
+- [x] MANIFESTO.md principles applied
+- [ ] `Session.cpp` (Windows) is not compiled on this macOS host.
+
+### Problems Solved
+- whatdbg built DAP JSON through `juce::DynamicObject` and `juce::JSON`. It now uses jam's one JSON module.
+
+### State for Continuation
+- Windows build and a DAP run are not done this session.
+
+### Debts Paid
+- None
+
+### Debts Deferred
+- None
+
 ## Sprint 32: Windows Debugging of EVE — Fast Evaluate, Exit on Terminate, One Stop Reason, Audit Sweep ✅
 
 **Date:** 2026-11-12

@@ -77,8 +77,10 @@ public:
      *  @param requestedBreakpoints   Array of DAP breakpoint objects, each with a "line" field.
      *  @return Array of DAP breakpoint response objects (verified/unverified, with resolved lines).
      */
-    juce::Array<juce::var> onSetBreakpoints (const juce::String& rawSourcePath,
-                                                 const juce::var&    requestedBreakpoints);
+    void onSetBreakpoints (std::string& json,
+                           const juce::String& rawSourcePath,
+                           const jam::JsonDocument& document,
+                           const jam::Document::Element* requestedBreakpoints);
 
     /** Reload the symbols of one module and resolve breakpoints that are still unresolved.
      *
@@ -89,7 +91,7 @@ public:
      *  @return Array of DAP breakpoint(changed) events, one per newly resolved entry.
      *          The caller is responsible for sending these as DAP events.
      */
-    juce::Array<juce::var> onModuleLoad (const juce::String& imageName);
+    jam::Strings onModuleLoad (const juce::String& imageName);
 
     /** Reload all symbols and resolve breakpoints that are still unresolved.
      *
@@ -98,7 +100,7 @@ public:
      *
      *  @return Array of DAP breakpoint(changed) events, one per newly resolved entry.
      */
-    juce::Array<juce::var> onReload ();
+    jam::Strings onReload ();
 
     /** Build the DAP stopped event for a breakpoint or step stop.
      *
@@ -109,7 +111,7 @@ public:
      *  @param threadId  OS thread ID of the thread that stopped.
      *  @return DAP stopped event.
      */
-    juce::var getBreakpointStoppedEvent (std::int32_t engineId, std::uint32_t threadId) const;
+    void appendBreakpointStoppedEvent (std::string& json, std::int32_t engineId, std::uint32_t threadId) const;
 
     /** Update the stored line of a tracked breakpoint after asynchronous liblldb resolution.
      *
@@ -122,8 +124,8 @@ public:
      *  @return Array holding one DAP breakpoint(changed) event for the matched entry,
      *          or an empty array when no entry holds engineId.
      */
-    juce::Array<juce::var> onBreakpointLocationFound (std::int32_t  engineId,
-                                                      std::uint16_t resolvedLine);
+    jam::Strings onBreakpointLocationFound (std::int32_t  engineId,
+                                            std::uint16_t resolvedLine);
 
 private:
     /** Return true if any tracked breakpoint has not yet been assigned an engine ID. */
@@ -133,7 +135,7 @@ private:
      *
      *  @return Array of DAP breakpoint(changed) events, one per entry that resolved.
      */
-    juce::Array<juce::var> onSymbolsLoaded ();
+    jam::Strings onSymbolsLoaded ();
 
     /** Resolve sourcePath:requestedLine to a target offset, without creating
      *  an engine breakpoint.
@@ -195,14 +197,18 @@ private:
                         std::uint16_t       line,
                         std::uint16_t       dapId);
 
+    std::vector<std::uint16_t> getRequestedLines (const jam::JsonDocument& document,
+                                                  const jam::Document::Element* requestedBreakpoints) const;
+
     /** Build the DAP setBreakpoints response object for a single breakpoint entry.
      *
      *  @param info           Breakpoint entry to describe.
      *  @param rawSourcePath  Raw source path from the DAP client, echoed in the response.
      *  @return DAP breakpoint response object.
      */
-    juce::var getBreakpointResponse (const BreakpointInfo& info,
-                                     const juce::String&   rawSourcePath) const noexcept;
+    void appendBreakpoint (std::string& json,
+                           const BreakpointInfo& info,
+                           const juce::String&   rawSourcePath) const noexcept;
 
     /** The debug session breakpoints are created against. Not owned — must outlive this object. */
     Session& session;

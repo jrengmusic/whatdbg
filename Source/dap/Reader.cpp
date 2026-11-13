@@ -43,13 +43,13 @@ void Reader::stop ()
     stopThread (2000);
 }
 
-juce::var Reader::tryPop () noexcept
+std::optional<jam::JsonDocument> Reader::tryPop () noexcept
 {
-    juce::var message;
+    std::optional<jam::JsonDocument> message;
     const auto scope { fifo.read (1) };
 
     if (scope.blockSize1 > 0)
-        message = storage.at (static_cast<size_t> (scope.startIndex1));
+        message.emplace (std::move (storage.at (static_cast<size_t> (scope.startIndex1))));
 
     return message;
 }
@@ -86,44 +86,30 @@ int Reader::readContentLength ()
     return contentLength;
 }
 
-juce::var Reader::readMessage (int contentLength)
+std::unique_ptr<jam::JsonDocument> Reader::readMessage (int contentLength)
 {
     std::string body (static_cast<size_t> (contentLength), '\0');
     std::cin.read (body.data (), contentLength);
 
-    juce::var message;
-
     if (std::cin)
-    {
-        message = juce::JSON::parse (juce::String (body.data (), static_cast<size_t> (contentLength)));
+        return jam::JsonDocument::parse (std::string_view (body));
 
-        if (not message.isVoid ())
-        {
-#if JUCE_DEBUG
-            jam::debug::Log::write ("[dap::Reader] parsed: type=" + message["type"].toString ()
-                                     + " command=" + message["command"].toString ()
-                                     + " length=" + juce::String (contentLength));
-#endif
-        }
-        else
-        {
-#if JUCE_DEBUG
-            jam::debug::Log::write ("[dap::Reader] JSON parse failed, contentLength="
-                                     + juce::String (contentLength));
-#endif
-        }
-    }
-
-    return message;
+    return nullptr;
 }
 
-void Reader::addMessage (const juce::var& message)
+void Reader::addMessage (jam::JsonDocument&& message)
 {
+#if JUCE_DEBUG
+    const auto& request { *message.getRoot ()->firstChild };
+    const auto messageType { jam::Strings::fromView (message.getString (*message.find (request, jam::Strings::getView (Id::type.toString ())))) };
+    const auto messageCommand { jam::Strings::fromView (message.getString (*message.find (request, jam::Strings::getView (Id::command.toString ())))) };
+    jam::debug::Log::write ("[dap::Reader] parsed: type=" + messageType + " command=" + messageCommand);
+#endif
     const auto scope { fifo.write (1) };
 
     if (scope.blockSize1 > 0)
     {
-        storage.at (static_cast<size_t> (scope.startIndex1)) = message;
+        storage.at (static_cast<size_t> (scope.startIndex1)) = std::move (message);
 #if JUCE_DEBUG
         jam::debug::Log::write ("[dap::Reader] queued message");
 #endif
@@ -131,8 +117,7 @@ void Reader::addMessage (const juce::var& message)
     else
     {
 #if JUCE_DEBUG
-        jam::debug::Log::write ("[dap::Reader] DROPPED (FIFO full): command="
-                                 + message["command"].toString ());
+        jam::debug::Log::write ("[dap::Reader] DROPPED (FIFO full): command=" + messageCommand);
 #endif
     }
 }
@@ -147,15 +132,15 @@ void Reader::run ()
 
         if (std::cin and contentLength >= 0)
         {
-            const juce::var message { readMessage (contentLength) };
+            auto message { readMessage (contentLength) };
 
             if (not std::cin)
             {
                 isConnected = false;
             }
-            else if (not message.isVoid ())
+            else if (message != nullptr)
             {
-                addMessage (message);
+                addMessage (std::move (*message));
             }
         }
         else

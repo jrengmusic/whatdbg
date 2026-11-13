@@ -26,8 +26,6 @@
 namespace debug
 {
 
-using dap::DynObj;
-
 Session::~Session ()
 {
     shutdown (EndMode::passive);
@@ -564,10 +562,36 @@ IDebugSymbolGroup2* Session::getOrCreateSymbolGroup (int frameIndex) noexcept
     return result;
 }
 
-juce::Array<juce::var> Session::getThreads () noexcept
+juce::String Session::getThreadName (std::uint32_t systemId) noexcept
 {
-    juce::Array<juce::var> threads;
+    juce::String name { "Thread " + juce::String (systemId) };
 
+    ULONG64 handle { 0 };
+    systemObjects->GetCurrentThreadHandle (&handle);
+
+    if (handle != 0)
+    {
+        PWSTR desc { nullptr };
+        const HRESULT descResult { GetThreadDescription (
+            reinterpret_cast<HANDLE> (static_cast<ULONG_PTR> (handle)), &desc) };
+
+        if (SUCCEEDED (descResult) and desc != nullptr)
+        {
+            const juce::String threadName { desc };
+            LocalFree (desc);
+
+            if (threadName.isNotEmpty ())
+            {
+                name = threadName;
+            }
+        }
+    }
+
+    return name;
+}
+
+void Session::appendThreads (std::string& json) noexcept
+{
     ULONG threadCount { 0 };
     systemObjects->GetNumberThreads (&threadCount);
 
@@ -575,8 +599,7 @@ juce::Array<juce::var> Session::getThreads () noexcept
     {
         std::vector<ULONG> engineIds (threadCount);
         std::vector<ULONG> systemIds (threadCount);
-        systemObjects->GetThreadIdsByIndex (0, threadCount,
-                                            engineIds.data (), systemIds.data ());
+        systemObjects->GetThreadIdsByIndex (0, threadCount, engineIds.data (), systemIds.data ());
 
         ULONG savedEngineId { 0 };
         systemObjects->GetCurrentThreadId (&savedEngineId);
@@ -584,40 +607,18 @@ juce::Array<juce::var> Session::getThreads () noexcept
         for (ULONG i { 0 }; i < threadCount; ++i)
         {
             systemObjects->SetCurrentThreadId (engineIds.at (i));
-
-            juce::String name { "Thread " + juce::String (systemIds.at (i)) };
-
-            ULONG64 handle { 0 };
-            systemObjects->GetCurrentThreadHandle (&handle);
-
-            if (handle != 0)
+            jam::JsonWriter::appendSeparator (json);
+            jam::JsonWriter::appendObject (json, [this, &systemIds, i] (std::string& thread)
             {
-                PWSTR desc { nullptr };
-                const HRESULT descResult { GetThreadDescription (
-                    reinterpret_cast<HANDLE> (static_cast<ULONG_PTR> (handle)), &desc) };
-
-                if (SUCCEEDED (descResult) and desc != nullptr)
-                {
-                    const juce::String threadName { desc };
-                    LocalFree (desc);
-
-                    if (threadName.isNotEmpty ())
-                    {
-                        name = threadName;
-                    }
-                }
-            }
-
-            DynObj thread { new juce::DynamicObject () };
-            thread->setProperty ("id",   static_cast<int> (systemIds.at (i)));
-            thread->setProperty ("name", name);
-            threads.add (juce::var (thread));
+                jam::JsonWriter::appendKey (thread, Id::id);
+                jam::Format::appendDecimal (thread, static_cast<int> (systemIds.at (i)));
+                jam::JsonWriter::appendKey (thread, Id::name);
+                jam::JsonWriter::appendString (thread, jam::Strings::getView (getThreadName (systemIds.at (i))));
+            });
         }
 
         systemObjects->SetCurrentThreadId (savedEngineId);
     }
-
-    return threads;
 }
 
 std::uint32_t Session::getEventThreadSystemId () noexcept
@@ -685,29 +686,13 @@ static juce::String getSymbolValue (IDebugSymbolGroup2* group, IDebugDataSpaces4
     return displayValue;
 }
 
-static juce::var getVariableObject (IDebugSymbolGroup2* group, IDebugDataSpaces4* dataSpaces,
-                                      IDebugSymbols3* symbols, ULONG index,
-                                      const juce::String& symbolName, bool hasChildren) noexcept
-{
-    const juce::String typeName { getSymbolTypeName (group, index) };
-    const juce::String displayValue { getSymbolValue (group, dataSpaces, symbols, index, typeName) };
-
-    DynObj variableObj { new juce::DynamicObject () };
-    variableObj->setProperty ("name",        symbolName);
-    variableObj->setProperty ("value",       displayValue);
-    variableObj->setProperty ("type",        typeName);
-    variableObj->setProperty ("symbolIndex", static_cast<int> (index));
-    variableObj->setProperty ("hasChildren", hasChildren);
-
-    return juce::var (variableObj);
-}
-
-static juce::Array<juce::var> getSymbols (IDebugSymbolGroup2* group, IDebugDataSpaces4* dataSpaces,
-                                          IDebugSymbols3* symbols, ULONG parentFilter) noexcept
+template <typename Function>
+static void applyToSymbols (IDebugSymbolGroup2* group, IDebugDataSpaces4* dataSpaces,
+                            IDebugSymbols3* symbols, ULONG parentFilter,
+                            const Function& function) noexcept
 {
     static constexpr int symbolNameSize { 256 };
 
-    juce::Array<juce::var> outVariables;
     ULONG count { 0 };
     group->GetNumberSymbols (&count);
 
@@ -724,64 +709,69 @@ static juce::Array<juce::var> getSymbols (IDebugSymbolGroup2* group, IDebugDataS
 
             if (not shouldSkipSymbol (symbolName))
             {
-                outVariables.add (getVariableObject (group, dataSpaces, symbols, i,
-                                                       symbolName, params.SubElements > 0));
+                const juce::String typeName { getSymbolTypeName (group, i) };
+                const juce::String displayValue { getSymbolValue (group, dataSpaces, symbols, i, typeName) };
+
+                function (symbolName, displayValue, typeName, params.SubElements > 0, static_cast<int> (i));
             }
         }
     }
-
-    return outVariables;
 }
 
-static juce::var getStackFrame (IDebugSymbols3* symbols, const DEBUG_STACK_FRAME& stackFrame,
-                                  int frameId) noexcept
+juce::String Session::getFrameName (std::uint64_t instructionOffset) noexcept
 {
     static constexpr int nameBufferSize { 512 };
-    static constexpr int fileBufferSize { 1024 };
-
-    DynObj frame { new juce::DynamicObject () };
-    frame->setProperty ("id", frameId);
-    frame->setProperty ("name", "frame");
 
     char nameBuffer[nameBufferSize] {};
     ULONG nameSize { 0 };
     ULONG64 displacement { 0 };
 
     const HRESULT nameResult { symbols->GetNameByOffset (
-        stackFrame.InstructionOffset, nameBuffer, nameBufferSize, &nameSize, &displacement) };
+        instructionOffset, nameBuffer, nameBufferSize, &nameSize, &displacement) };
 
-    if (SUCCEEDED (nameResult))
-        frame->setProperty ("name", juce::String (nameBuffer));
+    return SUCCEEDED (nameResult) ? juce::String (nameBuffer) : juce::String ("frame");
+}
 
+void Session::appendStackFrame (std::string& json, const DEBUG_STACK_FRAME& stackFrame, int frameId) noexcept
+{
+    static constexpr int fileBufferSize { 1024 };
+    static constexpr int firstColumn { 1 };
     char fileBuffer[fileBufferSize] {};
-    ULONG fileSize { 0 };
     ULONG line { 0 };
 
     const HRESULT lineResult { symbols->GetLineByOffset (
-        stackFrame.InstructionOffset, &line, fileBuffer, fileBufferSize, &fileSize, nullptr) };
+        stackFrame.InstructionOffset, &line, fileBuffer, fileBufferSize, nullptr, nullptr) };
+    const juce::String filePath { fileBuffer };
 
-    if (SUCCEEDED (lineResult))
+    jam::JsonWriter::appendSeparator (json);
+    jam::JsonWriter::appendObject (json, [this, frameId, line, lineResult, &stackFrame, &filePath] (std::string& frame)
     {
-        DynObj source { new juce::DynamicObject () };
-        source->setProperty ("name", juce::File (juce::String (fileBuffer)).getFileName ());
-        source->setProperty ("path", juce::String (fileBuffer).replace ("\\", "/"));
-        frame->setProperty ("source", juce::var (source));
-        frame->setProperty ("line", static_cast<int> (line));
-        frame->setProperty ("column", 1);
-    }
+        jam::JsonWriter::appendKey (frame, Id::id);
+        jam::Format::appendDecimal (frame, frameId);
+        jam::JsonWriter::appendKey (frame, Id::name);
+        jam::JsonWriter::appendString (frame, jam::Strings::getView (getFrameName (stackFrame.InstructionOffset)));
 
-    return juce::var (frame);
+        if (SUCCEEDED (lineResult))
+        {
+            jam::JsonWriter::appendKey (frame, Id::source);
+            dap::appendSource (frame, jam::Strings::getView (juce::File (filePath).getFileName ()), jam::Strings::getView (filePath.replace ("\\", "/")));
+            jam::JsonWriter::appendKey (frame, Id::line);
+            jam::Format::appendDecimal (frame, static_cast<int> (line));
+            jam::JsonWriter::appendKey (frame, Id::column);
+            jam::Format::appendDecimal (frame, firstColumn);
+        }
+    });
 }
 
-juce::Array<juce::var> Session::getStackTrace (int maxFrames, int firstFrameId) noexcept
+int Session::appendStackFrames (std::string& json, int maxFrames, int firstFrameId) noexcept
 {
     jassert (maxFrames > 0);
 
-    juce::Array<juce::var> frames;
     const int frameCount { maxFrames };
 
     std::vector<DEBUG_STACK_FRAME> stackFrames (static_cast<size_t> (frameCount));
     ULONG framesFilled { 0 };
+    int appendedFrames { 0 };
 
     const HRESULT hr { control->GetStackTrace (
         0, 0, 0,
@@ -792,32 +782,27 @@ juce::Array<juce::var> Session::getStackTrace (int maxFrames, int firstFrameId) 
     if (SUCCEEDED (hr))
     {
         for (ULONG i { 0 }; i < framesFilled; ++i)
-            frames.add (getStackFrame (symbols.Get (), stackFrames.at (static_cast<size_t> (i)),
-                                       firstFrameId + static_cast<int> (i)));
+            appendStackFrame (json, stackFrames.at (static_cast<size_t> (i)),
+                              firstFrameId + static_cast<int> (i));
+
+        appendedFrames = static_cast<int> (framesFilled);
     }
 
-    return frames;
+    return appendedFrames;
 }
 
-juce::Array<juce::var> Session::getLocals (int frameIndex) noexcept
+void Session::applyToLocals (int frameIndex, const std::function<void (const juce::String& name, const juce::String& value, const juce::String& type, bool hasChildren, int symbolIndex)>& function) noexcept
 {
-    juce::Array<juce::var> variables;
-
     IDebugSymbolGroup2* group { getOrCreateSymbolGroup (frameIndex) };
 
     if (group != nullptr)
     {
-        variables = getSymbols (group, dataSpaces.Get (), symbols.Get (),
-                                 DEBUG_ANY_ID);
+        applyToSymbols (group, dataSpaces.Get (), symbols.Get (), DEBUG_ANY_ID, function);
     }
-
-    return variables;
 }
 
-juce::Array<juce::var> Session::getVariableChildren (int frameIndex, int symbolIndex) noexcept
+void Session::applyToVariableChildren (int frameIndex, int symbolIndex, const std::function<void (const juce::String& name, const juce::String& value, const juce::String& type, bool hasChildren, int symbolIndex)>& function) noexcept
 {
-    juce::Array<juce::var> variables;
-
     IDebugSymbolGroup2* group { getOrCreateSymbolGroup (frameIndex) };
 
     if (group != nullptr)
@@ -827,12 +812,9 @@ juce::Array<juce::var> Session::getVariableChildren (int frameIndex, int symbolI
 
         if (SUCCEEDED (expandResult))
         {
-            variables = getSymbols (group, dataSpaces.Get (), symbols.Get (),
-                                     parentIndex);
+            applyToSymbols (group, dataSpaces.Get (), symbols.Get (), parentIndex, function);
         }
     }
-
-    return variables;
 }
 
 juce::String Session::evaluateExpression (const juce::String& expression, int frameIndex) noexcept

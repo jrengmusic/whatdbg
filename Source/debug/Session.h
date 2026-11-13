@@ -380,7 +380,7 @@ public:
      *
      *  @note Must be called while the target is stopped.
      */
-    juce::Array<juce::var> getStackTrace (int maxFrames, int firstFrameId) noexcept;
+    int appendStackFrames (std::string& json, int maxFrames, int firstFrameId) noexcept;
 
     /** Return local variables for a given stack frame as a DAP-formatted array.
      *
@@ -403,7 +403,7 @@ public:
      *
      *  @note Must be called while the target is stopped.
      */
-    juce::Array<juce::var> getLocals (int frameIndex) noexcept;
+    void applyToLocals (int frameIndex, const std::function<void (const juce::String& name, const juce::String& value, const juce::String& type, bool hasChildren, int symbolIndex)>& function) noexcept;
 
     /** Return child variables of an expanded composite variable.
      *
@@ -422,7 +422,7 @@ public:
      *
      *  @note Must be called while the target is stopped.
      */
-    juce::Array<juce::var> getVariableChildren (int frameIndex, int symbolIndex) noexcept;
+    void applyToVariableChildren (int frameIndex, int symbolIndex, const std::function<void (const juce::String& name, const juce::String& value, const juce::String& type, bool hasChildren, int symbolIndex)>& function) noexcept;
 
     /** Evaluate a C++ expression in the context of a specific stack frame.
      *
@@ -460,7 +460,7 @@ public:
      *
      *  @note Must be called while the target is stopped.
      */
-    juce::Array<juce::var> getThreads () noexcept;
+    void appendThreads (std::string& json) noexcept;
 
     /** Return the OS thread ID of the thread that triggered the last debug event.
      *
@@ -508,6 +508,12 @@ private:
      *          by the cachedSymbolGroup ComPtr.
      */
     IDebugSymbolGroup2* getOrCreateSymbolGroup (int frameIndex) noexcept;
+
+    void appendStackFrame (std::string& json, const DEBUG_STACK_FRAME& stackFrame, int frameId) noexcept;
+
+    juce::String getThreadName (std::uint32_t systemId) noexcept;
+
+    juce::String getFrameName (std::uint64_t instructionOffset) noexcept;
 
     /** Load dbgeng.dll via loader and obtain an IDebugClient5 pointer.
      *
@@ -589,18 +595,7 @@ private:
      */
     void cacheFrameVariables (int frameIndex) noexcept;
 
-    /** Return a DAP variable object built from an SBValue.
-     *
-     *  Constructs a juce::var wrapping a DynamicObject with the schema:
-     *  name, value, type, hasChildren, symbolIndex. Null-safe on every
-     *  const char* return from SBValue. Used by getLocals and getVariableChildren
-     *  to share a single source of truth for the variable schema.
-     *
-     *  @param value         The SBValue to format.
-     *  @param symbolIndex   Index to embed as the DAP symbolIndex field.
-     *  @return juce::var holding the variable object.
-     */
-    juce::var getVariableObject (lldb::SBValue& value, int symbolIndex) noexcept;
+    void appendStackFrame (std::string& json, lldb::SBFrame frame, int frameId) noexcept;
 
     /** The liblldb debugger instance owning target and process for this session's lifetime. */
     lldb::SBDebugger debugger;
