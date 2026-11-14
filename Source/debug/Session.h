@@ -450,19 +450,25 @@ public:
      *  AddSymbol while SYMOPT_NO_PUBLICS is set, and formats the new symbol. The
      *  previous symbol options are restored on exit, and the added symbol is removed
      *  from the group. A result is returned only when AddSymbol returns S_OK.
-     *  macOS calls SBFrame::EvaluateExpression directly on the requested frame and
-     *  formats the resulting SBValue the same way as applyToLocals. On failure it returns
-     *  the SBError description, or "evaluation failed" when the error has no text.
+     *  macOS first reads the expression as a variable path with
+     *  SBFrame::GetValueForVariablePath, which needs no expression parser. Only when that
+     *  fails, and the request is not a hover, it calls SBFrame::EvaluateExpression. The
+     *  parser looks up an unknown name in every loaded module, which took seconds in a
+     *  large host, and an editor sends a hover for each word under the cursor. The
+     *  SBValue is formatted the same way as applyToLocals. A result is returned only
+     *  when the SBValue is valid and its SBError reports success.
      *
      *  @param expression  C++ expression string to evaluate (e.g. "myVar->field").
      *  @param frameIndex  Zero-based stack frame index for symbol resolution context.
-     *  @return Formatted result string. On Windows, an empty string when AddSymbol
-     *          does not return S_OK.
+     *  @param isHover     True when the DAP request context is "hover". Windows ignores
+     *                     it, because AddSymbol never runs an expression parser.
+     *  @return Formatted result string, or an empty string when the evaluation fails.
+     *          Processor::onEvaluate sends the error response for an empty string.
      *
      *  @note Must be called while the target is stopped. Complex expressions may cause
      *        the engine to execute target code (function calls in expression).
      */
-    juce::String evaluateExpression (const juce::String& expression, int frameIndex) noexcept;
+    juce::String evaluateExpression (const juce::String& expression, int frameIndex, bool isHover) noexcept;
 
     /** Appends the threads of the target process to json, as DAP thread objects.
      *

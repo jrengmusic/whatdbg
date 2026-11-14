@@ -274,7 +274,7 @@ stepOut (`gu`) uses an internal breakpoint at the return address. The `Breakpoin
 **User Flow (Happy Path), macOS:**
 1. Target stopped, user types expression in nvim-dap REPL
 2. DAP `evaluate` request received with expression string and optional frameId
-3. whatdbg calls `Session::evaluateExpression`, which selects the requested frame and calls `SBFrame::EvaluateExpression`
+3. whatdbg calls `Session::evaluateExpression`, which selects the requested frame and reads the expression as a variable path with `SBFrame::GetValueForVariablePath`. Only when that fails, and the request `context` is not `hover`, it calls `SBFrame::EvaluateExpression`
 4. The resulting `SBValue` is formatted through the same `getVariableObject`/pretty-print path used for variable inspection
 5. DAP evaluate response with formatted result
 

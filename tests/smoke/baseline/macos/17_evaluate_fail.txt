@@ -9,7 +9,7 @@ event breakpoint changed
 event breakpoint changed
 event stopped breakpoint
 response stackTrace true
-response evaluate true
+response evaluate false Could not evaluate: notAVariable
 response continue true
 event exited
 event terminated

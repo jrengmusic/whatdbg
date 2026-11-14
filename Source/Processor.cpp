@@ -650,10 +650,12 @@ void Processor::onEvaluate (const jam::JsonDocument& document)
     const auto& arguments { getArguments (document) };
     const juce::String expression { getText (document, arguments, Id::expression) };
     const int frameId { document.contains (arguments, jam::Strings::getView (Id::frameId.toString ())) ? getNumber<int> (document, arguments, Id::frameId) : 0 };
+    const bool isHover { document.contains (arguments, jam::Strings::getView (Id::context.toString ()))
+                         and juce::Identifier { getText (document, arguments, Id::context) } == Id::hover };
 
     const auto [threadSystemId, frameIndex] { variableManager.selectFrameFromId (frameId) };
 
-    const juce::String result { session.evaluateExpression (expression, frameIndex) };
+    const juce::String result { session.evaluateExpression (expression, frameIndex, isHover) };
     std::string json;
 
     if (result.isNotEmpty ())

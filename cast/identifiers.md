@@ -30,6 +30,7 @@
 | @id  | column                             | `column`                             |             |
 | @id  | configurationDone                  | `configurationDone`                  |             |
 | @id  | console                            | `console`                            |             |
+| @id  | context                            | `context`                            |             |
 | @id  | continueCommand                    | `continue`                           |             |
 | @id  | disconnect                         | `disconnect`                         |             |
 | @id  | evaluate                           | `evaluate`                           |             |
@@ -45,6 +46,7 @@
 | @id  | expression                         | `expression`                         |             |
 | @id  | frameId                            | `frameId`                            |             |
 | @id  | hitBreakpointIds                   | `hitBreakpointIds`                   |             |
+| @id  | hover                              | `hover`                              |             |
 | @id  | initialBreak                       | `initialBreak`                       |             |
 | @id  | initialize                         | `initialize`                         |             |
 | @id  | initialized                        | `initialized`                        |             |

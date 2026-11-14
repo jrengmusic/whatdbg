@@ -632,7 +632,7 @@ void Session::cacheFrameVariables (int frameIndex) noexcept
     if (cachedFrameIndex != frameIndex)
     {
         auto frame { process.GetSelectedThread ().GetFrameAtIndex (static_cast<std::uint32_t> (frameIndex)) };
-        cachedFrameVariables = frame.GetVariables (true, true, true, true);
+        cachedFrameVariables = frame.GetVariables (true, true, false, true);
         cachedFrameIndex = frameIndex;
     }
 }
@@ -660,7 +660,7 @@ static void applyToVariable (lldb::SBValue& value, const juce::String& name, int
     const juce::String typeName { rawType != nullptr ? rawType : "" };
     const juce::String displayValue { getDisplayValue (value, typeName) };
 
-    function (name, displayValue.isEmpty () ? juce::String ("<unavailable>") : displayValue, typeName, value.MightHaveChildren (), symbolIndex);
+    function (name, value.GetError ().Fail () ? juce::String ("<unavailable>") : displayValue, typeName, value.MightHaveChildren (), symbolIndex);
 }
 
 void Session::appendStackFrame (std::string& json, lldb::SBFrame frame, int frameId) noexcept
@@ -749,25 +749,21 @@ void Session::applyToVariableChildren (int frameIndex, int symbolIndex, const st
     }
 }
 
-juce::String Session::evaluateExpression (const juce::String& expression, int frameIndex) noexcept
+juce::String Session::evaluateExpression (const juce::String& expression, int frameIndex, bool isHover) noexcept
 {
     juce::String result;
     auto thread { process.GetSelectedThread () };
     auto frame { thread.GetFrameAtIndex (static_cast<std::uint32_t> (frameIndex)) };
-    auto value { frame.EvaluateExpression (expression.toRawUTF8 ()) };
+    auto value { frame.GetValueForVariablePath (expression.toRawUTF8 (), lldb::eDynamicDontRunTarget) };
+
+    if (value.GetError ().Fail () and not isHover)
+        value = frame.EvaluateExpression (expression.toRawUTF8 ());
 
     if (value.IsValid () and value.GetError ().Success ())
     {
         const char* rawType { value.GetTypeName () };
         const juce::String typeName { rawType != nullptr ? rawType : "" };
         result = getDisplayValue (value, typeName);
-    }
-    else
-    {
-        if (value.GetError ().GetCString () != nullptr)
-            result = juce::String { value.GetError ().GetCString () };
-        else
-            result = "evaluation failed";
     }
 
     return result;

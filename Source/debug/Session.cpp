@@ -826,8 +826,10 @@ void Session::applyToVariableChildren (int frameIndex, int symbolIndex, const st
     }
 }
 
-juce::String Session::evaluateExpression (const juce::String& expression, int frameIndex) noexcept
+juce::String Session::evaluateExpression (const juce::String& expression, int frameIndex, bool isHover) noexcept
 {
+    juce::ignoreUnused (isHover);
+
     juce::String result;
 
     IDebugSymbolGroup2* group { getOrCreateSymbolGroup (frameIndex) };

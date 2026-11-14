@@ -38,6 +38,7 @@ namespace Id
     const juce::Identifier column                             { juce::String::fromUTF8 ("column") };
     const juce::Identifier configurationDone                  { juce::String::fromUTF8 ("configurationDone") };
     const juce::Identifier console                            { juce::String::fromUTF8 ("console") };
+    const juce::Identifier context                            { juce::String::fromUTF8 ("context") };
     const juce::Identifier continueCommand                    { juce::String::fromUTF8 ("continue") };
     const juce::Identifier disconnect                         { juce::String::fromUTF8 ("disconnect") };
     const juce::Identifier evaluate                           { juce::String::fromUTF8 ("evaluate") };
@@ -53,6 +54,7 @@ namespace Id
     const juce::Identifier expression                         { juce::String::fromUTF8 ("expression") };
     const juce::Identifier frameId                            { juce::String::fromUTF8 ("frameId") };
     const juce::Identifier hitBreakpointIds                   { juce::String::fromUTF8 ("hitBreakpointIds") };
+    const juce::Identifier hover                              { juce::String::fromUTF8 ("hover") };
     const juce::Identifier initialBreak                       { juce::String::fromUTF8 ("initialBreak") };
     const juce::Identifier initialize                         { juce::String::fromUTF8 ("initialize") };
     const juce::Identifier initialized                        { juce::String::fromUTF8 ("initialized") };
