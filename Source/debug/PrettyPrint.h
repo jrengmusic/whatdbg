@@ -14,9 +14,9 @@ namespace debug
 
 /** Return true if a symbol/variable name should be hidden from the DAP variable panel.
  *
- *  Filters out compiler- and framework-injected symbols that carry no user-visible
- *  meaning: RTTI/vtable artifacts, the JUCE leak detector member, and the per-TU
- *  compile-unit-mismatch sentinel.
+ *  Hides the names that start with "<", "__vfptr", or "leakDetector", and the name
+ *  juce::compileUnitMismatchSentinel. These are compiler-injected or JUCE-injected
+ *  symbols with no user-visible meaning.
  *
  *  @param name  Symbol or variable name as reported by the debug engine.
  *  @return true if the symbol should be skipped.
@@ -31,13 +31,13 @@ inline bool shouldSkipSymbol (const juce::String& name) noexcept
 
 /** Extract a hexadecimal address from a debug engine value text string.
  *
- *  Scans the input for a "0x" prefixed hex token and parses it as a 64-bit
- *  unsigned integer. Used to extract pointer values from formatted symbol
- *  text such as "0x0000000010db01b0 \"hello\"". Backtick digit-group padding
- *  (dbgeng's 64-bit address formatting) is stripped before parsing.
+ *  Removes backtick digit-group padding (dbgeng's 64-bit address formatting), trims the
+ *  text, and, when the text starts with "0x", parses the token up to the first space as
+ *  a 64-bit unsigned integer. Used to extract pointer values from formatted symbol text
+ *  such as "0x0000000010db01b0 \"hello\"".
  *
- *  @param valueText  Symbol value text that may contain a hex address.
- *  @return Parsed address, or 0 if no hex address is found.
+ *  @param valueText  Symbol value text that may start with a hex address.
+ *  @return Parsed address, or 0 if the text does not start with "0x".
  */
 inline std::uint64_t parseHexAddress (const juce::String& valueText) noexcept
 {
@@ -76,7 +76,7 @@ juce::String stripDecimalPrefix (const juce::String& input) noexcept;
  *  Applies a sequence of transformations to produce a clean, readable value:
  *  - Removes backtick padding inserted by dbgeng address formatting.
  *  - Strips "0n" decimal prefixes via stripDecimalPrefix.
- *  - Trims trailing type information that dbgeng appends (e.g. " [type: int]").
+ *  - When the value starts with "0x", drops everything after the first space.
  *  - Suppresses composite-type echoes where dbgeng repeats the type name as
  *    the value (e.g. "class Foo", "struct Bar") — replaced with an empty string
  *    so the type column carries the type information instead.
@@ -88,8 +88,8 @@ juce::String formatSymbolValue (const juce::String& rawValue) noexcept;
 
 /** Read a null-terminated narrow string from the target process's virtual memory.
  *
- *  Reads bytes from the target address space at address via IDebugDataSpaces4::ReadVirtual,
- *  stopping at the first null byte or after a fixed maximum read length.
+ *  Reads up to 256 bytes from the target address space at address, via
+ *  IDebugDataSpaces4::ReadMultiByteStringVirtual. The read stops at the null terminator.
  *
  *  @param dataSpaces  dbgeng data spaces interface for reading target memory.
  *  @param address     Virtual address of the first character in the target process.
@@ -102,8 +102,8 @@ juce::String readTargetString (IDebugDataSpaces4* dataSpaces, ULONG64 address) n
 
 /** Find a child symbol by name within an expanded symbol group.
  *
- *  Searches the symbol group between parentIndex+1 and totalCount for a symbol
- *  whose name matches childName. Intended for navigating into known struct fields
+ *  Searches the symbol group between parentIndex+1 and totalCount for a direct child
+ *  of parentIndex whose name matches childName. Intended for navigating into known struct fields
  *  (e.g. finding "m_data" inside a std::string expansion).
  *
  *  @param group        The symbol group containing the expanded parent.
@@ -128,16 +128,16 @@ juce::String getChildValueText (IDebugSymbolGroup2* group, int index) noexcept;
 
 /** Attempt to pretty-print a symbol using its known type name.
  *
- *  Dispatches to type-specific formatters for types such as std::string,
- *  std::wstring, juce::String, and pointer types. Expands the symbol group
- *  as needed (via IDebugSymbolGroup2::ExpandSymbol) to access struct internals.
+ *  Dispatches on the type name to one formatter: juce::String, std::basic_string of char,
+ *  std::unique_ptr, or std::vector. Expands the symbol group as needed (via
+ *  IDebugSymbolGroup2::ExpandSymbol) to access struct internals.
  *  All ExpandSymbol calls modify the provided group object persistently.
  *
  *  @param group        Symbol group containing the symbol to pretty-print.
  *  @param dataSpaces   dbgeng data spaces interface for reading target memory.
  *  @param symbols      dbgeng symbols interface for type lookups.
  *  @param symbolIndex  Zero-based index of the symbol in the group.
- *  @param typeName     Type name string from dbgeng (e.g. "std::basic_string<char,...>").
+ *  @param typeName     Type name string from dbgeng (e.g. "std::basic_string\<char,...\>").
  *  @return Formatted display string, or empty if the type is not recognized.
  *
  *  @note Returns empty for unrecognized types — caller should fall back to
@@ -152,11 +152,11 @@ juce::String prettyPrint (IDebugSymbolGroup2* group, IDebugDataSpaces4* dataSpac
 
 /** Attempt to pretty-print an SBValue using its known type name.
  *
- *  Dispatches to type-specific formatters for types such as juce::String and
- *  std::unique_ptr. Returns empty if the type is not recognized — callers
- *  should fall back to SBValue::GetValue() / SBValue::GetSummary().
+ *  Dispatches to one formatter: juce::String or std::unique_ptr. Returns empty if the
+ *  type is not recognized. Callers then fall back to SBValue::GetValue or
+ *  SBValue::GetSummary.
  *
- *  @param value     The SBValue to format. May be mutated by child walks.
+ *  @param value     The SBValue to format.
  *  @param typeName  Type name string from LLDB (e.g. "juce::String").
  *  @return Formatted display string, or empty if the type is not recognized.
  */

@@ -1,0 +1,339 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_w_h_a_t_d_b_g_model" kind="class" language="C++" prot="public">
+    <compoundname>WHATDBGModel</compoundname>
+    <basecompoundref refid="classjam_1_1Model" prot="public" virt="non-virtual">jam::Model</basecompoundref>
+    <basecompoundref refid="structjam_1_1Instance" prot="public" virt="non-virtual">jam::Instance&lt; WHATDBGModel &gt;</basecompoundref>
+    <includes refid="_w_h_a_t_d_b_g_model_8h" local="no">WHATDBGModel.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" prot="public" static="no" mutable="no">
+        <type>const <ref refid="classjuce_1_1Identifier" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Identifier</ref></type>
+        <definition>const juce::Identifier WHATDBGModel::sessionTag</definition>
+        <argsstring></argsstring>
+        <name>sessionTag</name>
+        <qualifiedname>WHATDBGModel::sessionTag</qualifiedname>
+        <initializer>{ <ref refid="structjam_1_1Format_1ab2a4d1f99713c10e63ece15ecf38b4a7" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Format::toType</ref> (<ref refid="namespaceId_1a855da654f9346359488f6a869d2553b8" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::session</ref>) }</initializer>
+        <briefdescription>
+<para>Type of the session row, from <ref refid="namespaceId_1a855da654f9346359488f6a869d2553b8" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::session</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="WHATDBGModel.h" line="20" column="28" bodyfile="WHATDBGModel.h" bodystart="20" bodyend="20"/>
+        <referencedby refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">Processor::addMessage</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" compoundref="_stop_manager_8cpp" startline="100" endline="113">debug::StopManager::drainBreakpointHit</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="158" endline="178">debug::StopManager::drainExceptionStopped</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a23350ca0377ae83e11468a7301a41852" compoundref="_stop_manager_8cpp" startline="89" endline="98">debug::StopManager::drainInitialBreak</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1ab35e144bdf9bf196392632e3b5c5b84c" compoundref="_stop_manager_8cpp" startline="146" endline="156">debug::StopManager::drainModuleLoaded</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1ae491549724477f1c2457f0005f4e11e2" compoundref="_stop_manager_8cpp" startline="131" endline="144">debug::StopManager::drainPauseCompleted</referencedby>
+        <referencedby refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" compoundref="_processor_8cpp" startline="215" endline="242">Processor::drainProcessExited</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" compoundref="_stop_manager_8cpp" startline="115" endline="129">debug::StopManager::drainStepCompleted</referencedby>
+        <referencedby refid="class_processor_1ae3dd418216ebb9a28fbc82c5eb61de8b" compoundref="_processor_8cpp" startline="244" endline="257">Processor::drainTerminateTimeout</referencedby>
+        <referencedby refid="class_processor_1a616112bd8cbe927cec6426da3dc64d6d" compoundref="_processor_8cpp" startline="259" endline="265">Processor::getEndModeForExit</referencedby>
+        <referencedby refid="class_whatdbg_1a33d312004e22a30ebecf90f442d9263c" compoundref="_whatdbg_8cpp" startline="55" endline="63">Whatdbg::initialise</referencedby>
+        <referencedby refid="class_processor_1a5ef207789c74afa70eb20f95ca575828" compoundref="_processor_8cpp" startline="387" endline="396">Processor::onConfigurationDone</referencedby>
+        <referencedby refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="542" endline="560">Processor::onContinue</referencedby>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="398" endline="432">Processor::onDisconnect</referencedby>
+        <referencedby refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" compoundref="_processor_8cpp" startline="298" endline="325">Processor::onLaunch</referencedby>
+        <referencedby refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" compoundref="_processor_8cpp" startline="562" endline="577">Processor::onNext</referencedby>
+        <referencedby refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" compoundref="_processor_8cpp" startline="613" endline="625">Processor::onPause</referencedby>
+        <referencedby refid="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" compoundref="_processor_8cpp" startline="267" endline="276">Processor::onPrepare</referencedby>
+        <referencedby refid="class_processor_1a57d2c4aa25b0c6786bbce3eb3a78a4a8" compoundref="_processor_8cpp" startline="278" endline="283">Processor::onReleaseResources</referencedby>
+        <referencedby refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" compoundref="_processor_8cpp" startline="579" endline="594">Processor::onStepIn</referencedby>
+        <referencedby refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" compoundref="_processor_8cpp" startline="596" endline="611">Processor::onStepOut</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1ae87d8d557aded2e5fa40b92f360fc887" compoundref="_stop_manager_8cpp" startline="76" endline="87">debug::StopManager::onStop</referencedby>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="80" endline="101">Processor::process</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="29" endline="74">debug::StopManager::registerEvents</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="103" endline="136">Processor::registerEvents</referencedby>
+        <referencedby refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" compoundref="_whatdbg_8cpp" startline="97" endline="112">Whatdbg::registerEvents</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="180" endline="210">debug::StopManager::resumeAfterInitialBreak</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a11cf2cbc87df89b6ac71d2c9192cda02" compoundref="_stop_manager_8cpp" startline="212" endline="216">debug::StopManager::resumeExecution</referencedby>
+        <referencedby refid="class_processor_1a5429f57729737f7bd4c78a1c1d027c43" compoundref="_processor_8cpp" startline="345" endline="355">Processor::setAttachedState</referencedby>
+        <referencedby refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" compoundref="_whatdbg_8cpp" startline="12" endline="33">Whatdbg::Whatdbg</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="32">WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="class_w_h_a_t_d_b_g_model_1acb63a9c5f8c93853d85b3688448741db" prot="public" static="no" mutable="no">
+        <type>const <ref refid="classjuce_1_1Identifier" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Identifier</ref></type>
+        <definition>const juce::Identifier WHATDBGModel::exceptionTag</definition>
+        <argsstring></argsstring>
+        <name>exceptionTag</name>
+        <qualifiedname>WHATDBGModel::exceptionTag</qualifiedname>
+        <initializer>{ <ref refid="structjam_1_1Format_1ab2a4d1f99713c10e63ece15ecf38b4a7" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Format::toType</ref> (<ref refid="namespaceId_1a7d17b52a35c76be4fb253d49def99a67" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::exception</ref>) }</initializer>
+        <briefdescription>
+<para>Type of the exception row, from <ref refid="namespaceId_1a7d17b52a35c76be4fb253d49def99a67" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::exception</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="WHATDBGModel.h" line="23" column="28" bodyfile="WHATDBGModel.h" bodystart="23" bodyend="23"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="158" endline="178">debug::StopManager::drainExceptionStopped</referencedby>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="627" endline="645">Processor::onExceptionInfo</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="29" endline="74">debug::StopManager::registerEvents</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="32">WHATDBGModel</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>WHATDBGModel::WHATDBGModel</definition>
+        <argsstring>()</argsstring>
+        <name>WHATDBGModel</name>
+        <qualifiedname>WHATDBGModel::WHATDBGModel</qualifiedname>
+        <briefdescription>
+<para>Creates the session row and the exception row, and their parameters, at their default values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="WHATDBGModel.h" line="17" column="5" bodyfile="WHATDBGModel.cpp" bodystart="7" bodyend="32"/>
+        <references refid="namespaceId_1ae1bef48aa181015cc6694a397c942583" compoundref="_generated_8cpp" startline="26" endline="26">Id::adapterExitCode</references>
+        <references refid="namespaceId_1a03ba296bdc142edf0768af486bac4037" compoundref="_generated_8cpp" startline="33" endline="33">Id::breakpointEngineId</references>
+        <references refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce">jam::Model::createAndAddParameter</references>
+        <references refid="namespaceId_1abbfc9c9f4f106c68b6cc7eab8d95d4b4" compoundref="_generated_8cpp" startline="45" endline="45">Id::exceptionAddress</references>
+        <references refid="namespaceId_1aef15ba1881dec10e5d27afad18e46b66" compoundref="_generated_8cpp" startline="46" endline="46">Id::exceptionCode</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1acb63a9c5f8c93853d85b3688448741db" compoundref="_w_h_a_t_d_b_g_model_8h" startline="23" endline="23">exceptionTag</references>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="classjam_1_1Model_1a322c866d6fc435eb6799562d6d6db8b1">jam::Model::getOrCreateChildWithName</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6aec2f993aec2c27fc750119ab17b16cdb" compoundref="_state_8h" startline="16">debug::idle</references>
+        <references refid="namespaceId_1a1686b1851bf4fefef4b5613b05c0c8d3" compoundref="_generated_8cpp" startline="59" endline="59">Id::isConfigurationDone</references>
+        <references refid="namespaceId_1aecf9e31ac41ecd0c122665be6dad624d" compoundref="_generated_8cpp" startline="61" endline="61">Id::isMachException</references>
+        <references refid="namespaceId_1acaa5ed87630554a54472e27567897c48" compoundref="_generated_8cpp" startline="62" endline="62">Id::isPausePending</references>
+        <references refid="namespaceId_1ad5a972b9551c4ba5c5c15a733ec48d69" compoundref="_generated_8cpp" startline="63" endline="63">Id::isRunning</references>
+        <references refid="namespaceId_1a1397f7ce0b093aa7091d5057a28bfe83" compoundref="_generated_8cpp" startline="64" endline="64">Id::isStepPending</references>
+        <references refid="classjam_1_1Model_1afbe837fa9d9c8086381333783bb1db3b">jam::Model::Model</references>
+        <references refid="namespaceId_1a9f27da94bef79dc7fdd99088951c5d07" compoundref="_generated_8cpp" startline="68" endline="68">Id::nextSequenceNumber</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" compoundref="_state_8h" startline="43">debug::none</references>
+        <references refid="namespaceId_1abd823c98b322d39f2bd65d34d8be1513" compoundref="_generated_8cpp" startline="69" endline="69">Id::numMessages</references>
+        <references refid="namespaceId_1ab94e01b9b77bf89619c249d7dae6d924" compoundref="_generated_8cpp" startline="75" endline="75">Id::processExitCode</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">sessionTag</references>
+        <references refid="namespaceId_1a866863bd05f02eeabe7e4f66b277a6c3" compoundref="_generated_8cpp" startline="88" endline="88">Id::shouldTerminateOnExit</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="100" endline="100">Id::stopReason</references>
+        <references refid="classjuce_1_1Timer_1a2ff70b860a8c875658b4baa91c8bcef0">juce::Timer::stopTimer</references>
+        <references refid="namespaceId_1a34ff3c25c6e302ff4a5b0a5f9b0488a7" compoundref="_generated_8cpp" startline="134" endline="134">Id::targetProcessId</references>
+        <references refid="namespaceId_1a6deeca27da77c1f9dbf5b72db990b6fc" compoundref="_generated_8cpp" startline="137" endline="137">Id::terminateDeadlineMs</references>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Model of the adapter: one value tree with a session row and an exception row. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each parameter is a value of the debug state. The engine context writes most parameters with storeValue. The numMessages and isRunning parameters use setValue, so that the message thread receives them at once. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>WHATDBGModel</label>
+        <link refid="class_w_h_a_t_d_b_g_model"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jam::Instance&lt; WHATDBGModel &gt;</label>
+        <link refid="structjam_1_1Instance" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="2">
+        <label>jam::Model</label>
+        <link refid="classjam_1_1Model" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>juce::Timer</label>
+        <link refid="classjuce_1_1Timer" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="4">
+        <label>juce::ValueTree::Listener</label>
+        <link refid="classjuce_1_1ValueTree_1_1Listener" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>WHATDBGModel</label>
+        <link refid="class_w_h_a_t_d_b_g_model"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="12" relation="public-inheritance">
+        </childnode>
+        <childnode refid="13" relation="usage">
+          <edgelabel>exceptionTag</edgelabel>
+          <edgelabel>sessionTag</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jam::AnyMap&lt; typename TypeOfCriticalSectionToUse &gt;</label>
+        <link refid="classjam_1_1AnyMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>entries</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>types</edgelabel>
+        </childnode>
+      </node>
+      <node id="8">
+        <label>jam::HashMap&lt; juce::Identifier, jam::AnyMap::Trait &gt;</label>
+        <link refid="classjam_1_1HashMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="11">
+        <label>jam::HashMap&lt; juce::Identifier, jam::HashMap&lt; juce::Identifier, std::unique_ptr&lt; ParameterAdapter &gt; &gt; &gt;</label>
+        <link refid="classjam_1_1HashMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="7">
+        <label>jam::HashMap&lt; juce::Identifier, std::unique_ptr&lt; void, Deleter &gt; &gt;</label>
+        <link refid="classjam_1_1HashMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="12">
+        <label>jam::Instance&lt; WHATDBGModel &gt;</label>
+        <link refid="structjam_1_1Instance" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="2">
+        <label>jam::Model</label>
+        <link refid="classjam_1_1Model" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>params</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>state</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>valueTreeChanging</edgelabel>
+        </childnode>
+        <childnode refid="11" relation="usage">
+          <edgelabel>adapters</edgelabel>
+        </childnode>
+      </node>
+      <node id="10">
+        <label>juce::CriticalSection</label>
+        <link refid="classjuce_1_1CriticalSection" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="6">
+        <label>juce::DummyCriticalSection</label>
+        <link refid="classjuce_1_1DummyCriticalSection" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="13">
+        <label>juce::Identifier</label>
+        <link refid="classjuce_1_1Identifier" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+        <childnode refid="13" relation="usage">
+          <edgelabel>null</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>juce::Timer</label>
+        <link refid="classjuce_1_1Timer" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="9">
+        <label>juce::ValueTree</label>
+        <link refid="classjuce_1_1ValueTree" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="4">
+        <label>juce::ValueTree::Listener</label>
+        <link refid="classjuce_1_1ValueTree_1_1Listener" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+    </collaborationgraph>
+    <location file="WHATDBGModel.h" line="11" column="1" bodyfile="WHATDBGModel.h" bodystart="14" bodyend="27"/>
+    <listofallmembers>
+      <member refid="classjam_1_1Model_1ad6b6050547be2d2a2cc168153dbf3384" prot="private" virt="non-virtual"><scope>WHATDBGModel</scope><name>adapters</name></member>
+      <member refid="classjam_1_1Model_1a20c192be5cae95af1e9afcc50901e73a" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>addChildrenFrom</name></member>
+      <member refid="classjam_1_1Model_1ae5d4d70e706dcc558cf21923125a9176" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>addListener</name></member>
+      <member refid="classjam_1_1Model_1a33f5acd69f6437087508af293bf6c85a" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>addParameterAdapter</name></member>
+      <member refid="classjam_1_1Model_1ae0cb2cc2b04acb47eb9760d92dcedc46" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>appendChild</name></member>
+      <member refid="classjam_1_1Model_1abec66a5e5e341df5a42edbe29ee854ef" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>applyFunctionRecursively</name></member>
+      <member refid="classjam_1_1Model_1a314f6e896821356520303b7573c48423" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>applyFunctionRecursively</name></member>
+      <member refid="classjam_1_1Model_1af25ba1962946fffc16995f6b4472c684" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>attach</name></member>
+      <member refid="classjam_1_1Model_1a3ed123f7c9c6436f41f452d901af4dba" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>attach</name></member>
+      <member refid="classjam_1_1Model_1ab71d5001c8602ebdfb3d04e9f2f4c7e1" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>attach</name></member>
+      <member refid="classjam_1_1Model_1adf738fe853600390fd4eceb76ef99524" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>attachChild</name></member>
+      <member refid="classjam_1_1Model_1a0d1165a7ea673857286c5d08e2a9cc9d" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>buildUniqueNodeMap</name></member>
+      <member refid="classjuce_1_1Timer_1a5eb2dfa3e6810c268704c159ddcb37bc" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>callAfterDelay</name></member>
+      <member refid="classjuce_1_1Timer_1a6c366b7f5a5d70c270a1e85b8aa45888" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>callPendingTimersSynchronously</name></member>
+      <member refid="structjam_1_1Instance_1ac0def93de8fa465bffdb5dd8491b70dc" prot="private" virt="non-virtual"><scope>WHATDBGModel</scope><name>chainLock</name></member>
+      <member refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>createAndAddParameter</name></member>
+      <member refid="class_w_h_a_t_d_b_g_model_1acb63a9c5f8c93853d85b3688448741db" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>exceptionTag</name></member>
+      <member refid="classjam_1_1Model_1a18b3c394b364e643b78edc5d6b0351ae" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>findAndRemoveChild</name></member>
+      <member refid="classjam_1_1Model_1a9eb2e927e025645e46609f37aa6f9304" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>flush</name></member>
+      <member refid="classjam_1_1Model_1aaa8b722daed8928b8d587ec30662ac34" prot="private" virt="non-virtual"><scope>WHATDBGModel</scope><name>flushHz</name></member>
+      <member refid="classjam_1_1Model_1aca2af1e2651acc75ee5be91435d2c434" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>forEachProperty</name></member>
+      <member refid="classjam_1_1Model_1af982080085c49090570d065f1ff2506e" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>fromFiles</name></member>
+      <member refid="classjam_1_1Model_1a7f02a97f0aa8e2d69cf84fc9d006484e" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getChildWithID</name></member>
+      <member refid="classjam_1_1Model_1aecef6b658fc1de8bd8642ce3c0011036" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getChildWithName</name></member>
+      <member refid="classjam_1_1Model_1a6fc5e6f42695dfdedb8564b7e21da8f7" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getChildWithName</name></member>
+      <member refid="classjam_1_1Model_1a4444ea2325daca8826c76b7ce220906b" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getFrom</name></member>
+      <member refid="classjam_1_1Model_1a79cce52c9ceec1401fe2198aab902942" prot="private" virt="non-virtual"><scope>WHATDBGModel</scope><name>getGroupId</name></member>
+      <member refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getInstance</name></member>
+      <member refid="classjam_1_1Model_1aae1e12fc9077155368fc2ccc635b4bc1" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getInt</name></member>
+      <member refid="classjam_1_1Model_1a9d225eeff2565fc96addfd769c787eeb" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getInt16</name></member>
+      <member refid="classjam_1_1Model_1a322c866d6fc435eb6799562d6d6db8b1" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getOrCreateChildWithName</name></member>
+      <member refid="classjam_1_1Model_1a146fb95140bdad880fea06bd3a48ccbf" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getOrCreateChildWithName</name></member>
+      <member refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getParameter</name></member>
+      <member refid="classjam_1_1Model_1aa1d193d4f422ef5bb2e0317354ae992a" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getParent</name></member>
+      <member refid="classjam_1_1Model_1ad37ac05ef036ebe52d46f3909de8fa99" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getRawParameterValue</name></member>
+      <member refid="classjam_1_1Model_1ae0f5ebc5b842cc35104244fac7e9dc1b" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getRoot</name></member>
+      <member refid="classjuce_1_1Timer_1a3dd602cadcc8e2a3be6aeb6538b8d2c1" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getTimerInterval</name></member>
+      <member refid="classjam_1_1Model_1abe937e02011833b8cf8f20bfb650ac9d" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getTreeProperty</name></member>
+      <member refid="classjam_1_1Model_1a3466c9f9fcd9a4baa862bb400562e7b7" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getTreePropertyAsValue</name></member>
+      <member refid="classjam_1_1Model_1ac922db931cd481a9cf483c90e4de2543" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getType</name></member>
+      <member refid="classjam_1_1Model_1a91dc367954c0e066ce3af757919617da" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getValue</name></member>
+      <member refid="classjam_1_1Model_1a329bb238c23cd2d7e7b2a369f723e4a0" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getValue</name></member>
+      <member refid="classjam_1_1Model_1ae73d7fc4bd6d69d633c3d4499cd410f9" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getValueFromChildWithID</name></member>
+      <member refid="classjam_1_1Model_1abfe9e19f01304a4c27dcfc5435a2d736" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getValueFromChildWithProperty</name></member>
+      <member refid="classjam_1_1Model_1a710fd55b83d2e5657e48d49ce5225ea2" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>getXml</name></member>
+      <member refid="structjam_1_1Instance_1adf1a1af39fe4935b8710ca6bd8349dce" prot="private" virt="non-virtual"><scope>WHATDBGModel</scope><name>head</name></member>
+      <member refid="classjam_1_1Model_1a1c976506dd5eb7d125a0e804c97c61e2" prot="private" virt="non-virtual"><scope>WHATDBGModel</scope><name>idleHz</name></member>
+      <member refid="structjam_1_1Instance_1a85529c50c3424e8b843fa92fa2f9c4da" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>Instance</name></member>
+      <member refid="classjam_1_1Model_1a24732b04142b883972e93bb57e282bec" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>isNonVoid</name></member>
+      <member refid="classjuce_1_1Timer_1a525f38cc7afdc0696b467bd4ed3f17da" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>isTimerRunning</name></member>
+      <member refid="classjam_1_1Model_1ac97ca5f948d0f494b0e9945d385c88f2" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>loadState</name></member>
+      <member refid="classjam_1_1Model_1abd38aa125a4885469d76dd8dbd15b2d7" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>loadState</name></member>
+      <member refid="classjam_1_1Model_1afbe837fa9d9c8086381333783bb1db3b" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>Model</name></member>
+      <member refid="classjam_1_1Model_1aca68b3505d4b767cfd67c9950f825bdc" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>Model</name></member>
+      <member refid="classjam_1_1Model_1ac2b1be0ad517b16b39bf38e7abb35c68" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>Model</name></member>
+      <member refid="structjam_1_1Instance_1a8bcf431bb53fe6432585a139f6bc562d" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>operator=</name></member>
+      <member refid="classjam_1_1Model_1a9be603e3c0a76e1f0b6c263066993b63" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>params</name></member>
+      <member refid="structjam_1_1Instance_1af12a7073f28131cc327baa99fc5745d8" prot="private" virt="non-virtual"><scope>WHATDBGModel</scope><name>previous</name></member>
+      <member refid="classjam_1_1Model_1acbf5ef1a6e71240468f17fe707532bec" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>removeChild</name></member>
+      <member refid="classjam_1_1Model_1a688b7625ae8b2a4d4d1f1643a6b3aa41" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>removeListener</name></member>
+      <member refid="classjam_1_1Model_1a73bb2822ba0b1211ca9e290d57c5cd2d" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>replaceState</name></member>
+      <member refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>sessionTag</name></member>
+      <member refid="classjam_1_1Model_1a3263920ba9cd2e5633d714a49c0a5000" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>setTreeProperty</name></member>
+      <member refid="classjam_1_1Model_1af7401e3c38ecf3fb0428369ebb822283" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>setValue</name></member>
+      <member refid="classjam_1_1Model_1afd1a5ee11f1e480cb14c0027d6b617b7" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>setValuesFrom</name></member>
+      <member refid="classjam_1_1Model_1a12033159c1e0fb41d3712a322fc7f029" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>setValuesFrom</name></member>
+      <member refid="classjuce_1_1Timer_1acb43e06d5742106830080af3d50b422d" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>startTimer</name></member>
+      <member refid="classjuce_1_1Timer_1a49a4cf0bb438ca956bfae44c1010b0f9" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>startTimerHz</name></member>
+      <member refid="classjam_1_1Model_1aef4cd7ff33d3393980f2d12217e49857" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>state</name></member>
+      <member refid="classjuce_1_1Timer_1a2ff70b860a8c875658b4baa91c8bcef0" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>stopTimer</name></member>
+      <member refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>storeValue</name></member>
+      <member refid="classjam_1_1Model_1affd4d08b7250cb1fd61518193388ac93" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>storeValue</name></member>
+      <member refid="classjuce_1_1Timer_1a4517f6b34af45ee3edc05c468959146e" prot="protected" virt="non-virtual"><scope>WHATDBGModel</scope><name>Timer</name></member>
+      <member refid="classjuce_1_1Timer_1a2ef75896b7a44dfc641ce2faea04682c" prot="protected" virt="non-virtual"><scope>WHATDBGModel</scope><name>Timer</name></member>
+      <member refid="classjam_1_1Model_1a5de5c362c126a9f4d8d21c592b678bdb" prot="private" virt="virtual"><scope>WHATDBGModel</scope><name>timerCallback</name></member>
+      <member refid="classjam_1_1Model_1a6ec69ae045254c97f81b6e816d41cb71" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>toStrings</name></member>
+      <member refid="classjam_1_1Model_1a6603b442da324d4976ab137907a98985" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>UniqueNodeMap</name></member>
+      <member refid="classjam_1_1Model_1a054cb31f8f0b13e8ea67953e5fa59a41" prot="private" virt="non-virtual"><scope>WHATDBGModel</scope><name>updateAdapterConnections</name></member>
+      <member refid="classjam_1_1Model_1a495677a2122cc1dbb67c416ddfd51e17" prot="private" virt="non-virtual"><scope>WHATDBGModel</scope><name>valueTreeChanging</name></member>
+      <member refid="classjam_1_1Model_1af47cced4e2e104409035766e12796fd3" prot="public" virt="virtual"><scope>WHATDBGModel</scope><name>valueTreeChildAdded</name></member>
+      <member refid="classjuce_1_1ValueTree_1_1Listener_1a5fb2f9f798c9ebb48235ba15759fd48b" prot="public" virt="virtual"><scope>WHATDBGModel</scope><name>valueTreeChildOrderChanged</name></member>
+      <member refid="classjuce_1_1ValueTree_1_1Listener_1a09dc85f9c71389f2801c9a7bc582ae1b" prot="public" virt="virtual"><scope>WHATDBGModel</scope><name>valueTreeChildRemoved</name></member>
+      <member refid="classjuce_1_1ValueTree_1_1Listener_1a2e39febd013de0ff7da23a5b574055db" prot="public" virt="virtual"><scope>WHATDBGModel</scope><name>valueTreeParentChanged</name></member>
+      <member refid="classjam_1_1Model_1ab664f3dda27392cd40724b87549d0b6c" prot="public" virt="virtual"><scope>WHATDBGModel</scope><name>valueTreePropertyChanged</name></member>
+      <member refid="classjam_1_1Model_1a51c3ae7bee8cfe7096ca93c13355c27a" prot="public" virt="virtual"><scope>WHATDBGModel</scope><name>valueTreeRedirected</name></member>
+      <member refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>WHATDBGModel</name></member>
+      <member refid="classjam_1_1Model_1a5e0284f87a2a71c84edd644b75f4d07f" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>writeToXml</name></member>
+      <member refid="structjam_1_1Instance_1a6d091bd7f9bfd134ba3c831c8a3b04a3" prot="public" virt="virtual"><scope>WHATDBGModel</scope><name>~Instance</name></member>
+      <member refid="classjuce_1_1ValueTree_1_1Listener_1ab78745617b47f3b12726c0de220e8d9b" prot="public" virt="virtual"><scope>WHATDBGModel</scope><name>~Listener</name></member>
+      <member refid="classjam_1_1Model_1afb01105d951530920a004ca01b5c54c1" prot="public" virt="non-virtual"><scope>WHATDBGModel</scope><name>~Model</name></member>
+      <member refid="classjuce_1_1Timer_1aa1de34211c34295dfa6a658474ae0ae0" prot="public" virt="virtual"><scope>WHATDBGModel</scope><name>~Timer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,12 @@
+response initialize true
+event initialized
+response launch true
+response configurationDone true
+event process
+event thread started
+response pause true
+event stopped pause
+response terminate true
+event stopped exception
+event exited
+event terminated

@@ -1,0 +1,505 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classdebug_1_1_variable_manager" kind="class" language="C++" prot="public">
+    <compoundname>debug::VariableManager</compoundname>
+    <includes refid="_variable_manager_8h" local="no">VariableManager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" prot="private" static="no" mutable="no">
+        <type><ref refid="classdebug_1_1_session" kindref="compound">Session</ref> &amp;</type>
+        <definition>Session&amp; debug::VariableManager::session</definition>
+        <argsstring></argsstring>
+        <name>session</name>
+        <qualifiedname>debug::VariableManager::session</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/VariableManager.h" line="75" column="13" bodyfile="debug/VariableManager.h" bodystart="75" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_variable_manager_1a39c321a2a70e965d5f89bed3cf80974a" compoundref="_variable_manager_8cpp" startline="88" endline="107">appendVariables</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1a29ae314c6fd001ecf45635d9e6dc2810" compoundref="_variable_manager_8cpp" startline="28" endline="38">onStackTrace</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1a7106ef722eac53731b410153ec46d41c" compoundref="_variable_manager_8cpp" startline="78" endline="86">onVariables</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" compoundref="_variable_manager_8cpp" startline="18" endline="26">resetVariablesState</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1afb5fdaf8c1eb869e54d7f33644cd3439" compoundref="_variable_manager_8cpp" startline="40" endline="61">selectFrameFromId</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1a68d6afe6448ab27765bdba2d305d4ed8" compoundref="_variable_manager_8cpp" startline="13" endline="16">VariableManager</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_variable_manager_1a107152bcc6766e61c27b707ea7959109" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int debug::VariableManager::nextVariablesRef</definition>
+        <argsstring></argsstring>
+        <name>nextVariablesRef</name>
+        <qualifiedname>debug::VariableManager::nextVariablesRef</qualifiedname>
+        <initializer>{ 1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/VariableManager.h" line="77" column="9" bodyfile="debug/VariableManager.h" bodystart="77" bodyend="77"/>
+        <referencedby refid="classdebug_1_1_variable_manager_1a82ca67d49aaa5603e2863eda36efed73" compoundref="_variable_manager_8cpp" startline="109" endline="131">appendVariable</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1a3ef1621d5a704e5255a2094e800cf36f" compoundref="_variable_manager_8cpp" startline="63" endline="76">onScopes</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" compoundref="_variable_manager_8cpp" startline="18" endline="26">resetVariablesState</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_variable_manager_1a658ab9500c7bbf4619622a180ee71864" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, std::pair&lt; int, int &gt; &gt;</type>
+        <definition>std::unordered_map&lt;int, std::pair&lt;int, int&gt; &gt; debug::VariableManager::variablesRefMap</definition>
+        <argsstring></argsstring>
+        <name>variablesRefMap</name>
+        <qualifiedname>debug::VariableManager::variablesRefMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/VariableManager.h" line="79" column="24" bodyfile="debug/VariableManager.h" bodystart="79" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_variable_manager_1a82ca67d49aaa5603e2863eda36efed73" compoundref="_variable_manager_8cpp" startline="109" endline="131">appendVariable</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1a39c321a2a70e965d5f89bed3cf80974a" compoundref="_variable_manager_8cpp" startline="88" endline="107">appendVariables</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1a3ef1621d5a704e5255a2094e800cf36f" compoundref="_variable_manager_8cpp" startline="63" endline="76">onScopes</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" compoundref="_variable_manager_8cpp" startline="18" endline="26">resetVariablesState</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_variable_manager_1a56a358497bb674b37378e987ba944763" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int debug::VariableManager::nextFrameId</definition>
+        <argsstring></argsstring>
+        <name>nextFrameId</name>
+        <qualifiedname>debug::VariableManager::nextFrameId</qualifiedname>
+        <initializer>{ 1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/VariableManager.h" line="81" column="9" bodyfile="debug/VariableManager.h" bodystart="81" bodyend="81"/>
+        <referencedby refid="classdebug_1_1_variable_manager_1a29ae314c6fd001ecf45635d9e6dc2810" compoundref="_variable_manager_8cpp" startline="28" endline="38">onStackTrace</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" compoundref="_variable_manager_8cpp" startline="18" endline="26">resetVariablesState</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_variable_manager_1a5a7a240eb0ab98f087df0bcdac9ecc1d" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, std::pair&lt; std::uint32_t, int &gt; &gt;</type>
+        <definition>std::unordered_map&lt;int, std::pair&lt;std::uint32_t, int&gt; &gt; debug::VariableManager::frameIdMap</definition>
+        <argsstring></argsstring>
+        <name>frameIdMap</name>
+        <qualifiedname>debug::VariableManager::frameIdMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/VariableManager.h" line="83" column="24" bodyfile="debug/VariableManager.h" bodystart="83" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_variable_manager_1a29ae314c6fd001ecf45635d9e6dc2810" compoundref="_variable_manager_8cpp" startline="28" endline="38">onStackTrace</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" compoundref="_variable_manager_8cpp" startline="18" endline="26">resetVariablesState</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1afb5fdaf8c1eb869e54d7f33644cd3439" compoundref="_variable_manager_8cpp" startline="40" endline="61">selectFrameFromId</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_variable_manager_1adf8000c5c942649ff1c38f120f699212" prot="private" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t debug::VariableManager::lastScopesThreadId</definition>
+        <argsstring></argsstring>
+        <name>lastScopesThreadId</name>
+        <qualifiedname>debug::VariableManager::lastScopesThreadId</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/VariableManager.h" line="85" column="19" bodyfile="debug/VariableManager.h" bodystart="85" bodyend="85"/>
+        <referencedby refid="classdebug_1_1_variable_manager_1a3ef1621d5a704e5255a2094e800cf36f" compoundref="_variable_manager_8cpp" startline="63" endline="76">onScopes</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1a7106ef722eac53731b410153ec46d41c" compoundref="_variable_manager_8cpp" startline="78" endline="86">onVariables</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" compoundref="_variable_manager_8cpp" startline="18" endline="26">resetVariablesState</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdebug_1_1_variable_manager_1a68d6afe6448ab27765bdba2d305d4ed8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>debug::VariableManager::VariableManager</definition>
+        <argsstring>(Session &amp;newSession)</argsstring>
+        <name>VariableManager</name>
+        <qualifiedname>debug::VariableManager::VariableManager</qualifiedname>
+        <param>
+          <type><ref refid="classdebug_1_1_session" kindref="compound">Session</ref> &amp;</type>
+          <declname>newSession</declname>
+        </param>
+        <briefdescription>
+<para>Creates the registry for the given session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newSession</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classdebug_1_1_session" kindref="compound">Session</ref> that answers the frame and variable queries. Not owned. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/VariableManager.h" line="21" column="14" bodyfile="debug/VariableManager.cpp" bodystart="13" bodyend="16"/>
+        <references refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" compoundref="_variable_manager_8h" startline="75">session</references>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::VariableManager::resetVariablesState</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>resetVariablesState</name>
+        <qualifiedname>debug::VariableManager::resetVariablesState</qualifiedname>
+        <briefdescription>
+<para>Clears every variables reference and frame id, and discards the session symbol cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The breakpoint, step, pause, and exception drains of <ref refid="classdebug_1_1_stop_manager" kindref="compound">StopManager</ref> call it. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/VariableManager.h" line="27" column="10" bodyfile="debug/VariableManager.cpp" bodystart="18" bodyend="26"/>
+        <references refid="classdebug_1_1_variable_manager_1a5a7a240eb0ab98f087df0bcdac9ecc1d" compoundref="_variable_manager_8h" startline="83">frameIdMap</references>
+        <references refid="classdebug_1_1_variable_manager_1adf8000c5c942649ff1c38f120f699212" compoundref="_variable_manager_8h" startline="85" endline="85">lastScopesThreadId</references>
+        <references refid="classdebug_1_1_variable_manager_1a56a358497bb674b37378e987ba944763" compoundref="_variable_manager_8h" startline="81" endline="81">nextFrameId</references>
+        <references refid="classdebug_1_1_variable_manager_1a107152bcc6766e61c27b707ea7959109" compoundref="_variable_manager_8h" startline="77" endline="77">nextVariablesRef</references>
+        <references refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" compoundref="_session__mac_8cpp" startline="570" endline="574">debug::Session::resetSymbolGroupCache</references>
+        <references refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" compoundref="_variable_manager_8h" startline="75">session</references>
+        <references refid="classdebug_1_1_variable_manager_1a658ab9500c7bbf4619622a180ee71864" compoundref="_variable_manager_8h" startline="79">variablesRefMap</references>
+        <referencedby refid="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" compoundref="_stop_manager_8cpp" startline="100" endline="113">debug::StopManager::drainBreakpointHit</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="158" endline="178">debug::StopManager::drainExceptionStopped</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1ae491549724477f1c2457f0005f4e11e2" compoundref="_stop_manager_8cpp" startline="131" endline="144">debug::StopManager::drainPauseCompleted</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" compoundref="_stop_manager_8cpp" startline="115" endline="129">debug::StopManager::drainStepCompleted</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_variable_manager_1a29ae314c6fd001ecf45635d9e6dc2810" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int debug::VariableManager::onStackTrace</definition>
+        <argsstring>(std::string &amp;json, std::uint32_t threadId)</argsstring>
+        <name>onStackTrace</name>
+        <qualifiedname>debug::VariableManager::onStackTrace</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>threadId</declname>
+        </param>
+        <briefdescription>
+<para>Appends the stack frames of the current thread to json, and registers each frame id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" kindref="member">Processor::onStackTrace</ref> makes the thread current before this call. Each registered id records threadId and the frame index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output text that receives the frame objects. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>threadId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OS thread id that is recorded with each frame id. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of frame objects appended. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/VariableManager.h" line="38" column="9" bodyfile="debug/VariableManager.cpp" bodystart="28" bodyend="38"/>
+        <references refid="classdebug_1_1_session_1aa25453f6ff0703dd42e955e72d68e5e3" compoundref="_session__mac_8cpp" startline="697" endline="709">debug::Session::appendStackFrames</references>
+        <references refid="classdebug_1_1_variable_manager_1a5a7a240eb0ab98f087df0bcdac9ecc1d" compoundref="_variable_manager_8h" startline="83">frameIdMap</references>
+        <references refid="namespacedebug_1a5b5f90069d08b7599b5af986d92889d6" compoundref="_variable_manager_8cpp" startline="11" endline="11">debug::maxStackFrames</references>
+        <references refid="classdebug_1_1_variable_manager_1a56a358497bb674b37378e987ba944763" compoundref="_variable_manager_8h" startline="81" endline="81">nextFrameId</references>
+        <references refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" compoundref="_variable_manager_8h" startline="75">session</references>
+        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="478" endline="504">Processor::onStackTrace</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_variable_manager_1a3ef1621d5a704e5255a2094e800cf36f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int debug::VariableManager::onScopes</definition>
+        <argsstring>(int frameId)</argsstring>
+        <name>onScopes</name>
+        <qualifiedname>debug::VariableManager::onScopes</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>frameId</declname>
+        </param>
+        <briefdescription>
+<para>Creates a variables reference for the locals of a frame. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Records the thread of the frame as the scopes thread, when the frame id is known. onVariables makes that thread current.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>frameId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Frame id from a stack trace response. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Variables reference for the locals scope. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/VariableManager.h" line="48" column="9" bodyfile="debug/VariableManager.cpp" bodystart="63" bodyend="76"/>
+        <references refid="classdebug_1_1_variable_manager_1adf8000c5c942649ff1c38f120f699212" compoundref="_variable_manager_8h" startline="85" endline="85">lastScopesThreadId</references>
+        <references refid="classdebug_1_1_variable_manager_1a107152bcc6766e61c27b707ea7959109" compoundref="_variable_manager_8h" startline="77" endline="77">nextVariablesRef</references>
+        <references refid="classdebug_1_1_variable_manager_1afb5fdaf8c1eb869e54d7f33644cd3439" compoundref="_variable_manager_8cpp" startline="40" endline="61">selectFrameFromId</references>
+        <references refid="classdebug_1_1_variable_manager_1a658ab9500c7bbf4619622a180ee71864" compoundref="_variable_manager_8h" startline="79">variablesRefMap</references>
+        <referencedby refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" compoundref="_processor_8cpp" startline="506" endline="523">Processor::onScopes</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_variable_manager_1a7106ef722eac53731b410153ec46d41c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::VariableManager::onVariables</definition>
+        <argsstring>(std::string &amp;json, int ref)</argsstring>
+        <name>onVariables</name>
+        <qualifiedname>debug::VariableManager::onVariables</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Appends the variables that a variables reference names to json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Makes the scopes thread current first. An unknown reference appends nothing.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output text that receives the variable objects. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Variables reference from a scopes or variables response. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/VariableManager.h" line="57" column="10" bodyfile="debug/VariableManager.cpp" bodystart="78" bodyend="86"/>
+        <references refid="classdebug_1_1_variable_manager_1a39c321a2a70e965d5f89bed3cf80974a" compoundref="_variable_manager_8cpp" startline="88" endline="107">appendVariables</references>
+        <references refid="classdebug_1_1_variable_manager_1adf8000c5c942649ff1c38f120f699212" compoundref="_variable_manager_8h" startline="85" endline="85">lastScopesThreadId</references>
+        <references refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" compoundref="_variable_manager_8h" startline="75">session</references>
+        <references refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="565" endline="568">debug::Session::setCurrentThreadBySystemId</references>
+        <referencedby refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" compoundref="_processor_8cpp" startline="525" endline="540">Processor::onVariables</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_variable_manager_1afb5fdaf8c1eb869e54d7f33644cd3439" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::uint32_t, int &gt;</type>
+        <definition>std::pair&lt; std::uint32_t, int &gt; debug::VariableManager::selectFrameFromId</definition>
+        <argsstring>(int frameId)</argsstring>
+        <name>selectFrameFromId</name>
+        <qualifiedname>debug::VariableManager::selectFrameFromId</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>frameId</declname>
+        </param>
+        <briefdescription>
+<para>Maps a frame id to its thread and frame index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A registered id gives its OS thread id and frame index, and a nonzero thread id is made current through <ref refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" kindref="member">Session::setCurrentThreadBySystemId</ref>. An unknown id gives thread 0, and the id itself is the frame index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>frameId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Frame id to resolve. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The OS thread id, or 0 when the id is unknown, and the frame index. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/VariableManager.h" line="68" column="15" bodyfile="debug/VariableManager.cpp" bodystart="40" bodyend="61"/>
+        <references refid="classdebug_1_1_variable_manager_1a5a7a240eb0ab98f087df0bcdac9ecc1d" compoundref="_variable_manager_8h" startline="83">frameIdMap</references>
+        <references refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" compoundref="_variable_manager_8h" startline="75">session</references>
+        <references refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="565" endline="568">debug::Session::setCurrentThreadBySystemId</references>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="647" endline="676">Processor::onEvaluate</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1a3ef1621d5a704e5255a2094e800cf36f" compoundref="_variable_manager_8cpp" startline="63" endline="76">onScopes</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classdebug_1_1_variable_manager_1a39c321a2a70e965d5f89bed3cf80974a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::VariableManager::appendVariables</definition>
+        <argsstring>(std::string &amp;json, int ref)</argsstring>
+        <name>appendVariables</name>
+        <qualifiedname>debug::VariableManager::appendVariables</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/VariableManager.h" line="71" column="10" bodyfile="debug/VariableManager.cpp" bodystart="88" bodyend="107"/>
+        <references refid="classdebug_1_1_variable_manager_1a82ca67d49aaa5603e2863eda36efed73" compoundref="_variable_manager_8cpp" startline="109" endline="131">appendVariable</references>
+        <references refid="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" compoundref="_session__mac_8cpp" startline="711" endline="726">debug::Session::applyToLocals</references>
+        <references refid="classdebug_1_1_session_1a44d91c600d53774ef810614e1f663f15" compoundref="_session__mac_8cpp" startline="728" endline="750">debug::Session::applyToVariableChildren</references>
+        <references refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" compoundref="_variable_manager_8h" startline="75">session</references>
+        <references refid="classdebug_1_1_variable_manager_1a658ab9500c7bbf4619622a180ee71864" compoundref="_variable_manager_8h" startline="79">variablesRefMap</references>
+        <referencedby refid="classdebug_1_1_variable_manager_1a7106ef722eac53731b410153ec46d41c" compoundref="_variable_manager_8cpp" startline="78" endline="86">onVariables</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_variable_manager_1a82ca67d49aaa5603e2863eda36efed73" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::VariableManager::appendVariable</definition>
+        <argsstring>(std::string &amp;json, const juce::String &amp;name, const juce::String &amp;value, const juce::String &amp;type, bool hasChildren, int symbolIndex, int frameIndex)</argsstring>
+        <name>appendVariable</name>
+        <qualifiedname>debug::VariableManager::appendVariable</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>hasChildren</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>symbolIndex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>frameIndex</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/VariableManager.h" line="73" column="10" bodyfile="debug/VariableManager.cpp" bodystart="109" bodyend="131"/>
+        <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
+        <references refid="structjam_1_1JsonWriter_1acf8da4810f6b5cb1ee80660149a2db25">jam::JsonWriter::appendSeparator</references>
+        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1ab17c6c7afce10ee78699a1e23ac7acdf">Id::name</references>
+        <references refid="classdebug_1_1_variable_manager_1a107152bcc6766e61c27b707ea7959109" compoundref="_variable_manager_8h" startline="77" endline="77">nextVariablesRef</references>
+        <references refid="namespaceId_1ab4956db6d5e735af8b4e202830ac73f7">Id::type</references>
+        <references refid="namespaceId_1aa31dd51a36cc1b369f63f498441108e8">Id::value</references>
+        <references refid="namespaceId_1a8a41d6fdac2a7bef4aa8f00d16c2c307" compoundref="_generated_8cpp" startline="145" endline="145">Id::variablesReference</references>
+        <references refid="classdebug_1_1_variable_manager_1a658ab9500c7bbf4619622a180ee71864" compoundref="_variable_manager_8h" startline="79">variablesRefMap</references>
+        <referencedby refid="classdebug_1_1_variable_manager_1a39c321a2a70e965d5f89bed3cf80974a" compoundref="_variable_manager_8cpp" startline="88" endline="107">appendVariables</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Registry of the DAP ids for one stop: stack frame ids and variables references. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classdebug_1_1_variable_manager" kindref="compound">VariableManager</ref> is the only assigner of frame ids. <ref refid="classdebug_1_1_session_1aa25453f6ff0703dd42e955e72d68e5e3" kindref="member">Session::appendStackFrames</ref> calls addFrame for each frame and writes the returned id into the frame object. The registry is cleared at each stop, so an id from an earlier stop is not valid. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>debug::Session</label>
+        <link refid="classdebug_1_1_session"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>events</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>debug::VariableManager</label>
+        <link refid="classdebug_1_1_variable_manager"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>session</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>variablesRefMap</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>frameIdMap</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jam::Function::Map&lt; juce::Identifier, jam::Function::pointerCapacity, void(), void(int), void(int, int), void(juce::int64, juce::int64, int), void(const juce::String &amp;)&gt;</label>
+        <link refid="structjam_1_1Function_1_1Map" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>jam::HashMap&lt; KeyType, std::variant&lt; Overload&lt; KeyType, capacity, Signatures &gt;::Slot... &gt; &gt;</label>
+        <link refid="classjam_1_1HashMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="6">
+        <label>std::pair&lt; int, int &gt;</label>
+      </node>
+      <node id="8">
+        <label>std::pair&lt; std::uint32_t, int &gt;</label>
+      </node>
+      <node id="5">
+        <label>std::unordered_map&lt; int, std::pair&lt; int, int &gt; &gt;</label>
+        <childnode refid="6" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>std::unordered_map&lt; int, std::pair&lt; std::uint32_t, int &gt; &gt;</label>
+        <childnode refid="8" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="debug/VariableManager.h" line="14" column="1" bodyfile="debug/VariableManager.h" bodystart="15" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classdebug_1_1_variable_manager_1a82ca67d49aaa5603e2863eda36efed73" prot="private" virt="non-virtual"><scope>debug::VariableManager</scope><name>appendVariable</name></member>
+      <member refid="classdebug_1_1_variable_manager_1a39c321a2a70e965d5f89bed3cf80974a" prot="private" virt="non-virtual"><scope>debug::VariableManager</scope><name>appendVariables</name></member>
+      <member refid="classdebug_1_1_variable_manager_1a5a7a240eb0ab98f087df0bcdac9ecc1d" prot="private" virt="non-virtual"><scope>debug::VariableManager</scope><name>frameIdMap</name></member>
+      <member refid="classdebug_1_1_variable_manager_1adf8000c5c942649ff1c38f120f699212" prot="private" virt="non-virtual"><scope>debug::VariableManager</scope><name>lastScopesThreadId</name></member>
+      <member refid="classdebug_1_1_variable_manager_1a56a358497bb674b37378e987ba944763" prot="private" virt="non-virtual"><scope>debug::VariableManager</scope><name>nextFrameId</name></member>
+      <member refid="classdebug_1_1_variable_manager_1a107152bcc6766e61c27b707ea7959109" prot="private" virt="non-virtual"><scope>debug::VariableManager</scope><name>nextVariablesRef</name></member>
+      <member refid="classdebug_1_1_variable_manager_1a3ef1621d5a704e5255a2094e800cf36f" prot="public" virt="non-virtual"><scope>debug::VariableManager</scope><name>onScopes</name></member>
+      <member refid="classdebug_1_1_variable_manager_1a29ae314c6fd001ecf45635d9e6dc2810" prot="public" virt="non-virtual"><scope>debug::VariableManager</scope><name>onStackTrace</name></member>
+      <member refid="classdebug_1_1_variable_manager_1a7106ef722eac53731b410153ec46d41c" prot="public" virt="non-virtual"><scope>debug::VariableManager</scope><name>onVariables</name></member>
+      <member refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" prot="public" virt="non-virtual"><scope>debug::VariableManager</scope><name>resetVariablesState</name></member>
+      <member refid="classdebug_1_1_variable_manager_1afb5fdaf8c1eb869e54d7f33644cd3439" prot="public" virt="non-virtual"><scope>debug::VariableManager</scope><name>selectFrameFromId</name></member>
+      <member refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" prot="private" virt="non-virtual"><scope>debug::VariableManager</scope><name>session</name></member>
+      <member refid="classdebug_1_1_variable_manager_1a68d6afe6448ab27765bdba2d305d4ed8" prot="public" virt="non-virtual"><scope>debug::VariableManager</scope><name>VariableManager</name></member>
+      <member refid="classdebug_1_1_variable_manager_1a658ab9500c7bbf4619622a180ee71864" prot="private" virt="non-virtual"><scope>debug::VariableManager</scope><name>variablesRefMap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

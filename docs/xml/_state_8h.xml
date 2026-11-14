@@ -3,83 +3,147 @@
   <compounddef id="_state_8h" kind="file" language="C++">
     <compoundname>State.h</compoundname>
     <includes local="no">JuceHeader.h</includes>
-    <includedby refid="_whatdbg_8h" local="yes">Whatdbg.h</includedby>
+    <includes refid="_generated_8h" local="yes">../generated/Generated.h</includes>
+    <includes refid="_w_h_a_t_d_b_g_model_8h" local="yes">../WHATDBGModel.h</includes>
+    <includedby refid="_w_h_a_t_d_b_g_model_8cpp" local="yes">WHATDBGModel.cpp</includedby>
     <includedby refid="_callbacks_8cpp" local="yes">debug/Callbacks.cpp</includedby>
+    <includedby refid="_callbacks_8h" local="yes">debug/Callbacks.h</includedby>
     <includedby refid="_session_8h" local="yes">debug/Session.h</includedby>
     <includedby refid="_session__mac_8cpp" local="yes">debug/Session_mac.cpp</includedby>
+    <includedby refid="_stop_manager_8h" local="yes">debug/StopManager.h</includedby>
     <incdepgraph>
+      <node id="7">
+        <label>../WHATDBGModel.h</label>
+        <link refid="_w_h_a_t_d_b_g_model_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
       <node id="1">
         <label>debug/State.h</label>
         <link refid="_state_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Files.h</label>
+        <link refid="_files_8h"/>
+      </node>
+      <node id="3">
+        <label>../generated/Generated.h</label>
+        <link refid="_generated_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>Identifiers.h</label>
+        <link refid="_identifiers_8h"/>
+      </node>
+      <node id="4">
+        <label>ProjectInfo.h</label>
+        <link refid="_project_info_8h"/>
       </node>
       <node id="2">
         <label>JuceHeader.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="3">
+      <node id="9">
         <label>Main.cpp</label>
         <link refid="_main_8cpp"/>
       </node>
-      <node id="4">
-        <label>Whatdbg.cpp</label>
-        <link refid="_whatdbg_8cpp"/>
-      </node>
-      <node id="2">
-        <label>Whatdbg.h</label>
-        <link refid="_whatdbg_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
-      <node id="8">
-        <label>debug/BreakpointManager.cpp</label>
-        <link refid="_breakpoint_manager_8cpp"/>
-      </node>
       <node id="7">
-        <label>debug/BreakpointManager.h</label>
-        <link refid="_breakpoint_manager_8h"/>
-        <childnode refid="2" relation="include">
+        <label>Processor.cpp</label>
+        <link refid="_processor_8cpp"/>
+      </node>
+      <node id="6">
+        <label>Processor.h</label>
+        <link refid="_processor_8h"/>
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="5">
-        <label>debug/Callbacks.cpp</label>
-        <link refid="_callbacks_8cpp"/>
+      <node id="2">
+        <label>WHATDBGModel.cpp</label>
+        <link refid="_w_h_a_t_d_b_g_model_8cpp"/>
       </node>
-      <node id="9">
-        <label>debug/Session.cpp</label>
-        <link refid="_session_8cpp"/>
+      <node id="10">
+        <label>Whatdbg.cpp</label>
+        <link refid="_whatdbg_8cpp"/>
       </node>
-      <node id="6">
-        <label>debug/Session.h</label>
-        <link refid="_session_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
+      <node id="8">
+        <label>Whatdbg.h</label>
+        <link refid="_whatdbg_8h"/>
         <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+      </node>
+      <node id="12">
+        <label>debug/BreakpointManager.cpp</label>
+        <link refid="_breakpoint_manager_8cpp"/>
+      </node>
+      <node id="11">
+        <label>debug/BreakpointManager.h</label>
+        <link refid="_breakpoint_manager_8h"/>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
       </node>
-      <node id="10">
+      <node id="3">
+        <label>debug/Callbacks.cpp</label>
+        <link refid="_callbacks_8cpp"/>
+      </node>
+      <node id="4">
+        <label>debug/Callbacks.h</label>
+        <link refid="_callbacks_8h"/>
+      </node>
+      <node id="15">
+        <label>debug/Session.cpp</label>
+        <link refid="_session_8cpp"/>
+      </node>
+      <node id="5">
+        <label>debug/Session.h</label>
+        <link refid="_session_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
         <label>debug/SessionPrettyPrint.cpp</label>
         <link refid="_session_pretty_print_8cpp"/>
       </node>
-      <node id="11">
+      <node id="17">
         <label>debug/SessionPrettyPrint_mac.cpp</label>
         <link refid="_session_pretty_print__mac_8cpp"/>
       </node>
-      <node id="12">
+      <node id="18">
         <label>debug/Session_mac.cpp</label>
         <link refid="_session__mac_8cpp"/>
       </node>
@@ -88,15 +152,44 @@
         <link refid="_state_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>debug/StopManager.cpp</label>
+        <link refid="_stop_manager_8cpp"/>
+      </node>
+      <node id="13">
+        <label>debug/StopManager.h</label>
+        <link refid="_stop_manager_8h"/>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>debug/VariableManager.cpp</label>
+        <link refid="_variable_manager_8cpp"/>
+      </node>
+      <node id="19">
+        <label>debug/VariableManager.h</label>
+        <link refid="_variable_manager_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
-    <innerclass refid="classdebug_1_1_state" prot="public">debug::State</innerclass>
     <innernamespace refid="namespacedebug">debug</innernamespace>
     <briefdescription>
     </briefdescription>
@@ -105,115 +198,44 @@
     <programlisting>
 <codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;JuceHeader.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="3"><highlight class="normal"></highlight></codeline>
-<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacedebug" kindref="compound">debug</ref></highlight></codeline>
-<codeline lineno="5"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight></codeline>
-<codeline lineno="12" refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6" kindref="member">ExecutionState</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="13"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="14" refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6aec2f993aec2c27fc750119ab17b16cdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6aec2f993aec2c27fc750119ab17b16cdb" kindref="member">idle</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,<sp/><sp/></highlight></codeline>
-<codeline lineno="15" refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6afbd29b7abab1d8c7e65e9bcae8278426" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6afbd29b7abab1d8c7e65e9bcae8278426" kindref="member">launching</ref><sp/>=<sp/>1,<sp/><sp/></highlight></codeline>
-<codeline lineno="16" refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6a75101dcdfc88455bcafc9e53e0b06689" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6a75101dcdfc88455bcafc9e53e0b06689" kindref="member">running</ref><sp/><sp/><sp/>=<sp/>2,<sp/><sp/></highlight></codeline>
-<codeline lineno="17" refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" kindref="member">stopped</ref><sp/><sp/><sp/>=<sp/>3,<sp/><sp/></highlight></codeline>
-<codeline lineno="18" refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6ab854d4deac1316c8d36e519393f3f2ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6ab854d4deac1316c8d36e519393f3f2ae" kindref="member">exited</ref><sp/><sp/><sp/><sp/>=<sp/>4<sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="19"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight></codeline>
-<codeline lineno="36" refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1" kindref="member">StopReason</ref></highlight></codeline>
-<codeline lineno="37"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="38" refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>none,</highlight></codeline>
-<codeline lineno="39" refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a02ffbaf2c33dfa38c9f01c3546190fcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a02ffbaf2c33dfa38c9f01c3546190fcd" kindref="member">initialBreak</ref>,</highlight></codeline>
-<codeline lineno="40" refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a52e70aaa8740d19f45d6a5661663dd87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a52e70aaa8740d19f45d6a5661663dd87" kindref="member">moduleLoad</ref>,</highlight></codeline>
-<codeline lineno="41" refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1ad36231bfe8094177a5104fea07cdf7fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1ad36231bfe8094177a5104fea07cdf7fd" kindref="member">breakpoint</ref>,</highlight></codeline>
-<codeline lineno="42" refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a2764ca9d34e90313978d044f27ae433b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a2764ca9d34e90313978d044f27ae433b" kindref="member">step</ref>,</highlight></codeline>
-<codeline lineno="43" refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1aec1b81965109165de6b38cd92c1e39f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1aec1b81965109165de6b38cd92c1e39f9" kindref="member">pause</ref>,</highlight></codeline>
-<codeline lineno="44" refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a42552b1f133f9f8eb406d4f306ea9fd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a42552b1f133f9f8eb406d4f306ea9fd1" kindref="member">exception</ref></highlight></codeline>
-<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"></highlight></codeline>
-<codeline lineno="54" refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0e" kindref="member">OffsetStatus</ref></highlight></codeline>
-<codeline lineno="55"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="56" refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea6cfe61694ee1bb13ae719d47c2f80b7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea6cfe61694ee1bb13ae719d47c2f80b7a" kindref="member">found</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="57" refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea5ccf4d5c325b7db68777f400f66fd1b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea5ccf4d5c325b7db68777f400f66fd1b1" kindref="member">notFound</ref>,<sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="58" refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0eae64262c3b87ee801f8f096c390dfae8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0eae64262c3b87ee801f8f096c390dfae8d" kindref="member">engineBusy</ref><sp/><sp/></highlight></codeline>
-<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"></highlight></codeline>
-<codeline lineno="77" refid="classdebug_1_1_state" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdebug_1_1_state_1ad8d72677d4c7288a6f91ccc20af5a07e" kindref="member">State</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1Instance" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Instance</ref>&lt;State&gt;</highlight></codeline>
-<codeline lineno="78"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="80" refid="classdebug_1_1_state_1ad8d72677d4c7288a6f91ccc20af5a07e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_state_1ad8d72677d4c7288a6f91ccc20af5a07e" kindref="member">State</ref><sp/>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"></highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Execution<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="83"><highlight class="normal"></highlight></codeline>
-<codeline lineno="91" refid="classdebug_1_1_state_1a6acfeaa677d44046db99385ccbf3243c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6" kindref="member">ExecutionState</ref><sp/><ref refid="classdebug_1_1_state_1a6acfeaa677d44046db99385ccbf3243c" kindref="member">executionState</ref><sp/>{<sp/><ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6aec2f993aec2c27fc750119ab17b16cdb" kindref="member">ExecutionState::idle</ref><sp/>};</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_generated_8h" kindref="compound">../generated/Generated.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_w_h_a_t_d_b_g_model_8h" kindref="compound">../WHATDBGModel.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacedebug" kindref="compound">debug</ref></highlight></codeline>
+<codeline lineno="7"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6" kindref="member">ExecutionState</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="16" refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6aec2f993aec2c27fc750119ab17b16cdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6aec2f993aec2c27fc750119ab17b16cdb" kindref="member">idle</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,<sp/><sp/></highlight></codeline>
+<codeline lineno="17" refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6afbd29b7abab1d8c7e65e9bcae8278426" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6afbd29b7abab1d8c7e65e9bcae8278426" kindref="member">launching</ref><sp/>=<sp/>1,<sp/><sp/></highlight></codeline>
+<codeline lineno="18" refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6a75101dcdfc88455bcafc9e53e0b06689" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>running<sp/><sp/><sp/>=<sp/>2,<sp/><sp/></highlight></codeline>
+<codeline lineno="19" refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>stopped<sp/><sp/><sp/>=<sp/>3,<sp/><sp/></highlight></codeline>
+<codeline lineno="20" refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6ab854d4deac1316c8d36e519393f3f2ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>exited<sp/><sp/><sp/><sp/>=<sp/>4<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="21"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1" kindref="member">StopReason</ref></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="43" refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>none,</highlight></codeline>
+<codeline lineno="44" refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a02ffbaf2c33dfa38c9f01c3546190fcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>initialBreak,</highlight></codeline>
+<codeline lineno="45" refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a52e70aaa8740d19f45d6a5661663dd87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>moduleLoad,</highlight></codeline>
+<codeline lineno="46" refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1ad36231bfe8094177a5104fea07cdf7fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>breakpoint,</highlight></codeline>
+<codeline lineno="47" refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a2764ca9d34e90313978d044f27ae433b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>step,</highlight></codeline>
+<codeline lineno="48" refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1aec1b81965109165de6b38cd92c1e39f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>pause,</highlight></codeline>
+<codeline lineno="49" refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a42552b1f133f9f8eb406d4f306ea9fd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>exception</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0e" kindref="member">OffsetStatus</ref></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="61" refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea6cfe61694ee1bb13ae719d47c2f80b7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea6cfe61694ee1bb13ae719d47c2f80b7a" kindref="member">found</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea5ccf4d5c325b7db68777f400f66fd1b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea5ccf4d5c325b7db68777f400f66fd1b1" kindref="member">notFound</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0eae64262c3b87ee801f8f096c390dfae8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0eae64262c3b87ee801f8f096c390dfae8d" kindref="member">engineBusy</ref><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">Events</ref><sp/>=<sp/><ref refid="structjam_1_1Function_1_1Map" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::Map</ref>&lt;<ref refid="classjuce_1_1Identifier" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Identifier</ref>,<sp/><ref refid="structjam_1_1Function_1ae0c82daeeeb7f4c4eaf062d55601f5cd" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::pointerCapacity</ref>,<sp/>void<sp/>(),<sp/>void<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">),<sp/>void<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">),<sp/>void<sp/>(<ref refid="namespacejuce_1a6afa306885ea6220ef17d2a02cfa7f0a" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::int64</ref>,<sp/><ref refid="namespacejuce_1a6afa306885ea6220ef17d2a02cfa7f0a" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::int64</ref>,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">),<sp/>void<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><ref refid="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" kindref="member">getExceptionName</ref><sp/>(std::uint32_t<sp/><ref refid="juce__UnityPluginInterface_8h_1a45a5b7c00a796a23f01673cef1dbe0a9" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">code</ref>,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isMachException)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="92"><highlight class="normal"></highlight></codeline>
-<codeline lineno="97" refid="classdebug_1_1_state_1aaf00f1ecd87812817dbd47557747e23b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1" kindref="member">StopReason</ref><sp/><ref refid="classdebug_1_1_state_1aaf00f1ecd87812817dbd47557747e23b" kindref="member">stopReason</ref><sp/>{<sp/><ref refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" kindref="member">StopReason::none</ref><sp/>};</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"></highlight></codeline>
-<codeline lineno="104" refid="classdebug_1_1_state_1aa1f14796ffee6818c4371eb1f1099c72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_state_1aa1f14796ffee6818c4371eb1f1099c72" kindref="member">processExitCode</ref><sp/>{<sp/>0<sp/>};</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"></highlight></codeline>
-<codeline lineno="114" refid="classdebug_1_1_state_1a38b92622d4758c341d86782c8e847255" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="classdebug_1_1_state_1a38b92622d4758c341d86782c8e847255" kindref="member">targetProcessId</ref><sp/>{<sp/>0<sp/>};</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight></codeline>
-<codeline lineno="123" refid="classdebug_1_1_state_1ab395505e845bf21d4ff56f77dcf92ffa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><ref refid="classdebug_1_1_state_1ab395505e845bf21d4ff56f77dcf92ffa" kindref="member">targetProgram</ref>;</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"></highlight></codeline>
-<codeline lineno="132" refid="classdebug_1_1_state_1a2e52b80895a7fc689f9a5777b6ff0a11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="classdebug_1_1_state_1a2e52b80895a7fc689f9a5777b6ff0a11" kindref="member">terminateDeadlineMs</ref><sp/>{<sp/>0<sp/>};</highlight></codeline>
-<codeline lineno="133"><highlight class="normal"></highlight></codeline>
-<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Control<sp/>flags<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="135"><highlight class="normal"></highlight></codeline>
-<codeline lineno="142" refid="classdebug_1_1_state_1acecd26354fc6c58e78e970fecaa0815b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_state_1acecd26354fc6c58e78e970fecaa0815b" kindref="member">isRunning</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"><sp/>};</highlight></codeline>
-<codeline lineno="143"><highlight class="normal"></highlight></codeline>
-<codeline lineno="148" refid="classdebug_1_1_state_1a75ce45fc27d60fea92fc0e03e6342fbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_state_1a75ce45fc27d60fea92fc0e03e6342fbc" kindref="member">shouldTerminateOnExit</ref><sp/><sp/><sp/>{<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>};</highlight></codeline>
-<codeline lineno="149"><highlight class="normal"></highlight></codeline>
-<codeline lineno="154" refid="classdebug_1_1_state_1a3f7d7f6a39956757fc643a29e067021f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_state_1a3f7d7f6a39956757fc643a29e067021f" kindref="member">isConfigurationDone</ref><sp/>{<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>};</highlight></codeline>
-<codeline lineno="155"><highlight class="normal"></highlight></codeline>
-<codeline lineno="162" refid="classdebug_1_1_state_1a848557c1b021966ee5a501c140e9d718" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_state_1a848557c1b021966ee5a501c140e9d718" kindref="member">isStepPending</ref><sp/><sp/>{<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>};</highlight></codeline>
-<codeline lineno="163"><highlight class="normal"></highlight></codeline>
-<codeline lineno="171" refid="classdebug_1_1_state_1a52acc9f4430079b63015dc92f87c8f3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_state_1a52acc9f4430079b63015dc92f87c8f3d" kindref="member">isPausePending</ref><sp/>{<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>};</highlight></codeline>
-<codeline lineno="172"><highlight class="normal"></highlight></codeline>
-<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Deferred<sp/>events<sp/>(written<sp/>by<sp/>the<sp/>engine<sp/>event<sp/>paths,<sp/>read<sp/>by<sp/>Whatdbg)<sp/>──</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="174"><highlight class="normal"></highlight></codeline>
-<codeline lineno="181" refid="classdebug_1_1_state_1af74cd29bf5939405b30e9eda9f8f9bee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int32_t<sp/><ref refid="classdebug_1_1_state_1af74cd29bf5939405b30e9eda9f8f9bee" kindref="member">breakpointEngineId</ref><sp/>{<sp/>0<sp/>};</highlight></codeline>
-<codeline lineno="182"><highlight class="normal"></highlight></codeline>
-<codeline lineno="189" refid="classdebug_1_1_state_1a3de08ce6e5b86e52f6e9fc2644f3d0f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><ref refid="classdebug_1_1_state_1a3de08ce6e5b86e52f6e9fc2644f3d0f1" kindref="member">lastLoadedImageName</ref>;</highlight></codeline>
-<codeline lineno="190"><highlight class="normal"></highlight></codeline>
-<codeline lineno="197" refid="classdebug_1_1_state_1a1524615d3f899b2986f31b43a0b2ecd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_state_1a1524615d3f899b2986f31b43a0b2ecd7" kindref="member">hasBreakpointLocationsResolved</ref><sp/>{<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>};</highlight></codeline>
-<codeline lineno="198"><highlight class="normal"></highlight></codeline>
-<codeline lineno="204" refid="classdebug_1_1_state_1abeb3107f0d445cbedce7f280899dcb4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int32_t<sp/><ref refid="classdebug_1_1_state_1abeb3107f0d445cbedce7f280899dcb4d" kindref="member">resolvedBreakpointEngineId</ref><sp/>{<sp/>0<sp/>};</highlight></codeline>
-<codeline lineno="205"><highlight class="normal"></highlight></codeline>
-<codeline lineno="210" refid="classdebug_1_1_state_1ad668954b7ae722e57f63a5853086a13e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="classdebug_1_1_state_1ad668954b7ae722e57f63a5853086a13e" kindref="member">resolvedBreakpointLine</ref><sp/>{<sp/>0<sp/>};</highlight></codeline>
-<codeline lineno="211"><highlight class="normal"></highlight></codeline>
-<codeline lineno="219" refid="classdebug_1_1_state_1a7ed9c16d75e24529be3216006ea5a82d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_state_1a7ed9c16d75e24529be3216006ea5a82d" kindref="member">hasProcessExited</ref><sp/>{<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>};</highlight></codeline>
-<codeline lineno="220"><highlight class="normal"></highlight></codeline>
-<codeline lineno="233" refid="classdebug_1_1_state_1a804a6915dd5513e66354bdf321473b09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="classdebug_1_1_state_1a804a6915dd5513e66354bdf321473b09" kindref="member">exceptionCode</ref><sp/>{<sp/>0<sp/>};</highlight></codeline>
-<codeline lineno="234"><highlight class="normal"></highlight></codeline>
-<codeline lineno="240" refid="classdebug_1_1_state_1a1082a8140dbdfe2f1f74ce8599ee6551" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="classdebug_1_1_state_1a1082a8140dbdfe2f1f74ce8599ee6551" kindref="member">exceptionAddress</ref><sp/>{<sp/>0<sp/>};</highlight></codeline>
-<codeline lineno="241"><highlight class="normal"></highlight></codeline>
-<codeline lineno="252" refid="classdebug_1_1_state_1a7ac8f986730065bb18e0342bd725d2e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_state_1a7ac8f986730065bb18e0342bd725d2e3" kindref="member">isMachException</ref><sp/>{<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>};</highlight></codeline>
-<codeline lineno="253"><highlight class="normal"></highlight></codeline>
-<codeline lineno="260" refid="classdebug_1_1_state_1ae4bd04e1fd7930cad73dece33f9d2109" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_state_1ae4bd04e1fd7930cad73dece33f9d2109" kindref="member">hasDebuggeeOutput</ref><sp/>{<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>};</highlight></codeline>
-<codeline lineno="261"><highlight class="normal"></highlight></codeline>
-<codeline lineno="267" refid="classdebug_1_1_state_1a75eddef264990eb7abd182485ea3de46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><ref refid="classdebug_1_1_state_1a75eddef264990eb7abd182485ea3de46" kindref="member">debuggeeOutputText</ref>;</highlight></codeline>
-<codeline lineno="268"><highlight class="normal"></highlight></codeline>
-<codeline lineno="275" refid="classdebug_1_1_state_1a240f953ee36105498af783289c53e9c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><ref refid="classdebug_1_1_state_1a240f953ee36105498af783289c53e9c7" kindref="member">debuggeeOutputCategory</ref><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;console&quot;</highlight><highlight class="normal"><sp/>};</highlight></codeline>
-<codeline lineno="276"><highlight class="normal"></highlight></codeline>
-<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Variable<sp/>inspection<sp/>───────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="278"><highlight class="normal"></highlight></codeline>
-<codeline lineno="283" refid="classdebug_1_1_state_1ac39e8e76d2763c11c19ce8e2e0d12a7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_state_1ac39e8e76d2763c11c19ce8e2e0d12a7f" kindref="member">nextVariablesRef</ref><sp/>{<sp/>1<sp/>};</highlight></codeline>
-<codeline lineno="284"><highlight class="normal"></highlight></codeline>
-<codeline lineno="291" refid="classdebug_1_1_state_1a45f3e3e82a69af77f2380d8b7a983463" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>std::pair&lt;int,<sp/>int&gt;&gt;<sp/><ref refid="classdebug_1_1_state_1a45f3e3e82a69af77f2380d8b7a983463" kindref="member">variablesRefMap</ref>;</highlight></codeline>
-<codeline lineno="292"><highlight class="normal"></highlight></codeline>
-<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Frame<sp/>ID<sp/>mapping<sp/>(threadId<sp/>+<sp/>frameIndex)<sp/>──────────────────────</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="294"><highlight class="normal"></highlight></codeline>
-<codeline lineno="299" refid="classdebug_1_1_state_1ac89f5dc6c9fa4810077e4f7c9b5cec1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_state_1ac89f5dc6c9fa4810077e4f7c9b5cec1a" kindref="member">nextFrameId</ref><sp/>{<sp/>1<sp/>};</highlight></codeline>
-<codeline lineno="300"><highlight class="normal"></highlight></codeline>
-<codeline lineno="306" refid="classdebug_1_1_state_1a13ee9eccbf483a8f4ec81a09aa1e83a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>std::pair&lt;std::uint32_t,<sp/>int&gt;&gt;<sp/><ref refid="classdebug_1_1_state_1a13ee9eccbf483a8f4ec81a09aa1e83a9" kindref="member">frameIdMap</ref>;</highlight></codeline>
-<codeline lineno="307"><highlight class="normal"></highlight></codeline>
-<codeline lineno="313" refid="classdebug_1_1_state_1a11506ade1640f6cff2452c1487a42dc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="classdebug_1_1_state_1a11506ade1640f6cff2452c1487a42dc0" kindref="member">lastScopesThreadId</ref><sp/>{<sp/>0<sp/>};</highlight></codeline>
-<codeline lineno="314"><highlight class="normal"></highlight></codeline>
-<codeline lineno="315"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="juce__PlatformDefs_8h_1a851b02724a8158a7f746c66b5758b3dd" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR</ref><sp/>(<ref refid="classdebug_1_1_state" kindref="compound">State</ref>)</highlight></codeline>
-<codeline lineno="317"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="318"><highlight class="normal"></highlight></codeline>
-<codeline lineno="334"><highlight class="normal"><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><ref refid="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" kindref="member">getExceptionName</ref><sp/>(std::uint32_t<sp/><ref refid="juce__UnityPluginInterface_8h_1a45a5b7c00a796a23f01673cef1dbe0a9" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">code</ref>,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isMachException)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="335"><highlight class="normal"></highlight></codeline>
-<codeline lineno="336"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>debug</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>debug</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="debug/State.h"/>
   </compounddef>

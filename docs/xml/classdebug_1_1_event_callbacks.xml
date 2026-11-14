@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="143" column="5"/>
+        <location file="debug/Callbacks.h" line="142" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -52,7 +52,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="149" column="5"/>
+        <location file="debug/Callbacks.h" line="148" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a9e6fefe242b068cd4317c5005fb2174b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
@@ -96,7 +96,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="159" column="5"/>
+        <location file="debug/Callbacks.h" line="158" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1a9e6fefe242b068cd4317c5005fb2174b">QueryInterface</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1a9e6fefe242b068cd4317c5005fb2174b">QueryInterface</referencedby>
       </memberdef>
@@ -133,7 +133,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="176" column="5"/>
+        <location file="debug/Callbacks.h" line="175" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1af20e2b9b120f323f4552f55e3902cd4d">GetInterestMask</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1af20e2b9b120f323f4552f55e3902cd4d">GetInterestMask</referencedby>
       </memberdef>
@@ -151,7 +151,8 @@
 <para>Called when a user-registered breakpoint is hit. </para>
         </briefdescription>
         <detaileddescription>
-<para>Sets stopReason to breakpoint and breakpointEngineId, and sets executionState to stopped. EXCEPTION_BREAKPOINT events, including the initial loader break, go to Exception instead.</para>
+<para>Fires breakpoint with the engine id.</para>
+<para>EXCEPTION_BREAKPOINT events, including the initial loader break, go to Exception instead.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>bp</parametername>
@@ -167,7 +168,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="187" column="5"/>
+        <location file="debug/Callbacks.h" line="184" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1af733324938bfd61f1199ae4896a719c8">Breakpoint</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1af733324938bfd61f1199ae4896a719c8">Breakpoint</referencedby>
       </memberdef>
@@ -189,7 +190,7 @@
 <para>Called when an exception occurs in the target. </para>
         </briefdescription>
         <detaileddescription>
-<para>Dispatches on exception code. EXCEPTION_BREAKPOINT goes to onBreakpoint: while launching it sets stopReason initialBreak, while isPausePending it sets pause, and otherwise (an int3 after launch) it sets exception, exceptionCode, and exceptionAddress. The MSVC thread-name exception is passed to the target. Other codes go to onUnknownException, which passes a first-chance exception to the target and sets exception on a second-chance exception.</para>
+<para>Dispatches on exception code. EXCEPTION_BREAKPOINT goes to onBreakpoint: while launching it fires initialBreak, while isPausePending it fires pause, and otherwise (an int3 after launch) it fires exception with the code and the address. The MSVC thread-name exception is passed to the target. Other codes go to onUnknownException, which passes a first-chance exception to the target and fires exception on a second-chance exception.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>exception</parametername>
@@ -213,9 +214,8 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="203" column="5"/>
+        <location file="debug/Callbacks.h" line="200" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1aef32a24e120836a6cb6da34f39a3fa6a">Exception</references>
-        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a42552b1f133f9f8eb406d4f306ea9fd1" compoundref="_state_8h" startline="44">debug::exception</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1aef32a24e120836a6cb6da34f39a3fa6a">Exception</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_event_callbacks_1afec3d85563766979717b676ec3c2bbfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -272,7 +272,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="213" column="5"/>
+        <location file="debug/Callbacks.h" line="210" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1afec3d85563766979717b676ec3c2bbfa">CreateThread</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1afec3d85563766979717b676ec3c2bbfa">CreateThread</referencedby>
       </memberdef>
@@ -306,7 +306,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="221" column="5"/>
+        <location file="debug/Callbacks.h" line="218" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1ac3d9c55b970d3ac7bb7755fcf69b289a">ExitThread</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1ac3d9c55b970d3ac7bb7755fcf69b289a">ExitThread</referencedby>
       </memberdef>
@@ -364,6 +364,7 @@
 <para>Called when the target process is created (after a launch or attach). </para>
         </briefdescription>
         <detaileddescription>
+<para>Fires targetProcessId with the process id.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>imageFileHandle</parametername>
@@ -459,7 +460,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="238" column="5"/>
+        <location file="debug/Callbacks.h" line="235" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1a413822966c447b5f87722b3e0aa5be0a">CreateProcess</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1a413822966c447b5f87722b3e0aa5be0a">CreateProcess</referencedby>
       </memberdef>
@@ -477,7 +478,7 @@
 <para>Called when the target process exits. </para>
         </briefdescription>
         <detaileddescription>
-<para>Sets <ref refid="classdebug_1_1_state_1a7ed9c16d75e24529be3216006ea5a82d" kindref="member">State::hasProcessExited</ref> and <ref refid="classdebug_1_1_state_1aa1f14796ffee6818c4371eb1f1099c72" kindref="member">State::processExitCode</ref> so that processDeferredEvents can emit DAP exited and terminated events.</para>
+<para>Fires exited with the exit code.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>exitCode</parametername>
@@ -493,7 +494,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="252" column="5"/>
+        <location file="debug/Callbacks.h" line="246" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1ad35e8d11e029719ffe99c130b2219dd8">ExitProcess</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1ad35e8d11e029719ffe99c130b2219dd8">ExitProcess</referencedby>
       </memberdef>
@@ -535,7 +536,7 @@
 <para>Called when a DLL or EXE is loaded into the target. </para>
         </briefdescription>
         <detaileddescription>
-<para>Stops the target so the main loop can resolve pending breakpoints against the new module. While a step is pending the method records nothing and returns DEBUG_STATUS_NO_CHANGE. Otherwise it sets stopReason to moduleLoad and records the image name in <ref refid="classdebug_1_1_state_1a3de08ce6e5b86e52f6e9fc2644f3d0f1" kindref="member">State::lastLoadedImageName</ref>.</para>
+<para>While a step is pending the method fires nothing and returns DEBUG_STATUS_NO_CHANGE. Otherwise it fires moduleLoad with the image name and returns DEBUG_STATUS_BREAK. <ref refid="classdebug_1_1_stop_manager" kindref="compound">StopManager</ref> then resolves pending breakpoints against the new module and resumes the target.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>imageFileHandle</parametername>
@@ -599,7 +600,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="270" column="5"/>
+        <location file="debug/Callbacks.h" line="264" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1a658f76fa3f83a3784738b3da38f930dd">LoadModule</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1a658f76fa3f83a3784738b3da38f930dd">LoadModule</referencedby>
       </memberdef>
@@ -621,7 +622,7 @@
 <para>Required IDebugEventCallbacks override; never invoked. </para>
         </briefdescription>
         <detaileddescription>
-<para>DEBUG_EVENT_UNLOAD_MODULE is not in the GetInterestMask result, so dbgeng never calls this method. Breakpoints in unloaded modules become unresolved automatically and will be re-resolved when the module reloads.</para>
+<para>DEBUG_EVENT_UNLOAD_MODULE is not in the GetInterestMask result, so dbgeng never calls this method.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>imageBaseName</parametername>
@@ -645,7 +646,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="283" column="5"/>
+        <location file="debug/Callbacks.h" line="275" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1a29ebb784233f0152eae24ab5655b5573">UnloadModule</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1a29ebb784233f0152eae24ab5655b5573">UnloadModule</referencedby>
       </memberdef>
@@ -691,7 +692,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="292" column="5"/>
+        <location file="debug/Callbacks.h" line="284" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1aab0f7b83e2c9e1a318b68cb9202c6612">SystemError</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1aab0f7b83e2c9e1a318b68cb9202c6612">SystemError</referencedby>
       </memberdef>
@@ -725,7 +726,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="300" column="5"/>
+        <location file="debug/Callbacks.h" line="292" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1a1d2b155dcad0ec91f1d6a687dc86b23d">SessionStatus</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1a1d2b155dcad0ec91f1d6a687dc86b23d">SessionStatus</referencedby>
       </memberdef>
@@ -771,7 +772,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="310" column="5"/>
+        <location file="debug/Callbacks.h" line="302" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1a3e011387931e6f7dd8c7b0a126f68260">ChangeDebuggeeState</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1a3e011387931e6f7dd8c7b0a126f68260">ChangeDebuggeeState</referencedby>
       </memberdef>
@@ -817,7 +818,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="319" column="5"/>
+        <location file="debug/Callbacks.h" line="311" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1ac0febd27da577e72f6b335c99cedfa0d">ChangeEngineState</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1ac0febd27da577e72f6b335c99cedfa0d">ChangeEngineState</referencedby>
       </memberdef>
@@ -863,7 +864,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="328" column="5"/>
+        <location file="debug/Callbacks.h" line="320" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1a3980117444c9d20a5c83f7b80966dfd6">ChangeSymbolState</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1a3980117444c9d20a5c83f7b80966dfd6">ChangeSymbolState</referencedby>
       </memberdef>
@@ -880,43 +881,62 @@
 <para>COM reference count, tracked by AddRef/Release. </para>
         </briefdescription>
         <detaileddescription>
-<para>Never reaches zero in practice — this object is stack-allocated inside <ref refid="classdebug_1_1_session" kindref="compound">Session</ref> and never deleted. </para>
+<para>This object is a member of <ref refid="classdebug_1_1_session" kindref="compound">Session</ref> and is never deleted. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="336" column="11" bodyfile="debug/Callbacks.h" bodystart="336" bodyend="336"/>
+        <location file="debug/Callbacks.h" line="326" column="11" bodyfile="debug/Callbacks.h" bodystart="326" bodyend="326"/>
       </memberdef>
-    </sectiondef>
-    <sectiondef kind="public-func">
-      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a3e3d40f7b3df1431a491418bd13e8080" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type></type>
-        <definition>debug::EventCallbacks::EventCallbacks</definition>
-        <argsstring>()=default</argsstring>
-        <name>EventCallbacks</name>
-        <qualifiedname>debug::EventCallbacks::EventCallbacks</qualifiedname>
+      <memberdef kind="variable" id="classdebug_1_1_event_callbacks_1acd699a43499bbfe7020314de3c18fa34" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">Events</ref> &amp;</type>
+        <definition>Events&amp; debug::EventCallbacks::events</definition>
+        <argsstring></argsstring>
+        <name>events</name>
+        <qualifiedname>debug::EventCallbacks::events</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="134" column="5"/>
+        <location file="debug/Callbacks.h" line="328" column="12" bodyfile="debug/Callbacks.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a2e0df34d23c7673d0640aabbdcea8983" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>debug::EventCallbacks::EventCallbacks</definition>
+        <argsstring>(Events &amp;newEvents)</argsstring>
+        <name>EventCallbacks</name>
+        <qualifiedname>debug::EventCallbacks::EventCallbacks</qualifiedname>
+        <param>
+          <type><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">Events</ref> &amp;</type>
+          <declname>newEvents</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Callbacks.h" line="133" column="14"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
-<para>Receives debug lifecycle events from dbgeng. </para>
+<para>Receives process, exception, breakpoint, and module-load events from dbgeng. </para>
     </briefdescription>
     <detaileddescription>
-<para>Registered with IDebugClient5::SetEventCallbacks. Handles the full set of IDebugEventCallbacks methods. Each callback writes its state into <ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> rather than acting immediately, so that the main thread processes all state changes in <ref refid="class_whatdbg_1a9e7a05509ec294098ecb40a9cc509615" kindref="member">Whatdbg::processDeferredEvents</ref> without COM re-entrancy concerns.</para>
-<para>Key events and their <ref refid="classdebug_1_1_state" kindref="compound">State</ref> effects:<itemizedlist>
-<listitem><para>Breakpoint → sets stopReason breakpoint and breakpointEngineId.</para>
-</listitem><listitem><para>Exception → EXCEPTION_BREAKPOINT sets stopReason initialBreak while launching, pause while isPausePending, and exception otherwise. Other codes set stopReason exception on a second-chance notification.</para>
-</listitem><listitem><para>LoadModule → sets stopReason moduleLoad and lastLoadedImageName, unless a step is pending.</para>
-</listitem><listitem><para>ExitProcess → sets hasProcessExited, processExitCode</para>
-</listitem><listitem><para>CreateProcess → sets targetProcessId</para>
+<para>Registered with IDebugClient5::SetEventCallbacks. Each handled callback fires an event on <ref refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" kindref="member">Session::events</ref> and returns a status that tells dbgeng whether to keep the target stopped. Callbacks run on the engine context, inside WaitForEvent.</para>
+<para><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">Events</ref> that each callback fires:<itemizedlist>
+<listitem><para>Breakpoint → breakpoint, with the engine breakpoint id. Returns DEBUG_STATUS_BREAK.</para>
+</listitem><listitem><para>Exception → EXCEPTION_BREAKPOINT fires initialBreak while launching, pause while isPausePending, and exception otherwise. Other codes fire exception on a second-chance notification only.</para>
+</listitem><listitem><para>LoadModule → moduleLoad, with the image name, unless a step is pending.</para>
+</listitem><listitem><para>ExitProcess → exited, with the exit code.</para>
+</listitem><listitem><para>CreateProcess → targetProcessId, with the process id.</para>
 </listitem></itemizedlist>
 </para>
-<para><simplesect kind="note"><para>Registered and unregistered by <ref refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" kindref="member">Session::initialize</ref> and <ref refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" kindref="member">Session::shutdown</ref>. </para>
+<para>GetInterestMask selects the breakpoint, exception, create-process, exit-process, and load-module events. dbgeng never invokes the other methods.</para>
+<para><simplesect kind="note"><para>Owned by <ref refid="classdebug_1_1_session" kindref="compound">Session</ref> as a member. setDebugInterfaces registers it, and shutdown unregisters it. </para>
 </simplesect>
 </para>
     </detaileddescription>
@@ -940,9 +960,22 @@
         <link refid="classdebug_1_1_event_callbacks"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>events</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jam::Function::Map&lt; juce::Identifier, jam::Function::pointerCapacity, void(), void(int), void(int, int), void(juce::int64, juce::int64, int), void(const juce::String &amp;)&gt;</label>
+        <link refid="structjam_1_1Function_1_1Map" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>jam::HashMap&lt; KeyType, std::variant&lt; Overload&lt; KeyType, capacity, Signatures &gt;::Slot... &gt; &gt;</label>
+        <link refid="classjam_1_1HashMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
       </node>
     </collaborationgraph>
-    <location file="debug/Callbacks.h" line="131" column="1" bodyfile="debug/Callbacks.h" bodystart="132" bodyend="339"/>
+    <location file="debug/Callbacks.h" line="130" column="1" bodyfile="debug/Callbacks.h" bodystart="131" bodyend="331"/>
     <listofallmembers>
       <member refid="classdebug_1_1_event_callbacks_1af733324938bfd61f1199ae4896a719c8" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>Breakpoint</name></member>
       <member refid="classdebug_1_1_event_callbacks_1a3e011387931e6f7dd8c7b0a126f68260" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ChangeDebuggeeState</name></member>
@@ -950,7 +983,8 @@
       <member refid="classdebug_1_1_event_callbacks_1a3980117444c9d20a5c83f7b80966dfd6" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ChangeSymbolState</name></member>
       <member refid="classdebug_1_1_event_callbacks_1a413822966c447b5f87722b3e0aa5be0a" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>CreateProcess</name></member>
       <member refid="classdebug_1_1_event_callbacks_1afec3d85563766979717b676ec3c2bbfa" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>CreateThread</name></member>
-      <member refid="classdebug_1_1_event_callbacks_1a3e3d40f7b3df1431a491418bd13e8080" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>EventCallbacks</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1a2e0df34d23c7673d0640aabbdcea8983" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>EventCallbacks</name></member>
+      <member refid="classdebug_1_1_event_callbacks_1acd699a43499bbfe7020314de3c18fa34" prot="private" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>events</name></member>
       <member refid="classdebug_1_1_event_callbacks_1aef32a24e120836a6cb6da34f39a3fa6a" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>Exception</name></member>
       <member refid="classdebug_1_1_event_callbacks_1ad35e8d11e029719ffe99c130b2219dd8" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ExitProcess</name></member>
       <member refid="classdebug_1_1_event_callbacks_1ac3d9c55b970d3ac7bb7755fcf69b289a" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ExitThread</name></member>

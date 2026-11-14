@@ -8,10 +8,8 @@ namespace debug
 
 /** Loads dbgeng.dll from a sidecar directory and exposes DebugCreate.
  *
- *  Windows ships dbgeng.dll in the system directory, but the version bundled
- *  with the Debugging Tools for Windows SDK may be newer and more capable.
- *  Loader loads the DLL explicitly from a caller-supplied sidecar directory
- *  so that the correct version is used regardless of what is installed system-wide.
+ *  Loader loads the DLL explicitly from a caller-supplied sidecar directory, so the
+ *  DLL that Main.cpp extracted is the one that runs, whatever is installed system-wide.
  *
  *  Usage sequence:
  *  1. Call load() to LoadLibraryW the DLL and resolve the DebugCreate export.
@@ -30,13 +28,14 @@ public:
 
     /** Load dbgeng.dll from the given sidecar directory.
      *
-     *  Calls LoadLibraryW on "<sidecarDirectory>/dbgeng.dll" and resolves
-     *  the "DebugCreate" export. On success createDebugClient() may be called.
+     *  Calls LoadLibraryW on the dbgeng.dll file in sidecarDirectory and resolves the
+     *  DebugCreate export. If the export is missing, the module is freed. On success
+     *  createDebugClient() may be called.
      *
      *  @param sidecarDirectory  Directory containing dbgeng.dll and its dependencies.
      *  @return true if the DLL was loaded and DebugCreate was resolved successfully.
      *
-     *  @note Calling load() more than once is undefined. Create a new Loader instead.
+     *  @note A second call replaces the module handle and does not free the first module.
      */
     bool load (const juce::File& sidecarDirectory) noexcept;
 

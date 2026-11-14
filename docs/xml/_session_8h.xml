@@ -5,13 +5,23 @@
     <includes local="no">JuceHeader.h</includes>
     <includes refid="_state_8h" local="yes">State.h</includes>
     <includes local="no">lldb/API/LLDB.h</includes>
-    <includedby refid="_whatdbg_8h" local="yes">Whatdbg.h</includedby>
+    <includedby refid="_processor_8h" local="yes">Processor.h</includedby>
     <includedby refid="_breakpoint_manager_8h" local="yes">debug/BreakpointManager.h</includedby>
     <includedby refid="_session_8cpp" local="yes">debug/Session.cpp</includedby>
     <includedby refid="_session_pretty_print_8cpp" local="yes">debug/SessionPrettyPrint.cpp</includedby>
     <includedby refid="_session_pretty_print__mac_8cpp" local="yes">debug/SessionPrettyPrint_mac.cpp</includedby>
     <includedby refid="_session__mac_8cpp" local="yes">debug/Session_mac.cpp</includedby>
+    <includedby refid="_stop_manager_8h" local="yes">debug/StopManager.h</includedby>
+    <includedby refid="_variable_manager_8h" local="yes">debug/VariableManager.h</includedby>
     <incdepgraph>
+      <node id="8">
+        <label>../WHATDBGModel.h</label>
+        <link refid="_w_h_a_t_d_b_g_model_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
       <node id="1">
         <label>debug/Session.h</label>
         <link refid="_session_8h"/>
@@ -19,7 +29,7 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -27,44 +37,84 @@
         <link refid="_state_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>Files.h</label>
+        <link refid="_files_8h"/>
+      </node>
+      <node id="4">
+        <label>../generated/Generated.h</label>
+        <link refid="_generated_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Identifiers.h</label>
+        <link refid="_identifiers_8h"/>
+      </node>
+      <node id="5">
+        <label>ProjectInfo.h</label>
+        <link refid="_project_info_8h"/>
       </node>
       <node id="2">
         <label>JuceHeader.h</label>
       </node>
-      <node id="4">
+      <node id="9">
         <label>lldb/API/LLDB.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="3">
+      <node id="5">
         <label>Main.cpp</label>
         <link refid="_main_8cpp"/>
       </node>
-      <node id="4">
-        <label>Whatdbg.cpp</label>
-        <link refid="_whatdbg_8cpp"/>
+      <node id="3">
+        <label>Processor.cpp</label>
+        <link refid="_processor_8cpp"/>
       </node>
       <node id="2">
-        <label>Whatdbg.h</label>
-        <link refid="_whatdbg_8h"/>
+        <label>Processor.h</label>
+        <link refid="_processor_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
       </node>
       <node id="6">
-        <label>debug/BreakpointManager.cpp</label>
-        <link refid="_breakpoint_manager_8cpp"/>
+        <label>Whatdbg.cpp</label>
+        <link refid="_whatdbg_8cpp"/>
       </node>
-      <node id="5">
-        <label>debug/BreakpointManager.h</label>
-        <link refid="_breakpoint_manager_8h"/>
-        <childnode refid="2" relation="include">
+      <node id="4">
+        <label>Whatdbg.h</label>
+        <link refid="_whatdbg_8h"/>
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
       </node>
+      <node id="8">
+        <label>debug/BreakpointManager.cpp</label>
+        <link refid="_breakpoint_manager_8cpp"/>
+      </node>
       <node id="7">
+        <label>debug/BreakpointManager.h</label>
+        <link refid="_breakpoint_manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
         <label>debug/Session.cpp</label>
         <link refid="_session_8cpp"/>
       </node>
@@ -73,28 +123,58 @@
         <link refid="_session_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>debug/SessionPrettyPrint.cpp</label>
+        <link refid="_session_pretty_print_8cpp"/>
+      </node>
+      <node id="13">
+        <label>debug/SessionPrettyPrint_mac.cpp</label>
+        <link refid="_session_pretty_print__mac_8cpp"/>
+      </node>
+      <node id="14">
+        <label>debug/Session_mac.cpp</label>
+        <link refid="_session__mac_8cpp"/>
+      </node>
+      <node id="10">
+        <label>debug/StopManager.cpp</label>
+        <link refid="_stop_manager_8cpp"/>
+      </node>
+      <node id="9">
+        <label>debug/StopManager.h</label>
+        <link refid="_stop_manager_8h"/>
+        <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="8">
-        <label>debug/SessionPrettyPrint.cpp</label>
-        <link refid="_session_pretty_print_8cpp"/>
+      <node id="16">
+        <label>debug/VariableManager.cpp</label>
+        <link refid="_variable_manager_8cpp"/>
       </node>
-      <node id="9">
-        <label>debug/SessionPrettyPrint_mac.cpp</label>
-        <link refid="_session_pretty_print__mac_8cpp"/>
-      </node>
-      <node id="10">
-        <label>debug/Session_mac.cpp</label>
-        <link refid="_session__mac_8cpp"/>
+      <node id="15">
+        <label>debug/VariableManager.h</label>
+        <link refid="_variable_manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
       </node>
     </invincdepgraph>
     <innerclass refid="classdebug_1_1_session" prot="public">debug::Session</innerclass>
@@ -125,7 +205,7 @@
 <codeline lineno="19"><highlight class="normal"></highlight></codeline>
 <codeline lineno="30" refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90a" kindref="member">EndMode</ref></highlight></codeline>
 <codeline lineno="31"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="32" refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa1459e53d3fbaa95cebaf90860dd7a259" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa1459e53d3fbaa95cebaf90860dd7a259" kindref="member">terminate</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa1459e53d3fbaa95cebaf90860dd7a259" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>terminate,<sp/><sp/></highlight></codeline>
 <codeline lineno="33" refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aab6bc015ea9587c510c9017988e94e60d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aab6bc015ea9587c510c9017988e94e60d" kindref="member">detach</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="34" refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa831996cebc6c9bf7687e922c3437be69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa831996cebc6c9bf7687e922c3437be69" kindref="member">passive</ref><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="35"><highlight class="normal">};</highlight></codeline>
@@ -136,125 +216,142 @@
 <codeline lineno="67" refid="classdebug_1_1_session" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf" kindref="member">Session</ref></highlight></codeline>
 <codeline lineno="68"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="70" refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf" kindref="member">Session</ref><sp/>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf" kindref="member">~Session</ref><sp/>();</highlight></codeline>
+<codeline lineno="71" refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf" kindref="member">Session</ref><sp/>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="72"><highlight class="normal"></highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" kindref="member">initialize</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref>&amp;<sp/>sidecarDir)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"></highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" kindref="member">launch</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>program)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"></highlight></codeline>
-<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" kindref="member">attach</ref><sp/>(std::uint32_t<sp/>processId)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"></highlight></codeline>
-<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" kindref="member">resume</ref><sp/>()<sp/>noexcept;</highlight></codeline>
-<codeline lineno="130"><highlight class="normal"></highlight></codeline>
-<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" kindref="member">pollEvents</ref><sp/>(<ref refid="namespacestd" kindref="compound">std</ref>::uint32_t<sp/>timeoutMs)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="147"><highlight class="normal"></highlight></codeline>
-<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" kindref="member">shutdown</ref><sp/>(<ref refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90a" kindref="member">EndMode</ref><sp/>mode)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="171"><highlight class="normal"></highlight></codeline>
-<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Breakpoint<sp/>API<sp/>(used<sp/>by<sp/>BreakpointManager)<sp/>─────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf" kindref="member">~Session</ref><sp/>();</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" kindref="member">initialize</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref>&amp;<sp/>sidecarDir)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" kindref="member">launch</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>program)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" kindref="member">attach</ref><sp/>(std::uint32_t<sp/>processId)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" kindref="member">resume</ref><sp/>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" kindref="member">pollEvents</ref><sp/>(<ref refid="namespacestd" kindref="compound">std</ref>::uint32_t<sp/>timeoutMs)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" kindref="member">shutdown</ref><sp/>(<ref refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90a" kindref="member">EndMode</ref><sp/>mode)<sp/>noexcept;</highlight></codeline>
 <codeline lineno="173"><highlight class="normal"></highlight></codeline>
-<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug" kindref="compound">debug</ref>::<ref refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0e" kindref="member">OffsetStatus</ref><sp/><ref refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" kindref="member">getOffsetStatus</ref><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>filePath,</highlight></codeline>
-<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint16_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/>line)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="193"><highlight class="normal"></highlight></codeline>
-<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/><ref refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" kindref="member">getOffset</ref><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>filePath,</highlight></codeline>
-<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint16_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/>line)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="206"><highlight class="normal"></highlight></codeline>
-<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::optional&lt;<ref refid="namespacestd" kindref="compound">std</ref>::int32_t&gt;<sp/><ref refid="classdebug_1_1_session_1a02ef270b151bab75f4e20a5a48d84d41" kindref="member">addBreakpoint</ref><sp/>(<ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>offset)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="218"><highlight class="normal"></highlight></codeline>
-<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::optional&lt;<ref refid="namespacedebug_1aee0526408c2ffc82c78a9e7ed793c19e" kindref="member">BreakpointLocation</ref>&gt;<sp/><ref refid="classdebug_1_1_session_1a0afce30b5eb95c22083d1516c3422d52" kindref="member">addBreakpointByLocation</ref><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>filePath,</highlight></codeline>
-<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint16_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/>line)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="237"><highlight class="normal"></highlight></codeline>
-<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::Result<sp/><ref refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" kindref="member">removeBreakpoint</ref><sp/>(<ref refid="namespacestd" kindref="compound">std</ref>::int32_t<sp/>engineId)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="249"><highlight class="normal"></highlight></codeline>
-<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::Result<sp/><ref refid="classdebug_1_1_session_1a244b110c3c6cfa7e9371f2f6b5b61203" kindref="member">loadModuleSymbols</ref><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>imageName)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1ae55ea009e277df6240ced7cfdf1521f3" kindref="member">wake</ref><sp/>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a3db51b94ef908f06ebe53b4f18f5fa01" kindref="member">cancel</ref><sp/>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a1012896227c475931dc65fbb9ff3342c" kindref="member">resetCancel</ref><sp/>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">Events</ref><sp/><ref refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" kindref="member">events</ref>;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Breakpoint<sp/>API<sp/>(used<sp/>by<sp/>BreakpointManager)<sp/>─────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug" kindref="compound">debug</ref>::<ref refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0e" kindref="member">OffsetStatus</ref><sp/><ref refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" kindref="member">getOffsetStatus</ref><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>filePath,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint16_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/>line)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/><ref refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" kindref="member">getOffset</ref><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>filePath,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint16_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/>line)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::optional&lt;<ref refid="namespacestd" kindref="compound">std</ref>::int32_t&gt;<sp/><ref refid="classdebug_1_1_session_1a02ef270b151bab75f4e20a5a48d84d41" kindref="member">addBreakpoint</ref><sp/>(<ref refid="namespacestd" kindref="compound">std</ref>::uint64_t<sp/>offset)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::optional&lt;<ref refid="namespacedebug_1aee0526408c2ffc82c78a9e7ed793c19e" kindref="member">BreakpointLocation</ref>&gt;<sp/><ref refid="classdebug_1_1_session_1a0afce30b5eb95c22083d1516c3422d52" kindref="member">addBreakpointByLocation</ref><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>filePath,</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint16_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/>line)<sp/>noexcept;</highlight></codeline>
 <codeline lineno="263"><highlight class="normal"></highlight></codeline>
-<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::Result<sp/><ref refid="classdebug_1_1_session_1a915743cdb0adf4eadd461e03a6d6c5b4" kindref="member">forceReloadAllSymbols</ref><sp/>()<sp/>noexcept;</highlight></codeline>
-<codeline lineno="274"><highlight class="normal"></highlight></codeline>
-<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a60c1171499fc598e2124c6097a96d1ee" kindref="member">stepOver</ref><sp/>()<sp/>noexcept;</highlight></codeline>
-<codeline lineno="286"><highlight class="normal"></highlight></codeline>
-<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a1816fd6de2ca88d638adacef4cd0e40f" kindref="member">stepInto</ref><sp/>()<sp/>noexcept;</highlight></codeline>
-<codeline lineno="296"><highlight class="normal"></highlight></codeline>
-<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1af2b1a168dd413d9aec686598fa733146" kindref="member">stepOut</ref><sp/>()<sp/>noexcept;</highlight></codeline>
-<codeline lineno="305"><highlight class="normal"></highlight></codeline>
-<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" kindref="member">interrupt</ref><sp/>(<ref refid="namespacestd" kindref="compound">std</ref>::uint32_t<sp/>processId)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="316"><highlight class="normal"></highlight></codeline>
-<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1ac24c24c48d1bae46a1d5e29531076f45" kindref="member">terminateDebuggee</ref><sp/>(<ref refid="namespacestd" kindref="compound">std</ref>::uint32_t<sp/>processId)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="334"><highlight class="normal"></highlight></codeline>
-<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" kindref="member">appendSymbolPath</ref><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>path)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="346"><highlight class="normal"></highlight></codeline>
-<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" kindref="member">appendSourcePath</ref><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>path)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::Result<sp/><ref refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" kindref="member">removeBreakpoint</ref><sp/>(<ref refid="namespacestd" kindref="compound">std</ref>::int32_t<sp/>engineId)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::Result<sp/><ref refid="classdebug_1_1_session_1a244b110c3c6cfa7e9371f2f6b5b61203" kindref="member">loadModuleSymbols</ref><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>imageName)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::Result<sp/><ref refid="classdebug_1_1_session_1a915743cdb0adf4eadd461e03a6d6c5b4" kindref="member">forceReloadAllSymbols</ref><sp/>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a60c1171499fc598e2124c6097a96d1ee" kindref="member">stepOver</ref><sp/>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a1816fd6de2ca88d638adacef4cd0e40f" kindref="member">stepInto</ref><sp/>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1af2b1a168dd413d9aec686598fa733146" kindref="member">stepOut</ref><sp/>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" kindref="member">interrupt</ref><sp/>(<ref refid="namespacestd" kindref="compound">std</ref>::uint32_t<sp/>processId)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1ac24c24c48d1bae46a1d5e29531076f45" kindref="member">terminateDebuggee</ref><sp/>(<ref refid="namespacestd" kindref="compound">std</ref>::uint32_t<sp/>processId)<sp/>noexcept;</highlight></codeline>
 <codeline lineno="358"><highlight class="normal"></highlight></codeline>
-<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::Array&lt;<ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::var&gt;<sp/><ref refid="classdebug_1_1_session_1ad0ca1cb764126a3beada881324c58ef8" kindref="member">getStackTrace</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>maxFrames,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>firstFrameId)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="384"><highlight class="normal"></highlight></codeline>
-<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::Array&lt;<ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::var&gt;<sp/><ref refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" kindref="member">getLocals</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameIndex)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="407"><highlight class="normal"></highlight></codeline>
-<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::Array&lt;<ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::var&gt;<sp/><ref refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" kindref="member">getVariableChildren</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameIndex,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>symbolIndex)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="426"><highlight class="normal"></highlight></codeline>
-<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String<sp/><ref refid="classdebug_1_1_session_1a15f2549ebb9c9ea74349ba4ae7a46c6a" kindref="member">evaluateExpression</ref><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>expression,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameIndex)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" kindref="member">appendSymbolPath</ref><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>path)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" kindref="member">appendSourcePath</ref><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>path)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1aa25453f6ff0703dd42e955e72d68e5e3" kindref="member">appendStackFrames</ref><sp/>(<ref refid="namespacestd" kindref="compound">std</ref>::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>json,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>maxFrames,<sp/>const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::function&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameIndex)&gt;&amp;<sp/>addFrame)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" kindref="member">applyToLocals</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameIndex,<sp/>const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/><ref refid="juce__UnityPluginInterface_8h_1a010e50efcb9d6d393b9414f09f368dbc" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">name</ref>,<sp/>const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>value,<sp/>const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>type,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasChildren,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>symbolIndex)&gt;&amp;<sp/>function)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a44d91c600d53774ef810614e1f663f15" kindref="member">applyToVariableChildren</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameIndex,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>symbolIndex,<sp/>const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/><ref refid="juce__UnityPluginInterface_8h_1a010e50efcb9d6d393b9414f09f368dbc" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">name</ref>,<sp/>const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>value,<sp/>const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>type,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasChildren,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>symbolIndex)&gt;&amp;<sp/>function)<sp/>noexcept;</highlight></codeline>
 <codeline lineno="446"><highlight class="normal"></highlight></codeline>
-<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::Array&lt;<ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::var&gt;<sp/><ref refid="classdebug_1_1_session_1ac1ddb41377e5b0eac6ed58c9e938a05f" kindref="member">getThreads</ref><sp/>()<sp/>noexcept;</highlight></codeline>
-<codeline lineno="464"><highlight class="normal"></highlight></codeline>
-<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint32_t<sp/><ref refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" kindref="member">getEventThreadSystemId</ref><sp/>()<sp/>noexcept;</highlight></codeline>
-<codeline lineno="476"><highlight class="normal"></highlight></codeline>
-<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" kindref="member">setCurrentThreadBySystemId</ref><sp/>(<ref refid="namespacestd" kindref="compound">std</ref>::uint32_t<sp/>systemId)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="490"><highlight class="normal"></highlight></codeline>
-<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" kindref="member">resetSymbolGroupCache</ref><sp/>()<sp/>noexcept;</highlight></codeline>
-<codeline lineno="498"><highlight class="normal"></highlight></codeline>
-<codeline lineno="499"><highlight class="normal">private:</highlight></codeline>
-<codeline lineno="500"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_WINDOWS</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/>IDebugSymbolGroup2*<sp/>getOrCreateSymbolGroup<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameIndex)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="511"><highlight class="normal"></highlight></codeline>
-<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/>IDebugClient5*<sp/>getOrCreateDebugClient<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref>&amp;<sp/>sidecarDir)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="522"><highlight class="normal"></highlight></codeline>
-<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>getOrCreateDebugInterfaces<sp/>()<sp/>noexcept;</highlight></codeline>
-<codeline lineno="530"><highlight class="normal"></highlight></codeline>
-<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setDebugInterfaces<sp/>()<sp/>noexcept;</highlight></codeline>
-<codeline lineno="538"><highlight class="normal"></highlight></codeline>
-<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_loader" kindref="compound">Loader</ref><sp/>loader;</highlight></codeline>
-<codeline lineno="541"><highlight class="normal"></highlight></codeline>
-<codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_output_callbacks" kindref="compound">OutputCallbacks</ref><sp/>outputCallbacks;</highlight></codeline>
-<codeline lineno="544"><highlight class="normal"></highlight></codeline>
-<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_event_callbacks" kindref="compound">EventCallbacks</ref><sp/>eventCallbacks;</highlight></codeline>
-<codeline lineno="549"><highlight class="normal"></highlight></codeline>
-<codeline lineno="551"><highlight class="normal"><sp/><sp/><sp/><sp/>Microsoft::WRL::ComPtr&lt;IDebugClient5&gt;<sp/>client;</highlight></codeline>
-<codeline lineno="552"><highlight class="normal"></highlight></codeline>
-<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/>Microsoft::WRL::ComPtr&lt;IDebugControl4&gt;<sp/><ref refid="juce__UnityPluginInterface_8h_1a485dc2a0e5ed7da3d9f826367b36ee55a5d8add8effb2a9964dbebfd27c9ddd31" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">control</ref>;</highlight></codeline>
-<codeline lineno="555"><highlight class="normal"></highlight></codeline>
-<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/>Microsoft::WRL::ComPtr&lt;IDebugSymbols3&gt;<sp/>symbols;</highlight></codeline>
-<codeline lineno="558"><highlight class="normal"></highlight></codeline>
-<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/>Microsoft::WRL::ComPtr&lt;IDebugDataSpaces4&gt;<sp/>dataSpaces;</highlight></codeline>
-<codeline lineno="561"><highlight class="normal"></highlight></codeline>
-<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/>Microsoft::WRL::ComPtr&lt;IDebugSystemObjects&gt;<sp/>systemObjects;</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String<sp/><ref refid="classdebug_1_1_session_1a15f2549ebb9c9ea74349ba4ae7a46c6a" kindref="member">evaluateExpression</ref><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::String&amp;<sp/>expression,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameIndex)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a926bbe2e4990905cf784fce5cfadc135" kindref="member">appendThreads</ref><sp/>(<ref refid="namespacestd" kindref="compound">std</ref>::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>json)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"></highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::uint32_t<sp/><ref refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" kindref="member">getEventThreadSystemId</ref><sp/>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"></highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" kindref="member">setCurrentThreadBySystemId</ref><sp/>(<ref refid="namespacestd" kindref="compound">std</ref>::uint32_t<sp/>systemId)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" kindref="member">resetSymbolGroupCache</ref><sp/>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"></highlight></codeline>
+<codeline lineno="519"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_WINDOWS</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/>IDebugSymbolGroup2*<sp/>getOrCreateSymbolGroup<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameIndex)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"></highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a8c839b8c18d56cf2952df599fc1f2e3d" kindref="member">appendStackFrame</ref><sp/>(std::string&amp;<sp/>json,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DEBUG_STACK_FRAME&amp;<sp/>stackFrame,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameId)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"></highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>getThreadName<sp/>(std::uint32_t<sp/>systemId)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"></highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/>getFrameName<sp/>(std::uint64_t<sp/>instructionOffset)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"></highlight></codeline>
+<codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/>IDebugClient5*<sp/>getOrCreateDebugClient<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref>&amp;<sp/>sidecarDir)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="548"><highlight class="normal"></highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>getOrCreateDebugInterfaces<sp/>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"></highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setDebugInterfaces<sp/>()<sp/>noexcept;</highlight></codeline>
 <codeline lineno="564"><highlight class="normal"></highlight></codeline>
-<codeline lineno="568"><highlight class="normal"><sp/><sp/><sp/><sp/>Microsoft::WRL::ComPtr&lt;IDebugSymbolGroup2&gt;<sp/>cachedSymbolGroup;</highlight></codeline>
-<codeline lineno="569"><highlight class="normal"></highlight></codeline>
-<codeline lineno="571"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" kindref="member">cachedFrameIndex</ref><sp/>{<sp/>-1<sp/>};</highlight></codeline>
-<codeline lineno="572"><highlight class="normal"></highlight></codeline>
-<codeline lineno="578"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isComOwned<sp/>{<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>};</highlight></codeline>
-<codeline lineno="579"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="580"><highlight class="normal"></highlight></codeline>
-<codeline lineno="581"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_MAC</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="590"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" kindref="member">cacheFrameVariables</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameIndex)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="591"><highlight class="normal"></highlight></codeline>
-<codeline lineno="603"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/><ref refid="classdebug_1_1_session_1a5fd39394862e89e52ae8831b85d7d199" kindref="member">getVariableObject</ref><sp/>(lldb::SBValue&amp;<sp/>value,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>symbolIndex)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="604"><highlight class="normal"></highlight></codeline>
-<codeline lineno="606" refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>lldb::SBDebugger<sp/><ref refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" kindref="member">debugger</ref>;</highlight></codeline>
-<codeline lineno="607"><highlight class="normal"></highlight></codeline>
-<codeline lineno="609" refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>lldb::SBListener<sp/><ref refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" kindref="member">listener</ref>;</highlight></codeline>
-<codeline lineno="610"><highlight class="normal"></highlight></codeline>
-<codeline lineno="612" refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>lldb::SBTarget<sp/><ref refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" kindref="member">target</ref>;</highlight></codeline>
-<codeline lineno="613"><highlight class="normal"></highlight></codeline>
-<codeline lineno="615" refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>lldb::SBProcess<sp/><ref refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" kindref="member">process</ref>;</highlight></codeline>
-<codeline lineno="616"><highlight class="normal"></highlight></codeline>
-<codeline lineno="620" refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>lldb::SBValueList<sp/><ref refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" kindref="member">cachedFrameVariables</ref>;</highlight></codeline>
-<codeline lineno="621"><highlight class="normal"></highlight></codeline>
-<codeline lineno="623" refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" kindref="member">cachedFrameIndex</ref><sp/>{<sp/>-1<sp/>};</highlight></codeline>
-<codeline lineno="624"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_loader" kindref="compound">Loader</ref><sp/>loader;</highlight></codeline>
+<codeline lineno="567"><highlight class="normal"></highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_output_callbacks" kindref="compound">OutputCallbacks</ref><sp/>outputCallbacks<sp/>{<sp/><ref refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" kindref="member">events</ref><sp/>};</highlight></codeline>
+<codeline lineno="570"><highlight class="normal"></highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_event_callbacks" kindref="compound">EventCallbacks</ref><sp/>eventCallbacks<sp/>{<sp/><ref refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" kindref="member">events</ref><sp/>};</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"></highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/>Microsoft::WRL::ComPtr&lt;IDebugClient5&gt;<sp/>client;</highlight></codeline>
+<codeline lineno="578"><highlight class="normal"></highlight></codeline>
+<codeline lineno="580"><highlight class="normal"><sp/><sp/><sp/><sp/>Microsoft::WRL::ComPtr&lt;IDebugControl4&gt;<sp/><ref refid="juce__UnityPluginInterface_8h_1a485dc2a0e5ed7da3d9f826367b36ee55a5d8add8effb2a9964dbebfd27c9ddd31" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">control</ref>;</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"></highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/>Microsoft::WRL::ComPtr&lt;IDebugSymbols3&gt;<sp/>symbols;</highlight></codeline>
+<codeline lineno="584"><highlight class="normal"></highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/>Microsoft::WRL::ComPtr&lt;IDebugDataSpaces4&gt;<sp/>dataSpaces;</highlight></codeline>
+<codeline lineno="587"><highlight class="normal"></highlight></codeline>
+<codeline lineno="589"><highlight class="normal"><sp/><sp/><sp/><sp/>Microsoft::WRL::ComPtr&lt;IDebugSystemObjects&gt;<sp/>systemObjects;</highlight></codeline>
+<codeline lineno="590"><highlight class="normal"></highlight></codeline>
+<codeline lineno="594"><highlight class="normal"><sp/><sp/><sp/><sp/>Microsoft::WRL::ComPtr&lt;IDebugSymbolGroup2&gt;<sp/>cachedSymbolGroup;</highlight></codeline>
+<codeline lineno="595"><highlight class="normal"></highlight></codeline>
+<codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" kindref="member">cachedFrameIndex</ref><sp/>{<sp/>-1<sp/>};</highlight></codeline>
+<codeline lineno="598"><highlight class="normal"></highlight></codeline>
+<codeline lineno="604"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isComOwned<sp/>{<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>};</highlight></codeline>
+<codeline lineno="605"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="606"><highlight class="normal"></highlight></codeline>
+<codeline lineno="607"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_MAC</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="616"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" kindref="member">cacheFrameVariables</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameIndex)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="617"><highlight class="normal"></highlight></codeline>
+<codeline lineno="618"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a8c839b8c18d56cf2952df599fc1f2e3d" kindref="member">appendStackFrame</ref><sp/>(std::string&amp;<sp/>json,<sp/>lldb::SBFrame<sp/>frame,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameId)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="619"><highlight class="normal"></highlight></codeline>
+<codeline lineno="621" refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>lldb::SBDebugger<sp/><ref refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" kindref="member">debugger</ref>;</highlight></codeline>
+<codeline lineno="622"><highlight class="normal"></highlight></codeline>
+<codeline lineno="624" refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>lldb::SBListener<sp/><ref refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" kindref="member">listener</ref>;</highlight></codeline>
 <codeline lineno="625"><highlight class="normal"></highlight></codeline>
-<codeline lineno="626"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="juce__PlatformDefs_8h_1a851b02724a8158a7f746c66b5758b3dd" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR</ref><sp/>(<ref refid="classdebug_1_1_session" kindref="compound">Session</ref>)</highlight></codeline>
-<codeline lineno="627"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="628"><highlight class="normal"></highlight></codeline>
-<codeline lineno="629"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>debug</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="626" refid="classdebug_1_1_session_1a0f54d0f1673664de2ec62a342b93e35b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>lldb::SBBroadcaster<sp/><ref refid="classdebug_1_1_session_1a0f54d0f1673664de2ec62a342b93e35b" kindref="member">broadcaster</ref><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;whatdbg&quot;</highlight><highlight class="normal"><sp/>};</highlight></codeline>
+<codeline lineno="627"><highlight class="normal"></highlight></codeline>
+<codeline lineno="629" refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>lldb::SBTarget<sp/><ref refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" kindref="member">target</ref>;</highlight></codeline>
+<codeline lineno="630"><highlight class="normal"></highlight></codeline>
+<codeline lineno="632" refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>lldb::SBProcess<sp/><ref refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" kindref="member">process</ref>;</highlight></codeline>
+<codeline lineno="633"><highlight class="normal"></highlight></codeline>
+<codeline lineno="637" refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>lldb::SBValueList<sp/><ref refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" kindref="member">cachedFrameVariables</ref>;</highlight></codeline>
+<codeline lineno="638"><highlight class="normal"></highlight></codeline>
+<codeline lineno="640" refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" kindref="member">cachedFrameIndex</ref><sp/>{<sp/>-1<sp/>};</highlight></codeline>
+<codeline lineno="641"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="642"><highlight class="normal"></highlight></codeline>
+<codeline lineno="643"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="juce__PlatformDefs_8h_1a851b02724a8158a7f746c66b5758b3dd" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR</ref><sp/>(<ref refid="classdebug_1_1_session" kindref="compound">Session</ref>)</highlight></codeline>
+<codeline lineno="644"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="645"><highlight class="normal"></highlight></codeline>
+<codeline lineno="646"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>debug</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="debug/Session.h"/>
   </compounddef>

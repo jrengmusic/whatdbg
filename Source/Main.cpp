@@ -1,21 +1,25 @@
 /** @file Main.cpp
- *  @brief Entry point for whatdbg — sidecar extraction and process bootstrap.
+ *  @brief Entry point of whatdbg: the help page, the macOS re-exec, and the JUCE startup.
  *
  *  Startup sequence:
- *  1. Extract platform debug engine from BinaryData to sidecar directory.
- *  2. [macOS] Re-exec with DYLD_LIBRARY_PATH pointing to sidecar dir so dyld
- *     resolves liblldb SB API symbols on the second invocation.
- *  3. Initialize logging (Debug builds only).
- *  4. Initialize Whatdbg with the sidecar directory.
- *  5. Run the DAP main loop.
+ *  1. --help: render the help page to stdout and return.
+ *  2. [macOS] Without the re-exec marker, extract liblldb.dylib and re-exec the
+ *     process with DYLD_LIBRARY_PATH set to the sidecar folder, so that dyld
+ *     resolves the liblldb SB API symbols on the second invocation.
+ *  3. [Debug builds] Open whatdbg.log in the config folder and install the crash
+ *     and terminate handlers.
+ *  4. Extract the sidecar binaries into the sidecar folder.
+ *  5. Call JUCEApplicationBase::main with the program path and the sidecar path.
+ *     JUCE then calls Whatdbg::initialise.
  *
- *  Sidecar pattern is identical on both platforms:
- *  - Windows: dbgeng DLLs → ~/.config/whatdbg/dbgeng/ → LoadLibrary
- *  - macOS:   liblldb.dylib → ~/Library/Application Support/whatdbg/liblldb/ → DYLD_LIBRARY_PATH + re-exec
+ *  Sidecar folders, under userApplicationDataDirectory/whatdbg:
+ *  - Windows: dbgeng DLLs in dbgeng/. Loader loads them from that folder.
+ *  - macOS:   liblldb.dylib in liblldb/.
  */
 #include <JuceHeader.h>
 #include <BinaryData.h>
 #include "Whatdbg.h"
+#include "generated/Generated.h"
 
 #if JUCE_MAC
 #include <unistd.h>
@@ -28,76 +32,6 @@ static constexpr const char* sidecarDirName { "whatdbg" };
 static constexpr const char* dbgengSubdir   { "dbgeng" };
 static constexpr const char* liblldbSubdir  { "liblldb" };
 static constexpr const char* logFileName    { "whatdbg.log" };
-static constexpr const char* helpText { R"( — DAP debug adapter for native C/C++ targets
-WYSIWYG Hybrid Abstraction Translator for DAP Debug Adapter
-
-USAGE
-  whatdbg            start the adapter; it speaks DAP on stdin/stdout
-  whatdbg --help     print this text and exit
-
-PROTOCOL
-  whatdbg is a Debug Adapter Protocol (DAP) server over stdio. Each message
-  is JSON, framed with a Content-Length header:
-
-    Content-Length: <byte count>\r\n
-    \r\n
-    {"seq":1,"type":"request","command":"initialize","arguments":{}}
-
-  Engines: Windows uses dbgeng (the WinDbg engine); macOS uses liblldb.
-  Both are embedded and self-extracted — no install, no Developer-Tools
-  permission dialog, safe for headless and scripted use.
-
-SESSION SEQUENCE — LAUNCH
-  -> initialize                          <- capabilities, initialized event
-  -> launch {"program":"/path/to/bin","cwd":"/src/root"}
-     (cwd is optional; it seeds symbol and source search paths)
-  -> setBreakpoints {"source":{"path":...},"breakpoints":[{"line":N}]}
-  -> configurationDone                   <- process event (name,
-     systemProcessId, startMethod "launch"), thread event ("started");
-     the target runs
-
-SESSION SEQUENCE — ATTACH
-  -> attach {"pid":N,"cwd":"/src/root"}  <- process event, startMethod
-     "attach", systemProcessId = the debuggee pid
-
-WHILE RUNNING
-  <- stopped    reason "breakpoint" | "step" | "pause" | "exception"
-  <- output     debuggee stdout/stderr (macOS); OutputDebugString/DBG
-                (Windows)
-  <- exited, terminated   when the target ends
-
-INSPECTION (while stopped)
-  -> threads, stackTrace, scopes, variables
-     stacks and locals; juce::String, std::string, std::unique_ptr,
-     std::vector pretty-printed (per platform)
-  -> evaluate {"expression":"...","frameId":N}
-     expressions in frame context (member access, arithmetic, casts)
-  -> next, stepIn, stepOut, continue, pause
-
-CRASH TRIAGE
-  On an unhandled exception or signal (for example SIGSEGV) whatdbg emits:
-    stopped   reason "exception", text = exception/signal name,
-              description = "0x<code> at 0x<address>"
-    output    category "stderr" with a crash summary
-  -> exceptionInfo  returns exceptionId, description, breakMode
-     "unhandled"
-  -> stackTrace on the stopped thread gives the crash backtrace
-
-ENDING
-  -> terminate, or disconnect {"terminateDebuggee":true}   kill the target
-  -> disconnect                                 detach; target keeps running
-
-FILES
-  Windows sidecar: ~/.config/whatdbg/dbgeng/
-  macOS sidecar:   ~/Library/Application Support/whatdbg/liblldb/
-                   (first run re-execs with DYLD_LIBRARY_PATH set)
-
-REFERENCE CLIENT
-  tests/smoke/dap_client.lua in the whatdbg repository is a complete
-  scriptable DAP client (nvim --headless -l); tests/smoke/run_smoke.lua
-  shows full sessions: launch, breakpoints, crash triage, attach,
-  terminate.
-)" };
 
 #if JUCE_MAC
 static constexpr const char* reexecMarker { "WHATDBG_REEXEC" };
@@ -235,7 +169,9 @@ static int execWithSidecar (char* argv[])
 }
 #endif
 
-static int runAdapter ()
+JUCE_CREATE_APPLICATION_DEFINE (Whatdbg)
+
+static int runAdapter (const char* programPath)
 {
     int exitCode { 0 };
 
@@ -258,23 +194,11 @@ static int runAdapter ()
         jam::debug::Log::write (juce::String ("WHATDBG: sidecar at ") + sidecarDir.getFullPathName ());
 #endif
 
-        Whatdbg whatdbg;
-        const bool isInitialized { whatdbg.initialize (sidecarDir) };
+        const juce::String sidecarPath { sidecarDir.getFullPathName () };
+        const char* adapterArguments[] { programPath, sidecarPath.toRawUTF8 () };
 
-        if (isInitialized)
-        {
-#if JUCE_DEBUG
-            jam::debug::Log::write ("WHATDBG: initialized");
-#endif
-            whatdbg.run ();
-        }
-        else
-        {
-#if JUCE_DEBUG
-            jam::debug::Log::write ("WHATDBG: initialization failed");
-#endif
-            exitCode = 1;
-        }
+        juce::JUCEApplicationBase::createInstance = &juce_CreateApplication;
+        exitCode = juce::JUCEApplicationBase::main (static_cast<int> (std::size (adapterArguments)), adapterArguments);
     }
     else
     {
@@ -295,7 +219,17 @@ int main (int argc, char* argv[])
 {
     if (juce::ArgumentList (argc, argv).containsOption ("--help"))
     {
-        fprintf (stdout, "%s %s%s", ProjectInfo::projectName, ProjectInfo::versionString, helpText);
+#ifdef _WIN32
+        SetConsoleOutputCP (CP_UTF8);
+#endif
+
+        juce::ScopedJuceInitialiser_GUI juceInitialiser;
+
+        jam::TerminalPage page { { BinaryData::fetcher }, jam::Strings { files::styleSheet } };
+        page.setDocument (std::move (*jam::MarkdownDocument::parse (BinaryData::getString (files::whatdbgHelp), files::whatdbgHelp)));
+        juce::MemoryOutputStream frame;
+        page.writeToStream (frame);
+        fwrite (frame.getData(), sizeof (char), frame.getDataSize(), stdout);
         return 0;
     }
 
@@ -304,5 +238,5 @@ int main (int argc, char* argv[])
         return execWithSidecar (argv);
 #endif
 
-    return runAdapter ();
+    return runAdapter (argv[0]);
 }

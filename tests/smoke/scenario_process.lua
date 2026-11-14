@@ -1,4 +1,3 @@
-local DapClient = require ("dap_client")
 local Report = require ("report")
 local ScenarioRunner = require ("scenario_runner")
 local BreakpointScenarios = require ("scenario_breakpoint")
@@ -24,13 +23,12 @@ end
 local function scenarioAttach (binaryPath, fixtureWaitPath)
     local report = Report.new ("02_attach")
 
-    return ScenarioRunner.runScenario (report, function ()
+    return ScenarioRunner.runScenario (report, binaryPath, function (client)
         local waitProcess = vim.system ({ fixtureWaitPath }, { stdout = false, stderr = false })
         vim.wait (500)
         local pid = waitProcess.pid
         report:check ("spawned fixture_wait pid=" .. tostring (pid), pid ~= nil and pid > 0)
 
-        local client = DapClient.spawn (binaryPath, {})
         client:send ("initialize", { adapterID = "whatdbg-smoke" })
         local initializeResponse = client:waitForResponse ("initialize")
         report:check ("initialize response", initializeResponse ~= nil and initializeResponse.success == true)
@@ -52,7 +50,7 @@ local function scenarioAttach (binaryPath, fixtureWaitPath)
 
         client:send ("terminate", {})
         client:waitForResponse ("terminate")
-        client:close ()
+        client:waitForEvent ("terminated")
         pcall (function () waitProcess:kill (9) end)
     end)
 end
@@ -60,8 +58,7 @@ end
 local function scenarioPause (binaryPath, fixtureWaitPath)
     local report = Report.new ("04_pause")
 
-    return ScenarioRunner.runScenario (report, function ()
-        local client = DapClient.spawn (binaryPath, {})
+    return ScenarioRunner.runScenario (report, binaryPath, function (client)
         runToLaunched (client, report, { program = fixtureWaitPath })
 
         local threadEvent = client:waitForEvent ("thread")
@@ -79,15 +76,13 @@ local function scenarioPause (binaryPath, fixtureWaitPath)
 
         client:send ("terminate", {})
         client:waitForResponse ("terminate")
-        client:close ()
     end)
 end
 
 local function scenarioOutput (binaryPath, fixturePath, exitTimeoutMs)
     local report = Report.new ("07_output")
 
-    return ScenarioRunner.runScenario (report, function ()
-        local client = DapClient.spawn (binaryPath, {})
+    return ScenarioRunner.runScenario (report, binaryPath, function (client)
         runToLaunched (client, report, { program = fixturePath })
 
         local exitedEvent = client:waitForEvent ("exited", exitTimeoutMs)
@@ -112,16 +107,13 @@ local function scenarioOutput (binaryPath, fixturePath, exitTimeoutMs)
 
         report:check ("stdout line captured (BREAKPOINT_TARGET_A in console output)", stdoutFound)
         report:check ("stderr line captured (BREAKPOINT_TARGET_B in console output)", stderrFound)
-
-        client:close ()
     end)
 end
 
 local function scenarioCrash (binaryPath, fixtureCrashPath, exitTimeoutMs)
     local report = Report.new ("08_crash")
 
-    return ScenarioRunner.runScenario (report, function ()
-        local client = DapClient.spawn (binaryPath, {})
+    return ScenarioRunner.runScenario (report, binaryPath, function (client)
         client:send ("initialize", { adapterID = "whatdbg-smoke" })
         local initializeResponse = client:waitForResponse ("initialize")
         report:check ("initialize response", initializeResponse ~= nil and initializeResponse.success == true)
@@ -150,15 +142,13 @@ local function scenarioCrash (binaryPath, fixtureCrashPath, exitTimeoutMs)
 
         client:send ("terminate", {})
         client:waitForResponse ("terminate")
-        client:close ()
     end)
 end
 
 local function scenarioDisconnectDetach (binaryPath, fixturePath, fixtureSourcePath, breakpointLine)
     local report = Report.new ("10_disconnect_detach")
 
-    return ScenarioRunner.runScenario (report, function ()
-        local client = DapClient.spawn (binaryPath, {})
+    return ScenarioRunner.runScenario (report, binaryPath, function (client)
         local stoppedEvent = BreakpointScenarios.runToStoppedBreakpoint (client, report, { program = fixturePath }, fixtureSourcePath, breakpointLine)
         report:info ("stopped before disconnect, threadId=" .. tostring (stoppedEvent.body.threadId))
 
@@ -177,7 +167,58 @@ local function scenarioDisconnectDetach (binaryPath, fixturePath, fixtureSourceP
         report:check ("debuggee pid " .. tostring (debuggeePid) .. " left running after disconnect (detach, not kill)", pidStillAlive)
 
         pcall (function () vim.system ({ "kill", "-9", tostring (debuggeePid) }):wait (2000) end)
-        client:close ()
+    end)
+end
+
+local function scenarioConfigurationDoneOrder (binaryPath, fixturePath, exitTimeoutMs)
+    local report = Report.new ("19_configuration_done_order")
+
+    return ScenarioRunner.runScenario (report, binaryPath, function (client)
+        runToLaunched (client, report, { program = fixturePath })
+
+        client:waitForEvent ("process")
+        client:waitForEvent ("thread")
+
+        local configurationDoneIndex = nil
+        local processIndex = nil
+        local threadIndex = nil
+
+        for messageIndex, message in ipairs (client.log) do
+            if message.type == "response" and message.command == "configurationDone" and configurationDoneIndex == nil then
+                configurationDoneIndex = messageIndex
+            elseif message.type == "event" and message.event == "process" and processIndex == nil then
+                processIndex = messageIndex
+            elseif message.type == "event" and message.event == "thread" and threadIndex == nil then
+                threadIndex = messageIndex
+            end
+        end
+
+        report:check ("configurationDone response, then process event, then thread event", configurationDoneIndex ~= nil and processIndex ~= nil and threadIndex ~= nil and configurationDoneIndex < processIndex and processIndex < threadIndex)
+
+        local exitedEvent = client:waitForEvent ("exited", exitTimeoutMs)
+        report:check ("exited event received", exitedEvent ~= nil)
+    end)
+end
+
+local function scenarioUnknownCommand (binaryPath)
+    local report = Report.new ("20_unknown_command")
+
+    return ScenarioRunner.runScenario (report, binaryPath, function (client)
+        client:send ("initialize", { adapterID = "whatdbg-smoke" })
+        local initializeResponse = client:waitForResponse ("initialize")
+        report:check ("initialize response success=true", initializeResponse ~= nil and initializeResponse.success == true)
+
+        local initializedEvent = client:waitForEvent ("initialized")
+        report:check ("received 'initialized' event", initializedEvent ~= nil)
+
+        client:send ("notACommand", {})
+        local unknownResponse = client:waitForResponse ("notACommand")
+        report:check ("notACommand response success=false", unknownResponse ~= nil and unknownResponse.success == false)
+        report:check ("notACommand message == 'Unknown command'", unknownResponse ~= nil and unknownResponse.message == "Unknown command")
+
+        client:send ("disconnect", {})
+        local disconnectResponse = client:waitForResponse ("disconnect")
+        report:check ("disconnect response success=true", disconnectResponse ~= nil and disconnectResponse.success == true)
     end)
 end
 
@@ -188,4 +229,6 @@ return {
     scenarioOutput = scenarioOutput,
     scenarioCrash = scenarioCrash,
     scenarioDisconnectDetach = scenarioDisconnectDetach,
+    scenarioConfigurationDoneOrder = scenarioConfigurationDoneOrder,
+    scenarioUnknownCommand = scenarioUnknownCommand,
 }

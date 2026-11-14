@@ -4,61 +4,23 @@
     <compoundname>dap::Reader</compoundname>
     <basecompoundref refid="classjuce_1_1Thread" prot="private" virt="non-virtual">juce::Thread</basecompoundref>
     <includes refid="_reader_8h" local="no">Reader.h</includes>
-    <sectiondef kind="public-static-attrib">
-      <memberdef kind="variable" id="classdap_1_1_reader_1aa2841da084bd58ba5a521a21e1eaea98" prot="public" static="yes" constexpr="yes" mutable="no">
-        <type>int</type>
-        <definition>int dap::Reader::fifoCapacity</definition>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdap_1_1_reader_1a0ef303bd98005399605d1038933691d8" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(<ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>)&gt;</type>
+        <definition>std::function&lt;void (jam::JsonDocument)&gt; dap::Reader::onMessage</definition>
         <argsstring></argsstring>
-        <name>fifoCapacity</name>
-        <qualifiedname>dap::Reader::fifoCapacity</qualifiedname>
-        <initializer>{ 64 }</initializer>
+        <name>onMessage</name>
+        <qualifiedname>dap::Reader::onMessage</qualifiedname>
         <briefdescription>
-<para>Maximum number of parsed DAP messages that can be queued simultaneously. </para>
+<para>Receives each parsed message, on the reader thread. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Reader.h" line="23" column="26" bodyfile="dap/Reader.h" bodystart="23" bodyend="23"/>
-        <referencedby refid="classdap_1_1_reader_1a946914e4e091be5a3742b13d6ccf600b" compoundref="_reader_8cpp" startline="19" endline="23">Reader</referencedby>
-      </memberdef>
-    </sectiondef>
-    <sectiondef kind="private-attrib">
-      <memberdef kind="variable" id="classdap_1_1_reader_1a67d7f2ba9751bd6f8d13f344d4c5076d" prot="private" static="no" mutable="no">
-        <type><ref refid="classjuce_1_1AbstractFifo" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::AbstractFifo</ref></type>
-        <definition>juce::AbstractFifo dap::Reader::fifo</definition>
-        <argsstring></argsstring>
-        <name>fifo</name>
-        <qualifiedname>dap::Reader::fifo</qualifiedname>
-        <initializer>{ <ref refid="classdap_1_1_reader_1aa2841da084bd58ba5a521a21e1eaea98" kindref="member">fifoCapacity</ref> }</initializer>
-        <briefdescription>
-<para>Tracks free/ready read and write regions of storage for the producer (background thread) and consumer (main thread) sides of <ref refid="classdap_1_1_reader_1a9c581d850d7d93395da7c983b97e8f6e" kindref="member">tryPop()</ref>. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="dap/Reader.h" line="81" column="24" bodyfile="dap/Reader.h" bodystart="81" bodyend="81"/>
-        <referencedby refid="classdap_1_1_reader_1a8caea924c042b462bfb19e5da0b1542a" compoundref="_reader_8cpp" startline="120" endline="138">addMessage</referencedby>
-        <referencedby refid="classdap_1_1_reader_1a9c581d850d7d93395da7c983b97e8f6e" compoundref="_reader_8cpp" startline="46" endline="55">tryPop</referencedby>
-      </memberdef>
-      <memberdef kind="variable" id="classdap_1_1_reader_1a493d7e8cfa28409d69781a442d8e3a0f" prot="private" static="no" mutable="no">
-        <type>std::vector&lt; <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> &gt;</type>
-        <definition>std::vector&lt;juce::var&gt; dap::Reader::storage</definition>
-        <argsstring></argsstring>
-        <name>storage</name>
-        <qualifiedname>dap::Reader::storage</qualifiedname>
-        <briefdescription>
-<para>Backing slots for queued messages, indexed by the ranges fifo hands out. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="dap/Reader.h" line="84" column="17" bodyfile="dap/Reader.h" bodystart="84" bodyend="-1"/>
-        <referencedby refid="classdap_1_1_reader_1a8caea924c042b462bfb19e5da0b1542a" compoundref="_reader_8cpp" startline="120" endline="138">addMessage</referencedby>
-        <referencedby refid="classdap_1_1_reader_1a946914e4e091be5a3742b13d6ccf600b" compoundref="_reader_8cpp" startline="19" endline="23">Reader</referencedby>
-        <referencedby refid="classdap_1_1_reader_1a9c581d850d7d93395da7c983b97e8f6e" compoundref="_reader_8cpp" startline="46" endline="55">tryPop</referencedby>
+        <location file="dap/Reader.h" line="37" column="19" bodyfile="dap/Reader.h" bodystart="37" bodyend="-1"/>
+        <referencedby refid="classdap_1_1_reader_1aa88b7cbd5562aace1eb2d91b0638fb26" compoundref="_reader_8cpp" startline="88" endline="114">run</referencedby>
+        <referencedby refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" compoundref="_whatdbg_8cpp" startline="12" endline="33">Whatdbg::Whatdbg</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -69,14 +31,14 @@
         <name>Reader</name>
         <qualifiedname>dap::Reader::Reader</qualifiedname>
         <briefdescription>
+<para>Creates the thread object. </para>
         </briefdescription>
         <detaileddescription>
+<para>The thread does not run until start is called. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Reader.h" line="25" column="5" bodyfile="dap/Reader.cpp" bodystart="19" bodyend="23"/>
-        <references refid="classdap_1_1_reader_1aa2841da084bd58ba5a521a21e1eaea98" compoundref="_reader_8h" startline="23" endline="23">fifoCapacity</references>
-        <references refid="classdap_1_1_reader_1a493d7e8cfa28409d69781a442d8e3a0f" compoundref="_reader_8h" startline="84">storage</references>
+        <location file="dap/Reader.h" line="23" column="5" bodyfile="dap/Reader.cpp" bodystart="19" bodyend="22"/>
         <references refid="classjuce_1_1Thread_1a796d34f194697b5531a918e76884d23c">juce::Thread::Thread</references>
       </memberdef>
       <memberdef kind="function" id="classdap_1_1_reader_1a9e3d24e83e5c326d7d53f577b9efc5b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -86,13 +48,14 @@
         <name>~Reader</name>
         <qualifiedname>dap::Reader::~Reader</qualifiedname>
         <briefdescription>
+<para>Stops the thread and waits for it to end. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Reader.h" line="26" column="5" bodyfile="dap/Reader.cpp" bodystart="25" bodyend="28"/>
-        <references refid="classdap_1_1_reader_1a4ef3503bdf9aaa16b363e6261e60fc1a" compoundref="_reader_8cpp" startline="39" endline="44">stop</references>
+        <location file="dap/Reader.h" line="26" column="5" bodyfile="dap/Reader.cpp" bodystart="24" bodyend="27"/>
+        <references refid="classdap_1_1_reader_1a4ef3503bdf9aaa16b363e6261e60fc1a" compoundref="_reader_8cpp" startline="38" endline="43">stop</references>
       </memberdef>
       <memberdef kind="function" id="classdap_1_1_reader_1a001ba0872e35810bdb1f610e0554eec1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -104,40 +67,16 @@
 <para>Start the background stdin-reading thread. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="note"><para>Must be called on the main thread before any <ref refid="classdap_1_1_reader_1a9c581d850d7d93395da7c983b97e8f6e" kindref="member">tryPop()</ref> calls. </para>
+<para>On Windows, switches stdin to binary mode first, so that CRLF is not translated.</para>
+<para><simplesect kind="note"><para>Call it after onMessage is set. <ref refid="class_whatdbg_1a33d312004e22a30ebecf90f442d9263c" kindref="member">Whatdbg::initialise</ref> calls it on the message thread. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Reader.h" line="32" column="10" bodyfile="dap/Reader.cpp" bodystart="30" bodyend="37"/>
+        <location file="dap/Reader.h" line="34" column="10" bodyfile="dap/Reader.cpp" bodystart="29" bodyend="36"/>
         <references refid="classjuce_1_1Thread_1a7c218822a2f29c9d7b892313a657ddb5">juce::Thread::startThread</references>
-        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="63" endline="91">Whatdbg::run</referencedby>
-      </memberdef>
-      <memberdef kind="function" id="classdap_1_1_reader_1a9c581d850d7d93395da7c983b97e8f6e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref></type>
-        <definition>juce::var dap::Reader::tryPop</definition>
-        <argsstring>() noexcept</argsstring>
-        <name>tryPop</name>
-        <qualifiedname>dap::Reader::tryPop</qualifiedname>
-        <briefdescription>
-<para>Pop one parsed DAP message from the FIFO. </para>
-        </briefdescription>
-        <detaileddescription>
-<para>Non-blocking. Returns immediately with a void <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> if no message is available.</para>
-<para><simplesect kind="return"><para>the dequeued message, or a void <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> if the FIFO was empty.</para>
-</simplesect>
-<simplesect kind="note"><para>Must be called on the main thread only. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="dap/Reader.h" line="42" column="15" bodyfile="dap/Reader.cpp" bodystart="46" bodyend="55"/>
-        <references refid="classdap_1_1_reader_1a67d7f2ba9751bd6f8d13f344d4c5076d" compoundref="_reader_8h" startline="81" endline="81">fifo</references>
-        <references refid="classjuce_1_1AbstractFifo_1ac488e02a186317cf5de7c6ed2f22e3c3">juce::AbstractFifo::read</references>
-        <references refid="classdap_1_1_reader_1a493d7e8cfa28409d69781a442d8e3a0f" compoundref="_reader_8h" startline="84">storage</references>
-        <referencedby refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" compoundref="_whatdbg_8cpp" startline="63" endline="91">Whatdbg::run</referencedby>
+        <referencedby refid="class_whatdbg_1a33d312004e22a30ebecf90f442d9263c" compoundref="_whatdbg_8cpp" startline="55" endline="63">Whatdbg::initialise</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -148,19 +87,17 @@
         <name>stop</name>
         <qualifiedname>dap::Reader::stop</qualifiedname>
         <briefdescription>
-<para>Signal the background thread to stop and wait for it to exit. </para>
+<para>Signal the background thread to exit, close stdin, and wait up to 2000 ms for the thread to end. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="note"><para>Blocks until the background thread has finished. Called exactly once, by <ref refid="classdap_1_1_reader_1a9e3d24e83e5c326d7d53f577b9efc5b5" kindref="member">~Reader()</ref> — sole owner of the reader&apos;s teardown. </para>
-</simplesect>
-</para>
+<para>Closing stdin unblocks a read that is waiting for input. Only <ref refid="classdap_1_1_reader_1a9e3d24e83e5c326d7d53f577b9efc5b5" kindref="member">~Reader()</ref> calls it. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Reader.h" line="50" column="10" bodyfile="dap/Reader.cpp" bodystart="39" bodyend="44"/>
+        <location file="dap/Reader.h" line="44" column="10" bodyfile="dap/Reader.cpp" bodystart="38" bodyend="43"/>
         <references refid="classjuce_1_1Thread_1ad28ffe93adb9112335c2a4bf5ed2c55e">juce::Thread::signalThreadShouldExit</references>
         <references refid="classjuce_1_1Thread_1aac1e04c75a4130a84ea8a9a7cc042862">juce::Thread::stopThread</references>
-        <referencedby refid="classdap_1_1_reader_1a9e3d24e83e5c326d7d53f577b9efc5b5" compoundref="_reader_8cpp" startline="25" endline="28">~Reader</referencedby>
+        <referencedby refid="classdap_1_1_reader_1a9e3d24e83e5c326d7d53f577b9efc5b5" compoundref="_reader_8cpp" startline="24" endline="27">~Reader</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdap_1_1_reader_1aa88b7cbd5562aace1eb2d91b0638fb26" prot="private" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -176,10 +113,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Reader.h" line="53" column="10" bodyfile="dap/Reader.cpp" bodystart="140" bodyend="166"/>
-        <references refid="classdap_1_1_reader_1a8caea924c042b462bfb19e5da0b1542a" compoundref="_reader_8cpp" startline="120" endline="138">addMessage</references>
-        <references refid="classdap_1_1_reader_1a2ac9bd334b2534f79edfe7efc96d63db" compoundref="_reader_8cpp" startline="57" endline="87">readContentLength</references>
-        <references refid="classdap_1_1_reader_1acc50a8c8f483851d55e6314ad19a77ff" compoundref="_reader_8cpp" startline="89" endline="118">readMessage</references>
+        <location file="dap/Reader.h" line="47" column="10" bodyfile="dap/Reader.cpp" bodystart="88" bodyend="114"/>
+        <references refid="classdap_1_1_reader_1a0ef303bd98005399605d1038933691d8" compoundref="_reader_8h" startline="37">onMessage</references>
+        <references refid="classdap_1_1_reader_1a2ac9bd334b2534f79edfe7efc96d63db" compoundref="_reader_8cpp" startline="45" endline="75">readContentLength</references>
+        <references refid="classdap_1_1_reader_1aba0f829f2291b384cc47a5d8183d3cae" compoundref="_reader_8cpp" startline="77" endline="86">readMessage</references>
         <references refid="classjuce_1_1Thread_1a84544f7fb992d3e02c089450b89def73">juce::Thread::threadShouldExit</references>
       </memberdef>
       <memberdef kind="function" id="classdap_1_1_reader_1a2ac9bd334b2534f79edfe7efc96d63db" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -199,14 +136,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Reader.h" line="62" column="9" bodyfile="dap/Reader.cpp" bodystart="57" bodyend="87"/>
+        <location file="dap/Reader.h" line="56" column="9" bodyfile="dap/Reader.cpp" bodystart="45" bodyend="75"/>
         <references refid="classjuce_1_1String_1aeafb68fbf9400407a73b39fdaef6e0b0">juce::String::getIntValue</references>
         <references refid="classjuce_1_1Thread_1a84544f7fb992d3e02c089450b89def73">juce::Thread::threadShouldExit</references>
-        <referencedby refid="classdap_1_1_reader_1aa88b7cbd5562aace1eb2d91b0638fb26" compoundref="_reader_8cpp" startline="140" endline="166">run</referencedby>
+        <referencedby refid="classdap_1_1_reader_1aa88b7cbd5562aace1eb2d91b0638fb26" compoundref="_reader_8cpp" startline="88" endline="114">run</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classdap_1_1_reader_1acc50a8c8f483851d55e6314ad19a77ff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref></type>
-        <definition>juce::var dap::Reader::readMessage</definition>
+      <memberdef kind="function" id="classdap_1_1_reader_1aba0f829f2291b384cc47a5d8183d3cae" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; jam::JsonDocument &gt; dap::Reader::readMessage</definition>
         <argsstring>(int contentLength)</argsstring>
         <name>readMessage</name>
         <qualifiedname>dap::Reader::readMessage</qualifiedname>
@@ -227,59 +164,24 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>the parsed message, or a void <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> if the body was not valid JSON. </para>
+<simplesect kind="return"><para>the parsed document from <ref refid="structjam_1_1JsonDocument_1a1343aea261139b22b9cc95844519d8cb" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument::parse</ref> when stdin is still good, otherwise nullptr. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Reader.h" line="69" column="15" bodyfile="dap/Reader.cpp" bodystart="89" bodyend="118"/>
-        <references refid="classjuce_1_1JSON_1abc295825e430254777aaa4c9df3da485">juce::JSON::parse</references>
-        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
-        <referencedby refid="classdap_1_1_reader_1aa88b7cbd5562aace1eb2d91b0638fb26" compoundref="_reader_8cpp" startline="140" endline="166">run</referencedby>
-      </memberdef>
-      <memberdef kind="function" id="classdap_1_1_reader_1a8caea924c042b462bfb19e5da0b1542a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void dap::Reader::addMessage</definition>
-        <argsstring>(const juce::var &amp;message)</argsstring>
-        <name>addMessage</name>
-        <qualifiedname>dap::Reader::addMessage</qualifiedname>
-        <param>
-          <type>const <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> &amp;</type>
-          <declname>message</declname>
-        </param>
-        <briefdescription>
-<para>Enqueue a parsed DAP message into the FIFO for the main thread to consume. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>message</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The parsed message to enqueue. Dropped (and, in a debug build, logged) if the FIFO is full. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="dap/Reader.h" line="76" column="10" bodyfile="dap/Reader.cpp" bodystart="120" bodyend="138"/>
-        <references refid="classdap_1_1_reader_1a67d7f2ba9751bd6f8d13f344d4c5076d" compoundref="_reader_8h" startline="81" endline="81">fifo</references>
-        <references refid="classdap_1_1_reader_1a493d7e8cfa28409d69781a442d8e3a0f" compoundref="_reader_8h" startline="84">storage</references>
-        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
-        <references refid="classjuce_1_1AbstractFifo_1a2dc58dfc859a387548cafaeab8fafa26">juce::AbstractFifo::write</references>
-        <referencedby refid="classdap_1_1_reader_1aa88b7cbd5562aace1eb2d91b0638fb26" compoundref="_reader_8cpp" startline="140" endline="166">run</referencedby>
+        <location file="dap/Reader.h" line="63" column="21" bodyfile="dap/Reader.cpp" bodystart="77" bodyend="86"/>
+        <references refid="structjam_1_1Document_1a367d65133f164cf9421ff0c3ddf2bbf6">jam::Document::parse</references>
+        <referencedby refid="classdap_1_1_reader_1aa88b7cbd5562aace1eb2d91b0638fb26" compoundref="_reader_8cpp" startline="88" endline="114">run</referencedby>
       </memberdef>
     </sectiondef>
     <briefdescription>
-<para>Asynchronous stdin reader that parses DAP messages and queues them for the main thread. </para>
+<para><ref refid="classdap_1_1_reader" kindref="compound">Reader</ref> thread that parses DAP messages from stdin and passes each one to onMessage. </para>
     </briefdescription>
     <detaileddescription>
-<para>Runs a background JUCE thread that reads Content-Length framed JSON from stdin, parses each message into a <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>, and enqueues it in a lock-free FIFO. The main thread drains the FIFO via <ref refid="classdap_1_1_reader_1a9c581d850d7d93395da7c983b97e8f6e" kindref="member">tryPop()</ref> on each event-loop iteration.</para>
-<para>Capacity is fixed at fifoCapacity slots. If the FIFO is full the background thread drops the message; in a debug build the drop is also logged.</para>
-<para><simplesect kind="note"><para><ref refid="classdap_1_1_reader_1a001ba0872e35810bdb1f610e0554eec1" kindref="member">start()</ref> must be called before the first <ref refid="classdap_1_1_reader_1a9c581d850d7d93395da7c983b97e8f6e" kindref="member">tryPop()</ref>. <ref refid="classdap_1_1_reader_1a9e3d24e83e5c326d7d53f577b9efc5b5" kindref="member">~Reader()</ref> is the sole owner of <ref refid="classdap_1_1_reader_1a4ef3503bdf9aaa16b363e6261e60fc1a" kindref="member">stop()</ref> — it joins the background thread cleanly on destruction. </para>
+<para>Runs one background JUCE thread. The thread reads Content-Length framed messages: it reads the header block, then the body, and parses the body as JSON. A body that does not parse is skipped. The thread ends when stdin fails or reaches its end, or when stop is signalled.</para>
+<para>onMessage runs on the reader thread. <ref refid="class_whatdbg" kindref="compound">Whatdbg</ref> sets it to call <ref refid="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" kindref="member">Processor::addRequest</ref>.</para>
+<para><simplesect kind="note"><para><ref refid="classdap_1_1_reader_1a9e3d24e83e5c326d7d53f577b9efc5b5" kindref="member">~Reader()</ref> is the sole caller of <ref refid="classdap_1_1_reader_1a4ef3503bdf9aaa16b363e6261e60fc1a" kindref="member">stop()</ref>. It joins the background thread on destruction. </para>
 </simplesect>
 </para>
     </detaileddescription>
@@ -301,39 +203,16 @@
         <link refid="classdap_1_1_reader"/>
         <childnode refid="2" relation="private-inheritance">
         </childnode>
-        <childnode refid="3" relation="usage">
-          <edgelabel>fifo</edgelabel>
-        </childnode>
-        <childnode refid="4" relation="usage">
-          <edgelabel>storage</edgelabel>
-        </childnode>
-      </node>
-      <node id="3">
-        <label>juce::AbstractFifo</label>
-        <link refid="classjuce_1_1AbstractFifo" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
       </node>
       <node id="2">
         <label>juce::Thread</label>
         <link refid="classjuce_1_1Thread" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
       </node>
-      <node id="5">
-        <label>juce::var</label>
-        <link refid="classjuce_1_1var" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
-      </node>
-      <node id="4">
-        <label>std::vector&lt; juce::var &gt;</label>
-        <childnode refid="5" relation="usage">
-          <edgelabel>elements</edgelabel>
-        </childnode>
-      </node>
     </collaborationgraph>
-    <location file="dap/Reader.h" line="19" column="1" bodyfile="dap/Reader.h" bodystart="20" bodyend="87"/>
+    <location file="dap/Reader.h" line="19" column="1" bodyfile="dap/Reader.h" bodystart="20" bodyend="66"/>
     <listofallmembers>
       <member refid="classjuce_1_1Thread_1ab6c3e8b12180836f10d32c66f378a71e" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>addListener</name></member>
-      <member refid="classdap_1_1_reader_1a8caea924c042b462bfb19e5da0b1542a" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>addMessage</name></member>
       <member refid="classjuce_1_1Thread_1ae00f10411011cf27f7b6373e1076beec" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>currentThreadShouldExit</name></member>
-      <member refid="classdap_1_1_reader_1a67d7f2ba9751bd6f8d13f344d4c5076d" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>fifo</name></member>
-      <member refid="classdap_1_1_reader_1aa2841da084bd58ba5a521a21e1eaea98" prot="public" virt="non-virtual"><scope>dap::Reader</scope><name>fifoCapacity</name></member>
       <member refid="classjuce_1_1Thread_1a4a961f1dead0c5ed3342f61b2897d009" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>getCurrentThread</name></member>
       <member refid="classjuce_1_1Thread_1a9f07e11e0b773f991d0838c1fe9e14f3" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>getCurrentThreadId</name></member>
       <member refid="classjuce_1_1Thread_1a65d2f6bcc9f7ae7190e532262a9088ef" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>getPriority</name></member>
@@ -345,11 +224,12 @@
       <member refid="classjuce_1_1Thread_1a2c85b42141795d555fb11256944f78a6" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>launch</name></member>
       <member refid="classjuce_1_1Thread_1ab423563bc04c5418b02eb594d1187ea5" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>launch</name></member>
       <member refid="classjuce_1_1Thread_1ab3d158297038fc25f343769b7e328cdd" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>notify</name></member>
+      <member refid="classdap_1_1_reader_1a0ef303bd98005399605d1038933691d8" prot="public" virt="non-virtual"><scope>dap::Reader</scope><name>onMessage</name></member>
       <member refid="classjuce_1_1Thread_1a52df3daa2a1d949f84792e6a5278c9e6" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>osDefaultStackSize</name></member>
       <member refid="classjuce_1_1Thread_1add0566715ea7af627a7c7a189519e0ea" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>Priority</name></member>
       <member refid="classdap_1_1_reader_1a2ac9bd334b2534f79edfe7efc96d63db" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>readContentLength</name></member>
       <member refid="classdap_1_1_reader_1a946914e4e091be5a3742b13d6ccf600b" prot="public" virt="non-virtual"><scope>dap::Reader</scope><name>Reader</name></member>
-      <member refid="classdap_1_1_reader_1acc50a8c8f483851d55e6314ad19a77ff" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>readMessage</name></member>
+      <member refid="classdap_1_1_reader_1aba0f829f2291b384cc47a5d8183d3cae" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>readMessage</name></member>
       <member refid="classjuce_1_1Thread_1af550a6af55a551dc6903c0416fb8722a" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>removeListener</name></member>
       <member refid="classdap_1_1_reader_1aa88b7cbd5562aace1eb2d91b0638fb26" prot="private" virt="virtual"><scope>dap::Reader</scope><name>run</name></member>
       <member refid="classjuce_1_1Thread_1a15f799acc657f40433101536a96deedf" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>setAffinityMask</name></member>
@@ -364,11 +244,9 @@
       <member refid="classjuce_1_1Thread_1a0519da585976532aefa3f7cd46346fad" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>startThread</name></member>
       <member refid="classdap_1_1_reader_1a4ef3503bdf9aaa16b363e6261e60fc1a" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>stop</name></member>
       <member refid="classjuce_1_1Thread_1aac1e04c75a4130a84ea8a9a7cc042862" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>stopThread</name></member>
-      <member refid="classdap_1_1_reader_1a493d7e8cfa28409d69781a442d8e3a0f" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>storage</name></member>
       <member refid="classjuce_1_1Thread_1a796d34f194697b5531a918e76884d23c" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>Thread</name></member>
       <member refid="classjuce_1_1Thread_1a2a375f713642edb06639885d8439b364" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>ThreadID</name></member>
       <member refid="classjuce_1_1Thread_1a84544f7fb992d3e02c089450b89def73" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>threadShouldExit</name></member>
-      <member refid="classdap_1_1_reader_1a9c581d850d7d93395da7c983b97e8f6e" prot="public" virt="non-virtual"><scope>dap::Reader</scope><name>tryPop</name></member>
       <member refid="classjuce_1_1Thread_1a4ee45ea3149bf3671fc9e26a147b6977" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>wait</name></member>
       <member refid="classjuce_1_1Thread_1a60efa4303fd808cd42d3477b009bee29" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>waitForThreadToExit</name></member>
       <member refid="classjuce_1_1Thread_1a91e74f6e2ac4eb5041fbc5bd6e367674" prot="private" virt="non-virtual"><scope>dap::Reader</scope><name>yield</name></member>

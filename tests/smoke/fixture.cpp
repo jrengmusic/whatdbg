@@ -1,3 +1,4 @@
+#include <atomic>
 #include <chrono>
 #include <cstdio>
 #include <cstring>
@@ -6,15 +7,29 @@
 #include <vector>
 
 static constexpr int postBreakpointDelayMs { 1500 };
+static constexpr int workerSleepMs { 20 };
+static std::atomic<bool> shouldWorkerRun { true };
+
+struct FixturePoint
+{
+    int x;
+    int y;
+};
 
 static int computeSum (const std::vector<int>& numbers)
 {
     int total { 0 };
 
     for (int value : numbers)
-        total += value;
+        total += value; // SMOKE_INNER_LINE
 
     return total;
+}
+
+static void runWorker ()
+{
+    while (shouldWorkerRun.load ())
+        std::this_thread::sleep_for (std::chrono::milliseconds (workerSleepMs));
 }
 
 int main (int argumentCount, char* arguments[])
@@ -35,9 +50,14 @@ int main (int argumentCount, char* arguments[])
     int counter { 42 };
     int* counterPtr { &counter };
     std::vector<int> numbers { 1, 2, 3, 4, 5 };
+    FixturePoint point { 3, 4 };
+    std::thread worker { runWorker };
 
     const int sum { computeSum (numbers) };
     std::printf ("sum=%d\n", sum); // SMOKE_BREAKPOINT_LINE
+    // SMOKE_EMPTY_LINE
+    const int secondSum { computeSum (numbers) };
+    std::printf ("second=%d point=%d,%d\n", secondSum, point.x, point.y); // SMOKE_SECOND_LINE
 
     if (crashMode)
     {
@@ -47,5 +67,7 @@ int main (int argumentCount, char* arguments[])
 
     std::this_thread::sleep_for (std::chrono::milliseconds (postBreakpointDelayMs));
     std::printf ("%s %s %d\n", greeting, name.c_str (), counter);
+    shouldWorkerRun.store (false);
+    worker.join ();
     return 0;
 }

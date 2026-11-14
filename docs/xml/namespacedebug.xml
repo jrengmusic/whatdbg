@@ -8,7 +8,8 @@
     <innerclass refid="classdebug_1_1_loader" prot="public">debug::Loader</innerclass>
     <innerclass refid="classdebug_1_1_output_callbacks" prot="public">debug::OutputCallbacks</innerclass>
     <innerclass refid="classdebug_1_1_session" prot="public">debug::Session</innerclass>
-    <innerclass refid="classdebug_1_1_state" prot="public">debug::State</innerclass>
+    <innerclass refid="classdebug_1_1_stop_manager" prot="public">debug::StopManager</innerclass>
+    <innerclass refid="classdebug_1_1_variable_manager" prot="public">debug::VariableManager</innerclass>
     <sectiondef kind="enum">
       <memberdef kind="enum" id="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90a" prot="public" static="no" strong="yes">
         <type></type>
@@ -71,7 +72,7 @@
           <name>launching</name>
           <initializer>= 1</initializer>
           <briefdescription>
-<para>launch or attach request sent; waiting for first CreateProcess event. </para>
+<para>launch or attach request sent; the first stop has not arrived yet. </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -98,20 +99,20 @@
           <name>exited</name>
           <initializer>= 4</initializer>
           <briefdescription>
-<para>Target process has exited. <ref refid="classdebug_1_1_session" kindref="compound">Session</ref> is shutting down. </para>
+<para>Target process has exited. </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
         </enumvalue>
         <briefdescription>
-<para>Execution lifecycle states for the debug target. </para>
+<para>Coarse execution state of the debug target, stored in the executionState parameter. </para>
         </briefdescription>
         <detaileddescription>
-<para>Represents the coarse state machine of a debug session as seen by the DAP layer. <ref refid="class_whatdbg" kindref="compound">Whatdbg</ref> and the engine event paths write the state. <ref refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" kindref="member">Whatdbg::run</ref> reads it. </para>
+<para>The engine context writes the state. <ref refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" kindref="member">Processor::process</ref> reads it to decide whether to poll the engine. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/State.h" line="12" column="1" bodyfile="debug/State.h" bodystart="13" bodyend="19"/>
+        <location file="debug/State.h" line="14" column="1" bodyfile="debug/State.h" bodystart="15" bodyend="21"/>
       </memberdef>
       <memberdef kind="enum" id="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1" prot="public" static="no" strong="yes">
         <type></type>
@@ -167,15 +168,16 @@
           </detaileddescription>
         </enumvalue>
         <briefdescription>
-<para>Cause of the current stop, held as one value in <ref refid="classdebug_1_1_state_1aaf00f1ecd87812817dbd47557747e23b" kindref="member">State::stopReason</ref>. </para>
+<para>Cause of the current stop, stored in the stopReason parameter. </para>
         </briefdescription>
         <detaileddescription>
-<para><ref refid="class_whatdbg_1a9e7a05509ec294098ecb40a9cc509615" kindref="member">Whatdbg::processDeferredEvents</ref> reads stopReason and runs the drain for it. Writers, by value:<itemizedlist>
-<listitem><para>none: The default. The drains set it back to none when they run. drainInitialBreak does so only after configurationDone.</para>
-</listitem><listitem><para>initialBreak: <ref refid="_callbacks_8cpp" kindref="compound">Callbacks.cpp</ref> onBreakpoint while launching; Session_mac onProcessStateStopped while launching; <ref refid="class_whatdbg_1a5dfa0d2f778277c1d3b07c3b6a24690f" kindref="member">Whatdbg::onAttach</ref> on macOS.</para>
+<para><ref refid="classdebug_1_1_stop_manager_1ae87d8d557aded2e5fa40b92f360fc887" kindref="member">StopManager::onStop</ref> reads stopReason and runs the drain for that value. The drains set it back to none when they run. drainInitialBreak does so only after configurationDone is set.</para>
+<para>Writers, by value:<itemizedlist>
+<listitem><para>none: The default, and the value that the drains store.</para>
+</listitem><listitem><para>initialBreak: <ref refid="_callbacks_8cpp" kindref="compound">Callbacks.cpp</ref> onBreakpoint while launching; Session_mac onProcessStateStopped while launching; <ref refid="class_processor_1a5429f57729737f7bd4c78a1c1d027c43" kindref="member">Processor::setAttachedState</ref> on macOS.</para>
 </listitem><listitem><para>moduleLoad: <ref refid="_callbacks_8cpp" kindref="compound">Callbacks.cpp</ref> LoadModule, when no step is pending.</para>
 </listitem><listitem><para>breakpoint: <ref refid="_callbacks_8cpp" kindref="compound">Callbacks.cpp</ref> Breakpoint; Session_mac onBreakpointStop.</para>
-</listitem><listitem><para>step: <ref refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" kindref="member">Session::pollEvents</ref> on Windows, when no other stop is set; Session_mac onStepStop.</para>
+</listitem><listitem><para>step: <ref refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" kindref="member">Session::pollEvents</ref> on Windows, and Session_mac onStepStop. <ref refid="classdebug_1_1_stop_manager" kindref="compound">StopManager</ref> stores it only when stopReason is none.</para>
 </listitem><listitem><para>pause: <ref refid="_callbacks_8cpp" kindref="compound">Callbacks.cpp</ref> onBreakpoint while isPausePending; Session_mac onInterruptStop.</para>
 </listitem><listitem><para>exception: <ref refid="_callbacks_8cpp" kindref="compound">Callbacks.cpp</ref> onBreakpoint and onUnknownException (second chance); Session_mac onSignalStop and onExceptionStop. </para>
 </listitem></itemizedlist>
@@ -183,7 +185,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/State.h" line="36" column="1" bodyfile="debug/State.h" bodystart="37" bodyend="45"/>
+        <location file="debug/State.h" line="41" column="1" bodyfile="debug/State.h" bodystart="42" bodyend="50"/>
       </memberdef>
       <memberdef kind="enum" id="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0e" prot="public" static="no" strong="yes">
         <type></type>
@@ -227,7 +229,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/State.h" line="54" column="1" bodyfile="debug/State.h" bodystart="55" bodyend="60"/>
+        <location file="debug/State.h" line="59" column="1" bodyfile="debug/State.h" bodystart="60" bodyend="65"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="typedef">
@@ -248,37 +250,21 @@
         </inbodydescription>
         <location file="debug/Session.h" line="42" column="1" bodyfile="debug/Session.h" bodystart="42" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="namespacedebug_1a780e3d0082c1cbb3161850f93e8f1a5a" prot="public" static="no">
-        <type><ref refid="classjuce_1_1ReferenceCountedObjectPtr" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::ReferenceCountedObjectPtr</ref>&lt; <ref refid="classjuce_1_1DynamicObject" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::DynamicObject</ref> &gt;</type>
-        <definition>using dap::DynObj = juce::ReferenceCountedObjectPtr&lt;juce::DynamicObject&gt;</definition>
+      <memberdef kind="typedef" id="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" prot="public" static="no">
+        <type><ref refid="structjam_1_1Function_1_1Map" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::Map</ref>&lt; <ref refid="classjuce_1_1Identifier" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Identifier</ref>, <ref refid="structjam_1_1Function_1ae0c82daeeeb7f4c4eaf062d55601f5cd" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::pointerCapacity</ref>, void(), void(int), void(int, int), void(<ref refid="namespacejuce_1a6afa306885ea6220ef17d2a02cfa7f0a" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::int64</ref>, <ref refid="namespacejuce_1a6afa306885ea6220ef17d2a02cfa7f0a" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::int64</ref>, int), void(const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;)&gt;</type>
+        <definition>using debug::Events = jam::Function::Map&lt;juce::Identifier, jam::Function::pointerCapacity, void (), void (int), void (int, int), void (juce::int64, juce::int64, int), void (const juce::String&amp;)&gt;</definition>
         <argsstring></argsstring>
-        <name>DynObj</name>
-        <qualifiedname>debug::DynObj</qualifiedname>
+        <name>Events</name>
+        <qualifiedname>debug::Events</qualifiedname>
         <briefdescription>
-<para>Convenience alias for a reference-counted DynamicObject pointer. </para>
+<para>Dispatch map of the engine events, keyed by <ref refid="classjuce_1_1Identifier" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Identifier</ref>. </para>
         </briefdescription>
         <detaileddescription>
-<para>Used throughout the DAP layer to build JSON objects without manual reference counting. The underlying DynamicObject is heap-allocated and kept alive by the <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> that wraps it. </para>
+<para><ref refid="classdebug_1_1_session" kindref="compound">Session</ref> fires an event with Session::events.get. <ref refid="class_processor" kindref="compound">Processor</ref> and <ref refid="classdebug_1_1_stop_manager" kindref="compound">StopManager</ref> register handlers with add. The payload of an event is one of the argument lists in the type. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.cpp" line="16" column="1" bodyfile="dap/Types.h" bodystart="13" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="typedef" id="namespacedebug_1a780e3d0082c1cbb3161850f93e8f1a5a" prot="public" static="no">
-        <type><ref refid="classjuce_1_1ReferenceCountedObjectPtr" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::ReferenceCountedObjectPtr</ref>&lt; <ref refid="classjuce_1_1DynamicObject" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::DynamicObject</ref> &gt;</type>
-        <definition>using dap::DynObj = juce::ReferenceCountedObjectPtr&lt;juce::DynamicObject&gt;</definition>
-        <argsstring></argsstring>
-        <name>DynObj</name>
-        <qualifiedname>debug::DynObj</qualifiedname>
-        <briefdescription>
-<para>Convenience alias for a reference-counted DynamicObject pointer. </para>
-        </briefdescription>
-        <detaileddescription>
-<para>Used throughout the DAP layer to build JSON objects without manual reference counting. The underlying DynamicObject is heap-allocated and kept alive by the <ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref> that wraps it. </para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="29" column="1" bodyfile="dap/Types.h" bodystart="13" bodyend="-1"/>
+        <location file="debug/State.h" line="72" column="1" bodyfile="debug/State.h" bodystart="72" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="var">
@@ -295,8 +281,8 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="73" column="30" bodyfile="debug/Session_mac.cpp" bodystart="73" bodyend="73"/>
-        <referencedby refid="namespacedebug_1a00b01dbb410d280c5c76e224f862f869" compoundref="_session__mac_8cpp" startline="76" endline="98">drainProcessStdio</referencedby>
+        <location file="debug/Session_mac.cpp" line="63" column="30" bodyfile="debug/Session_mac.cpp" bodystart="63" bodyend="63"/>
+        <referencedby refid="namespacedebug_1a3af2678f62d76ed2b0c10881b60fb4bc" compoundref="_session__mac_8cpp" startline="67" endline="88">drainProcessStdio</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacedebug_1a96e6155ab83215a136891405e91e92c0" prot="public" static="yes" constexpr="yes" mutable="no">
         <type>std::uint32_t</type>
@@ -311,9 +297,42 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="74" column="32" bodyfile="debug/Session_mac.cpp" bodystart="74" bodyend="74"/>
-        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="286" endline="303">debug::Session::attach</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="261" endline="284">debug::Session::launch</referencedby>
+        <location file="debug/Session_mac.cpp" line="64" column="32" bodyfile="debug/Session_mac.cpp" bodystart="64" bodyend="64"/>
+        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="276" endline="292">debug::Session::attach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="252" endline="274">debug::Session::launch</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedebug_1ab0a6e6add77bf779720e6bd1a359a87c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t debug::wakeEventMask</definition>
+        <argsstring></argsstring>
+        <name>wakeEventMask</name>
+        <qualifiedname>debug::wakeEventMask</qualifiedname>
+        <initializer>{ 1u &lt;&lt; 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session_mac.cpp" line="65" column="32" bodyfile="debug/Session_mac.cpp" bodystart="65" bodyend="65"/>
+        <referencedby refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="231" endline="250">debug::Session::initialize</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ae55ea009e277df6240ced7cfdf1521f3" compoundref="_session__mac_8cpp" startline="326" endline="329">debug::Session::wake</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedebug_1a5b5f90069d08b7599b5af986d92889d6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int debug::maxStackFrames</definition>
+        <argsstring></argsstring>
+        <name>maxStackFrames</name>
+        <qualifiedname>debug::maxStackFrames</qualifiedname>
+        <initializer>{ 50 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/VariableManager.cpp" line="11" column="22" bodyfile="debug/VariableManager.cpp" bodystart="11" bodyend="11"/>
+        <referencedby refid="classdebug_1_1_variable_manager_1a29ae314c6fd001ecf45635d9e6dc2810" compoundref="_variable_manager_8cpp" startline="28" endline="38">debug::VariableManager::onStackTrace</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">
@@ -336,7 +355,7 @@
         <location file="debug/BreakpointManager.cpp" line="184" column="21" bodyfile="debug/BreakpointManager.cpp" bodystart="184" bodyend="187"/>
         <references refid="namespacedebug_1ad59b60cb019c5f6433812ad6a56ecac8" compoundref="_breakpoint_manager_8cpp" startline="184" endline="187">normalizePath</references>
         <referencedby refid="namespacedebug_1ad59b60cb019c5f6433812ad6a56ecac8" compoundref="_breakpoint_manager_8cpp" startline="184" endline="187">normalizePath</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a9d2c771b00f19e380a8443fa37e3cf12" compoundref="_breakpoint_manager_8cpp" startline="288" endline="331">debug::BreakpointManager::onSetBreakpoints</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="309" endline="335">debug::BreakpointManager::onSetBreakpoints</referencedby>
         <referencedby refid="classdebug_1_1_breakpoint_manager_1a17b4dc2b534dafca568e5cd8b607284c" compoundref="_breakpoint_manager_8cpp" startline="196" endline="225">debug::BreakpointManager::removeOrphanedBreakpoints</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1a5f8bae060639d0487513b79a1e7ad204" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
@@ -353,7 +372,7 @@
 <para>Return true if a symbol/variable name should be hidden from the DAP variable panel. </para>
         </briefdescription>
         <detaileddescription>
-<para>Filters out compiler- and framework-injected symbols that carry no user-visible meaning: RTTI/vtable artifacts, the JUCE leak detector member, and the per-TU compile-unit-mismatch sentinel.</para>
+<para>Hides the names that start with &quot;&lt;&quot;, &quot;__vfptr&quot;, or &quot;leakDetector&quot;, and the name juce::compileUnitMismatchSentinel. These are compiler-injected or JUCE-injected symbols with no user-visible meaning.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>name</parametername>
@@ -371,8 +390,8 @@
         </inbodydescription>
         <location file="debug/PrettyPrint.h" line="24" column="13" bodyfile="debug/PrettyPrint.h" bodystart="24" bodyend="30"/>
         <references refid="namespacedebug_1a5f8bae060639d0487513b79a1e7ad204" compoundref="_pretty_print_8h" startline="24" endline="30">shouldSkipSymbol</references>
-        <referencedby refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" compoundref="_session__mac_8cpp" startline="720" endline="739">debug::Session::getLocals</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" compoundref="_session__mac_8cpp" startline="741" endline="767">debug::Session::getVariableChildren</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" compoundref="_session__mac_8cpp" startline="711" endline="726">debug::Session::applyToLocals</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a44d91c600d53774ef810614e1f663f15" compoundref="_session__mac_8cpp" startline="728" endline="750">debug::Session::applyToVariableChildren</referencedby>
         <referencedby refid="namespacedebug_1a5f8bae060639d0487513b79a1e7ad204" compoundref="_pretty_print_8h" startline="24" endline="30">shouldSkipSymbol</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1a7ac333b705ec6f55b0297b1cda1e85bd" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
@@ -389,17 +408,17 @@
 <para>Extract a hexadecimal address from a debug engine value text string. </para>
         </briefdescription>
         <detaileddescription>
-<para>Scans the input for a &quot;0x&quot; prefixed hex token and parses it as a 64-bit unsigned integer. Used to extract pointer values from formatted symbol text such as &quot;0x0000000010db01b0 \&quot;hello\&quot;&quot;. Backtick digit-group padding (dbgeng&apos;s 64-bit address formatting) is stripped before parsing.</para>
+<para>Removes backtick digit-group padding (dbgeng&apos;s 64-bit address formatting), trims the text, and, when the text starts with &quot;0x&quot;, parses the token up to the first space as a 64-bit unsigned integer. Used to extract pointer values from formatted symbol text such as &quot;0x0000000010db01b0 \&quot;hello\&quot;&quot;.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>valueText</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Symbol value text that may contain a hex address. </para>
+<para>Symbol value text that may start with a hex address. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Parsed address, or 0 if no hex address is found. </para>
+<simplesect kind="return"><para>Parsed address, or 0 if the text does not start with &quot;0x&quot;. </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -433,13 +452,13 @@
 <para>Attempt to pretty-print an SBValue using its known type name. </para>
         </briefdescription>
         <detaileddescription>
-<para>Dispatches to type-specific formatters for types such as <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> and std::unique_ptr. Returns empty if the type is not recognized — callers should fall back to SBValue::GetValue() / SBValue::GetSummary().</para>
+<para>Dispatches to one formatter: <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> or std::unique_ptr. Returns empty if the type is not recognized. Callers then fall back to SBValue::GetValue or SBValue::GetSummary.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>value</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The SBValue to format. May be mutated by child walks. </para>
+<para>The SBValue to format. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -461,21 +480,21 @@
         <references refid="namespacedebug_1a427707e424eb066a294bab023d93796f" compoundref="_session_pretty_print__mac_8cpp" startline="89" endline="103">prettyPrint</references>
         <references refid="namespacedebug_1a443505e3302297a42af6a43992f0fe09" compoundref="_session_pretty_print__mac_8cpp" startline="18" endline="48">prettyPrintJuceString</references>
         <references refid="namespacedebug_1a8d57f7a4aa4bbdc7490b0ae2401bd2da" compoundref="_session_pretty_print__mac_8cpp" startline="50" endline="87">prettyPrintUniquePtr</references>
-        <referencedby refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="637" endline="651">getDisplayValue</referencedby>
+        <referencedby refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="640" endline="654">getDisplayValue</referencedby>
         <referencedby refid="namespacedebug_1a427707e424eb066a294bab023d93796f" compoundref="_session_pretty_print__mac_8cpp" startline="89" endline="103">prettyPrint</referencedby>
       </memberdef>
-      <memberdef kind="function" id="namespacedebug_1ad0a7868a0b9f32784537c8497e729955" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="namespacedebug_1a2e6be9ae21fb797cc0f1f00e3fcf90fb" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
         <definition>static void debug::onBreakpointStop</definition>
-        <argsstring>(const lldb::StopReason &amp;, debug::State &amp;state, lldb::SBThread &amp;thread) noexcept</argsstring>
+        <argsstring>(const lldb::StopReason &amp;, debug::Events &amp;events, lldb::SBThread &amp;thread) noexcept</argsstring>
         <name>onBreakpointStop</name>
         <qualifiedname>debug::onBreakpointStop</qualifiedname>
         <param>
           <type>const lldb::StopReason &amp;</type>
         </param>
         <param>
-          <type><ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> &amp;</type>
-          <declname>state</declname>
+          <type><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">debug::Events</ref> &amp;</type>
+          <declname>events</declname>
         </param>
         <param>
           <type>lldb::SBThread &amp;</type>
@@ -487,25 +506,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="31" column="13" bodyfile="debug/Session_mac.cpp" bodystart="31" bodyend="37"/>
-        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1ad36231bfe8094177a5104fea07cdf7fd" compoundref="_state_8h" startline="41">breakpoint</references>
-        <references refid="namespacedebug_1ad0a7868a0b9f32784537c8497e729955" compoundref="_session__mac_8cpp" startline="31" endline="37">onBreakpointStop</references>
-        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" compoundref="_state_8h" startline="17">stopped</references>
-        <referencedby refid="namespacedebug_1ad0a7868a0b9f32784537c8497e729955" compoundref="_session__mac_8cpp" startline="31" endline="37">onBreakpointStop</referencedby>
-        <referencedby refid="namespacedebug_1afd1180565e721e2407bc946a650884e0" compoundref="_session__mac_8cpp" startline="100" endline="129">onStopReason</referencedby>
+        <location file="debug/Session_mac.cpp" line="30" column="13" bodyfile="debug/Session_mac.cpp" bodystart="30" bodyend="33"/>
+        <references refid="namespaceId_1af9dbaff7db603045adf88ac0306e8720" compoundref="_generated_8cpp" startline="32" endline="32">Id::breakpoint</references>
+        <references refid="namespacedebug_1a2e6be9ae21fb797cc0f1f00e3fcf90fb" compoundref="_session__mac_8cpp" startline="30" endline="33">onBreakpointStop</references>
+        <referencedby refid="namespacedebug_1a2e6be9ae21fb797cc0f1f00e3fcf90fb" compoundref="_session__mac_8cpp" startline="30" endline="33">onBreakpointStop</referencedby>
+        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="90" endline="118">onStopReason</referencedby>
       </memberdef>
-      <memberdef kind="function" id="namespacedebug_1a2290f9967aeda9f104ce5c5a18edf649" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="namespacedebug_1ab801ce744621ea694d3d0ea32ea65396" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
         <definition>static void debug::onStepStop</definition>
-        <argsstring>(const lldb::StopReason &amp;, debug::State &amp;state, lldb::SBThread &amp;thread) noexcept</argsstring>
+        <argsstring>(const lldb::StopReason &amp;, debug::Events &amp;events, lldb::SBThread &amp;thread) noexcept</argsstring>
         <name>onStepStop</name>
         <qualifiedname>debug::onStepStop</qualifiedname>
         <param>
           <type>const lldb::StopReason &amp;</type>
         </param>
         <param>
-          <type><ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> &amp;</type>
-          <declname>state</declname>
+          <type><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">debug::Events</ref> &amp;</type>
+          <declname>events</declname>
         </param>
         <param>
           <type>lldb::SBThread &amp;</type>
@@ -517,26 +535,25 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="39" column="13" bodyfile="debug/Session_mac.cpp" bodystart="39" bodyend="44"/>
+        <location file="debug/Session_mac.cpp" line="35" column="13" bodyfile="debug/Session_mac.cpp" bodystart="35" bodyend="39"/>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
-        <references refid="namespacedebug_1a2290f9967aeda9f104ce5c5a18edf649" compoundref="_session__mac_8cpp" startline="39" endline="44">onStepStop</references>
-        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a2764ca9d34e90313978d044f27ae433b" compoundref="_state_8h" startline="42">step</references>
-        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" compoundref="_state_8h" startline="17">stopped</references>
-        <referencedby refid="namespacedebug_1a2290f9967aeda9f104ce5c5a18edf649" compoundref="_session__mac_8cpp" startline="39" endline="44">onStepStop</referencedby>
-        <referencedby refid="namespacedebug_1afd1180565e721e2407bc946a650884e0" compoundref="_session__mac_8cpp" startline="100" endline="129">onStopReason</referencedby>
+        <references refid="namespacedebug_1ab801ce744621ea694d3d0ea32ea65396" compoundref="_session__mac_8cpp" startline="35" endline="39">onStepStop</references>
+        <references refid="namespaceId_1ab239644d07a545177fb75aaa618ee23f" compoundref="_generated_8cpp" startline="96" endline="96">Id::step</references>
+        <referencedby refid="namespacedebug_1ab801ce744621ea694d3d0ea32ea65396" compoundref="_session__mac_8cpp" startline="35" endline="39">onStepStop</referencedby>
+        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="90" endline="118">onStopReason</referencedby>
       </memberdef>
-      <memberdef kind="function" id="namespacedebug_1a010d7d40dcd1704d29cfbb19ff68f91f" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="namespacedebug_1a4b4411b81b81a2aa8d7ea83e6dfddb9d" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
         <definition>static void debug::onInterruptStop</definition>
-        <argsstring>(const lldb::StopReason &amp;, debug::State &amp;state, lldb::SBThread &amp;thread) noexcept</argsstring>
+        <argsstring>(const lldb::StopReason &amp;, debug::Events &amp;events, lldb::SBThread &amp;thread) noexcept</argsstring>
         <name>onInterruptStop</name>
         <qualifiedname>debug::onInterruptStop</qualifiedname>
         <param>
           <type>const lldb::StopReason &amp;</type>
         </param>
         <param>
-          <type><ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> &amp;</type>
-          <declname>state</declname>
+          <type><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">debug::Events</ref> &amp;</type>
+          <declname>events</declname>
         </param>
         <param>
           <type>lldb::SBThread &amp;</type>
@@ -548,26 +565,25 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="46" column="13" bodyfile="debug/Session_mac.cpp" bodystart="46" bodyend="51"/>
+        <location file="debug/Session_mac.cpp" line="41" column="13" bodyfile="debug/Session_mac.cpp" bodystart="41" bodyend="45"/>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
-        <references refid="namespacedebug_1a010d7d40dcd1704d29cfbb19ff68f91f" compoundref="_session__mac_8cpp" startline="46" endline="51">onInterruptStop</references>
-        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1aec1b81965109165de6b38cd92c1e39f9" compoundref="_state_8h" startline="43">pause</references>
-        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" compoundref="_state_8h" startline="17">stopped</references>
-        <referencedby refid="namespacedebug_1a010d7d40dcd1704d29cfbb19ff68f91f" compoundref="_session__mac_8cpp" startline="46" endline="51">onInterruptStop</referencedby>
-        <referencedby refid="namespacedebug_1afd1180565e721e2407bc946a650884e0" compoundref="_session__mac_8cpp" startline="100" endline="129">onStopReason</referencedby>
+        <references refid="namespacedebug_1a4b4411b81b81a2aa8d7ea83e6dfddb9d" compoundref="_session__mac_8cpp" startline="41" endline="45">onInterruptStop</references>
+        <references refid="namespaceId_1ad5cee4e44dc5ca86661799ba8754dd1e" compoundref="_generated_8cpp" startline="71" endline="71">Id::pause</references>
+        <referencedby refid="namespacedebug_1a4b4411b81b81a2aa8d7ea83e6dfddb9d" compoundref="_session__mac_8cpp" startline="41" endline="45">onInterruptStop</referencedby>
+        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="90" endline="118">onStopReason</referencedby>
       </memberdef>
-      <memberdef kind="function" id="namespacedebug_1a2abda46d02223abf11bba60da2bca195" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="namespacedebug_1a21296221342fed577c18ddbe741fa44d" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
         <definition>static void debug::onSignalStop</definition>
-        <argsstring>(const lldb::StopReason &amp;, debug::State &amp;state, lldb::SBThread &amp;thread) noexcept</argsstring>
+        <argsstring>(const lldb::StopReason &amp;, debug::Events &amp;events, lldb::SBThread &amp;thread) noexcept</argsstring>
         <name>onSignalStop</name>
         <qualifiedname>debug::onSignalStop</qualifiedname>
         <param>
           <type>const lldb::StopReason &amp;</type>
         </param>
         <param>
-          <type><ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> &amp;</type>
-          <declname>state</declname>
+          <type><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">debug::Events</ref> &amp;</type>
+          <declname>events</declname>
         </param>
         <param>
           <type>lldb::SBThread &amp;</type>
@@ -579,25 +595,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="53" column="13" bodyfile="debug/Session_mac.cpp" bodystart="53" bodyend="61"/>
-        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a42552b1f133f9f8eb406d4f306ea9fd1" compoundref="_state_8h" startline="44">exception</references>
-        <references refid="namespacedebug_1a2abda46d02223abf11bba60da2bca195" compoundref="_session__mac_8cpp" startline="53" endline="61">onSignalStop</references>
-        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" compoundref="_state_8h" startline="17">stopped</references>
-        <referencedby refid="namespacedebug_1a2abda46d02223abf11bba60da2bca195" compoundref="_session__mac_8cpp" startline="53" endline="61">onSignalStop</referencedby>
-        <referencedby refid="namespacedebug_1afd1180565e721e2407bc946a650884e0" compoundref="_session__mac_8cpp" startline="100" endline="129">onStopReason</referencedby>
+        <location file="debug/Session_mac.cpp" line="47" column="13" bodyfile="debug/Session_mac.cpp" bodystart="47" bodyend="53"/>
+        <references refid="namespaceId_1a7d17b52a35c76be4fb253d49def99a67" compoundref="_generated_8cpp" startline="44" endline="44">Id::exception</references>
+        <references refid="namespacedebug_1a21296221342fed577c18ddbe741fa44d" compoundref="_session__mac_8cpp" startline="47" endline="53">onSignalStop</references>
+        <referencedby refid="namespacedebug_1a21296221342fed577c18ddbe741fa44d" compoundref="_session__mac_8cpp" startline="47" endline="53">onSignalStop</referencedby>
+        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="90" endline="118">onStopReason</referencedby>
       </memberdef>
-      <memberdef kind="function" id="namespacedebug_1a96acb628ff7d6323e4cd9329c37f183c" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="namespacedebug_1a9652a8e4d4e6a794228ec2a9eabe2161" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
         <definition>static void debug::onExceptionStop</definition>
-        <argsstring>(const lldb::StopReason &amp;, debug::State &amp;state, lldb::SBThread &amp;thread) noexcept</argsstring>
+        <argsstring>(const lldb::StopReason &amp;, debug::Events &amp;events, lldb::SBThread &amp;thread) noexcept</argsstring>
         <name>onExceptionStop</name>
         <qualifiedname>debug::onExceptionStop</qualifiedname>
         <param>
           <type>const lldb::StopReason &amp;</type>
         </param>
         <param>
-          <type><ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> &amp;</type>
-          <declname>state</declname>
+          <type><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">debug::Events</ref> &amp;</type>
+          <declname>events</declname>
         </param>
         <param>
           <type>lldb::SBThread &amp;</type>
@@ -609,22 +624,21 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="63" column="13" bodyfile="debug/Session_mac.cpp" bodystart="63" bodyend="71"/>
-        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a42552b1f133f9f8eb406d4f306ea9fd1" compoundref="_state_8h" startline="44">exception</references>
-        <references refid="namespacedebug_1a96acb628ff7d6323e4cd9329c37f183c" compoundref="_session__mac_8cpp" startline="63" endline="71">onExceptionStop</references>
-        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" compoundref="_state_8h" startline="17">stopped</references>
-        <referencedby refid="namespacedebug_1a96acb628ff7d6323e4cd9329c37f183c" compoundref="_session__mac_8cpp" startline="63" endline="71">onExceptionStop</referencedby>
-        <referencedby refid="namespacedebug_1afd1180565e721e2407bc946a650884e0" compoundref="_session__mac_8cpp" startline="100" endline="129">onStopReason</referencedby>
+        <location file="debug/Session_mac.cpp" line="55" column="13" bodyfile="debug/Session_mac.cpp" bodystart="55" bodyend="61"/>
+        <references refid="namespaceId_1a7d17b52a35c76be4fb253d49def99a67" compoundref="_generated_8cpp" startline="44" endline="44">Id::exception</references>
+        <references refid="namespacedebug_1a9652a8e4d4e6a794228ec2a9eabe2161" compoundref="_session__mac_8cpp" startline="55" endline="61">onExceptionStop</references>
+        <referencedby refid="namespacedebug_1a9652a8e4d4e6a794228ec2a9eabe2161" compoundref="_session__mac_8cpp" startline="55" endline="61">onExceptionStop</referencedby>
+        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="90" endline="118">onStopReason</referencedby>
       </memberdef>
-      <memberdef kind="function" id="namespacedebug_1a00b01dbb410d280c5c76e224f862f869" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="namespacedebug_1a3af2678f62d76ed2b0c10881b60fb4bc" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
         <definition>static void debug::drainProcessStdio</definition>
-        <argsstring>(debug::State *state, lldb::SBProcess &amp;process, bool isStderr) noexcept</argsstring>
+        <argsstring>(debug::Events &amp;events, lldb::SBProcess &amp;process, bool isStderr) noexcept</argsstring>
         <name>drainProcessStdio</name>
         <qualifiedname>debug::drainProcessStdio</qualifiedname>
         <param>
-          <type><ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> *</type>
-          <declname>state</declname>
+          <type><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">debug::Events</ref> &amp;</type>
+          <declname>events</declname>
         </param>
         <param>
           <type>lldb::SBProcess &amp;</type>
@@ -640,21 +654,27 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="76" column="13" bodyfile="debug/Session_mac.cpp" bodystart="76" bodyend="98"/>
-        <references refid="namespacedebug_1a00b01dbb410d280c5c76e224f862f869" compoundref="_session__mac_8cpp" startline="76" endline="98">drainProcessStdio</references>
-        <references refid="namespacedebug_1a843227e19ef74b48d7cbb77acd10a09d" compoundref="_session__mac_8cpp" startline="73" endline="73">stdioReadBufferSize</references>
-        <referencedby refid="namespacedebug_1a00b01dbb410d280c5c76e224f862f869" compoundref="_session__mac_8cpp" startline="76" endline="98">drainProcessStdio</referencedby>
-        <referencedby refid="namespacedebug_1ad1a8ba9ad50f1fa35415e3e5728ceab9" compoundref="_session__mac_8cpp" startline="172" endline="211">onProcessEvent</referencedby>
+        <location file="debug/Session_mac.cpp" line="67" column="13" bodyfile="debug/Session_mac.cpp" bodystart="67" bodyend="88"/>
+        <references refid="namespacedebug_1a3af2678f62d76ed2b0c10881b60fb4bc" compoundref="_session__mac_8cpp" startline="67" endline="88">drainProcessStdio</references>
+        <references refid="namespaceId_1a7c7348e9f7d639ded9f3bf11241d4bd9" compoundref="_generated_8cpp" startline="92" endline="92">Id::standardError</references>
+        <references refid="namespaceId_1a2c09e26146778d522a60a2dbfc3520b9" compoundref="_generated_8cpp" startline="93" endline="93">Id::standardOutput</references>
+        <references refid="namespacedebug_1a843227e19ef74b48d7cbb77acd10a09d" compoundref="_session__mac_8cpp" startline="63" endline="63">stdioReadBufferSize</references>
+        <referencedby refid="namespacedebug_1a3af2678f62d76ed2b0c10881b60fb4bc" compoundref="_session__mac_8cpp" startline="67" endline="88">drainProcessStdio</referencedby>
+        <referencedby refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="161" endline="201">onProcessEvent</referencedby>
       </memberdef>
-      <memberdef kind="function" id="namespacedebug_1afd1180565e721e2407bc946a650884e0" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
         <definition>static void debug::onStopReason</definition>
-        <argsstring>(debug::State &amp;state, lldb::SBThread &amp;thread, lldb::StopReason lldbStopReason) noexcept</argsstring>
+        <argsstring>(WHATDBGModel &amp;model, debug::Events &amp;events, lldb::SBThread &amp;thread, lldb::StopReason lldbStopReason) noexcept</argsstring>
         <name>onStopReason</name>
         <qualifiedname>debug::onStopReason</qualifiedname>
         <param>
-          <type><ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> &amp;</type>
-          <declname>state</declname>
+          <type><ref refid="class_w_h_a_t_d_b_g_model" kindref="compound">WHATDBGModel</ref> &amp;</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">debug::Events</ref> &amp;</type>
+          <declname>events</declname>
         </param>
         <param>
           <type>lldb::SBThread &amp;</type>
@@ -670,30 +690,36 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="100" column="13" bodyfile="debug/Session_mac.cpp" bodystart="100" bodyend="129"/>
+        <location file="debug/Session_mac.cpp" line="90" column="13" bodyfile="debug/Session_mac.cpp" bodystart="90" bodyend="118"/>
         <references refid="structjam_1_1Function_1_1Map_1ad53732bb862659c66b8112c75f437248">jam::Function::Map&lt; typename KeyType, size_t capacity, typename... Signatures &gt;::add</references>
-        <references refid="namespacedebug_1ad0a7868a0b9f32784537c8497e729955" compoundref="_session__mac_8cpp" startline="31" endline="37">onBreakpointStop</references>
-        <references refid="namespacedebug_1a96acb628ff7d6323e4cd9329c37f183c" compoundref="_session__mac_8cpp" startline="63" endline="71">onExceptionStop</references>
-        <references refid="namespacedebug_1a010d7d40dcd1704d29cfbb19ff68f91f" compoundref="_session__mac_8cpp" startline="46" endline="51">onInterruptStop</references>
-        <references refid="namespacedebug_1a2abda46d02223abf11bba60da2bca195" compoundref="_session__mac_8cpp" startline="53" endline="61">onSignalStop</references>
-        <references refid="namespacedebug_1a2290f9967aeda9f104ce5c5a18edf649" compoundref="_session__mac_8cpp" startline="39" endline="44">onStepStop</references>
-        <references refid="namespacedebug_1afd1180565e721e2407bc946a650884e0" compoundref="_session__mac_8cpp" startline="100" endline="129">onStopReason</references>
+        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
+        <references refid="namespaceId_1acaa5ed87630554a54472e27567897c48" compoundref="_generated_8cpp" startline="62" endline="62">Id::isPausePending</references>
+        <references refid="namespacedebug_1a2e6be9ae21fb797cc0f1f00e3fcf90fb" compoundref="_session__mac_8cpp" startline="30" endline="33">onBreakpointStop</references>
+        <references refid="namespacedebug_1a9652a8e4d4e6a794228ec2a9eabe2161" compoundref="_session__mac_8cpp" startline="55" endline="61">onExceptionStop</references>
+        <references refid="namespacedebug_1a4b4411b81b81a2aa8d7ea83e6dfddb9d" compoundref="_session__mac_8cpp" startline="41" endline="45">onInterruptStop</references>
+        <references refid="namespacedebug_1a21296221342fed577c18ddbe741fa44d" compoundref="_session__mac_8cpp" startline="47" endline="53">onSignalStop</references>
+        <references refid="namespacedebug_1ab801ce744621ea694d3d0ea32ea65396" compoundref="_session__mac_8cpp" startline="35" endline="39">onStepStop</references>
+        <references refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="90" endline="118">onStopReason</references>
         <references refid="structjam_1_1Function_1ae0c82daeeeb7f4c4eaf062d55601f5cd">jam::Function::pointerCapacity</references>
-        <referencedby refid="namespacedebug_1a27dc19649757e9b2688d632fa4830634" compoundref="_session__mac_8cpp" startline="131" endline="150">onProcessStateStopped</referencedby>
-        <referencedby refid="namespacedebug_1afd1180565e721e2407bc946a650884e0" compoundref="_session__mac_8cpp" startline="100" endline="129">onStopReason</referencedby>
+        <referencedby refid="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" compoundref="_session__mac_8cpp" startline="120" endline="139">onProcessStateStopped</referencedby>
+        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="90" endline="118">onStopReason</referencedby>
       </memberdef>
-      <memberdef kind="function" id="namespacedebug_1a27dc19649757e9b2688d632fa4830634" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
         <definition>static void debug::onProcessStateStopped</definition>
-        <argsstring>(const lldb::StateType &amp;, debug::State *state, lldb::SBProcess &amp;process, lldb::SBEvent &amp;event) noexcept</argsstring>
+        <argsstring>(const lldb::StateType &amp;, WHATDBGModel *model, debug::Events &amp;events, lldb::SBProcess &amp;process, lldb::SBEvent &amp;event) noexcept</argsstring>
         <name>onProcessStateStopped</name>
         <qualifiedname>debug::onProcessStateStopped</qualifiedname>
         <param>
           <type>const lldb::StateType &amp;</type>
         </param>
         <param>
-          <type><ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> *</type>
-          <declname>state</declname>
+          <type><ref refid="class_w_h_a_t_d_b_g_model" kindref="compound">WHATDBGModel</ref> *</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">debug::Events</ref> &amp;</type>
+          <declname>events</declname>
         </param>
         <param>
           <type>lldb::SBProcess &amp;</type>
@@ -709,27 +735,32 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="131" column="13" bodyfile="debug/Session_mac.cpp" bodystart="131" bodyend="150"/>
-        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a02ffbaf2c33dfa38c9f01c3546190fcd" compoundref="_state_8h" startline="39">initialBreak</references>
-        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6afbd29b7abab1d8c7e65e9bcae8278426" compoundref="_state_8h" startline="15">launching</references>
-        <references refid="namespacedebug_1a27dc19649757e9b2688d632fa4830634" compoundref="_session__mac_8cpp" startline="131" endline="150">onProcessStateStopped</references>
-        <references refid="namespacedebug_1afd1180565e721e2407bc946a650884e0" compoundref="_session__mac_8cpp" startline="100" endline="129">onStopReason</references>
-        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" compoundref="_state_8h" startline="17">stopped</references>
-        <referencedby refid="namespacedebug_1ad1a8ba9ad50f1fa35415e3e5728ceab9" compoundref="_session__mac_8cpp" startline="172" endline="211">onProcessEvent</referencedby>
-        <referencedby refid="namespacedebug_1a27dc19649757e9b2688d632fa4830634" compoundref="_session__mac_8cpp" startline="131" endline="150">onProcessStateStopped</referencedby>
+        <location file="debug/Session_mac.cpp" line="120" column="13" bodyfile="debug/Session_mac.cpp" bodystart="120" bodyend="139"/>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
+        <references refid="namespaceId_1a968b064271ba4315dde3cdf9edc7b1ae" compoundref="_generated_8cpp" startline="56" endline="56">Id::initialBreak</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6afbd29b7abab1d8c7e65e9bcae8278426" compoundref="_state_8h" startline="17">launching</references>
+        <references refid="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" compoundref="_session__mac_8cpp" startline="120" endline="139">onProcessStateStopped</references>
+        <references refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="90" endline="118">onStopReason</references>
+        <referencedby refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="161" endline="201">onProcessEvent</referencedby>
+        <referencedby refid="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" compoundref="_session__mac_8cpp" startline="120" endline="139">onProcessStateStopped</referencedby>
       </memberdef>
-      <memberdef kind="function" id="namespacedebug_1a8f1b5a01a02e011af0d61957fef613c8" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="namespacedebug_1ae3a853e11719527b9f16a798689814eb" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
         <definition>static void debug::onProcessStateExited</definition>
-        <argsstring>(const lldb::StateType &amp;, debug::State *state, lldb::SBProcess &amp;process, lldb::SBEvent &amp;event) noexcept</argsstring>
+        <argsstring>(const lldb::StateType &amp;, WHATDBGModel *model, debug::Events &amp;events, lldb::SBProcess &amp;process, lldb::SBEvent &amp;event) noexcept</argsstring>
         <name>onProcessStateExited</name>
         <qualifiedname>debug::onProcessStateExited</qualifiedname>
         <param>
           <type>const lldb::StateType &amp;</type>
         </param>
         <param>
-          <type><ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> *</type>
-          <declname>state</declname>
+          <type><ref refid="class_w_h_a_t_d_b_g_model" kindref="compound">WHATDBGModel</ref> *</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">debug::Events</ref> &amp;</type>
+          <declname>events</declname>
         </param>
         <param>
           <type>lldb::SBProcess &amp;</type>
@@ -745,25 +776,29 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="152" column="13" bodyfile="debug/Session_mac.cpp" bodystart="152" bodyend="161"/>
-        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6ab854d4deac1316c8d36e519393f3f2ae" compoundref="_state_8h" startline="18">exited</references>
+        <location file="debug/Session_mac.cpp" line="141" column="13" bodyfile="debug/Session_mac.cpp" bodystart="141" bodyend="149"/>
+        <references refid="namespaceId_1a893f1bea9b355beec320cbadcf9ca349" compoundref="_generated_8cpp" startline="51" endline="51">Id::exited</references>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
-        <references refid="namespacedebug_1a8f1b5a01a02e011af0d61957fef613c8" compoundref="_session__mac_8cpp" startline="152" endline="161">onProcessStateExited</references>
-        <referencedby refid="namespacedebug_1ad1a8ba9ad50f1fa35415e3e5728ceab9" compoundref="_session__mac_8cpp" startline="172" endline="211">onProcessEvent</referencedby>
-        <referencedby refid="namespacedebug_1a8f1b5a01a02e011af0d61957fef613c8" compoundref="_session__mac_8cpp" startline="152" endline="161">onProcessStateExited</referencedby>
+        <references refid="namespacedebug_1ae3a853e11719527b9f16a798689814eb" compoundref="_session__mac_8cpp" startline="141" endline="149">onProcessStateExited</references>
+        <referencedby refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="161" endline="201">onProcessEvent</referencedby>
+        <referencedby refid="namespacedebug_1ae3a853e11719527b9f16a798689814eb" compoundref="_session__mac_8cpp" startline="141" endline="149">onProcessStateExited</referencedby>
       </memberdef>
-      <memberdef kind="function" id="namespacedebug_1ac2d936a1ed1e5cea83f5ac7767b4a90b" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="namespacedebug_1abb112a9371b352c87b37197fb1d2f591" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
         <definition>static void debug::onProcessStateRunning</definition>
-        <argsstring>(const lldb::StateType &amp;, debug::State *state, lldb::SBProcess &amp;process, lldb::SBEvent &amp;event) noexcept</argsstring>
+        <argsstring>(const lldb::StateType &amp;, WHATDBGModel *model, debug::Events &amp;events, lldb::SBProcess &amp;process, lldb::SBEvent &amp;event) noexcept</argsstring>
         <name>onProcessStateRunning</name>
         <qualifiedname>debug::onProcessStateRunning</qualifiedname>
         <param>
           <type>const lldb::StateType &amp;</type>
         </param>
         <param>
-          <type><ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> *</type>
-          <declname>state</declname>
+          <type><ref refid="class_w_h_a_t_d_b_g_model" kindref="compound">WHATDBGModel</ref> *</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">debug::Events</ref> &amp;</type>
+          <declname>events</declname>
         </param>
         <param>
           <type>lldb::SBProcess &amp;</type>
@@ -779,22 +814,26 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="163" column="13" bodyfile="debug/Session_mac.cpp" bodystart="163" bodyend="170"/>
+        <location file="debug/Session_mac.cpp" line="151" column="13" bodyfile="debug/Session_mac.cpp" bodystart="151" bodyend="159"/>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
-        <references refid="namespacedebug_1ac2d936a1ed1e5cea83f5ac7767b4a90b" compoundref="_session__mac_8cpp" startline="163" endline="170">onProcessStateRunning</references>
-        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6a75101dcdfc88455bcafc9e53e0b06689" compoundref="_state_8h" startline="16">running</references>
-        <referencedby refid="namespacedebug_1ad1a8ba9ad50f1fa35415e3e5728ceab9" compoundref="_session__mac_8cpp" startline="172" endline="211">onProcessEvent</referencedby>
-        <referencedby refid="namespacedebug_1ac2d936a1ed1e5cea83f5ac7767b4a90b" compoundref="_session__mac_8cpp" startline="163" endline="170">onProcessStateRunning</referencedby>
+        <references refid="namespacedebug_1abb112a9371b352c87b37197fb1d2f591" compoundref="_session__mac_8cpp" startline="151" endline="159">onProcessStateRunning</references>
+        <references refid="namespaceId_1a000989b688b65316ee03a14c6fec2ef6" compoundref="_generated_8cpp" startline="83" endline="83">Id::running</references>
+        <referencedby refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="161" endline="201">onProcessEvent</referencedby>
+        <referencedby refid="namespacedebug_1abb112a9371b352c87b37197fb1d2f591" compoundref="_session__mac_8cpp" startline="151" endline="159">onProcessStateRunning</referencedby>
       </memberdef>
-      <memberdef kind="function" id="namespacedebug_1ad1a8ba9ad50f1fa35415e3e5728ceab9" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
         <definition>static void debug::onProcessEvent</definition>
-        <argsstring>(debug::State *state, lldb::SBProcess &amp;process, lldb::SBEvent &amp;event) noexcept</argsstring>
+        <argsstring>(WHATDBGModel *model, debug::Events &amp;events, lldb::SBProcess &amp;process, lldb::SBEvent &amp;event) noexcept</argsstring>
         <name>onProcessEvent</name>
         <qualifiedname>debug::onProcessEvent</qualifiedname>
         <param>
-          <type><ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> *</type>
-          <declname>state</declname>
+          <type><ref refid="class_w_h_a_t_d_b_g_model" kindref="compound">WHATDBGModel</ref> *</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">debug::Events</ref> &amp;</type>
+          <declname>events</declname>
         </param>
         <param>
           <type>lldb::SBProcess &amp;</type>
@@ -810,26 +849,26 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="172" column="13" bodyfile="debug/Session_mac.cpp" bodystart="172" bodyend="211"/>
+        <location file="debug/Session_mac.cpp" line="161" column="13" bodyfile="debug/Session_mac.cpp" bodystart="161" bodyend="201"/>
         <references refid="structjam_1_1Function_1_1Map_1ad53732bb862659c66b8112c75f437248">jam::Function::Map&lt; typename KeyType, size_t capacity, typename... Signatures &gt;::add</references>
-        <references refid="namespacedebug_1a00b01dbb410d280c5c76e224f862f869" compoundref="_session__mac_8cpp" startline="76" endline="98">drainProcessStdio</references>
-        <references refid="namespacedebug_1ad1a8ba9ad50f1fa35415e3e5728ceab9" compoundref="_session__mac_8cpp" startline="172" endline="211">onProcessEvent</references>
-        <references refid="namespacedebug_1a8f1b5a01a02e011af0d61957fef613c8" compoundref="_session__mac_8cpp" startline="152" endline="161">onProcessStateExited</references>
-        <references refid="namespacedebug_1ac2d936a1ed1e5cea83f5ac7767b4a90b" compoundref="_session__mac_8cpp" startline="163" endline="170">onProcessStateRunning</references>
-        <references refid="namespacedebug_1a27dc19649757e9b2688d632fa4830634" compoundref="_session__mac_8cpp" startline="131" endline="150">onProcessStateStopped</references>
+        <references refid="namespacedebug_1a3af2678f62d76ed2b0c10881b60fb4bc" compoundref="_session__mac_8cpp" startline="67" endline="88">drainProcessStdio</references>
+        <references refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="161" endline="201">onProcessEvent</references>
+        <references refid="namespacedebug_1ae3a853e11719527b9f16a798689814eb" compoundref="_session__mac_8cpp" startline="141" endline="149">onProcessStateExited</references>
+        <references refid="namespacedebug_1abb112a9371b352c87b37197fb1d2f591" compoundref="_session__mac_8cpp" startline="151" endline="159">onProcessStateRunning</references>
+        <references refid="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" compoundref="_session__mac_8cpp" startline="120" endline="139">onProcessStateStopped</references>
         <references refid="structjam_1_1Function_1ae0c82daeeeb7f4c4eaf062d55601f5cd">jam::Function::pointerCapacity</references>
-        <referencedby refid="namespacedebug_1ad1a8ba9ad50f1fa35415e3e5728ceab9" compoundref="_session__mac_8cpp" startline="172" endline="211">onProcessEvent</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="310" endline="335">debug::Session::pollEvents</referencedby>
+        <referencedby refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="161" endline="201">onProcessEvent</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="299" endline="324">debug::Session::pollEvents</referencedby>
       </memberdef>
-      <memberdef kind="function" id="namespacedebug_1a426fa0f286156911294af408e668008b" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="namespacedebug_1a27b0e00372dec0855774d4ac0eba3c10" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
         <definition>static void debug::onBreakpointEvent</definition>
-        <argsstring>(debug::State *state, lldb::SBEvent &amp;event) noexcept</argsstring>
+        <argsstring>(debug::Events &amp;events, lldb::SBEvent &amp;event) noexcept</argsstring>
         <name>onBreakpointEvent</name>
         <qualifiedname>debug::onBreakpointEvent</qualifiedname>
         <param>
-          <type><ref refid="classdebug_1_1_state" kindref="compound">debug::State</ref> *</type>
-          <declname>state</declname>
+          <type><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">debug::Events</ref> &amp;</type>
+          <declname>events</declname>
         </param>
         <param>
           <type>lldb::SBEvent &amp;</type>
@@ -841,10 +880,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="213" column="13" bodyfile="debug/Session_mac.cpp" bodystart="213" bodyend="234"/>
-        <references refid="namespacedebug_1a426fa0f286156911294af408e668008b" compoundref="_session__mac_8cpp" startline="213" endline="234">onBreakpointEvent</references>
-        <referencedby refid="namespacedebug_1a426fa0f286156911294af408e668008b" compoundref="_session__mac_8cpp" startline="213" endline="234">onBreakpointEvent</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="310" endline="335">debug::Session::pollEvents</referencedby>
+        <location file="debug/Session_mac.cpp" line="203" column="13" bodyfile="debug/Session_mac.cpp" bodystart="203" bodyend="224"/>
+        <references refid="namespaceId_1a66e966819d6d2cf2066dd4abe20010d1" compoundref="_generated_8cpp" startline="34" endline="34">Id::breakpointLocationFound</references>
+        <references refid="namespacedebug_1a27b0e00372dec0855774d4ac0eba3c10" compoundref="_session__mac_8cpp" startline="203" endline="224">onBreakpointEvent</references>
+        <referencedby refid="namespacedebug_1a27b0e00372dec0855774d4ac0eba3c10" compoundref="_session__mac_8cpp" startline="203" endline="224">onBreakpointEvent</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="299" endline="324">debug::Session::pollEvents</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1ae1ad323362d43c9c1a534c76584e2d41" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>lldb::SBLineEntry</type>
@@ -870,12 +910,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="453" column="26" bodyfile="debug/Session_mac.cpp" bodystart="453" bodyend="488"/>
-        <references refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea6cfe61694ee1bb13ae719d47c2f80b7a" compoundref="_state_8h" startline="56">found</references>
-        <references refid="namespacedebug_1ae1ad323362d43c9c1a534c76584e2d41" compoundref="_session__mac_8cpp" startline="453" endline="488">getLineEntry</references>
-        <referencedby refid="namespacedebug_1ae1ad323362d43c9c1a534c76584e2d41" compoundref="_session__mac_8cpp" startline="453" endline="488">getLineEntry</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" compoundref="_session__mac_8cpp" startline="498" endline="506">debug::Session::getOffset</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" compoundref="_session__mac_8cpp" startline="490" endline="496">debug::Session::getOffsetStatus</referencedby>
+        <location file="debug/Session_mac.cpp" line="455" column="26" bodyfile="debug/Session_mac.cpp" bodystart="455" bodyend="490"/>
+        <references refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea6cfe61694ee1bb13ae719d47c2f80b7a" compoundref="_state_8h" startline="61">found</references>
+        <references refid="namespacedebug_1ae1ad323362d43c9c1a534c76584e2d41" compoundref="_session__mac_8cpp" startline="455" endline="490">getLineEntry</references>
+        <referencedby refid="namespacedebug_1ae1ad323362d43c9c1a534c76584e2d41" compoundref="_session__mac_8cpp" startline="455" endline="490">getLineEntry</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" compoundref="_session__mac_8cpp" startline="500" endline="508">debug::Session::getOffset</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" compoundref="_session__mac_8cpp" startline="492" endline="498">debug::Session::getOffsetStatus</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
@@ -892,17 +932,17 @@
           <declname>isMachException</declname>
         </param>
         <briefdescription>
-<para>Translate a platform-native exception/signal code to a human-readable name. </para>
+<para>Translate a platform-native exception or signal code to a name. </para>
         </briefdescription>
         <detaileddescription>
-<para>Windows: code is an NTSTATUS / SEH exception code (e.g., 0xC0000005 → &quot;ACCESS_VIOLATION&quot;). isMachException is always false. macOS: code is a POSIX signal number when isMachException is false, or a Mach exception type when isMachException is true (e.g., 11 → &quot;EXC_BAD_ACCESS&quot;).</para>
-<para>Implementations live in platform-specific files: <ref refid="_callbacks_8cpp" kindref="compound">Callbacks.cpp</ref> on Windows, <ref refid="_session__mac_8cpp" kindref="compound">Session_mac.cpp</ref> on macOS. Used by <ref refid="class_whatdbg_1a2d7768523d99418a0704d2158b96035e" kindref="member">Whatdbg::drainExceptionStopped</ref> and <ref refid="class_whatdbg_1a027eb51c11af08478feea846deae2932" kindref="member">Whatdbg::onExceptionInfo</ref> to build the DAP exceptionId field.</para>
+<para>Windows: code is an NTSTATUS or SEH exception code, for example 0xC0000005 gives ACCESS_VIOLATION. isMachException is ignored. macOS: code is a POSIX signal number when isMachException is false, or a Mach exception type when it is true. Signal 11 gives EXC_BAD_ACCESS when isMachException is false. Mach exception type 1 gives EXC_BAD_ACCESS when it is true.</para>
+<para>Implementations live in platform-specific files: <ref refid="_callbacks_8cpp" kindref="compound">Callbacks.cpp</ref> on Windows, <ref refid="_session__mac_8cpp" kindref="compound">Session_mac.cpp</ref> on macOS. Called by <ref refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" kindref="member">StopManager::drainExceptionStopped</ref> and <ref refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" kindref="member">Processor::onExceptionInfo</ref> to build the DAP exceptionId field.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>code</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Platform-native exception/signal code from <ref refid="classdebug_1_1_state_1a804a6915dd5513e66354bdf321473b09" kindref="member">State::exceptionCode</ref>. </para>
+<para>Platform-native exception or signal code, from <ref refid="namespaceId_1aef15ba1881dec10e5d27afad18e46b66" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::exceptionCode</ref>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -910,23 +950,23 @@
 <parametername>isMachException</parametername>
 </parameternamelist>
 <parameterdescription>
-<para><ref refid="classdebug_1_1_state_1a7ac8f986730065bb18e0342bd725d2e3" kindref="member">State::isMachException</ref> — selects the Mach exception table on macOS. </para>
+<para>Value of <ref refid="namespaceId_1aecf9e31ac41ecd0c122665be6dad624d" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::isMachException</ref>. Selects the Mach table on macOS. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Human-readable name, or &quot;0x&lt;hex&gt;&quot; fallback if the code is not known. </para>
+<simplesect kind="return"><para>The name, or a fallback of the form 0x&lt;hex&gt; when the code is not in the table. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="573" column="14" bodyfile="debug/Session_mac.cpp" bodystart="573" bodyend="625" declfile="debug/State.h" declline="334" declcolumn="14"/>
+        <location file="debug/Session_mac.cpp" line="576" column="14" bodyfile="debug/Session_mac.cpp" bodystart="576" bodyend="628" declfile="debug/State.h" declline="91" declcolumn="14"/>
         <references refid="classjam_1_1HashMap_1a5a46d490ce023d9b1d773eccc23a7904">jam::HashMap&lt; typename Key, typename Mapped, typename HashFn, typename KeyEqual, typename AllocatorOrContainer, typename Bucket, typename BucketContainer, bool IsSegmented &gt;::at</references>
-        <references refid="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" compoundref="_session__mac_8cpp" startline="573" endline="625">getExceptionName</references>
+        <references refid="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" compoundref="_session__mac_8cpp" startline="576" endline="628">getExceptionName</references>
         <references refid="classjuce_1_1String_1a949625c3152cfe177035772a5ff08559">juce::String::toHexString</references>
-        <referencedby refid="class_whatdbg_1a2d7768523d99418a0704d2158b96035e" compoundref="_whatdbg_8cpp" startline="210" endline="226">Whatdbg::drainExceptionStopped</referencedby>
-        <referencedby refid="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" compoundref="_session__mac_8cpp" startline="573" endline="625">getExceptionName</referencedby>
-        <referencedby refid="class_whatdbg_1a027eb51c11af08478feea846deae2932" compoundref="_whatdbg_8cpp" startline="692" endline="704">Whatdbg::onExceptionInfo</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="158" endline="178">debug::StopManager::drainExceptionStopped</referencedby>
+        <referencedby refid="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" compoundref="_session__mac_8cpp" startline="576" endline="628">getExceptionName</referencedby>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="627" endline="645">Processor::onExceptionInfo</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1aae344277204d1f68ff0786c669a43957" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
@@ -948,27 +988,40 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="637" column="21" bodyfile="debug/Session_mac.cpp" bodystart="637" bodyend="651"/>
-        <references refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="637" endline="651">getDisplayValue</references>
+        <location file="debug/Session_mac.cpp" line="640" column="21" bodyfile="debug/Session_mac.cpp" bodystart="640" bodyend="654"/>
+        <references refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="640" endline="654">getDisplayValue</references>
         <references refid="classjuce_1_1String_1af5084463343819f82187154ccb62ea3a">juce::String::isNotEmpty</references>
         <references refid="namespacedebug_1a427707e424eb066a294bab023d93796f" compoundref="_session_pretty_print__mac_8cpp" startline="89" endline="103">prettyPrint</references>
-        <referencedby refid="classdebug_1_1_session_1a15f2549ebb9c9ea74349ba4ae7a46c6a" compoundref="_session__mac_8cpp" startline="769" endline="791">debug::Session::evaluateExpression</referencedby>
-        <referencedby refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="637" endline="651">getDisplayValue</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a5fd39394862e89e52ae8831b85d7d199" compoundref="_session__mac_8cpp" startline="653" endline="674">debug::Session::getVariableObject</referencedby>
+        <referencedby refid="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" compoundref="_session__mac_8cpp" startline="657" endline="664">applyToVariable</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a15f2549ebb9c9ea74349ba4ae7a46c6a" compoundref="_session__mac_8cpp" startline="752" endline="774">debug::Session::evaluateExpression</referencedby>
+        <referencedby refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="640" endline="654">getDisplayValue</referencedby>
       </memberdef>
-      <memberdef kind="function" id="namespacedebug_1adf79f77d9230851cb3c77e3980ca0508" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref></type>
-        <definition>static juce::var debug::getStackFrame</definition>
-        <argsstring>(lldb::SBFrame frame, int frameId) noexcept</argsstring>
-        <name>getStackFrame</name>
-        <qualifiedname>debug::getStackFrame</qualifiedname>
+      <memberdef kind="function" id="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Function</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void debug::applyToVariable</definition>
+        <argsstring>(lldb::SBValue &amp;value, const juce::String &amp;name, int symbolIndex, const Function &amp;function) noexcept</argsstring>
+        <name>applyToVariable</name>
+        <qualifiedname>debug::applyToVariable</qualifiedname>
         <param>
-          <type>lldb::SBFrame</type>
-          <declname>frame</declname>
+          <type>lldb::SBValue &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>name</declname>
         </param>
         <param>
           <type>int</type>
-          <declname>frameId</declname>
+          <declname>symbolIndex</declname>
+        </param>
+        <param>
+          <type>const Function &amp;</type>
+          <declname>function</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -976,11 +1029,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="676" column="18" bodyfile="debug/Session_mac.cpp" bodystart="676" bodyend="703"/>
-        <references refid="namespacedebug_1adf79f77d9230851cb3c77e3980ca0508" compoundref="_session__mac_8cpp" startline="676" endline="703">getStackFrame</references>
-        <references refid="classjuce_1_1String_1af5084463343819f82187154ccb62ea3a">juce::String::isNotEmpty</references>
-        <referencedby refid="namespacedebug_1adf79f77d9230851cb3c77e3980ca0508" compoundref="_session__mac_8cpp" startline="676" endline="703">getStackFrame</referencedby>
-        <referencedby refid="classdebug_1_1_session_1ad0ca1cb764126a3beada881324c58ef8" compoundref="_session__mac_8cpp" startline="705" endline="718">debug::Session::getStackTrace</referencedby>
+        <location file="debug/Session_mac.cpp" line="657" column="13" bodyfile="debug/Session_mac.cpp" bodystart="657" bodyend="664"/>
+        <references refid="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" compoundref="_session__mac_8cpp" startline="657" endline="664">applyToVariable</references>
+        <references refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="640" endline="654">getDisplayValue</references>
+        <references refid="classjuce_1_1String_1a1f0c785b3834720c20a115ff82f138de">juce::String::isEmpty</references>
+        <referencedby refid="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" compoundref="_session__mac_8cpp" startline="711" endline="726">debug::Session::applyToLocals</referencedby>
+        <referencedby refid="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" compoundref="_session__mac_8cpp" startline="657" endline="664">applyToVariable</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a44d91c600d53774ef810614e1f663f15" compoundref="_session__mac_8cpp" startline="728" endline="750">debug::Session::applyToVariableChildren</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1a443505e3302297a42af6a43992f0fe09" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>

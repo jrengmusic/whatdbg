@@ -2,9 +2,13 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
   <compounddef id="dir_8afbc8eca31bdebae5ebda6a92b18cc7" kind="dir">
     <compoundname>dap</compoundname>
+    <innerfile refid="_f_i_f_o_8h">FIFO.h</innerfile>
     <innerfile refid="_reader_8cpp">Reader.cpp</innerfile>
     <innerfile refid="_reader_8h">Reader.h</innerfile>
+    <innerfile refid="_types_8cpp">Types.cpp</innerfile>
     <innerfile refid="_types_8h">Types.h</innerfile>
+    <innerfile refid="_writer_8cpp">Writer.cpp</innerfile>
+    <innerfile refid="_writer_8h">Writer.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

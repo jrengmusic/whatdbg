@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_identifiers_8h" kind="file" language="C++">
+    <compoundname>Identifiers.h</compoundname>
+    <includedby refid="_generated_8h" local="yes">generated/Generated.h</includedby>
+    <invincdepgraph>
+      <node id="3">
+        <label>Main.cpp</label>
+        <link refid="_main_8cpp"/>
+      </node>
+      <node id="14">
+        <label>Processor.cpp</label>
+        <link refid="_processor_8cpp"/>
+      </node>
+      <node id="13">
+        <label>Processor.h</label>
+        <link refid="_processor_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>WHATDBGModel.cpp</label>
+        <link refid="_w_h_a_t_d_b_g_model_8cpp"/>
+      </node>
+      <node id="4">
+        <label>WHATDBGModel.h</label>
+        <link refid="_w_h_a_t_d_b_g_model_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Whatdbg.cpp</label>
+        <link refid="_whatdbg_8cpp"/>
+      </node>
+      <node id="5">
+        <label>Whatdbg.h</label>
+        <link refid="_whatdbg_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>dap/Types.cpp</label>
+        <link refid="_types_8cpp"/>
+      </node>
+      <node id="25">
+        <label>dap/Types.h</label>
+        <link refid="_types_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>debug/BreakpointManager.cpp</label>
+        <link refid="_breakpoint_manager_8cpp"/>
+      </node>
+      <node id="15">
+        <label>debug/BreakpointManager.h</label>
+        <link refid="_breakpoint_manager_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>debug/Callbacks.cpp</label>
+        <link refid="_callbacks_8cpp"/>
+      </node>
+      <node id="11">
+        <label>debug/Callbacks.h</label>
+        <link refid="_callbacks_8h"/>
+      </node>
+      <node id="19">
+        <label>debug/Session.cpp</label>
+        <link refid="_session_8cpp"/>
+      </node>
+      <node id="12">
+        <label>debug/Session.h</label>
+        <link refid="_session_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>debug/SessionPrettyPrint.cpp</label>
+        <link refid="_session_pretty_print_8cpp"/>
+      </node>
+      <node id="21">
+        <label>debug/SessionPrettyPrint_mac.cpp</label>
+        <link refid="_session_pretty_print__mac_8cpp"/>
+      </node>
+      <node id="22">
+        <label>debug/Session_mac.cpp</label>
+        <link refid="_session__mac_8cpp"/>
+      </node>
+      <node id="8">
+        <label>debug/State.h</label>
+        <link refid="_state_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>debug/StopManager.cpp</label>
+        <link refid="_stop_manager_8cpp"/>
+      </node>
+      <node id="17">
+        <label>debug/StopManager.h</label>
+        <link refid="_stop_manager_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>debug/VariableManager.cpp</label>
+        <link refid="_variable_manager_8cpp"/>
+      </node>
+      <node id="23">
+        <label>debug/VariableManager.h</label>
+        <link refid="_variable_manager_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>generated/Generated.cpp</label>
+        <link refid="_generated_8cpp"/>
+      </node>
+      <node id="2">
+        <label>generated/Generated.h</label>
+        <link refid="_generated_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>generated/Identifiers.h</label>
+        <link refid="_identifiers_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespaceId">Id</innernamespace>
+    <briefdescription>
+<para>whatdbg vocabulary. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*******************************************************************************</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Codegen<sp/>Annotated<sp/>Source<sp/>of<sp/>Truth</highlight></codeline>
+<codeline lineno="3"><highlight class="comment">————————————————————————————————————————————————————————————————————————————————</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"></highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████████████░░████████████░░████████████░░████████████</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████<sp/><sp/>░░████░░████<sp/><sp/>░░████░░████<sp/><sp/>░░████<sp/><sp/><sp/><sp/>░░████</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████<sp/><sp/>░░████░░████<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████████████░░████████████<sp/><sp/><sp/><sp/>░░████</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████<sp/><sp/>░░████<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████<sp/><sp/><sp/><sp/>░░████</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████<sp/><sp/>░░████░░████<sp/><sp/>░░████░░████<sp/><sp/>░░████<sp/><sp/><sp/><sp/>░░████</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████████████░░████<sp/><sp/>░░████░░████████████<sp/><sp/><sp/><sp/>░░████</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"></highlight></codeline>
+<codeline lineno="13"><highlight class="comment">————————————————————————————————————————————————————————————————————————————————</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>YOUR<sp/>EYES<sp/>ONLY,<sp/>DO<sp/>NOT<sp/>EDIT</highlight></codeline>
+<codeline lineno="15"><highlight class="comment">********************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceId" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id</ref></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">/*_____________________________________________________________________________*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ae1bef48aa181015cc6694a397c942583" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">adapterExitCode</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1af71142e632e3505ac92972d11ebb3ca5" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">allThreadsContinued</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a97fc0e281a26b7bd0b33f00ba7f88286" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">allThreadsStopped</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a2333fa49126557436eb1441faf72fd4f" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">arguments</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ad5687fa0dd037d3911f0048c85b8f830" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">attach</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ad9caf9316ea81f862c79ba6edcf10188" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">breakMode</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1af9dbaff7db603045adf88ac0306e8720" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">breakpoint</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a03ba296bdc142edf0768af486bac4037" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">breakpointEngineId</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a66e966819d6d2cf2066dd4abe20010d1" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">breakpointLocationFound</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a2909d28e5e49414abd10c6da17e0ab78" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">breakpoints</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ad19f6a6a53952f2bacc843fbe7fa6252" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">category</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a1857d223be40f2fc4ee200b4a9fae742" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">changed</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1af2239fe8341ea76506105b6ce8f3b749" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">column</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1aaaa98dc4a338c9bfd2924bfee62ba46b" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">configurationDone</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1adea1a2ab6acf45850b174d29a4f50ed2" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">console</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ae2438ab1ad2671a70cc66946307484d1" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">continueCommand</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a3994698584e63be0a9cb7f7c7573401c" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">disconnect</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a3280247fd5138f5942e66698c30d7cf8" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">evaluate</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a7d17b52a35c76be4fb253d49def99a67" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">exception</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1abbfc9c9f4f106c68b6cc7eab8d95d4b4" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">exceptionAddress</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1aef15ba1881dec10e5d27afad18e46b66" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">exceptionCode</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1acf9673d92baff2b728066decb3d1a745" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">exceptionId</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a82dba3f14030b0bb57f3e46150805bf8" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">exceptionInfo</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a5920e903fac6fac03732e509917fc501" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">executionState</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a60a61720df0f1bb8dd41cf9f90690705" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">exitCode</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a893f1bea9b355beec320cbadcf9ca349" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">exited</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ab74bced1be093ee0caf8a2a66e734bf0" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">expensive</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a6d4017aae5c6716f43f5556367b3b4b9" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">expression</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a48418e64354437ec9581f2da43c55b55" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">frameId</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a8016a13207fb35c95eb5852f26d98743" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">hitBreakpointIds</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a968b064271ba4315dde3cdf9edc7b1ae" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">initialBreak</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a8aeb3c62a45996c5a9c9000c8e6f6f65" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">initialize</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a961dae6c3dba18c99afb722307c19c2e" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">initialized</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a1686b1851bf4fefef4b5613b05c0c8d3" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">isConfigurationDone</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a7829a3d7043d046e95be43aa739fcb75" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">isLocalProcess</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1aecf9e31ac41ecd0c122665be6dad624d" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">isMachException</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1acaa5ed87630554a54472e27567897c48" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">isPausePending</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ad5a972b9551c4ba5c5c15a733ec48d69" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">isRunning</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a1397f7ce0b093aa7091d5057a28bfe83" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">isStepPending</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ad12cc0b46dca2c038ee89e8f594b103f" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">launch</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a719fad8486076145f474dc8590e0612f" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">moduleLoad</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a21bf10b66e1c2310e13de15732b06f08" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">next</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a9f27da94bef79dc7fdd99088951c5d07" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">nextSequenceNumber</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1abd823c98b322d39f2bd65d34d8be1513" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">numMessages</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a3c8da0c68c021ababf62dc69bef9488a" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">output</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ad5cee4e44dc5ca86661799ba8754dd1e" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">pause</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a4778dd29d53d85279bd3353399326859" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">pid</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ad2bcc22baaf85ffd3071dd02cbb33bd8" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">prepare</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1af70caa33d97ae32bb25fbe40b32f44b8" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">process</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ab94e01b9b77bf89619c249d7dae6d924" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">processExitCode</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a5baed0fe1803e5b8026fa72220c75425" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">program</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a9b4ec5e66274c360356c8239b90e81a1" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">reason</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1af66536793828f41bc0211ef4dc71753b" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">releaseResources</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1af4e71980bee2a5365b2626999eb5bf71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">request</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a5c863dd1e25e392e3170e8ef2468688c" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">requestSeq</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a027a3e8fffcb394673c7894068573660" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">response</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a4d0c202389586ef61d84b669241a4739" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">result</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a000989b688b65316ee03a14c6fec2ef6" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">running</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a1d05f2637283005e4b2c47b82ebe3e40" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">scopes</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1abdf0cd1b922dc9e184b37465a4c92e9c" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">seq</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a855da654f9346359488f6a869d2553b8" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">session</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a30ce1803fbba1b42c89b803bde5eed93" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">setBreakpoints</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a866863bd05f02eeabe7e4f66b277a6c3" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">shouldTerminateOnExit</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a0373df11a0741f497b13b791d42c06e9" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">source</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ace959dd522e166e9cbd911cd7bbe9856" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">stackFrames</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1afd40a86bfb2e61ba56c0c365d1ee7fd3" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">stackTrace</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a7c7348e9f7d639ded9f3bf11241d4bd9" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">standardError</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a2c09e26146778d522a60a2dbfc3520b9" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">standardOutput</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a74c9ddf20cf7940d0ec6bb672d75288d" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">started</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a311af3bbc4a090e4559c3ae6bd0e9325" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">startMethod</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ab239644d07a545177fb75aaa618ee23f" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">step</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1aa4db6d6276fff66f56f45e0fd529ed69" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">stepIn</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a5717203d0353dedf2adbff82425768d3" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">stepOut</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a424c0eeb2bdbe8f028b0daaa017604f0" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">stopped</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">stopReason</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1afd9551a6c98ce5a1f9179ec52657af6b" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">success</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1aa5dae72a45efd2ae14703e43a219e4e4" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsBreakpointLocationsRequest</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a4c0a81356361f2e980db8dd43f9bcded" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsCancelRequest</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1afa6eda7d3bbb3dcca14ef2c02949d5ef" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsClipboardContext</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a14f6bb9bc077d1da0177225710262d27" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsCompletionsRequest</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a010446bdf8cedb0863ae1da3ea4e470f" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsConditionalBreakpoints</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a7ebbf479c9f42e50c9754b189857ed76" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsConfigurationDoneRequest</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a9b1901b34c14f2cba0ff5968ab0c1524" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsDataBreakpoints</ref>;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a4a98348a9d8f70cd30830f5eec40995a" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsDelayedStackTraceLoading</ref>;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a6f8025ac20b0a086fe2c5c5d1a1ba2e2" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsDisassembleRequest</ref>;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a6ea17ec232227e0f9176823839b1d8e0" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsEvaluateForHovers</ref>;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a4bdcb50de748035a0015096b0f40658c" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsExceptionFilterOptions</ref>;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1aca79713955eb7ff806318783265fdd9e" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsExceptionInfoRequest</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a3a3f7e7362a1b9ce2328a6fad2970916" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsExceptionOptions</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1abea679aad4c96f96cd29086a7fc1e61c" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsFunctionBreakpoints</ref>;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a24a01dd64c8be21c687be36f1464d23f" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsGotoTargetsRequest</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a506e7e6afad1109edfd882b514e6f336" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsHitConditionalBreakpoints</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a3f508e2859ebfa4dea1f92b2f6b6eedc" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsInstructionBreakpoints</ref>;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1aedd5f2be168f4b5664e7cb2fa4f05934" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsLoadedSourcesRequest</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a9c48b94665d616c340493586500f95e2" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsLogPoints</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1af88f33a6de8a626f058d3c774072cd39" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsModulesRequest</ref>;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a380e78313fb38dc27125a8508a6eb4f7" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsReadMemoryRequest</ref>;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1abb5272c966dab7c5d8326db8fb125ed7" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsRestartFrame</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a701d0452e7f7c6fea291dd3860fcba5b" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsSetExpression</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a51a5d63890fc15d6de2f6ac5d8cd3d60" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsSetVariable</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a0bf4ad83e66e63e755d01d93f9ec5254" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsStepBack</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ab191f850384ada1cb292828cfe003d52" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsStepInTargetsRequest</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a31b91cd8f19a4b1a46ca791f60f5e1da" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsSteppingGranularity</ref>;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ac0fada849e672289dfd55df1d6a6c25b" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsTerminateRequest</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a11fd484a7e9ec74c23e249d9b1a1e339" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsTerminateThreadsRequest</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ad7f75d4b07e47e4197cea6f4c69078c6" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportsValueFormattingOptions</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a69fdba943abf810e2df6c39ddfcdd5a6" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">supportTerminateDebuggee</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ad2c88d15d874c946c2ae101f40a16c85" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">systemProcessId</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a34ff3c25c6e302ff4a5b0a5f9b0488a7" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">targetProcessId</ref>;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a454bb8e74650aeb46ac3d629bc2862f8" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">terminate</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a6614882ca10248277742cfdf5747023b" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">terminated</ref>;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a6deeca27da77c1f9dbf5b72db990b6fc" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">terminateDeadlineMs</ref>;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a07077957215e349556ebcf1e824fc5e7" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">terminateDebuggee</ref>;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a28eba176baf8ffc44d4cdfb23b5c1786" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">thread</ref>;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a340842661a4b1de835c5c21978bdb2c7" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">threadId</ref>;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1ab9bcb45065cb87d579cfa238601236e1" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">threads</ref>;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a888dd716dbee4d564dc310c2970e580d" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">totalFrames</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1adf5dbac1af2d2106aa7a7792f5e24416" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">unhandled</ref>;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a289a38ab68c9df3bb102a57709e59862" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">variables</ref>;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a8a41d6fdac2a7bef4aa8f00d16c2c307" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">variablesReference</ref>;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a7fa0c881c6a81271d5354c60266306eb" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">verified</ref>;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::Identifier<sp/><ref refid="namespaceId_1a6c6d3fe49b0ce0820fba5dbfef1e67f7" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">whatdbg</ref>;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight><highlight class="comment">//<sp/>namespace<sp/>Id</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="generated/Identifiers.h"/>
+  </compounddef>
+</doxygen>

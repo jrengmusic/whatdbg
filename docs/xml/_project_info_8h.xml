@@ -2,6 +2,195 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
   <compounddef id="_project_info_8h" kind="file" language="C++">
     <compoundname>ProjectInfo.h</compoundname>
+    <includedby refid="_generated_8h" local="yes">generated/Generated.h</includedby>
+    <invincdepgraph>
+      <node id="3">
+        <label>Main.cpp</label>
+        <link refid="_main_8cpp"/>
+      </node>
+      <node id="14">
+        <label>Processor.cpp</label>
+        <link refid="_processor_8cpp"/>
+      </node>
+      <node id="13">
+        <label>Processor.h</label>
+        <link refid="_processor_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>WHATDBGModel.cpp</label>
+        <link refid="_w_h_a_t_d_b_g_model_8cpp"/>
+      </node>
+      <node id="4">
+        <label>WHATDBGModel.h</label>
+        <link refid="_w_h_a_t_d_b_g_model_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Whatdbg.cpp</label>
+        <link refid="_whatdbg_8cpp"/>
+      </node>
+      <node id="5">
+        <label>Whatdbg.h</label>
+        <link refid="_whatdbg_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>dap/Types.cpp</label>
+        <link refid="_types_8cpp"/>
+      </node>
+      <node id="25">
+        <label>dap/Types.h</label>
+        <link refid="_types_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>debug/BreakpointManager.cpp</label>
+        <link refid="_breakpoint_manager_8cpp"/>
+      </node>
+      <node id="15">
+        <label>debug/BreakpointManager.h</label>
+        <link refid="_breakpoint_manager_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>debug/Callbacks.cpp</label>
+        <link refid="_callbacks_8cpp"/>
+      </node>
+      <node id="11">
+        <label>debug/Callbacks.h</label>
+        <link refid="_callbacks_8h"/>
+      </node>
+      <node id="19">
+        <label>debug/Session.cpp</label>
+        <link refid="_session_8cpp"/>
+      </node>
+      <node id="12">
+        <label>debug/Session.h</label>
+        <link refid="_session_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>debug/SessionPrettyPrint.cpp</label>
+        <link refid="_session_pretty_print_8cpp"/>
+      </node>
+      <node id="21">
+        <label>debug/SessionPrettyPrint_mac.cpp</label>
+        <link refid="_session_pretty_print__mac_8cpp"/>
+      </node>
+      <node id="22">
+        <label>debug/Session_mac.cpp</label>
+        <link refid="_session__mac_8cpp"/>
+      </node>
+      <node id="8">
+        <label>debug/State.h</label>
+        <link refid="_state_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>debug/StopManager.cpp</label>
+        <link refid="_stop_manager_8cpp"/>
+      </node>
+      <node id="17">
+        <label>debug/StopManager.h</label>
+        <link refid="_stop_manager_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>debug/VariableManager.cpp</label>
+        <link refid="_variable_manager_8cpp"/>
+      </node>
+      <node id="23">
+        <label>debug/VariableManager.h</label>
+        <link refid="_variable_manager_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>generated/Generated.cpp</label>
+        <link refid="_generated_8cpp"/>
+      </node>
+      <node id="2">
+        <label>generated/Generated.h</label>
+        <link refid="_generated_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>generated/ProjectInfo.h</label>
+        <link refid="_project_info_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
     <innernamespace refid="namespace_project_info">ProjectInfo</innernamespace>
     <briefdescription>
 <para>Project metadata — the <ref refid="namespace_project_info" kindref="compound">ProjectInfo</ref> namespace, generated. </para>
@@ -36,8 +225,8 @@
 <codeline lineno="34" refid="namespace_project_info_1a50f49d766351ea9313f67b3f30aa014d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_project_info_1a50f49d766351ea9313f67b3f30aa014d" kindref="member">projectName</ref><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;whatdbg&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="35" refid="namespace_project_info_1a9b435df60395ecec1378ecbaba7ccb75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_project_info_1a9b435df60395ecec1378ecbaba7ccb75" kindref="member">companyName</ref><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;JRENG&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="36" refid="namespace_project_info_1a75557edf46fa8becc81d2bff04c4c24b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_project_info_1a75557edf46fa8becc81d2bff04c4c24b" kindref="member">legalCompanyName</ref><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;Jubilant<sp/>Research<sp/>of<sp/>Eclectic<sp/>Novelty<sp/>Generation&quot;</highlight><highlight class="normal"><sp/>};</highlight></codeline>
-<codeline lineno="37" refid="namespace_project_info_1a7e092322572cc0554d2ee7e6963b22fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_project_info_1a7e092322572cc0554d2ee7e6963b22fe" kindref="member">versionString</ref><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;0.1.0&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="38" refid="namespace_project_info_1a3dfad1d1308874f47f13297fa6e93c49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_project_info_1a3dfad1d1308874f47f13297fa6e93c49" kindref="member">versionNumber</ref><sp/><sp/><sp/><sp/>{<sp/>0x100<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="37" refid="namespace_project_info_1a7e092322572cc0554d2ee7e6963b22fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_project_info_1a7e092322572cc0554d2ee7e6963b22fe" kindref="member">versionString</ref><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;0.0.1&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="38" refid="namespace_project_info_1a3dfad1d1308874f47f13297fa6e93c49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_project_info_1a3dfad1d1308874f47f13297fa6e93c49" kindref="member">versionNumber</ref><sp/><sp/><sp/><sp/>{<sp/>0x1<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="39" refid="namespace_project_info_1a53f184d022499b38a6958b0ea2e88ab9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_project_info_1a53f184d022499b38a6958b0ea2e88ab9" kindref="member">productWebsite</ref><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;https://jrengmusic.com&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="40" refid="namespace_project_info_1a9f61dfba4aab183c0a33c730776e3227" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_project_info_1a9f61dfba4aab183c0a33c730776e3227" kindref="member">companyEmail</ref><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;info@jrengmusic.com&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="41"><highlight class="normal"></highlight></codeline>

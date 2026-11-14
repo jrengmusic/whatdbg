@@ -32,5 +32,5 @@
     <choice id="com.jrengmusic.whatdbg" title="whatdbg" start_selected="true">
         <pkg-ref id="com.jrengmusic.whatdbg"/>
     </choice>
-    <pkg-ref id="com.jrengmusic.whatdbg" version="0.1.0" onConclusion="none">whatdbg.pkg</pkg-ref>
+    <pkg-ref id="com.jrengmusic.whatdbg" version="0.0.1" onConclusion="none">whatdbg.pkg</pkg-ref>
 </installer-gui-script>

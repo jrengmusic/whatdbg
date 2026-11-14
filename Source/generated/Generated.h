@@ -18,3 +18,4 @@
 
 #include "ProjectInfo.h" ///< Product name, version, and source commit.
 #include "Identifiers.h" ///< Every Id:: name.
+#include "Files.h" ///< File names whatdbg reads.

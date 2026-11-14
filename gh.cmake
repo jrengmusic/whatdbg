@@ -14,7 +14,7 @@
                          FOR YOUR EYES ONLY, DO NOT EDIT
 ******************************************************************************]]
 
-set(CAST_RELEASE_VERSION "0.1.0")
+set(CAST_RELEASE_VERSION "0.0.1")
 set(CAST_RELEASE_TAG "v${CAST_RELEASE_VERSION}")
 
 if(APPLE)

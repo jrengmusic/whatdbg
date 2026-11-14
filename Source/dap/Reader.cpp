@@ -1,9 +1,9 @@
 /** @file Reader.cpp
- *  @brief DAP stdin reader — background thread parsing Content-Length-framed JSON.
+ *  @brief DAP stdin reader: background thread that parses Content-Length-framed JSON.
  *
  *  Runs a dedicated thread that reads DAP messages from stdin following the
  *  Debug Adapter Protocol wire format (Content-Length header + JSON body).
- *  Parsed messages are queued into a thread-safe FIFO consumed by the main thread.
+ *  Each parsed message goes to onMessage on the reader thread.
  */
 #include <JuceHeader.h>
 #include "Reader.h"
@@ -19,7 +19,6 @@ namespace dap
 Reader::Reader ()
     : juce::Thread { "dap::Reader" }
 {
-    storage.resize (fifoCapacity);
 }
 
 Reader::~Reader ()
@@ -41,17 +40,6 @@ void Reader::stop ()
     signalThreadShouldExit ();
     std::fclose (stdin);
     stopThread (2000);
-}
-
-std::optional<jam::JsonDocument> Reader::tryPop () noexcept
-{
-    std::optional<jam::JsonDocument> message;
-    const auto scope { fifo.read (1) };
-
-    if (scope.blockSize1 > 0)
-        message.emplace (std::move (storage.at (static_cast<size_t> (scope.startIndex1))));
-
-    return message;
 }
 
 int Reader::readContentLength ()
@@ -92,34 +80,9 @@ std::unique_ptr<jam::JsonDocument> Reader::readMessage (int contentLength)
     std::cin.read (body.data (), contentLength);
 
     if (std::cin)
-        return jam::JsonDocument::parse (std::string_view (body));
+        return jam::JsonDocument::parse (std::move (body));
 
     return nullptr;
-}
-
-void Reader::addMessage (jam::JsonDocument&& message)
-{
-#if JUCE_DEBUG
-    const auto& request { *message.getRoot ()->firstChild };
-    const auto messageType { jam::Strings::fromView (message.getString (*message.find (request, jam::Strings::getView (Id::type.toString ())))) };
-    const auto messageCommand { jam::Strings::fromView (message.getString (*message.find (request, jam::Strings::getView (Id::command.toString ())))) };
-    jam::debug::Log::write ("[dap::Reader] parsed: type=" + messageType + " command=" + messageCommand);
-#endif
-    const auto scope { fifo.write (1) };
-
-    if (scope.blockSize1 > 0)
-    {
-        storage.at (static_cast<size_t> (scope.startIndex1)) = std::move (message);
-#if JUCE_DEBUG
-        jam::debug::Log::write ("[dap::Reader] queued message");
-#endif
-    }
-    else
-    {
-#if JUCE_DEBUG
-        jam::debug::Log::write ("[dap::Reader] DROPPED (FIFO full): command=" + messageCommand);
-#endif
-    }
 }
 
 void Reader::run ()
@@ -140,7 +103,7 @@ void Reader::run ()
             }
             else if (message != nullptr)
             {
-                addMessage (std::move (*message));
+                onMessage (std::move (*message));
             }
         }
         else

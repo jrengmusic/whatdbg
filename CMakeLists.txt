@@ -46,7 +46,7 @@ elseif(WIN32)
 endif()
 
 project(whatdbg
-    VERSION "0.1.0"
+    VERSION "0.0.1"
     LANGUAGES C CXX
     DESCRIPTION "DAP adapter for Windows DbgEng / macOS liblldb"
 )
@@ -223,13 +223,26 @@ endif()
 
 message(STATUS "CAST: JUCE ${CAST_FOUND_JUCE_VERSION} patched at ${CAST_JUCE_PATH}")
 
-juce_add_module("${CMAKE_CURRENT_SOURCE_DIR}/../jam/jam_core")# JAM Core
+juce_add_module("${CMAKE_CURRENT_SOURCE_DIR}/../jam/jam_core")             # JAM Core
+juce_add_module("${CMAKE_CURRENT_SOURCE_DIR}/../jam/jam_document")         # Universal line break and reflow (UAX #14)
+juce_add_module("${CMAKE_CURRENT_SOURCE_DIR}/../jam/jam_markdown")         # Clean-room native CommonMark + GFM markdown parsing and rendering
+juce_add_module("${CMAKE_CURRENT_SOURCE_DIR}/../jam/jam_freetype")         # Vendored FreeType font rasterization library
+juce_add_module("${CMAKE_CURRENT_SOURCE_DIR}/../jam/jam_graphics")         # Graphics utilities, blur, shadows, colours, fonts, mesh
+juce_add_module("${CMAKE_CURRENT_SOURCE_DIR}/../jam/jam_data_structures")  # ValueTree management and data model utilities — model, parameters
+juce_add_module("${CMAKE_CURRENT_SOURCE_DIR}/../jam/jam_animation")        # Foundation animation classes (Animator, AnimationBase, AnimationScrollingText)
+juce_add_module("${CMAKE_CURRENT_SOURCE_DIR}/../jam/jam_web")              # HTML authored-subset and CSS Syntax Level 3 subset tokenizers and parsers
+juce_add_module("${CMAKE_CURRENT_SOURCE_DIR}/../jam/jam_style")            # JAM Style — LookAndFeel base + ColourScheme-backed colour registry
+juce_add_module("${CMAKE_CURRENT_SOURCE_DIR}/../jam/jam_gui")              # GUI foundation — Window, Modal, Glass
+juce_add_module("${CMAKE_CURRENT_SOURCE_DIR}/../jam/jam_mermaid_diagram")  # Clean-room native mermaid diagram parsing over jam::Document producing the semantic Element tree
+juce_add_module("${CMAKE_CURRENT_SOURCE_DIR}/../jam/jam_markdown_graphics")# Markdown and mermaid materialisation, layout and view component
+juce_add_module("${CMAKE_CURRENT_SOURCE_DIR}/../jam/jam_terminal")         # VT read-side engine, TTY, protocol vocabulary, keyboard encoding
+juce_add_module("${CMAKE_CURRENT_SOURCE_DIR}/../jam/jam_tui")              # Terminal user interface components, painted through the terminal graphics context
 
 message(STATUS "CAST: user modules added from ${CMAKE_CURRENT_SOURCE_DIR}/../jam")
 
 juce_add_console_app(${PROJECT_NAME}
     PRODUCT_NAME "whatdbg"
-    VERSION "0.1.0"
+    VERSION "0.0.1"
     BUILD_VERSION "0.1.0"
     BUNDLE_ID "com.jrengmusic.whatdbg"
     COMPANY_NAME "JRENG"
@@ -277,12 +290,32 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 ${CMAKE_CURRENT_SOURCE_DIR}/../jam
 ${CMAKE_CURRENT_SOURCE_DIR}/Source/generated
 "${CMAKE_SOURCE_DIR}/Resources/macos/include"
+"${CAST_USER_MODULE_PATH}/jam_freetype/freetype/include"
+"${CAST_JUCE_PATH}/modules/juce_graphics/fonts/harfbuzz"
 )
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
 juce_core
+juce_data_structures
+juce_events
+juce_graphics
+juce_gui_basics
+juce_audio_processors
 jam_core
+jam_document
+jam_markdown
+jam_freetype
+jam_graphics
+jam_data_structures
+jam_animation
+jam_web
+jam_style
+jam_gui
+jam_mermaid_diagram
+jam_markdown_graphics
+jam_terminal
+jam_tui
 "$<$<PLATFORM_ID:Darwin>:${CMAKE_SOURCE_DIR}/Resources/macos/${CMAKE_OSX_ARCHITECTURES}/liblldb.dylib>"
 "$<$<PLATFORM_ID:Windows>:ole32>"
 "$<$<PLATFORM_ID:Windows>:oleaut32>"
@@ -318,6 +351,8 @@ file(GLOB CAST_BINARY_FILES CONFIGURE_DEPENDS
 "Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbghelp.dll"
 "Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbgcore.dll"
 "Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/symsrv.dll"
+Source/HELP.md
+../jam/jam_tui/page/style.css
 )
 
 juce_add_binary_data(${PROJECT_NAME}_BinaryData

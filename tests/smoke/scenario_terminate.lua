@@ -1,4 +1,3 @@
-local DapClient = require ("dap_client")
 local Report = require ("report")
 local ScenarioRunner = require ("scenario_runner")
 local BreakpointScenarios = require ("scenario_breakpoint")
@@ -27,8 +26,7 @@ end
 local function scenarioTerminateNoZombie (binaryPath, fixturePath, fixtureSourcePath, breakpointLine)
     local report = Report.new ("09_terminate_no_zombie")
 
-    return ScenarioRunner.runScenario (report, function ()
-        local client = DapClient.spawn (binaryPath, {})
+    return ScenarioRunner.runScenario (report, binaryPath, function (client)
         BreakpointScenarios.runToStoppedBreakpoint (client, report, { program = fixturePath }, fixtureSourcePath, breakpointLine)
 
         local debuggeePid = findDebuggeePid (fixturePath)
@@ -56,8 +54,6 @@ local function scenarioTerminateNoZombie (binaryPath, fixturePath, fixtureSource
         local zombieCountAfter = countZombies (client.process.pid)
         report:info ("zombie count after terminate: " .. tostring (zombieCountAfter))
         report:check ("zombie count did not rise (" .. tostring (zombieCountBefore) .. " -> " .. tostring (zombieCountAfter) .. ")", zombieCountAfter <= zombieCountBefore)
-
-        client:close ()
     end)
 end
 

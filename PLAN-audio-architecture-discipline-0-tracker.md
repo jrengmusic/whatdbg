@@ -15,14 +15,14 @@ The current whatdbg is the parity target. The numbered files together are one PL
 
 | Part | Plan | Subject | Status | Depends on |
 |---|---|---|---|---|
-| 0 | this file | Tracker, canon, inventory, decisions | Written. Not locked. | |
-| 1 | `PLAN-audio-architecture-discipline-1-parity.md` | The parity baseline: the behavior tables, the smoke suite extended to them, the baseline sequences and timings | Written. Not locked. | 0 |
-| 2 | `PLAN-audio-architecture-discipline-2-help.md` | The JAM module `jam_tui` and `jam::TerminalPage`. cast, ggwp, scout, and whatdbg print their help through it. The module rows of whatdbg. | Written. Not locked. | 1 |
-| 3 | `PLAN-audio-architecture-discipline-3-foundation.md` | The lexicon (`cast/identifiers.md`), `dap::Types` as one object with one `.cpp`, and `dap::FIFO`, the one lane type | Written. Not locked. | 2 |
-| 4 | `PLAN-audio-architecture-discipline-4-atoms.md` | The atoms, under the old loop: `dap::Writer`, `debug::VariableManager`, `debug::StopManager`, and the event builders in `dap::Types` | Written. Not locked. | 3 |
-| 5 | `PLAN-audio-architecture-discipline-5-events.md` | One `events` table for the engine events of both platforms. The native bodies report. The entries act. | Written. Not locked. | 4 |
-| 6 | `PLAN-audio-architecture-discipline-6-core.md` | `WHATDBGModel`, `Processor` on the engine context, the message loop, `Whatdbg` as main. `debug::State` and the hand-written loop are deleted. | Written. Not locked. | 5 |
-| 7 | `PLAN-audio-architecture-discipline-7-close.md` | The parity proof, the timings against the baseline, and the documents | Written. Not locked. | 6 |
+| 0 | this file | Tracker, canon, inventory, decisions | Locked 2026-11-14 (ARCHITECT: "PLAN locked, ARCHITECT ratifies the number and the policy at the lock"). Decision 8 ratified. | |
+| 1 | `PLAN-audio-architecture-discipline-1-parity.md` | The parity baseline: the behavior tables, the smoke suite extended to them, the baseline sequences and timings | Locked 2026-11-14. macOS done. Windows baseline (Step 6): ARCHITECT. | 0 |
+| 2 | `PLAN-audio-architecture-discipline-2-help.md` | The JAM module `jam_tui` and `jam::TerminalPage`. cast, ggwp, scout, and whatdbg print their help through it. The module rows of whatdbg. | Locked 2026-11-14. macOS done for whatdbg, scout, ggwp, cast (the cast startup crash fixed through the jam `shared-hash-map` shape). Windows: ARCHITECT. | 1 |
+| 3 | `PLAN-audio-architecture-discipline-3-foundation.md` | The lexicon (`cast/identifiers.md`), `dap::Types` as one object with one `.cpp`, and `dap::FIFO`, the one lane type | Locked 2026-11-14. macOS done. Windows: ARCHITECT. | 2 |
+| 4 | `PLAN-audio-architecture-discipline-4-atoms.md` | The atoms, under the old loop: `dap::Writer`, `debug::VariableManager`, `debug::StopManager`, and the event builders in `dap::Types` | Locked 2026-11-14. macOS done. Windows: ARCHITECT. | 3 |
+| 5 | `PLAN-audio-architecture-discipline-5-events.md` | One `events` table for the engine events of both platforms. The native bodies report. The entries act. | Locked 2026-11-14. macOS done. Windows: ARCHITECT. | 4 |
+| 6 | `PLAN-audio-architecture-discipline-6-core.md` | `WHATDBGModel`, `Processor` on the engine context, the message loop, `Whatdbg` as main. `debug::State` and the hand-written loop are deleted. | Locked 2026-11-14. macOS done. `Whatdbg` is a `juce::JUCEApplicationBase` (the message loop needs `JUCEApplicationBase::main` on macOS). Windows: ARCHITECT. | 5 |
+| 7 | `PLAN-audio-architecture-discipline-7-close.md` | The parity proof, the timings against the baseline, and the documents | Locked 2026-11-14. macOS Steps 1-3, 6-8 done. Step 4 (field debugging) and Step 5 (Windows): ARCHITECT. | 6 |
 
 Each numbered part is one sprint. On macOS, each part ends with a build and a full run of the smoke suite, and no part leaves the project in a state that does not build. On Windows, ARCHITECT runs the Windows step of each part, in part order. The Windows step of a part needs the Windows baseline of Part 1 Step 6.
 

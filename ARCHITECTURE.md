@@ -7,9 +7,9 @@
 
 **Status:** Active
 
-**Last Updated:** 2026-09-03
+**Last Updated:** 2026-11-14
 
-**Version:** 0.6.0
+**Version:** 0.7.0
 
 ---
 
@@ -21,16 +21,16 @@ whatdbg is a cross-platform DAP (Debug Adapter Protocol) debug adapter for C/C++
 
 ### Architecture Philosophy
 
-- **JUCE-native:** Leverage JUCE's battle-tested infrastructure. No hand-rolled abstractions, no manual callbacks, no manual threading primitives. Single-liner JUCE utilities over manual implementations.
-- **Two threads, one loop:** Main thread owns everything (COM, State, logic, stdout). Stdin reader thread is a dumb FIFO buffer.
-- **SSOT:** `debug::State` holds all execution state. Main-thread-local data. No cross-thread atomics except the FIFO.
-- **Legacy-proven pattern:** Same architecture as the working legacy adapter, rebuilt with JUCE infrastructure and coding contracts.
+- **JUCE-native:** Leverage JUCE's battle-tested infrastructure. No hand-rolled abstractions, no manual callbacks, no manual threading primitives.
+- **Audio processor shape:** `Whatdbg` is main. It owns the Model, the processor, the writer, and the reader, and it listens on the message thread. `Processor` owns the engine atoms on its own serial context and runs each request and each stop there. The engine context is the hot path; the message thread is the traffic orchestrator.
+- **SSOT:** `WHATDBGModel` (a `jam::Model`) holds every scalar of the session state. The registries live in the atom that owns them (`VariableManager`, `BreakpointManager`).
+- **One-way data flow:** stdin → `dap::Reader` → `requests` lane → engine context → `messages` lane and Model parameters → message thread → stdout.
 
 ### Technology Stack
 
 - **Language:** C++17
-- **Framework:** JUCE (juce_core), jam_core (`jam::Instance`, `jam::Union`, `jam::debug::Log`)
-- **Build System:** `cast` generates `CMakeLists.txt` and `Source/generated/ProjectInfo.h` from `project-info.md`. CMake + Ninja underneath. Do not edit `CMakeLists.txt` by hand.
+- **Framework:** JUCE 8.0.17 (`juce_core`, `juce_data_structures`, `juce_events`, `juce_graphics`, `juce_gui_basics`, `juce_audio_processors`) and JAM (`jam_core`, `jam_document`, `jam_markdown`, `jam_freetype`, `jam_graphics`, `jam_data_structures`, `jam_animation`, `jam_web`, `jam_style`, `jam_gui`, `jam_mermaid_diagram`, `jam_markdown_graphics`, `jam_terminal`, `jam_tui`), as `project-info.md` lists them
+- **Build System:** `cast` generates `CMakeLists.txt` and `Source/generated/*` from `project-info.md` and `cast/*.md`. CMake + Ninja underneath. Do not edit `CMakeLists.txt` or `Source/generated/*` by hand.
 - **Platforms:**
   - Windows: MSVC via vcvarsall
   - macOS: Xcode clang, native architecture (CMake reads `uname -m`; `Resources/macos/` holds an arm64 and an x86_64 sidecar)
@@ -44,51 +44,38 @@ whatdbg is a cross-platform DAP (Debug Adapter Protocol) debug adapter for C/C++
 
 ## Threading Model
 
-### Two Threads
+### Three Threads
 
-```
-[stdin thread] -- read -- parse framing -- push to FIFO
-                                                |
-[Main thread]  -- pop from FIFO -- execute -- WaitForEvent -- write stdout
-```
+| Thread | Owns | Never does |
+|---|---|---|
+| Message thread (the main thread, the JUCE message loop) | `Whatdbg`, `WHATDBGModel`, `dap::Writer`, stdout | an engine call |
+| Engine context (`Processor`, a `jam::AsyncUpdater` context) | `debug::Session`, `debug::BreakpointManager`, `debug::VariableManager`, `debug::StopManager`, the `commands` table | a write to stdout; a touch of the `juce::ValueTree` |
+| Reader thread (`dap::Reader`, a `juce::Thread`) | stdin | anything else, except `Processor::addRequest`, which calls `session.wake ()` and `session.cancel ()` |
 
-**stdin thread (juce::Thread):**
-- Reads stdin (blocking)
-- Parses Content-Length framing
-- Pushes parsed juce::var messages to AbstractFifo
-- No logic, no COM, no state access
+The engine context is the serial context of `jam::AsyncUpdater`: a serial GCD queue on macOS, a thread pool with one thread on Windows (`jam_AsyncUpdater.h:18-21`). Each engine call, `Session::initialize` and `Session::shutdown` included, runs on it. DbgEng: "Clients are specific to the thread that created them. Calls from other threads fail immediately."
 
-**Main thread:**
-- Owns everything: Session, State, BreakpointManager, stdout
-- Main loop (`Whatdbg::run`, `Source/Whatdbg.cpp`):
-  1. Drain FIFO — pop every pending DAP message and dispatch via `onCommand`
-  2. `session.pollEvents (pollTimeoutMs)` — 50 ms timeout, called only while
-     `state.executionState` is `running` or `launching`; skipped entirely while
-     `stopped`, `idle`, or `exited`
-  3. `processDeferredEvents()` — drain flags written by the platform backend
-     (breakpoint hit, step/pause completed, module loaded, output, exception, exit)
-  4. `juce::Thread::sleep (idleSleepMs)` — 10 ms, only while `idle`, so the loop
-     does not spin hot with no target attached
-- All engine calls happen here: dbgeng COM calls (Windows) or liblldb SB API calls
-  (macOS) — both single-threaded, same thread that initialized the backend.
+### The message loop
 
-### FIFO
+`Whatdbg` derives from `juce::JUCEApplicationBase`. `runAdapter` (`Main.cpp`) sets `juce::JUCEApplicationBase::createInstance` and calls `juce::JUCEApplicationBase::main` with the sidecar path as the one parameter. `JUCEApplicationBase::main` creates `NSApp` on macOS (`juce_ApplicationBase.cpp:243`), makes the `ScopedJuceInitialiser_GUI`, creates `Whatdbg`, calls `initialise`, and runs `runDispatchLoop` (`:263-282`). On macOS `runDispatchLoop` is `[NSApp run]` (`juce_MessageManager_mac.mm:323-351`), so a loop with no `NSApp` returns at once. The application object is the only way to start it. `--help` and the macOS re-exec run in `main` before the application.
 
-- `juce::AbstractFifo` — lock-free SPSC index manager
-- `std::vector<juce::var>` — backing storage, pre-sized to capacity (juce::var is non-trivial, needs proper construction — HeapBlock would require manual placement new)
-- 64 slots (generous for DAP burst of 5-6 messages)
-- Only shared data structure between threads
+### The lanes
 
-### Why Two Threads
+`dap::FIFO<MessageType>` (`Source/dap/FIFO.h`) is a `juce::AbstractFifo` with a `std::vector<MessageType>` storage, sized at construction. A write to a full lane asserts and does not write the message; a Release build then drops it with no signal.
 
-stdin is blocking. WaitForEvent is blocking (with timeout). They cannot both block on one thread. The stdin thread isolates the blocking read. Everything else is single-threaded.
+| Lane | Type | Capacity | Writer | Reader |
+|---|---|---|---|---|
+| `requests` | `dap::FIFO<jam::JsonDocument>` | 64 | message thread (`prepare`, `releaseResources`), then the reader thread | engine context (`process`) |
+| `messages` | `dap::FIFO<std::string>` | 4096 | engine context (`addMessage`) | message thread (`applyMessages`) |
+
+The `requests` lane has three writers in sequence, never two at one time: `prepare` writes before `reader.start ()`; then only the reader thread writes; `releaseResources` writes after the reader stopped.
 
 ### Thread Safety Rules
 
-- Main thread owns ALL mutable state. No locks needed except the FIFO.
-- stdin thread ONLY pushes to FIFO. No other shared data access.
-- COM callbacks fire synchronously during WaitForEvent on the main thread.
-- All dbgeng COM calls MUST happen on the main thread (same thread as CoInitializeEx).
+- The engine context makes every engine call. The message thread makes none.
+- The reader thread calls only `Processor::addRequest`. Its two engine calls are `Session::wake` and `Session::cancel`, the engine's own any-thread calls: `SetInterrupt` "can be called at any time and from any thread"; on macOS a broadcast to the listener.
+- `Parameter::store`, `getValue`, and `Model::storeValue` are lock-free on any thread (`jam_Model.h:14`). `flush`, the tree, and the attachments are message-thread only (`jam_Model.h:15-16`).
+- Only `Id::numMessages` and `Id::isRunning` use `setValue`, which reaches the message thread through `jam::Model::ParameterAttachment`. Each other parameter uses `storeValue`.
+- On Windows the COM callbacks fire synchronously inside `WaitForEvent`, on the engine context.
 
 ---
 
@@ -97,108 +84,134 @@ stdin is blocking. WaitForEvent is blocking (with timeout). They cannot both blo
 ### Module Map
 
 ```
-Whatdbg (main loop, owns everything)
+Whatdbg (juce::JUCEApplicationBase; main, message thread)
     |
-    +-- debug::State (SSOT, main-thread-local)
-    +-- debug::Session (debug engine wrapper)
-    |       [Windows]
-    |       Session.cpp              — lifecycle: initialize, launch, attach, resume, shutdown,
-    |                                  stepping, thread control, symbol path, breakpoint API;
-    |                                  variable inspection: getStackTrace, getLocals,
-    |                                  getVariableChildren, evaluateExpression
-    |       SessionPrettyPrint.cpp   — type formatters: prettyPrint, formatSymbolValue,
-    |                                  readTargetString, findChildByName
-    |       [macOS]
-    |       Session_mac.cpp          — lifecycle: initialize, launch, attach, resume, shutdown,
-    |                                  stepping, thread control, breakpoint API (liblldb SB API);
-    |                                  variable inspection: getStackTrace, getLocals,
-    |                                  getVariableChildren, evaluateExpression (SBValue tree)
-    |       SessionPrettyPrint_mac.cpp — type formatters: prettyPrint for juce::String,
-    |                                  unique_ptr, and filtered types (SB API)
-    +-- debug::BreakpointManager (DAP-to-engine BP mapping)
-    +-- debug::Callbacks (COM callbacks, write to State) [Windows only]
-    +-- debug::Loader (sidecar DLL loader) [Windows only]
-    +-- dap::Reader (stdin thread, pushes to FIFO)
-    +-- dap::Types (DAP message builders, DynObj alias)
+    +-- WHATDBGModel (jam::Model; SESSION and EXCEPTION rows)
+    +-- Processor (jam::AsyncUpdater; engine context)
+    |       +-- debug::Session (debug engine wrapper)
+    |       |       [Windows]
+    |       |       Session.cpp              — lifecycle: initialize, launch, attach, resume, shutdown,
+    |       |                                  wake, cancel, resetCancel, stepping, thread control,
+    |       |                                  symbol path, breakpoint API; variable inspection
+    |       |       SessionPrettyPrint.cpp   — type formatters
+    |       |       Callbacks.cpp            — COM callbacks, report through Session::events
+    |       |       Loader.cpp               — sidecar DLL loader
+    |       |       [macOS]
+    |       |       Session_mac.cpp          — lifecycle, wake broadcaster, stepping, thread control,
+    |       |                                  breakpoint API, variable inspection (SBValue tree)
+    |       |       SessionPrettyPrint_mac.cpp — type formatters
+    |       +-- debug::BreakpointManager (DAP-to-engine breakpoint registry)
+    |       +-- debug::VariableManager (frameId and variablesReference registry)
+    |       +-- debug::StopManager (the stops table and the stop drains)
+    |       +-- dap::FIFO requests, dap::FIFO messages
+    +-- dap::Writer (stdout, message thread)
+    +-- dap::Reader (stdin thread)
+dap::Types (DAP message builders over jam::JsonWriter)
 ```
 
 ### Module Inventory
 
 | Module | Location | Responsibility |
 |--------|----------|----------------|
-| Whatdbg | `Source/Whatdbg.h/.cpp` | Main loop. Owns all objects. Drains FIFO, dispatches commands via table, polls the engine, writes stdout. Holds the DAP request handlers (`onInitialize`, `onLaunch`, `onSetBreakpoints`, `onDisconnect`, etc.) and the deferred-event drains. |
-| debug::State | `Source/debug/State.h` | SSOT. Execution state, pending events, breakpoint data. Main-thread-local, no atomics. Derives from `jam::Instance<State>`. |
-| debug::Session | `Source/debug/Session.h` | Cross-platform engine wrapper interface. `ComPtr<T>` (Windows) or SB API value types (macOS) behind one shared header. |
-| debug::Session (Win) | `Source/debug/Session.cpp` | initialize, launch, attach, resume, pollEvents, shutdown, stepping, thread ops, breakpoint API, symbol path, getStackTrace, getLocals, getVariableChildren, evaluateExpression, getSymbols (file-local static). |
-| debug::Session pretty-print (Win) | `Source/debug/SessionPrettyPrint.cpp` | Formatters declared in `PrettyPrint.h` and defined non-static here: prettyPrint, formatSymbolValue, stripDecimalPrefix, readTargetString, findChildByName, getChildValueText. The per-type helpers are file-local static. |
-| debug::Session (mac) | `Source/debug/Session_mac.cpp` | liblldb SB API: initialize, launch, attach, resume, pollEvents, shutdown, stepping, thread ops, breakpoint API, getStackTrace, getLocals, getVariableChildren, evaluateExpression, getVariableObject via SBValue tree. |
-| debug::Session pretty-print (mac) | `Source/debug/SessionPrettyPrint_mac.cpp` | type formatters for juce::String, unique_ptr, and filtered types via SB API. |
-| debug::PrettyPrint | `Source/debug/PrettyPrint.h` | Shared, header-only helpers used across both platforms' Session and PrettyPrint files: `shouldSkipSymbol`, `parseHexAddress`. |
-| debug::BreakpointManager | `Source/debug/BreakpointManager.h/.cpp` | DAP-to-engine breakpoint mapping. `onSetBreakpoints()`, `onModuleLoad()`, `onReload()`, `getBreakpointStoppedEvent()`, `onBreakpointLocationFound()`. Private resolution machinery: `getBreakpointOffset`, `setBreakpointLocation`, `removeOrphanedBreakpoints`, `addBreakpoint`, `hasUnresolvedBreakpoints`. |
-| debug::Callbacks | `Source/debug/Callbacks.h/.cpp` | COM callback classes. Write to State during WaitForEvent. [Windows only] |
+| Whatdbg | `Source/Whatdbg.h/.cpp` | Main. `juce::JUCEApplicationBase` and `juce::ValueTree::Listener`. Owns `WHATDBGModel`, `Processor`, `dap::Writer`, `dap::Reader`, the `events` map, and two attachments (`numMessagesAttachment`, `isRunningAttachment`). `initialise` calls `processor.prepare` and `reader.start`. Two `events` entries: `Id::numMessages` drains the `messages` lane to the writer; `Id::isRunning` at 0 sets the application return value from `Id::adapterExitCode` and calls `quit`. |
+| WHATDBGModel | `Source/WHATDBGModel.h/.cpp` | `jam::Model` and `jam::Instance<WHATDBGModel>`. Root `Id::whatdbg`; rows `sessionTag` (`Id::session`) and `exceptionTag` (`Id::exception`). The constructor creates every parameter and stops the Model timer. |
+| Processor | `Source/Processor.h/.cpp` | `private jam::AsyncUpdater`. Owns the atoms and both lanes. `prepare` and `releaseResources` write a request and wait in `handleUpdateNow`. `addRequest` (reader thread) runs the `cancellations` entry, writes the `requests` lane, triggers the context, and wakes the session. `process` runs each request, polls the engine, runs the stop drain, and checks the terminate deadline. Holds the eighteen DAP command bodies, `onPrepare`, `onReleaseResources`, `drainProcessExited`, `drainTerminateTimeout`, `getEndModeForExit`, and the engine `events` entries that are no stop. |
+| debug::Session | `Source/debug/Session.h` | Cross-platform engine wrapper interface. `ComPtr<T>` (Windows) or SB API value types (macOS) behind one shared header. `events` is the `debug::Events` map through which the native code reports. |
+| debug::Session (Win) | `Source/debug/Session.cpp` | initialize, launch, attach, resume, pollEvents, shutdown, wake (no statement), cancel (`SetInterrupt (DEBUG_INTERRUPT_EXIT)`), resetCancel (`GetInterrupt`), stepping, thread ops, breakpoint API, symbol path, variable inspection, expression evaluation. |
+| debug::Session pretty-print (Win) | `Source/debug/SessionPrettyPrint.cpp` | Formatters declared in `PrettyPrint.h`: prettyPrint, formatSymbolValue, stripDecimalPrefix, readTargetString, findChildByName, getChildValueText. |
+| debug::Session (mac) | `Source/debug/Session_mac.cpp` | liblldb SB API: initialize, launch, attach, resume, pollEvents, shutdown, wake (`broadcaster.BroadcastEventByType (wakeEventMask)`), cancel (`wake`), resetCancel (no statement), stepping, thread ops, breakpoint API, variable inspection, expression evaluation. |
+| debug::Session pretty-print (mac) | `Source/debug/SessionPrettyPrint_mac.cpp` | Type formatters for juce::String, unique_ptr, and filtered types via SB API. |
+| debug::PrettyPrint | `Source/debug/PrettyPrint.h` | Shared helpers: `shouldSkipSymbol`, `parseHexAddress`. |
+| State.h (namespace `debug`) | `Source/debug/State.h` | The enums `ExecutionState`, `StopReason`, `OffsetStatus`, the alias `Events`, and `getExceptionName`. Holds no state. |
+| debug::BreakpointManager | `Source/debug/BreakpointManager.h/.cpp` | DAP-to-engine breakpoint registry. `onSetBreakpoints`, `onModuleLoad`, `onReload`, `appendBreakpointStoppedEvent`, `onBreakpointLocationFound`. Private resolution machinery: `getBreakpointOffset`, `setBreakpointLocation`, `onSymbolsLoaded`, `hasUnresolvedBreakpoints`. |
+| debug::VariableManager | `Source/debug/VariableManager.h/.cpp` | The frameId and variablesReference registry: `onStackTrace`, `onScopes`, `onVariables`, `selectFrameFromId`, `resetVariablesState`. |
+| debug::StopManager | `Source/debug/StopManager.h/.cpp` | The `stops` table keyed by `StopReason`, the six stop drains, and the stop `events` entries. `onStop (targetProgram)` returns the DAP messages of the current stop. |
+| debug::Callbacks | `Source/debug/Callbacks.h/.cpp` | COM callback classes. Report through `Session::events` during `WaitForEvent`. [Windows only] |
 | debug::Loader | `Source/debug/Loader.h/.cpp` | LoadLibrary from sidecar path, resolve DebugCreate. [Windows only] |
-| dap::Reader | `Source/dap/Reader.h/.cpp` | juce::Thread. Reads stdin, parses Content-Length framing, pushes to AbstractFifo. |
-| dap::Types | `Source/dap/Types.h` | DAP message builders using juce::var/DynamicObject. `getResponse`, `getErrorResponse`, `getEvent`, `getCapabilities`. DynObj alias (single definition). |
+| dap::Reader | `Source/dap/Reader.h/.cpp` | `juce::Thread`. Reads stdin, parses Content-Length framing into `jam::JsonDocument`, and calls `onMessage`. Holds no lane. |
+| dap::Writer | `Source/dap/Writer.h/.cpp` | `writeMessage (std::string_view)`: the Content-Length frame to stdout. |
+| dap::FIFO | `Source/dap/FIFO.h` | The lane template. |
+| dap::Types | `Source/dap/Types.h/.cpp` | DAP message builders over `jam::JsonWriter`: `appendResponse`, `appendErrorResponse`, `appendEvent`, `appendBreakpointChangedEvent`, `appendSource`, `appendCapabilities`, `getRequest`, `getStoppedEvent`, `getExceptionStoppedEvent`, `getExceptionOutputEvent`, `getProcessEvent`, `getOutputEvent`, `getExceptionDescription`. `nextSeq` reads and stores `Id::nextSequenceNumber`. |
+| Help page | `Source/HELP.md`, `jam::TerminalPage` (`jam/jam_tui/page/jam_TerminalPage.h/.cpp`) | `whatdbg --help` parses `HELP.md` with `jam::MarkdownDocument`, paints it through `jam::TerminalPage`, a `juce::Component` that paints with the terminal graphics context, and writes the frame to stdout. The style sheet is `jam/jam_tui/page/style.css`, embedded as BinaryData. |
 
 ---
 
 ## Data Flow
 
-### DAP Command (stdin to stdout)
+### DAP Request (stdin to stdout)
 
 ```
-stdin -> [Reader thread] -> FIFO -> [Main thread] -> commands table (onCommand) -> write stdout
+stdin -> [Reader thread] -> onMessage -> Processor::addRequest -> requests lane
+      -> [engine context] process -> onCommand -> commands table -> on<Command>
+      -> addMessage -> messages lane, setValue (Id::numMessages)
+      -> [message thread] attachment -> model.flush -> Whatdbg events (Id::numMessages)
+      -> processor.applyMessages -> writer.writeMessage -> stdout
 ```
 
 ### Debug Event (engine to stdout)
 
 ```
-[Windows] WaitForEvent -> COM callback (Callbacks.cpp) on main thread -> write to State
-[macOS]   session.pollEvents -> onProcessStateStopped dispatch (Session_mac.cpp) -> write to State
-                                                                       |
-                              processDeferredEvents (main loop) reads State -> write stdout
+[Windows] WaitForEvent -> COM callback (Callbacks.cpp) -> session.events.get (Id::...)
+[macOS]   session.pollEvents -> onProcessEvent / onBreakpointEvent (Session_mac.cpp) -> session.events.get (Id::...)
+                                       |
+          StopManager entries: model.storeValue (stopReason, payload)
+          Processor entries: exit, running, output, breakpoint location -> messages lane
+                                       |
+          process: stopManager.onStop (targetProgram) -> one stop drain -> messages lane
 ```
+
+The `events` entries, by key:
+
+| Key | Owner | Effect |
+|---|---|---|
+| `initialBreak` | StopManager | `stopReason = initialBreak`, `executionState = stopped` |
+| `pause` | StopManager | `isPausePending = 0`, `stopReason = pause`, `executionState = stopped` |
+| `exception` | StopManager | `stopReason = exception`, `exceptionCode`, `exceptionAddress`, `isMachException`, `executionState = stopped` |
+| `breakpoint` | StopManager | `stopReason = breakpoint`, `breakpointEngineId`, `executionState = stopped` |
+| `step` | StopManager | `isStepPending = 0`, `executionState = stopped`, `stopReason = step` when it is `none` |
+| `moduleLoad` | StopManager | `stopReason = moduleLoad`; keeps the image name |
+| `targetProcessId` | Processor | stores `targetProcessId` |
+| `exited` | Processor | stores `processExitCode`, then `drainProcessExited` |
+| `terminated` | Processor | `drainProcessExited` |
+| `running` | Processor | `executionState = running` |
+| `breakpointLocationFound` | Processor | `breakpointManager.onBreakpointLocationFound` messages |
+| `console`, `standardOutput`, `standardError` | Processor | one `output` event for each report |
 
 ### Breakpoint Resolution
 
 ```
-setBreakpoints arrives in FIFO
-    -> Main thread pops, calls Whatdbg::onSetBreakpoints -> BreakpointManager::onSetBreakpoints()
-    -> addBreakpoint() -> Session::addBreakpointByLocation, writes engineId/resolvedLine on success
-       [Windows] Session::getOffsetStatus / Session::getOffset (file-local getSourceOffset helper), then Session::addBreakpoint
+setBreakpoints -> Processor::onSetBreakpoints -> BreakpointManager::onSetBreakpoints
+    -> Session::addBreakpointByLocation, writes engineId/resolvedLine on success
+       [Windows] Session::getOffsetStatus / Session::getOffset, then Session::addBreakpoint
        [macOS]   SBTarget::BreakpointCreateByLocation
-    -> Immediate result: verified or pending (engineId is empty)
-    -> Write DAP response to stdout
-    -> Whatdbg::onSetBreakpoints calls onReload(); it reloads symbols only when an entry is unresolved
-    -> [Windows] Pending BPs resolve on module load: LoadModule callback (stopReason moduleLoad)
-       -> drainModuleLoaded -> BreakpointManager::onModuleLoad() -> onSymbolsLoaded()
-       -> setBreakpointLocation() -> getBreakpointOffset()
-       (onReload() runs the same onSymbolsLoaded path after setBreakpoints, a step, and the initial break)
-    -> [macOS] liblldb resolves pending BPs: onBreakpointEvent (locations resolved or added)
-       -> State::hasBreakpointLocationsResolved -> Whatdbg::drainBreakpointLocationResolved
-       -> BreakpointManager::onBreakpointLocationFound()
+    -> response: verified or pending
+    -> onReload () messages; it reloads symbols only when an entry is unresolved
+    -> [Windows] pending entries resolve on module load: LoadModule -> stopReason moduleLoad
+       -> StopManager::drainModuleLoaded -> BreakpointManager::onModuleLoad -> onSymbolsLoaded
+    -> [macOS] liblldb resolves pending entries: onBreakpointEvent -> events (breakpointLocationFound)
+       -> BreakpointManager::onBreakpointLocationFound
 ```
 
 ### Variable Inspection
 
 ```
-stackTrace -> assigns unique frameIds (stored in frameIdMap)
-scopes     -> allocates variablesReference for locals scope
-variables  -> looks up (frameIndex, symbolIndex) from variablesRefMap
-           [Windows] getLocals / getVariableChildren via IDebugSymbolGroup2
-           [macOS]   getLocals / getVariableChildren via SBValue tree, getVariableObject per value
+stackTrace -> VariableManager::onStackTrace assigns unique frameIds (frameId -> threadSystemId, frameIndex)
+scopes     -> VariableManager::onScopes allocates the variablesReference of the locals scope
+variables  -> VariableManager::onVariables looks up (frameIndex, symbolIndex) in variablesRefMap
+           [Windows] Session::applyToLocals / applyToVariableChildren via IDebugSymbolGroup2
+           [macOS]   Session::applyToLocals / applyToVariableChildren via SBValue tree
            -> prettyPrint dispatches to per-type formatters
            -> child refs allocated for expandable variables
+A stop drain calls resetVariablesState.
 ```
 
 ### Expression Evaluation
 
 ```
 [Windows]
-evaluate -> Session::evaluateExpression -> scope symbol group (getOrCreateSymbolGroup, frameIndex)
+evaluate -> Session::evaluateExpression -> scope symbol group (frameIndex)
          -> AddSymbol (expression) with SYMOPT_NO_PUBLICS; success only when AddSymbol returns S_OK
-         -> value from getSymbolValue (formatSymbolValue, prettyPrint); symbol removed on scope exit
-         -> empty result: Whatdbg::onEvaluate sends the error response "Could not evaluate: <expr>"
+         -> empty result: Processor::onEvaluate sends the error response "Could not evaluate: <expr>"
 
 [macOS]
 evaluate -> Session::evaluateExpression -> SBFrame::EvaluateExpression on the frame at frameIndex
@@ -208,141 +221,124 @@ evaluate -> Session::evaluateExpression -> SBFrame::EvaluateExpression on the fr
 ### Debuggee Output Capture
 
 ```
-[Windows]
-OutputCallbacks::Output2(DEBUG_OUTCB_TEXT, DEBUG_OUTPUT_DEBUGGEE)
-    -> state->debuggeeOutputText accumulated
-    -> state->hasDebuggeeOutput = true
-
-[macOS]
-drainProcessStdio (Session_mac.cpp) polls process.GetSTDOUT / process.GetSTDERR
-    -> state->debuggeeOutputText accumulated, state->debuggeeOutputCategory set
-    -> state->hasDebuggeeOutput = true
-
--> main loop: drainDebuggeeOutput emits DAP output event (category: console/stdout/stderr)
+[Windows] OutputCallbacks::Output2 -> session.events.get (Id::console, text)
+[macOS]   drainProcessStdio (Session_mac.cpp) reads GetSTDOUT / GetSTDERR
+          -> session.events.get (Id::standardOutput or Id::standardError, text)
+-> Processor entry -> one DAP output event for each report
 ```
 
 ### Exception Flow
 
 ```
-[Windows] Exception (SEH, second-chance)
-  -> EventCallbacks::Exception (dbgeng callback)
-  -> onUnknownException (Callbacks.cpp)
-      -- sets State::stopReason = exception, and populates exceptionCode, exceptionAddress
-      -- sets executionState = stopped
-      -- returns DEBUG_STATUS_BREAK
-
-[macOS] Signal or Mach exception stop
-  -> onProcessStateStopped -> onSignalStop / onExceptionStop (Session_mac.cpp)
-      -- sets State::stopReason = exception, and populates exceptionCode, exceptionAddress, isMachException
-
-  -> Whatdbg::processDeferredEvents (Whatdbg.cpp) -> drainExceptionStopped
-      -- emits DAP `stopped` event (reason=exception)
-      -- emits DAP `output` event (category=stderr)
-  -> nvim-dap receives events, requests `stackTrace` + `exceptionInfo`
-  -> Whatdbg::onStackTrace / onExceptionInfo respond
+[Windows] second-chance exception -> onUnknownException (Callbacks.cpp) -> events (exception)
+[macOS]   signal or Mach exception stop -> onSignalStop / onExceptionStop (Session_mac.cpp) -> events (exception)
+  -> StopManager entry stores stopReason, exceptionCode, exceptionAddress, isMachException
+  -> process -> StopManager::drainExceptionStopped
+      -- DAP stopped event (reason exception), then DAP output event (category stderr)
+  -> nvim-dap requests stackTrace + exceptionInfo
+  -> Processor::onStackTrace / onExceptionInfo respond
 ```
 
 ---
 
-## Main Loop
+## The Engine Context
 
 ```
-while (state.isRunning)
-{
-    // 1. Drain FIFO
-    while (message = reader.tryPop ())
-        onCommand (message)  // dispatch via commands table
-
-    // 2. Poll the engine while running or launching, else sleep
-    if (executionState == running or executionState == launching)
-        session.pollEvents (pollTimeoutMs)   // 50 ms
-    else
-        juce::Thread::sleep (idleSleepMs)    // 10 ms
-
-    // 3. Process deferred events (processDeferredEvents)
-    stops.find (stopReason) -> one drain:
-        initialBreak -> drainInitialBreak ()
-        moduleLoad   -> drainModuleLoaded ()
-        breakpoint   -> drainBreakpointHit ()
-        step         -> drainStepCompleted ()
-        pause        -> drainPauseCompleted ()
-        exception    -> drainExceptionStopped ()
-    drainBreakpointLocationResolved ()
-    drainDebuggeeOutput ()
-    drainProcessExited ()
-    drainTerminateTimeout ()
-}
-
-session.shutdown (getEndModeForExit ())
+Processor::process ()
+    1. requests.applyPendingData -> onCommand (request)
+    2. when executionState is running or launching, or a terminate deadline is pending:
+           session.pollEvents (pollTimeoutMs)          // 50 ms; macOS rounds up to 1 s
+    3. addMessages (stopManager.onStop (targetProgram))  // one stop drain, by stopReason
+    4. drainTerminateTimeout ()
+    5. when isRunning is not 0 and (executionState is running or launching,
+       or a terminate deadline is pending): triggerAsyncUpdate ()
 ```
 
-`State::stopReason` holds one stop cause at a time, so one drain runs per iteration.
-`drainBreakpointHit` asks `BreakpointManager::getBreakpointStoppedEvent` for the
-stopped event. That event has `reason: "step"` when no registry entry holds the engine
-id, as for the internal stepOut breakpoint.
+While the target is stopped and no terminate is pending, statement 5 queues nothing, and the context has no work. The next request starts it. On macOS `Session::wake` ends a `pollEvents` wait at once when a request arrives while the target runs.
+
+`stopReason` holds one stop cause at a time, so one drain runs per tick. `drainBreakpointHit` asks `BreakpointManager::appendBreakpointStoppedEvent` for the stopped event. That event has `reason: "step"` when no registry entry holds the engine id, as for the internal stepOut breakpoint.
+
+### Start
+
+1. `Whatdbg::initialise` calls `processor.prepare (sidecarDirectory)`.
+2. `prepare` writes `dap::getRequest (prepare)` to `requests` and waits in `handleUpdateNow`.
+3. On the context, `onPrepare` calls `session.initialize`. On failure it stores `1` to `Id::adapterExitCode` and sets `Id::isRunning` to 0.
+4. `initialise` calls `reader.start ()`. The message loop then runs.
+
+### End
+
+1. A drain, `onDisconnect`, or `onPrepare` sets `Id::isRunning` to 0 on the context.
+2. The attachment posts one message. On the message thread the flush changes the tree, and the `Id::isRunning` entry sets the return value and calls `quit`.
+3. The members of `Whatdbg` die in reverse order: the attachments, the reader (its thread stops), the writer, the processor.
+4. `~Processor` calls `releaseResources`: `cancelPendingUpdate`, a `releaseResources` request, and `handleUpdateNow`. On the context `onReleaseResources` calls `session.shutdown (getEndModeForExit ())` and stores `ExecutionState::idle`.
 
 ---
 
 ## State Management
 
-### debug::State
+### WHATDBGModel
 
-Main-thread-local. No atomics (except what FIFO handles). Plain data.
+| Row | Parameter | Type | Default |
+|---|---|---|---|
+| SESSION | `Id::executionState` | int | `ExecutionState::idle` |
+| SESSION | `Id::stopReason` | int | `StopReason::none` |
+| SESSION | `Id::processExitCode` | int | 0 |
+| SESSION | `Id::targetProcessId` | int64 | 0 |
+| SESSION | `Id::terminateDeadlineMs` | int64 | 0 |
+| SESSION | `Id::isRunning` | int | 1 |
+| SESSION | `Id::shouldTerminateOnExit` | int | 0 |
+| SESSION | `Id::isConfigurationDone` | int | 0 |
+| SESSION | `Id::isStepPending` | int | 0 |
+| SESSION | `Id::isPausePending` | int | 0 |
+| SESSION | `Id::breakpointEngineId` | int | 0 |
+| SESSION | `Id::nextSequenceNumber` | int | 1 |
+| SESSION | `Id::numMessages` | int | 0 |
+| SESSION | `Id::adapterExitCode` | int | 0 |
+| EXCEPTION | `Id::exceptionCode` | int64 | 0 |
+| EXCEPTION | `Id::exceptionAddress` | int64 | 0 |
+| EXCEPTION | `Id::isMachException` | int | 0 |
 
-- `ExecutionState executionState` — idle, launching, running, stopped, exited
-- `StopReason stopReason` — `none`, `initialBreak`, `moduleLoad`, `breakpoint`, `step`, `pause`, `exception`; one enum field replaces the former per-event bools and the initial-break phase enum (SSOT). `processDeferredEvents` looks it up in the `stops` `jam::Function::Map` and runs one drain. Each drain sets it back to `none`; `drainInitialBreak` does so once `isConfigurationDone` is true
-- `int processExitCode`
-- `std::uint32_t targetProcessId` — set on CreateProcess callback (Windows) or launch/attach (macOS); used by `Session::interrupt`
-- `std::uint32_t terminateDeadlineMs` — set by `onDisconnect`; `drainTerminateTimeout` forces `isRunning = false` if the debuggee's exit event never arrives
-- `bool isRunning` — main loop continuation flag; `onDisconnect` and `drainTerminateTimeout` are the only writers
-- `bool shouldTerminateOnExit` — set by `onDisconnect`; read by `getEndModeForExit` to choose `EndMode::terminate` vs `EndMode::detach`
-- `bool isConfigurationDone`, `bool isStepPending`, `bool isPausePending` — request-driven flags. `drainInitialBreak` reads `isConfigurationDone`. `Session::pollEvents` and `LoadModule` read `isStepPending`. `onBreakpoint` (Windows) and the macOS stop-reason handler read `isPausePending`
-- Deferred event fields: `breakpointEngineId`, `lastLoadedImageName`, `hasBreakpointLocationsResolved` + `resolvedBreakpointEngineId`/`resolvedBreakpointLine`, `hasProcessExited`, `hasDebuggeeOutput` + `debuggeeOutputText`/`debuggeeOutputCategory`. `BreakpointManager::hasUnresolvedBreakpoints` (private) derives the unresolved state from the registry
-- `StopReason::exception` — set by `onBreakpoint` or `onUnknownException` (Windows, second-chance) or `onSignalStop`/`onExceptionStop` (macOS); `drainExceptionStopped` sets `stopReason` to `none` and emits the DAP `stopped` event
-- `std::uint32_t exceptionCode` — NTSTATUS code (Windows) or signal/Mach exception code (macOS); persists after consumption for the `exceptionInfo` request response
-- `std::uint64_t exceptionAddress` — faulting virtual address; persists after consumption
-- `bool isMachException` — macOS only; distinguishes a Mach exception from a POSIX signal stop for `getExceptionName`'s table lookup
-- `int nextVariablesRef`, `std::unordered_map<int, std::pair<int, int>> variablesRefMap` — variablesReference allocation, reset every stop event
-- `int nextFrameId`, `std::unordered_map<int, std::pair<std::uint32_t, int>> frameIdMap` — frameId → (threadSystemId, frameIndex), reset every stop event
-- `std::uint32_t lastScopesThreadId` — thread context restored by `onVariables` when a request arrives without an explicit frame reselect
+A `bool` or an enum is a `jam::Parameter<int>`. A `uint32` or a `uint64` is a `jam::Parameter<int64_t>`.
 
-Since State is main-thread-only, it uses plain types. No CriticalSection, no
-std::atomic. `State` derives from `jam::Instance<State>`, which provides global
-access via `getInstance()` — there is no `jam::Context<T>` in this codebase.
+### The other homes
+
+| State | Home |
+|---|---|
+| `nextVariablesRef`, `variablesRefMap`, `nextFrameId`, `frameIdMap`, `lastScopesThreadId` | members of `debug::VariableManager` |
+| the breakpoint registry and `nextDapId` | members of `debug::BreakpointManager` |
+| the image name of the last module load | member of `debug::StopManager` |
+| `targetProgram` | member of `Processor`, given to `StopManager::onStop` at the call |
 
 ---
 
 ## Key Design Decisions
 
-### Decision: Two-Thread Model (not three, not event-driven)
+### Decision: Audio processor shape — engine context, message loop, and Model
 
-**Context:** Initial design attempted three threads (stdin, COM, message) with callAsync notifications. This caused: COM thread isolation issues, callback flooding, message thread starvation, timing bugs.
+**Context:** The old record (version 0.6.0 of this document) held three threading decisions: two threads with no event-driven delivery, AbstractFifo stdin buffering, and no JUCE message loop. The first design had three threads (stdin, COM, message) with callAsync notifications. The record names four failure causes: COM thread isolation issues, callback flooding, message thread starvation, and timing bugs. The two-thread loop that replaced it polled the engine, slept 10 ms for each pass of a stopped target, and on macOS made a request wait for the poll to end, up to 1 s.
 
-**Decision:** Two threads. Main thread owns everything. Stdin thread is a FIFO buffer. Same proven architecture as the working legacy adapter.
+**Decision:** whatdbg has the shape of an audio processor. `Whatdbg` is main, a `juce::JUCEApplicationBase` on the JUCE message loop. It owns `WHATDBGModel`, `Processor`, `dap::Writer`, and `dap::Reader`. `Processor` owns the atoms on its `jam::AsyncUpdater` context and runs each request and each stop there. The threads, the lanes, and the one-way flow are those of section Threading Model.
 
-**Rationale:** Simple. Proven. No cross-thread state synchronization needed. COM lives on one thread. JUCE provides the FIFO (AbstractFifo), thread (juce::Thread), and utilities.
+**Rationale:**
+- ARCHITECT, on the thread owner of the engine: *"crossplatform. lldb, dbgeng should be at its own hot path lock free path this is isomporhic to audio thread, which how we design eve, end with audio architecture discipline, the traffic orchestrator state machine with jam::Model is at message thread"*.
+- ARCHITECT, on the shape: *"exactly. the shape, the principle, the contract, not derived. those layers are ENCAPSULATION."* and *"EVEProcessor is `main`, owner of all hot path"*.
+- ARCHITECT, on event latency: *"Send at once"*. A message reaches the message thread at once through `setValue` and `jam::Model::ParameterAttachment`.
+- The four failure causes, each answered:
 
-### Decision: AbstractFifo for stdin buffering
+| Cause | Answer |
+|---|---|
+| COM thread isolation issues | The engine context is one thread on Windows: minimum 1, maximum 1. Each engine call, `initialize` and `shutdown` included, runs on it. |
+| callback flooding | `juce::AsyncUpdater::triggerAsyncUpdate` posts one message while one is pending. One flush drains each message of the lane. |
+| message thread starvation | The message thread makes no engine call and no engine wait. It writes stdout only. |
+| timing bugs | One context writes the `messages` lane, so it is the one author of the DAP order. |
 
-**Context:** stdin read is blocking. Main thread cannot block on stdin and WaitForEvent simultaneously.
-
-**Decision:** juce::AbstractFifo (lock-free SPSC) with std::vector<juce::var> backing storage. 64 slots.
-
-**Rationale:** JUCE-native. Lock-free. Single allocation. No hand-rolled queue.
-
-### Decision: No JUCE Message Thread
-
-**Context:** Initial design used juce::MessageManager::runDispatchLoop() and callAsync for event delivery.
-
-**Decision:** Skip JUCE message/event system entirely. Main thread runs its own loop. No initialiseJuce_GUI, no runDispatchLoop, no callAsync.
-
-**Rationale:** We are a console app with a simple main loop. JUCE message thread adds complexity for no benefit. We use JUCE for utilities (File, String, JSON, Thread, AbstractFifo, ComPtr), not its event system.
+- The timings of the smoke suite under scout, Release, macOS: `epoch` median 4.5387e10 ns (±0.12%) against 6.2698e10 ns (±0.327%) before the rewrite; `user` 2.376e9 ns (±0.49%) against 2.169e9 ns (±2.07%); `system` 1.643e9 ns (±0.84%) against 1.563e9 ns (±1.58%). Reports: `benchmark/smoke-report.md`, `benchmark/smoke-report-baseline.md`.
 
 ### Decision: Dispatch Table for DAP Commands
 
 **Context:** An earlier revision used an else-if chain across DAP command names.
 
-**Decision:** The `commands` table is a `jam::Function::Map<juce::String, jam::Function::pointerCapacity, void (const juce::var&)>`. The `Whatdbg` constructor fills it with `.add (name, lambda)`. `onCommand` does a single map lookup.
+**Decision:** The `commands` table of `Processor` is a `jam::Function::Map<juce::String, jam::Function::pointerCapacity, void (const jam::JsonDocument&)>`. The `Processor` constructor fills it with `.add (name, lambda)`: the eighteen DAP commands, plus `prepare` and `releaseResources`, the two tells of the lifecycle. `onCommand` does a single map lookup.
 
 **Rationale:** O(1) dispatch, no branch cascade, new commands added by inserting one map entry.
 
@@ -350,9 +346,9 @@ access via `getInstance()` — there is no `jam::Context<T>` in this codebase.
 
 **Context:** A single Session file grows past the point where lifecycle, inspection, and type-formatting concerns stay separable.
 
-**Decision:** Split per platform into `Session[_mac].cpp` and `SessionPrettyPrint[_mac].cpp`. `Session[_mac].cpp` holds the lifecycle and the variable inspection. `SessionPrettyPrint[_mac].cpp` holds the type formatters. ARCHITECT: "Merge only". The inspection files merged into the Session files. The handler files merged into `Whatdbg.cpp` and `BreakpointManager.cpp`. `PrettyPrint.h` declares the type formatters that the Session files call. It also holds the inline helpers `shouldSkipSymbol` and `parseHexAddress`. There is no `debug::detail` namespace; CODING.md forbids implementation-hiding namespaces outright.
+**Decision:** Split per platform into `Session[_mac].cpp` and `SessionPrettyPrint[_mac].cpp`. `Session[_mac].cpp` holds the lifecycle and the variable inspection. `SessionPrettyPrint[_mac].cpp` holds the type formatters. ARCHITECT: "Merge only". `PrettyPrint.h` declares the type formatters that the Session files call. It also holds the inline helpers `shouldSkipSymbol` and `parseHexAddress`.
 
-**Rationale:** One object is one header and one `.cpp` (CODING.md). Each `Session[_mac].cpp` holds the whole Session object. The free functions of `PrettyPrint.h` keep their own files. `Session.h`'s interface is the same on both platforms — the split is implementation-only, selected by `JUCE_WINDOWS`/`JUCE_MAC` at the build-target level.
+**Rationale:** One object is one header and one `.cpp` (CODING.md). Each `Session[_mac].cpp` holds the whole Session object. `Session.h`'s interface is the same on both platforms — the split is implementation-only, selected by `JUCE_WINDOWS`/`JUCE_MAC` at the build-target level.
 
 ### Decision: Symbol Group Cache
 
@@ -366,74 +362,53 @@ access via `getInstance()` — there is no `jam::Context<T>` in this codebase.
 
 **Context:** DAP specifies separate `terminate` and `disconnect` commands with optional `terminateDebuggee`.
 
-**Decision:** Both route to `Whatdbg::onDisconnect` (`Source/Whatdbg.cpp`). `EndMode` enum (`Source/debug/Session.h`) selects behavior. `Session::shutdown (EndMode)` (`Source/debug/Session.cpp` on Windows, `Source/debug/Session_mac.cpp` on macOS) dispatches on three cases:
-- `terminate` — kills the debuggee; used when `terminate` arrives, or `disconnect` arrives with `terminateDebuggee: true`. Windows: `DEBUG_END_ACTIVE_TERMINATE`. macOS: `process.Signal (SIGKILL)` followed by `resume()` (see zombie fix below).
-- `detach` — releases the debuggee, which keeps running; used when `disconnect` arrives without `terminateDebuggee`. Windows: `DEBUG_END_ACTIVE_DETACH`. macOS: `process.Detach()`.
-- `passive` — target has already exited; releases session state only, without acting on a target that no longer exists. Required because ending an active session against an already-exited target hangs or double-frees on both platforms.
+**Decision:** Both route to `Processor::onDisconnect`. `EndMode` (`Source/debug/Session.h`) selects the end. `Session::shutdown (EndMode)` dispatches on three cases:
+- `terminate` — kills the debuggee; used when `terminate` arrives, or `disconnect` arrives with `terminateDebuggee: true`. Windows: `DEBUG_END_ACTIVE_TERMINATE`. macOS: `process.Signal (SIGKILL)` followed by `resume()`.
+- `detach` — releases the debuggee, which keeps running. Windows: `DEBUG_END_ACTIVE_DETACH`. macOS: `process.Detach()`.
+- `passive` — the target has already exited; releases session state only.
 
-`onDisconnect` itself only sends the kill/detach signal and moves `executionState`
-to `running` so the main loop keeps polling for the resulting exit event —
-`Session::shutdown` runs once, at `run()`'s exit, via `getEndModeForExit()`.
+The reader thread calls `session.cancel ()` for `disconnect` and `terminate`, before it writes the request to the lane. Windows: `SetInterrupt (DEBUG_INTERRUPT_EXIT)` forces a running `WaitForEvent` to return. The first statement of `onDisconnect` is `session.resetCancel ()`, so `terminateDebuggee` and `shutdown` run with no interrupt registered.
 
-**macOS zombie fix (2026-09 sprint):** `Session::terminateDebuggee` (called from
-`onDisconnect`, not from `shutdown`) sends `SIGKILL` via `process.Signal`, then
-calls `resume()` so the main loop's normal `pollEvents` path observes the
-debuggee's exit through liblldb's own state machine before anything tears the
-session down. `Session::shutdown`'s `EndMode::terminate` case does the same
-`Signal (SIGKILL)` + `resume()` pair as a fallback for the case where `shutdown`
-runs without a prior `terminateDebuggee` call. `shutdown` never calls
-`SBDebugger::Destroy` until `debugger.IsValid()` confirms it has not already run
-— `run()` calls `shutdown()` explicitly at loop exit, and `~Session()` calls it
-again unconditionally, so the guard makes the second call a no-op instead of a
-double-terminate. The prior defect (RFC-ZOMBIE-TERMINATION.md) was a raw
-`::kill()` followed immediately by `SBDebugger::Destroy()` with no reap in
-between, which severed `debugserver`'s ptrace connection before the kernel
-collected the debuggee's exit status — `launchd` inherits zombies and never
-reaps them. The fix keeps the debuggee's exit observation on the same
-`pollEvents`/`onProcessStateStopped` path every other stop uses, instead of a
-bespoke wait loop.
+`onDisconnect` sends the response, then the kill or the detach. On the kill path it sets `executionState` to `running` and stores a terminate deadline of 5 s, so the context keeps polling for the exit event. A kill that the engine reports first as a signal stop sets `executionState` to `stopped`; the pending deadline keeps the context polling (`process`, statements 2 and 5), so the exit event that follows is observed: the client receives `stopped` (reason `exception`) for the signal, then `exited` and `terminated`. On an attach session the engine reports the exit only, and the client receives `exited` and `terminated`. `drainTerminateTimeout` ends the session only when no exit event arrives before the deadline. `Session::shutdown` runs in `onReleaseResources`, via `getEndModeForExit()`. `~Session` calls it again, and the `debugger.IsValid()` test makes that second call a no-op.
 
-### Decision: DynObj Alias in dap::Types
-
-**Context:** `DynObj` (ReferenceCountedObjectPtr<DynamicObject>) was redefined in three files.
-
-**Decision:** Single definition in dap::Types.h. All files that need it import via `using dap::DynObj`.
+**macOS zombie fix (2026-09 sprint):** `Session::terminateDebuggee` sends `SIGKILL` via `process.Signal`, then calls `resume()` so the normal `pollEvents` path observes the debuggee's exit through liblldb's own state machine before anything tears the session down. `Session::shutdown`'s `EndMode::terminate` case does the same pair as a fallback. `shutdown` calls `SBDebugger::Destroy` only while `debugger.IsValid()`: `onReleaseResources` calls `shutdown`, and `~Session()` calls it again, so the second call is a no-op. The prior defect (RFC-ZOMBIE-TERMINATION.md) was a raw `::kill()` followed immediately by `SBDebugger::Destroy()` with no reap in between, which severed `debugserver`'s ptrace connection before the kernel collected the debuggee's exit status.
 
 ---
 
 ## Stepping Implementation
 
 - `next` (step over):
-  - Windows: `SetExecutionStatus(DEBUG_STATUS_STEP_OVER)` + `isStepPending = true`
+  - Windows: `SetExecutionStatus(DEBUG_STATUS_STEP_OVER)`; `Id::isStepPending` = 1
   - macOS: `Session::stepOver` → `SBThread::StepOver(eOnlyDuringStepping)` on the selected thread
 - `stepIn` (step into):
-  - Windows: `SetExecutionStatus(DEBUG_STATUS_STEP_INTO)` + `isStepPending = true`
+  - Windows: `SetExecutionStatus(DEBUG_STATUS_STEP_INTO)`; `Id::isStepPending` = 1
   - macOS: `Session::stepInto` → `SBThread::StepInto()`
 - `stepOut` (step out):
-  - Windows: `Execute("gu")` — runs until return; the stop at the resulting internal BP gives `reason: "step"`, because `getBreakpointStoppedEvent` finds no registry entry for its engine id
+  - Windows: `Execute("gu")` — runs until return; the stop at the resulting internal breakpoint gives `reason: "step"`, because `appendBreakpointStoppedEvent` finds no registry entry for its engine id
   - macOS: `Session::stepOut` → `SBThread::StepOutOfFrame(frame)`
 - Step completion detection:
-  - Windows: `Session::pollEvents` sees `WaitForEvent` return `S_OK` while `isStepPending` and `stopReason` is `none`, and sets `stopReason` to `step`
-  - macOS: `pollEvents` dispatches to `onProcessStateStopped`, whose `lldb::eStopReasonTrace` and `lldb::eStopReasonPlanComplete` cases both route to `onStepStop`, setting `stopReason` to `step`
+  - Windows: `Session::pollEvents` sees `WaitForEvent` return `S_OK` while `Id::isStepPending` is set, and reports `events (step)`
+  - macOS: `lldb::eStopReasonTrace` and `lldb::eStopReasonPlanComplete` route to `onStepStop`, which reports `events (step)`
+  - The `step` entry writes `stopReason = step` only when `stopReason` is `none`, on both platforms
 
 ## Pause Implementation
 
 - `pause`:
-  - Windows: `DebugBreakProcess(OpenProcess(pid))` + `isPausePending = true`
-  - macOS: `Session::interrupt` → `SBProcess::SendAsyncInterrupt()` (the bound `process` member already knows the target; the `processId` parameter is unused on this platform) + `isPausePending = true`
+  - Windows: `DebugBreakProcess(OpenProcess(pid))`; `Id::isPausePending` = 1
+  - macOS: `Session::interrupt` → `SBProcess::SendAsyncInterrupt()`; `Id::isPausePending` = 1
 - Pause detection:
-  - Windows: the injected int3 arrives at `onBreakpoint` (`Callbacks.cpp`), which sets `stopReason` to `pause` while `isPausePending`
-  - macOS: `onProcessStateStopped` dispatches `lldb::eStopReasonInterrupt` to `onInterruptStop`, setting `stopReason` to `pause`. A stop while `isPausePending` also goes to `onInterruptStop`
+  - Windows: the injected int3 arrives at `onBreakpoint` (`Callbacks.cpp`), which reports `events (pause)` while `Id::isPausePending` is set
+  - macOS: `lldb::eStopReasonInterrupt` routes to `onInterruptStop`. A stop while `Id::isPausePending` is set also goes to `onInterruptStop`
 - Emits stopped/pause event with the current event thread's system ID
 
 ## Multi-Thread Support
 
-- `getThreads()`:
+- `appendThreads`:
   - Windows: `IDebugSystemObjects::GetThreadIdsByIndex`, `GetThreadDescription` per thread
-  - macOS: `SBProcess::GetThreadAtIndex`, `SBThread::GetName()` per thread — liblldb does not expose an OS-level thread-description API equivalent to Windows' `GetThreadDescription`; unnamed threads report `SBThread::GetName()`'s own fallback string, not a whatdbg-synthesized "Thread <TID>" label
-- `getEventThreadSystemId()`: resolves the reporting thread's OS thread ID on both platforms (`GetEventThread` on Windows, the stopped `SBThread`'s system ID on macOS)
-- `setCurrentThreadBySystemId()`: selects the given OS thread as current on both platforms (`GetThreadIdBySystemId` + `SetCurrentThreadId` on Windows, `SBProcess::SetSelectedThreadByID` on macOS)
-- Frame ID map: `stackTrace` assigns unique IDs per frame, stores (threadSystemId, frameIndex)
+  - macOS: `SBProcess::GetThreadAtIndex`, `SBThread::GetName()` per thread; unnamed threads report `SBThread::GetName()`'s own fallback string
+- `getEventThreadSystemId()`: resolves the reporting thread's OS thread ID on both platforms
+- `setCurrentThreadBySystemId()`: selects the given OS thread as current on both platforms
+- Frame ID map: `VariableManager::onStackTrace` assigns unique IDs per frame, stores (threadSystemId, frameIndex)
 - `scopes`/`variables` restore thread context via `setCurrentThreadBySystemId` before inspecting
 
 ---
@@ -446,41 +421,60 @@ whatdbg/
     cast/
         spell.md                        Output rows and toolchain wiring
         cmake.cast                      CMakeLists template
+        identifiers.md                  Id:: vocabulary
+        files.md                        BinaryData file name of the help page (`whatdbgHelp`)
     CMakeLists.txt                      GENERATED — do not edit
     entitlements.plist                  macOS codesign entitlements
     ARCHITECTURE.md
     SPEC.md
     Source/
-        Main.cpp                        Entry point, sidecar extraction, re-exec trampoline (macOS)
-        Whatdbg.h / .cpp                Main loop, DAP request handlers, deferred event drains
-        generated/
-            ProjectInfo.h               GENERATED — do not edit
+        Main.cpp                        Entry point: --help, sidecar extraction, re-exec trampoline (macOS), runAdapter
+        HELP.md                         The --help page
+        Whatdbg.h / .cpp                Main: JUCEApplicationBase, Model listener, lane drain to stdout
+        WHATDBGModel.h / .cpp           The Model: SESSION and EXCEPTION rows
+        Processor.h / .cpp              Engine context: lanes, commands table, command bodies, process
+        generated/                      GENERATED — do not edit
+            ProjectInfo.h, Generated.h / .cpp, Identifiers.h, Files.h
         debug/
-            State.h                     SSOT, main-thread-local
+            State.h                     ExecutionState, StopReason, OffsetStatus, Events, getExceptionName
             Session.h                   Debug engine wrapper interface (shared)
-            Session.cpp                 [Windows] Lifecycle, stepping, thread ops, breakpoint API, stack trace, locals, children, expression eval
-            SessionPrettyPrint.cpp      [Windows] Type formatters (file-local static functions)
-            Session_mac.cpp             [macOS] Lifecycle, stepping, thread ops, breakpoint API (SB API), stack trace, locals, children, expression eval (SBValue)
-            SessionPrettyPrint_mac.cpp  [macOS] Type formatters (juce::String, unique_ptr, filters)
-            PrettyPrint.h               Shared header-only helpers (shouldSkipSymbol, parseHexAddress)
+            Session.cpp                 [Windows] Lifecycle, wake/cancel/resetCancel, stepping, thread ops, breakpoint API, inspection
+            SessionPrettyPrint.cpp      [Windows] Type formatters
+            Session_mac.cpp             [macOS] Lifecycle, wake broadcaster, stepping, thread ops, breakpoint API, inspection
+            SessionPrettyPrint_mac.cpp  [macOS] Type formatters
+            PrettyPrint.h               Shared helpers (shouldSkipSymbol, parseHexAddress)
             Loader.h / .cpp             [Windows] Sidecar DLL loader
-            Callbacks.h / .cpp          [Windows] COM callbacks -> State
-            BreakpointManager.h / .cpp  DAP-to-engine BP mapping, resolution machinery (getBreakpointOffset, setBreakpointLocation, orphan removal)
+            Callbacks.h / .cpp          [Windows] COM callbacks -> Session::events
+            BreakpointManager.h / .cpp  DAP-to-engine breakpoint registry
+            VariableManager.h / .cpp    frameId and variablesReference registry
+            StopManager.h / .cpp        Stops table and stop drains
         dap/
-            Reader.h / .cpp             stdin thread + FIFO
-            Types.h                     DAP message builders, DynObj alias
+            Reader.h / .cpp             stdin thread
+            Writer.h / .cpp             stdout frames
+            FIFO.h                      The lane template
+            Types.h / .cpp              DAP message builders, nextSeq
     tests/
         smoke/
-            run_smoke.lua               Orchestrator — nvim-headless Lua driver, 10 scenarios
-            scenario_runner.lua         Shared DAP request/response driving helpers
-            scenario_breakpoint.lua     Launch+breakpoint, step, variables, evaluate scenarios
-            scenario_process.lua        Attach, pause, output, crash, disconnect-detach scenarios
+            run_smoke.lua               Orchestrator — nvim-headless Lua driver, 21 scenarios
+            scenario_runner.lua         Runs one scenario, compares its transcript with the baseline
+            scenario_breakpoint.lua     Launch+breakpoint, step, variables, evaluate, breakpoint scenarios
+            scenario_process.lua        Attach, pause, output, crash, disconnect-detach, order, unknown-command scenarios
             scenario_terminate.lua      Terminate-without-zombie scenario
-            dap_client.lua              Minimal DAP client over stdio
+            scenario_inspect.lua        Struct children, thread frames, evaluate failure, inner frame scenarios
+            dap_client.lua              Minimal DAP client over stdio, transcript
             report.lua                  Pass/fail summary
+            build.sh                    Builds the fixtures into tests/smoke/build/
             fixture.cpp                 Standard breakpoint/variables/evaluate fixture
             fixture_wait.cpp            Long-running fixture for attach/pause
             fixture_crash.cpp           Fixture that raises an unhandled exception
+            fixture_module.cpp          Module that loads late (pending breakpoint)
+            fixture_load.cpp            Loads fixture_module
+            baseline/macos/, baseline/windows/   Transcript baselines
+    benchmark/
+        smoke.md, smoke.sh              scout manifest and launcher, macOS
+        smoke-windows.md, smoke.cmd     scout manifest and launcher, Windows
+        smoke-report-baseline.md        Timing before the rewrite
+        smoke-report.md                 Timing after the rewrite
     Resources/
         windows/
             x64/
@@ -496,16 +490,10 @@ whatdbg/
         Release/                        (CMake/Ninja build tree — Release)
         Debug/                          (CMake/Ninja build tree — Debug)
         liblldb/                        (LLVM source clone + cmake tree)
-            llvm-project/               (pinned clone of llvm/llvm-project at LLVM_TAG)
-            cmake/                      (out-of-source cmake build tree)
     build-liblldb.sh                    (pinned LLVM build — writes Builds/liblldb + Resources/macos/)
     build.sh                            Copy of cast/build.sh — escape hatch for Windows builds from the MSVC shell of the host architecture.
     carol/
         SPRINT-LOG.md                   Cross-session sprint memory
-        SMOKE-*.md                      Per-run smoke test reports
-        MANIFESTO.md, NAMES.md, CODING.md, ARCHITECT.md, LANGUAGE.md, ODE.md,
-        ARCHITECTURE-WRITER.md, SPEC-WRITER.md   Symlinks into ~/.carol/
-        config.yml
 ```
 
 ---
@@ -518,20 +506,22 @@ whatdbg/
 | dbgeng | Windows Debug Engine COM API (the engine behind WinDbg). |
 | liblldb | LLVM's debugger library. Exposed via the SB (Scriptable Bridge) API. |
 | SB API | liblldb's public C++ interface (`lldb::SBDebugger`, `SBTarget`, `SBProcess`, etc.). |
-| Sidecar | Pinned debug engine binaries embedded in BinaryData, extracted at runtime. Windows: DLLs extracted to `~/.config/whatdbg/dbgeng/` and loaded via `LoadLibrary`. macOS: `liblldb.dylib` extracted to `~/Library/Application Support/whatdbg/liblldb/`, then the process re-execs itself with `DYLD_LIBRARY_PATH` set so dyld resolves SB API symbols. |
-| Re-exec trampoline | macOS startup pattern: `Main.cpp` extracts `liblldb.dylib`, sets `DYLD_LIBRARY_PATH`, then `execv`s itself. The second exec finds the dylib and proceeds normally. No explicit `dlopen` needed. |
+| Sidecar | Pinned debug engine binaries embedded in BinaryData, extracted at runtime. Windows: DLLs extracted to `~/.config/whatdbg/dbgeng/` and loaded via `LoadLibrary`. macOS: `liblldb.dylib` extracted to the sidecar folder, then the process re-execs itself with `DYLD_LIBRARY_PATH` set so dyld resolves SB API symbols. |
+| Re-exec trampoline | macOS startup pattern: `Main.cpp` extracts `liblldb.dylib`, sets `DYLD_LIBRARY_PATH`, then `execv`s itself. The second exec finds the dylib and proceeds normally. |
 | WaitForEvent | Blocking dbgeng call (Windows) that processes debug events. |
 | SSOT | Single Source of Truth. |
+| Engine context | The serial context of `Processor`'s `jam::AsyncUpdater`. Every engine call runs on it. |
+| Lane | A `dap::FIFO`: `requests` into the engine context, `messages` out of it. |
 | FIFO | First In First Out queue. AbstractFifo + std::vector. |
 | SPSC | Single Producer Single Consumer. |
-| DynObj | `juce::ReferenceCountedObjectPtr<juce::DynamicObject>`. Alias defined in dap::Types. |
 | prettyPrint | Per-type value formatter for juce::String, std::string, std::unique_ptr, std::vector. |
-| dispatch table | `commands`, a `jam::Function::Map<juce::String, jam::Function::pointerCapacity, void (const juce::var&)>`, in `Whatdbg`. It replaces an else-if chain. `onCommand` looks up the DAP command name. |
-| cast | Code generator. It reads `project-info.md` and `cast/spell.md`. It writes `CMakeLists.txt`, `Source/generated/ProjectInfo.h`, `gh.cmake`, and `RELEASE.md`. It then runs the selected toolchain row. One invocation generates and builds. |
-| toolchain row | A row in the `## toolchain` table of `project-info.md`. Each row names one architecture. `cast --arm64` selects one row. |
-| `jam::Instance<T>` | CRTP base in jam_core. It gives `getInstance()`. `debug::State` derives from it. |
-| `jam::Union` | Packed transport type in jam_core. It holds 2 to 4 trivially copyable values in one word. `BreakpointLocation` uses it. |
+| dispatch table | `commands`, a `jam::Function::Map<juce::String, jam::Function::pointerCapacity, void (const jam::JsonDocument&)>`, in `Processor`. `onCommand` looks up the DAP command name. |
+| cast | Code generator. It reads `project-info.md` and `cast/*.md`. It writes `CMakeLists.txt`, `Source/generated/*`, `gh.cmake`, and `RELEASE.md`. It then runs the selected toolchain row. |
+| toolchain row | A row in the `## toolchain` table of `project-info.md`. |
+| `jam::Instance<T>` | CRTP base in jam_core. It gives `getInstance()`. `WHATDBGModel` derives from it. |
+| `jam::Union` | Packed transport type in jam_core. `BreakpointLocation` uses it. |
 | BreakpointLocation | `jam::Union<std::int32_t, std::uint16_t>`. It carries an engine breakpoint ID and a resolved line. |
+| `jam::TerminalPage` | `juce::Component` of `jam_tui` that paints a markdown document with the terminal graphics context. The `--help` page. |
 
 ---
 
@@ -544,7 +534,8 @@ whatdbg/
 | 0.3 | 2026-04-01 | MACHINIST | Session split (3 files), variable inspection, expression eval, OutputDebugString, pause, multi-thread, stepping, terminate/disconnect, symbol group cache, dispatch table, DynObj consolidation |
 | 0.4.0 | 2026-04-24 | ENGINEER | Cross-platform: macOS liblldb backend (Session_mac, SessionInspection_mac, SessionPrettyPrint_mac), per-arch sidecar layout, re-exec trampoline, JAM build system (`configure_app()`), updated stack and module map |
 | 0.5.0 | 2026-09-02 | COUNSELOR | Build moved to `cast` (`project-info.md`, `cast/spell.md`, `cast/cmake.cast`); `jam::Context` replaced by `jam::Instance`; `Log.h` replaced by `jam::debug::Log`; `BreakpointInfo` collapsed and `BreakpointLocation` added; Session out-parameters removed; `getOffsetByLine` split into `getOffsetStatus` and `getOffset` |
-| 0.6.0 | 2026-09-03 | COUNSELOR | Corrected this document against the current codebase: main loop, module map, and data-flow diagrams rewritten cross-platform; `debug::detail`/`Context<State>`/`handleCommand`/`handleUnknownException`/`handleStackTrace`/`handleExceptionInfo`/`handleDisconnect`/`handleSetBreakpoints`/`tryResolve` (none exist) replaced with the real `onCommand`/`onUnknownException`/`onStackTrace`/`onExceptionInfo`/`onDisconnect`/`onSetBreakpoints`/`getBreakpointOffset` names; `State::targetProcessId` corrected from `ULONG` to `std::uint32_t`; macOS zombie-termination fix (`Session::terminateDebuggee`/`Session::shutdown` kill-then-resume) documented under Terminate vs Disconnect; stepping/pause/multi-thread sections given macOS equivalents; `tests/smoke/` and `Resources/macos/` (LFS, not gitignored) added to File Structure |
+| 0.6.0 | 2026-09-03 | COUNSELOR | Corrected this document against the codebase: main loop, module map, and data-flow diagrams rewritten cross-platform; macOS zombie-termination fix documented under Terminate vs Disconnect; stepping/pause/multi-thread sections given macOS equivalents |
+| 0.7.0 | 2026-11-14 | COUNSELOR | Audio processor shape: `Whatdbg` (JUCEApplicationBase) on the message loop, `WHATDBGModel`, `Processor` on the engine context, the `requests` and `messages` lanes, `VariableManager`, `StopManager`, `dap::Writer`, `dap::FIFO`, `Session::wake/cancel/resetCancel`; the State class, the hand-written loop, and the three old threading decisions replaced by one decision; the help page (`jam::TerminalPage`) |
 
 ---
 

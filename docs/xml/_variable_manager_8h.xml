@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_variable_manager_8h" kind="file" language="C++">
+    <compoundname>VariableManager.h</compoundname>
+    <includes local="no">JuceHeader.h</includes>
+    <includes refid="_session_8h" local="yes">Session.h</includes>
+    <includedby refid="_processor_8h" local="yes">Processor.h</includedby>
+    <includedby refid="_stop_manager_8h" local="yes">debug/StopManager.h</includedby>
+    <includedby refid="_variable_manager_8cpp" local="yes">debug/VariableManager.cpp</includedby>
+    <incdepgraph>
+      <node id="9">
+        <label>../WHATDBGModel.h</label>
+        <link refid="_w_h_a_t_d_b_g_model_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Session.h</label>
+        <link refid="_session_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>State.h</label>
+        <link refid="_state_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>debug/VariableManager.h</label>
+        <link refid="_variable_manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>Files.h</label>
+        <link refid="_files_8h"/>
+      </node>
+      <node id="5">
+        <label>../generated/Generated.h</label>
+        <link refid="_generated_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>Identifiers.h</label>
+        <link refid="_identifiers_8h"/>
+      </node>
+      <node id="6">
+        <label>ProjectInfo.h</label>
+        <link refid="_project_info_8h"/>
+      </node>
+      <node id="2">
+        <label>JuceHeader.h</label>
+      </node>
+      <node id="10">
+        <label>lldb/API/LLDB.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="5">
+        <label>Main.cpp</label>
+        <link refid="_main_8cpp"/>
+      </node>
+      <node id="3">
+        <label>Processor.cpp</label>
+        <link refid="_processor_8cpp"/>
+      </node>
+      <node id="2">
+        <label>Processor.h</label>
+        <link refid="_processor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Whatdbg.cpp</label>
+        <link refid="_whatdbg_8cpp"/>
+      </node>
+      <node id="4">
+        <label>Whatdbg.h</label>
+        <link refid="_whatdbg_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>debug/StopManager.cpp</label>
+        <link refid="_stop_manager_8cpp"/>
+      </node>
+      <node id="7">
+        <label>debug/StopManager.h</label>
+        <link refid="_stop_manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>debug/VariableManager.cpp</label>
+        <link refid="_variable_manager_8cpp"/>
+      </node>
+      <node id="1">
+        <label>debug/VariableManager.h</label>
+        <link refid="_variable_manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classdebug_1_1_variable_manager" prot="public">debug::VariableManager</innerclass>
+    <innernamespace refid="namespacedebug">debug</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;JuceHeader.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_session_8h" kindref="compound">Session.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacedebug" kindref="compound">debug</ref></highlight></codeline>
+<codeline lineno="6"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="classdebug_1_1_variable_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdebug_1_1_variable_manager_1a68d6afe6448ab27765bdba2d305d4ed8" kindref="member">VariableManager</ref></highlight></codeline>
+<codeline lineno="15"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_variable_manager_1a68d6afe6448ab27765bdba2d305d4ed8" kindref="member">VariableManager</ref><sp/>(<ref refid="classdebug_1_1_session" kindref="compound">Session</ref>&amp;<sp/>newSession);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" kindref="member">resetVariablesState</ref><sp/>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_variable_manager_1a29ae314c6fd001ecf45635d9e6dc2810" kindref="member">onStackTrace</ref><sp/>(std::string&amp;<sp/>json,<sp/>std::uint32_t<sp/>threadId);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_variable_manager_1a3ef1621d5a704e5255a2094e800cf36f" kindref="member">onScopes</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameId);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_variable_manager_1a7106ef722eac53731b410153ec46d41c" kindref="member">onVariables</ref><sp/>(std::string&amp;<sp/>json,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ref);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;std::uint32_t,<sp/>int&gt;<sp/><ref refid="classdebug_1_1_variable_manager_1afb5fdaf8c1eb869e54d7f33644cd3439" kindref="member">selectFrameFromId</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameId);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_variable_manager_1a39c321a2a70e965d5f89bed3cf80974a" kindref="member">appendVariables</ref><sp/>(std::string&amp;<sp/>json,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ref);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_variable_manager_1a82ca67d49aaa5603e2863eda36efed73" kindref="member">appendVariable</ref><sp/>(std::string&amp;<sp/>json,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/><ref refid="juce__UnityPluginInterface_8h_1a010e50efcb9d6d393b9414f09f368dbc" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">name</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>value,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>type,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasChildren,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>symbolIndex,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameIndex);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_session" kindref="compound">Session</ref>&amp;<sp/><ref refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" kindref="member">session</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classdebug_1_1_variable_manager_1a107152bcc6766e61c27b707ea7959109" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_variable_manager_1a107152bcc6766e61c27b707ea7959109" kindref="member">nextVariablesRef</ref><sp/>{<sp/>1<sp/>};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="classdebug_1_1_variable_manager_1a658ab9500c7bbf4619622a180ee71864" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>std::pair&lt;int,<sp/>int&gt;&gt;<sp/><ref refid="classdebug_1_1_variable_manager_1a658ab9500c7bbf4619622a180ee71864" kindref="member">variablesRefMap</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classdebug_1_1_variable_manager_1a56a358497bb674b37378e987ba944763" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classdebug_1_1_variable_manager_1a56a358497bb674b37378e987ba944763" kindref="member">nextFrameId</ref><sp/>{<sp/>1<sp/>};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classdebug_1_1_variable_manager_1a5a7a240eb0ab98f087df0bcdac9ecc1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>std::pair&lt;std::uint32_t,<sp/>int&gt;&gt;<sp/><ref refid="classdebug_1_1_variable_manager_1a5a7a240eb0ab98f087df0bcdac9ecc1d" kindref="member">frameIdMap</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classdebug_1_1_variable_manager_1adf8000c5c942649ff1c38f120f699212" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="classdebug_1_1_variable_manager_1adf8000c5c942649ff1c38f120f699212" kindref="member">lastScopesThreadId</ref><sp/>{<sp/>0<sp/>};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="juce__PlatformDefs_8h_1a851b02724a8158a7f746c66b5758b3dd" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR</ref><sp/>(<ref refid="classdebug_1_1_variable_manager" kindref="compound">VariableManager</ref>)</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>debug</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="debug/VariableManager.h"/>
+  </compounddef>
+</doxygen>

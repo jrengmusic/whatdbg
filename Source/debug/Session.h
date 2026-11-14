@@ -42,9 +42,9 @@ enum class EndMode
 using BreakpointLocation = jam::Union<std::int32_t,     // engineId
                                       std::uint16_t>;   // resolvedLine
 
-/** Cross-platform debug engine wrapper used by Whatdbg and BreakpointManager to
- *  drive a debug session: launching/attaching processes, polling for events,
- *  setting breakpoints, inspecting symbols, and stepping.
+/** Cross-platform debug engine wrapper used by Processor, BreakpointManager,
+ *  VariableManager, and StopManager to drive a debug session: launching and attaching
+ *  processes, polling for events, setting breakpoints, inspecting symbols, and stepping.
  *
  *  Two independent implementations share this one declaration, selected at
  *  compile time by JUCE_WINDOWS / JUCE_MAC:
@@ -60,14 +60,17 @@ using BreakpointLocation = jam::Union<std::int32_t,     // engineId
  *  - Owns the SBDebugger, SBListener, SBTarget, and SBProcess instances for
  *    the lifetime of the session.
  *
- *  @note All methods must be called on the main thread. On Windows, COM is initialized
- *        in multithreaded mode by initialize(). Calling any method before initialize()
- *        succeeds will assert or produce undefined behavior.
+ *  @note The engine context runs every method, except wake and cancel. The reader thread
+ *        calls wake and cancel through Processor::addRequest. On Windows, COM is initialized
+ *        in multithreaded mode by initialize().
  */
 class Session
 {
 public:
+    /** Creates a session with no engine objects. initialize creates them. */
     Session () = default;
+
+    /** Calls shutdown with EndMode::passive. */
     ~Session ();
 
     /** Prepare the debug engine for use. Must succeed before any other Session method.
@@ -75,7 +78,8 @@ public:
      *  Windows: CoInitializeEx (multithreaded), loads dbgeng.dll from sidecarDir via
      *  Loader, calls DebugCreate to obtain IDebugClient5, QueryInterface for
      *  IDebugControl4/IDebugSymbols3/IDebugDataSpaces4/IDebugSystemObjects, registers
-     *  OutputCallbacks and EventCallbacks, and sets source-level code level for stepping.
+     *  OutputCallbacks and EventCallbacks, sets source-level code level for stepping,
+     *  and enables the initial-break engine option. On failure it calls shutdown(EndMode::passive).
      *
      *  macOS: SBDebugger::Initialize/Create (async mode), redirects the debugger's own
      *  stdin to /dev/null so liblldb does not compete with the DAP reader thread for
@@ -84,7 +88,7 @@ public:
      *  @param sidecarDir  Directory containing extracted dbgeng sidecar DLLs. Unused on macOS.
      *  @return true if the engine is ready for launch/attach.
      *
-     *  @note Must be called on the main thread before any other Session method.
+     *  @note Called on the engine context, by Processor::onPrepare.
      */
     bool initialize (const juce::File& sidecarDir) noexcept;
 
@@ -95,9 +99,9 @@ public:
      *  initial CreateProcess and loader-breakpoint events.
      *
      *  macOS creates the target, starts listening for its events, then calls
-     *  SBTarget::Launch with eLaunchFlagDebug | eLaunchFlagStopAtEntry; on success the
-     *  target/process members are already populated and State::targetProcessId is set
-     *  here. The caller still polls via pollEvents() for the resulting stop event.
+     *  SBTarget::Launch with eLaunchFlagDebug | eLaunchFlagStopAtEntry. On success the
+     *  target and process members are populated, and the session fires the targetProcessId
+     *  event. The caller still polls via pollEvents() for the resulting stop event.
      *
      *  @param program  Full path to the executable to launch.
      *  @return true if the launch call succeeded.
@@ -113,8 +117,8 @@ public:
      *  initial attach-break event.
      *
      *  macOS creates an empty target, starts listening for its events, then calls
-     *  SBTarget::AttachToProcessWithID. State::targetProcessId is set by the caller
-     *  once this returns success — the same single-writer contract Windows relies on.
+     *  SBTarget::AttachToProcessWithID. Processor::onAttach stores the target process id
+     *  after this call returns true.
      *
      *  @param processId  OS process ID of the target process.
      *  @return true if the attach call succeeded.
@@ -130,27 +134,26 @@ public:
 
     /** Poll for debug events with a timeout.
      *
-     *  Should be called repeatedly from the main loop while the target is running
-     *  or stopping. Windows calls IDebugControl4::WaitForEvent with timeoutMs directly.
-     *  dbgeng invokes the callbacks in Callbacks.cpp during that call, on the main
-     *  thread. Afterwards, E_UNEXPECTED from the wait marks the process exited, and
-     *  S_OK with a step pending completes the step. macOS calls
+     *  Processor::process calls it on the engine context while the target runs or
+     *  launches, or while a terminate deadline is pending. Windows calls
+     *  IDebugControl4::WaitForEvent with timeoutMs. dbgeng invokes the callbacks in
+     *  Callbacks.cpp during that call. Afterwards, E_UNEXPECTED from the wait fires the
+     *  terminated event, and S_OK with a step pending fires the step event. macOS calls
      *  SBListener::WaitForEvent, which only accepts whole-second timeouts, so timeoutMs
      *  is rounded up to the next second before the wait. Each timeoutMs from 1 to 1000
-     *  waits one second. A received process event goes to the stop-reason dispatch, and
-     *  a received breakpoint event goes to onBreakpointEvent.
+     *  waits one second. A process event goes to the stop-reason dispatch. A breakpoint
+     *  event of type LocationsAdded or LocationsResolved fires breakpointLocationFound.
      *
-     *  @param timeoutMs  Maximum time to wait in milliseconds. On Windows and macOS, 0
-     *                    is a non-blocking poll.
+     *  @param timeoutMs  Maximum time to wait in milliseconds. On macOS, 0 is a
+     *                    non-blocking poll.
      */
     void pollEvents (std::uint32_t timeoutMs) noexcept;
 
     /** Detach from the target and release all engine resources.
      *
-     *  Idempotent — safe to call more than once. run() calls shutdown() explicitly
-     *  at loop exit, and ~Session() calls it again unconditionally; the second call
-     *  is a no-op because the first already cleared the guard it checks (client on
-     *  Windows, debugger validity on macOS).
+     *  Safe to call more than once. Processor::onReleaseResources, initialize on failure
+     *  (Windows), and ~Session call it. On Windows a second call finds client null and skips
+     *  EndSession. On macOS a second call finds the debugger invalid and does nothing.
      *
      *  @param mode  How to end the session:
      *               - EndMode::terminate — target is alive; kill it on detach
@@ -164,18 +167,41 @@ public:
      *  and terminates the SBDebugger.
      *
      *  @note Callers must pass an explicit mode. The destructor passes EndMode::passive.
-     *        Passing terminate or detach for a target that has already exited will hang;
-     *        check ExecutionState before calling.
+     *        Processor::getEndModeForExit returns EndMode::passive when the target has exited.
      */
     void shutdown (EndMode mode) noexcept;
+
+    /** Wakes a blocked pollEvents. Called on the reader thread, from Processor::addRequest.
+     *
+     *  macOS broadcasts the wake event on the listener. Windows does nothing.
+     */
+    void wake () noexcept;
+
+    /** Requests interruption of the engine wait. Called on the reader thread, for disconnect and terminate requests.
+     *
+     *  Windows calls IDebugControl4::SetInterrupt with DEBUG_INTERRUPT_EXIT. macOS calls wake.
+     */
+    void cancel () noexcept;
+
+    /** Called on the engine context when a disconnect or terminate request starts.
+     *
+     *  Windows calls IDebugControl4::GetInterrupt. macOS does nothing.
+     */
+    void resetCancel () noexcept;
+
+    /** Dispatch map that reports engine events to Processor and StopManager.
+     *
+     *  Both register their handlers in their constructors. The session fires an event
+     *  with events.get, on the engine context.
+     */
+    Events events;
 
     // ── Breakpoint API (used by BreakpointManager) ─────────────────────
 
     /** Resolve a source file path and line number to a resolution status.
      *
-     *  Windows calls IDebugSymbols3::GetOffsetByLine, first against the full path
-     *  then against the basename with a stored-path match, and requires symbols to
-     *  already be loaded for the module containing the source file. Distinguishes a
+     *  Windows calls IDebugSymbols3::GetOffsetByLine, first against the full path,
+     *  then against the basename with a stored-path match. It distinguishes a
      *  transient engine error (E_UNEXPECTED, engineBusy) from a genuine miss.
      *
      *  macOS searches every compile unit of every loaded module for a matching line
@@ -249,24 +275,22 @@ public:
 
     /** Force-reload symbols for a specific module.
      *
-     *  Windows executes ".reload /f <imageName>" via IDebugControl4::Execute after a
-     *  new module loads, so its PDB symbols are available before breakpoint resolution
-     *  is attempted; loading may still fail silently if the PDB is not locatable.
-     *  macOS is a no-op — liblldb loads a module's symbols automatically as part of
-     *  module-load handling, so this always returns ok().
+     *  Windows executes ".reload /f" with the basename of imageName, via
+     *  IDebugControl4::Execute. BreakpointManager::onModuleLoad calls it after a module
+     *  loads. macOS is a no-op. liblldb loads a module's symbols during module-load
+     *  handling, so this always returns ok().
      *
      *  @param imageName  The image file name (basename or full path) as reported
-     *                    by the LoadModule event. Unused on macOS.
+     *                    by the moduleLoad event. Unused on macOS.
      *  @return juce::Result::ok() if the reload executed without error, or always on macOS.
      */
     juce::Result loadModuleSymbols (const juce::String& imageName) noexcept;
 
     /** Force-reload symbols for all currently loaded modules.
      *
-     *  Windows executes ".reload /f" via IDebugControl4::Execute as a fallback when
-     *  per-module reload is insufficient; can be slow when many modules are loaded,
-     *  so loadModuleSymbols is preferred for targeted reloads. macOS is a no-op for
-     *  the same reason as loadModuleSymbols and always returns ok().
+     *  Windows executes ".reload /f" with no module name, via IDebugControl4::Execute.
+     *  BreakpointManager::onReload calls it. macOS is a no-op for the same reason as
+     *  loadModuleSymbols and always returns ok().
      *
      *  @return juce::Result::ok() if the reload executed without error, or always on macOS.
      */
@@ -278,9 +302,9 @@ public:
      *  source-level code level, set during initialize. macOS calls
      *  SBThread::StepOver(eOnlyDuringStepping) on the selected thread.
      *
-     *  @note The step completes asynchronously. pollEvents sets State::stopReason to
-     *        step: on Windows when a wait returns S_OK with a step pending, and on
-     *        macOS through the stop-reason dispatch.
+     *  @note The step completes asynchronously. Windows fires the step event from
+     *        pollEvents when a wait returns S_OK with a step pending. macOS fires it
+     *        from the stop-reason dispatch.
      */
     void stepOver () noexcept;
 
@@ -305,8 +329,8 @@ public:
 
     /** Interrupt a running target process.
      *
-     *  Windows opens the process with the minimum rights DebugBreakProcess needs and
-     *  calls DebugBreakProcess on it. macOS calls SBProcess::SendAsyncInterrupt on the
+     *  Windows opens the process with PROCESS_VM_OPERATION, PROCESS_VM_WRITE, and
+     *  PROCESS_CREATE_THREAD, then calls DebugBreakProcess on it. macOS calls SBProcess::SendAsyncInterrupt on the
      *  already-bound process; processId is unused there since the Session already
      *  knows its target. The resulting break is reported as a normal stop event.
      *
@@ -317,18 +341,18 @@ public:
     /** Request debuggee termination without blocking the caller.
      *
      *  Sends a kill request to the target process and returns immediately.
-     *  The resulting process-exited event is observed later via pollEvents
-     *  and drained through the normal deferred-event path. Windows calls
+     *  The exit is observed later through pollEvents. Processor handles the
+     *  exited and terminated events. Windows calls
      *  IDebugClient5::TerminateProcesses, which targets the process this
      *  client is already debugging. macOS sends SIGKILL via SBProcess::Signal
      *  and, on success, resumes the process so it can act on the pending
-     *  signal and exit; if Signal fails (the process may already be in a
-     *  state where a signal cannot be delivered) it falls back to
+     *  signal and exit. If Signal fails, it falls back to
      *  SBProcess::Kill, which asks LLDB to terminate the process directly.
      *
-     *  @param processId  OS process ID of the target to terminate. Unused on macOS —
-     *                     the Session already knows its own bound process.
-     *  @note Callers must keep polling until State::hasProcessExited fires.
+     *  @param processId  OS process ID of the target to terminate. Unused on both
+     *                    platforms. The session already knows its bound process.
+     *  @note Callers must keep polling until the exit is observed. Processor::process
+     *        keeps polling while terminateDeadlineMs is set.
      */
     void terminateDebuggee (std::uint32_t processId) noexcept;
 
@@ -356,7 +380,7 @@ public:
      */
     void appendSourcePath (const juce::String& path) noexcept;
 
-    /** Return stack frames for the current thread as a DAP-formatted array.
+    /** Appends the stack frames of the current thread to json, as DAP stack frame objects.
      *
      *  Windows walks the call stack up to maxFrames deep using
      *  IDebugControl4::GetStackTrace and resolves each frame to source file, line, and
@@ -364,61 +388,57 @@ public:
      *  reads SBThread::GetNumFrames and each SBFrame's function name and SBLineEntry
      *  directly, clamped to the real stack depth.
      *
-     *  Each element in the returned array is a DynamicObject with fields:
-     *  - id          (int)    — firstFrameId plus the frame's index in the returned array
-     *  - name        (String) — function name, or "frame" (Windows) or "??" (macOS) when unavailable
-     *  - source      (Object) — { name, path } if source info is available
-     *  - line        (int)    — one-based source line number
-     *  - column      (int)    — always 1 (column not resolved; 1-based per DAP convention)
+     *  addFrame is called once for each frame, in frame order. Its return value is the
+     *  id that the frame object carries. VariableManager assigns the ids.
      *
-     *  @param maxFrames     Maximum number of frames to request. Windows requests maxFrames
-     *                       frames and returns those that GetStackTrace fills. macOS returns
-     *                       at most the stack depth.
-     *  @param firstFrameId  DAP ID of the first returned frame. Each following frame takes
-     *                       the next ID.
-     *  @return Array of frame objects. Empty if the stack cannot be walked.
+     *  Each appended frame object has these fields:
+     *  - id          (int)    — the value that addFrame returned for the frame
+     *  - name        (String) — function name, or "frame" (Windows) or "??" (macOS) when unavailable
+     *  - source      (Object) — { name, path }; present only when line information is available
+     *  - line        (int)    — one-based source line number; present only with source
+     *  - column      (int)    — always 1; present only with source
+     *
+     *  @param json       Output text that receives the frame objects.
+     *  @param maxFrames  Maximum number of frames to request. Windows requests maxFrames
+     *                    frames and appends those that GetStackTrace fills. macOS appends
+     *                    at most the stack depth.
+     *  @param addFrame   Called with the frame index. Returns the DAP id of the frame.
+     *  @return Number of frame objects appended.
      *
      *  @note Must be called while the target is stopped.
      */
-    int appendStackFrames (std::string& json, int maxFrames, int firstFrameId) noexcept;
+    int appendStackFrames (std::string& json, int maxFrames, const std::function<int (int frameIndex)>& addFrame) noexcept;
 
-    /** Return local variables for a given stack frame as a DAP-formatted array.
+    /** Calls function for each local variable of a stack frame, in symbol order.
      *
-     *  Windows obtains the frame's symbol group via IDebugSymbols3::GetScopeSymbolGroup2
-     *  (cached — see getOrCreateSymbolGroup) and iterates its top-level symbols,
-     *  delegating value formatting to debug::prettyPrint / debug::formatSymbolValue.
-     *  macOS reads SBFrame::GetVariables into cachedFrameVariables (see
-     *  cacheFrameVariables) and iterates it, delegating to the macOS debug::prettyPrint
-     *  overload for SBValue. Both sides skip symbols matched by shouldSkipSymbol.
+     *  Windows iterates the top-level symbols of the frame's symbol group, obtained through
+     *  getOrCreateSymbolGroup. Value formatting uses debug::prettyPrint and
+     *  debug::formatSymbolValue. macOS iterates SBFrame::GetVariables, cached by
+     *  cacheFrameVariables. Value formatting uses the macOS debug::prettyPrint overload. Both
+     *  sides skip the names that shouldSkipSymbol matches.
      *
-     *  Each element in the returned array is a DynamicObject with fields:
-     *  - name               (String) — symbol name
-     *  - value              (String) — formatted value string
-     *  - type               (String) — type name from the debug engine
-     *  - hasChildren/variablesReference — non-zero/true if the variable can be expanded
-     *  - symbolIndex        (int)    — index in the frame's symbol list (for child expansion)
+     *  function receives the symbol name, the formatted value, the type name, whether the
+     *  symbol has children, and the symbol index in the frame's list.
      *
      *  @param frameIndex  Zero-based stack frame index (0 = innermost frame).
-     *  @return Array of variable objects. Empty if the frame has no locals or an error occurs.
+     *  @param function    Called once for each local variable.
      *
      *  @note Must be called while the target is stopped.
      */
     void applyToLocals (int frameIndex, const std::function<void (const juce::String& name, const juce::String& value, const juce::String& type, bool hasChildren, int symbolIndex)>& function) noexcept;
 
-    /** Return child variables of an expanded composite variable.
+    /** Calls function for each child of a variable, to expand it in DAP.
      *
      *  Windows calls IDebugSymbolGroup2::ExpandSymbol on the symbol at symbolIndex,
      *  then iterates the newly exposed children. macOS reads
-     *  SBValue::GetNumChildren/GetChildAtIndex directly on the cached parent value —
-     *  liblldb builds children on demand, with no separate expand step. Used to
-     *  implement DAP variable expansion (struct fields, array elements, pointer
-     *  dereferences).
+     *  SBValue::GetNumChildren and GetChildAtIndex directly on the cached parent value.
+     *  liblldb builds children on demand, with no separate expand step.
      *
-     *  Each element in the returned array has the same schema as getLocals entries.
+     *  function receives the same arguments as in applyToLocals.
      *
-     *  @param frameIndex    Zero-based stack frame index containing the parent variable.
-     *  @param symbolIndex   Index of the parent symbol in the frame's symbol list.
-     *  @return Array of child variable objects. Empty if the symbol has no children or errors.
+     *  @param frameIndex   Zero-based stack frame index containing the parent variable.
+     *  @param symbolIndex  Index of the parent symbol in the frame's symbol list.
+     *  @param function     Called once for each child.
      *
      *  @note Must be called while the target is stopped.
      */
@@ -431,7 +451,7 @@ public:
      *  previous symbol options are restored on exit, and the added symbol is removed
      *  from the group. A result is returned only when AddSymbol returns S_OK.
      *  macOS calls SBFrame::EvaluateExpression directly on the requested frame and
-     *  formats the resulting SBValue the same way as getLocals. On failure it returns
+     *  formats the resulting SBValue the same way as applyToLocals. On failure it returns
      *  the SBError description, or "evaluation failed" when the error has no text.
      *
      *  @param expression  C++ expression string to evaluate (e.g. "myVar->field").
@@ -444,19 +464,18 @@ public:
      */
     juce::String evaluateExpression (const juce::String& expression, int frameIndex) noexcept;
 
-    /** Enumerate all threads in the target process.
+    /** Appends the threads of the target process to json, as DAP thread objects.
      *
      *  Windows uses IDebugSystemObjects::GetNumberThreads and GetThreadIdsByIndex to
-     *  list all threads, resolving each to its OS thread ID and, where available, its
-     *  thread description via GetThreadDescription. macOS uses
-     *  SBProcess::GetNumThreads/GetThreadAtIndex, resolving each to its SBThread ID
-     *  and name.
+     *  list all threads, and resolves each name with GetThreadDescription. A thread with
+     *  no description is named "Thread " followed by its id. macOS uses
+     *  SBProcess::GetNumThreads and GetThreadAtIndex, and reads each SBThread ID and name.
      *
-     *  Each element in the returned array is a DynamicObject with fields:
+     *  Each appended thread object has these fields:
      *  - id   (int)    — OS thread ID (system TID, not the engine's internal index)
-     *  - name (String) — thread description/name when available, otherwise empty
+     *  - name (String) — thread name; empty on macOS when the thread has none
      *
-     *  @return Array of thread objects. Empty if enumeration fails.
+     *  @param json  Output text that receives the thread objects.
      *
      *  @note Must be called while the target is stopped.
      */
@@ -479,20 +498,21 @@ public:
      *  Windows looks up the dbgeng internal thread index for systemId and calls
      *  IDebugSystemObjects::SetCurrentThreadId. macOS calls
      *  SBProcess::SetSelectedThreadByID directly with systemId. All subsequent symbol
-     *  queries (getLocals, getStackTrace, evaluateExpression) operate on this thread's
-     *  context.
+     *  queries (applyToLocals, appendStackFrames, evaluateExpression) operate on this
+     *  thread's context.
      *
      *  @param systemId  OS system thread ID to make current.
      *
-     *  @note Must be called while the target is stopped. Invalid systemId is silently ignored.
+     *  @note Must be called while the target is stopped. On Windows, an id that dbgeng
+     *        does not know is ignored, and 0 fails an assert.
      */
     void setCurrentThreadBySystemId (std::uint32_t systemId) noexcept;
 
-    /** Invalidate the cached symbol group so the next getLocals call rebuilds it.
+    /** Discards the cached symbol group (Windows) or the cached frame variables (macOS).
      *
-     *  The symbol group cache is keyed on frame index. After a stop event the
-     *  program counter changes, so the cached group is stale and must be discarded.
-     *  Call this at the start of every stopped event before any variable queries.
+     *  The cache is keyed on frame index, and a stop changes the program counter, so the
+     *  cache must be discarded. VariableManager::resetVariablesState calls it. shutdown calls
+     *  it too.
      */
     void resetSymbolGroupCache () noexcept;
 
@@ -546,12 +566,12 @@ private:
     Loader loader;
 
     /** Registered with client to receive OutputDebugString text from the target. */
-    OutputCallbacks outputCallbacks;
+    OutputCallbacks outputCallbacks { events };
 
     /** Registered with client to receive breakpoint, exception, module, and
      *  process lifecycle events.
      */
-    EventCallbacks eventCallbacks;
+    EventCallbacks eventCallbacks { events };
 
     /** Root dbgeng interface obtained from DebugCreate; source of every other interface. */
     Microsoft::WRL::ComPtr<IDebugClient5> client;
@@ -602,6 +622,8 @@ private:
 
     /** Listens for process, target, and breakpoint events; polled by pollEvents. */
     lldb::SBListener listener;
+
+    lldb::SBBroadcaster broadcaster { "whatdbg" };
 
     /** The debug target created by launch or attach. */
     lldb::SBTarget target;

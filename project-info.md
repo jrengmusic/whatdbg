@@ -26,8 +26,8 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 | projectName      | @char | whatdbg                                          | toLiteral | Product name.                       |
 | companyName      | @char | JRENG                                            | toLiteral | Company name.                       |
 | legalCompanyName | @char | Jubilant Research of Eclectic Novelty Generation | toLiteral | Full legal company name.            |
-| versionString    | @char | 0.1.0                                            | toLiteral | Product version string.             |
-| versionNumber    | int   | 0x100                                            |           | Product version, JUCE hex encoding. |
+| versionString    | @char | 0.0.1                                            | toLiteral | Product version string.             |
+| versionNumber    | int   | 0x1                                              |           | Product version, JUCE hex encoding. |
 | productWebsite   | @char | `https://jrengmusic.com`                         |           | Product website URL.                |
 | companyEmail     | @char | info@jrengmusic.com                              | toLiteral | Company contact email.              |
 +------------------+-------+--------------------------------------------------+-----------+-------------------------------------+
@@ -100,19 +100,37 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 
 ## juce module
 
-+------+-----------+
-| name | value     |
-+======+===========+
-| core | juce_core |
-+------+-----------+
++-----------------+-----------------------+
+| name            | value                 |
++=================+=======================+
+| core            | juce_core             |
+| dataStructures  | juce_data_structures  |
+| events          | juce_events           |
+| graphics        | juce_graphics         |
+| guiBasics       | juce_gui_basics       |
+| audioProcessors | juce_audio_processors |
++-----------------+-----------------------+
 
 ## user module
 
-+--------------+----------+-------------+
-| root         | name     | description |
-+==============+==========+=============+
-| @user-module | jam_core | JAM Core    |
-+--------------+----------+-------------+
++--------------+-----------------------+--------------------------------------------------------------------------------------------------+
+| root         | name                  | description                                                                                      |
++==============+=======================+==================================================================================================+
+| @user-module | jam_core              | JAM Core                                                                                         |
+| @user-module | jam_document          | Universal line break and reflow (UAX #14)                                                        |
+| @user-module | jam_markdown          | Clean-room native CommonMark + GFM markdown parsing and rendering                                |
+| @user-module | jam_freetype          | Vendored FreeType font rasterization library                                                     |
+| @user-module | jam_graphics          | Graphics utilities, blur, shadows, colours, fonts, mesh                                          |
+| @user-module | jam_data_structures   | ValueTree management and data model utilities — model, parameters                                |
+| @user-module | jam_animation         | Foundation animation classes (Animator, AnimationBase, AnimationScrollingText)                   |
+| @user-module | jam_web               | HTML authored-subset and CSS Syntax Level 3 subset tokenizers and parsers                        |
+| @user-module | jam_style             | JAM Style — LookAndFeel base + ColourScheme-backed colour registry                               |
+| @user-module | jam_gui               | GUI foundation — Window, Modal, Glass                                                            |
+| @user-module | jam_mermaid_diagram   | Clean-room native mermaid diagram parsing over jam::Document producing the semantic Element tree |
+| @user-module | jam_markdown_graphics | Markdown and mermaid materialisation, layout and view component                                  |
+| @user-module | jam_terminal          | VT read-side engine, TTY, protocol vocabulary, keyboard encoding                                 |
+| @user-module | jam_tui               | Terminal user interface components, painted through the terminal graphics context                |
++--------------+-----------------------+--------------------------------------------------------------------------------------------------+
 
 ## source glob
 
@@ -134,25 +152,29 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 
 ## include
 
-+------------+-----------------------------------------------+-------------------------------------------+
-| name       | value                                         | description                               |
-+============+===============================================+===========================================+
-| userModule | @user-module                                  | User module root, for #include resolution |
-| generated  | @generated                                    | Generated headers                         |
-| lldb       | `${CMAKE_SOURCE_DIR}/Resources/macos/include` | LLDB SB API headers                       |
-+------------+-----------------------------------------------+-------------------------------------------+
++------------+----------------------------------------------------------+-------------------------------------------+
+| name       | value                                                    | description                               |
++============+==========================================================+===========================================+
+| userModule | @user-module                                             | User module root, for #include resolution |
+| generated  | @generated                                               | Generated headers                         |
+| lldb       | `${CMAKE_SOURCE_DIR}/Resources/macos/include`            | LLDB SB API headers                       |
+| freetype   | `${CAST_USER_MODULE_PATH}/jam_freetype/freetype/include` |                                           |
+| harfbuzz   | `${CAST_JUCE_PATH}/modules/juce_graphics/fonts/harfbuzz` |                                           |
++------------+----------------------------------------------------------+-------------------------------------------+
 
 ## binary
 
-+---------+-----------------------------------------------------------------------+------------------------------+
-| name    | value                                                                 | description                  |
-+=========+=======================================================================+==============================+
-| liblldb | `Resources/macos/${CMAKE_OSX_ARCHITECTURES}/liblldb.dylib`            | macOS LLDB engine            |
-| dbgeng  | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbgeng.dll`  | Windows debug engine         |
-| dbghelp | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbghelp.dll` | Windows symbol handling      |
-| dbgcore | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbgcore.dll` | Windows dump core            |
-| symsrv  | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/symsrv.dll`  | Windows symbol server client |
-+---------+-----------------------------------------------------------------------+------------------------------+
++------------+-----------------------------------------------------------------------+------------------------------------+
+| name       | value                                                                 | description                        |
++============+=======================================================================+====================================+
+| liblldb    | `Resources/macos/${CMAKE_OSX_ARCHITECTURES}/liblldb.dylib`            | macOS LLDB engine                  |
+| dbgeng     | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbgeng.dll`  | Windows debug engine               |
+| dbghelp    | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbghelp.dll` | Windows symbol handling            |
+| dbgcore    | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbgcore.dll` | Windows dump core                  |
+| symsrv     | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/symsrv.dll`  | Windows symbol server client       |
+| help       | Source/HELP.md                                                        | Help document source               |
+| styleSheet | ../jam/jam_tui/page/style.css                                         | Stylesheet, embedded as BinaryData |
++------------+-----------------------------------------------------------------------+------------------------------------+
 
 ## library
 

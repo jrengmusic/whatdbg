@@ -1,0 +1,4 @@
+response initialize true
+event initialized
+response notACommand false Unknown command
+response disconnect true

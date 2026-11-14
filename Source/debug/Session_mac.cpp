@@ -5,12 +5,13 @@
  *  interface from Session.h using lldb::SBDebugger, SBTarget, SBProcess, SBThread,
  *  and SBFrame. The file holds the lifecycle, the event dispatch that pollEvents runs
  *  for process, stop, exit, and breakpoint events, the stop-reason and process-state
- *  handlers that write State, breakpoint creation and location lookup, thread and
- *  frame queries, variable inspection, expression evaluation, and getExceptionName.
+ *  handlers that fire events on Session::events, breakpoint creation and location
+ *  lookup, thread and frame queries, variable inspection, expression evaluation, and
+ *  getExceptionName.
  *
- *  Threading model: single-threaded. All SB API calls happen on the main thread.
- *  pollEvents drives the event handlers, which write the deferred state defined in
- *  State.h. Whatdbg drains that state.
+ *  Threading model: the engine context makes every SB API call, except wake and cancel,
+ *  which the reader thread calls. pollEvents drives the event handlers, which fire
+ *  events on Session::events.
  *
  *  Lifecycle: initialize → (launch | attach) → pollEvents loop → shutdown.
  */
@@ -26,52 +27,44 @@
 namespace debug
 {
 
-static void onBreakpointStop (const lldb::StopReason& /*stopReason*/, debug::State& state, lldb::SBThread& thread) noexcept
+static void onBreakpointStop (const lldb::StopReason& /*stopReason*/, debug::Events& events, lldb::SBThread& thread) noexcept
 {
-    state.stopReason = debug::StopReason::breakpoint;
-    state.breakpointEngineId =
-        static_cast<std::int32_t> (thread.GetStopReasonDataAtIndex (0));
-    state.executionState = debug::ExecutionState::stopped;
+    events.get (Id::breakpoint, static_cast<int> (thread.GetStopReasonDataAtIndex (0)));
 }
 
-static void onStepStop (const lldb::StopReason& /*stopReason*/, debug::State& state, lldb::SBThread& thread) noexcept
+static void onStepStop (const lldb::StopReason& /*stopReason*/, debug::Events& events, lldb::SBThread& thread) noexcept
 {
     juce::ignoreUnused (thread);
-    state.stopReason = debug::StopReason::step;
-    state.executionState = debug::ExecutionState::stopped;
+    events.get (Id::step);
 }
 
-static void onInterruptStop (const lldb::StopReason& /*stopReason*/, debug::State& state, lldb::SBThread& thread) noexcept
+static void onInterruptStop (const lldb::StopReason& /*stopReason*/, debug::Events& events, lldb::SBThread& thread) noexcept
 {
     juce::ignoreUnused (thread);
-    state.stopReason = debug::StopReason::pause;
-    state.executionState = debug::ExecutionState::stopped;
+    events.get (Id::pause);
 }
 
-static void onSignalStop (const lldb::StopReason& /*stopReason*/, debug::State& state, lldb::SBThread& thread) noexcept
+static void onSignalStop (const lldb::StopReason& /*stopReason*/, debug::Events& events, lldb::SBThread& thread) noexcept
 {
-    state.stopReason          = debug::StopReason::exception;
-    state.isMachException     = false;
-    state.exceptionCode       =
-        static_cast<std::uint32_t> (thread.GetStopReasonDataAtIndex (0));
-    state.exceptionAddress    = thread.GetSelectedFrame ().GetPC ();
-    state.executionState      = debug::ExecutionState::stopped;
+    events.get (Id::exception,
+                static_cast<juce::int64> (static_cast<std::uint32_t> (thread.GetStopReasonDataAtIndex (0))),
+                static_cast<juce::int64> (thread.GetSelectedFrame ().GetPC ()),
+                0);
 }
 
-static void onExceptionStop (const lldb::StopReason& /*stopReason*/, debug::State& state, lldb::SBThread& thread) noexcept
+static void onExceptionStop (const lldb::StopReason& /*stopReason*/, debug::Events& events, lldb::SBThread& thread) noexcept
 {
-    state.stopReason          = debug::StopReason::exception;
-    state.isMachException     = true;
-    state.exceptionCode       =
-        static_cast<std::uint32_t> (thread.GetStopReasonDataAtIndex (0));
-    state.exceptionAddress    = thread.GetSelectedFrame ().GetPC ();
-    state.executionState      = debug::ExecutionState::stopped;
+    events.get (Id::exception,
+                static_cast<juce::int64> (static_cast<std::uint32_t> (thread.GetStopReasonDataAtIndex (0))),
+                static_cast<juce::int64> (thread.GetSelectedFrame ().GetPC ()),
+                1);
 }
 
 static constexpr std::size_t stdioReadBufferSize { 1024 };
 static constexpr std::uint32_t allEventsMask { ~0u };
+static constexpr std::uint32_t wakeEventMask { 1u << 0 };
 
-static void drainProcessStdio (debug::State* state,
+static void drainProcessStdio (debug::Events& events,
                                lldb::SBProcess& process,
                                bool isStderr) noexcept
 {
@@ -86,19 +79,18 @@ static void drainProcessStdio (debug::State* state,
 
         if (bytesRead > 0)
         {
-            state->debuggeeOutputText += juce::String (juce::CharPointer_UTF8 (buffer),
-                                                       juce::CharPointer_UTF8 (buffer + bytesRead));
-            state->debuggeeOutputCategory = isStderr ? "stderr" : "stdout";
-            state->hasDebuggeeOutput      = true;
+            events.get (isStderr ? Id::standardError : Id::standardOutput,
+                        juce::String (juce::CharPointer_UTF8 (buffer),
+                                      juce::CharPointer_UTF8 (buffer + bytesRead)));
         }
     }
     while (bytesRead > 0);
 }
 
-static void onStopReason (debug::State& state, lldb::SBThread& thread, lldb::StopReason lldbStopReason) noexcept
+static void onStopReason (WHATDBGModel& model, debug::Events& events, lldb::SBThread& thread, lldb::StopReason lldbStopReason) noexcept
 {
     static const auto stopReasons ([] {
-        jam::Function::Map<lldb::StopReason, jam::Function::pointerCapacity, void (debug::State&, lldb::SBThread&)> stopReasons;
+        jam::Function::Map<lldb::StopReason, jam::Function::pointerCapacity, void (debug::Events&, lldb::SBThread&)> stopReasons;
 
         stopReasons.add (lldb::eStopReasonBreakpoint,   onBreakpointStop);
         stopReasons.add (lldb::eStopReasonTrace,        onStepStop);
@@ -109,10 +101,9 @@ static void onStopReason (debug::State& state, lldb::SBThread& thread, lldb::Sto
         return stopReasons;
     } ());
 
-    if (state.isPausePending)
+    if (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::isPausePending)->getValue () != 0)
     {
-        state.isPausePending = false;
-        onInterruptStop (lldbStopReason, state, thread);
+        onInterruptStop (lldbStopReason, events, thread);
     }
     else
     {
@@ -121,13 +112,14 @@ static void onStopReason (debug::State& state, lldb::SBThread& thread, lldb::Sto
         if (stopReasonEntry != stopReasons.end ())
         {
             const auto& [stopReasonCode, stopReasonCallback] { *stopReasonEntry };
-            stopReasonCallback (stopReasonCode, state, thread);
+            stopReasonCallback (stopReasonCode, events, thread);
         }
     }
 }
 
 static void onProcessStateStopped (const lldb::StateType& /*stateType*/,
-                                   debug::State* state,
+                                   WHATDBGModel* model,
+                                   debug::Events& events,
                                    lldb::SBProcess& process,
                                    lldb::SBEvent& event) noexcept
 {
@@ -135,39 +127,39 @@ static void onProcessStateStopped (const lldb::StateType& /*stateType*/,
     {
         auto thread { process.GetSelectedThread () };
 
-        if (state->executionState == debug::ExecutionState::launching)
+        if (static_cast<debug::ExecutionState> (model->getParameter<jam::Parameter<int>> (model->sessionTag, Id::executionState)->getValue ()) == debug::ExecutionState::launching)
         {
-            state->stopReason     = debug::StopReason::initialBreak;
-            state->executionState = debug::ExecutionState::stopped;
+            events.get (Id::initialBreak);
         }
         else
         {
-            onStopReason (*state, thread, thread.GetStopReason ());
+            onStopReason (*model, events, thread, thread.GetStopReason ());
         }
     }
 }
 
 static void onProcessStateExited (const lldb::StateType& /*stateType*/,
-                                  debug::State* state,
+                                  WHATDBGModel* model,
+                                  debug::Events& events,
                                   lldb::SBProcess& process,
                                   lldb::SBEvent& event) noexcept
 {
-    juce::ignoreUnused (event);
-    state->processExitCode  = process.GetExitStatus ();
-    state->hasProcessExited = true;
-    state->executionState   = debug::ExecutionState::exited;
+    juce::ignoreUnused (model, event);
+    events.get (Id::exited, static_cast<int> (process.GetExitStatus ()));
 }
 
 static void onProcessStateRunning (const lldb::StateType& /*stateType*/,
-                                   debug::State* state,
+                                   WHATDBGModel* model,
+                                   debug::Events& events,
                                    lldb::SBProcess& process,
                                    lldb::SBEvent& event) noexcept
 {
-    juce::ignoreUnused (process, event);
-    state->executionState = debug::ExecutionState::running;
+    juce::ignoreUnused (model, process, event);
+    events.get (Id::running);
 }
 
-static void onProcessEvent (debug::State* state,
+static void onProcessEvent (WHATDBGModel* model,
+                            debug::Events& events,
                             lldb::SBProcess& process,
                             lldb::SBEvent& event) noexcept
 {
@@ -175,7 +167,7 @@ static void onProcessEvent (debug::State* state,
     static constexpr bool isStandardError  { true };
 
     static const auto processStates ([] {
-        jam::Function::Map<lldb::StateType, jam::Function::pointerCapacity, void (debug::State*, lldb::SBProcess&, lldb::SBEvent&)> processStates;
+        jam::Function::Map<lldb::StateType, jam::Function::pointerCapacity, void (WHATDBGModel*, debug::Events&, lldb::SBProcess&, lldb::SBEvent&)> processStates;
 
         processStates.add (lldb::eStateStopped,   onProcessStateStopped);
         processStates.add (lldb::eStateCrashed,   onProcessStateStopped);
@@ -190,12 +182,12 @@ static void onProcessEvent (debug::State* state,
 
     if ((mask bitand lldb::SBProcess::eBroadcastBitSTDOUT) != 0)
     {
-        drainProcessStdio (state, process, isStandardOutput);
+        drainProcessStdio (events, process, isStandardOutput);
     }
 
     if ((mask bitand lldb::SBProcess::eBroadcastBitSTDERR) != 0)
     {
-        drainProcessStdio (state, process, isStandardError);
+        drainProcessStdio (events, process, isStandardError);
     }
 
     const auto processState { lldb::SBProcess::GetStateFromEvent (event) };
@@ -204,11 +196,11 @@ static void onProcessEvent (debug::State* state,
     if (processStateEntry != processStates.end ())
     {
         const auto& [stateCode, stateCallback] { *processStateEntry };
-        stateCallback (stateCode, state, process, event);
+        stateCallback (stateCode, model, events, process, event);
     }
 }
 
-static void onBreakpointEvent (debug::State* state, lldb::SBEvent& event) noexcept
+static void onBreakpointEvent (debug::Events& events, lldb::SBEvent& event) noexcept
 {
     const auto eventType { lldb::SBBreakpoint::GetBreakpointEventTypeFromEvent (event) };
 
@@ -224,9 +216,9 @@ static void onBreakpointEvent (debug::State* state, lldb::SBEvent& event) noexce
             auto loc { bp.GetLocationAtIndex (0) };
             auto lineEntry { loc.GetAddress ().GetLineEntry () };
 
-            state->resolvedBreakpointEngineId = bp.GetID ();
-            state->resolvedBreakpointLine     = lineEntry.IsValid () ? lineEntry.GetLine () : 0u;
-            state->hasBreakpointLocationsResolved = true;
+            events.get (Id::breakpointLocationFound,
+                        static_cast<int> (bp.GetID ()),
+                        static_cast<int> (lineEntry.IsValid () ? lineEntry.GetLine () : 0u));
         }
     }
 }
@@ -252,6 +244,7 @@ bool Session::initialize (const juce::File& sidecarDir) noexcept
     debugger.SetInputFile (lldb::SBFile (nullInput, true));
 
     listener = debugger.GetListener ();
+    broadcaster.AddListener (listener, wakeEventMask);
 
     return debugger.IsValid ();
 }
@@ -273,8 +266,7 @@ bool Session::launch (const juce::String& program) noexcept
 
         if (error.Success () and process.IsValid ())
         {
-            State::getInstance ()->targetProcessId =
-                static_cast<std::uint32_t> (process.GetProcessID ());
+            events.get (Id::targetProcessId, static_cast<int> (process.GetProcessID ()));
         }
     }
 
@@ -295,8 +287,7 @@ bool Session::attach (std::uint32_t processId) noexcept
                                                 error);
     }
 
-    // state.targetProcessId is set by Whatdbg::onAttach once this call returns
-    // success — the same single writer Windows relies on for its attach path.
+    // Processor::onAttach stores the target process id once this call returns true.
     return target.IsValid () and process.IsValid ();
 }
 
@@ -319,17 +310,31 @@ void Session::pollEvents (std::uint32_t timeoutMs) noexcept
 
     if (hasEvent)
     {
-        auto* debugState { State::getInstance () };
+        auto* model { WHATDBGModel::getInstance () };
 
         if (lldb::SBProcess::EventIsProcessEvent (event))
         {
-            onProcessEvent (debugState, process, event);
+            onProcessEvent (model, events, process, event);
         }
         else if (lldb::SBBreakpoint::EventIsBreakpointEvent (event))
         {
-            onBreakpointEvent (debugState, event);
+            onBreakpointEvent (events, event);
         }
     }
+}
+
+void Session::wake () noexcept
+{
+    broadcaster.BroadcastEventByType (wakeEventMask);
+}
+
+void Session::cancel () noexcept
+{
+    wake ();
+}
+
+void Session::resetCancel () noexcept
+{
 }
 
 void Session::terminateDebuggee (std::uint32_t processId) noexcept
@@ -353,9 +358,8 @@ void Session::terminateDebuggee (std::uint32_t processId) noexcept
 
 void Session::shutdown (EndMode mode) noexcept
 {
-    // Idempotent: run() already calls shutdown() explicitly, and ~Session()
-    // calls it again unconditionally. debugger.IsValid() makes the second
-    // call a no-op instead of double-terminating the SB subsystem.
+    // Idempotent: after the first call the debugger is invalid, so a second call
+    // does nothing and does not terminate the SB subsystem twice.
     if (debugger.IsValid ())
     {
         switch (mode)
@@ -690,7 +694,7 @@ void Session::appendStackFrame (std::string& json, lldb::SBFrame frame, int fram
     });
 }
 
-int Session::appendStackFrames (std::string& json, int maxFrames, int firstFrameId) noexcept
+int Session::appendStackFrames (std::string& json, int maxFrames, const std::function<int (int frameIndex)>& addFrame) noexcept
 {
     jassert (maxFrames > 0);
 
@@ -699,7 +703,7 @@ int Session::appendStackFrames (std::string& json, int maxFrames, int firstFrame
     const int clampedMax { juce::jmin (maxFrames, numFrames) };
 
     for (int i { 0 }; i < clampedMax; ++i)
-        appendStackFrame (json, thread.GetFrameAtIndex (static_cast<std::uint32_t> (i)), firstFrameId + i);
+        appendStackFrame (json, thread.GetFrameAtIndex (static_cast<std::uint32_t> (i)), addFrame (i));
 
     return clampedMax;
 }

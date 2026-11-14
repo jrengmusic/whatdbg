@@ -112,6 +112,72 @@
 
 ## SPRINT HISTORY
 
+## Sprint 34: Audio Architecture Discipline — Model, Engine Context, Message Loop ✅
+
+**Date:** 2026-11-14
+**Duration:** one session, continued across a context compaction
+**Scope:** `PLAN-audio-architecture-discipline-{0..7}.md`. ARCHITECT: *"if i give you permission to build can you complete the whole plan?"*; *"just implement whatever you can implement on windows ... implement dont defer. only run audit wholesale, when the whole plan completed. PLAN locked, ARCHITECT ratifies the number and the policy at the lock. DESIGN BY CONTRACT /go no gate"*; *"always build using cast"*; *"backup current binary. then build release install. proceed"*; *"fold into your task reset whatdbg, cast, ggwp, scout version to 0.0.1, and rebuild all ... then proceed your task to completion"*.
+
+### Agents Participated
+- COUNSELOR: plan execution, every brief, validation of each return by read, the terminate and message-loop diagnoses, ARCHITECTURE.md / SPEC.md / CLAUDE.md / tracker, the audit filter, this log.
+- Pathfinder (haiku): smoke runs (baseline, Parts 2-5, Part 6, ten final runs, post-audit), scout runs, terminate and attach probes, doxygen XML regeneration, the post-audit doxygen pass.
+- Engineer (sonnet): Parts 2-6 code, the `JUCEApplicationBase` correction, the audit fixes, every cast build, the cast restore.
+- Auditor (opus): one wholesale audit — 43 findings.
+
+### Files Modified
+- `Source/WHATDBGModel.h`, `.cpp` (new) — `jam::Model` with SESSION and EXCEPTION rows, 17 parameters; `debug::State` class deleted (`State.h` keeps the enums, `Events`, `getExceptionName`).
+- `Source/Processor.h`, `.cpp` (new) — `private jam::AsyncUpdater` engine context: `requests` (`dap::FIFO<jam::JsonDocument>`, 64) and `messages` (`dap::FIFO<std::string>`, 4096) lanes, `commands` and `cancellations` tables, `prepare`/`releaseResources` tells, `process`, the eighteen command bodies moved from `Whatdbg`.
+- `Source/Whatdbg.h`, `.cpp` — rewritten: `juce::JUCEApplicationBase` + `juce::ValueTree::Listener`; two `events` entries (`numMessages` drains the lane to `dap::Writer`, `isRunning` sets the return value and quits).
+- `Source/Main.cpp` — `--help` through `jam::TerminalPage`; `runAdapter` runs `JUCE_CREATE_APPLICATION_DEFINE (Whatdbg)` + `JUCEApplicationBase::main` with the sidecar path.
+- `Source/dap/Reader.*` (`onMessage`, no lane), `Writer.*` (new), `FIFO.h` (new), `Types.*` (`Types.cpp` new; `getRequest`, `nextSeq` on the Model, event builders).
+- `Source/debug/VariableManager.*`, `StopManager.*` (new atoms); `Session.h`, `Session.cpp`, `Session_mac.cpp` (`wake`, `cancel`, `resetCancel`, macOS broadcaster, `appendStackFrames (…, addFrame)`), `Callbacks.*` (report through `Session::events`), `BreakpointManager.*`.
+- `Source/HELP.md` (new), `cast/files.md` (new), `cast/identifiers.md`, `cast/spell.md`, `project-info.md` (modules, help rows, version 0.0.1).
+- `tests/smoke/` — 21 scenarios, transcript baselines, `scenario_inspect.lua`, `fixture_module.cpp`, `fixture_load.cpp`, `build.sh`; `benchmark/` scout manifests and reports.
+- jam: `jam_tui/` (new module, `jam::TerminalPage`), `user-modules-info.md`, `cast/spell.md`. scout, ggwp, cast: help through `jam::TerminalPage`; Help.* and style.css deleted; version 0.0.1.
+- `ARCHITECTURE.md` (v0.7.0), `SPEC.md`, `CLAUDE.md`, `PLAN-…-0-tracker.md` (Status), `docs/xml` (regenerated; stale `classdebug_1_1_state.xml` removed).
+
+### Alignment Check
+- [x] BLESSED principles followed
+- [x] NAMES.md adhered
+- [x] MANIFESTO.md principles applied
+- [ ] Windows code (`Session.cpp`, `Callbacks.cpp`, `Loader.cpp`) is not compiled on this macOS host.
+- [ ] Lean 300: `Processor.cpp` is about 670 lines — the eighteen command bodies, placed there by PLAN Part 6.
+
+### Problems Solved
+- The message loop returned at once on macOS: `runDispatchLoop` is `[NSApp run]` (`juce_MessageManager_mac.mm:323-351`), and only `JUCEApplicationBase::main` creates `NSApp` (`juce_ApplicationBase.cpp:235-258`). `Whatdbg` became a `JUCEApplicationBase` (sibling `ling/Source/Main.cpp:276-486`).
+- After a terminate whose kill the engine reported as a signal stop, the terminate deadline was never checked, and whatdbg stayed alive: `process` polls while a deadline is pending (statements 2 and 5).
+- Scenario 02 was not deterministic: the test harness killed the attached target while whatdbg killed it (two owners). The harness now waits for `terminated` before its cleanup kill.
+- The frame id was computed in two places: `VariableManager` is the one assigner through `addFrame`.
+
+### Deliberate differences beyond D1-D7
+- D8: a terminate of a target that the engine first reports as stopped by the signal now sends `stopped` (exception), then `exited` and `terminated`; before, the transcript ended at `stopped` and whatdbg exited by its 5 s deadline or by the client. Baselines 04, 08, 09, 14, 16 updated. Basis: the zombie fix intent, "the main loop's normal pollEvents path observes the debuggee's exit" (ARCHITECTURE v0.6.0:378-382).
+- D9: attach + terminate ends `exited`, `terminated` (5 of 5 probe runs without the second killer). Baseline 02 updated.
+
+### Verification
+- macOS smoke: ten runs, all 21 sequence checks pass in each; two more after the audit fixes. Scenario `17_evaluate_fail` fails its two evaluate checks in every run, as before the rewrite (`evaluate notAVariable` gives `success=true`).
+- scout with the baseline column (after the scout and cast repairs, whatdbg Release built by the new cast, 7 epochs): `epoch` 4.5390e10 ns, change −27.6%, probability 0.75; `user` 2.3587e9, change +8.7%, probability 0.0005; `system` 1.6543e9, change +5.8%, probability 0.0007 (`benchmark/smoke-report.md`, 14-11-2026 16:14).
+- scout, Release, 7 epochs, against the Part 1 baseline (11 epochs), read side by side before the repairs: `epoch` 4.5387e10 ns (±0.12%, min 4.5296e10, max 4.6253e10) vs 6.2698e10 (±0.327%, min 6.1858e10, max 6.5898e10); `user` 2.376e9 (±0.49%, min 2.333e9, max 2.414e9) vs 2.169e9 (±2.07%, min 1.745e9, max 2.270e9); `system` 1.643e9 (±0.84%, min 1.621e9, max 1.665e9) vs 1.563e9 (±1.58%, min 1.335e9, max 1.619e9).
+- T1 (18 commands) and T4 (drains) of Part 1 read against `Processor.cpp` and `StopManager.cpp`: match, except D2 (drains run on the next tick) and D8.
+
+### Audit
+- Resolved: #3 (reader starts only after a good `prepare`), #5 (`onReleaseResources` clears the deadline), #8 (`parse (std::string&&)`), #9 (`addMessage` moves), #10 (`TerminalPage` moves the fetchers), #13 (one frame-id assigner), #21 (`inline` removed), #22 (`"Locals"` literal per Part 3:81), #26 (tracker Status), #27 (redundant includes), #28 (unnamed parameter), #29 (HELP versions 0.0.1), #30-38 (doxygen pass, 0 warnings), #40-43 (documents).
+- Rejected, each by its read: #1 (the Part 1 baselines already end with `stopped exception`), #2/#12/#15/#17 (ARCHITECT's 62b81cb forms, moved verbatim), #4/#6/#7/#14/#16/#18 (PLAN-ratified, or closed by #5), #11 (twice, the clause says "more than twice"), #19 (the page destructor tripped `jam_TextEditor.cpp:1397`), #20 (templates stay in the header), #23 (`execv` does not search PATH, `Main.cpp:156`), #24 (fact for ARCHITECT), #25 (build needs the include rows), #39 (log text, no clause).
+
+### State for Continuation
+- Windows: build, the smoke suite against the Windows baseline, the EVE session, and the scout Windows run (Parts 1-7 Windows steps) are ARCHITECT's.
+- Part 7 Step 4 (field debugging of a JAM project) is ARCHITECT's.
+- `user` and `system` CPU time rose 9.5% and 5.1% against the baseline; `epoch` fell 27.6%.
+
+### cast and scout repaired (ARCHITECT: *"don't leave cast and scout at broken state, why crash? fix it"*)
+- cast crashed before main: its generated namespace-scope comment tables copied `Id::comment` during static initialisation, and since cast commit 106685c that identifier is defined in jam's TU (`jam/generated/jam_Core.cpp:50`); cross-TU dynamic initialisation order is unspecified. ARCHITECT chose *"First-use shape in jam"*. jam `cast/code.cast:150-157` adds the `shared-hash-map` shape (a struct over `jam::HashMap` whose constructor holds the entries); cast's spell emits `map::ClangComment` … `map::SqlComment` and `map::CommentSyntax` through it into `HashMaps.h`; each read site holds `static const jam::SharedInstance<map::CommentSyntax> commentSyntax { std::in_place };` (the form of `jam_Format.cpp:850`). New cast: `--help` exit 0, rebuilds itself with no change, builds whatdbg.
+- scout could not read back its own report: an empty samples file left the table type empty (`Benchmark.h:193`), and `jam::Format::isNumber` rejected the exponent form that `juce::String (double)` writes (`jam_Format.cpp:828-846`). Fixed: the type defaults to `Id::epoch`; `Format::isNumber` accepts one exponent after today's mantissa rule (`isMantissa`); `runEpochs` validates the baseline with `jam::ConfigDocument::isValid` and fails with a diagnostic; `ProfileReport::getProfile` looks baseline zones up by `jam::Format::toType` (the typing of `ConfigDocument::getValueTree`). `benchmark/smoke-report-baseline.md` and `smoke-report.md` headings set to `## epoch`; `smoke.md` compares against the baseline again.
+
+### Debts Paid
+- None
+
+### Debts Deferred
+- None
+
 ## Sprint 33: DAP JSON Through jam::JsonDocument and jam::JsonWriter ✅
 
 **Date:** 2026-11-14

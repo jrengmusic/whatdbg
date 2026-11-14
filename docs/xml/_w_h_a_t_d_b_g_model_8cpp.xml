@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_w_h_a_t_d_b_g_model_8cpp" kind="file" language="C++">
+    <compoundname>WHATDBGModel.cpp</compoundname>
+    <includes refid="_state_8h" local="yes">debug/State.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>WHATDBGModel.cpp</label>
+        <link refid="_w_h_a_t_d_b_g_model_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>../WHATDBGModel.h</label>
+        <link refid="_w_h_a_t_d_b_g_model_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>debug/State.h</label>
+        <link refid="_state_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>Files.h</label>
+        <link refid="_files_8h"/>
+      </node>
+      <node id="4">
+        <label>../generated/Generated.h</label>
+        <link refid="_generated_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Identifiers.h</label>
+        <link refid="_identifiers_8h"/>
+      </node>
+      <node id="5">
+        <label>ProjectInfo.h</label>
+        <link refid="_project_info_8h"/>
+      </node>
+      <node id="3">
+        <label>JuceHeader.h</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+<para>Creates the session row and the exception row, and their parameters. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_state_8h" kindref="compound">debug/State.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7" refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" refkind="member"><highlight class="normal"><ref refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" kindref="member">WHATDBGModel::WHATDBGModel</ref><sp/>()</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/><ref refid="namespacejam" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam</ref>::<ref refid="classjam_1_1Model_1afbe837fa9d9c8086381333783bb1db3b" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Model</ref><sp/>(<ref refid="namespacejam" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam</ref>::Format::toType<sp/>(<ref refid="namespaceId" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id</ref>::whatdbg))</highlight></codeline>
+<codeline lineno="9"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sessionRow<sp/>{<sp/><ref refid="classjam_1_1Model_1a322c866d6fc435eb6799562d6d6db8b1" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">getOrCreateChildWithName</ref><sp/>(<ref refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" kindref="member">sessionTag</ref>)<sp/>};</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exceptionRow<sp/>{<sp/><ref refid="classjam_1_1Model_1a322c866d6fc435eb6799562d6d6db8b1" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">getOrCreateChildWithName</ref><sp/>(<ref refid="class_w_h_a_t_d_b_g_model_1acb63a9c5f8c93853d85b3688448741db" kindref="member">exceptionTag</ref>)<sp/>};</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int&gt;</ref>&gt;<sp/>(sessionRow,<sp/><ref refid="namespaceId_1a5920e903fac6fac03732e509917fc501" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::executionState</ref>,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(<ref refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6aec2f993aec2c27fc750119ab17b16cdb" kindref="member">debug::ExecutionState::idle</ref>));</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int&gt;</ref>&gt;<sp/>(sessionRow,<sp/><ref refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::stopReason</ref>,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal"><sp/>(<ref refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" kindref="member">debug::StopReason::none</ref>));</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int&gt;</ref>&gt;<sp/>(sessionRow,<sp/><ref refid="namespaceId_1ab94e01b9b77bf89619c249d7dae6d924" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::processExitCode</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int64_t&gt;</ref>&gt;<sp/>(sessionRow,<sp/><ref refid="namespaceId_1a34ff3c25c6e302ff4a5b0a5f9b0488a7" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::targetProcessId</ref>,<sp/>int64_t<sp/>{<sp/>0<sp/>});</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int64_t&gt;</ref>&gt;<sp/>(sessionRow,<sp/><ref refid="namespaceId_1a6deeca27da77c1f9dbf5b72db990b6fc" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::terminateDeadlineMs</ref>,<sp/>int64_t<sp/>{<sp/>0<sp/>});</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int&gt;</ref>&gt;<sp/>(sessionRow,<sp/><ref refid="namespaceId_1ad5a972b9551c4ba5c5c15a733ec48d69" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::isRunning</ref>,<sp/>1);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int&gt;</ref>&gt;<sp/>(sessionRow,<sp/><ref refid="namespaceId_1a866863bd05f02eeabe7e4f66b277a6c3" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::shouldTerminateOnExit</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int&gt;</ref>&gt;<sp/>(sessionRow,<sp/><ref refid="namespaceId_1a1686b1851bf4fefef4b5613b05c0c8d3" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::isConfigurationDone</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int&gt;</ref>&gt;<sp/>(sessionRow,<sp/><ref refid="namespaceId_1a1397f7ce0b093aa7091d5057a28bfe83" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::isStepPending</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int&gt;</ref>&gt;<sp/>(sessionRow,<sp/><ref refid="namespaceId_1acaa5ed87630554a54472e27567897c48" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::isPausePending</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int&gt;</ref>&gt;<sp/>(sessionRow,<sp/><ref refid="namespaceId_1a03ba296bdc142edf0768af486bac4037" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::breakpointEngineId</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int&gt;</ref>&gt;<sp/>(sessionRow,<sp/><ref refid="namespaceId_1a9f27da94bef79dc7fdd99088951c5d07" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::nextSequenceNumber</ref>,<sp/>1);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int&gt;</ref>&gt;<sp/>(sessionRow,<sp/><ref refid="namespaceId_1abd823c98b322d39f2bd65d34d8be1513" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::numMessages</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int&gt;</ref>&gt;<sp/>(sessionRow,<sp/><ref refid="namespaceId_1ae1bef48aa181015cc6694a397c942583" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::adapterExitCode</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int64_t&gt;</ref>&gt;<sp/>(exceptionRow,<sp/><ref refid="namespaceId_1aef15ba1881dec10e5d27afad18e46b66" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::exceptionCode</ref>,<sp/>int64_t<sp/>{<sp/>0<sp/>});</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int64_t&gt;</ref>&gt;<sp/>(exceptionRow,<sp/><ref refid="namespaceId_1abbfc9c9f4f106c68b6cc7eab8d95d4b4" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::exceptionAddress</ref>,<sp/>int64_t<sp/>{<sp/>0<sp/>});</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">createAndAddParameter&lt;jam::Parameter&lt;int&gt;</ref>&gt;<sp/>(exceptionRow,<sp/><ref refid="namespaceId_1aecf9e31ac41ecd0c122665be6dad624d" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::isMachException</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1Timer_1a2ff70b860a8c875658b4baa91c8bcef0" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">stopTimer</ref><sp/>();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="WHATDBGModel.cpp"/>
+  </compounddef>
+</doxygen>

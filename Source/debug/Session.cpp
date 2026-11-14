@@ -8,9 +8,9 @@
  *  interrupt, breakpoint resolution, thread queries, stack trace, locals, child
  *  variables, and expression evaluation, with file-local helpers for symbol formatting.
  *
- *  Threading model: single-threaded main loop. dbgeng invokes the callbacks in
- *  Callbacks.cpp during WaitForEvent, on the main thread. The callbacks store state
- *  on State. Whatdbg drains that state after pollEvents returns.
+ *  Threading model: the engine context runs every call except wake and cancel. dbgeng
+ *  invokes the callbacks in Callbacks.cpp during WaitForEvent, on the engine context.
+ *  The callbacks fire events on Session::events.
  *
  *  Lifecycle: initialize (Loader → COM) → (launch | attach) → pollEvents loop → shutdown.
  */
@@ -215,20 +215,15 @@ void Session::pollEvents (std::uint32_t timeoutMs) noexcept
 {
     const HRESULT hr { control->WaitForEvent (0, static_cast<ULONG> (timeoutMs)) };
 
-    auto* debugState { State::getInstance () };
+    auto* model { WHATDBGModel::getInstance () };
 
     if (hr == E_UNEXPECTED)
     {
-        debugState->hasProcessExited = true;
-        debugState->executionState   = ExecutionState::exited;
+        events.get (Id::terminated);
     }
-    else if (hr == S_OK and debugState->isStepPending)
+    else if (hr == S_OK and model->getParameter<jam::Parameter<int>> (model->sessionTag, Id::isStepPending)->getValue () != 0)
     {
-        debugState->isStepPending  = false;
-        debugState->executionState = ExecutionState::stopped;
-
-        if (debugState->stopReason == StopReason::none)
-            debugState->stopReason = StopReason::step;
+        events.get (Id::step);
 
 #if JUCE_DEBUG
         jam::debug::Log::write ("WHATDBG: step completed");
@@ -264,6 +259,20 @@ void Session::shutdown (EndMode mode) noexcept
         CoUninitialize ();
         isComOwned = false;
     }
+}
+
+void Session::wake () noexcept
+{
+}
+
+void Session::cancel () noexcept
+{
+    control->SetInterrupt (DEBUG_INTERRUPT_EXIT);
+}
+
+void Session::resetCancel () noexcept
+{
+    control->GetInterrupt ();
 }
 
 void Session::appendSymbolPath (const juce::String& path) noexcept
@@ -763,7 +772,7 @@ void Session::appendStackFrame (std::string& json, const DEBUG_STACK_FRAME& stac
     });
 }
 
-int Session::appendStackFrames (std::string& json, int maxFrames, int firstFrameId) noexcept
+int Session::appendStackFrames (std::string& json, int maxFrames, const std::function<int (int frameIndex)>& addFrame) noexcept
 {
     jassert (maxFrames > 0);
 
@@ -783,7 +792,7 @@ int Session::appendStackFrames (std::string& json, int maxFrames, int firstFrame
     {
         for (ULONG i { 0 }; i < framesFilled; ++i)
             appendStackFrame (json, stackFrames.at (static_cast<size_t> (i)),
-                              firstFrameId + static_cast<int> (i));
+                              addFrame (static_cast<int> (i)));
 
         appendedFrames = static_cast<int> (framesFilled);
     }

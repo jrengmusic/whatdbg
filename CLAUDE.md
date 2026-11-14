@@ -9,12 +9,12 @@
 **Name:** whatdbg  
 **Full Name:** WYSIWYG Hybrid Abstraction Translator for DAP Debug Adapter  
 **Type:** DAP (Debug Adapter Protocol) debug adapter — console application, cross-platform  
-**Version:** 0.1.0  
+**Version:** 0.0.1  
 **Repository:** https://github.com/jrengmusic/whatdbg  
 **Root Directory:** `/Users/jreng/Documents/Poems/dev/whatdbg`
 
 **Technology Stack:**
-- **Language:** C++17, JUCE (juce_core only, no GUI)
+- **Language:** C++17. JUCE modules: juce_core, juce_data_structures, juce_events, juce_graphics, juce_gui_basics, juce_audio_processors. JAM modules: jam_core, jam_document, jam_markdown, jam_freetype, jam_graphics, jam_data_structures, jam_animation, jam_web, jam_style, jam_gui, jam_mermaid_diagram, jam_markdown_graphics, jam_terminal, jam_tui (`project-info.md`)
 - **Build System:** `cast` generates `CMakeLists.txt` + `Source/generated/ProjectInfo.h` from `project-info.md`. CMake + Ninja underneath. `CMakeLists.txt` is generated — never edit it.
 - **Platforms:** Windows 10+ (x64, ARM64) / macOS 12+ Monterey (arm64, x86_64)
 - **Debug Engines:** Windows dbgeng COM API / macOS liblldb SB API (both sidecar-embedded as BinaryData)
@@ -24,22 +24,22 @@
 
 ## Current State
 
-**Last Sprint:** Build system moved to `cast`; `jam::Context<State>` replaced by
-`jam::Instance<State>`; `logWrite`/`g_logFile` replaced by `jam::debug::Log`; macOS
-zombie-termination defect fixed (`Session::terminateDebuggee`/`Session::shutdown`
-kill-then-resume); DAP layer renamed (`drain*` deferred-event family, `dap::get*`
-builders, `Session::getVariableObject`/`getSymbols`/`evaluateStringValue`,
-`BreakpointManager::getBreakpointOffset`/`setBreakpointLocation`); `tests/smoke/`
-rebuilt to ten scenarios, all passing ✅  
-**Date Completed:** 2026-09-02  
-**Status:** Shipped, cross-platform build and zombie fix verified via `tests/smoke/`
+**Last Sprint:** Audio architecture discipline rewrite (PLAN-audio-architecture-discipline-0..7):
+`Whatdbg` is a `juce::JUCEApplicationBase` on the JUCE message loop; `WHATDBGModel`
+(`jam::Model`) holds the session state; `Processor` (`jam::AsyncUpdater`) owns the engine
+atoms (`Session`, `BreakpointManager`, `VariableManager`, `StopManager`) and the
+`requests`/`messages` lanes; `debug::State` class and the hand-written loop deleted;
+`--help` paints `Source/HELP.md` through `jam::TerminalPage` (`jam_tui`); `tests/smoke/`
+extended to 21 scenarios with transcript baselines  
+**Date Completed:** 2026-11-14  
+**Status:** macOS verified via `tests/smoke/`; Windows build and run are ARCHITECT's (PLAN Part 7 Step 5)
 
 **Active ODE:** None  
 **Active Debt:** None.
 
 **Critical Path:**
-- DAP protocol handler dispatch table (std::unordered_map-based, O(1) lookup)
-- Two-thread model: stdin reader (FIFO producer) + main thread (everything else)
+- DAP command dispatch table in `Processor` (`jam::Function::Map`, O(1) lookup)
+- Three threads, one way: reader thread → `requests` lane → engine context → `messages` lane and Model → message thread → stdout
 - Cross-platform Session abstraction with Windows COM (dbgeng) and macOS liblldb (SB API) backends
 - Sidecar binary extraction + embedding (BinaryData) with per-arch macOS support
 
@@ -48,30 +48,36 @@ rebuilt to ten scenarios, all passing ✅
 ## Layer Order & Key Source Directories
 
 ```
-Whatdbg (main loop, top-level coordination)
-  └─ debug::State (SSOT, main-thread-local, execution state machine)
-     └─ debug::Session (cross-platform debug engine wrapper)
-        ├─ [Windows] Session.cpp / SessionInspection.cpp / SessionPrettyPrint.cpp
-        ├─ [macOS]   Session_mac.cpp / SessionInspection_mac.cpp / SessionPrettyPrint_mac.cpp
-        └─ [Windows] Loader.cpp (sidecar DLL loading), Callbacks.cpp (COM callbacks)
-  └─ debug::BreakpointManager (DAP-to-engine breakpoint mapping)
-  └─ dap::Reader (stdin thread, FIFO producer)
-  └─ dap::Types (DAP message builders, shared DynObj alias)
+Whatdbg (juce::JUCEApplicationBase, message thread; Model listener, lane drain to stdout)
+  ├─ WHATDBGModel (jam::Model; SESSION and EXCEPTION rows)
+  ├─ Processor (jam::AsyncUpdater engine context; commands table, command bodies, process)
+  │    ├─ debug::Session (cross-platform debug engine wrapper)
+  │    │    ├─ [Windows] Session.cpp / SessionPrettyPrint.cpp / Callbacks.cpp / Loader.cpp
+  │    │    └─ [macOS]   Session_mac.cpp / SessionPrettyPrint_mac.cpp
+  │    ├─ debug::BreakpointManager (breakpoint registry)
+  │    ├─ debug::VariableManager (frameId and variablesReference registry)
+  │    ├─ debug::StopManager (stops table, stop drains)
+  │    └─ dap::FIFO requests / messages (lanes)
+  ├─ dap::Writer (stdout frames)
+  └─ dap::Reader (stdin thread)
+dap::Types (DAP message builders over jam::JsonWriter)
+debug::State.h (enums ExecutionState, StopReason, OffsetStatus; alias Events)
 ```
 
 **Key Source Directories:**
 
 | Directory | Purpose |
 |-----------|---------|
-| `Source/` | Application entry point (Main.cpp), main loop (Whatdbg.h/.cpp), event handlers (WhatdbgHandlers.cpp) |
-| `Source/debug/` | Debug engine abstraction layer (Session, State, BreakpointManager + BreakpointManagerHandlers, PrettyPrint.h, platform-specific implementations) |
-| `Source/dap/` | DAP protocol layer (Reader — stdin thread, Types — message builders) |
-| `Source/generated/` | `ProjectInfo.h` — generated by cast, consumed by `jam_core.h` |
+| `Source/` | Entry point (`Main.cpp`), main (`Whatdbg.h/.cpp`), Model (`WHATDBGModel.h/.cpp`), engine context (`Processor.h/.cpp`), help page (`HELP.md`) |
+| `Source/debug/` | Debug engine layer: `Session.h`, `Session.cpp`, `Session_mac.cpp`, `SessionPrettyPrint.cpp`, `SessionPrettyPrint_mac.cpp`, `PrettyPrint.h`, `State.h`, `BreakpointManager`, `VariableManager`, `StopManager`, `Callbacks` and `Loader` (Windows) |
+| `Source/dap/` | DAP protocol layer: `Reader` (stdin thread), `Writer` (stdout), `FIFO.h` (lanes), `Types` (message builders) |
+| `Source/generated/` | Generated by cast: `ProjectInfo.h`, `Generated.h/.cpp`, `Identifiers.h`, `Files.h` |
+| `benchmark/` | scout manifests and launchers (`smoke.md`/`smoke.sh`, `smoke-windows.md`/`smoke.cmd`) and the timing reports |
 | `Resources/windows/{x64,arm64}/` | Sidecar dbgeng DLLs (dbgeng.dll, dbghelp.dll, dbgcore.dll, symsrv.dll) |
 | `Resources/macos/{arm64,x86_64}/` | Sidecar liblldb.dylib per architecture (built by `build-liblldb.sh`, versioned via Git LFS) |
 | `Resources/macos/include/lldb/API/` | liblldb SB API headers (pinned, vendored) |
-| `tests/smoke/` | DAP smoke test suite: `run_smoke.lua` orchestrator, `scenario_breakpoint.lua`, `scenario_process.lua`, `scenario_terminate.lua`, `scenario_runner.lua`, `dap_client.lua`, `report.lua`, plus fixtures `fixture.cpp`, `fixture_wait.cpp`, `fixture_crash.cpp`. Ten scenarios (`01`–`10`), all passing. `run_smoke.lua` takes `<whatdbg> <fixture> <fixture_wait> <fixture.cpp> <fixture_crash>` as positional args under `nvim --headless -l`. |
-| `cast/` | `spell.md` (output rows, toolchain wiring) and `cmake.cast` (CMakeLists template) |
+| `tests/smoke/` | DAP smoke test suite: `run_smoke.lua` orchestrator, `scenario_breakpoint.lua`, `scenario_process.lua`, `scenario_terminate.lua`, `scenario_inspect.lua`, `scenario_runner.lua`, `dap_client.lua`, `report.lua`, `build.sh`, plus fixtures `fixture.cpp`, `fixture_wait.cpp`, `fixture_crash.cpp`, `fixture_module.cpp`, `fixture_load.cpp`. 21 scenarios (`01`–`21`), each compared with its transcript in `baseline/<platform>/`. `run_smoke.lua` takes `<whatdbg> <fixture> <fixture_wait> <fixture.cpp> <fixture_crash> [--record]` as positional args under `nvim --headless -l`. |
+| `cast/` | `spell.md` (output rows, toolchain wiring), `cmake.cast` (CMakeLists template), `identifiers.md` (`Id::` vocabulary), `files.md` (BinaryData file names) |
 | `build-liblldb.sh` | Pinned LLVM build — writes `Builds/liblldb` and `Resources/macos/` |
 | `build.sh` | Escape hatch, a copy of `cast/build.sh`: on Windows it imports the vcvarsall x64 environment, then runs cmake and ninja (Release) |
 | `cast/installer.cast` | Installer templates: `distribution.xml` (macOS pkg), `installer.nsi` (Windows NSIS), `RELEASE.md` |
@@ -83,14 +89,14 @@ Whatdbg (main loop, top-level coordination)
 
 | Document | Purpose | Status | Last Updated |
 |----------|---------|--------|--------------|
-| **ARCHITECTURE.md** | System design, threading model, module map, data flow, design decisions, glossary | Current (v0.6.0) | 2026-09-03 |
-| **SPEC.md** | Feature specification, 11 DAP features (launch, attach, breakpoints, stepping, pause, variables, evaluation, output, multi-thread, terminate, exception info) | Complete (v1.0) | 2026-09-12 |
-| **project-info.md** | Build manifest — modules, architectures, toolchain rows, signing, BinaryData. `cast` reads it. | Active | 2026-09-02 |
-| **cast/spell.md** | Output rows and toolchain wiring for `cast` | Active | 2026-09-02 |
-| **CMakeLists.txt** | GENERATED by `cast` from `cast/cmake.cast`. Never edit by hand. | Generated | 2026-09-02 |
+| **ARCHITECTURE.md** | System design, threading model, module map, data flow, design decisions, glossary | Current (v0.7.0) | 2026-11-14 |
+| **SPEC.md** | Feature specification, 11 DAP features (launch, attach, breakpoints, stepping, pause, variables, evaluation, output, multi-thread, terminate, exception info) | Complete (v1.0) | 2026-11-14 |
+| **project-info.md** | Build manifest — modules, architectures, toolchain rows, signing, BinaryData. `cast` reads it. | Active | 2026-11-14 |
+| **cast/spell.md** | Output rows and toolchain wiring for `cast` | Active | 2026-11-14 |
+| **CMakeLists.txt** | GENERATED by `cast` from `cast/cmake.cast`. Never edit by hand. | Generated | 2026-11-14 |
 | **carol/SPRINT-LOG.md** | Long-term context memory, completed sprints, technical decisions, problem resolutions | Active | Sprint 25 |
 | **RFC.md** | RFC: CLI/TUI debuggee terminal attachment (macOS TTY gap) | Open — not implemented | 2026-09-02 |
-| **PLAN.md** | (none current) | Ephemeral; completed plans deleted post-sprint | — |
+| **PLAN-audio-architecture-discipline-{0..7}.md** | The audio architecture discipline rewrite: tracker and seven parts | Ephemeral; completed plans deleted post-sprint | 2026-11-14 |
 | **NAMES.md** | (inherited from ~/.carol/) | Referenced for identifier contracts | — |
 | **MANIFESTO.md** | (inherited from ~/.carol/) | BLESSED compliance reference | — |
 | **CODING.md** | (inherited from ~/.carol/) | Code standards reference | — |
@@ -99,23 +105,29 @@ Whatdbg (main loop, top-level coordination)
 
 ## Doxygen Locations
 
-Doxygen lives in headers only. CODING.md forbids doxygen on member functions in `.cpp` files — the header is the canonical doc. Every `.cpp` carries its `@file` block and nothing else.
+Doxygen lives in headers; the header is the canonical doc. The `doxygen-writer` skill governs it.
 
-**Active Doxygen (headers):**
-- `Source/Whatdbg.h` — main loop, dispatch table, deferred event drains
-- `Source/debug/State.h` — SSOT state machine
+**Headers (doxygen home):**
+- `Source/Whatdbg.h` — main: application, Model listener, lane drain
+- `Source/WHATDBGModel.h` — the Model and its rows
+- `Source/Processor.h` — engine context, lanes, command bodies
+- `Source/debug/State.h` — enums `ExecutionState`, `StopReason`, `OffsetStatus`; alias `Events`; `getExceptionName`
 - `Source/debug/Session.h` — cross-platform engine wrapper interface
 - `Source/debug/BreakpointManager.h` — breakpoint registry, `BreakpointInfo`, `BreakpointLocation`
+- `Source/debug/VariableManager.h` — frameId and variablesReference registry
+- `Source/debug/StopManager.h` — stops table and stop drains
 - `Source/debug/Callbacks.h`, `Source/debug/Loader.h` — [Windows] COM callbacks, sidecar loader
-- `Source/debug/PrettyPrint.h` — shared header-only helpers (`shouldSkipSymbol`, `parseHexAddress`)
-- `Source/dap/Reader.h` — stdin thread, FIFO producer
-- `Source/dap/Types.h` — DAP message builders, DynObj alias
+- `Source/debug/PrettyPrint.h` — shared helpers (`shouldSkipSymbol`, `parseHexAddress`)
+- `Source/dap/Reader.h` — stdin thread
+- `Source/dap/Writer.h` — stdout frames
+- `Source/dap/FIFO.h` — lane template
+- `Source/dap/Types.h` — DAP message builders
 
-Members added in the 2026-09-02 sprint carry no doxygen yet. Header prose is a dedicated pass, run after the audit.
+The classes and members of the 2026-11-14 rewrite carry no doxygen yet. Header prose is a dedicated pass, run after the audit. The XML index is `docs/xml`.
 
 **Framework Doxygen (referenced, not actively maintained by whatdbg):**
-- JUCE (juce_core) — via `#include <JuceHeader.h>`
-- jam_core — `jam::Instance`, `jam::Union`, `jam::debug::Log`
+- JUCE — via `#include <JuceHeader.h>`
+- JAM — `jam::Model`, `jam::AsyncUpdater`, `jam::Instance`, `jam::Union`, `jam::JsonDocument`, `jam::JsonWriter`, `jam::TerminalPage`, `jam::debug::Log`
 
 **Excluded (not applicable or actively obsolete):**
 - KANJUT, CIUM, END framework doxygen — separate projects

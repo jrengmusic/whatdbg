@@ -13,18 +13,19 @@
     <member refid="classdebug_1_1_breakpoint_manager_1a898cff5d67b7f533cf38e8ccbf31a136" kind="variable"><name>nextDapId</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1a3638bb735288fd17822939bdbaac0108" kind="variable"><name>lineSearchWindow</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1af44310e6631d8debd0dcd5160d87ea76" kind="function"><name>BreakpointManager</name></member>
-    <member refid="classdebug_1_1_breakpoint_manager_1a9d2c771b00f19e380a8443fa37e3cf12" kind="function"><name>onSetBreakpoints</name></member>
-    <member refid="classdebug_1_1_breakpoint_manager_1ab33e93513dba5405c9b6489b74ec6b33" kind="function"><name>onModuleLoad</name></member>
-    <member refid="classdebug_1_1_breakpoint_manager_1a508303c7dff59a73a656951e8c610826" kind="function"><name>onReload</name></member>
-    <member refid="classdebug_1_1_breakpoint_manager_1ae342182608006b645d0eaa696d974138" kind="function"><name>getBreakpointStoppedEvent</name></member>
-    <member refid="classdebug_1_1_breakpoint_manager_1afd5f558bf3f9a2791564741f06a9f7a1" kind="function"><name>onBreakpointLocationFound</name></member>
+    <member refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" kind="function"><name>onSetBreakpoints</name></member>
+    <member refid="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" kind="function"><name>onModuleLoad</name></member>
+    <member refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" kind="function"><name>onReload</name></member>
+    <member refid="classdebug_1_1_breakpoint_manager_1abdcf6c332786965d57904ca771da4b1b" kind="function"><name>appendBreakpointStoppedEvent</name></member>
+    <member refid="classdebug_1_1_breakpoint_manager_1a9525971c019e19a407a92e985ad46325" kind="function"><name>onBreakpointLocationFound</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1aa0f454ef4ed091ed8772c35b395deefa" kind="function"><name>hasUnresolvedBreakpoints</name></member>
-    <member refid="classdebug_1_1_breakpoint_manager_1a726ac59e219749df0fcd789e8f5d8311" kind="function"><name>onSymbolsLoaded</name></member>
+    <member refid="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" kind="function"><name>onSymbolsLoaded</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1a5ddc2c795c2ea490eb4c5d0465f549fe" kind="function"><name>getBreakpointOffset</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1a857430dcd1c0812d31898288a8d0f4dc" kind="function"><name>setBreakpointLocation</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1a17b4dc2b534dafca568e5cd8b607284c" kind="function"><name>removeOrphanedBreakpoints</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1a3cbdc59939bab61c6de38a6c0d7c4bd3" kind="function"><name>addBreakpoint</name></member>
-    <member refid="classdebug_1_1_breakpoint_manager_1af4ad25ede8fa9d33b409e46fa2730b79" kind="function"><name>getBreakpointResponse</name></member>
+    <member refid="classdebug_1_1_breakpoint_manager_1abfcd3f818ede254902698eda6c8dda0f" kind="function"><name>getRequestedLines</name></member>
+    <member refid="classdebug_1_1_breakpoint_manager_1a5f2aae3ed3cf48d9827df97ea3fc1661" kind="function"><name>appendBreakpoint</name></member>
   </compound>
   <compound refid="classdebug_1_1_event_callbacks" kind="class"><name>debug::EventCallbacks</name>
     <member refid="classdebug_1_1_event_callbacks_1a72793df67996cc3da682fb9b2fde4471" kind="function"><name>STDMETHOD_</name></member>
@@ -45,7 +46,16 @@
     <member refid="classdebug_1_1_event_callbacks_1ac0febd27da577e72f6b335c99cedfa0d" kind="function"><name>ChangeEngineState</name></member>
     <member refid="classdebug_1_1_event_callbacks_1a3980117444c9d20a5c83f7b80966dfd6" kind="function"><name>ChangeSymbolState</name></member>
     <member refid="classdebug_1_1_event_callbacks_1a18a737a0ccb8ddb808351d40273fff6f" kind="variable"><name>refCount</name></member>
-    <member refid="classdebug_1_1_event_callbacks_1a3e3d40f7b3df1431a491418bd13e8080" kind="function"><name>EventCallbacks</name></member>
+    <member refid="classdebug_1_1_event_callbacks_1acd699a43499bbfe7020314de3c18fa34" kind="variable"><name>events</name></member>
+    <member refid="classdebug_1_1_event_callbacks_1a2e0df34d23c7673d0640aabbdcea8983" kind="function"><name>EventCallbacks</name></member>
+  </compound>
+  <compound refid="classdap_1_1_f_i_f_o" kind="class"><name>dap::FIFO</name>
+    <member refid="classdap_1_1_f_i_f_o_1ace568881ac9e495dc08cb63fddf33042" kind="variable"><name>fifo</name></member>
+    <member refid="classdap_1_1_f_i_f_o_1a0b3988b9045ff0f5d0a3100abdce3375" kind="variable"><name>storage</name></member>
+    <member refid="classdap_1_1_f_i_f_o_1a6ad630b492549ab0e9d2605e54ec696d" kind="function"><name>FIFO</name></member>
+    <member refid="classdap_1_1_f_i_f_o_1ab5738b3996ee9f3e04b48478db5394a6" kind="function"><name>getFreeSpace</name></member>
+    <member refid="classdap_1_1_f_i_f_o_1ac033965014165a3902df7915b8013d6b" kind="function"><name>write</name></member>
+    <member refid="classdap_1_1_f_i_f_o_1a6f8c18874abcb0e32f6b41f60bed7f14" kind="function"><name>applyPendingData</name></member>
   </compound>
   <compound refid="classdebug_1_1_loader" kind="class"><name>debug::Loader</name>
     <member refid="classdebug_1_1_loader_1ad3b8ed8285fa9cb19a7f61aa40048916" kind="typedef"><name>DebugCreateFn</name></member>
@@ -64,25 +74,81 @@
     <member refid="classdebug_1_1_output_callbacks_1a819712bcd7bfef73973ab8671cd90362" kind="function"><name>GetInterestMask</name></member>
     <member refid="classdebug_1_1_output_callbacks_1a1caabfde7b221759b9df1690a072c5a9" kind="function"><name>Output2</name></member>
     <member refid="classdebug_1_1_output_callbacks_1a45b9e75bb91dff19d9e99ea8ee9610c8" kind="variable"><name>refCount</name></member>
-    <member refid="classdebug_1_1_output_callbacks_1a9e3a13ed4c109a256db7fd377aa15c5d" kind="function"><name>OutputCallbacks</name></member>
+    <member refid="classdebug_1_1_output_callbacks_1a8efe487a35c6a568fdbdecfb72a17301" kind="variable"><name>events</name></member>
+    <member refid="classdebug_1_1_output_callbacks_1a06b9a244c2a016c07937bd7fa6719d50" kind="function"><name>OutputCallbacks</name></member>
+  </compound>
+  <compound refid="class_processor" kind="class"><name>Processor</name>
+    <member refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" kind="variable"><name>model</name></member>
+    <member refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" kind="variable"><name>session</name></member>
+    <member refid="class_processor_1af1b24c3e9fa50af924be538680983ad1" kind="variable"><name>breakpointManager</name></member>
+    <member refid="class_processor_1a2441c080ec1ac60ca277a4e1da1b78ce" kind="variable"><name>variableManager</name></member>
+    <member refid="class_processor_1a7fc62190e15c16603d7d061db882e6e1" kind="variable"><name>stopManager</name></member>
+    <member refid="class_processor_1ac8cb2e3ddb7497d2c58f70edfa42c86f" kind="variable"><name>requests</name></member>
+    <member refid="class_processor_1ad88378fbe12b6833b42fdbfb623480f0" kind="variable"><name>messages</name></member>
+    <member refid="class_processor_1a45a224474371f023a1c90eb8d5082f4d" kind="variable"><name>commands</name></member>
+    <member refid="class_processor_1a6a2cba26723ddaee3adb0570feb7ba16" kind="variable"><name>cancellations</name></member>
+    <member refid="class_processor_1ab47709f9dc6f2ec2c11fd2318d5f0a4b" kind="variable"><name>targetProgram</name></member>
+    <member refid="class_processor_1a0ec3c84167ef4294a0208df4a98ed0b9" kind="variable"><name>requestsCapacity</name></member>
+    <member refid="class_processor_1ab57bb2626949314bad62c6f540f88a89" kind="variable"><name>messagesCapacity</name></member>
+    <member refid="class_processor_1a9033907cdf0a5a33a26bba31e65a3767" kind="variable"><name>terminateTimeoutMs</name></member>
+    <member refid="class_processor_1a0980d11b27754a2e50690a24ee15e38e" kind="variable"><name>pollTimeoutMs</name></member>
+    <member refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" kind="function"><name>Processor</name></member>
+    <member refid="class_processor_1a3d7c16d172be09d3bfb4df3519d21b31" kind="function"><name>~Processor</name></member>
+    <member refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" kind="function"><name>prepare</name></member>
+    <member refid="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" kind="function"><name>addRequest</name></member>
+    <member refid="class_processor_1aabd2ac7253b02508ae382f78412b8f23" kind="function"><name>applyMessages</name></member>
+    <member refid="class_processor_1a379381665169c712bb1aea2433b5395f" kind="function"><name>releaseResources</name></member>
+    <member refid="class_processor_1a6487194419302dd1602150479e2f0259" kind="function"><name>handleAsyncUpdate</name></member>
+    <member refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" kind="function"><name>process</name></member>
+    <member refid="class_processor_1a5429f57729737f7bd4c78a1c1d027c43" kind="function"><name>setAttachedState</name></member>
+    <member refid="class_processor_1a9799b1f73561ced0b3e287dc623d10e1" kind="function"><name>onCommand</name></member>
+    <member refid="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" kind="function"><name>onPrepare</name></member>
+    <member refid="class_processor_1a57d2c4aa25b0c6786bbce3eb3a78a4a8" kind="function"><name>onReleaseResources</name></member>
+    <member refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" kind="function"><name>onInitialize</name></member>
+    <member refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" kind="function"><name>onLaunch</name></member>
+    <member refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" kind="function"><name>onAttach</name></member>
+    <member refid="class_processor_1ab8672637da070c4b57ca72930ffcd355" kind="function"><name>addSearchPaths</name></member>
+    <member refid="class_processor_1a5ef207789c74afa70eb20f95ca575828" kind="function"><name>onConfigurationDone</name></member>
+    <member refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" kind="function"><name>onDisconnect</name></member>
+    <member refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" kind="function"><name>onSetBreakpoints</name></member>
+    <member refid="class_processor_1a9c6554bef7c0240709dd33695728e25d" kind="function"><name>onThreads</name></member>
+    <member refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" kind="function"><name>onStackTrace</name></member>
+    <member refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" kind="function"><name>onScopes</name></member>
+    <member refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" kind="function"><name>onVariables</name></member>
+    <member refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" kind="function"><name>onContinue</name></member>
+    <member refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" kind="function"><name>onNext</name></member>
+    <member refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" kind="function"><name>onStepIn</name></member>
+    <member refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" kind="function"><name>onStepOut</name></member>
+    <member refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" kind="function"><name>onPause</name></member>
+    <member refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" kind="function"><name>onEvaluate</name></member>
+    <member refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" kind="function"><name>onExceptionInfo</name></member>
+    <member refid="class_processor_1a24b069461f4161553899d2a8f84d3287" kind="function"><name>registerEvents</name></member>
+    <member refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" kind="function"><name>drainProcessExited</name></member>
+    <member refid="class_processor_1ae3dd418216ebb9a28fbc82c5eb61de8b" kind="function"><name>drainTerminateTimeout</name></member>
+    <member refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" kind="function"><name>addMessage</name></member>
+    <member refid="class_processor_1a45fe17524598b1971db9d18da20b6864" kind="function"><name>addMessages</name></member>
+    <member refid="class_processor_1a616112bd8cbe927cec6426da3dc64d6d" kind="function"><name>getEndModeForExit</name></member>
+    <member refid="class_processor_1aabc241f71309c79c1da916c072901043" kind="function"><name>getRequestSeq</name></member>
+    <member refid="class_processor_1ace5ba6a40fb701821a5a92056a66d225" kind="function"><name>getNumber</name></member>
+    <member refid="class_processor_1a19cb284dd543fcd31ff08aae754ebaa3" kind="function"><name>getText</name></member>
+    <member refid="class_processor_1a01cea4d8ebd137a2673924b91e9cea3f" kind="function"><name>appendLocalsScope</name></member>
+    <member refid="class_processor_1aa7e2b89e392988b25f5b937972f47f2d" kind="function"><name>getArguments</name></member>
   </compound>
   <compound refid="classdap_1_1_reader" kind="class"><name>dap::Reader</name>
-    <member refid="classdap_1_1_reader_1aa2841da084bd58ba5a521a21e1eaea98" kind="variable"><name>fifoCapacity</name></member>
-    <member refid="classdap_1_1_reader_1a67d7f2ba9751bd6f8d13f344d4c5076d" kind="variable"><name>fifo</name></member>
-    <member refid="classdap_1_1_reader_1a493d7e8cfa28409d69781a442d8e3a0f" kind="variable"><name>storage</name></member>
+    <member refid="classdap_1_1_reader_1a0ef303bd98005399605d1038933691d8" kind="variable"><name>onMessage</name></member>
     <member refid="classdap_1_1_reader_1a946914e4e091be5a3742b13d6ccf600b" kind="function"><name>Reader</name></member>
     <member refid="classdap_1_1_reader_1a9e3d24e83e5c326d7d53f577b9efc5b5" kind="function"><name>~Reader</name></member>
     <member refid="classdap_1_1_reader_1a001ba0872e35810bdb1f610e0554eec1" kind="function"><name>start</name></member>
-    <member refid="classdap_1_1_reader_1a9c581d850d7d93395da7c983b97e8f6e" kind="function"><name>tryPop</name></member>
     <member refid="classdap_1_1_reader_1a4ef3503bdf9aaa16b363e6261e60fc1a" kind="function"><name>stop</name></member>
     <member refid="classdap_1_1_reader_1aa88b7cbd5562aace1eb2d91b0638fb26" kind="function"><name>run</name></member>
     <member refid="classdap_1_1_reader_1a2ac9bd334b2534f79edfe7efc96d63db" kind="function"><name>readContentLength</name></member>
-    <member refid="classdap_1_1_reader_1acc50a8c8f483851d55e6314ad19a77ff" kind="function"><name>readMessage</name></member>
-    <member refid="classdap_1_1_reader_1a8caea924c042b462bfb19e5da0b1542a" kind="function"><name>addMessage</name></member>
+    <member refid="classdap_1_1_reader_1aba0f829f2291b384cc47a5d8183d3cae" kind="function"><name>readMessage</name></member>
   </compound>
   <compound refid="classdebug_1_1_session" kind="class"><name>debug::Session</name>
+    <member refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" kind="variable"><name>events</name></member>
     <member refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" kind="variable"><name>debugger</name></member>
     <member refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" kind="variable"><name>listener</name></member>
+    <member refid="classdebug_1_1_session_1a0f54d0f1673664de2ec62a342b93e35b" kind="variable"><name>broadcaster</name></member>
     <member refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" kind="variable"><name>target</name></member>
     <member refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" kind="variable"><name>process</name></member>
     <member refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" kind="variable"><name>cachedFrameVariables</name></member>
@@ -95,6 +161,9 @@
     <member refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" kind="function"><name>resume</name></member>
     <member refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" kind="function"><name>pollEvents</name></member>
     <member refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" kind="function"><name>shutdown</name></member>
+    <member refid="classdebug_1_1_session_1ae55ea009e277df6240ced7cfdf1521f3" kind="function"><name>wake</name></member>
+    <member refid="classdebug_1_1_session_1a3db51b94ef908f06ebe53b4f18f5fa01" kind="function"><name>cancel</name></member>
+    <member refid="classdebug_1_1_session_1a1012896227c475931dc65fbb9ff3342c" kind="function"><name>resetCancel</name></member>
     <member refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" kind="function"><name>getOffsetStatus</name></member>
     <member refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" kind="function"><name>getOffset</name></member>
     <member refid="classdebug_1_1_session_1a02ef270b151bab75f4e20a5a48d84d41" kind="function"><name>addBreakpoint</name></member>
@@ -109,114 +178,104 @@
     <member refid="classdebug_1_1_session_1ac24c24c48d1bae46a1d5e29531076f45" kind="function"><name>terminateDebuggee</name></member>
     <member refid="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" kind="function"><name>appendSymbolPath</name></member>
     <member refid="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" kind="function"><name>appendSourcePath</name></member>
-    <member refid="classdebug_1_1_session_1ad0ca1cb764126a3beada881324c58ef8" kind="function"><name>getStackTrace</name></member>
-    <member refid="classdebug_1_1_session_1ac35b21073c8abc28cdf30cfde0c11a21" kind="function"><name>getLocals</name></member>
-    <member refid="classdebug_1_1_session_1a1f83ab88d14943763c3b55269024fc94" kind="function"><name>getVariableChildren</name></member>
+    <member refid="classdebug_1_1_session_1aa25453f6ff0703dd42e955e72d68e5e3" kind="function"><name>appendStackFrames</name></member>
+    <member refid="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" kind="function"><name>applyToLocals</name></member>
+    <member refid="classdebug_1_1_session_1a44d91c600d53774ef810614e1f663f15" kind="function"><name>applyToVariableChildren</name></member>
     <member refid="classdebug_1_1_session_1a15f2549ebb9c9ea74349ba4ae7a46c6a" kind="function"><name>evaluateExpression</name></member>
-    <member refid="classdebug_1_1_session_1ac1ddb41377e5b0eac6ed58c9e938a05f" kind="function"><name>getThreads</name></member>
+    <member refid="classdebug_1_1_session_1a926bbe2e4990905cf784fce5cfadc135" kind="function"><name>appendThreads</name></member>
     <member refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" kind="function"><name>getEventThreadSystemId</name></member>
     <member refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" kind="function"><name>setCurrentThreadBySystemId</name></member>
     <member refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" kind="function"><name>resetSymbolGroupCache</name></member>
     <member refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" kind="function"><name>cacheFrameVariables</name></member>
-    <member refid="classdebug_1_1_session_1a5fd39394862e89e52ae8831b85d7d199" kind="function"><name>getVariableObject</name></member>
+    <member refid="classdebug_1_1_session_1a8c839b8c18d56cf2952df599fc1f2e3d" kind="function"><name>appendStackFrame</name></member>
   </compound>
-  <compound refid="classdebug_1_1_state" kind="class"><name>debug::State</name>
-    <member refid="classdebug_1_1_state_1a6acfeaa677d44046db99385ccbf3243c" kind="variable"><name>executionState</name></member>
-    <member refid="classdebug_1_1_state_1aaf00f1ecd87812817dbd47557747e23b" kind="variable"><name>stopReason</name></member>
-    <member refid="classdebug_1_1_state_1aa1f14796ffee6818c4371eb1f1099c72" kind="variable"><name>processExitCode</name></member>
-    <member refid="classdebug_1_1_state_1a38b92622d4758c341d86782c8e847255" kind="variable"><name>targetProcessId</name></member>
-    <member refid="classdebug_1_1_state_1ab395505e845bf21d4ff56f77dcf92ffa" kind="variable"><name>targetProgram</name></member>
-    <member refid="classdebug_1_1_state_1a2e52b80895a7fc689f9a5777b6ff0a11" kind="variable"><name>terminateDeadlineMs</name></member>
-    <member refid="classdebug_1_1_state_1acecd26354fc6c58e78e970fecaa0815b" kind="variable"><name>isRunning</name></member>
-    <member refid="classdebug_1_1_state_1a75ce45fc27d60fea92fc0e03e6342fbc" kind="variable"><name>shouldTerminateOnExit</name></member>
-    <member refid="classdebug_1_1_state_1a3f7d7f6a39956757fc643a29e067021f" kind="variable"><name>isConfigurationDone</name></member>
-    <member refid="classdebug_1_1_state_1a848557c1b021966ee5a501c140e9d718" kind="variable"><name>isStepPending</name></member>
-    <member refid="classdebug_1_1_state_1a52acc9f4430079b63015dc92f87c8f3d" kind="variable"><name>isPausePending</name></member>
-    <member refid="classdebug_1_1_state_1af74cd29bf5939405b30e9eda9f8f9bee" kind="variable"><name>breakpointEngineId</name></member>
-    <member refid="classdebug_1_1_state_1a3de08ce6e5b86e52f6e9fc2644f3d0f1" kind="variable"><name>lastLoadedImageName</name></member>
-    <member refid="classdebug_1_1_state_1a1524615d3f899b2986f31b43a0b2ecd7" kind="variable"><name>hasBreakpointLocationsResolved</name></member>
-    <member refid="classdebug_1_1_state_1abeb3107f0d445cbedce7f280899dcb4d" kind="variable"><name>resolvedBreakpointEngineId</name></member>
-    <member refid="classdebug_1_1_state_1ad668954b7ae722e57f63a5853086a13e" kind="variable"><name>resolvedBreakpointLine</name></member>
-    <member refid="classdebug_1_1_state_1a7ed9c16d75e24529be3216006ea5a82d" kind="variable"><name>hasProcessExited</name></member>
-    <member refid="classdebug_1_1_state_1a804a6915dd5513e66354bdf321473b09" kind="variable"><name>exceptionCode</name></member>
-    <member refid="classdebug_1_1_state_1a1082a8140dbdfe2f1f74ce8599ee6551" kind="variable"><name>exceptionAddress</name></member>
-    <member refid="classdebug_1_1_state_1a7ac8f986730065bb18e0342bd725d2e3" kind="variable"><name>isMachException</name></member>
-    <member refid="classdebug_1_1_state_1ae4bd04e1fd7930cad73dece33f9d2109" kind="variable"><name>hasDebuggeeOutput</name></member>
-    <member refid="classdebug_1_1_state_1a75eddef264990eb7abd182485ea3de46" kind="variable"><name>debuggeeOutputText</name></member>
-    <member refid="classdebug_1_1_state_1a240f953ee36105498af783289c53e9c7" kind="variable"><name>debuggeeOutputCategory</name></member>
-    <member refid="classdebug_1_1_state_1ac39e8e76d2763c11c19ce8e2e0d12a7f" kind="variable"><name>nextVariablesRef</name></member>
-    <member refid="classdebug_1_1_state_1a45f3e3e82a69af77f2380d8b7a983463" kind="variable"><name>variablesRefMap</name></member>
-    <member refid="classdebug_1_1_state_1ac89f5dc6c9fa4810077e4f7c9b5cec1a" kind="variable"><name>nextFrameId</name></member>
-    <member refid="classdebug_1_1_state_1a13ee9eccbf483a8f4ec81a09aa1e83a9" kind="variable"><name>frameIdMap</name></member>
-    <member refid="classdebug_1_1_state_1a11506ade1640f6cff2452c1487a42dc0" kind="variable"><name>lastScopesThreadId</name></member>
-    <member refid="classdebug_1_1_state_1ad8d72677d4c7288a6f91ccc20af5a07e" kind="function"><name>State</name></member>
+  <compound refid="classdebug_1_1_stop_manager" kind="class"><name>debug::StopManager</name>
+    <member refid="classdebug_1_1_stop_manager_1aba708cf1c18f749844a203ea75644c06" kind="variable"><name>stops</name></member>
+    <member refid="classdebug_1_1_stop_manager_1acb929fa1ec21f69d47ff7388dc285138" kind="variable"><name>lastLoadedImageName</name></member>
+    <member refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" kind="variable"><name>session</name></member>
+    <member refid="classdebug_1_1_stop_manager_1a96fab0f2c2a02f01081083ecc2f2126d" kind="variable"><name>breakpointManager</name></member>
+    <member refid="classdebug_1_1_stop_manager_1a591fce037dfaadedc01275ee38b4717e" kind="variable"><name>variableManager</name></member>
+    <member refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" kind="variable"><name>model</name></member>
+    <member refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" kind="function"><name>StopManager</name></member>
+    <member refid="classdebug_1_1_stop_manager_1ae87d8d557aded2e5fa40b92f360fc887" kind="function"><name>onStop</name></member>
+    <member refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" kind="function"><name>registerEvents</name></member>
+    <member refid="classdebug_1_1_stop_manager_1a23350ca0377ae83e11468a7301a41852" kind="function"><name>drainInitialBreak</name></member>
+    <member refid="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" kind="function"><name>drainBreakpointHit</name></member>
+    <member refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" kind="function"><name>drainStepCompleted</name></member>
+    <member refid="classdebug_1_1_stop_manager_1ae491549724477f1c2457f0005f4e11e2" kind="function"><name>drainPauseCompleted</name></member>
+    <member refid="classdebug_1_1_stop_manager_1ab35e144bdf9bf196392632e3b5c5b84c" kind="function"><name>drainModuleLoaded</name></member>
+    <member refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" kind="function"><name>drainExceptionStopped</name></member>
+    <member refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" kind="function"><name>resumeAfterInitialBreak</name></member>
+    <member refid="classdebug_1_1_stop_manager_1a11cf2cbc87df89b6ac71d2c9192cda02" kind="function"><name>resumeExecution</name></member>
+  </compound>
+  <compound refid="classdebug_1_1_variable_manager" kind="class"><name>debug::VariableManager</name>
+    <member refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" kind="variable"><name>session</name></member>
+    <member refid="classdebug_1_1_variable_manager_1a107152bcc6766e61c27b707ea7959109" kind="variable"><name>nextVariablesRef</name></member>
+    <member refid="classdebug_1_1_variable_manager_1a658ab9500c7bbf4619622a180ee71864" kind="variable"><name>variablesRefMap</name></member>
+    <member refid="classdebug_1_1_variable_manager_1a56a358497bb674b37378e987ba944763" kind="variable"><name>nextFrameId</name></member>
+    <member refid="classdebug_1_1_variable_manager_1a5a7a240eb0ab98f087df0bcdac9ecc1d" kind="variable"><name>frameIdMap</name></member>
+    <member refid="classdebug_1_1_variable_manager_1adf8000c5c942649ff1c38f120f699212" kind="variable"><name>lastScopesThreadId</name></member>
+    <member refid="classdebug_1_1_variable_manager_1a68d6afe6448ab27765bdba2d305d4ed8" kind="function"><name>VariableManager</name></member>
+    <member refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" kind="function"><name>resetVariablesState</name></member>
+    <member refid="classdebug_1_1_variable_manager_1a29ae314c6fd001ecf45635d9e6dc2810" kind="function"><name>onStackTrace</name></member>
+    <member refid="classdebug_1_1_variable_manager_1a3ef1621d5a704e5255a2094e800cf36f" kind="function"><name>onScopes</name></member>
+    <member refid="classdebug_1_1_variable_manager_1a7106ef722eac53731b410153ec46d41c" kind="function"><name>onVariables</name></member>
+    <member refid="classdebug_1_1_variable_manager_1afb5fdaf8c1eb869e54d7f33644cd3439" kind="function"><name>selectFrameFromId</name></member>
+    <member refid="classdebug_1_1_variable_manager_1a39c321a2a70e965d5f89bed3cf80974a" kind="function"><name>appendVariables</name></member>
+    <member refid="classdebug_1_1_variable_manager_1a82ca67d49aaa5603e2863eda36efed73" kind="function"><name>appendVariable</name></member>
   </compound>
   <compound refid="class_whatdbg" kind="class"><name>Whatdbg</name>
-    <member refid="class_whatdbg_1a21733146f1ba38f3a28a3c49a7f93b83" kind="variable"><name>terminateTimeoutMs</name></member>
-    <member refid="class_whatdbg_1adb0938c3f74e37021c625dc1991ff590" kind="variable"><name>commands</name></member>
-    <member refid="class_whatdbg_1a8ef9c30f162ea03e9eb6dda16e59fb8a" kind="variable"><name>stops</name></member>
-    <member refid="class_whatdbg_1a4717bbf4039401e544f11a4790aecef5" kind="variable"><name>state</name></member>
-    <member refid="class_whatdbg_1a86a2ce4e61e1abd89fa86096ba576155" kind="variable"><name>session</name></member>
-    <member refid="class_whatdbg_1a11e3ecdca66ec7d5a7ab64d46f2b6dc6" kind="variable"><name>breakpointManager</name></member>
+    <member refid="class_whatdbg_1ab36938a78f24cd1f670d70bd76f18273" kind="variable"><name>model</name></member>
+    <member refid="class_whatdbg_1aa4bc72ff3073566ee8559b68935c9649" kind="variable"><name>processor</name></member>
+    <member refid="class_whatdbg_1a6161a21c3424b62032aa98898e653fcf" kind="variable"><name>writer</name></member>
     <member refid="class_whatdbg_1a90447541f7bbae978b1d889eadfac2dc" kind="variable"><name>reader</name></member>
+    <member refid="class_whatdbg_1a29031ba4eb223a6dfa564e9f940c669c" kind="variable"><name>events</name></member>
+    <member refid="class_whatdbg_1a43a30e0525fb1c99d61da4cbf1027cc9" kind="variable"><name>numMessagesAttachment</name></member>
+    <member refid="class_whatdbg_1a539d7d54e4422db6892e131a5c72075b" kind="variable"><name>isRunningAttachment</name></member>
     <member refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" kind="function"><name>Whatdbg</name></member>
-    <member refid="class_whatdbg_1aeac62eb73f2533f878e2919b3985410e" kind="function"><name>initialize</name></member>
-    <member refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" kind="function"><name>run</name></member>
-    <member refid="class_whatdbg_1a4b721d0fd2eb6da6fb7719d2c23a01fd" kind="function"><name>onCommand</name></member>
-    <member refid="class_whatdbg_1acb7036a0d98391375eadaf2963f32058" kind="function"><name>onInitialize</name></member>
-    <member refid="class_whatdbg_1a915d31b44bfab74c161a43170582c5cc" kind="function"><name>onLaunch</name></member>
-    <member refid="class_whatdbg_1a5dfa0d2f778277c1d3b07c3b6a24690f" kind="function"><name>onAttach</name></member>
-    <member refid="class_whatdbg_1a479be5d71f4ad7df6b84bc5094be28d7" kind="function"><name>addSearchPaths</name></member>
-    <member refid="class_whatdbg_1a96a35e3e38d93954d08e29902625ceb8" kind="function"><name>onConfigurationDone</name></member>
-    <member refid="class_whatdbg_1ab360b6abdbeb881c650087d96c339121" kind="function"><name>onDisconnect</name></member>
-    <member refid="class_whatdbg_1adc196f583d80f402bc58c818f49e2273" kind="function"><name>onSetBreakpoints</name></member>
-    <member refid="class_whatdbg_1a4eb1d0bebc12fb2289c402d8c1ca62c6" kind="function"><name>onThreads</name></member>
-    <member refid="class_whatdbg_1a11b1b5b975c27c575f9087a188eda93b" kind="function"><name>onStackTrace</name></member>
-    <member refid="class_whatdbg_1a12ecfdab6da144a5c16bc825a06ac25e" kind="function"><name>selectFrameFromId</name></member>
-    <member refid="class_whatdbg_1ad05bdb6a5305ac76780d959d10025cbb" kind="function"><name>onScopes</name></member>
-    <member refid="class_whatdbg_1ae1377c763879141cccc5fe65162058ba" kind="function"><name>getDapVariables</name></member>
-    <member refid="class_whatdbg_1adfdf65edd62332431edae566f516a265" kind="function"><name>onVariables</name></member>
-    <member refid="class_whatdbg_1a31d6c5572b4e985030987bba69e7512b" kind="function"><name>addDapVariable</name></member>
-    <member refid="class_whatdbg_1a782112f5a9e514b84d1047131029259a" kind="function"><name>onContinue</name></member>
-    <member refid="class_whatdbg_1a897c4a96a9be1b1ab1ff3b9ab18801bb" kind="function"><name>onNext</name></member>
-    <member refid="class_whatdbg_1af628bdbba100fbe6e7db2c7b4ec85b03" kind="function"><name>onStepIn</name></member>
-    <member refid="class_whatdbg_1aa309669a65e130f843f8bf617b6da56e" kind="function"><name>onStepOut</name></member>
-    <member refid="class_whatdbg_1a919304746e0b3a5c05bc18e497f2296d" kind="function"><name>onPause</name></member>
-    <member refid="class_whatdbg_1a5c53bfe14d5a61d11b537327f1d9acdf" kind="function"><name>onEvaluate</name></member>
-    <member refid="class_whatdbg_1a027eb51c11af08478feea846deae2932" kind="function"><name>onExceptionInfo</name></member>
-    <member refid="class_whatdbg_1a9e7a05509ec294098ecb40a9cc509615" kind="function"><name>processDeferredEvents</name></member>
-    <member refid="class_whatdbg_1a72403b8dedb1ece012d3d7a3ede49f31" kind="function"><name>drainInitialBreak</name></member>
-    <member refid="class_whatdbg_1a5268f55a4f83c022f94dcff9da2bd8a2" kind="function"><name>drainBreakpointHit</name></member>
-    <member refid="class_whatdbg_1ac5a42ec5ebb4141d7eda82250ae960d7" kind="function"><name>drainStepCompleted</name></member>
-    <member refid="class_whatdbg_1a8495165708f3a84fa1d53aa49f56146a" kind="function"><name>drainPauseCompleted</name></member>
-    <member refid="class_whatdbg_1a600297dfa1ac2640839e9fa468af2bd3" kind="function"><name>drainModuleLoaded</name></member>
-    <member refid="class_whatdbg_1ad7350b760bf54236f31c10d9d00d52b1" kind="function"><name>getStoppedEvent</name></member>
-    <member refid="class_whatdbg_1aff9999bb4420034f7b7cbbc5f8719121" kind="function"><name>getExceptionDescription</name></member>
-    <member refid="class_whatdbg_1afad86935089a96805f5e130bc7296bc0" kind="function"><name>drainBreakpointLocationResolved</name></member>
-    <member refid="class_whatdbg_1ac5d4779dac50a9243a0d0b7fc9274999" kind="function"><name>drainDebuggeeOutput</name></member>
-    <member refid="class_whatdbg_1a15e43a9531f58c2380747f916e685eb9" kind="function"><name>getExceptionStoppedEvent</name></member>
-    <member refid="class_whatdbg_1af011028a80824e1eb500867221c920af" kind="function"><name>getExceptionOutputEvent</name></member>
-    <member refid="class_whatdbg_1aaf34a68938aeafb008158a050adda487" kind="function"><name>getProcessEvent</name></member>
-    <member refid="class_whatdbg_1a2d7768523d99418a0704d2158b96035e" kind="function"><name>drainExceptionStopped</name></member>
-    <member refid="class_whatdbg_1a80b11ad6cf1c9dded5b9e463910de35b" kind="function"><name>drainProcessExited</name></member>
-    <member refid="class_whatdbg_1afe2ece59810b9365491ae1c5da68e11a" kind="function"><name>drainTerminateTimeout</name></member>
-    <member refid="class_whatdbg_1ad3944678f076dbf7165272599a9f52c6" kind="function"><name>resumeExecution</name></member>
-    <member refid="class_whatdbg_1a8b7365b45a797fcefddcc22a6d1fb625" kind="function"><name>writeMessages</name></member>
-    <member refid="class_whatdbg_1a12cfc43d31f91c8d477b91a46e284e90" kind="function"><name>resumeAfterInitialBreak</name></member>
-    <member refid="class_whatdbg_1a0d6a499a2e084f82d996e4d61518705d" kind="function"><name>getEndModeForExit</name></member>
-    <member refid="class_whatdbg_1ac5c938cff5465c4aba25f666fafa4e6a" kind="function"><name>writeMessage</name></member>
-    <member refid="class_whatdbg_1aaeaeadff98b6f113eb777735213455ba" kind="function"><name>resetVariablesState</name></member>
+    <member refid="class_whatdbg_1a68628d77ef7d84412d44801d9628d792" kind="function"><name>~Whatdbg</name></member>
+    <member refid="class_whatdbg_1a6e397a1e3cf8f439fcace6f60215afb3" kind="function"><name>getApplicationName</name></member>
+    <member refid="class_whatdbg_1a52beab0e95094c8973145809c53213b8" kind="function"><name>getApplicationVersion</name></member>
+    <member refid="class_whatdbg_1a734f8e782ff7278629baef3319066682" kind="function"><name>moreThanOneInstanceAllowed</name></member>
+    <member refid="class_whatdbg_1a33d312004e22a30ebecf90f442d9263c" kind="function"><name>initialise</name></member>
+    <member refid="class_whatdbg_1a26962dadafd58a936a9529799cdfb501" kind="function"><name>shutdown</name></member>
+    <member refid="class_whatdbg_1abfbf0e8be70b1d12e853465a0d577f8f" kind="function"><name>anotherInstanceStarted</name></member>
+    <member refid="class_whatdbg_1a44b7a301df6a4d1fc3b1a8fdc295d42a" kind="function"><name>systemRequestedQuit</name></member>
+    <member refid="class_whatdbg_1a461635937700120e6ab90679c0883295" kind="function"><name>suspended</name></member>
+    <member refid="class_whatdbg_1afd58c6c556edc63bcda7406884e4deda" kind="function"><name>resumed</name></member>
+    <member refid="class_whatdbg_1a32283d644fe029eab8fc50e40c648dff" kind="function"><name>unhandledException</name></member>
+    <member refid="class_whatdbg_1a8a13695fc4232cd076089383a4d2ca5c" kind="function"><name>valueTreePropertyChanged</name></member>
+    <member refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" kind="function"><name>registerEvents</name></member>
+  </compound>
+  <compound refid="class_w_h_a_t_d_b_g_model" kind="class"><name>WHATDBGModel</name>
+    <member refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" kind="variable"><name>sessionTag</name></member>
+    <member refid="class_w_h_a_t_d_b_g_model_1acb63a9c5f8c93853d85b3688448741db" kind="variable"><name>exceptionTag</name></member>
+    <member refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" kind="function"><name>WHATDBGModel</name></member>
+  </compound>
+  <compound refid="classdap_1_1_writer" kind="class"><name>dap::Writer</name>
+    <member refid="classdap_1_1_writer_1a5a60a4139a1c3b6a6913209776cb3c24" kind="function"><name>Writer</name></member>
+    <member refid="classdap_1_1_writer_1aa072c95d59fd7da80c237372916cfd02" kind="function"><name>writeMessage</name></member>
   </compound>
   <compound refid="namespacedap" kind="namespace"><name>dap</name>
-    <member refid="namespacedap_1a780e3d0082c1cbb3161850f93e8f1a5a" kind="typedef"><name>DynObj</name></member>
-    <member refid="namespacedap_1a65f9c317d9b0866cc69a63779a12fc77" kind="variable"><name>nextSequenceNumber</name></member>
     <member refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" kind="function"><name>nextSeq</name></member>
-    <member refid="namespacedap_1add1b2361c42819aa26aac696c7343858" kind="function"><name>getResponse</name></member>
-    <member refid="namespacedap_1a7a4b0c612cd638fedd0f9f6d91ec59ae" kind="function"><name>getErrorResponse</name></member>
-    <member refid="namespacedap_1a74709ba88468f50222850818b75bbe86" kind="function"><name>getEvent</name></member>
-    <member refid="namespacedap_1aa99fea0a9ed5b481f91f0da5020eccfc" kind="function"><name>getBreakpointChangedEvent</name></member>
-    <member refid="namespacedap_1a08d8217d7aa900631c295ac4081aaec4" kind="function"><name>getCapabilities</name></member>
-    <member refid="namespacedap_1a4767022a06d6fc84ff9949309b4fd644" kind="function"><name>getString</name></member>
+    <member refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" kind="function"><name>appendResponseMembers</name></member>
+    <member refid="namespacedap_1abef24a43f953f76738d1403d3abb17eb" kind="function"><name>appendEventMembers</name></member>
+    <member refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" kind="function"><name>appendResponse</name></member>
+    <member refid="namespacedap_1ab92cf7854c6b2dbc40d249b04d8e276e" kind="function"><name>appendErrorResponse</name></member>
+    <member refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" kind="function"><name>appendEvent</name></member>
+    <member refid="namespacedap_1a4b62e7b9e343cb73546db4dad1299062" kind="function"><name>getRequest</name></member>
+    <member refid="namespacedap_1a2252839c7eb64619f5c79f9b0875ab18" kind="function"><name>appendBreakpointChangedEvent</name></member>
+    <member refid="namespacedap_1aba2a832f89ae6f80a41bc63c1e7c99f8" kind="function"><name>appendSource</name></member>
+    <member refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" kind="function"><name>appendCapabilities</name></member>
+    <member refid="namespacedap_1a336d8b131f80128060f5206c3c233455" kind="function"><name>getStoppedEvent</name></member>
+    <member refid="namespacedap_1a0323f66302b491c9ca350484ec955f68" kind="function"><name>getExceptionDescription</name></member>
+    <member refid="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" kind="function"><name>getExceptionStoppedEvent</name></member>
+    <member refid="namespacedap_1aa487f84892d5c501840a4dbae03b7800" kind="function"><name>getExceptionOutputEvent</name></member>
+    <member refid="namespacedap_1aff116122c81f4bb50a0e85ec69b7f2b8" kind="function"><name>getProcessEvent</name></member>
+    <member refid="namespacedap_1a36ecaf74c4e93e9b1d9f4325dea08262" kind="function"><name>getOutputEvent</name></member>
+    <member refid="namespacedap_1a091a5bef8652985ca095c5d8873da6f5" kind="function"><name>appendResponse</name></member>
+    <member refid="namespacedap_1ad6158862d04add2ed2457780c3218ff7" kind="function"><name>appendEvent</name></member>
+    <member refid="namespacedap_1a026ee303448d3d1778a79fc03e223438" kind="function"><name>getRequest</name></member>
   </compound>
   <compound refid="namespacedebug" kind="namespace"><name>debug</name>
     <member refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90a" kind="enum"><name>EndMode</name></member>
@@ -242,30 +301,31 @@
     <member refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea5ccf4d5c325b7db68777f400f66fd1b1" kind="enumvalue"><name>notFound</name></member>
     <member refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0eae64262c3b87ee801f8f096c390dfae8d" kind="enumvalue"><name>engineBusy</name></member>
     <member refid="namespacedebug_1aee0526408c2ffc82c78a9e7ed793c19e" kind="typedef"><name>BreakpointLocation</name></member>
-    <member refid="namespacedebug_1a780e3d0082c1cbb3161850f93e8f1a5a" kind="typedef"><name>DynObj</name></member>
-    <member refid="namespacedebug_1a780e3d0082c1cbb3161850f93e8f1a5a" kind="typedef"><name>DynObj</name></member>
+    <member refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kind="typedef"><name>Events</name></member>
     <member refid="namespacedebug_1a843227e19ef74b48d7cbb77acd10a09d" kind="variable"><name>stdioReadBufferSize</name></member>
     <member refid="namespacedebug_1a96e6155ab83215a136891405e91e92c0" kind="variable"><name>allEventsMask</name></member>
+    <member refid="namespacedebug_1ab0a6e6add77bf779720e6bd1a359a87c" kind="variable"><name>wakeEventMask</name></member>
+    <member refid="namespacedebug_1a5b5f90069d08b7599b5af986d92889d6" kind="variable"><name>maxStackFrames</name></member>
     <member refid="namespacedebug_1ad59b60cb019c5f6433812ad6a56ecac8" kind="function"><name>normalizePath</name></member>
     <member refid="namespacedebug_1a5f8bae060639d0487513b79a1e7ad204" kind="function"><name>shouldSkipSymbol</name></member>
     <member refid="namespacedebug_1a7ac333b705ec6f55b0297b1cda1e85bd" kind="function"><name>parseHexAddress</name></member>
     <member refid="namespacedebug_1a427707e424eb066a294bab023d93796f" kind="function"><name>prettyPrint</name></member>
-    <member refid="namespacedebug_1ad0a7868a0b9f32784537c8497e729955" kind="function"><name>onBreakpointStop</name></member>
-    <member refid="namespacedebug_1a2290f9967aeda9f104ce5c5a18edf649" kind="function"><name>onStepStop</name></member>
-    <member refid="namespacedebug_1a010d7d40dcd1704d29cfbb19ff68f91f" kind="function"><name>onInterruptStop</name></member>
-    <member refid="namespacedebug_1a2abda46d02223abf11bba60da2bca195" kind="function"><name>onSignalStop</name></member>
-    <member refid="namespacedebug_1a96acb628ff7d6323e4cd9329c37f183c" kind="function"><name>onExceptionStop</name></member>
-    <member refid="namespacedebug_1a00b01dbb410d280c5c76e224f862f869" kind="function"><name>drainProcessStdio</name></member>
-    <member refid="namespacedebug_1afd1180565e721e2407bc946a650884e0" kind="function"><name>onStopReason</name></member>
-    <member refid="namespacedebug_1a27dc19649757e9b2688d632fa4830634" kind="function"><name>onProcessStateStopped</name></member>
-    <member refid="namespacedebug_1a8f1b5a01a02e011af0d61957fef613c8" kind="function"><name>onProcessStateExited</name></member>
-    <member refid="namespacedebug_1ac2d936a1ed1e5cea83f5ac7767b4a90b" kind="function"><name>onProcessStateRunning</name></member>
-    <member refid="namespacedebug_1ad1a8ba9ad50f1fa35415e3e5728ceab9" kind="function"><name>onProcessEvent</name></member>
-    <member refid="namespacedebug_1a426fa0f286156911294af408e668008b" kind="function"><name>onBreakpointEvent</name></member>
+    <member refid="namespacedebug_1a2e6be9ae21fb797cc0f1f00e3fcf90fb" kind="function"><name>onBreakpointStop</name></member>
+    <member refid="namespacedebug_1ab801ce744621ea694d3d0ea32ea65396" kind="function"><name>onStepStop</name></member>
+    <member refid="namespacedebug_1a4b4411b81b81a2aa8d7ea83e6dfddb9d" kind="function"><name>onInterruptStop</name></member>
+    <member refid="namespacedebug_1a21296221342fed577c18ddbe741fa44d" kind="function"><name>onSignalStop</name></member>
+    <member refid="namespacedebug_1a9652a8e4d4e6a794228ec2a9eabe2161" kind="function"><name>onExceptionStop</name></member>
+    <member refid="namespacedebug_1a3af2678f62d76ed2b0c10881b60fb4bc" kind="function"><name>drainProcessStdio</name></member>
+    <member refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" kind="function"><name>onStopReason</name></member>
+    <member refid="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" kind="function"><name>onProcessStateStopped</name></member>
+    <member refid="namespacedebug_1ae3a853e11719527b9f16a798689814eb" kind="function"><name>onProcessStateExited</name></member>
+    <member refid="namespacedebug_1abb112a9371b352c87b37197fb1d2f591" kind="function"><name>onProcessStateRunning</name></member>
+    <member refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" kind="function"><name>onProcessEvent</name></member>
+    <member refid="namespacedebug_1a27b0e00372dec0855774d4ac0eba3c10" kind="function"><name>onBreakpointEvent</name></member>
     <member refid="namespacedebug_1ae1ad323362d43c9c1a534c76584e2d41" kind="function"><name>getLineEntry</name></member>
     <member refid="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" kind="function"><name>getExceptionName</name></member>
     <member refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" kind="function"><name>getDisplayValue</name></member>
-    <member refid="namespacedebug_1adf79f77d9230851cb3c77e3980ca0508" kind="function"><name>getStackFrame</name></member>
+    <member refid="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" kind="function"><name>applyToVariable</name></member>
     <member refid="namespacedebug_1a443505e3302297a42af6a43992f0fe09" kind="function"><name>prettyPrintJuceString</name></member>
     <member refid="namespacedebug_1a8d57f7a4aa4bbdc7490b0ae2401bd2da" kind="function"><name>prettyPrintUniquePtr</name></member>
   </compound>
@@ -280,11 +340,19 @@
   </compound>
   <compound refid="namespacestd" kind="namespace"><name>std</name>
   </compound>
+  <compound refid="_f_i_f_o_8h" kind="file"><name>FIFO.h</name>
+  </compound>
   <compound refid="_reader_8cpp" kind="file"><name>Reader.cpp</name>
   </compound>
   <compound refid="_reader_8h" kind="file"><name>Reader.h</name>
   </compound>
+  <compound refid="_types_8cpp" kind="file"><name>Types.cpp</name>
+  </compound>
   <compound refid="_types_8h" kind="file"><name>Types.h</name>
+  </compound>
+  <compound refid="_writer_8cpp" kind="file"><name>Writer.cpp</name>
+  </compound>
+  <compound refid="_writer_8h" kind="file"><name>Writer.h</name>
   </compound>
   <compound refid="_breakpoint_manager_8cpp" kind="file"><name>BreakpointManager.cpp</name>
   </compound>
@@ -312,6 +380,22 @@
   </compound>
   <compound refid="_state_8h" kind="file"><name>State.h</name>
   </compound>
+  <compound refid="_stop_manager_8cpp" kind="file"><name>StopManager.cpp</name>
+  </compound>
+  <compound refid="_stop_manager_8h" kind="file"><name>StopManager.h</name>
+  </compound>
+  <compound refid="_variable_manager_8cpp" kind="file"><name>VariableManager.cpp</name>
+  </compound>
+  <compound refid="_variable_manager_8h" kind="file"><name>VariableManager.h</name>
+  </compound>
+  <compound refid="_files_8h" kind="file"><name>Files.h</name>
+  </compound>
+  <compound refid="_generated_8cpp" kind="file"><name>Generated.cpp</name>
+  </compound>
+  <compound refid="_generated_8h" kind="file"><name>Generated.h</name>
+  </compound>
+  <compound refid="_identifiers_8h" kind="file"><name>Identifiers.h</name>
+  </compound>
   <compound refid="_project_info_8h" kind="file"><name>ProjectInfo.h</name>
   </compound>
   <compound refid="_main_8cpp" kind="file"><name>Main.cpp</name>
@@ -319,7 +403,6 @@
     <member refid="_main_8cpp_1a05de6c31938aca69cf8183b9015febf1" kind="variable"><name>dbgengSubdir</name></member>
     <member refid="_main_8cpp_1a9ca3e4e7f948745a0a657783a780fff1" kind="variable"><name>liblldbSubdir</name></member>
     <member refid="_main_8cpp_1a88bafac5ca287c987806ecc777bf33a7" kind="variable"><name>logFileName</name></member>
-    <member refid="_main_8cpp_1aeb6ac31ca0fc754e66ea386cb63d3be4" kind="variable"><name>helpText</name></member>
     <member refid="_main_8cpp_1afeffa852a1e56db4852ad3dcc752b5a1" kind="variable"><name>reexecMarker</name></member>
     <member refid="_main_8cpp_1a9e28d6c81d15aba125bb092565676e96" kind="function"><name>getConfigDirectory</name></member>
     <member refid="_main_8cpp_1a1951d9cf65e38f5c80689cbd8f04c778" kind="function"><name>getOrCreateConfigDirectory</name></member>
@@ -327,16 +410,20 @@
     <member refid="_main_8cpp_1aa4780b3b04ec66c8de810082f76b6ba4" kind="function"><name>applySidecarBinary</name></member>
     <member refid="_main_8cpp_1a72e656306a62f770baf4bd3d99f79156" kind="function"><name>getOrCreateSidecar</name></member>
     <member refid="_main_8cpp_1a4a9530d5c1cf1abc329ad14ed1d96872" kind="function"><name>execWithSidecar</name></member>
-    <member refid="_main_8cpp_1aeddecab0d9e1bceee572278bfbe205b8" kind="function"><name>runAdapter</name></member>
+    <member refid="_main_8cpp_1add6b6f05c094e4962cae19cb82b3a06e" kind="function"><name>runAdapter</name></member>
     <member refid="_main_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" kind="function"><name>main</name></member>
   </compound>
+  <compound refid="_processor_8cpp" kind="file"><name>Processor.cpp</name>
+  </compound>
+  <compound refid="_processor_8h" kind="file"><name>Processor.h</name>
+  </compound>
   <compound refid="_whatdbg_8cpp" kind="file"><name>Whatdbg.cpp</name>
-    <member refid="_whatdbg_8cpp_1a3e37955cc7416c09ce88b5188be7def0" kind="variable"><name>pollTimeoutMs</name></member>
-    <member refid="_whatdbg_8cpp_1a5bfa315521f485d7227e7f477e639a8c" kind="variable"><name>idleSleepMs</name></member>
-    <member refid="_whatdbg_8cpp_1a94a1f8709eaad546f3fa7a93da72e7a1" kind="variable"><name>maxStackFrames</name></member>
-    <member refid="_whatdbg_8cpp_1a780e3d0082c1cbb3161850f93e8f1a5a" kind="typedef"><name>DynObj</name></member>
   </compound>
   <compound refid="_whatdbg_8h" kind="file"><name>Whatdbg.h</name>
+  </compound>
+  <compound refid="_w_h_a_t_d_b_g_model_8cpp" kind="file"><name>WHATDBGModel.cpp</name>
+  </compound>
+  <compound refid="_w_h_a_t_d_b_g_model_8h" kind="file"><name>WHATDBGModel.h</name>
   </compound>
   <compound refid="dir_8afbc8eca31bdebae5ebda6a92b18cc7" kind="dir"><name>dap</name>
   </compound>

@@ -3,69 +3,130 @@
   <compounddef id="_types_8h" kind="file" language="C++">
     <compoundname>Types.h</compoundname>
     <includes local="no">JuceHeader.h</includes>
-    <includedby refid="_whatdbg_8h" local="yes">Whatdbg.h</includedby>
+    <includes refid="_generated_8h" local="yes">../generated/Generated.h</includes>
+    <includedby refid="_processor_8h" local="yes">Processor.h</includedby>
+    <includedby refid="_types_8cpp" local="yes">dap/Types.cpp</includedby>
     <includedby refid="_breakpoint_manager_8h" local="yes">debug/BreakpointManager.h</includedby>
     <includedby refid="_session_8cpp" local="yes">debug/Session.cpp</includedby>
     <includedby refid="_session__mac_8cpp" local="yes">debug/Session_mac.cpp</includedby>
+    <includedby refid="_stop_manager_8h" local="yes">debug/StopManager.h</includedby>
     <incdepgraph>
       <node id="1">
         <label>dap/Types.h</label>
         <link refid="_types_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Files.h</label>
+        <link refid="_files_8h"/>
+      </node>
+      <node id="3">
+        <label>../generated/Generated.h</label>
+        <link refid="_generated_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>Identifiers.h</label>
+        <link refid="_identifiers_8h"/>
+      </node>
+      <node id="4">
+        <label>ProjectInfo.h</label>
+        <link refid="_project_info_8h"/>
       </node>
       <node id="2">
         <label>JuceHeader.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="3">
+      <node id="5">
         <label>Main.cpp</label>
         <link refid="_main_8cpp"/>
       </node>
-      <node id="4">
-        <label>Whatdbg.cpp</label>
-        <link refid="_whatdbg_8cpp"/>
+      <node id="3">
+        <label>Processor.cpp</label>
+        <link refid="_processor_8cpp"/>
       </node>
       <node id="2">
-        <label>Whatdbg.h</label>
-        <link refid="_whatdbg_8h"/>
+        <label>Processor.h</label>
+        <link refid="_processor_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+      </node>
+      <node id="6">
+        <label>Whatdbg.cpp</label>
+        <link refid="_whatdbg_8cpp"/>
+      </node>
+      <node id="4">
+        <label>Whatdbg.h</label>
+        <link refid="_whatdbg_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>dap/Types.cpp</label>
+        <link refid="_types_8cpp"/>
       </node>
       <node id="1">
         <label>dap/Types.h</label>
         <link refid="_types_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
       </node>
-      <node id="6">
+      <node id="9">
         <label>debug/BreakpointManager.cpp</label>
         <link refid="_breakpoint_manager_8cpp"/>
       </node>
-      <node id="5">
+      <node id="8">
         <label>debug/BreakpointManager.h</label>
         <link refid="_breakpoint_manager_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="7">
+      <node id="12">
         <label>debug/Session.cpp</label>
         <link refid="_session_8cpp"/>
       </node>
-      <node id="8">
+      <node id="13">
         <label>debug/Session_mac.cpp</label>
         <link refid="_session__mac_8cpp"/>
+      </node>
+      <node id="11">
+        <label>debug/StopManager.cpp</label>
+        <link refid="_stop_manager_8cpp"/>
+      </node>
+      <node id="10">
+        <label>debug/StopManager.h</label>
+        <link refid="_stop_manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
       </node>
     </invincdepgraph>
     <innernamespace refid="namespacedap">dap</innernamespace>
@@ -76,133 +137,86 @@
     <programlisting>
 <codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;JuceHeader.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="3"><highlight class="normal"></highlight></codeline>
-<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacedap" kindref="compound">dap</ref></highlight></codeline>
-<codeline lineno="5"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight></codeline>
-<codeline lineno="13" refid="namespacedap_1a780e3d0082c1cbb3161850f93e8f1a5a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacedap_1a780e3d0082c1cbb3161850f93e8f1a5a" kindref="member">DynObj</ref><sp/>=<sp/><ref refid="classjuce_1_1ReferenceCountedObjectPtr" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::ReferenceCountedObjectPtr&lt;juce::DynamicObject&gt;</ref>;</highlight></codeline>
-<codeline lineno="14"><highlight class="normal"></highlight></codeline>
-<codeline lineno="27" refid="namespacedap_1a65f9c317d9b0866cc69a63779a12fc77" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1a65f9c317d9b0866cc69a63779a12fc77" kindref="member">nextSequenceNumber</ref><sp/>{<sp/>1<sp/>};</highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight></codeline>
-<codeline lineno="33" refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" kindref="member">nextSeq</ref><sp/>()<sp/>noexcept</highlight></codeline>
-<codeline lineno="34"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1a65f9c317d9b0866cc69a63779a12fc77" kindref="member">nextSequenceNumber</ref>++;</highlight></codeline>
-<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight></codeline>
-<codeline lineno="49" refid="namespacedap_1add1b2361c42819aa26aac696c7343858" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/><ref refid="namespacedap_1add1b2361c42819aa26aac696c7343858" kindref="member">getResponse</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>requestSeq,</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/><ref refid="juce__UnityPluginInterface_8h_1a485dc2a0e5ed7da3d9f826367b36ee55a6440030ae8284cee96c1c88b356c45a7" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">command</ref>,</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isSuccess,</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/>body<sp/>=<sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/>())<sp/>noexcept</highlight></codeline>
-<codeline lineno="53"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedap_1a780e3d0082c1cbb3161850f93e8f1a5a" kindref="member">DynObj</ref><sp/>obj<sp/>{<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1DynamicObject" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::DynamicObject</ref><sp/>()<sp/>};</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>obj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;seq&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" kindref="member">nextSeq</ref><sp/>());</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>obj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;response&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>obj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;request_seq&quot;</highlight><highlight class="normal">,<sp/>requestSeq);</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>obj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;command&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><ref refid="juce__UnityPluginInterface_8h_1a485dc2a0e5ed7da3d9f826367b36ee55a6440030ae8284cee96c1c88b356c45a7" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">command</ref>);</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>obj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>isSuccess);</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(not<sp/>body.isVoid<sp/>())</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>obj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>body);</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"></highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/>(obj);</highlight></codeline>
-<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"></highlight></codeline>
-<codeline lineno="77" refid="namespacedap_1a7a4b0c612cd638fedd0f9f6d91ec59ae" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/><ref refid="namespacedap_1a7a4b0c612cd638fedd0f9f6d91ec59ae" kindref="member">getErrorResponse</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>requestSeq,</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/><ref refid="juce__UnityPluginInterface_8h_1a485dc2a0e5ed7da3d9f826367b36ee55a6440030ae8284cee96c1c88b356c45a7" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">command</ref>,</highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>message)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="80"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedap_1a780e3d0082c1cbb3161850f93e8f1a5a" kindref="member">DynObj</ref><sp/>obj<sp/>{<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1DynamicObject" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::DynamicObject</ref><sp/>()<sp/>};</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>obj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;seq&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" kindref="member">nextSeq</ref><sp/>());</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>obj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;response&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>obj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;request_seq&quot;</highlight><highlight class="normal">,<sp/>requestSeq);</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>obj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;command&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><ref refid="juce__UnityPluginInterface_8h_1a485dc2a0e5ed7da3d9f826367b36ee55a6440030ae8284cee96c1c88b356c45a7" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">command</ref>);</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>obj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>obj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>message);</highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/>(obj);</highlight></codeline>
-<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"></highlight></codeline>
-<codeline lineno="100" refid="namespacedap_1a74709ba88468f50222850818b75bbe86" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/><ref refid="namespacedap_1a74709ba88468f50222850818b75bbe86" kindref="member">getEvent</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>event,</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/>body<sp/>=<sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/>())<sp/>noexcept</highlight></codeline>
-<codeline lineno="102"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedap_1a780e3d0082c1cbb3161850f93e8f1a5a" kindref="member">DynObj</ref><sp/>obj<sp/>{<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1DynamicObject" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::DynamicObject</ref><sp/>()<sp/>};</highlight></codeline>
-<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>obj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;seq&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><ref refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" kindref="member">nextSeq</ref><sp/>());</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>obj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;event&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>obj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;event&quot;</highlight><highlight class="normal">,<sp/>event);</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"></highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(not<sp/>body.isVoid<sp/>())</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>obj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>body);</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_generated_8h" kindref="compound">../generated/Generated.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacedap" kindref="compound">dap</ref></highlight></codeline>
+<codeline lineno="6"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" kindref="member">nextSeq</ref><sp/>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" kindref="member">appendResponseMembers</ref><sp/>(std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>json,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>requestSeq,<sp/>std::string_view<sp/>command,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isSuccess);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1abef24a43f953f76738d1403d3abb17eb" kindref="member">appendEventMembers</ref><sp/>(std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>json,<sp/>std::string_view<sp/>event);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">template<sp/>&lt;typename<sp/>Function&gt;</highlight></codeline>
+<codeline lineno="46" refid="namespacedap_1a091a5bef8652985ca095c5d8873da6f5" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" kindref="member">appendResponse</ref><sp/>(<ref refid="namespacestd" kindref="compound">std</ref>::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>json,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>requestSeq,<sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/><ref refid="juce__UnityPluginInterface_8h_1a485dc2a0e5ed7da3d9f826367b36ee55a6440030ae8284cee96c1c88b356c45a7" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">command</ref>,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isSuccess,<sp/>const<sp/>Function&amp;<sp/>appendBody)</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonWriter::appendObject</ref><sp/>(json,<sp/>[requestSeq,<sp/><ref refid="juce__UnityPluginInterface_8h_1a485dc2a0e5ed7da3d9f826367b36ee55a6440030ae8284cee96c1c88b356c45a7" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">command</ref>,<sp/>isSuccess,<sp/>&amp;appendBody]<sp/>(std::string&amp;<sp/>members)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" kindref="member">appendResponseMembers</ref><sp/>(members,<sp/>requestSeq,<sp/><ref refid="juce__UnityPluginInterface_8h_1a485dc2a0e5ed7da3d9f826367b36ee55a6440030ae8284cee96c1c88b356c45a7" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">command</ref>,<sp/>isSuccess);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonWriter::appendKey</ref><sp/>(members,<sp/><ref refid="namespaceId_1ac27768ba6b5854a0ceb8c78bbde739b7" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::body</ref>);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonWriter::appendObject</ref><sp/>(members,<sp/>appendBody);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" kindref="member">appendResponse</ref><sp/>(std::string&amp;<sp/>json,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>requestSeq,<sp/>std::string_view<sp/><ref refid="juce__UnityPluginInterface_8h_1a485dc2a0e5ed7da3d9f826367b36ee55a6440030ae8284cee96c1c88b356c45a7" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">command</ref>,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isSuccess);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1ab92cf7854c6b2dbc40d249b04d8e276e" kindref="member">appendErrorResponse</ref><sp/>(std::string&amp;<sp/>json,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>requestSeq,<sp/>std::string_view<sp/><ref refid="juce__UnityPluginInterface_8h_1a485dc2a0e5ed7da3d9f826367b36ee55a6440030ae8284cee96c1c88b356c45a7" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">command</ref>,<sp/>std::string_view<sp/>message);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Function&gt;</highlight></codeline>
+<codeline lineno="82" refid="namespacedap_1ad6158862d04add2ed2457780c3218ff7" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" kindref="member">appendEvent</ref><sp/>(std::string&amp;<sp/>json,<sp/>std::string_view<sp/>event,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Function&amp;<sp/>appendBody)</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonWriter::appendObject</ref><sp/>(json,<sp/>[event,<sp/>&amp;appendBody]<sp/>(std::string&amp;<sp/>members)</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacedap_1abef24a43f953f76738d1403d3abb17eb" kindref="member">appendEventMembers</ref><sp/>(members,<sp/>event);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonWriter::appendKey</ref><sp/>(members,<sp/><ref refid="namespaceId_1ac27768ba6b5854a0ceb8c78bbde739b7" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::body</ref>);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonWriter::appendObject</ref><sp/>(members,<sp/>appendBody);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" kindref="member">appendEvent</ref><sp/>(std::string&amp;<sp/>json,<sp/>std::string_view<sp/>event);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Function&gt;</highlight></codeline>
+<codeline lineno="107" refid="namespacedap_1a026ee303448d3d1778a79fc03e223438" refkind="member"><highlight class="normal"><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref><sp/><ref refid="namespacedap_1a4b62e7b9e343cb73546db4dad1299062" kindref="member">getRequest</ref><sp/>(std::string_view<sp/><ref refid="juce__UnityPluginInterface_8h_1a485dc2a0e5ed7da3d9f826367b36ee55a6440030ae8284cee96c1c88b356c45a7" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">command</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Function&amp;<sp/>appendArguments)</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json;</highlight></codeline>
 <codeline lineno="110"><highlight class="normal"></highlight></codeline>
-<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/>(obj);</highlight></codeline>
-<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="113"><highlight class="normal"></highlight></codeline>
-<codeline lineno="122" refid="namespacedap_1aa99fea0a9ed5b481f91f0da5020eccfc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/><ref refid="namespacedap_1aa99fea0a9ed5b481f91f0da5020eccfc" kindref="member">getBreakpointChangedEvent</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dapId,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>line)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="123"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedap_1a780e3d0082c1cbb3161850f93e8f1a5a" kindref="member">DynObj</ref><sp/>bpObj<sp/>{<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1DynamicObject" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::DynamicObject</ref><sp/>()<sp/>};</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>bpObj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>dapId);</highlight></codeline>
-<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>bpObj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;verified&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>bpObj-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;line&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>line);</highlight></codeline>
-<codeline lineno="128"><highlight class="normal"></highlight></codeline>
-<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedap_1a780e3d0082c1cbb3161850f93e8f1a5a" kindref="member">DynObj</ref><sp/>body<sp/>{<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1DynamicObject" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::DynamicObject</ref><sp/>()<sp/>};</highlight></codeline>
-<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>body-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;reason&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;changed&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>body-&gt;setProperty<sp/>(</highlight><highlight class="stringliteral">&quot;breakpoint&quot;</highlight><highlight class="normal">,<sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/>(bpObj));</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonWriter::appendObject</ref><sp/>(json,<sp/>[<ref refid="juce__UnityPluginInterface_8h_1a485dc2a0e5ed7da3d9f826367b36ee55a6440030ae8284cee96c1c88b356c45a7" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">command</ref>,<sp/>&amp;appendArguments]<sp/>(std::string&amp;<sp/>members)</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonWriter::appendKey</ref><sp/>(members,<sp/><ref refid="namespaceId_1abdf0cd1b922dc9e184b37465a4c92e9c" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::seq</ref>);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Format::appendDecimal</ref><sp/>(members,<sp/><ref refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" kindref="member">nextSeq</ref><sp/>());</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonWriter::appendKey</ref><sp/>(members,<sp/><ref refid="namespaceId_1ab4956db6d5e735af8b4e202830ac73f7" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::type</ref>);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonWriter::appendString</ref><sp/>(members,<sp/><ref refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings::getView</ref><sp/>(<ref refid="namespaceId_1af4e71980bee2a5365b2626999eb5bf71" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::request</ref>.toString<sp/>()));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonWriter::appendKey</ref><sp/>(members,<sp/><ref refid="namespaceId_1a1538a142ed265f60c8fcf1703a106a7d" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::command</ref>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonWriter::appendString</ref><sp/>(members,<sp/><ref refid="juce__UnityPluginInterface_8h_1a485dc2a0e5ed7da3d9f826367b36ee55a6440030ae8284cee96c1c88b356c45a7" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">command</ref>);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonWriter::appendKey</ref><sp/>(members,<sp/><ref refid="namespaceId_1a2333fa49126557436eb1441faf72fd4f" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id::arguments</ref>);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonWriter::appendObject</ref><sp/>(members,<sp/>appendArguments);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::move<sp/>(*<ref refid="structjam_1_1JsonDocument_1a1343aea261139b22b9cc95844519d8cb" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument::parse</ref><sp/>(std::move<sp/>(json)));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref><sp/><ref refid="namespacedap_1a4b62e7b9e343cb73546db4dad1299062" kindref="member">getRequest</ref><sp/>(std::string_view<sp/><ref refid="juce__UnityPluginInterface_8h_1a485dc2a0e5ed7da3d9f826367b36ee55a6440030ae8284cee96c1c88b356c45a7" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">command</ref>);</highlight></codeline>
 <codeline lineno="132"><highlight class="normal"></highlight></codeline>
-<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1a74709ba88468f50222850818b75bbe86" kindref="member">getEvent</ref><sp/>(</highlight><highlight class="stringliteral">&quot;breakpoint&quot;</highlight><highlight class="normal">,<sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/>(body));</highlight></codeline>
-<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="135"><highlight class="normal"></highlight></codeline>
-<codeline lineno="146" refid="namespacedap_1a08d8217d7aa900631c295ac4081aaec4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/><ref refid="namespacedap_1a08d8217d7aa900631c295ac4081aaec4" kindref="member">getCapabilities</ref><sp/>()<sp/>noexcept</highlight></codeline>
-<codeline lineno="147"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;juce::Identifier,<sp/>bool&gt;&gt;<sp/>capabilityFlags</highlight></codeline>
-<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsConfigurationDoneRequest&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsFunctionBreakpoints&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsConditionalBreakpoints&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsHitConditionalBreakpoints&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsEvaluateForHovers&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsSetVariable&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsStepBack&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsRestartFrame&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsGotoTargetsRequest&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsStepInTargetsRequest&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsCompletionsRequest&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsModulesRequest&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsExceptionOptions&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsValueFormattingOptions&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsExceptionInfoRequest&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportTerminateDebuggee&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsDelayedStackTraceLoading&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsLoadedSourcesRequest&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsLogPoints&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsTerminateThreadsRequest&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsSetExpression&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsTerminateRequest&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsDataBreakpoints&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsReadMemoryRequest&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsDisassembleRequest&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsCancelRequest&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsBreakpointLocationsRequest&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsClipboardContext&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsSteppingGranularity&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsInstructionBreakpoints&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>},</highlight></codeline>
-<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="stringliteral">&quot;supportsExceptionFilterOptions&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/>}</highlight></codeline>
-<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="182"><highlight class="normal"></highlight></codeline>
-<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedap_1a780e3d0082c1cbb3161850f93e8f1a5a" kindref="member">DynObj</ref><sp/>caps<sp/>{<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1DynamicObject" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::DynamicObject</ref><sp/>()<sp/>};</highlight></codeline>
-<codeline lineno="184"><highlight class="normal"></highlight></codeline>
-<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[capabilityName,<sp/>isSupported]<sp/>:<sp/>capabilityFlags)</highlight></codeline>
-<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps-&gt;setProperty<sp/>(capabilityName,<sp/>isSupported);</highlight></codeline>
-<codeline lineno="187"><highlight class="normal"></highlight></codeline>
-<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/>(caps);</highlight></codeline>
-<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="190"><highlight class="normal"></highlight></codeline>
-<codeline lineno="200" refid="namespacedap_1a4767022a06d6fc84ff9949309b4fd644" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><ref refid="namespacedap_1a4767022a06d6fc84ff9949309b4fd644" kindref="member">getString</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>obj,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1Identifier" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Identifier</ref>&amp;<sp/>key)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="201"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>dynObj<sp/>{<sp/>obj.getDynamicObject<sp/>()<sp/>})</highlight></codeline>
-<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dynObj-&gt;getProperty<sp/>(key).toString<sp/>();</highlight></codeline>
-<codeline lineno="204"><highlight class="normal"></highlight></codeline>
-<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
-<codeline lineno="206"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="207"><highlight class="normal"></highlight></codeline>
-<codeline lineno="208"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>dap</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1a2252839c7eb64619f5c79f9b0875ab18" kindref="member">appendBreakpointChangedEvent</ref><sp/>(std::string&amp;<sp/>json,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dapId,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>line);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1aba2a832f89ae6f80a41bc63c1e7c99f8" kindref="member">appendSource</ref><sp/>(std::string&amp;<sp/>json,<sp/>std::string_view<sp/><ref refid="juce__UnityPluginInterface_8h_1a010e50efcb9d6d393b9414f09f368dbc" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">name</ref>,<sp/>std::string_view<sp/>path);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" kindref="member">appendCapabilities</ref><sp/>(std::string&amp;<sp/>json);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal">std::string<sp/><ref refid="namespacedap_1a336d8b131f80128060f5206c3c233455" kindref="member">getStoppedEvent</ref><sp/>(std::string_view<sp/>reason,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>threadId);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><ref refid="namespacedap_1a0323f66302b491c9ca350484ec955f68" kindref="member">getExceptionDescription</ref><sp/>(<ref refid="namespacejuce_1a6afa306885ea6220ef17d2a02cfa7f0a" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::int64</ref><sp/>exceptionCode,<sp/><ref refid="namespacejuce_1a6afa306885ea6220ef17d2a02cfa7f0a" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::int64</ref><sp/>exceptionAddress);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal">std::string<sp/><ref refid="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" kindref="member">getExceptionStoppedEvent</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>exceptionName,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>description,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>threadId);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal">std::string<sp/><ref refid="namespacedap_1aa487f84892d5c501840a4dbae03b7800" kindref="member">getExceptionOutputEvent</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>exceptionName,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>description);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal">std::string<sp/><ref refid="namespacedap_1aff116122c81f4bb50a0e85ec69b7f2b8" kindref="member">getProcessEvent</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/><ref refid="juce__UnityPluginInterface_8h_1a010e50efcb9d6d393b9414f09f368dbc" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">name</ref>,<sp/>std::uint32_t<sp/>processId,<sp/>std::string_view<sp/>startMethod);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal">std::string<sp/><ref refid="namespacedap_1a36ecaf74c4e93e9b1d9f4325dea08262" kindref="member">getOutputEvent</ref><sp/>(std::string_view<sp/>category,<sp/>std::string_view<sp/>output);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>dap</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="dap/Types.h"/>
   </compounddef>

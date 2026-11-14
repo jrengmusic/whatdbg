@@ -5,55 +5,45 @@
 namespace dap
 {
 
-/** Process-wide DAP sequence counter.
+/** Return the next DAP sequence number and store the value after it.
  *
- *  Every DAP message (request, response, event) must carry a unique seq field.
- *  This is the single shared counter consulted by getResponse, getErrorResponse,
- *  and getEvent. Declared as a C++17 inline variable so every translation unit
- *  that includes this header shares the same instance.
+ *  Responses, events, and requests share one sequence. The stored value starts at 1.
  *
- *  @note Not thread-safe. Must only be touched on the main thread.
- *  @note This is DAP protocol session state and belongs, in the fully migrated
- *        architecture, to debug::State (the Model) rather than to this header —
- *        tracked as outstanding work pending a State.h change outside this file.
+ *  @return The sequence number of the message being built.
  */
-inline int nextSequenceNumber { 1 };
+int nextSeq () noexcept;
 
-/** Return the next monotonically increasing DAP sequence number.
+/** Append the members of a response object: seq, type, request_seq, command, and success.
  *
- *  @return The next sequence number, starting at 1.
+ *  The caller opens and closes the object.
+ *
+ *  @param json        Output text that receives the members.
+ *  @param requestSeq  Sequence number of the request that this response answers.
+ *  @param command     DAP command name.
+ *  @param isSuccess   Value of the success member.
  */
-inline int nextSeq () noexcept
-{
-    return nextSequenceNumber++;
-}
+void appendResponseMembers (std::string& json, int requestSeq, std::string_view command, bool isSuccess);
 
-inline void appendResponseMembers (std::string& json, int requestSeq, std::string_view command, bool isSuccess)
-{
-    jam::JsonWriter::appendKey (json, Id::seq);
-    jam::Format::appendDecimal (json, nextSeq ());
-    jam::JsonWriter::appendKey (json, Id::type);
-    jam::JsonWriter::appendString (json, jam::Strings::getView (Id::response.toString ()));
-    jam::JsonWriter::appendKey (json, Id::requestSeq);
-    jam::Format::appendDecimal (json, requestSeq);
-    jam::JsonWriter::appendKey (json, Id::command);
-    jam::JsonWriter::appendString (json, command);
-    jam::JsonWriter::appendKey (json, Id::success);
-    jam::JsonWriter::appendBoolean (json, isSuccess);
-}
+/** Append the members of an event object: seq, type, and event.
+ *
+ *  The caller opens and closes the object.
+ *
+ *  @param json   Output text that receives the members.
+ *  @param event  DAP event name.
+ */
+void appendEventMembers (std::string& json, std::string_view event);
 
-inline void appendEventMembers (std::string& json, std::string_view event)
-{
-    jam::JsonWriter::appendKey (json, Id::seq);
-    jam::Format::appendDecimal (json, nextSeq ());
-    jam::JsonWriter::appendKey (json, Id::type);
-    jam::JsonWriter::appendString (json, jam::Strings::getView (Id::event.toString ()));
-    jam::JsonWriter::appendKey (json, Id::event);
-    jam::JsonWriter::appendString (json, event);
-}
-
+/** Append a response object that has a body.
+ *
+ *  @tparam Function  Callable that takes a std::string& and appends the body members.
+ *  @param json        Output text that receives the response object.
+ *  @param requestSeq  Sequence number of the request that this response answers.
+ *  @param command     DAP command name.
+ *  @param isSuccess   Value of the success member.
+ *  @param appendBody  Appends the members of the body object.
+ */
 template <typename Function>
-inline void appendResponse (std::string& json, int requestSeq, std::string_view command, bool isSuccess, const Function& appendBody)
+void appendResponse (std::string& json, int requestSeq, std::string_view command, bool isSuccess, const Function& appendBody)
 {
     jam::JsonWriter::appendObject (json, [requestSeq, command, isSuccess, &appendBody] (std::string& members)
     {
@@ -63,26 +53,33 @@ inline void appendResponse (std::string& json, int requestSeq, std::string_view 
     });
 }
 
-inline void appendResponse (std::string& json, int requestSeq, std::string_view command, bool isSuccess)
-{
-    jam::JsonWriter::appendObject (json, [requestSeq, command, isSuccess] (std::string& members)
-    {
-        appendResponseMembers (members, requestSeq, command, isSuccess);
-    });
-}
+/** Append a response object without a body.
+ *
+ *  @param json        Output text that receives the response object.
+ *  @param requestSeq  Sequence number of the request that this response answers.
+ *  @param command     DAP command name.
+ *  @param isSuccess   Value of the success member.
+ */
+void appendResponse (std::string& json, int requestSeq, std::string_view command, bool isSuccess);
 
-inline void appendErrorResponse (std::string& json, int requestSeq, std::string_view command, std::string_view message)
-{
-    jam::JsonWriter::appendObject (json, [requestSeq, command, message] (std::string& members)
-    {
-        appendResponseMembers (members, requestSeq, command, false);
-        jam::JsonWriter::appendKey (members, Id::message);
-        jam::JsonWriter::appendString (members, message);
-    });
-}
+/** Append a failed response object with a message member.
+ *
+ *  @param json        Output text that receives the response object.
+ *  @param requestSeq  Sequence number of the request that this response answers.
+ *  @param command     DAP command name.
+ *  @param message     Failure text, written to the message member.
+ */
+void appendErrorResponse (std::string& json, int requestSeq, std::string_view command, std::string_view message);
 
+/** Append an event object that has a body.
+ *
+ *  @tparam Function  Callable that takes a std::string& and appends the body members.
+ *  @param json        Output text that receives the event object.
+ *  @param event       DAP event name.
+ *  @param appendBody  Appends the members of the body object.
+ */
 template <typename Function>
-inline void appendEvent (std::string& json, std::string_view event, const Function& appendBody)
+void appendEvent (std::string& json, std::string_view event, const Function& appendBody)
 {
     jam::JsonWriter::appendObject (json, [event, &appendBody] (std::string& members)
     {
@@ -92,86 +89,119 @@ inline void appendEvent (std::string& json, std::string_view event, const Functi
     });
 }
 
-inline void appendEvent (std::string& json, std::string_view event)
+/** Append an event object without a body.
+ *
+ *  @param json   Output text that receives the event object.
+ *  @param event  DAP event name.
+ */
+void appendEvent (std::string& json, std::string_view event);
+
+/** Return a request document with a command and an arguments object.
+ *
+ *  @tparam Function       Callable that takes a std::string& and appends the argument members.
+ *  @param command         DAP command name.
+ *  @param appendArguments Appends the members of the arguments object.
+ *  @return The parsed request document.
+ */
+template <typename Function>
+jam::JsonDocument getRequest (std::string_view command, const Function& appendArguments)
 {
-    jam::JsonWriter::appendObject (json, [event] (std::string& members)
+    std::string json;
+
+    jam::JsonWriter::appendObject (json, [command, &appendArguments] (std::string& members)
     {
-        appendEventMembers (members, event);
+        jam::JsonWriter::appendKey (members, Id::seq);
+        jam::Format::appendDecimal (members, nextSeq ());
+        jam::JsonWriter::appendKey (members, Id::type);
+        jam::JsonWriter::appendString (members, jam::Strings::getView (Id::request.toString ()));
+        jam::JsonWriter::appendKey (members, Id::command);
+        jam::JsonWriter::appendString (members, command);
+        jam::JsonWriter::appendKey (members, Id::arguments);
+        jam::JsonWriter::appendObject (members, appendArguments);
     });
+
+    return std::move (*jam::JsonDocument::parse (std::move (json)));
 }
 
-inline void appendBreakpointChangedEvent (std::string& json, int dapId, int line)
-{
-    appendEvent (json, jam::Strings::getView (Id::breakpoint.toString ()), [dapId, line] (std::string& body)
-    {
-        jam::JsonWriter::appendKey (body, Id::reason);
-        jam::JsonWriter::appendString (body, jam::Strings::getView (Id::changed.toString ()));
-        jam::JsonWriter::appendKey (body, Id::breakpoint);
-        jam::JsonWriter::appendObject (body, [dapId, line] (std::string& breakpoint)
-        {
-            jam::JsonWriter::appendKey (breakpoint, Id::id);
-            jam::Format::appendDecimal (breakpoint, dapId);
-            jam::JsonWriter::appendKey (breakpoint, Id::verified);
-            jam::JsonWriter::appendBoolean (breakpoint, true);
-            jam::JsonWriter::appendKey (breakpoint, Id::line);
-            jam::Format::appendDecimal (breakpoint, line);
-        });
-    });
-}
+/** Return a request document with a command and no arguments member.
+ *
+ *  @param command  DAP command name.
+ *  @return The parsed request document.
+ */
+jam::JsonDocument getRequest (std::string_view command);
 
-inline void appendSource (std::string& json, std::string_view name, std::string_view path)
-{
-    jam::JsonWriter::appendObject (json, [name, path] (std::string& members)
-    {
-        jam::JsonWriter::appendKey (members, Id::name);
-        jam::JsonWriter::appendString (members, name);
-        jam::JsonWriter::appendKey (members, Id::path);
-        jam::JsonWriter::appendString (members, path);
-    });
-}
+/** Append a breakpoint changed event that reports a verified breakpoint at a line.
+ *
+ *  @param json   Output text that receives the event object.
+ *  @param dapId  DAP breakpoint id.
+ *  @param line   Resolved source line.
+ */
+void appendBreakpointChangedEvent (std::string& json, int dapId, int line);
 
-inline void appendCapabilities (std::string& json)
-{
-    static const std::vector<std::pair<juce::Identifier, bool>> capabilityFlags
-    {
-        { "supportsConfigurationDoneRequest",   true },
-        { "supportsFunctionBreakpoints",        false },
-        { "supportsConditionalBreakpoints",     false },
-        { "supportsHitConditionalBreakpoints",  false },
-        { "supportsEvaluateForHovers",          true },
-        { "supportsSetVariable",                false },
-        { "supportsStepBack",                   false },
-        { "supportsRestartFrame",               false },
-        { "supportsGotoTargetsRequest",         false },
-        { "supportsStepInTargetsRequest",       false },
-        { "supportsCompletionsRequest",         false },
-        { "supportsModulesRequest",             false },
-        { "supportsExceptionOptions",           false },
-        { "supportsValueFormattingOptions",     false },
-        { "supportsExceptionInfoRequest",       true },
-        { "supportTerminateDebuggee",           true },
-        { "supportsDelayedStackTraceLoading",   false },
-        { "supportsLoadedSourcesRequest",       false },
-        { "supportsLogPoints",                  false },
-        { "supportsTerminateThreadsRequest",    false },
-        { "supportsSetExpression",              false },
-        { "supportsTerminateRequest",           true },
-        { "supportsDataBreakpoints",            false },
-        { "supportsReadMemoryRequest",          false },
-        { "supportsDisassembleRequest",         false },
-        { "supportsCancelRequest",              false },
-        { "supportsBreakpointLocationsRequest", false },
-        { "supportsClipboardContext",           false },
-        { "supportsSteppingGranularity",        false },
-        { "supportsInstructionBreakpoints",     false },
-        { "supportsExceptionFilterOptions",     false }
-    };
+/** Append a source object with a name and a path.
+ *
+ *  @param json  Output text that receives the source object.
+ *  @param name  File name.
+ *  @param path  Full path of the file.
+ */
+void appendSource (std::string& json, std::string_view name, std::string_view path);
 
-    for (const auto& [capabilityName, isSupported] : capabilityFlags)
-    {
-        jam::JsonWriter::appendKey (json, capabilityName);
-        jam::JsonWriter::appendBoolean (json, isSupported);
-    }
-}
+/** Append the capability flags of the initialize response.
+ *
+ *  The flags are key and value pairs. The caller opens and closes the object.
+ *
+ *  @param json  Output text that receives the flags.
+ */
+void appendCapabilities (std::string& json);
+
+/** Return a stopped event for a stop reason on one thread, with allThreadsStopped set to true.
+ *
+ *  @param reason    DAP stop reason, for example step or pause.
+ *  @param threadId  OS thread id of the thread that stopped.
+ *  @return The serialized event.
+ */
+std::string getStoppedEvent (std::string_view reason, int threadId);
+
+/** Return the text of an exception: its code and its address, in hexadecimal.
+ *
+ *  @param exceptionCode     Platform exception or signal code.
+ *  @param exceptionAddress  Address where the exception occurred.
+ *  @return Text in the form 0x\<code\> at 0x\<address\>, in hexadecimal digits.
+ */
+juce::String getExceptionDescription (juce::int64 exceptionCode, juce::int64 exceptionAddress);
+
+/** Return a stopped event with reason exception.
+ *
+ *  @param exceptionName  Name from debug::getExceptionName.
+ *  @param description    Text from getExceptionDescription.
+ *  @param threadId       OS thread id of the thread that stopped.
+ *  @return The serialized event.
+ */
+std::string getExceptionStoppedEvent (const juce::String& exceptionName, const juce::String& description, int threadId);
+
+/** Return an output event on standard error that reports an unhandled exception.
+ *
+ *  @param exceptionName  Name from debug::getExceptionName.
+ *  @param description    Text from getExceptionDescription.
+ *  @return The serialized event.
+ */
+std::string getExceptionOutputEvent (const juce::String& exceptionName, const juce::String& description);
+
+/** Return a process event for the target process.
+ *
+ *  @param name         Program name or attach label.
+ *  @param processId    OS process id.
+ *  @param startMethod  DAP start method, launch or attach.
+ *  @return The serialized event.
+ */
+std::string getProcessEvent (const juce::String& name, std::uint32_t processId, std::string_view startMethod);
+
+/** Return an output event with a category and a text.
+ *
+ *  @param category  DAP output category. Processor passes the name of the Id that fired the stream event.
+ *  @param output    Output text.
+ *  @return The serialized event.
+ */
+std::string getOutputEvent (std::string_view category, std::string_view output);
 
 } // namespace dap

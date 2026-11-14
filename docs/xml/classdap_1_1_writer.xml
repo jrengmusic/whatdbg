@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classdap_1_1_writer" kind="class" language="C++" prot="public">
+    <compoundname>dap::Writer</compoundname>
+    <includes refid="_writer_8h" local="no">Writer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdap_1_1_writer_1a5a60a4139a1c3b6a6913209776cb3c24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>dap::Writer::Writer</definition>
+        <argsstring>()</argsstring>
+        <name>Writer</name>
+        <qualifiedname>dap::Writer::Writer</qualifiedname>
+        <briefdescription>
+<para>On Windows, switches stdout to binary mode, so that CRLF is not translated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/Writer.h" line="12" column="5" bodyfile="dap/Writer.cpp" bodystart="16" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classdap_1_1_writer_1aa072c95d59fd7da80c237372916cfd02" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void dap::Writer::writeMessage</definition>
+        <argsstring>(std::string_view json) noexcept</argsstring>
+        <name>writeMessage</name>
+        <qualifiedname>dap::Writer::writeMessage</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>json</declname>
+        </param>
+        <briefdescription>
+<para>Writes a Content-Length header and the body to stdout, then flushes stdout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does not check the state of the stream.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>DAP message body, a JSON object, without the header. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/Writer.h" line="20" column="10" bodyfile="dap/Writer.cpp" bodystart="23" bodyend="30"/>
+        <referencedby refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" compoundref="_whatdbg_8cpp" startline="97" endline="112">Whatdbg::registerEvents</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Writes DAP messages to stdout. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Owned by <ref refid="class_whatdbg" kindref="compound">Whatdbg</ref> and used only on the message thread. </para>
+    </detaileddescription>
+    <location file="dap/Writer.h" line="8" column="1" bodyfile="dap/Writer.h" bodystart="9" bodyend="24"/>
+    <listofallmembers>
+      <member refid="classdap_1_1_writer_1aa072c95d59fd7da80c237372916cfd02" prot="public" virt="non-virtual"><scope>dap::Writer</scope><name>writeMessage</name></member>
+      <member refid="classdap_1_1_writer_1a5a60a4139a1c3b6a6913209776cb3c24" prot="public" virt="non-virtual"><scope>dap::Writer</scope><name>Writer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

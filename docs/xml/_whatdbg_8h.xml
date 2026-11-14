@@ -3,14 +3,39 @@
   <compounddef id="_whatdbg_8h" kind="file" language="C++">
     <compoundname>Whatdbg.h</compoundname>
     <includes local="no">JuceHeader.h</includes>
-    <includes refid="_state_8h" local="yes">debug/State.h</includes>
-    <includes refid="_session_8h" local="yes">debug/Session.h</includes>
-    <includes refid="_breakpoint_manager_8h" local="yes">debug/BreakpointManager.h</includes>
+    <includes refid="_w_h_a_t_d_b_g_model_8h" local="yes">WHATDBGModel.h</includes>
+    <includes refid="_processor_8h" local="yes">Processor.h</includes>
+    <includes refid="_writer_8h" local="yes">dap/Writer.h</includes>
     <includes refid="_reader_8h" local="yes">dap/Reader.h</includes>
-    <includes refid="_types_8h" local="yes">dap/Types.h</includes>
     <includedby refid="_main_8cpp" local="yes">Main.cpp</includedby>
     <includedby refid="_whatdbg_8cpp" local="yes">Whatdbg.cpp</includedby>
     <incdepgraph>
+      <node id="8">
+        <label>Processor.h</label>
+        <link refid="_processor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>WHATDBGModel.h</label>
+        <link refid="_w_h_a_t_d_b_g_model_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
       <node id="1">
         <label>Whatdbg.h</label>
         <link refid="_whatdbg_8h"/>
@@ -18,57 +43,119 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
-      <node id="8">
+      <node id="16">
+        <label>dap/FIFO.h</label>
+        <link refid="_f_i_f_o_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
         <label>dap/Reader.h</label>
         <link refid="_reader_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
       </node>
-      <node id="7">
+      <node id="13">
         <label>../dap/Types.h</label>
         <link refid="_types_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
-      <node id="6">
+      <node id="17">
+        <label>dap/Writer.h</label>
+        <link refid="_writer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
         <label>debug/BreakpointManager.h</label>
         <link refid="_breakpoint_manager_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
       </node>
-      <node id="4">
+      <node id="9">
         <label>debug/Session.h</label>
         <link refid="_session_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="3">
-        <label>debug/State.h</label>
+      <node id="10">
+        <label>State.h</label>
         <link refid="_state_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>debug/StopManager.h</label>
+        <link refid="_stop_manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>debug/VariableManager.h</label>
+        <link refid="_variable_manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>Files.h</label>
+        <link refid="_files_8h"/>
+      </node>
+      <node id="4">
+        <label>generated/Generated.h</label>
+        <link refid="_generated_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Identifiers.h</label>
+        <link refid="_identifiers_8h"/>
+      </node>
+      <node id="5">
+        <label>ProjectInfo.h</label>
+        <link refid="_project_info_8h"/>
       </node>
       <node id="2">
         <label>JuceHeader.h</label>
       </node>
-      <node id="5">
+      <node id="11">
         <label>lldb/API/LLDB.h</label>
       </node>
     </incdepgraph>
@@ -98,141 +185,60 @@
     <programlisting>
 <codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;JuceHeader.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_state_8h" kindref="compound">debug/State.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_session_8h" kindref="compound">debug/Session.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_WINDOWS</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_callbacks_8h" kindref="compound">debug/Callbacks.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_loader_8h" kindref="compound">debug/Loader.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_breakpoint_manager_8h" kindref="compound">debug/BreakpointManager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_reader_8h" kindref="compound">dap/Reader.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_types_8h" kindref="compound">dap/Types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight></codeline>
-<codeline lineno="29" refid="class_whatdbg" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" kindref="member">Whatdbg</ref></highlight></codeline>
-<codeline lineno="30"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="35" refid="class_whatdbg_1a21733146f1ba38f3a28a3c49a7f93b83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint32_t<sp/><ref refid="class_whatdbg_1a21733146f1ba38f3a28a3c49a7f93b83" kindref="member">terminateTimeoutMs</ref><sp/>{<sp/>5000<sp/>};</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" kindref="member">Whatdbg</ref><sp/>();</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_w_h_a_t_d_b_g_model_8h" kindref="compound">WHATDBGModel.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_processor_8h" kindref="compound">Processor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_writer_8h" kindref="compound">dap/Writer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_reader_8h" kindref="compound">dap/Reader.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="class_whatdbg" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" kindref="member">Whatdbg</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1JUCEApplicationBase" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::JUCEApplicationBase</ref>,</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1ValueTree_1_1Listener" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::ValueTree::Listener</ref></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" kindref="member">Whatdbg</ref><sp/>();</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" kindref="member">~Whatdbg</ref><sp/>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><ref refid="class_whatdbg_1a6e397a1e3cf8f439fcace6f60215afb3" kindref="member">getApplicationName</ref><sp/>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><ref refid="class_whatdbg_1a52beab0e95094c8973145809c53213b8" kindref="member">getApplicationVersion</ref><sp/>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"></highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1aeac62eb73f2533f878e2919b3985410e" kindref="member">initialize</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref>&amp;<sp/>sidecarDir)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"></highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1ae0ca2b6ba9f4a4e0043fab4dd2bd9851" kindref="member">run</ref><sp/>();</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>DAP<sp/>command<sp/>dispatch<sp/>───────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"></highlight></codeline>
-<codeline lineno="75" refid="class_whatdbg_1adb0938c3f74e37021c625dc1991ff590" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1Function_1_1Map" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::Map</ref>&lt;<ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>,<sp/><ref refid="structjam_1_1Function_1ae0c82daeeeb7f4c4eaf062d55601f5cd" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::pointerCapacity</ref>,<sp/>void<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;)&gt;<sp/><ref refid="class_whatdbg_1adb0938c3f74e37021c625dc1991ff590" kindref="member">commands</ref>;</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"></highlight></codeline>
-<codeline lineno="82" refid="class_whatdbg_1a8ef9c30f162ea03e9eb6dda16e59fb8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1Function_1_1Map" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::Map</ref>&lt;<ref refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1" kindref="member">debug::StopReason</ref>,<sp/><ref refid="structjam_1_1Function_1ae0c82daeeeb7f4c4eaf062d55601f5cd" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::pointerCapacity</ref>,<sp/>void<sp/>()&gt;<sp/><ref refid="class_whatdbg_1a8ef9c30f162ea03e9eb6dda16e59fb8a" kindref="member">stops</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a734f8e782ff7278629baef3319066682" kindref="member">moreThanOneInstanceAllowed</ref><sp/>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a33d312004e22a30ebecf90f442d9263c" kindref="member">initialise</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>commandLine)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a26962dadafd58a936a9529799cdfb501" kindref="member">shutdown</ref><sp/>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1abfbf0e8be70b1d12e853465a0d577f8f" kindref="member">anotherInstanceStarted</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>commandLine)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a44b7a301df6a4d1fc3b1a8fdc295d42a" kindref="member">systemRequestedQuit</ref><sp/>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a461635937700120e6ab90679c0883295" kindref="member">suspended</ref><sp/>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1afd58c6c556edc63bcda7406884e4deda" kindref="member">resumed</ref><sp/>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a32283d644fe029eab8fc50e40c648dff" kindref="member">unhandledException</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception*<sp/>exception,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>sourceFilename,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>lineNumber)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a8a13695fc4232cd076089383a4d2ca5c" kindref="member">valueTreePropertyChanged</ref><sp/>(<ref refid="classjuce_1_1ValueTree" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::ValueTree</ref>&amp;<sp/>tree,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1Identifier" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Identifier</ref>&amp;<sp/>property)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="83"><highlight class="normal"></highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a4b721d0fd2eb6da6fb7719d2c23a01fd" kindref="member">onCommand</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>message);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" kindref="member">registerEvents</ref><sp/>();</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="class_whatdbg_1ab36938a78f24cd1f670d70bd76f18273" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_w_h_a_t_d_b_g_model" kindref="compound">WHATDBGModel</ref><sp/><ref refid="class_whatdbg_1ab36938a78f24cd1f670d70bd76f18273" kindref="member">model</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="class_whatdbg_1aa4bc72ff3073566ee8559b68935c9649" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_processor" kindref="compound">Processor</ref><sp/><ref refid="class_whatdbg_1aa4bc72ff3073566ee8559b68935c9649" kindref="member">processor</ref>;</highlight></codeline>
 <codeline lineno="89"><highlight class="normal"></highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1acb7036a0d98391375eadaf2963f32058" kindref="member">onInitialize</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request);</highlight></codeline>
+<codeline lineno="90" refid="class_whatdbg_1a6161a21c3424b62032aa98898e653fcf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdap_1_1_writer" kindref="compound">dap::Writer</ref><sp/><ref refid="class_whatdbg_1a6161a21c3424b62032aa98898e653fcf" kindref="member">writer</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="class_whatdbg_1a90447541f7bbae978b1d889eadfac2dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdap_1_1_reader" kindref="compound">dap::Reader</ref><sp/><ref refid="class_whatdbg_1a90447541f7bbae978b1d889eadfac2dc" kindref="member">reader</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="class_whatdbg_1a29031ba4eb223a6dfa564e9f940c669c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1Function_1_1Map" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::Map</ref>&lt;<ref refid="classjuce_1_1Identifier" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Identifier</ref>,<sp/><ref refid="structjam_1_1Function_1ae0c82daeeeb7f4c4eaf062d55601f5cd" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::pointerCapacity</ref>,<sp/>void<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1ValueTree" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::ValueTree</ref>&amp;)&gt;<sp/><ref refid="class_whatdbg_1a29031ba4eb223a6dfa564e9f940c669c" kindref="member">events</ref>;</highlight></codeline>
 <codeline lineno="95"><highlight class="normal"></highlight></codeline>
-<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a915d31b44bfab74c161a43170582c5cc" kindref="member">onLaunch</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request);</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"></highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a5dfa0d2f778277c1d3b07c3b6a24690f" kindref="member">onAttach</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request);</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"></highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a479be5d71f4ad7df6b84bc5094be28d7" kindref="member">addSearchPaths</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>cwd);</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"></highlight></codeline>
-<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a96a35e3e38d93954d08e29902625ceb8" kindref="member">onConfigurationDone</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request);</highlight></codeline>
-<codeline lineno="120"><highlight class="normal"></highlight></codeline>
-<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1ab360b6abdbeb881c650087d96c339121" kindref="member">onDisconnect</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isTerminate);</highlight></codeline>
-<codeline lineno="129"><highlight class="normal"></highlight></codeline>
-<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1adc196f583d80f402bc58c818f49e2273" kindref="member">onSetBreakpoints</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request);</highlight></codeline>
-<codeline lineno="135"><highlight class="normal"></highlight></codeline>
-<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a4eb1d0bebc12fb2289c402d8c1ca62c6" kindref="member">onThreads</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request);</highlight></codeline>
-<codeline lineno="141"><highlight class="normal"></highlight></codeline>
-<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a11b1b5b975c27c575f9087a188eda93b" kindref="member">onStackTrace</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request);</highlight></codeline>
-<codeline lineno="147"><highlight class="normal"></highlight></codeline>
-<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;std::uint32_t,<sp/>int&gt;<sp/><ref refid="class_whatdbg_1a12ecfdab6da144a5c16bc825a06ac25e" kindref="member">selectFrameFromId</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameId);</highlight></codeline>
-<codeline lineno="158"><highlight class="normal"></highlight></codeline>
-<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1ad05bdb6a5305ac76780d959d10025cbb" kindref="member">onScopes</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request);</highlight></codeline>
-<codeline lineno="164"><highlight class="normal"></highlight></codeline>
-<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1Array" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Array&lt;juce::var&gt;</ref><sp/><ref refid="class_whatdbg_1ae1377c763879141cccc5fe65162058ba" kindref="member">getDapVariables</ref><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ref);</highlight></codeline>
-<codeline lineno="172"><highlight class="normal"></highlight></codeline>
-<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1adfdf65edd62332431edae566f516a265" kindref="member">onVariables</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request);</highlight></codeline>
-<codeline lineno="178"><highlight class="normal"></highlight></codeline>
-<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a31d6c5572b4e985030987bba69e7512b" kindref="member">addDapVariable</ref><sp/>(<ref refid="classjuce_1_1Array" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Array&lt;juce::var&gt;</ref>&amp;<sp/>dapVariables,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>rawVar,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>frameIndex);</highlight></codeline>
-<codeline lineno="188"><highlight class="normal"></highlight></codeline>
-<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a782112f5a9e514b84d1047131029259a" kindref="member">onContinue</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request);</highlight></codeline>
-<codeline lineno="194"><highlight class="normal"></highlight></codeline>
-<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a897c4a96a9be1b1ab1ff3b9ab18801bb" kindref="member">onNext</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request);</highlight></codeline>
-<codeline lineno="200"><highlight class="normal"></highlight></codeline>
-<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1af628bdbba100fbe6e7db2c7b4ec85b03" kindref="member">onStepIn</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request);</highlight></codeline>
-<codeline lineno="206"><highlight class="normal"></highlight></codeline>
-<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1aa309669a65e130f843f8bf617b6da56e" kindref="member">onStepOut</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request);</highlight></codeline>
-<codeline lineno="212"><highlight class="normal"></highlight></codeline>
-<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a919304746e0b3a5c05bc18e497f2296d" kindref="member">onPause</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request);</highlight></codeline>
-<codeline lineno="218"><highlight class="normal"></highlight></codeline>
-<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a5c53bfe14d5a61d11b537327f1d9acdf" kindref="member">onEvaluate</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request);</highlight></codeline>
-<codeline lineno="224"><highlight class="normal"></highlight></codeline>
-<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a027eb51c11af08478feea846deae2932" kindref="member">onExceptionInfo</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref>&amp;<sp/>request);</highlight></codeline>
-<codeline lineno="230"><highlight class="normal"></highlight></codeline>
-<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Deferred<sp/>event<sp/>processing<sp/>──────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="232"><highlight class="normal"></highlight></codeline>
-<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a9e7a05509ec294098ecb40a9cc509615" kindref="member">processDeferredEvents</ref><sp/>();</highlight></codeline>
-<codeline lineno="240"><highlight class="normal"></highlight></codeline>
-<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a72403b8dedb1ece012d3d7a3ede49f31" kindref="member">drainInitialBreak</ref><sp/>();</highlight></codeline>
-<codeline lineno="243"><highlight class="normal"></highlight></codeline>
-<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a5268f55a4f83c022f94dcff9da2bd8a2" kindref="member">drainBreakpointHit</ref><sp/>();</highlight></codeline>
-<codeline lineno="246"><highlight class="normal"></highlight></codeline>
-<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1ac5a42ec5ebb4141d7eda82250ae960d7" kindref="member">drainStepCompleted</ref><sp/>();</highlight></codeline>
-<codeline lineno="249"><highlight class="normal"></highlight></codeline>
-<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a8495165708f3a84fa1d53aa49f56146a" kindref="member">drainPauseCompleted</ref><sp/>();</highlight></codeline>
-<codeline lineno="252"><highlight class="normal"></highlight></codeline>
-<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a600297dfa1ac2640839e9fa468af2bd3" kindref="member">drainModuleLoaded</ref><sp/>();</highlight></codeline>
-<codeline lineno="255"><highlight class="normal"></highlight></codeline>
-<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/><ref refid="class_whatdbg_1ad7350b760bf54236f31c10d9d00d52b1" kindref="member">getStoppedEvent</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>reason);</highlight></codeline>
-<codeline lineno="263"><highlight class="normal"></highlight></codeline>
-<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><ref refid="class_whatdbg_1aff9999bb4420034f7b7cbbc5f8719121" kindref="member">getExceptionDescription</ref><sp/>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="266"><highlight class="normal"></highlight></codeline>
-<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1afad86935089a96805f5e130bc7296bc0" kindref="member">drainBreakpointLocationResolved</ref><sp/>();</highlight></codeline>
-<codeline lineno="269"><highlight class="normal"></highlight></codeline>
-<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1ac5d4779dac50a9243a0d0b7fc9274999" kindref="member">drainDebuggeeOutput</ref><sp/>();</highlight></codeline>
-<codeline lineno="272"><highlight class="normal"></highlight></codeline>
-<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/><ref refid="class_whatdbg_1a15e43a9531f58c2380747f916e685eb9" kindref="member">getExceptionStoppedEvent</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>exceptionName,</highlight></codeline>
-<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>description,</highlight></codeline>
-<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>threadId)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="282"><highlight class="normal"></highlight></codeline>
-<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/><ref refid="class_whatdbg_1af011028a80824e1eb500867221c920af" kindref="member">getExceptionOutputEvent</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>exceptionName,</highlight></codeline>
-<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>description)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="290"><highlight class="normal"></highlight></codeline>
-<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1var" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::var</ref><sp/><ref refid="class_whatdbg_1aaf34a68938aeafb008158a050adda487" kindref="member">getProcessEvent</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/><ref refid="juce__UnityPluginInterface_8h_1a010e50efcb9d6d393b9414f09f368dbc" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">name</ref>,<sp/>std::uint32_t<sp/>processId,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>startMethod)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="303"><highlight class="normal"></highlight></codeline>
-<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a2d7768523d99418a0704d2158b96035e" kindref="member">drainExceptionStopped</ref><sp/>();</highlight></codeline>
-<codeline lineno="306"><highlight class="normal"></highlight></codeline>
-<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a80b11ad6cf1c9dded5b9e463910de35b" kindref="member">drainProcessExited</ref><sp/>();</highlight></codeline>
-<codeline lineno="309"><highlight class="normal"></highlight></codeline>
-<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1afe2ece59810b9365491ae1c5da68e11a" kindref="member">drainTerminateTimeout</ref><sp/>();</highlight></codeline>
-<codeline lineno="317"><highlight class="normal"></highlight></codeline>
-<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1ad3944678f076dbf7165272599a9f52c6" kindref="member">resumeExecution</ref><sp/>();</highlight></codeline>
-<codeline lineno="324"><highlight class="normal"></highlight></codeline>
-<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a8b7365b45a797fcefddcc22a6d1fb625" kindref="member">writeMessages</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1Array" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Array&lt;juce::var&gt;</ref>&amp;<sp/>messages);</highlight></codeline>
-<codeline lineno="335"><highlight class="normal"></highlight></codeline>
-<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1a12cfc43d31f91c8d477b91a46e284e90" kindref="member">resumeAfterInitialBreak</ref><sp/>();</highlight></codeline>
-<codeline lineno="345"><highlight class="normal"></highlight></codeline>
-<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90a" kindref="member">debug::EndMode</ref><sp/><ref refid="class_whatdbg_1a0d6a499a2e084f82d996e4d61518705d" kindref="member">getEndModeForExit</ref><sp/>()<sp/>const<sp/>noexcept;</highlight></codeline>
-<codeline lineno="352"><highlight class="normal"></highlight></codeline>
-<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>stdout<sp/>writing<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="354"><highlight class="normal"></highlight></codeline>
-<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1ac5c938cff5465c4aba25f666fafa4e6a" kindref="member">writeMessage</ref><sp/>(const<sp/><ref refid="namespacejuce" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce</ref>::var&amp;<sp/>message)<sp/>noexcept;</highlight></codeline>
-<codeline lineno="362"><highlight class="normal"></highlight></codeline>
-<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Owned<sp/>objects<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="364"><highlight class="normal"></highlight></codeline>
-<codeline lineno="370" refid="class_whatdbg_1a4717bbf4039401e544f11a4790aecef5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug" kindref="compound">debug</ref>::State<sp/><ref refid="class_whatdbg_1a4717bbf4039401e544f11a4790aecef5" kindref="member">state</ref>;</highlight></codeline>
-<codeline lineno="371"><highlight class="normal"></highlight></codeline>
-<codeline lineno="375" refid="class_whatdbg_1a86a2ce4e61e1abd89fa86096ba576155" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug" kindref="compound">debug</ref>::Session<sp/><ref refid="class_whatdbg_1a86a2ce4e61e1abd89fa86096ba576155" kindref="member">session</ref>;</highlight></codeline>
-<codeline lineno="376"><highlight class="normal"></highlight></codeline>
-<codeline lineno="378" refid="class_whatdbg_1a11e3ecdca66ec7d5a7ab64d46f2b6dc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug" kindref="compound">debug</ref>::BreakpointManager<sp/><ref refid="class_whatdbg_1a11e3ecdca66ec7d5a7ab64d46f2b6dc6" kindref="member">breakpointManager</ref>;</highlight></codeline>
-<codeline lineno="379"><highlight class="normal"></highlight></codeline>
-<codeline lineno="381" refid="class_whatdbg_1a90447541f7bbae978b1d889eadfac2dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedap" kindref="compound">dap</ref>::Reader<sp/><ref refid="class_whatdbg_1a90447541f7bbae978b1d889eadfac2dc" kindref="member">reader</ref>;</highlight></codeline>
-<codeline lineno="382"><highlight class="normal"></highlight></codeline>
-<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_whatdbg_1aaeaeadff98b6f113eb777735213455ba" kindref="member">resetVariablesState</ref><sp/>()<sp/>noexcept;</highlight></codeline>
-<codeline lineno="389"><highlight class="normal"></highlight></codeline>
-<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="juce__PlatformDefs_8h_1a851b02724a8158a7f746c66b5758b3dd" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR</ref><sp/>(<ref refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" kindref="member">Whatdbg</ref>)</highlight></codeline>
-<codeline lineno="391"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96" refid="class_whatdbg_1a43a30e0525fb1c99d61da4cbf1027cc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;jam::Model::ParameterAttachment&gt;<sp/><ref refid="class_whatdbg_1a43a30e0525fb1c99d61da4cbf1027cc9" kindref="member">numMessagesAttachment</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="class_whatdbg_1a539d7d54e4422db6892e131a5c72075b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;jam::Model::ParameterAttachment&gt;<sp/><ref refid="class_whatdbg_1a539d7d54e4422db6892e131a5c72075b" kindref="member">isRunningAttachment</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="juce__PlatformDefs_8h_1a851b02724a8158a7f746c66b5758b3dd" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR</ref><sp/>(<ref refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" kindref="member">Whatdbg</ref>)</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
     </programlisting>
     <location file="Whatdbg.h"/>
   </compounddef>

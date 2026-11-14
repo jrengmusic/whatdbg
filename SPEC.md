@@ -25,8 +25,27 @@
 
 ## Core Principles
 
-1. **Two-Thread Model:** Main thread owns the debug engine (COM on Windows, liblldb on macOS), DAP dispatch, and stdout. Stdin thread is a dumb FIFO buffer. No cross-thread writes.
-2. **Deferred Events:** the platform backend (COM callbacks on Windows, `pollEvents`'s stop dispatch on macOS) stores flags on State. Main loop consumes flags and emits DAP events. The backend never writes to stdout directly.
+1. **Three threads, one way:**
+
+   | Thread | Owns | Never does |
+   |---|---|---|
+   | Message thread (the main thread, the JUCE message loop) | `Whatdbg`, `WHATDBGModel`, `dap::Writer`, stdout | an engine call |
+   | Engine context (`Processor`) | `Session`, `BreakpointManager`, `VariableManager`, `StopManager`, the `commands` table | a write to stdout; a touch of the `juce::ValueTree` |
+   | Reader thread (`dap::Reader`) | stdin | anything else, except `session.wake ()` and `session.cancel ()` |
+
+   The data flows one way: stdin → Reader → `requests` lane → engine context → `messages` lane and Model parameters → message thread → stdout.
+2. **Engine events:** the platform backend (COM callbacks on Windows, `pollEvents` on macOS) reports through `Session::events`, keyed by `Id::`:
+
+   | Key | Owner | Effect |
+   |---|---|---|
+   | `initialBreak`, `pause`, `exception`, `breakpoint`, `step`, `moduleLoad` | `StopManager` | stores `stopReason` and its payload in the Model; `process` then runs one stop drain |
+   | `targetProcessId` | `Processor` | stores `targetProcessId` |
+   | `exited`, `terminated` | `Processor` | `drainProcessExited`: `exited` and `terminated` events |
+   | `running` | `Processor` | `executionState = running` |
+   | `breakpointLocationFound` | `Processor` | `BreakpointManager::onBreakpointLocationFound` events |
+   | `console`, `standardOutput`, `standardError` | `Processor` | one `output` event for each report |
+
+   The backend never writes to stdout.
 3. **Sidecar Isolation:** Debug engine DLLs/dylibs are extracted from BinaryData at startup. LoadLibrary/dlopen from extracted path ensures deterministic version. On macOS, a re-exec trampoline sets DYLD_LIBRARY_PATH before the second invocation.
 4. **BLESSED Compliance:** All code follows Bound, Lean, Explicit, SSOT, Stateless, Encapsulation, Deterministic principles.
 5. **Debug-Only Logging:** File logging via `jam::debug::Log`, installed by a `jam::debug::Log::Scope` compiled out in Release builds (`#if JUCE_DEBUG`).
@@ -79,7 +98,7 @@
 **User Flow (Happy Path):**
 1. User starts debug session with attach configuration including PID
 2. whatdbg attaches to the running process — Windows: `AttachProcess(0, pid, 0)` (invasive attach); macOS: `SBTarget::AttachToProcessWithID`
-3. PID stored on `State::targetProcessId`
+3. PID stored in the Model parameter `Id::targetProcessId`
 4. whatdbg emits DAP `process` event with `name` (`"pid <n>"`), `systemProcessId`, `isLocalProcess: true`, and `startMethod: "attach"`
 5. Target stops at the current instruction
 6. User continues from configurationDone
@@ -98,7 +117,7 @@
 3. whatdbg calls `Session::addBreakpointByLocation`, which internally calls `getOffsetStatus`, then `getOffset`, then `addBreakpoint` on both platforms
 4. If resolved: response has `verified: true`
 5. If not resolved (module not loaded yet): the registry entry keeps an empty `engineId`, response has `verified: false`
-6. When a module loads: pending BPs are retried — Windows via the `LoadModule` callback after a per-module `.reload /f`; macOS via `onBreakpointEvent` (locations resolved or added), which sets `State::hasBreakpointLocationsResolved`; `Whatdbg::drainBreakpointLocationResolved` then calls `BreakpointManager::onBreakpointLocationFound`
+6. When a module loads: pending BPs are retried — Windows via the `LoadModule` callback after a per-module `.reload /f`; macOS via `onBreakpointEvent` (locations resolved or added), which reports `Session::events (breakpointLocationFound)`; the `Processor` entry calls `BreakpointManager::onBreakpointLocationFound`
 7. When a BP hits: DAP `stopped` event with `reason: "breakpoint"` — Windows via the `Breakpoint` callback, macOS via `onProcessStateStopped`'s `lldb::eStopReasonBreakpoint` case
 
 **Deferred Resolution:**
@@ -131,18 +150,18 @@
 2. User presses F10 (next), F11 (stepIn), or stepOut keybinding
 3. whatdbg calls `SetExecutionStatus(STEP_OVER/STEP_INTO)` or `Execute("gu")` for stepOut
 4. `SetCodeLevel(DEBUG_LEVEL_SOURCE)` ensures source-level stepping (not instruction-level)
-5. `Session::pollEvents` sees `WaitForEvent` return `S_OK` while `isStepPending`; `stopReason` becomes `step` when no other stop set it
+5. `Session::pollEvents` sees `WaitForEvent` return `S_OK` while `Id::isStepPending` is set and reports `events (step)`; the `StopManager` entry sets `Id::stopReason` to `step` when no other stop set it
 6. DAP `stopped` event emitted with `reason: "step"`
 
 **User Flow (Happy Path), macOS:**
 1. Target stopped at breakpoint or after pause
 2. User presses F10 (next), F11 (stepIn), or stepOut keybinding
 3. whatdbg calls `Session::stepOver` (`SBThread::StepOver`), `Session::stepInto` (`SBThread::StepInto`), or `Session::stepOut` (`SBThread::StepOutOfFrame`)
-4. `session.pollEvents` dispatches the resulting stop to `onStepStop` on `lldb::eStopReasonTrace` or `lldb::eStopReasonPlanComplete`, setting `State::stopReason` to `step`
+4. `session.pollEvents` dispatches the resulting stop to `onStepStop` on `lldb::eStopReasonTrace` or `lldb::eStopReasonPlanComplete`, which reports `events (step)`; the `StopManager` entry sets `Id::stopReason` to `step` when no other stop set it
 5. DAP `stopped` event emitted with `reason: "step"`
 
 **stepOut Detection (Windows only):**
-stepOut (`gu`) uses an internal breakpoint at the return address. The `Breakpoint` callback fires with an `engineId` that no registry entry holds. `BreakpointManager::getBreakpointStoppedEvent` then emits `reason: "step"` instead of `"breakpoint"`. macOS's `SBThread::StepOutOfFrame` reports its completion directly as `eStopReasonPlanComplete` — no internal breakpoint is needed on that platform.
+stepOut (`gu`) uses an internal breakpoint at the return address. The `Breakpoint` callback fires with an `engineId` that no registry entry holds. `BreakpointManager::appendBreakpointStoppedEvent` then emits `reason: "step"` instead of `"breakpoint"`. macOS's `SBThread::StepOutOfFrame` reports its completion directly as `eStopReasonPlanComplete` — no internal breakpoint is needed on that platform.
 
 **Edge Cases:**
 - Step into system code (no source): cursor shows disassembly location in stack, no source mapping
@@ -157,7 +176,7 @@ stepOut (`gu`) uses an internal breakpoint at the return address. The `Breakpoin
 2. DAP `pause` request received
 3. whatdbg calls `OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_CREATE_THREAD, FALSE, targetProcessId)` + `DebugBreakProcess(handle)` + `CloseHandle(handle)`
 4. Injected `EXCEPTION_BREAKPOINT` arrives via `Exception` callback
-5. `onBreakpoint` (`Source/debug/Callbacks.cpp`) sees `isPausePending` and sets `State::stopReason` to `pause`
+5. `onBreakpoint` (`Source/debug/Callbacks.cpp`) sees `Id::isPausePending` and reports `events (pause)`; the `StopManager` entry sets `Id::stopReason` to `pause`
 6. DAP `stopped` event emitted with `reason: "pause"`
 7. Stack trace shows current location (typically system code, not plugin code)
 8. User can continue, set breakpoints, step, or inspect variables
@@ -166,13 +185,13 @@ stepOut (`gu`) uses an internal breakpoint at the return address. The `Breakpoin
 1. Target running, user presses pause in nvim-dap
 2. DAP `pause` request received
 3. whatdbg calls `Session::interrupt`, which calls `SBProcess::SendAsyncInterrupt()` on the bound process
-4. `session.pollEvents` dispatches the resulting stop to `onInterruptStop` on `lldb::eStopReasonInterrupt`, setting `State::stopReason` to `pause`. A stop while `isPausePending` also goes to `onInterruptStop`
+4. `session.pollEvents` dispatches the resulting stop to `onInterruptStop` on `lldb::eStopReasonInterrupt`, which reports `events (pause)`; the `StopManager` entry sets `Id::stopReason` to `pause`. A stop while `Id::isPausePending` is set also goes to `onInterruptStop`
 5. DAP `stopped` event emitted with `reason: "pause"`
 6. User can continue, set breakpoints, step, or inspect variables
 
 **PID Source:**
 - Launch mode: captured from `CreateProcess` callback via `GetProcessId(handle)` (Windows), or the launched `SBProcess` (macOS)
-- Attach mode: stored directly from the `attach` request's `pid` argument in `Whatdbg::onAttach`
+- Attach mode: stored directly from the `attach` request's `pid` argument in `Processor::onAttach`
 
 **Edge Cases:**
 - Windows: pause shows `ntdll!DbgBreakPoint` in stack — expected, the injected break-in thread
@@ -249,7 +268,7 @@ stepOut (`gu`) uses an internal breakpoint at the return address. The `Breakpoin
 4. It adds `SYMOPT_NO_PUBLICS` to the symbol options. A scope guard restores the previous options.
 5. `AddSymbol (expression)` adds the expression to the group. Success needs the result `S_OK`.
 6. `getSymbolValue` reads the value through `formatSymbolValue` and `prettyPrint`. A scope guard removes the symbol.
-7. An empty result gives the error response `Could not evaluate: <expr>` from `Whatdbg::onEvaluate`
+7. An empty result gives the error response `Could not evaluate: <expr>` from `Processor::onEvaluate`
 8. DAP evaluate response with formatted result
 
 **User Flow (Happy Path), macOS:**
@@ -287,15 +306,15 @@ by this document's audit pass; treat as untested until confirmed against `tests/
 **User Flow (Happy Path), Windows:**
 1. Target calls `DBG("message")` or `OutputDebugString("message")`
 2. dbgeng intercepts via `Output2` callback with `arg & DEBUG_OUTPUT_DEBUGGEE`
-3. Text accumulated on `State::debuggeeOutputText` (deferred pattern)
-4. Main loop emits DAP `output` event with `category: "console"`
+3. The callback reports `Session::events (console, text)`
+4. The `Processor` entry emits one DAP `output` event with `category: "console"` for each report
 5. Message appears in nvim-dap REPL panel
 
 **User Flow (Happy Path), macOS:**
 1. Target writes to stdout or stderr
 2. `drainProcessStdio` (`Session_mac.cpp`, called from `pollEvents`) polls `SBProcess::GetSTDOUT`/`GetSTDERR`
-3. Text accumulated on `State::debuggeeOutputText`, `State::debuggeeOutputCategory` set to `"stdout"`/`"stderr"`
-4. Main loop's `drainDebuggeeOutput` emits DAP `output` event with the captured category
+3. Each read reports `Session::events (standardOutput or standardError, text)`
+4. The `Processor` entry emits one DAP `output` event with category `"stdout"`/`"stderr"` for each report
 5. Message appears in nvim-dap REPL panel
 
 **Output Mask (Windows):**
@@ -321,8 +340,8 @@ by this document's audit pass; treat as untested until confirmed against `tests/
 7. whatdbg calls `setCurrentThreadBySystemId` before `getStackTrace`
 
 **Thread Context:**
-- `onScopes` decodes frameId → threadSystemId, sets thread context
-- `onVariables` restores from `lastScopesThreadId`
+- `VariableManager::onScopes` decodes frameId → threadSystemId, sets thread context
+- `VariableManager::onVariables` restores from `lastScopesThreadId`
 - Stopped events use `getEventThreadSystemId()` for the real event thread's OS TID
 
 ---
@@ -333,12 +352,16 @@ by this document's audit pass; treat as untested until confirmed against `tests/
 - `terminate` command, or `disconnect` with `terminateDebuggee: true` — kills the target process. Windows: `DEBUG_END_ACTIVE_TERMINATE`. macOS: `process.Signal (SIGKILL)` followed by `resume()`, so the kill's exit event is observed through the normal `pollEvents` path rather than torn down blind (see the zombie-termination fix below).
 - `disconnect` without `terminateDebuggee` — detaches, target continues running. Windows: `DEBUG_END_ACTIVE_DETACH`. macOS: `process.Detach()`.
 
-**Two call sites, same `EndMode`:** `Whatdbg::onDisconnect` sends the kill/detach
-signal immediately and moves `executionState` to `running` so the main loop keeps
-polling for the debuggee's exit; `Session::shutdown (EndMode)` runs once more at
-`run()`'s exit (via `getEndModeForExit()`) to finish tearing down the session —
-`EndMode::passive` if the debuggee has already exited, `EndMode::terminate` if
-`shouldTerminateOnExit` was set, otherwise `EndMode::detach`.
+**Two call sites, same `EndMode`:** the reader thread calls `Session::cancel` for
+`disconnect` and `terminate` before it writes the request. `Processor::onDisconnect`
+first calls `Session::resetCancel`, sends the response, then sends the kill/detach
+signal and moves `executionState` to `running` with a 5 s terminate deadline, so the
+engine context keeps polling for the debuggee's exit, also after a kill that the
+engine reports first as a signal stop. The client receives `exited` and `terminated`
+when the exit arrives. `Session::shutdown (EndMode)` runs once more in
+`Processor::onReleaseResources` (via `getEndModeForExit()`) to finish tearing down
+the session — `EndMode::passive` if the debuggee has already exited,
+`EndMode::terminate` if `shouldTerminateOnExit` was set, otherwise `EndMode::detach`.
 
 **macOS zombie-termination fix:** Terminating a launched (not attached) macOS
 debuggee previously left it as an unreapable zombie (`STAT=Z`, reparented to
@@ -350,8 +373,8 @@ and then calls `resume()` so the kill's resulting exit event is observed via
 `pollEvents`/`onProcessStateStopped` — the same path every other stop already
 uses — before the session is torn down. `Session::shutdown` also guards
 `SBDebugger::Destroy`/`Terminate` behind `debugger.IsValid()`, making a second
-`shutdown()` call (the destructor calls it unconditionally after `run()` already
-called it explicitly) a no-op instead of a double-terminate. Covered by
+`shutdown()` call (the destructor calls it unconditionally after
+`onReleaseResources` already called it) a no-op instead of a double-terminate. Covered by
 `tests/smoke/scenario_terminate.lua`'s `scenarioTerminateNoZombie`.
 
 ---
@@ -363,15 +386,16 @@ called it explicitly) a no-op instead of a double-terminate. Covered by
 **Trigger, macOS:** A POSIX signal or Mach exception stop (`lldb::eStopReasonSignal` or `lldb::eStopReasonException`) reported through `onProcessStateStopped`.
 
 **Detection:**
-- Windows: `onUnknownException` (`Source/debug/Callbacks.cpp`) sets `State::stopReason` to `exception` and populates `State::exceptionCode`, `State::exceptionAddress` on second-chance. `onBreakpoint` does the same for an int3 that is neither the initial break nor a pause. Both set `State::executionState = stopped` and return `DEBUG_STATUS_BREAK`
-- macOS: `onSignalStop`/`onExceptionStop` (`Source/debug/Session_mac.cpp`) populate the same `State` fields plus `State::isMachException`, distinguishing a Mach exception from a POSIX signal
+- Windows: `onUnknownException` (`Source/debug/Callbacks.cpp`) reports `events (exception, code, address, 0)` on second-chance. `onBreakpoint` does the same for an int3 that is neither the initial break nor a pause. Both return `DEBUG_STATUS_BREAK`
+- macOS: `onSignalStop`/`onExceptionStop` (`Source/debug/Session_mac.cpp`) report the same event, with `isMach` 1 for a Mach exception and 0 for a POSIX signal
+- The `StopManager` entry stores `Id::stopReason = exception`, `Id::exceptionCode`, `Id::exceptionAddress`, `Id::isMachException`, and `Id::executionState = stopped`
 
-**DAP Surfacing (`drainExceptionStopped` in `Source/Whatdbg.cpp`):**
+**DAP Surfacing (`StopManager::drainExceptionStopped` in `Source/debug/StopManager.cpp`):**
 - Emits `stopped` event with `reason: "exception"`, `text: <exception name>`, `description: "0x<code> at 0x<address>"`, `threadId: <event thread system id>`, `allThreadsStopped: true`
 - Emits `output` event with `category: "stderr"` containing formatted crash summary
 - Sets `stopReason` to `none`; preserves `exceptionCode` and `exceptionAddress` for subsequent `exceptionInfo` request
 
-**`exceptionInfo` DAP Request Handler (`Whatdbg::onExceptionInfo`, `Source/Whatdbg.cpp`):**
+**`exceptionInfo` DAP Request Handler (`Processor::onExceptionInfo`, `Source/Processor.cpp`):**
 - Responds with `exceptionId` (name or hex fallback), `description`, `breakMode: "unhandled"`
 
 **Capability:** `supportsExceptionInfoRequest: true` advertised in `Source/dap/Types.h`.
@@ -415,23 +439,25 @@ A user can, on both Windows and macOS unless noted:
 - [x] Disconnect and leave the target running (both platforms)
 
 The system:
-- [ ] Windows: compiles with MSVC — the Windows code written this sprint has not
-      been compiled; MSVC compilation is unverified as of this document
+- [ ] Windows: compiles with MSVC — the Windows code of the audio-architecture rewrite
+      (2026-11-14) is not yet compiled; ARCHITECT builds and runs it on Windows
+      (PLAN Part 7 Step 5)
 - [x] macOS: compiles with Xcode clang
 - [x] Follows BLESSED principles throughout
-- [x] Header doxygen present across `Source/Whatdbg.h`, `debug/State.h`,
-      `debug/Session.h`, `debug/BreakpointManager.h`, `debug/Callbacks.h`,
-      `debug/Loader.h`, `dap/Reader.h`, `dap/Types.h`, `debug/PrettyPrint.h` —
-      completeness against every public API is a documentation-pass concern,
-      not re-verified line-by-line here
+- [x] Header doxygen present across `Source/Whatdbg.h`, `WHATDBGModel.h`,
+      `Processor.h`, `debug/State.h`, `debug/Session.h`, `debug/BreakpointManager.h`,
+      `debug/VariableManager.h`, `debug/StopManager.h`, `debug/Callbacks.h`,
+      `debug/Loader.h`, `debug/PrettyPrint.h`, `dap/Reader.h`, `dap/Writer.h`,
+      `dap/FIFO.h`, `dap/Types.h`; the project doxygen run gives no warning
 - [x] Has debug-only file logging (zero overhead in Release)
 - [x] Handles module load storms without freezing (per-module reload, Windows)
 - [x] Caches symbol groups for stepping performance (Windows; liblldb owns
       equivalent caching internally on macOS)
-- [x] `tests/smoke/` — ten scenarios (`run_smoke.lua`, `scenario_breakpoint.lua`,
-      `scenario_process.lua`, `scenario_terminate.lua`) covering launch+breakpoint,
-      step, attach, pause, variables, evaluate, output, crash,
-      terminate-without-zombie, and disconnect-detach; all ten pass on macOS
+- [x] `tests/smoke/` — 21 scenarios (`run_smoke.lua`, `scenario_breakpoint.lua`,
+      `scenario_process.lua`, `scenario_terminate.lua`, `scenario_inspect.lua`), each
+      compared with its transcript baseline. On macOS all 21 sequence checks pass in
+      ten of ten runs; scenario `17_evaluate_fail` fails its two evaluate checks
+      (`evaluate notAVariable` gives `success=true`), as it did before the rewrite
 
 ---
 

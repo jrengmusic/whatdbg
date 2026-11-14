@@ -58,7 +58,7 @@
         <argsstring></argsstring>
         <name>versionString</name>
         <qualifiedname>ProjectInfo::versionString</qualifiedname>
-        <initializer>{ &quot;0.1.0&quot;                                            }</initializer>
+        <initializer>{ &quot;0.0.1&quot;                                            }</initializer>
         <briefdescription>
 <para>Product version string. </para>
         </briefdescription>
@@ -74,7 +74,7 @@
         <argsstring></argsstring>
         <name>versionNumber</name>
         <qualifiedname>ProjectInfo::versionNumber</qualifiedname>
-        <initializer>{ 0x100                                              }</initializer>
+        <initializer>{ 0x1                                                }</initializer>
         <briefdescription>
 <para>Product version, JUCE hex encoding. </para>
         </briefdescription>

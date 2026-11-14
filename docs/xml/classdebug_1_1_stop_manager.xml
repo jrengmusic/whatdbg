@@ -1,0 +1,756 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classdebug_1_1_stop_manager" kind="class" language="C++" prot="public">
+    <compoundname>debug::StopManager</compoundname>
+    <includes refid="_stop_manager_8h" local="no">StopManager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classdebug_1_1_stop_manager_1aba708cf1c18f749844a203ea75644c06" prot="private" static="no" mutable="no">
+        <type><ref refid="structjam_1_1Function_1_1Map" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::Map</ref>&lt; <ref refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1" kindref="member">StopReason</ref>, <ref refid="structjam_1_1Function_1ae0c82daeeeb7f4c4eaf062d55601f5cd" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::pointerCapacity</ref>, <ref refid="classjam_1_1Strings" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref>(const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;)&gt;</type>
+        <definition>jam::Function::Map&lt;StopReason, jam::Function::pointerCapacity, jam::Strings (const juce::String&amp;)&gt; debug::StopManager::stops</definition>
+        <argsstring></argsstring>
+        <name>stops</name>
+        <qualifiedname>debug::StopManager::stops</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="58" column="24" bodyfile="debug/StopManager.h" bodystart="58" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1ae87d8d557aded2e5fa40b92f360fc887" compoundref="_stop_manager_8cpp" startline="76" endline="87">onStop</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" compoundref="_stop_manager_8cpp" startline="14" endline="27">StopManager</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_stop_manager_1acb929fa1ec21f69d47ff7388dc285138" prot="private" static="no" mutable="no">
+        <type><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
+        <definition>juce::String debug::StopManager::lastLoadedImageName</definition>
+        <argsstring></argsstring>
+        <name>lastLoadedImageName</name>
+        <qualifiedname>debug::StopManager::lastLoadedImageName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="60" column="18" bodyfile="debug/StopManager.h" bodystart="60" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1ab35e144bdf9bf196392632e3b5c5b84c" compoundref="_stop_manager_8cpp" startline="146" endline="156">drainModuleLoaded</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="29" endline="74">registerEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" prot="private" static="no" mutable="no">
+        <type><ref refid="classdebug_1_1_session" kindref="compound">Session</ref> &amp;</type>
+        <definition>Session&amp; debug::StopManager::session</definition>
+        <argsstring></argsstring>
+        <name>session</name>
+        <qualifiedname>debug::StopManager::session</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="62" column="13" bodyfile="debug/StopManager.h" bodystart="62" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" compoundref="_stop_manager_8cpp" startline="100" endline="113">drainBreakpointHit</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="158" endline="178">drainExceptionStopped</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1ab35e144bdf9bf196392632e3b5c5b84c" compoundref="_stop_manager_8cpp" startline="146" endline="156">drainModuleLoaded</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1ae491549724477f1c2457f0005f4e11e2" compoundref="_stop_manager_8cpp" startline="131" endline="144">drainPauseCompleted</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" compoundref="_stop_manager_8cpp" startline="115" endline="129">drainStepCompleted</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="29" endline="74">registerEvents</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="180" endline="210">resumeAfterInitialBreak</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a11cf2cbc87df89b6ac71d2c9192cda02" compoundref="_stop_manager_8cpp" startline="212" endline="216">resumeExecution</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" compoundref="_stop_manager_8cpp" startline="14" endline="27">StopManager</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_stop_manager_1a96fab0f2c2a02f01081083ecc2f2126d" prot="private" static="no" mutable="no">
+        <type><ref refid="classdebug_1_1_breakpoint_manager" kindref="compound">BreakpointManager</ref> &amp;</type>
+        <definition>BreakpointManager&amp; debug::StopManager::breakpointManager</definition>
+        <argsstring></argsstring>
+        <name>breakpointManager</name>
+        <qualifiedname>debug::StopManager::breakpointManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="64" column="23" bodyfile="debug/StopManager.h" bodystart="64" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" compoundref="_stop_manager_8cpp" startline="100" endline="113">drainBreakpointHit</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1ab35e144bdf9bf196392632e3b5c5b84c" compoundref="_stop_manager_8cpp" startline="146" endline="156">drainModuleLoaded</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" compoundref="_stop_manager_8cpp" startline="115" endline="129">drainStepCompleted</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="180" endline="210">resumeAfterInitialBreak</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" compoundref="_stop_manager_8cpp" startline="14" endline="27">StopManager</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_stop_manager_1a591fce037dfaadedc01275ee38b4717e" prot="private" static="no" mutable="no">
+        <type><ref refid="classdebug_1_1_variable_manager" kindref="compound">VariableManager</ref> &amp;</type>
+        <definition>VariableManager&amp; debug::StopManager::variableManager</definition>
+        <argsstring></argsstring>
+        <name>variableManager</name>
+        <qualifiedname>debug::StopManager::variableManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="66" column="21" bodyfile="debug/StopManager.h" bodystart="66" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" compoundref="_stop_manager_8cpp" startline="100" endline="113">drainBreakpointHit</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="158" endline="178">drainExceptionStopped</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1ae491549724477f1c2457f0005f4e11e2" compoundref="_stop_manager_8cpp" startline="131" endline="144">drainPauseCompleted</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" compoundref="_stop_manager_8cpp" startline="115" endline="129">drainStepCompleted</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" compoundref="_stop_manager_8cpp" startline="14" endline="27">StopManager</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" prot="private" static="no" mutable="no">
+        <type><ref refid="class_w_h_a_t_d_b_g_model" kindref="compound">WHATDBGModel</ref> &amp;</type>
+        <definition>WHATDBGModel&amp; debug::StopManager::model</definition>
+        <argsstring></argsstring>
+        <name>model</name>
+        <qualifiedname>debug::StopManager::model</qualifiedname>
+        <initializer>{ *<ref refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">WHATDBGModel::getInstance</ref>() }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="68" column="18" bodyfile="debug/StopManager.h" bodystart="68" bodyend="68"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" compoundref="_stop_manager_8cpp" startline="100" endline="113">drainBreakpointHit</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="158" endline="178">drainExceptionStopped</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a23350ca0377ae83e11468a7301a41852" compoundref="_stop_manager_8cpp" startline="89" endline="98">drainInitialBreak</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1ab35e144bdf9bf196392632e3b5c5b84c" compoundref="_stop_manager_8cpp" startline="146" endline="156">drainModuleLoaded</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1ae491549724477f1c2457f0005f4e11e2" compoundref="_stop_manager_8cpp" startline="131" endline="144">drainPauseCompleted</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" compoundref="_stop_manager_8cpp" startline="115" endline="129">drainStepCompleted</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1ae87d8d557aded2e5fa40b92f360fc887" compoundref="_stop_manager_8cpp" startline="76" endline="87">onStop</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="29" endline="74">registerEvents</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="180" endline="210">resumeAfterInitialBreak</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a11cf2cbc87df89b6ac71d2c9192cda02" compoundref="_stop_manager_8cpp" startline="212" endline="216">resumeExecution</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>debug::StopManager::StopManager</definition>
+        <argsstring>(Session &amp;newSession, BreakpointManager &amp;newBreakpointManager, VariableManager &amp;newVariableManager)</argsstring>
+        <name>StopManager</name>
+        <qualifiedname>debug::StopManager::StopManager</qualifiedname>
+        <param>
+          <type><ref refid="classdebug_1_1_session" kindref="compound">Session</ref> &amp;</type>
+          <declname>newSession</declname>
+        </param>
+        <param>
+          <type><ref refid="classdebug_1_1_breakpoint_manager" kindref="compound">BreakpointManager</ref> &amp;</type>
+          <declname>newBreakpointManager</declname>
+        </param>
+        <param>
+          <type><ref refid="classdebug_1_1_variable_manager" kindref="compound">VariableManager</ref> &amp;</type>
+          <declname>newVariableManager</declname>
+        </param>
+        <briefdescription>
+<para>Registers the stop drains and the stop event handlers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newSession</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classdebug_1_1_session" kindref="compound">Session</ref> that fires the stop events. Not owned. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>newBreakpointManager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Breakpoint registry that builds the breakpoint messages. Not owned. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>newVariableManager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Registry that the breakpoint, step, pause, and exception drains reset. Not owned. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="27" column="5" bodyfile="debug/StopManager.cpp" bodystart="14" bodyend="27"/>
+        <references refid="structjam_1_1Function_1_1Map_1ad53732bb862659c66b8112c75f437248">jam::Function::Map&lt; typename KeyType, size_t capacity, typename... Signatures &gt;::add</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1ad36231bfe8094177a5104fea07cdf7fd" compoundref="_state_8h" startline="46">debug::breakpoint</references>
+        <references refid="classdebug_1_1_stop_manager_1a96fab0f2c2a02f01081083ecc2f2126d" compoundref="_stop_manager_8h" startline="64">breakpointManager</references>
+        <references refid="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" compoundref="_stop_manager_8cpp" startline="100" endline="113">drainBreakpointHit</references>
+        <references refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="158" endline="178">drainExceptionStopped</references>
+        <references refid="classdebug_1_1_stop_manager_1a23350ca0377ae83e11468a7301a41852" compoundref="_stop_manager_8cpp" startline="89" endline="98">drainInitialBreak</references>
+        <references refid="classdebug_1_1_stop_manager_1ab35e144bdf9bf196392632e3b5c5b84c" compoundref="_stop_manager_8cpp" startline="146" endline="156">drainModuleLoaded</references>
+        <references refid="classdebug_1_1_stop_manager_1ae491549724477f1c2457f0005f4e11e2" compoundref="_stop_manager_8cpp" startline="131" endline="144">drainPauseCompleted</references>
+        <references refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" compoundref="_stop_manager_8cpp" startline="115" endline="129">drainStepCompleted</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a42552b1f133f9f8eb406d4f306ea9fd1" compoundref="_state_8h" startline="49">debug::exception</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a02ffbaf2c33dfa38c9f01c3546190fcd" compoundref="_state_8h" startline="44">debug::initialBreak</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a52e70aaa8740d19f45d6a5661663dd87" compoundref="_state_8h" startline="45">debug::moduleLoad</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1aec1b81965109165de6b38cd92c1e39f9" compoundref="_state_8h" startline="48">debug::pause</references>
+        <references refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="29" endline="74">registerEvents</references>
+        <references refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" compoundref="_stop_manager_8h" startline="62">session</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a2764ca9d34e90313978d044f27ae433b" compoundref="_state_8h" startline="47">debug::step</references>
+        <references refid="classdebug_1_1_stop_manager_1aba708cf1c18f749844a203ea75644c06" compoundref="_stop_manager_8h" startline="58">stops</references>
+        <references refid="classdebug_1_1_stop_manager_1a591fce037dfaadedc01275ee38b4717e" compoundref="_stop_manager_8h" startline="66">variableManager</references>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_stop_manager_1ae87d8d557aded2e5fa40b92f360fc887" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjam_1_1Strings" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
+        <definition>jam::Strings debug::StopManager::onStop</definition>
+        <argsstring>(const juce::String &amp;targetProgram)</argsstring>
+        <name>onStop</name>
+        <qualifiedname>debug::StopManager::onStop</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>targetProgram</declname>
+        </param>
+        <briefdescription>
+<para>Runs the drain for the stored stop reason, and returns the DAP messages it builds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" kindref="member">Processor::process</ref> calls it on each pass of the engine context. A stop reason of none gives no messages.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>targetProgram</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Program path of a launch. Empty for an attach. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>DAP messages to send, in order. Empty when no drain runs. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="37" column="18" bodyfile="debug/StopManager.cpp" bodystart="76" bodyend="87"/>
+        <references refid="classjam_1_1HashMap_1aeb3706b7cb8b6a92790644ed3eb240ea">jam::HashMap&lt; typename Key, typename Mapped, typename HashFn, typename KeyEqual, typename AllocatorOrContainer, typename Bucket, typename BucketContainer, bool IsSegmented &gt;::end</references>
+        <references refid="classjam_1_1HashMap_1aa8cd30d951846463b373eb6e82d96a3d">jam::HashMap&lt; typename Key, typename Mapped, typename HashFn, typename KeyEqual, typename AllocatorOrContainer, typename Bucket, typename BucketContainer, bool IsSegmented &gt;::find</references>
+        <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
+        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
+        <references refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" compoundref="_stop_manager_8h" startline="68" endline="68">model</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="100" endline="100">Id::stopReason</references>
+        <references refid="classdebug_1_1_stop_manager_1aba708cf1c18f749844a203ea75644c06" compoundref="_stop_manager_8h" startline="58">stops</references>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="80" endline="101">Processor::process</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::StopManager::registerEvents</definition>
+        <argsstring>()</argsstring>
+        <name>registerEvents</name>
+        <qualifiedname>debug::StopManager::registerEvents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="40" column="10" bodyfile="debug/StopManager.cpp" bodystart="29" bodyend="74"/>
+        <references refid="structjam_1_1Function_1_1Map_1ad53732bb862659c66b8112c75f437248">jam::Function::Map&lt; typename KeyType, size_t capacity, typename... Signatures &gt;::add</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1ad36231bfe8094177a5104fea07cdf7fd" compoundref="_state_8h" startline="46">debug::breakpoint</references>
+        <references refid="namespaceId_1af9dbaff7db603045adf88ac0306e8720" compoundref="_generated_8cpp" startline="32" endline="32">Id::breakpoint</references>
+        <references refid="namespaceId_1a03ba296bdc142edf0768af486bac4037" compoundref="_generated_8cpp" startline="33" endline="33">Id::breakpointEngineId</references>
+        <references refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" compoundref="_session_8h" startline="197">debug::Session::events</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a42552b1f133f9f8eb406d4f306ea9fd1" compoundref="_state_8h" startline="49">debug::exception</references>
+        <references refid="namespaceId_1a7d17b52a35c76be4fb253d49def99a67" compoundref="_generated_8cpp" startline="44" endline="44">Id::exception</references>
+        <references refid="namespaceId_1abbfc9c9f4f106c68b6cc7eab8d95d4b4" compoundref="_generated_8cpp" startline="45" endline="45">Id::exceptionAddress</references>
+        <references refid="namespaceId_1aef15ba1881dec10e5d27afad18e46b66" compoundref="_generated_8cpp" startline="46" endline="46">Id::exceptionCode</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1acb63a9c5f8c93853d85b3688448741db" compoundref="_w_h_a_t_d_b_g_model_8h" startline="23" endline="23">WHATDBGModel::exceptionTag</references>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
+        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a02ffbaf2c33dfa38c9f01c3546190fcd" compoundref="_state_8h" startline="44">debug::initialBreak</references>
+        <references refid="namespaceId_1a968b064271ba4315dde3cdf9edc7b1ae" compoundref="_generated_8cpp" startline="56" endline="56">Id::initialBreak</references>
+        <references refid="namespaceId_1aecf9e31ac41ecd0c122665be6dad624d" compoundref="_generated_8cpp" startline="61" endline="61">Id::isMachException</references>
+        <references refid="namespaceId_1acaa5ed87630554a54472e27567897c48" compoundref="_generated_8cpp" startline="62" endline="62">Id::isPausePending</references>
+        <references refid="namespaceId_1a1397f7ce0b093aa7091d5057a28bfe83" compoundref="_generated_8cpp" startline="64" endline="64">Id::isStepPending</references>
+        <references refid="classdebug_1_1_stop_manager_1acb929fa1ec21f69d47ff7388dc285138" compoundref="_stop_manager_8h" startline="60">lastLoadedImageName</references>
+        <references refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" compoundref="_stop_manager_8h" startline="68" endline="68">model</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a52e70aaa8740d19f45d6a5661663dd87" compoundref="_state_8h" startline="45">debug::moduleLoad</references>
+        <references refid="namespaceId_1a719fad8486076145f474dc8590e0612f" compoundref="_generated_8cpp" startline="66" endline="66">Id::moduleLoad</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" compoundref="_state_8h" startline="43">debug::none</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1aec1b81965109165de6b38cd92c1e39f9" compoundref="_state_8h" startline="48">debug::pause</references>
+        <references refid="namespaceId_1ad5cee4e44dc5ca86661799ba8754dd1e" compoundref="_generated_8cpp" startline="71" endline="71">Id::pause</references>
+        <references refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" compoundref="_stop_manager_8h" startline="62">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a2764ca9d34e90313978d044f27ae433b" compoundref="_state_8h" startline="47">debug::step</references>
+        <references refid="namespaceId_1ab239644d07a545177fb75aaa618ee23f" compoundref="_generated_8cpp" startline="96" endline="96">Id::step</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" compoundref="_state_8h" startline="19">debug::stopped</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="100" endline="100">Id::stopReason</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <referencedby refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" compoundref="_stop_manager_8cpp" startline="14" endline="27">StopManager</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_stop_manager_1a23350ca0377ae83e11468a7301a41852" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjam_1_1Strings" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
+        <definition>jam::Strings debug::StopManager::drainInitialBreak</definition>
+        <argsstring>(const juce::String &amp;targetProgram)</argsstring>
+        <name>drainInitialBreak</name>
+        <qualifiedname>debug::StopManager::drainInitialBreak</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>targetProgram</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="42" column="18" bodyfile="debug/StopManager.cpp" bodystart="89" bodyend="98"/>
+        <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
+        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
+        <references refid="namespaceId_1a1686b1851bf4fefef4b5613b05c0c8d3" compoundref="_generated_8cpp" startline="59" endline="59">Id::isConfigurationDone</references>
+        <references refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" compoundref="_stop_manager_8h" startline="68" endline="68">model</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" compoundref="_state_8h" startline="43">debug::none</references>
+        <references refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="180" endline="210">resumeAfterInitialBreak</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="100" endline="100">Id::stopReason</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <referencedby refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" compoundref="_stop_manager_8cpp" startline="14" endline="27">StopManager</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjam_1_1Strings" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
+        <definition>jam::Strings debug::StopManager::drainBreakpointHit</definition>
+        <argsstring>()</argsstring>
+        <name>drainBreakpointHit</name>
+        <qualifiedname>debug::StopManager::drainBreakpointHit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="44" column="18" bodyfile="debug/StopManager.cpp" bodystart="100" bodyend="113"/>
+        <references refid="classjam_1_1Strings_1a9223c1bf16916a52b122ae7e9d871f50">jam::Strings::add</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1abdcf6c332786965d57904ca771da4b1b" compoundref="_breakpoint_manager_8cpp" startline="129" endline="157">debug::BreakpointManager::appendBreakpointStoppedEvent</references>
+        <references refid="namespaceId_1a03ba296bdc142edf0768af486bac4037" compoundref="_generated_8cpp" startline="33" endline="33">Id::breakpointEngineId</references>
+        <references refid="classdebug_1_1_stop_manager_1a96fab0f2c2a02f01081083ecc2f2126d" compoundref="_stop_manager_8h" startline="64">breakpointManager</references>
+        <references refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" compoundref="_session__mac_8cpp" startline="558" endline="563">debug::Session::getEventThreadSystemId</references>
+        <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
+        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
+        <references refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" compoundref="_stop_manager_8h" startline="68" endline="68">model</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" compoundref="_state_8h" startline="43">debug::none</references>
+        <references refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" compoundref="_variable_manager_8cpp" startline="18" endline="26">debug::VariableManager::resetVariablesState</references>
+        <references refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" compoundref="_stop_manager_8h" startline="62">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="100" endline="100">Id::stopReason</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <references refid="classdebug_1_1_stop_manager_1a591fce037dfaadedc01275ee38b4717e" compoundref="_stop_manager_8h" startline="66">variableManager</references>
+        <referencedby refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" compoundref="_stop_manager_8cpp" startline="14" endline="27">StopManager</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjam_1_1Strings" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
+        <definition>jam::Strings debug::StopManager::drainStepCompleted</definition>
+        <argsstring>()</argsstring>
+        <name>drainStepCompleted</name>
+        <qualifiedname>debug::StopManager::drainStepCompleted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="46" column="18" bodyfile="debug/StopManager.cpp" bodystart="115" bodyend="129"/>
+        <references refid="classjam_1_1Strings_1a9223c1bf16916a52b122ae7e9d871f50">jam::Strings::add</references>
+        <references refid="classjam_1_1Strings_1a8f4b197fd07c8e0ed4a77485ededcef4">jam::Strings::addArray</references>
+        <references refid="classdebug_1_1_stop_manager_1a96fab0f2c2a02f01081083ecc2f2126d" compoundref="_stop_manager_8h" startline="64">breakpointManager</references>
+        <references refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" compoundref="_session__mac_8cpp" startline="558" endline="563">debug::Session::getEventThreadSystemId</references>
+        <references refid="namespacedap_1a336d8b131f80128060f5206c3c233455" compoundref="_types_8cpp" startline="163" endline="178">dap::getStoppedEvent</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" compoundref="_stop_manager_8h" startline="68" endline="68">model</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" compoundref="_state_8h" startline="43">debug::none</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" compoundref="_breakpoint_manager_8cpp" startline="350" endline="361">debug::BreakpointManager::onReload</references>
+        <references refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" compoundref="_variable_manager_8cpp" startline="18" endline="26">debug::VariableManager::resetVariablesState</references>
+        <references refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" compoundref="_stop_manager_8h" startline="62">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="namespaceId_1ab239644d07a545177fb75aaa618ee23f" compoundref="_generated_8cpp" startline="96" endline="96">Id::step</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="100" endline="100">Id::stopReason</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <references refid="classdebug_1_1_stop_manager_1a591fce037dfaadedc01275ee38b4717e" compoundref="_stop_manager_8h" startline="66">variableManager</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" compoundref="_stop_manager_8cpp" startline="14" endline="27">StopManager</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_stop_manager_1ae491549724477f1c2457f0005f4e11e2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjam_1_1Strings" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
+        <definition>jam::Strings debug::StopManager::drainPauseCompleted</definition>
+        <argsstring>()</argsstring>
+        <name>drainPauseCompleted</name>
+        <qualifiedname>debug::StopManager::drainPauseCompleted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="48" column="18" bodyfile="debug/StopManager.cpp" bodystart="131" bodyend="144"/>
+        <references refid="classjam_1_1Strings_1a9223c1bf16916a52b122ae7e9d871f50">jam::Strings::add</references>
+        <references refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" compoundref="_session__mac_8cpp" startline="558" endline="563">debug::Session::getEventThreadSystemId</references>
+        <references refid="namespacedap_1a336d8b131f80128060f5206c3c233455" compoundref="_types_8cpp" startline="163" endline="178">dap::getStoppedEvent</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" compoundref="_stop_manager_8h" startline="68" endline="68">model</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" compoundref="_state_8h" startline="43">debug::none</references>
+        <references refid="namespaceId_1ad5cee4e44dc5ca86661799ba8754dd1e" compoundref="_generated_8cpp" startline="71" endline="71">Id::pause</references>
+        <references refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" compoundref="_variable_manager_8cpp" startline="18" endline="26">debug::VariableManager::resetVariablesState</references>
+        <references refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" compoundref="_stop_manager_8h" startline="62">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="100" endline="100">Id::stopReason</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <references refid="classdebug_1_1_stop_manager_1a591fce037dfaadedc01275ee38b4717e" compoundref="_stop_manager_8h" startline="66">variableManager</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" compoundref="_stop_manager_8cpp" startline="14" endline="27">StopManager</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_stop_manager_1ab35e144bdf9bf196392632e3b5c5b84c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjam_1_1Strings" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
+        <definition>jam::Strings debug::StopManager::drainModuleLoaded</definition>
+        <argsstring>()</argsstring>
+        <name>drainModuleLoaded</name>
+        <qualifiedname>debug::StopManager::drainModuleLoaded</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="50" column="18" bodyfile="debug/StopManager.cpp" bodystart="146" bodyend="156"/>
+        <references refid="classjam_1_1Strings_1a8f4b197fd07c8e0ed4a77485ededcef4">jam::Strings::addArray</references>
+        <references refid="classdebug_1_1_stop_manager_1a96fab0f2c2a02f01081083ecc2f2126d" compoundref="_stop_manager_8h" startline="64">breakpointManager</references>
+        <references refid="classdebug_1_1_stop_manager_1acb929fa1ec21f69d47ff7388dc285138" compoundref="_stop_manager_8h" startline="60">lastLoadedImageName</references>
+        <references refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" compoundref="_stop_manager_8h" startline="68" endline="68">model</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" compoundref="_state_8h" startline="43">debug::none</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" compoundref="_breakpoint_manager_8cpp" startline="337" endline="348">debug::BreakpointManager::onModuleLoad</references>
+        <references refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="294" endline="297">debug::Session::resume</references>
+        <references refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" compoundref="_stop_manager_8h" startline="62">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="100" endline="100">Id::stopReason</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <referencedby refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" compoundref="_stop_manager_8cpp" startline="14" endline="27">StopManager</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjam_1_1Strings" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
+        <definition>jam::Strings debug::StopManager::drainExceptionStopped</definition>
+        <argsstring>()</argsstring>
+        <name>drainExceptionStopped</name>
+        <qualifiedname>debug::StopManager::drainExceptionStopped</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="52" column="18" bodyfile="debug/StopManager.cpp" bodystart="158" bodyend="178"/>
+        <references refid="classjam_1_1Strings_1a9223c1bf16916a52b122ae7e9d871f50">jam::Strings::add</references>
+        <references refid="namespaceId_1abbfc9c9f4f106c68b6cc7eab8d95d4b4" compoundref="_generated_8cpp" startline="45" endline="45">Id::exceptionAddress</references>
+        <references refid="namespaceId_1aef15ba1881dec10e5d27afad18e46b66" compoundref="_generated_8cpp" startline="46" endline="46">Id::exceptionCode</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1acb63a9c5f8c93853d85b3688448741db" compoundref="_w_h_a_t_d_b_g_model_8h" startline="23" endline="23">WHATDBGModel::exceptionTag</references>
+        <references refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" compoundref="_session__mac_8cpp" startline="558" endline="563">debug::Session::getEventThreadSystemId</references>
+        <references refid="namespacedap_1a0323f66302b491c9ca350484ec955f68" compoundref="_types_8cpp" startline="180" endline="186">dap::getExceptionDescription</references>
+        <references refid="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" compoundref="_session__mac_8cpp" startline="576" endline="628">debug::getExceptionName</references>
+        <references refid="namespacedap_1aa487f84892d5c501840a4dbae03b7800" compoundref="_types_8cpp" startline="211" endline="225">dap::getExceptionOutputEvent</references>
+        <references refid="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" compoundref="_types_8cpp" startline="188" endline="209">dap::getExceptionStoppedEvent</references>
+        <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
+        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
+        <references refid="namespaceId_1aecf9e31ac41ecd0c122665be6dad624d" compoundref="_generated_8cpp" startline="61" endline="61">Id::isMachException</references>
+        <references refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" compoundref="_stop_manager_8h" startline="68" endline="68">model</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" compoundref="_state_8h" startline="43">debug::none</references>
+        <references refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" compoundref="_variable_manager_8cpp" startline="18" endline="26">debug::VariableManager::resetVariablesState</references>
+        <references refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" compoundref="_stop_manager_8h" startline="62">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="100" endline="100">Id::stopReason</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <references refid="classdebug_1_1_stop_manager_1a591fce037dfaadedc01275ee38b4717e" compoundref="_stop_manager_8h" startline="66">variableManager</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" compoundref="_stop_manager_8cpp" startline="14" endline="27">StopManager</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjam_1_1Strings" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
+        <definition>jam::Strings debug::StopManager::resumeAfterInitialBreak</definition>
+        <argsstring>(const juce::String &amp;targetProgram)</argsstring>
+        <name>resumeAfterInitialBreak</name>
+        <qualifiedname>debug::StopManager::resumeAfterInitialBreak</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>targetProgram</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="54" column="18" bodyfile="debug/StopManager.cpp" bodystart="180" bodyend="210"/>
+        <references refid="classjam_1_1Strings_1a9223c1bf16916a52b122ae7e9d871f50">jam::Strings::add</references>
+        <references refid="classjam_1_1Strings_1a8f4b197fd07c8e0ed4a77485ededcef4">jam::Strings::addArray</references>
+        <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
+        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="64" endline="70">dap::appendEvent</references>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
+        <references refid="classdebug_1_1_stop_manager_1a96fab0f2c2a02f01081083ecc2f2126d" compoundref="_stop_manager_8h" startline="64">breakpointManager</references>
+        <references refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" compoundref="_session__mac_8cpp" startline="558" endline="563">debug::Session::getEventThreadSystemId</references>
+        <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
+        <references refid="namespacedap_1aff116122c81f4bb50a0e85ec69b7f2b8" compoundref="_types_8cpp" startline="227" endline="246">dap::getProcessEvent</references>
+        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="classjuce_1_1String_1af5084463343819f82187154ccb62ea3a">juce::String::isNotEmpty</references>
+        <references refid="namespaceId_1ad12cc0b46dca2c038ee89e8f594b103f" compoundref="_generated_8cpp" startline="65" endline="65">Id::launch</references>
+        <references refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" compoundref="_stop_manager_8h" startline="68" endline="68">model</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" compoundref="_breakpoint_manager_8cpp" startline="350" endline="361">debug::BreakpointManager::onReload</references>
+        <references refid="namespaceId_1a9b4ec5e66274c360356c8239b90e81a1" compoundref="_generated_8cpp" startline="77" endline="77">Id::reason</references>
+        <references refid="classdebug_1_1_stop_manager_1a11cf2cbc87df89b6ac71d2c9192cda02" compoundref="_stop_manager_8cpp" startline="212" endline="216">resumeExecution</references>
+        <references refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" compoundref="_stop_manager_8h" startline="62">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="namespaceId_1a74c9ddf20cf7940d0ec6bb672d75288d" compoundref="_generated_8cpp" startline="94" endline="94">Id::started</references>
+        <references refid="namespaceId_1a34ff3c25c6e302ff4a5b0a5f9b0488a7" compoundref="_generated_8cpp" startline="134" endline="134">Id::targetProcessId</references>
+        <references refid="namespaceId_1a28eba176baf8ffc44d4cdfb23b5c1786" compoundref="_generated_8cpp" startline="139" endline="139">Id::thread</references>
+        <references refid="namespaceId_1a340842661a4b1de835c5c21978bdb2c7" compoundref="_generated_8cpp" startline="140" endline="140">Id::threadId</references>
+        <references refid="classjuce_1_1Identifier_1ab6f0db1de2c36cacd1a9d7280f73aeeb">juce::Identifier::toString</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="classdebug_1_1_stop_manager_1a23350ca0377ae83e11468a7301a41852" compoundref="_stop_manager_8cpp" startline="89" endline="98">drainInitialBreak</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdebug_1_1_stop_manager_1a11cf2cbc87df89b6ac71d2c9192cda02" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void debug::StopManager::resumeExecution</definition>
+        <argsstring>()</argsstring>
+        <name>resumeExecution</name>
+        <qualifiedname>debug::StopManager::resumeExecution</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/StopManager.h" line="56" column="10" bodyfile="debug/StopManager.cpp" bodystart="212" bodyend="216"/>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" compoundref="_stop_manager_8h" startline="68" endline="68">model</references>
+        <references refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="294" endline="297">debug::Session::resume</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6a75101dcdfc88455bcafc9e53e0b06689" compoundref="_state_8h" startline="18">debug::running</references>
+        <references refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" compoundref="_stop_manager_8h" startline="62">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="180" endline="210">resumeAfterInitialBreak</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Turns each stop of the target into DAP messages. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The session fires the stop events. The handlers that <ref refid="classdebug_1_1_stop_manager" kindref="compound">StopManager</ref> registers store the stop reason in the model, and most of them also store the execution state. onStop then runs the drain for the stored reason. A drain returns the DAP messages to send. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="15">
+        <label>WHATDBGModel</label>
+        <link refid="class_w_h_a_t_d_b_g_model"/>
+        <childnode refid="16" relation="public-inheritance">
+        </childnode>
+        <childnode refid="26" relation="public-inheritance">
+        </childnode>
+        <childnode refid="27" relation="usage">
+          <edgelabel>exceptionTag</edgelabel>
+          <edgelabel>sessionTag</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>debug::BreakpointInfo</label>
+        <link refid="structdebug_1_1_breakpoint_info"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>sourcePath</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>debug::BreakpointManager</label>
+        <link refid="classdebug_1_1_breakpoint_manager"/>
+        <childnode refid="5" relation="usage">
+          <edgelabel>session</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>breakpoints</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>debug::Session</label>
+        <link refid="classdebug_1_1_session"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>events</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>debug::StopManager</label>
+        <link refid="classdebug_1_1_stop_manager"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>stops</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>lastLoadedImageName</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>session</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>breakpointManager</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>variableManager</edgelabel>
+        </childnode>
+        <childnode refid="15" relation="usage">
+          <edgelabel>model</edgelabel>
+        </childnode>
+      </node>
+      <node id="10">
+        <label>debug::VariableManager</label>
+        <link refid="classdebug_1_1_variable_manager"/>
+        <childnode refid="5" relation="usage">
+          <edgelabel>session</edgelabel>
+        </childnode>
+        <childnode refid="11" relation="usage">
+          <edgelabel>variablesRefMap</edgelabel>
+        </childnode>
+        <childnode refid="13" relation="usage">
+          <edgelabel>frameIdMap</edgelabel>
+        </childnode>
+      </node>
+      <node id="19">
+        <label>jam::AnyMap&lt; typename TypeOfCriticalSectionToUse &gt;</label>
+        <link refid="classjam_1_1AnyMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="20" relation="public-inheritance">
+        </childnode>
+        <childnode refid="21" relation="usage">
+          <edgelabel>entries</edgelabel>
+        </childnode>
+        <childnode refid="22" relation="usage">
+          <edgelabel>types</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jam::Function::Map&lt; StopReason, jam::Function::pointerCapacity, jam::Strings(const juce::String &amp;)&gt;</label>
+        <link refid="structjam_1_1Function_1_1Map" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>jam::Function::Map&lt; juce::Identifier, jam::Function::pointerCapacity, void(), void(int), void(int, int), void(juce::int64, juce::int64, int), void(const juce::String &amp;)&gt;</label>
+        <link refid="structjam_1_1Function_1_1Map" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jam::HashMap&lt; KeyType, std::variant&lt; Overload&lt; KeyType, capacity, Signatures &gt;::Slot... &gt; &gt;</label>
+        <link refid="classjam_1_1HashMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="22">
+        <label>jam::HashMap&lt; juce::Identifier, jam::AnyMap::Trait &gt;</label>
+        <link refid="classjam_1_1HashMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="25">
+        <label>jam::HashMap&lt; juce::Identifier, jam::HashMap&lt; juce::Identifier, std::unique_ptr&lt; ParameterAdapter &gt; &gt; &gt;</label>
+        <link refid="classjam_1_1HashMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="21">
+        <label>jam::HashMap&lt; juce::Identifier, std::unique_ptr&lt; void, Deleter &gt; &gt;</label>
+        <link refid="classjam_1_1HashMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="26">
+        <label>jam::Instance&lt; WHATDBGModel &gt;</label>
+        <link refid="structjam_1_1Instance" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="16">
+        <label>jam::Model</label>
+        <link refid="classjam_1_1Model" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="17" relation="public-inheritance">
+        </childnode>
+        <childnode refid="18" relation="public-inheritance">
+        </childnode>
+        <childnode refid="19" relation="usage">
+          <edgelabel>params</edgelabel>
+        </childnode>
+        <childnode refid="23" relation="usage">
+          <edgelabel>state</edgelabel>
+        </childnode>
+        <childnode refid="24" relation="usage">
+          <edgelabel>valueTreeChanging</edgelabel>
+        </childnode>
+        <childnode refid="25" relation="usage">
+          <edgelabel>adapters</edgelabel>
+        </childnode>
+      </node>
+      <node id="24">
+        <label>juce::CriticalSection</label>
+        <link refid="classjuce_1_1CriticalSection" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="20">
+        <label>juce::DummyCriticalSection</label>
+        <link refid="classjuce_1_1DummyCriticalSection" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="27">
+        <label>juce::Identifier</label>
+        <link refid="classjuce_1_1Identifier" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+        <childnode refid="27" relation="usage">
+          <edgelabel>null</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>juce::String</label>
+        <link refid="classjuce_1_1String" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="17">
+        <label>juce::Timer</label>
+        <link refid="classjuce_1_1Timer" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="23">
+        <label>juce::ValueTree</label>
+        <link refid="classjuce_1_1ValueTree" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="18">
+        <label>juce::ValueTree::Listener</label>
+        <link refid="classjuce_1_1ValueTree_1_1Listener" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="12">
+        <label>std::pair&lt; int, int &gt;</label>
+      </node>
+      <node id="14">
+        <label>std::pair&lt; std::uint32_t, int &gt;</label>
+      </node>
+      <node id="11">
+        <label>std::unordered_map&lt; int, std::pair&lt; int, int &gt; &gt;</label>
+        <childnode refid="12" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+      </node>
+      <node id="13">
+        <label>std::unordered_map&lt; int, std::pair&lt; std::uint32_t, int &gt; &gt;</label>
+        <childnode refid="14" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+      </node>
+      <node id="8">
+        <label>std::unordered_map&lt; std::uint16_t, debug::BreakpointInfo &gt;</label>
+        <childnode refid="9" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="debug/StopManager.h" line="18" column="1" bodyfile="debug/StopManager.h" bodystart="19" bodyend="71"/>
+    <listofallmembers>
+      <member refid="classdebug_1_1_stop_manager_1a96fab0f2c2a02f01081083ecc2f2126d" prot="private" virt="non-virtual"><scope>debug::StopManager</scope><name>breakpointManager</name></member>
+      <member refid="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" prot="private" virt="non-virtual"><scope>debug::StopManager</scope><name>drainBreakpointHit</name></member>
+      <member refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" prot="private" virt="non-virtual"><scope>debug::StopManager</scope><name>drainExceptionStopped</name></member>
+      <member refid="classdebug_1_1_stop_manager_1a23350ca0377ae83e11468a7301a41852" prot="private" virt="non-virtual"><scope>debug::StopManager</scope><name>drainInitialBreak</name></member>
+      <member refid="classdebug_1_1_stop_manager_1ab35e144bdf9bf196392632e3b5c5b84c" prot="private" virt="non-virtual"><scope>debug::StopManager</scope><name>drainModuleLoaded</name></member>
+      <member refid="classdebug_1_1_stop_manager_1ae491549724477f1c2457f0005f4e11e2" prot="private" virt="non-virtual"><scope>debug::StopManager</scope><name>drainPauseCompleted</name></member>
+      <member refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" prot="private" virt="non-virtual"><scope>debug::StopManager</scope><name>drainStepCompleted</name></member>
+      <member refid="classdebug_1_1_stop_manager_1acb929fa1ec21f69d47ff7388dc285138" prot="private" virt="non-virtual"><scope>debug::StopManager</scope><name>lastLoadedImageName</name></member>
+      <member refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" prot="private" virt="non-virtual"><scope>debug::StopManager</scope><name>model</name></member>
+      <member refid="classdebug_1_1_stop_manager_1ae87d8d557aded2e5fa40b92f360fc887" prot="public" virt="non-virtual"><scope>debug::StopManager</scope><name>onStop</name></member>
+      <member refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" prot="private" virt="non-virtual"><scope>debug::StopManager</scope><name>registerEvents</name></member>
+      <member refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" prot="private" virt="non-virtual"><scope>debug::StopManager</scope><name>resumeAfterInitialBreak</name></member>
+      <member refid="classdebug_1_1_stop_manager_1a11cf2cbc87df89b6ac71d2c9192cda02" prot="private" virt="non-virtual"><scope>debug::StopManager</scope><name>resumeExecution</name></member>
+      <member refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" prot="private" virt="non-virtual"><scope>debug::StopManager</scope><name>session</name></member>
+      <member refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" prot="public" virt="non-virtual"><scope>debug::StopManager</scope><name>StopManager</name></member>
+      <member refid="classdebug_1_1_stop_manager_1aba708cf1c18f749844a203ea75644c06" prot="private" virt="non-virtual"><scope>debug::StopManager</scope><name>stops</name></member>
+      <member refid="classdebug_1_1_stop_manager_1a591fce037dfaadedc01275ee38b4717e" prot="private" virt="non-virtual"><scope>debug::StopManager</scope><name>variableManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

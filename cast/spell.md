@@ -21,6 +21,8 @@
 | @source          | source.cast                       |
 | @identifiers     | identifiers.md                    |
 | @Identifiers     | ../Source/generated/Identifiers.h |
+| @binaryFiles     | files.md                          |
+| @Files           | ../Source/generated/Files.h       |
 | @GeneratedSource | ../Source/generated/Generated.cpp |
 | @Generated       | ../Source/generated/Generated.h   |
 +------------------+-----------------------------------+
@@ -37,7 +39,12 @@
 +---------------+-------------------------------------------------------------------------------+-------------------------------------------+
 | Identifiers.h | ```                                                                           | Every Id:: name.                          |
 |               | @file Identifiers.h                                                           |                                           |
-|               | @brief DAP vocabulary.                                                        |                                           |
+|               | @brief whatdbg vocabulary.                                                    |                                           |
+|               | ```                                                                           |                                           |
++---------------+-------------------------------------------------------------------------------+-------------------------------------------+
+| Files.h       | ```                                                                           | File names whatdbg reads.                 |
+|               | @file Files.h                                                                 |                                           |
+|               | @brief whatdbg's own file names, referenced by the program.                   |                                           |
 |               | ```                                                                           |                                           |
 +---------------+-------------------------------------------------------------------------------+-------------------------------------------+
 | Generated.h   | ```                                                                           | Include umbrella for every generated      |
@@ -129,6 +136,16 @@
 |                                               |                      | - name: Id                                    |                  |
 |                                               |                      | > - [list]: @code:identifier-definition       |                  |
 +-----------------------------------------------+----------------------+-----------------------------------------------+------------------+
+| - [list]: @binaryFiles:files                  |                      | @code:namespace                               | @GeneratedSource |
+|                                               |                      | - name: files                                 |                  |
+|                                               |                      | - [list]: @code:identifier-definition         |                  |
++-----------------------------------------------+----------------------+-----------------------------------------------+------------------+
+| - [list]: @binaryFiles:files                  |                      | @code:namespace                               | @Files           |
+|                                               |                      | - macro: #pragma once                         |                  |
+|                                               |                      | - name: files                                 |                  |
+|                                               |                      | - [description]: @headers:brief               |                  |
+|                                               |                      | - [list]: @code:identifier                    |                  |
++-----------------------------------------------+----------------------+-----------------------------------------------+------------------+
 
 ## output index
 
@@ -141,6 +158,11 @@
 |                                       |           | - [list]: @code:include |            |
 +---------------------------------------+-----------+-------------------------+------------+
 | - [list]: @headers:file=Identifiers.h |           | @code:line              | @Generated |
+|                                       |           | - macro: #pragma once   |            |
+|                                       |           |                         |            |
+|                                       |           | - [list]: @code:include |            |
++---------------------------------------+-----------+-------------------------+------------+
+| - [list]: @headers:file=Files.h       |           | @code:line              | @Generated |
 |                                       |           | - macro: #pragma once   |            |
 |                                       |           |                         |            |
 |                                       |           | - [list]: @code:include |            |

@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="classdap_1_1_f_i_f_o" kind="class" language="C++" prot="public">
+    <compoundname>dap::FIFO</compoundname>
+    <includes refid="_f_i_f_o_8h" local="no">FIFO.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename MessageType</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classdap_1_1_f_i_f_o_1ace568881ac9e495dc08cb63fddf33042" prot="private" static="no" mutable="no">
+        <type><ref refid="classjuce_1_1AbstractFifo" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::AbstractFifo</ref></type>
+        <definition>juce::AbstractFifo dap::FIFO&lt; MessageType &gt;::fifo</definition>
+        <argsstring></argsstring>
+        <name>fifo</name>
+        <qualifiedname>dap::FIFO::fifo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/FIFO.h" line="71" column="24" bodyfile="dap/FIFO.h" bodystart="71" bodyend="-1"/>
+        <referencedby refid="classdap_1_1_f_i_f_o_1a6f8c18874abcb0e32f6b41f60bed7f14" compoundref="_f_i_f_o_8h" startline="59" endline="68">dap::FIFO&lt; MessageType &gt;::applyPendingData</referencedby>
+        <referencedby refid="classdap_1_1_f_i_f_o_1a6ad630b492549ab0e9d2605e54ec696d" compoundref="_f_i_f_o_8h" startline="22" endline="26">dap::FIFO&lt; MessageType &gt;::FIFO</referencedby>
+        <referencedby refid="classdap_1_1_f_i_f_o_1ab5738b3996ee9f3e04b48478db5394a6" compoundref="_f_i_f_o_8h" startline="32" endline="35">dap::FIFO&lt; MessageType &gt;::getFreeSpace</referencedby>
+        <referencedby refid="classdap_1_1_f_i_f_o_1ac033965014165a3902df7915b8013d6b" compoundref="_f_i_f_o_8h" startline="41" endline="51">dap::FIFO&lt; MessageType &gt;::write</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdap_1_1_f_i_f_o_1a0b3988b9045ff0f5d0a3100abdce3375" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; MessageType &gt;</type>
+        <definition>std::vector&lt;MessageType&gt; dap::FIFO&lt; MessageType &gt;::storage</definition>
+        <argsstring></argsstring>
+        <name>storage</name>
+        <qualifiedname>dap::FIFO::storage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/FIFO.h" line="72" column="17" bodyfile="dap/FIFO.h" bodystart="72" bodyend="-1"/>
+        <referencedby refid="classdap_1_1_f_i_f_o_1a6f8c18874abcb0e32f6b41f60bed7f14" compoundref="_f_i_f_o_8h" startline="59" endline="68">dap::FIFO&lt; MessageType &gt;::applyPendingData</referencedby>
+        <referencedby refid="classdap_1_1_f_i_f_o_1a6ad630b492549ab0e9d2605e54ec696d" compoundref="_f_i_f_o_8h" startline="22" endline="26">dap::FIFO&lt; MessageType &gt;::FIFO</referencedby>
+        <referencedby refid="classdap_1_1_f_i_f_o_1ac033965014165a3902df7915b8013d6b" compoundref="_f_i_f_o_8h" startline="41" endline="51">dap::FIFO&lt; MessageType &gt;::write</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdap_1_1_f_i_f_o_1a6ad630b492549ab0e9d2605e54ec696d" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>dap::FIFO&lt; MessageType &gt;::FIFO</definition>
+        <argsstring>(int capacity)</argsstring>
+        <name>FIFO</name>
+        <qualifiedname>dap::FIFO::FIFO</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>capacity</declname>
+        </param>
+        <briefdescription>
+<para>Allocates capacity slots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of messages the lane holds. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/FIFO.h" line="22" column="14" bodyfile="dap/FIFO.h" bodystart="22" bodyend="26"/>
+        <references refid="classdap_1_1_f_i_f_o_1ace568881ac9e495dc08cb63fddf33042" compoundref="_f_i_f_o_8h" startline="71">dap::FIFO&lt; MessageType &gt;::fifo</references>
+        <references refid="classdap_1_1_f_i_f_o_1a0b3988b9045ff0f5d0a3100abdce3375" compoundref="_f_i_f_o_8h" startline="72">dap::FIFO&lt; MessageType &gt;::storage</references>
+      </memberdef>
+      <memberdef kind="function" id="classdap_1_1_f_i_f_o_1ab5738b3996ee9f3e04b48478db5394a6" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int dap::FIFO&lt; MessageType &gt;::getFreeSpace</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getFreeSpace</name>
+        <qualifiedname>dap::FIFO::getFreeSpace</qualifiedname>
+        <briefdescription>
+<para>Returns the number of slots that a write can fill. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Free slot count. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/FIFO.h" line="32" column="9" bodyfile="dap/FIFO.h" bodystart="32" bodyend="35"/>
+        <references refid="classdap_1_1_f_i_f_o_1ace568881ac9e495dc08cb63fddf33042" compoundref="_f_i_f_o_8h" startline="71">dap::FIFO&lt; MessageType &gt;::fifo</references>
+        <references refid="classjuce_1_1AbstractFifo_1a9109b0b171043de5e5737d82b520fba1">juce::AbstractFifo::getFreeSpace</references>
+        <referencedby refid="classdap_1_1_f_i_f_o_1ac033965014165a3902df7915b8013d6b" compoundref="_f_i_f_o_8h" startline="41" endline="51">dap::FIFO&lt; MessageType &gt;::write</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdap_1_1_f_i_f_o_1ac033965014165a3902df7915b8013d6b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void dap::FIFO&lt; MessageType &gt;::write</definition>
+        <argsstring>(MessageType message)</argsstring>
+        <name>write</name>
+        <qualifiedname>dap::FIFO::write</qualifiedname>
+        <param>
+          <type>MessageType</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Stores message in the next free slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Asserts and drops the message when the lane is full.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Message to store. Moved into the slot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/FIFO.h" line="41" column="10" bodyfile="dap/FIFO.h" bodystart="41" bodyend="51"/>
+        <references refid="classdap_1_1_f_i_f_o_1ace568881ac9e495dc08cb63fddf33042" compoundref="_f_i_f_o_8h" startline="71">dap::FIFO&lt; MessageType &gt;::fifo</references>
+        <references refid="classdap_1_1_f_i_f_o_1ab5738b3996ee9f3e04b48478db5394a6" compoundref="_f_i_f_o_8h" startline="32" endline="35">dap::FIFO&lt; MessageType &gt;::getFreeSpace</references>
+        <references refid="classdap_1_1_f_i_f_o_1a0b3988b9045ff0f5d0a3100abdce3375" compoundref="_f_i_f_o_8h" startline="72">dap::FIFO&lt; MessageType &gt;::storage</references>
+        <references refid="classjuce_1_1AbstractFifo_1a2dc58dfc859a387548cafaeab8fafa26">juce::AbstractFifo::write</references>
+        <referencedby refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">Processor::addMessage</referencedby>
+        <referencedby refid="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" compoundref="_processor_8cpp" startline="56" endline="66">Processor::addRequest</referencedby>
+        <referencedby refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" compoundref="_processor_8cpp" startline="45" endline="54">Processor::prepare</referencedby>
+        <referencedby refid="class_processor_1a379381665169c712bb1aea2433b5395f" compoundref="_processor_8cpp" startline="68" endline="73">Processor::releaseResources</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classdap_1_1_f_i_f_o_1a6f8c18874abcb0e32f6b41f60bed7f14" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Callback</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void dap::FIFO&lt; MessageType &gt;::applyPendingData</definition>
+        <argsstring>(Callback &amp;&amp;callback)</argsstring>
+        <name>applyPendingData</name>
+        <qualifiedname>dap::FIFO::applyPendingData</qualifiedname>
+        <param>
+          <type>Callback &amp;&amp;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Calls callback with every message that is ready, in write order, then clears each slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable that takes a const MessageType&amp;. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives each ready message. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/FIFO.h" line="59" column="10" bodyfile="dap/FIFO.h" bodystart="59" bodyend="68"/>
+        <references refid="classdap_1_1_f_i_f_o_1ace568881ac9e495dc08cb63fddf33042" compoundref="_f_i_f_o_8h" startline="71">dap::FIFO&lt; MessageType &gt;::fifo</references>
+        <references refid="classjuce_1_1AbstractFifo_1ab2d7fdb59e50c24841f4aca905834085">juce::AbstractFifo::getNumReady</references>
+        <references refid="classjuce_1_1AbstractFifo_1ac488e02a186317cf5de7c6ed2f22e3c3">juce::AbstractFifo::read</references>
+        <references refid="classdap_1_1_f_i_f_o_1a0b3988b9045ff0f5d0a3100abdce3375" compoundref="_f_i_f_o_8h" startline="72">dap::FIFO&lt; MessageType &gt;::storage</references>
+        <referencedby refid="class_processor_1aabd2ac7253b02508ae382f78412b8f23" compoundref="_processor_8h" startline="52" endline="55">Processor::applyMessages</referencedby>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="80" endline="101">Processor::process</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixed-capacity lane for one reader and one writer, built on <ref refid="classjuce_1_1AbstractFifo" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::AbstractFifo</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The lane holds MessageType values in preallocated slots. Each slot is cleared after it is read. A write to a full lane asserts and drops the message.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>MessageType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of the queued message. Default-constructible and movable. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>dap::FIFO&lt; MessageType &gt;</label>
+        <link refid="classdap_1_1_f_i_f_o"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>fifo</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>storage</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>juce::AbstractFifo</label>
+        <link refid="classjuce_1_1AbstractFifo" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="3">
+        <label>std::vector&lt; MessageType &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="dap/FIFO.h" line="15" column="1" bodyfile="dap/FIFO.h" bodystart="16" bodyend="75"/>
+    <listofallmembers>
+      <member refid="classdap_1_1_f_i_f_o_1a6f8c18874abcb0e32f6b41f60bed7f14" prot="public" virt="non-virtual"><scope>dap::FIFO</scope><name>applyPendingData</name></member>
+      <member refid="classdap_1_1_f_i_f_o_1a6ad630b492549ab0e9d2605e54ec696d" prot="public" virt="non-virtual"><scope>dap::FIFO</scope><name>FIFO</name></member>
+      <member refid="classdap_1_1_f_i_f_o_1ace568881ac9e495dc08cb63fddf33042" prot="private" virt="non-virtual"><scope>dap::FIFO</scope><name>fifo</name></member>
+      <member refid="classdap_1_1_f_i_f_o_1ab5738b3996ee9f3e04b48478db5394a6" prot="public" virt="non-virtual"><scope>dap::FIFO</scope><name>getFreeSpace</name></member>
+      <member refid="classdap_1_1_f_i_f_o_1a0b3988b9045ff0f5d0a3100abdce3375" prot="private" virt="non-virtual"><scope>dap::FIFO</scope><name>storage</name></member>
+      <member refid="classdap_1_1_f_i_f_o_1ac033965014165a3902df7915b8013d6b" prot="public" virt="non-virtual"><scope>dap::FIFO</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

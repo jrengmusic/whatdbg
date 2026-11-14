@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_files_8h" kind="file" language="C++">
+    <compoundname>Files.h</compoundname>
+    <includedby refid="_generated_8h" local="yes">generated/Generated.h</includedby>
+    <invincdepgraph>
+      <node id="3">
+        <label>Main.cpp</label>
+        <link refid="_main_8cpp"/>
+      </node>
+      <node id="14">
+        <label>Processor.cpp</label>
+        <link refid="_processor_8cpp"/>
+      </node>
+      <node id="13">
+        <label>Processor.h</label>
+        <link refid="_processor_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>WHATDBGModel.cpp</label>
+        <link refid="_w_h_a_t_d_b_g_model_8cpp"/>
+      </node>
+      <node id="4">
+        <label>WHATDBGModel.h</label>
+        <link refid="_w_h_a_t_d_b_g_model_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Whatdbg.cpp</label>
+        <link refid="_whatdbg_8cpp"/>
+      </node>
+      <node id="5">
+        <label>Whatdbg.h</label>
+        <link refid="_whatdbg_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>dap/Types.cpp</label>
+        <link refid="_types_8cpp"/>
+      </node>
+      <node id="25">
+        <label>dap/Types.h</label>
+        <link refid="_types_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>debug/BreakpointManager.cpp</label>
+        <link refid="_breakpoint_manager_8cpp"/>
+      </node>
+      <node id="15">
+        <label>debug/BreakpointManager.h</label>
+        <link refid="_breakpoint_manager_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>debug/Callbacks.cpp</label>
+        <link refid="_callbacks_8cpp"/>
+      </node>
+      <node id="11">
+        <label>debug/Callbacks.h</label>
+        <link refid="_callbacks_8h"/>
+      </node>
+      <node id="19">
+        <label>debug/Session.cpp</label>
+        <link refid="_session_8cpp"/>
+      </node>
+      <node id="12">
+        <label>debug/Session.h</label>
+        <link refid="_session_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>debug/SessionPrettyPrint.cpp</label>
+        <link refid="_session_pretty_print_8cpp"/>
+      </node>
+      <node id="21">
+        <label>debug/SessionPrettyPrint_mac.cpp</label>
+        <link refid="_session_pretty_print__mac_8cpp"/>
+      </node>
+      <node id="22">
+        <label>debug/Session_mac.cpp</label>
+        <link refid="_session__mac_8cpp"/>
+      </node>
+      <node id="8">
+        <label>debug/State.h</label>
+        <link refid="_state_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>debug/StopManager.cpp</label>
+        <link refid="_stop_manager_8cpp"/>
+      </node>
+      <node id="17">
+        <label>debug/StopManager.h</label>
+        <link refid="_stop_manager_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>debug/VariableManager.cpp</label>
+        <link refid="_variable_manager_8cpp"/>
+      </node>
+      <node id="23">
+        <label>debug/VariableManager.h</label>
+        <link refid="_variable_manager_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>generated/Files.h</label>
+        <link refid="_files_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>generated/Generated.cpp</label>
+        <link refid="_generated_8cpp"/>
+      </node>
+      <node id="2">
+        <label>generated/Generated.h</label>
+        <link refid="_generated_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacefiles">files</innernamespace>
+    <briefdescription>
+<para>whatdbg&apos;s own file names, referenced by the program. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*******************************************************************************</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Codegen<sp/>Annotated<sp/>Source<sp/>of<sp/>Truth</highlight></codeline>
+<codeline lineno="3"><highlight class="comment">————————————————————————————————————————————————————————————————————————————————</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"></highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████████████░░████████████░░████████████░░████████████</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████<sp/><sp/>░░████░░████<sp/><sp/>░░████░░████<sp/><sp/>░░████<sp/><sp/><sp/><sp/>░░████</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████<sp/><sp/>░░████░░████<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████████████░░████████████<sp/><sp/><sp/><sp/>░░████</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████<sp/><sp/>░░████<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████<sp/><sp/><sp/><sp/>░░████</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████<sp/><sp/>░░████░░████<sp/><sp/>░░████░░████<sp/><sp/>░░████<sp/><sp/><sp/><sp/>░░████</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>░░████████████░░████<sp/><sp/>░░████░░████████████<sp/><sp/><sp/><sp/>░░████</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"></highlight></codeline>
+<codeline lineno="13"><highlight class="comment">————————————————————————————————————————————————————————————————————————————————</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>YOUR<sp/>EYES<sp/>ONLY,<sp/>DO<sp/>NOT<sp/>EDIT</highlight></codeline>
+<codeline lineno="15"><highlight class="comment">********************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacefiles" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">files</ref></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">/*_____________________________________________________________________________*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>juce::String<sp/><ref refid="namespacefiles_1a278086d46e17b4ae72b6688a9ceddf96" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">whatdbgHelp</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight><highlight class="comment">//<sp/>namespace<sp/>files</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="generated/Files.h"/>
+  </compounddef>
+</doxygen>

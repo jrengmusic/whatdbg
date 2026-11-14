@@ -4,6 +4,8 @@ package.path = scriptDirectory .. "/?.lua;" .. package.path
 local BreakpointScenarios = require ("scenario_breakpoint")
 local ProcessScenarios = require ("scenario_process")
 local TerminateScenarios = require ("scenario_terminate")
+local InspectScenarios = require ("scenario_inspect")
+local ScenarioRunner = require ("scenario_runner")
 
 local binaryPath = arg[1]
 local fixturePath = arg[2]
@@ -12,6 +14,11 @@ local fixtureSourcePath = arg[4]
 local fixtureCrashPath = arg[5]
 
 assert (binaryPath ~= nil, "usage: run_smoke.lua <whatdbg> <fixture> <fixture_wait> <fixture.cpp> <fixture_crash>")
+
+local platformName = vim.fn.has ("win32") == 1 and "windows" or "macos"
+ScenarioRunner.isRecording = (arg[6] == "--record")
+ScenarioRunner.baselineDirectory = scriptDirectory .. "/baseline/" .. platformName
+vim.fn.mkdir (ScenarioRunner.baselineDirectory, "p")
 
 local exitTimeoutMs = 10000
 local breakpointMarker = "SMOKE_BREAKPOINT_LINE"
@@ -35,6 +42,20 @@ local function findBreakpointLine (sourcePath, marker)
 end
 
 local breakpointLine = findBreakpointLine (fixtureSourcePath, breakpointMarker)
+local innerLine = findBreakpointLine (fixtureSourcePath, "SMOKE_INNER_LINE")
+local emptyLine = findBreakpointLine (fixtureSourcePath, "SMOKE_EMPTY_LINE")
+local secondLine = findBreakpointLine (fixtureSourcePath, "SMOKE_SECOND_LINE")
+
+local fixtureDirectory = vim.fn.fnamemodify (fixtureSourcePath, ":h")
+local buildDirectory = vim.fn.fnamemodify (fixturePath, ":h")
+
+local waitSourcePath = fixtureDirectory .. "/fixture_wait.cpp"
+local waitLine = findBreakpointLine (waitSourcePath, breakpointMarker)
+
+local moduleSourcePath = fixtureDirectory .. "/fixture_module.cpp"
+local moduleLine = findBreakpointLine (moduleSourcePath, "SMOKE_MODULE_LINE")
+
+local fixtureLoadPath = buildDirectory .. "/fixture_load" .. (platformName == "windows" and ".exe" or "")
 
 local reports = {
     BreakpointScenarios.scenarioLaunchBpContinue (binaryPath, fixturePath, fixtureSourcePath, breakpointLine, exitTimeoutMs),
@@ -47,6 +68,17 @@ local reports = {
     ProcessScenarios.scenarioCrash (binaryPath, fixtureCrashPath, exitTimeoutMs),
     TerminateScenarios.scenarioTerminateNoZombie (binaryPath, fixturePath, fixtureSourcePath, breakpointLine),
     ProcessScenarios.scenarioDisconnectDetach (binaryPath, fixturePath, fixtureSourcePath, breakpointLine),
+    BreakpointScenarios.scenarioStepInOut (binaryPath, fixturePath, fixtureSourcePath, breakpointLine, exitTimeoutMs),
+    InspectScenarios.scenarioStructChildren (binaryPath, fixturePath, fixtureSourcePath, breakpointLine, exitTimeoutMs),
+    InspectScenarios.scenarioThreadFrames (binaryPath, fixturePath, fixtureSourcePath, breakpointLine, exitTimeoutMs),
+    BreakpointScenarios.scenarioBreakpointWhileRunning (binaryPath, fixtureWaitPath, waitSourcePath, waitLine, exitTimeoutMs),
+    BreakpointScenarios.scenarioBreakpointRemoveAndWindow (binaryPath, fixturePath, fixtureSourcePath, breakpointLine, emptyLine, exitTimeoutMs),
+    BreakpointScenarios.scenarioPauseContinueBreakpoint (binaryPath, fixtureWaitPath, waitSourcePath, waitLine, exitTimeoutMs),
+    InspectScenarios.scenarioEvaluateFail (binaryPath, fixturePath, fixtureSourcePath, breakpointLine, exitTimeoutMs),
+    InspectScenarios.scenarioInnerFrame (binaryPath, fixturePath, fixtureSourcePath, innerLine, exitTimeoutMs),
+    ProcessScenarios.scenarioConfigurationDoneOrder (binaryPath, fixturePath, exitTimeoutMs),
+    ProcessScenarios.scenarioUnknownCommand (binaryPath),
+    BreakpointScenarios.scenarioPendingBreakpoint (binaryPath, fixtureLoadPath, moduleSourcePath, moduleLine, exitTimeoutMs),
 }
 
 print ("== SMOKE REPORT ==")

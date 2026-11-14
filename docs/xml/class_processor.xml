@@ -1,0 +1,2184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_processor" kind="class" language="C++" prot="public">
+    <compoundname>Processor</compoundname>
+    <basecompoundref refid="classjam_1_1AsyncUpdater" prot="private" virt="non-virtual">jam::AsyncUpdater</basecompoundref>
+    <includes refid="_processor_8h" local="no">Processor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" prot="private" static="no" mutable="no">
+        <type><ref refid="class_w_h_a_t_d_b_g_model" kindref="compound">WHATDBGModel</ref> &amp;</type>
+        <definition>WHATDBGModel&amp; Processor::model</definition>
+        <argsstring></argsstring>
+        <name>model</name>
+        <qualifiedname>Processor::model</qualifiedname>
+        <initializer>{ *<ref refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">WHATDBGModel::getInstance</ref>() }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="134" column="18" bodyfile="Processor.h" bodystart="134" bodyend="134"/>
+        <referencedby refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</referencedby>
+        <referencedby refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" compoundref="_processor_8cpp" startline="215" endline="242">drainProcessExited</referencedby>
+        <referencedby refid="class_processor_1ae3dd418216ebb9a28fbc82c5eb61de8b" compoundref="_processor_8cpp" startline="244" endline="257">drainTerminateTimeout</referencedby>
+        <referencedby refid="class_processor_1a616112bd8cbe927cec6426da3dc64d6d" compoundref="_processor_8cpp" startline="259" endline="265">getEndModeForExit</referencedby>
+        <referencedby refid="class_processor_1a5ef207789c74afa70eb20f95ca575828" compoundref="_processor_8cpp" startline="387" endline="396">onConfigurationDone</referencedby>
+        <referencedby refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="542" endline="560">onContinue</referencedby>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="398" endline="432">onDisconnect</referencedby>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="627" endline="645">onExceptionInfo</referencedby>
+        <referencedby refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" compoundref="_processor_8cpp" startline="298" endline="325">onLaunch</referencedby>
+        <referencedby refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" compoundref="_processor_8cpp" startline="562" endline="577">onNext</referencedby>
+        <referencedby refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" compoundref="_processor_8cpp" startline="613" endline="625">onPause</referencedby>
+        <referencedby refid="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" compoundref="_processor_8cpp" startline="267" endline="276">onPrepare</referencedby>
+        <referencedby refid="class_processor_1a57d2c4aa25b0c6786bbce3eb3a78a4a8" compoundref="_processor_8cpp" startline="278" endline="283">onReleaseResources</referencedby>
+        <referencedby refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" compoundref="_processor_8cpp" startline="579" endline="594">onStepIn</referencedby>
+        <referencedby refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" compoundref="_processor_8cpp" startline="596" endline="611">onStepOut</referencedby>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="80" endline="101">process</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="103" endline="136">registerEvents</referencedby>
+        <referencedby refid="class_processor_1a5429f57729737f7bd4c78a1c1d027c43" compoundref="_processor_8cpp" startline="345" endline="355">setAttachedState</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" prot="private" static="no" mutable="no">
+        <type><ref refid="classdebug_1_1_session" kindref="compound">debug::Session</ref></type>
+        <definition>debug::Session Processor::session</definition>
+        <argsstring></argsstring>
+        <name>session</name>
+        <qualifiedname>Processor::session</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="136" column="20" bodyfile="Processor.h" bodystart="136" bodyend="-1"/>
+        <referencedby refid="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" compoundref="_processor_8cpp" startline="56" endline="66">addRequest</referencedby>
+        <referencedby refid="class_processor_1ab8672637da070c4b57ca72930ffcd355" compoundref="_processor_8cpp" startline="327" endline="343">addSearchPaths</referencedby>
+        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="357" endline="385">onAttach</referencedby>
+        <referencedby refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="542" endline="560">onContinue</referencedby>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="398" endline="432">onDisconnect</referencedby>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="647" endline="676">onEvaluate</referencedby>
+        <referencedby refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" compoundref="_processor_8cpp" startline="298" endline="325">onLaunch</referencedby>
+        <referencedby refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" compoundref="_processor_8cpp" startline="562" endline="577">onNext</referencedby>
+        <referencedby refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" compoundref="_processor_8cpp" startline="613" endline="625">onPause</referencedby>
+        <referencedby refid="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" compoundref="_processor_8cpp" startline="267" endline="276">onPrepare</referencedby>
+        <referencedby refid="class_processor_1a57d2c4aa25b0c6786bbce3eb3a78a4a8" compoundref="_processor_8cpp" startline="278" endline="283">onReleaseResources</referencedby>
+        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="478" endline="504">onStackTrace</referencedby>
+        <referencedby refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" compoundref="_processor_8cpp" startline="579" endline="594">onStepIn</referencedby>
+        <referencedby refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" compoundref="_processor_8cpp" startline="596" endline="611">onStepOut</referencedby>
+        <referencedby refid="class_processor_1a9c6554bef7c0240709dd33695728e25d" compoundref="_processor_8cpp" startline="464" endline="476">onThreads</referencedby>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="80" endline="101">process</referencedby>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="103" endline="136">registerEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="class_processor_1af1b24c3e9fa50af924be538680983ad1" prot="private" static="no" mutable="no">
+        <type><ref refid="classdebug_1_1_breakpoint_manager" kindref="compound">debug::BreakpointManager</ref></type>
+        <definition>debug::BreakpointManager Processor::breakpointManager</definition>
+        <argsstring></argsstring>
+        <name>breakpointManager</name>
+        <qualifiedname>Processor::breakpointManager</qualifiedname>
+        <initializer>{ <ref refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" kindref="member">session</ref> }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="138" column="30" bodyfile="Processor.h" bodystart="138" bodyend="138"/>
+        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="434" endline="462">onSetBreakpoints</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="103" endline="136">registerEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="class_processor_1a2441c080ec1ac60ca277a4e1da1b78ce" prot="private" static="no" mutable="no">
+        <type><ref refid="classdebug_1_1_variable_manager" kindref="compound">debug::VariableManager</ref></type>
+        <definition>debug::VariableManager Processor::variableManager</definition>
+        <argsstring></argsstring>
+        <name>variableManager</name>
+        <qualifiedname>Processor::variableManager</qualifiedname>
+        <initializer>{ <ref refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" kindref="member">session</ref> }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="140" column="28" bodyfile="Processor.h" bodystart="140" bodyend="140"/>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="647" endline="676">onEvaluate</referencedby>
+        <referencedby refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" compoundref="_processor_8cpp" startline="506" endline="523">onScopes</referencedby>
+        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="478" endline="504">onStackTrace</referencedby>
+        <referencedby refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" compoundref="_processor_8cpp" startline="525" endline="540">onVariables</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="class_processor_1a7fc62190e15c16603d7d061db882e6e1" prot="private" static="no" mutable="no">
+        <type><ref refid="classdebug_1_1_stop_manager" kindref="compound">debug::StopManager</ref></type>
+        <definition>debug::StopManager Processor::stopManager</definition>
+        <argsstring></argsstring>
+        <name>stopManager</name>
+        <qualifiedname>Processor::stopManager</qualifiedname>
+        <initializer>{ <ref refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" kindref="member">session</ref>, <ref refid="class_processor_1af1b24c3e9fa50af924be538680983ad1" kindref="member">breakpointManager</ref>, <ref refid="class_processor_1a2441c080ec1ac60ca277a4e1da1b78ce" kindref="member">variableManager</ref> }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="142" column="24" bodyfile="Processor.h" bodystart="142" bodyend="142"/>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="80" endline="101">process</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="class_processor_1ac8cb2e3ddb7497d2c58f70edfa42c86f" prot="private" static="no" mutable="no">
+        <type><ref refid="classdap_1_1_f_i_f_o" kindref="compound">dap::FIFO</ref>&lt; <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &gt;</type>
+        <definition>dap::FIFO&lt;jam::JsonDocument&gt; Processor::requests</definition>
+        <argsstring></argsstring>
+        <name>requests</name>
+        <qualifiedname>Processor::requests</qualifiedname>
+        <initializer>{ <ref refid="class_processor_1a0ec3c84167ef4294a0208df4a98ed0b9" kindref="member">requestsCapacity</ref> }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="146" column="15" bodyfile="Processor.h" bodystart="146" bodyend="146"/>
+        <referencedby refid="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" compoundref="_processor_8cpp" startline="56" endline="66">addRequest</referencedby>
+        <referencedby refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" compoundref="_processor_8cpp" startline="45" endline="54">prepare</referencedby>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="80" endline="101">process</referencedby>
+        <referencedby refid="class_processor_1a379381665169c712bb1aea2433b5395f" compoundref="_processor_8cpp" startline="68" endline="73">releaseResources</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="class_processor_1ad88378fbe12b6833b42fdbfb623480f0" prot="private" static="no" mutable="no">
+        <type><ref refid="classdap_1_1_f_i_f_o" kindref="compound">dap::FIFO</ref>&lt; std::string &gt;</type>
+        <definition>dap::FIFO&lt;std::string&gt; Processor::messages</definition>
+        <argsstring></argsstring>
+        <name>messages</name>
+        <qualifiedname>Processor::messages</qualifiedname>
+        <initializer>{ <ref refid="class_processor_1ab57bb2626949314bad62c6f540f88a89" kindref="member">messagesCapacity</ref> }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="150" column="15" bodyfile="Processor.h" bodystart="150" bodyend="150"/>
+        <referencedby refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</referencedby>
+        <referencedby refid="class_processor_1a45fe17524598b1971db9d18da20b6864" compoundref="_processor_8cpp" startline="207" endline="213">addMessages</referencedby>
+        <referencedby refid="class_processor_1aabd2ac7253b02508ae382f78412b8f23" compoundref="_processor_8h" startline="52" endline="55">applyMessages</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="class_processor_1a45a224474371f023a1c90eb8d5082f4d" prot="private" static="no" mutable="no">
+        <type><ref refid="structjam_1_1Function_1_1Map" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::Map</ref>&lt; <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>, <ref refid="structjam_1_1Function_1ae0c82daeeeb7f4c4eaf062d55601f5cd" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::pointerCapacity</ref>, void(const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;)&gt;</type>
+        <definition>jam::Function::Map&lt;juce::String, jam::Function::pointerCapacity, void (const jam::JsonDocument&amp;)&gt; Processor::commands</definition>
+        <argsstring></argsstring>
+        <name>commands</name>
+        <qualifiedname>Processor::commands</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="152" column="24" bodyfile="Processor.h" bodystart="152" bodyend="-1"/>
+        <referencedby refid="class_processor_1a9799b1f73561ced0b3e287dc623d10e1" compoundref="_processor_8cpp" startline="170" endline="199">onCommand</referencedby>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="class_processor_1a6a2cba26723ddaee3adb0570feb7ba16" prot="private" static="no" mutable="no">
+        <type><ref refid="structjam_1_1Function_1_1Map" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::Map</ref>&lt; <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>, <ref refid="structjam_1_1Function_1ae0c82daeeeb7f4c4eaf062d55601f5cd" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::pointerCapacity</ref>, void()&gt;</type>
+        <definition>jam::Function::Map&lt;juce::String, jam::Function::pointerCapacity, void ()&gt; Processor::cancellations</definition>
+        <argsstring></argsstring>
+        <name>cancellations</name>
+        <qualifiedname>Processor::cancellations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="154" column="24" bodyfile="Processor.h" bodystart="154" bodyend="-1"/>
+        <referencedby refid="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" compoundref="_processor_8cpp" startline="56" endline="66">addRequest</referencedby>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="class_processor_1ab47709f9dc6f2ec2c11fd2318d5f0a4b" prot="private" static="no" mutable="no">
+        <type><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
+        <definition>juce::String Processor::targetProgram</definition>
+        <argsstring></argsstring>
+        <name>targetProgram</name>
+        <qualifiedname>Processor::targetProgram</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="160" column="18" bodyfile="Processor.h" bodystart="160" bodyend="-1"/>
+        <referencedby refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" compoundref="_processor_8cpp" startline="298" endline="325">onLaunch</referencedby>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="80" endline="101">process</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="class_processor_1a0ec3c84167ef4294a0208df4a98ed0b9" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int Processor::requestsCapacity</definition>
+        <argsstring></argsstring>
+        <name>requestsCapacity</name>
+        <qualifiedname>Processor::requestsCapacity</qualifiedname>
+        <initializer>{ 64 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="144" column="26" bodyfile="Processor.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_processor_1ab57bb2626949314bad62c6f540f88a89" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int Processor::messagesCapacity</definition>
+        <argsstring></argsstring>
+        <name>messagesCapacity</name>
+        <qualifiedname>Processor::messagesCapacity</qualifiedname>
+        <initializer>{ 4096 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="148" column="26" bodyfile="Processor.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_processor_1a9033907cdf0a5a33a26bba31e65a3767" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t Processor::terminateTimeoutMs</definition>
+        <argsstring></argsstring>
+        <name>terminateTimeoutMs</name>
+        <qualifiedname>Processor::terminateTimeoutMs</qualifiedname>
+        <initializer>{ 5000 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="156" column="36" bodyfile="Processor.h" bodystart="156" bodyend="156"/>
+        <referencedby refid="class_processor_1ae3dd418216ebb9a28fbc82c5eb61de8b" compoundref="_processor_8cpp" startline="244" endline="257">drainTerminateTimeout</referencedby>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="398" endline="432">onDisconnect</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="class_processor_1a0980d11b27754a2e50690a24ee15e38e" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t Processor::pollTimeoutMs</definition>
+        <argsstring></argsstring>
+        <name>pollTimeoutMs</name>
+        <qualifiedname>Processor::pollTimeoutMs</qualifiedname>
+        <initializer>{ 50 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="158" column="36" bodyfile="Processor.h" bodystart="158" bodyend="158"/>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="80" endline="101">process</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_processor_1a50c89dbf76a073f4fb491628258cf292" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Processor::Processor</definition>
+        <argsstring>()</argsstring>
+        <name>Processor</name>
+        <qualifiedname>Processor::Processor</qualifiedname>
+        <briefdescription>
+<para>Registers the command handlers, the cancellation handlers, and the engine event handlers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="23" column="5" bodyfile="Processor.cpp" bodystart="11" bodyend="38"/>
+        <references refid="structjam_1_1Function_1_1Map_1ad53732bb862659c66b8112c75f437248">jam::Function::Map&lt; typename KeyType, size_t capacity, typename... Signatures &gt;::add</references>
+        <references refid="namespaceId_1ad5687fa0dd037d3911f0048c85b8f830" compoundref="_generated_8cpp" startline="30" endline="30">Id::attach</references>
+        <references refid="classdebug_1_1_session_1a3db51b94ef908f06ebe53b4f18f5fa01" compoundref="_session__mac_8cpp" startline="331" endline="334">debug::Session::cancel</references>
+        <references refid="class_processor_1a6a2cba26723ddaee3adb0570feb7ba16" compoundref="_processor_8h" startline="154">cancellations</references>
+        <references refid="class_processor_1a45a224474371f023a1c90eb8d5082f4d" compoundref="_processor_8h" startline="152">commands</references>
+        <references refid="namespaceId_1aaaa98dc4a338c9bfd2924bfee62ba46b" compoundref="_generated_8cpp" startline="39" endline="39">Id::configurationDone</references>
+        <references refid="namespaceId_1ae2438ab1ad2671a70cc66946307484d1" compoundref="_generated_8cpp" startline="41" endline="41">Id::continueCommand</references>
+        <references refid="namespaceId_1a3994698584e63be0a9cb7f7c7573401c" compoundref="_generated_8cpp" startline="42" endline="42">Id::disconnect</references>
+        <references refid="namespaceId_1a3280247fd5138f5942e66698c30d7cf8" compoundref="_generated_8cpp" startline="43" endline="43">Id::evaluate</references>
+        <references refid="namespaceId_1a82dba3f14030b0bb57f3e46150805bf8" compoundref="_generated_8cpp" startline="48" endline="48">Id::exceptionInfo</references>
+        <references refid="namespaceId_1a8aeb3c62a45996c5a9c9000c8e6f6f65" compoundref="_generated_8cpp" startline="57" endline="57">Id::initialize</references>
+        <references refid="namespaceId_1ad12cc0b46dca2c038ee89e8f594b103f" compoundref="_generated_8cpp" startline="65" endline="65">Id::launch</references>
+        <references refid="namespaceId_1a21bf10b66e1c2310e13de15732b06f08" compoundref="_generated_8cpp" startline="67" endline="67">Id::next</references>
+        <references refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="357" endline="385">onAttach</references>
+        <references refid="class_processor_1a5ef207789c74afa70eb20f95ca575828" compoundref="_processor_8cpp" startline="387" endline="396">onConfigurationDone</references>
+        <references refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="542" endline="560">onContinue</references>
+        <references refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="398" endline="432">onDisconnect</references>
+        <references refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="647" endline="676">onEvaluate</references>
+        <references refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="627" endline="645">onExceptionInfo</references>
+        <references refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" compoundref="_processor_8cpp" startline="285" endline="296">onInitialize</references>
+        <references refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" compoundref="_processor_8cpp" startline="298" endline="325">onLaunch</references>
+        <references refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" compoundref="_processor_8cpp" startline="562" endline="577">onNext</references>
+        <references refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" compoundref="_processor_8cpp" startline="613" endline="625">onPause</references>
+        <references refid="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" compoundref="_processor_8cpp" startline="267" endline="276">onPrepare</references>
+        <references refid="class_processor_1a57d2c4aa25b0c6786bbce3eb3a78a4a8" compoundref="_processor_8cpp" startline="278" endline="283">onReleaseResources</references>
+        <references refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" compoundref="_processor_8cpp" startline="506" endline="523">onScopes</references>
+        <references refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="434" endline="462">onSetBreakpoints</references>
+        <references refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="478" endline="504">onStackTrace</references>
+        <references refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" compoundref="_processor_8cpp" startline="579" endline="594">onStepIn</references>
+        <references refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" compoundref="_processor_8cpp" startline="596" endline="611">onStepOut</references>
+        <references refid="class_processor_1a9c6554bef7c0240709dd33695728e25d" compoundref="_processor_8cpp" startline="464" endline="476">onThreads</references>
+        <references refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" compoundref="_processor_8cpp" startline="525" endline="540">onVariables</references>
+        <references refid="namespaceId_1ad5cee4e44dc5ca86661799ba8754dd1e" compoundref="_generated_8cpp" startline="71" endline="71">Id::pause</references>
+        <references refid="namespaceId_1ad2bcc22baaf85ffd3071dd02cbb33bd8" compoundref="_generated_8cpp" startline="73" endline="73">Id::prepare</references>
+        <references refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="103" endline="136">registerEvents</references>
+        <references refid="namespaceId_1af66536793828f41bc0211ef4dc71753b" compoundref="_generated_8cpp" startline="78" endline="78">Id::releaseResources</references>
+        <references refid="namespaceId_1a1d05f2637283005e4b2c47b82ebe3e40" compoundref="_generated_8cpp" startline="84" endline="84">Id::scopes</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="namespaceId_1a30ce1803fbba1b42c89b803bde5eed93" compoundref="_generated_8cpp" startline="87" endline="87">Id::setBreakpoints</references>
+        <references refid="namespaceId_1afd40a86bfb2e61ba56c0c365d1ee7fd3" compoundref="_generated_8cpp" startline="91" endline="91">Id::stackTrace</references>
+        <references refid="namespaceId_1aa4db6d6276fff66f56f45e0fd529ed69" compoundref="_generated_8cpp" startline="97" endline="97">Id::stepIn</references>
+        <references refid="namespaceId_1a5717203d0353dedf2adbff82425768d3" compoundref="_generated_8cpp" startline="98" endline="98">Id::stepOut</references>
+        <references refid="namespaceId_1a454bb8e74650aeb46ac3d629bc2862f8" compoundref="_generated_8cpp" startline="135" endline="135">Id::terminate</references>
+        <references refid="namespaceId_1ab9bcb45065cb87d579cfa238601236e1" compoundref="_generated_8cpp" startline="141" endline="141">Id::threads</references>
+        <references refid="namespaceId_1a289a38ab68c9df3bb102a57709e59862" compoundref="_generated_8cpp" startline="144" endline="144">Id::variables</references>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a3d7c16d172be09d3bfb4df3519d21b31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Processor::~Processor</definition>
+        <argsstring>() override</argsstring>
+        <name>~Processor</name>
+        <qualifiedname>Processor::~Processor</qualifiedname>
+        <briefdescription>
+<para>Calls releaseResources, which shuts the session down on the engine context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="26" column="5" bodyfile="Processor.cpp" bodystart="40" bodyend="43"/>
+        <references refid="class_processor_1a379381665169c712bb1aea2433b5395f" compoundref="_processor_8cpp" startline="68" endline="73">releaseResources</references>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::prepare</definition>
+        <argsstring>(const juce::File &amp;sidecarDirectory)</argsstring>
+        <name>prepare</name>
+        <qualifiedname>Processor::prepare</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref> &amp;</type>
+          <declname>sidecarDirectory</declname>
+        </param>
+        <briefdescription>
+<para>Queues the prepare request with the sidecar folder and waits until the engine context runs it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called on the message thread from <ref refid="class_whatdbg_1a33d312004e22a30ebecf90f442d9263c" kindref="member">Whatdbg::initialise</ref>, before the reader starts.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sidecarDirectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Folder that holds the extracted engine binaries. Sent as the path argument. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="34" column="10" bodyfile="Processor.cpp" bodystart="45" bodyend="54"/>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
+        <references refid="classjuce_1_1File_1a515fa016b189068f365cc875e241e2a1">juce::File::getFullPathName</references>
+        <references refid="namespacedap_1a4b62e7b9e343cb73546db4dad1299062" compoundref="_types_8cpp" startline="72" endline="87">dap::getRequest</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="classjam_1_1AsyncUpdater_1a5cb7dc69689155d582f9441a1af31176">jam::AsyncUpdater::handleUpdateNow</references>
+        <references refid="namespaceId_1ac0d6bb21fb6eb483624e52f9002294ab">Id::path</references>
+        <references refid="namespaceId_1ad2bcc22baaf85ffd3071dd02cbb33bd8" compoundref="_generated_8cpp" startline="73" endline="73">Id::prepare</references>
+        <references refid="class_processor_1ac8cb2e3ddb7497d2c58f70edfa42c86f" compoundref="_processor_8h" startline="146" endline="146">requests</references>
+        <references refid="classdap_1_1_f_i_f_o_1ac033965014165a3902df7915b8013d6b" compoundref="_f_i_f_o_8h" startline="41" endline="51">dap::FIFO&lt; MessageType &gt;::write</references>
+        <referencedby refid="class_whatdbg_1a33d312004e22a30ebecf90f442d9263c" compoundref="_whatdbg_8cpp" startline="55" endline="63">Whatdbg::initialise</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::addRequest</definition>
+        <argsstring>(jam::JsonDocument request)</argsstring>
+        <name>addRequest</name>
+        <qualifiedname>Processor::addRequest</qualifiedname>
+        <param>
+          <type><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref></type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Queues one DAP request and triggers the engine context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called from the reader thread.</para>
+<para>A disconnect or terminate request first calls Session::cancel. The request then goes into the request lane, the engine context is triggered, and Session::wake is called so that a blocked poll returns.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parsed DAP request. Moved into the request lane. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="44" column="10" bodyfile="Processor.cpp" bodystart="56" bodyend="66"/>
+        <references refid="class_processor_1a6a2cba26723ddaee3adb0570feb7ba16" compoundref="_processor_8h" startline="154">cancellations</references>
+        <references refid="namespaceId_1a1538a142ed265f60c8fcf1703a106a7d">Id::command</references>
+        <references refid="classjam_1_1HashMap_1a62292e586b9c399c8013b9a18a5b11c8">jam::HashMap&lt; typename Key, typename Mapped, typename HashFn, typename KeyEqual, typename AllocatorOrContainer, typename Bucket, typename BucketContainer, bool IsSegmented &gt;::contains</references>
+        <references refid="structjam_1_1Function_1_1Map_1af9fdde9da6fe4521cb50e87d02c974be">jam::Function::Map&lt; typename KeyType, size_t capacity, typename... Signatures &gt;::get</references>
+        <references refid="class_processor_1a19cb284dd543fcd31ff08aae754ebaa3" compoundref="_processor_8cpp" startline="150" endline="155">getText</references>
+        <references refid="class_processor_1ac8cb2e3ddb7497d2c58f70edfa42c86f" compoundref="_processor_8h" startline="146" endline="146">requests</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="classjam_1_1AsyncUpdater_1a7a5a720be4cc17d34eb511d2c5da71e5">jam::AsyncUpdater::triggerAsyncUpdate</references>
+        <references refid="classdebug_1_1_session_1ae55ea009e277df6240ced7cfdf1521f3" compoundref="_session__mac_8cpp" startline="326" endline="329">debug::Session::wake</references>
+        <references refid="classdap_1_1_f_i_f_o_1ac033965014165a3902df7915b8013d6b" compoundref="_f_i_f_o_8h" startline="41" endline="51">dap::FIFO&lt; MessageType &gt;::write</references>
+        <referencedby refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" compoundref="_whatdbg_8cpp" startline="12" endline="33">Whatdbg::Whatdbg</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1aabd2ac7253b02508ae382f78412b8f23" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Callback</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void Processor::applyMessages</definition>
+        <argsstring>(Callback &amp;&amp;callback)</argsstring>
+        <name>applyMessages</name>
+        <qualifiedname>Processor::applyMessages</qualifiedname>
+        <param>
+          <type>Callback &amp;&amp;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Hands each queued DAP message to callback, in write order. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called on the message thread.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable that takes a const std::string&amp;. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receives each message. The lane clears the slot after the call. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="52" column="10" bodyfile="Processor.h" bodystart="52" bodyend="55"/>
+        <references refid="classdap_1_1_f_i_f_o_1a6f8c18874abcb0e32f6b41f60bed7f14" compoundref="_f_i_f_o_8h" startline="59" endline="68">dap::FIFO&lt; MessageType &gt;::applyPendingData</references>
+        <references refid="class_processor_1ad88378fbe12b6833b42fdbfb623480f0" compoundref="_processor_8h" startline="150" endline="150">messages</references>
+        <referencedby refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" compoundref="_whatdbg_8cpp" startline="97" endline="112">Whatdbg::registerEvents</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_processor_1a379381665169c712bb1aea2433b5395f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::releaseResources</definition>
+        <argsstring>()</argsstring>
+        <name>releaseResources</name>
+        <qualifiedname>Processor::releaseResources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="58" column="10" bodyfile="Processor.cpp" bodystart="68" bodyend="73"/>
+        <references refid="classjam_1_1AsyncUpdater_1a0620d36877e6791cb8c6233a55da7c15">jam::AsyncUpdater::cancelPendingUpdate</references>
+        <references refid="namespacedap_1a4b62e7b9e343cb73546db4dad1299062" compoundref="_types_8cpp" startline="72" endline="87">dap::getRequest</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="classjam_1_1AsyncUpdater_1a5cb7dc69689155d582f9441a1af31176">jam::AsyncUpdater::handleUpdateNow</references>
+        <references refid="namespaceId_1af66536793828f41bc0211ef4dc71753b" compoundref="_generated_8cpp" startline="78" endline="78">Id::releaseResources</references>
+        <references refid="class_processor_1ac8cb2e3ddb7497d2c58f70edfa42c86f" compoundref="_processor_8h" startline="146" endline="146">requests</references>
+        <references refid="classdap_1_1_f_i_f_o_1ac033965014165a3902df7915b8013d6b" compoundref="_f_i_f_o_8h" startline="41" endline="51">dap::FIFO&lt; MessageType &gt;::write</references>
+        <referencedby refid="class_processor_1a3d7c16d172be09d3bfb4df3519d21b31" compoundref="_processor_8cpp" startline="40" endline="43">~Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a6487194419302dd1602150479e2f0259" prot="private" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void Processor::handleAsyncUpdate</definition>
+        <argsstring>() override</argsstring>
+        <name>handleAsyncUpdate</name>
+        <qualifiedname>Processor::handleAsyncUpdate</qualifiedname>
+        <reimplements refid="classjam_1_1AsyncUpdater_1a1b978585797e8fb8a9dd9bc71d24f5ce">handleAsyncUpdate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="60" column="10" bodyfile="Processor.cpp" bodystart="75" bodyend="78"/>
+        <references refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="80" endline="101">process</references>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::process</definition>
+        <argsstring>()</argsstring>
+        <name>process</name>
+        <qualifiedname>Processor::process</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="62" column="10" bodyfile="Processor.cpp" bodystart="80" bodyend="101"/>
+        <references refid="class_processor_1a45fe17524598b1971db9d18da20b6864" compoundref="_processor_8cpp" startline="207" endline="213">addMessages</references>
+        <references refid="classdap_1_1_f_i_f_o_1a6f8c18874abcb0e32f6b41f60bed7f14" compoundref="_f_i_f_o_8h" startline="59" endline="68">dap::FIFO&lt; MessageType &gt;::applyPendingData</references>
+        <references refid="class_processor_1ae3dd418216ebb9a28fbc82c5eb61de8b" compoundref="_processor_8cpp" startline="244" endline="257">drainTerminateTimeout</references>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
+        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
+        <references refid="namespaceId_1ad5a972b9551c4ba5c5c15a733ec48d69" compoundref="_generated_8cpp" startline="63" endline="63">Id::isRunning</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6afbd29b7abab1d8c7e65e9bcae8278426" compoundref="_state_8h" startline="17">debug::launching</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="class_processor_1a9799b1f73561ced0b3e287dc623d10e1" compoundref="_processor_8cpp" startline="170" endline="199">onCommand</references>
+        <references refid="classdebug_1_1_stop_manager_1ae87d8d557aded2e5fa40b92f360fc887" compoundref="_stop_manager_8cpp" startline="76" endline="87">debug::StopManager::onStop</references>
+        <references refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="299" endline="324">debug::Session::pollEvents</references>
+        <references refid="class_processor_1a0980d11b27754a2e50690a24ee15e38e" compoundref="_processor_8h" startline="158" endline="158">pollTimeoutMs</references>
+        <references refid="class_processor_1ac8cb2e3ddb7497d2c58f70edfa42c86f" compoundref="_processor_8h" startline="146" endline="146">requests</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6a75101dcdfc88455bcafc9e53e0b06689" compoundref="_state_8h" startline="18">debug::running</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="class_processor_1a7fc62190e15c16603d7d061db882e6e1" compoundref="_processor_8h" startline="142" endline="142">stopManager</references>
+        <references refid="class_processor_1ab47709f9dc6f2ec2c11fd2318d5f0a4b" compoundref="_processor_8h" startline="160">targetProgram</references>
+        <references refid="namespaceId_1a6deeca27da77c1f9dbf5b72db990b6fc" compoundref="_generated_8cpp" startline="137" endline="137">Id::terminateDeadlineMs</references>
+        <references refid="classjam_1_1AsyncUpdater_1a7a5a720be4cc17d34eb511d2c5da71e5">jam::AsyncUpdater::triggerAsyncUpdate</references>
+        <referencedby refid="class_processor_1a6487194419302dd1602150479e2f0259" compoundref="_processor_8cpp" startline="75" endline="78">handleAsyncUpdate</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a5429f57729737f7bd4c78a1c1d027c43" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::setAttachedState</definition>
+        <argsstring>(std::uint32_t pid)</argsstring>
+        <name>setAttachedState</name>
+        <qualifiedname>Processor::setAttachedState</qualifiedname>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>pid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="76" column="10" bodyfile="Processor.cpp" bodystart="345" bodyend="355"/>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a02ffbaf2c33dfa38c9f01c3546190fcd" compoundref="_state_8h" startline="44">debug::initialBreak</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6afbd29b7abab1d8c7e65e9bcae8278426" compoundref="_state_8h" startline="17">debug::launching</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" compoundref="_state_8h" startline="19">debug::stopped</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="100" endline="100">Id::stopReason</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <references refid="namespaceId_1a34ff3c25c6e302ff4a5b0a5f9b0488a7" compoundref="_generated_8cpp" startline="134" endline="134">Id::targetProcessId</references>
+        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="357" endline="385">onAttach</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a9799b1f73561ced0b3e287dc623d10e1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onCommand</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onCommand</name>
+        <qualifiedname>Processor::onCommand</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="80" column="10" bodyfile="Processor.cpp" bodystart="170" bodyend="199"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="namespacedap_1ab92cf7854c6b2dbc40d249b04d8e276e" compoundref="_types_8cpp" startline="54" endline="62">dap::appendErrorResponse</references>
+        <references refid="namespaceId_1a1538a142ed265f60c8fcf1703a106a7d">Id::command</references>
+        <references refid="class_processor_1a45a224474371f023a1c90eb8d5082f4d" compoundref="_processor_8h" startline="152">commands</references>
+        <references refid="classjam_1_1HashMap_1aeb3706b7cb8b6a92790644ed3eb240ea">jam::HashMap&lt; typename Key, typename Mapped, typename HashFn, typename KeyEqual, typename AllocatorOrContainer, typename Bucket, typename BucketContainer, bool IsSegmented &gt;::end</references>
+        <references refid="classjam_1_1HashMap_1aa8cd30d951846463b373eb6e82d96a3d">jam::HashMap&lt; typename Key, typename Mapped, typename HashFn, typename KeyEqual, typename AllocatorOrContainer, typename Bucket, typename BucketContainer, bool IsSegmented &gt;::find</references>
+        <references refid="structjam_1_1Document_1_1Element_1a5e3e6102e91bae902ce10600567b9cfc">jam::Document::Element::firstChild</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="structjam_1_1Document_1afa15c06a56937a7195814a2aa2c7521d">jam::Document::getRoot</references>
+        <references refid="class_processor_1a19cb284dd543fcd31ff08aae754ebaa3" compoundref="_processor_8cpp" startline="150" endline="155">getText</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1af4e71980bee2a5365b2626999eb5bf71" compoundref="_generated_8cpp" startline="79" endline="79">Id::request</references>
+        <references refid="classjuce_1_1Identifier_1ab6f0db1de2c36cacd1a9d7280f73aeeb">juce::Identifier::toString</references>
+        <references refid="namespaceId_1ab4956db6d5e735af8b4e202830ac73f7">Id::type</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="80" endline="101">process</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onPrepare</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onPrepare</name>
+        <qualifiedname>Processor::onPrepare</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="82" column="10" bodyfile="Processor.cpp" bodystart="267" bodyend="276"/>
+        <references refid="namespaceId_1ae1bef48aa181015cc6694a397c942583" compoundref="_generated_8cpp" startline="26" endline="26">Id::adapterExitCode</references>
+        <references refid="class_processor_1aa7e2b89e392988b25f5b937972f47f2d" compoundref="_processor_8cpp" startline="143" endline="148">getArguments</references>
+        <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
+        <references refid="class_processor_1a19cb284dd543fcd31ff08aae754ebaa3" compoundref="_processor_8cpp" startline="150" endline="155">getText</references>
+        <references refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="231" endline="250">debug::Session::initialize</references>
+        <references refid="namespaceId_1ad5a972b9551c4ba5c5c15a733ec48d69" compoundref="_generated_8cpp" startline="63" endline="63">Id::isRunning</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="namespaceId_1ac0d6bb21fb6eb483624e52f9002294ab">Id::path</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a57d2c4aa25b0c6786bbce3eb3a78a4a8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onReleaseResources</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onReleaseResources</name>
+        <qualifiedname>Processor::onReleaseResources</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="84" column="10" bodyfile="Processor.cpp" bodystart="278" bodyend="283"/>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="class_processor_1a616112bd8cbe927cec6426da3dc64d6d" compoundref="_processor_8cpp" startline="259" endline="265">getEndModeForExit</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6aec2f993aec2c27fc750119ab17b16cdb" compoundref="_state_8h" startline="16">debug::idle</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="359" endline="382">debug::Session::shutdown</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <references refid="namespaceId_1a6deeca27da77c1f9dbf5b72db990b6fc" compoundref="_generated_8cpp" startline="137" endline="137">Id::terminateDeadlineMs</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onInitialize</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onInitialize</name>
+        <qualifiedname>Processor::onInitialize</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="86" column="10" bodyfile="Processor.cpp" bodystart="285" bodyend="296"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="119" endline="161">dap::appendCapabilities</references>
+        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="64" endline="70">dap::appendEvent</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1a8aeb3c62a45996c5a9c9000c8e6f6f65" compoundref="_generated_8cpp" startline="57" endline="57">Id::initialize</references>
+        <references refid="namespaceId_1a961dae6c3dba18c99afb722307c19c2e" compoundref="_generated_8cpp" startline="58" endline="58">Id::initialized</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onLaunch</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onLaunch</name>
+        <qualifiedname>Processor::onLaunch</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="88" column="10" bodyfile="Processor.cpp" bodystart="298" bodyend="325"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="class_processor_1ab8672637da070c4b57ca72930ffcd355" compoundref="_processor_8cpp" startline="327" endline="343">addSearchPaths</references>
+        <references refid="namespacedap_1ab92cf7854c6b2dbc40d249b04d8e276e" compoundref="_types_8cpp" startline="54" endline="62">dap::appendErrorResponse</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="namespaceId_1aaa176511f935b3f59bdf9fd186beb8a3">Id::cwd</references>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="class_processor_1aa7e2b89e392988b25f5b937972f47f2d" compoundref="_processor_8cpp" startline="143" endline="148">getArguments</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="class_processor_1a19cb284dd543fcd31ff08aae754ebaa3" compoundref="_processor_8cpp" startline="150" endline="155">getText</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="252" endline="274">debug::Session::launch</references>
+        <references refid="namespaceId_1ad12cc0b46dca2c038ee89e8f594b103f" compoundref="_generated_8cpp" startline="65" endline="65">Id::launch</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6afbd29b7abab1d8c7e65e9bcae8278426" compoundref="_state_8h" startline="17">debug::launching</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="namespaceId_1a5baed0fe1803e5b8026fa72220c75425" compoundref="_generated_8cpp" startline="76" endline="76">Id::program</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <references refid="class_processor_1ab47709f9dc6f2ec2c11fd2318d5f0a4b" compoundref="_processor_8h" startline="160">targetProgram</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onAttach</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onAttach</name>
+        <qualifiedname>Processor::onAttach</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="90" column="10" bodyfile="Processor.cpp" bodystart="357" bodyend="385"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="class_processor_1ab8672637da070c4b57ca72930ffcd355" compoundref="_processor_8cpp" startline="327" endline="343">addSearchPaths</references>
+        <references refid="namespacedap_1ab92cf7854c6b2dbc40d249b04d8e276e" compoundref="_types_8cpp" startline="54" endline="62">dap::appendErrorResponse</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="276" endline="292">debug::Session::attach</references>
+        <references refid="namespaceId_1ad5687fa0dd037d3911f0048c85b8f830" compoundref="_generated_8cpp" startline="30" endline="30">Id::attach</references>
+        <references refid="namespaceId_1aaa176511f935b3f59bdf9fd186beb8a3">Id::cwd</references>
+        <references refid="class_processor_1aa7e2b89e392988b25f5b937972f47f2d" compoundref="_processor_8cpp" startline="143" endline="148">getArguments</references>
+        <references refid="class_processor_1ace5ba6a40fb701821a5a92056a66d225" compoundref="_processor_8h" startline="67" endline="70">getNumber</references>
+        <references refid="namespacedap_1aff116122c81f4bb50a0e85ec69b7f2b8" compoundref="_types_8cpp" startline="227" endline="246">dap::getProcessEvent</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="class_processor_1a19cb284dd543fcd31ff08aae754ebaa3" compoundref="_processor_8cpp" startline="150" endline="155">getText</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1a4778dd29d53d85279bd3353399326859" compoundref="_generated_8cpp" startline="72" endline="72">Id::pid</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="class_processor_1a5429f57729737f7bd4c78a1c1d027c43" compoundref="_processor_8cpp" startline="345" endline="355">setAttachedState</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1ab8672637da070c4b57ca72930ffcd355" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::addSearchPaths</definition>
+        <argsstring>(const juce::String &amp;cwd)</argsstring>
+        <name>addSearchPaths</name>
+        <qualifiedname>Processor::addSearchPaths</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>cwd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="92" column="10" bodyfile="Processor.cpp" bodystart="327" bodyend="343"/>
+        <references refid="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" compoundref="_session__mac_8cpp" startline="527" endline="534">debug::Session::appendSourcePath</references>
+        <references refid="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" compoundref="_session__mac_8cpp" startline="521" endline="525">debug::Session::appendSymbolPath</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="357" endline="385">onAttach</referencedby>
+        <referencedby refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" compoundref="_processor_8cpp" startline="298" endline="325">onLaunch</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a5ef207789c74afa70eb20f95ca575828" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onConfigurationDone</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onConfigurationDone</name>
+        <qualifiedname>Processor::onConfigurationDone</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="94" column="10" bodyfile="Processor.cpp" bodystart="387" bodyend="396"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="namespaceId_1aaaa98dc4a338c9bfd2924bfee62ba46b" compoundref="_generated_8cpp" startline="39" endline="39">Id::configurationDone</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1a1686b1851bf4fefef4b5613b05c0c8d3" compoundref="_generated_8cpp" startline="59" endline="59">Id::isConfigurationDone</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a42ea23066099c2f427fe5727a86999b2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onDisconnect</definition>
+        <argsstring>(const jam::JsonDocument &amp;document, bool isTerminate)</argsstring>
+        <name>onDisconnect</name>
+        <qualifiedname>Processor::onDisconnect</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isTerminate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="96" column="10" bodyfile="Processor.cpp" bodystart="398" bodyend="432"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="namespaceId_1a2333fa49126557436eb1441faf72fd4f" compoundref="_generated_8cpp" startline="29" endline="29">Id::arguments</references>
+        <references refid="namespaceId_1a1538a142ed265f60c8fcf1703a106a7d">Id::command</references>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6ab854d4deac1316c8d36e519393f3f2ae" compoundref="_state_8h" startline="20">debug::exited</references>
+        <references refid="structjam_1_1JsonDocument_1a45103ee564c7f108c853a96bdd09a0ab">jam::JsonDocument::find</references>
+        <references refid="structjam_1_1Document_1_1Element_1a5e3e6102e91bae902ce10600567b9cfc">jam::Document::Element::firstChild</references>
+        <references refid="structjam_1_1JsonDocument_1aa064bc5de4a8cc38d64bd09aa6154169">jam::JsonDocument::getBoolean</references>
+        <references refid="structjam_1_1JsonDocument_1a85465831699f14d38b99629de0b1a713">jam::JsonDocument::getChildByToken</references>
+        <references refid="classjuce_1_1Time_1abb1818f9b0ef66cf9373a67abb0b07af">juce::Time::getMillisecondCounter</references>
+        <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="structjam_1_1Document_1afa15c06a56937a7195814a2aa2c7521d">jam::Document::getRoot</references>
+        <references refid="class_processor_1a19cb284dd543fcd31ff08aae754ebaa3" compoundref="_processor_8cpp" startline="150" endline="155">getText</references>
+        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6aec2f993aec2c27fc750119ab17b16cdb" compoundref="_state_8h" startline="16">debug::idle</references>
+        <references refid="namespaceId_1ad5a972b9551c4ba5c5c15a733ec48d69" compoundref="_generated_8cpp" startline="63" endline="63">Id::isRunning</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="classdebug_1_1_session_1a1012896227c475931dc65fbb9ff3342c" compoundref="_session__mac_8cpp" startline="336" endline="338">debug::Session::resetCancel</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6a75101dcdfc88455bcafc9e53e0b06689" compoundref="_state_8h" startline="18">debug::running</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="namespaceId_1a866863bd05f02eeabe7e4f66b277a6c3" compoundref="_generated_8cpp" startline="88" endline="88">Id::shouldTerminateOnExit</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <references refid="namespaceId_1a34ff3c25c6e302ff4a5b0a5f9b0488a7" compoundref="_generated_8cpp" startline="134" endline="134">Id::targetProcessId</references>
+        <references refid="namespaceId_1a6deeca27da77c1f9dbf5b72db990b6fc" compoundref="_generated_8cpp" startline="137" endline="137">Id::terminateDeadlineMs</references>
+        <references refid="classdebug_1_1_session_1ac24c24c48d1bae46a1d5e29531076f45" compoundref="_session__mac_8cpp" startline="340" endline="357">debug::Session::terminateDebuggee</references>
+        <references refid="namespaceId_1a07077957215e349556ebcf1e824fc5e7" compoundref="_generated_8cpp" startline="138" endline="138">Id::terminateDebuggee</references>
+        <references refid="class_processor_1a9033907cdf0a5a33a26bba31e65a3767" compoundref="_processor_8h" startline="156" endline="156">terminateTimeoutMs</references>
+        <references refid="classjuce_1_1Identifier_1ab6f0db1de2c36cacd1a9d7280f73aeeb">juce::Identifier::toString</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onSetBreakpoints</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onSetBreakpoints</name>
+        <qualifiedname>Processor::onSetBreakpoints</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="98" column="10" bodyfile="Processor.cpp" bodystart="434" bodyend="462"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="class_processor_1a45fe17524598b1971db9d18da20b6864" compoundref="_processor_8cpp" startline="207" endline="213">addMessages</references>
+        <references refid="structjam_1_1JsonWriter_1a7fe57d041d1f26d4458f3827333f7d77">jam::JsonWriter::appendArray</references>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="class_processor_1af1b24c3e9fa50af924be538680983ad1" compoundref="_processor_8h" startline="138" endline="138">breakpointManager</references>
+        <references refid="namespaceId_1a2909d28e5e49414abd10c6da17e0ab78" compoundref="_generated_8cpp" startline="35" endline="35">Id::breakpoints</references>
+        <references refid="structjam_1_1JsonDocument_1a45103ee564c7f108c853a96bdd09a0ab">jam::JsonDocument::find</references>
+        <references refid="class_processor_1aa7e2b89e392988b25f5b937972f47f2d" compoundref="_processor_8cpp" startline="143" endline="148">getArguments</references>
+        <references refid="structjam_1_1JsonDocument_1a85465831699f14d38b99629de0b1a713">jam::JsonDocument::getChildByToken</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="class_processor_1a19cb284dd543fcd31ff08aae754ebaa3" compoundref="_processor_8cpp" startline="150" endline="155">getText</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" compoundref="_breakpoint_manager_8cpp" startline="350" endline="361">debug::BreakpointManager::onReload</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="309" endline="335">debug::BreakpointManager::onSetBreakpoints</references>
+        <references refid="namespaceId_1ac0d6bb21fb6eb483624e52f9002294ab">Id::path</references>
+        <references refid="namespaceId_1a30ce1803fbba1b42c89b803bde5eed93" compoundref="_generated_8cpp" startline="87" endline="87">Id::setBreakpoints</references>
+        <references refid="classjam_1_1Array_1a15af995542610b93595677080ed7672e">jam::Array&lt; typename ElementType, typename TypeOfCriticalSectionToUse &gt;::size</references>
+        <references refid="namespaceId_1a0373df11a0741f497b13b791d42c06e9" compoundref="_identifiers_8h" startline="93">Id::source</references>
+        <references refid="classjam_1_1AsyncUpdater_1a1ba619e9584e4b84beb8c168df92501a">jam::AsyncUpdater::source</references>
+        <references refid="namespaceId_1a852b83817f32504602a384b9091ed9fb">Id::tokens</references>
+        <references refid="classjuce_1_1Identifier_1ab6f0db1de2c36cacd1a9d7280f73aeeb">juce::Identifier::toString</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a9c6554bef7c0240709dd33695728e25d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onThreads</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onThreads</name>
+        <qualifiedname>Processor::onThreads</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="100" column="10" bodyfile="Processor.cpp" bodystart="464" bodyend="476"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="structjam_1_1JsonWriter_1a7fe57d041d1f26d4458f3827333f7d77">jam::JsonWriter::appendArray</references>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="classdebug_1_1_session_1a926bbe2e4990905cf784fce5cfadc135" compoundref="_session__mac_8cpp" startline="536" endline="556">debug::Session::appendThreads</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="namespaceId_1ab9bcb45065cb87d579cfa238601236e1" compoundref="_generated_8cpp" startline="141" endline="141">Id::threads</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onStackTrace</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onStackTrace</name>
+        <qualifiedname>Processor::onStackTrace</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="102" column="10" bodyfile="Processor.cpp" bodystart="478" bodyend="504"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="structjam_1_1JsonWriter_1a7fe57d041d1f26d4458f3827333f7d77">jam::JsonWriter::appendArray</references>
+        <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="class_processor_1aa7e2b89e392988b25f5b937972f47f2d" compoundref="_processor_8cpp" startline="143" endline="148">getArguments</references>
+        <references refid="class_processor_1ace5ba6a40fb701821a5a92056a66d225" compoundref="_processor_8h" startline="67" endline="70">getNumber</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="classdebug_1_1_variable_manager_1a29ae314c6fd001ecf45635d9e6dc2810" compoundref="_variable_manager_8cpp" startline="28" endline="38">debug::VariableManager::onStackTrace</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="565" endline="568">debug::Session::setCurrentThreadBySystemId</references>
+        <references refid="namespaceId_1ace959dd522e166e9cbd911cd7bbe9856" compoundref="_generated_8cpp" startline="90" endline="90">Id::stackFrames</references>
+        <references refid="namespaceId_1afd40a86bfb2e61ba56c0c365d1ee7fd3" compoundref="_generated_8cpp" startline="91" endline="91">Id::stackTrace</references>
+        <references refid="namespaceId_1a340842661a4b1de835c5c21978bdb2c7" compoundref="_generated_8cpp" startline="140" endline="140">Id::threadId</references>
+        <references refid="namespaceId_1a888dd716dbee4d564dc310c2970e580d" compoundref="_generated_8cpp" startline="142" endline="142">Id::totalFrames</references>
+        <references refid="class_processor_1a2441c080ec1ac60ca277a4e1da1b78ce" compoundref="_processor_8h" startline="140" endline="140">variableManager</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onScopes</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onScopes</name>
+        <qualifiedname>Processor::onScopes</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="104" column="10" bodyfile="Processor.cpp" bodystart="506" bodyend="523"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="structjam_1_1JsonWriter_1a7fe57d041d1f26d4458f3827333f7d77">jam::JsonWriter::appendArray</references>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="class_processor_1a01cea4d8ebd137a2673924b91e9cea3f" compoundref="_processor_8cpp" startline="157" endline="168">appendLocalsScope</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="namespaceId_1a48418e64354437ec9581f2da43c55b55" compoundref="_generated_8cpp" startline="54" endline="54">Id::frameId</references>
+        <references refid="class_processor_1aa7e2b89e392988b25f5b937972f47f2d" compoundref="_processor_8cpp" startline="143" endline="148">getArguments</references>
+        <references refid="class_processor_1ace5ba6a40fb701821a5a92056a66d225" compoundref="_processor_8h" startline="67" endline="70">getNumber</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="classdebug_1_1_variable_manager_1a3ef1621d5a704e5255a2094e800cf36f" compoundref="_variable_manager_8cpp" startline="63" endline="76">debug::VariableManager::onScopes</references>
+        <references refid="namespaceId_1a1d05f2637283005e4b2c47b82ebe3e40" compoundref="_generated_8cpp" startline="84" endline="84">Id::scopes</references>
+        <references refid="class_processor_1a2441c080ec1ac60ca277a4e1da1b78ce" compoundref="_processor_8h" startline="140" endline="140">variableManager</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1af27cd0ccd0080ce67fc335b824205832" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onVariables</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onVariables</name>
+        <qualifiedname>Processor::onVariables</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="106" column="10" bodyfile="Processor.cpp" bodystart="525" bodyend="540"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="structjam_1_1JsonWriter_1a7fe57d041d1f26d4458f3827333f7d77">jam::JsonWriter::appendArray</references>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="class_processor_1aa7e2b89e392988b25f5b937972f47f2d" compoundref="_processor_8cpp" startline="143" endline="148">getArguments</references>
+        <references refid="class_processor_1ace5ba6a40fb701821a5a92056a66d225" compoundref="_processor_8h" startline="67" endline="70">getNumber</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="classdebug_1_1_variable_manager_1a7106ef722eac53731b410153ec46d41c" compoundref="_variable_manager_8cpp" startline="78" endline="86">debug::VariableManager::onVariables</references>
+        <references refid="class_processor_1a2441c080ec1ac60ca277a4e1da1b78ce" compoundref="_processor_8h" startline="140" endline="140">variableManager</references>
+        <references refid="namespaceId_1a289a38ab68c9df3bb102a57709e59862" compoundref="_generated_8cpp" startline="144" endline="144">Id::variables</references>
+        <references refid="namespaceId_1a8a41d6fdac2a7bef4aa8f00d16c2c307" compoundref="_generated_8cpp" startline="145" endline="145">Id::variablesReference</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onContinue</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onContinue</name>
+        <qualifiedname>Processor::onContinue</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="108" column="10" bodyfile="Processor.cpp" bodystart="542" bodyend="560"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="namespaceId_1af71142e632e3505ac92972d11ebb3ca5" compoundref="_generated_8cpp" startline="27" endline="27">Id::allThreadsContinued</references>
+        <references refid="structjam_1_1JsonWriter_1a6a110b64d6eacd0c9ef356b561c6ccf6">jam::JsonWriter::appendBoolean</references>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="namespaceId_1ae2438ab1ad2671a70cc66946307484d1" compoundref="_generated_8cpp" startline="41" endline="41">Id::continueCommand</references>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1acaa5ed87630554a54472e27567897c48" compoundref="_generated_8cpp" startline="62" endline="62">Id::isPausePending</references>
+        <references refid="namespaceId_1a1397f7ce0b093aa7091d5057a28bfe83" compoundref="_generated_8cpp" startline="64" endline="64">Id::isStepPending</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="294" endline="297">debug::Session::resume</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6a75101dcdfc88455bcafc9e53e0b06689" compoundref="_state_8h" startline="18">debug::running</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1afaefc4bb257610f38607543e26e6bc5a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onNext</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onNext</name>
+        <qualifiedname>Processor::onNext</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="110" column="10" bodyfile="Processor.cpp" bodystart="562" bodyend="577"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1a1397f7ce0b093aa7091d5057a28bfe83" compoundref="_generated_8cpp" startline="64" endline="64">Id::isStepPending</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="namespaceId_1a21bf10b66e1c2310e13de15732b06f08" compoundref="_generated_8cpp" startline="67" endline="67">Id::next</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6a75101dcdfc88455bcafc9e53e0b06689" compoundref="_state_8h" startline="18">debug::running</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="classdebug_1_1_session_1a60c1171499fc598e2124c6097a96d1ee" compoundref="_session__mac_8cpp" startline="384" endline="387">debug::Session::stepOver</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onStepIn</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onStepIn</name>
+        <qualifiedname>Processor::onStepIn</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="112" column="10" bodyfile="Processor.cpp" bodystart="579" bodyend="594"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1a1397f7ce0b093aa7091d5057a28bfe83" compoundref="_generated_8cpp" startline="64" endline="64">Id::isStepPending</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6a75101dcdfc88455bcafc9e53e0b06689" compoundref="_state_8h" startline="18">debug::running</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="namespaceId_1aa4db6d6276fff66f56f45e0fd529ed69" compoundref="_generated_8cpp" startline="97" endline="97">Id::stepIn</references>
+        <references refid="classdebug_1_1_session_1a1816fd6de2ca88d638adacef4cd0e40f" compoundref="_session__mac_8cpp" startline="389" endline="392">debug::Session::stepInto</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onStepOut</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onStepOut</name>
+        <qualifiedname>Processor::onStepOut</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="114" column="10" bodyfile="Processor.cpp" bodystart="596" bodyend="611"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1a1397f7ce0b093aa7091d5057a28bfe83" compoundref="_generated_8cpp" startline="64" endline="64">Id::isStepPending</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6a75101dcdfc88455bcafc9e53e0b06689" compoundref="_state_8h" startline="18">debug::running</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="classdebug_1_1_session_1af2b1a168dd413d9aec686598fa733146" compoundref="_session__mac_8cpp" startline="394" endline="399">debug::Session::stepOut</references>
+        <references refid="namespaceId_1a5717203d0353dedf2adbff82425768d3" compoundref="_generated_8cpp" startline="98" endline="98">Id::stepOut</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a60d424392ea9e7f45278c950fba13ad7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onPause</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onPause</name>
+        <qualifiedname>Processor::onPause</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="116" column="10" bodyfile="Processor.cpp" bodystart="613" bodyend="625"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" compoundref="_session__mac_8cpp" startline="401" endline="406">debug::Session::interrupt</references>
+        <references refid="namespaceId_1acaa5ed87630554a54472e27567897c48" compoundref="_generated_8cpp" startline="62" endline="62">Id::isPausePending</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="namespaceId_1ad5cee4e44dc5ca86661799ba8754dd1e" compoundref="_generated_8cpp" startline="71" endline="71">Id::pause</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6a75101dcdfc88455bcafc9e53e0b06689" compoundref="_state_8h" startline="18">debug::running</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <references refid="namespaceId_1a34ff3c25c6e302ff4a5b0a5f9b0488a7" compoundref="_generated_8cpp" startline="134" endline="134">Id::targetProcessId</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1abcc5411b7715d057a45415e526bfd7fe" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onEvaluate</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onEvaluate</name>
+        <qualifiedname>Processor::onEvaluate</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="118" column="10" bodyfile="Processor.cpp" bodystart="647" bodyend="676"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
+        <references refid="namespacedap_1ab92cf7854c6b2dbc40d249b04d8e276e" compoundref="_types_8cpp" startline="54" endline="62">dap::appendErrorResponse</references>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
+        <references refid="structjam_1_1JsonDocument_1ae74fbd4b7b71ef17ce0ffb9cf8306a61">jam::JsonDocument::contains</references>
+        <references refid="namespaceId_1a3280247fd5138f5942e66698c30d7cf8" compoundref="_generated_8cpp" startline="43" endline="43">Id::evaluate</references>
+        <references refid="classdebug_1_1_session_1a15f2549ebb9c9ea74349ba4ae7a46c6a" compoundref="_session__mac_8cpp" startline="752" endline="774">debug::Session::evaluateExpression</references>
+        <references refid="namespaceId_1a6d4017aae5c6716f43f5556367b3b4b9" compoundref="_identifiers_8h" startline="57">Id::expression</references>
+        <references refid="namespaceId_1a48418e64354437ec9581f2da43c55b55" compoundref="_generated_8cpp" startline="54" endline="54">Id::frameId</references>
+        <references refid="class_processor_1aa7e2b89e392988b25f5b937972f47f2d" compoundref="_processor_8cpp" startline="143" endline="148">getArguments</references>
+        <references refid="class_processor_1ace5ba6a40fb701821a5a92056a66d225" compoundref="_processor_8h" startline="67" endline="70">getNumber</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="class_processor_1a19cb284dd543fcd31ff08aae754ebaa3" compoundref="_processor_8cpp" startline="150" endline="155">getText</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1a4d0c202389586ef61d84b669241a4739" compoundref="_generated_8cpp" startline="82" endline="82">Id::result</references>
+        <references refid="classdebug_1_1_variable_manager_1afb5fdaf8c1eb869e54d7f33644cd3439" compoundref="_variable_manager_8cpp" startline="40" endline="61">debug::VariableManager::selectFrameFromId</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="class_processor_1a2441c080ec1ac60ca277a4e1da1b78ce" compoundref="_processor_8h" startline="140" endline="140">variableManager</references>
+        <references refid="namespaceId_1a8a41d6fdac2a7bef4aa8f00d16c2c307" compoundref="_generated_8cpp" startline="145" endline="145">Id::variablesReference</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::onExceptionInfo</definition>
+        <argsstring>(const jam::JsonDocument &amp;document)</argsstring>
+        <name>onExceptionInfo</name>
+        <qualifiedname>Processor::onExceptionInfo</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="120" column="10" bodyfile="Processor.cpp" bodystart="627" bodyend="645"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">dap::appendResponse</references>
+        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
+        <references refid="namespaceId_1ad9caf9316ea81f862c79ba6edcf10188" compoundref="_generated_8cpp" startline="31" endline="31">Id::breakMode</references>
+        <references refid="namespaceId_1a05b934be148d8892c4fde1315f44c8f4">Id::description</references>
+        <references refid="namespaceId_1abbfc9c9f4f106c68b6cc7eab8d95d4b4" compoundref="_generated_8cpp" startline="45" endline="45">Id::exceptionAddress</references>
+        <references refid="namespaceId_1aef15ba1881dec10e5d27afad18e46b66" compoundref="_generated_8cpp" startline="46" endline="46">Id::exceptionCode</references>
+        <references refid="namespaceId_1acf9673d92baff2b728066decb3d1a745" compoundref="_generated_8cpp" startline="47" endline="47">Id::exceptionId</references>
+        <references refid="namespaceId_1a82dba3f14030b0bb57f3e46150805bf8" compoundref="_generated_8cpp" startline="48" endline="48">Id::exceptionInfo</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1acb63a9c5f8c93853d85b3688448741db" compoundref="_w_h_a_t_d_b_g_model_8h" startline="23" endline="23">WHATDBGModel::exceptionTag</references>
+        <references refid="namespacedap_1a0323f66302b491c9ca350484ec955f68" compoundref="_types_8cpp" startline="180" endline="186">dap::getExceptionDescription</references>
+        <references refid="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" compoundref="_session__mac_8cpp" startline="576" endline="628">debug::getExceptionName</references>
+        <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
+        <references refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="138" endline="141">getRequestSeq</references>
+        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1aecf9e31ac41ecd0c122665be6dad624d" compoundref="_generated_8cpp" startline="61" endline="61">Id::isMachException</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="namespaceId_1adf5dbac1af2d2106aa7a7792f5e24416" compoundref="_generated_8cpp" startline="143" endline="143">Id::unhandled</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a24b069461f4161553899d2a8f84d3287" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::registerEvents</definition>
+        <argsstring>()</argsstring>
+        <name>registerEvents</name>
+        <qualifiedname>Processor::registerEvents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="122" column="10" bodyfile="Processor.cpp" bodystart="103" bodyend="136"/>
+        <references refid="structjam_1_1Function_1_1Map_1ad53732bb862659c66b8112c75f437248">jam::Function::Map&lt; typename KeyType, size_t capacity, typename... Signatures &gt;::add</references>
+        <references refid="class_processor_1a45fe17524598b1971db9d18da20b6864" compoundref="_processor_8cpp" startline="207" endline="213">addMessages</references>
+        <references refid="namespaceId_1a66e966819d6d2cf2066dd4abe20010d1" compoundref="_generated_8cpp" startline="34" endline="34">Id::breakpointLocationFound</references>
+        <references refid="class_processor_1af1b24c3e9fa50af924be538680983ad1" compoundref="_processor_8h" startline="138" endline="138">breakpointManager</references>
+        <references refid="namespaceId_1adea1a2ab6acf45850b174d29a4f50ed2" compoundref="_generated_8cpp" startline="40" endline="40">Id::console</references>
+        <references refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" compoundref="_processor_8cpp" startline="215" endline="242">drainProcessExited</references>
+        <references refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" compoundref="_session_8h" startline="197">debug::Session::events</references>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="namespaceId_1a893f1bea9b355beec320cbadcf9ca349" compoundref="_generated_8cpp" startline="51" endline="51">Id::exited</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a9525971c019e19a407a92e985ad46325" compoundref="_breakpoint_manager_8cpp" startline="159" endline="182">debug::BreakpointManager::onBreakpointLocationFound</references>
+        <references refid="namespaceId_1ab94e01b9b77bf89619c249d7dae6d924" compoundref="_generated_8cpp" startline="75" endline="75">Id::processExitCode</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6a75101dcdfc88455bcafc9e53e0b06689" compoundref="_state_8h" startline="18">debug::running</references>
+        <references refid="namespaceId_1a000989b688b65316ee03a14c6fec2ef6" compoundref="_generated_8cpp" startline="83" endline="83">Id::running</references>
+        <references refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" compoundref="_processor_8h" startline="136">session</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="namespaceId_1a7c7348e9f7d639ded9f3bf11241d4bd9" compoundref="_generated_8cpp" startline="92" endline="92">Id::standardError</references>
+        <references refid="namespaceId_1a2c09e26146778d522a60a2dbfc3520b9" compoundref="_generated_8cpp" startline="93" endline="93">Id::standardOutput</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <references refid="namespaceId_1a34ff3c25c6e302ff4a5b0a5f9b0488a7" compoundref="_generated_8cpp" startline="134" endline="134">Id::targetProcessId</references>
+        <references refid="namespaceId_1a6614882ca10248277742cfdf5747023b" compoundref="_generated_8cpp" startline="136" endline="136">Id::terminated</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="38">Processor</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::drainProcessExited</definition>
+        <argsstring>()</argsstring>
+        <name>drainProcessExited</name>
+        <qualifiedname>Processor::drainProcessExited</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="124" column="10" bodyfile="Processor.cpp" bodystart="215" bodyend="242"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
+        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="64" endline="70">dap::appendEvent</references>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="namespaceId_1a60a61720df0f1bb8dd41cf9f90690705" compoundref="_generated_8cpp" startline="50" endline="50">Id::exitCode</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6ab854d4deac1316c8d36e519393f3f2ae" compoundref="_state_8h" startline="20">debug::exited</references>
+        <references refid="namespaceId_1a893f1bea9b355beec320cbadcf9ca349" compoundref="_generated_8cpp" startline="51" endline="51">Id::exited</references>
+        <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
+        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1ad5a972b9551c4ba5c5c15a733ec48d69" compoundref="_generated_8cpp" startline="63" endline="63">Id::isRunning</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="namespaceId_1ab94e01b9b77bf89619c249d7dae6d924" compoundref="_generated_8cpp" startline="75" endline="75">Id::processExitCode</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <references refid="namespaceId_1a6614882ca10248277742cfdf5747023b" compoundref="_generated_8cpp" startline="136" endline="136">Id::terminated</references>
+        <references refid="namespaceId_1a6deeca27da77c1f9dbf5b72db990b6fc" compoundref="_generated_8cpp" startline="137" endline="137">Id::terminateDeadlineMs</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="103" endline="136">registerEvents</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1ae3dd418216ebb9a28fbc82c5eb61de8b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::drainTerminateTimeout</definition>
+        <argsstring>()</argsstring>
+        <name>drainTerminateTimeout</name>
+        <qualifiedname>Processor::drainTerminateTimeout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="126" column="10" bodyfile="Processor.cpp" bodystart="244" bodyend="257"/>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6ab854d4deac1316c8d36e519393f3f2ae" compoundref="_state_8h" startline="20">debug::exited</references>
+        <references refid="classjuce_1_1Time_1abb1818f9b0ef66cf9373a67abb0b07af">juce::Time::getMillisecondCounter</references>
+        <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
+        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
+        <references refid="namespaceId_1ad5a972b9551c4ba5c5c15a733ec48d69" compoundref="_generated_8cpp" startline="63" endline="63">Id::isRunning</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
+        <references refid="namespaceId_1a6deeca27da77c1f9dbf5b72db990b6fc" compoundref="_generated_8cpp" startline="137" endline="137">Id::terminateDeadlineMs</references>
+        <references refid="class_processor_1a9033907cdf0a5a33a26bba31e65a3767" compoundref="_processor_8h" startline="156" endline="156">terminateTimeoutMs</references>
+        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="80" endline="101">process</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::addMessage</definition>
+        <argsstring>(std::string json)</argsstring>
+        <name>addMessage</name>
+        <qualifiedname>Processor::addMessage</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>json</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="128" column="10" bodyfile="Processor.cpp" bodystart="201" bodyend="205"/>
+        <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
+        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
+        <references refid="class_processor_1ad88378fbe12b6833b42fdbfb623480f0" compoundref="_processor_8h" startline="150" endline="150">messages</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="namespaceId_1abd823c98b322d39f2bd65d34d8be1513" compoundref="_generated_8cpp" startline="69" endline="69">Id::numMessages</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="classdap_1_1_f_i_f_o_1ac033965014165a3902df7915b8013d6b" compoundref="_f_i_f_o_8h" startline="41" endline="51">dap::FIFO&lt; MessageType &gt;::write</references>
+        <referencedby refid="class_processor_1a45fe17524598b1971db9d18da20b6864" compoundref="_processor_8cpp" startline="207" endline="213">addMessages</referencedby>
+        <referencedby refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" compoundref="_processor_8cpp" startline="215" endline="242">drainProcessExited</referencedby>
+        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="357" endline="385">onAttach</referencedby>
+        <referencedby refid="class_processor_1a9799b1f73561ced0b3e287dc623d10e1" compoundref="_processor_8cpp" startline="170" endline="199">onCommand</referencedby>
+        <referencedby refid="class_processor_1a5ef207789c74afa70eb20f95ca575828" compoundref="_processor_8cpp" startline="387" endline="396">onConfigurationDone</referencedby>
+        <referencedby refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="542" endline="560">onContinue</referencedby>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="398" endline="432">onDisconnect</referencedby>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="647" endline="676">onEvaluate</referencedby>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="627" endline="645">onExceptionInfo</referencedby>
+        <referencedby refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" compoundref="_processor_8cpp" startline="285" endline="296">onInitialize</referencedby>
+        <referencedby refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" compoundref="_processor_8cpp" startline="298" endline="325">onLaunch</referencedby>
+        <referencedby refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" compoundref="_processor_8cpp" startline="562" endline="577">onNext</referencedby>
+        <referencedby refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" compoundref="_processor_8cpp" startline="613" endline="625">onPause</referencedby>
+        <referencedby refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" compoundref="_processor_8cpp" startline="506" endline="523">onScopes</referencedby>
+        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="434" endline="462">onSetBreakpoints</referencedby>
+        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="478" endline="504">onStackTrace</referencedby>
+        <referencedby refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" compoundref="_processor_8cpp" startline="579" endline="594">onStepIn</referencedby>
+        <referencedby refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" compoundref="_processor_8cpp" startline="596" endline="611">onStepOut</referencedby>
+        <referencedby refid="class_processor_1a9c6554bef7c0240709dd33695728e25d" compoundref="_processor_8cpp" startline="464" endline="476">onThreads</referencedby>
+        <referencedby refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" compoundref="_processor_8cpp" startline="525" endline="540">onVariables</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a45fe17524598b1971db9d18da20b6864" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::addMessages</definition>
+        <argsstring>(const jam::Strings &amp;messages)</argsstring>
+        <name>addMessages</name>
+        <qualifiedname>Processor::addMessages</qualifiedname>
+        <param>
+          <type>const <ref refid="classjam_1_1Strings" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref> &amp;</type>
+          <declname>messages</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="130" column="10" bodyfile="Processor.cpp" bodystart="207" bodyend="213"/>
+        <references refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">addMessage</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="class_processor_1ad88378fbe12b6833b42fdbfb623480f0" compoundref="_processor_8h" startline="150" endline="150">messages</references>
+        <references refid="classjam_1_1Strings_1a6e9725c26e13e395def58defc50d7259">jam::Strings::size</references>
+        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="434" endline="462">onSetBreakpoints</referencedby>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="80" endline="101">process</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="103" endline="136">registerEvents</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a616112bd8cbe927cec6426da3dc64d6d" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90a" kindref="member">debug::EndMode</ref></type>
+        <definition>debug::EndMode Processor::getEndModeForExit</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getEndModeForExit</name>
+        <qualifiedname>Processor::getEndModeForExit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="132" column="20" bodyfile="Processor.cpp" bodystart="259" bodyend="265"/>
+        <references refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aab6bc015ea9587c510c9017988e94e60d" compoundref="_session_8h" startline="33">debug::detach</references>
+        <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="49" endline="49">Id::executionState</references>
+        <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6ab854d4deac1316c8d36e519393f3f2ae" compoundref="_state_8h" startline="20">debug::exited</references>
+        <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
+        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
+        <references refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" compoundref="_processor_8h" startline="134" endline="134">model</references>
+        <references refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa831996cebc6c9bf7687e922c3437be69" compoundref="_session_8h" startline="34">debug::passive</references>
+        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
+        <references refid="namespaceId_1a866863bd05f02eeabe7e4f66b277a6c3" compoundref="_generated_8cpp" startline="88" endline="88">Id::shouldTerminateOnExit</references>
+        <references refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa1459e53d3fbaa95cebaf90860dd7a259" compoundref="_session_8h" startline="32">debug::terminate</references>
+        <referencedby refid="class_processor_1a57d2c4aa25b0c6786bbce3eb3a78a4a8" compoundref="_processor_8cpp" startline="278" endline="283">onReleaseResources</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_processor_1aabc241f71309c79c1da916c072901043" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int Processor::getRequestSeq</definition>
+        <argsstring>(const jam::JsonDocument &amp;request)</argsstring>
+        <name>getRequestSeq</name>
+        <qualifiedname>Processor::getRequestSeq</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="64" column="16" bodyfile="Processor.cpp" bodystart="138" bodyend="141"/>
+        <references refid="structjam_1_1Format_1ac6d60225b9512e5eefcf599b068f2a6f">jam::Format::getNumber</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1abdf0cd1b922dc9e184b37465a4c92e9c" compoundref="_generated_8cpp" startline="85" endline="85">Id::seq</references>
+        <references refid="classjuce_1_1Identifier_1ab6f0db1de2c36cacd1a9d7280f73aeeb">juce::Identifier::toString</references>
+        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="357" endline="385">onAttach</referencedby>
+        <referencedby refid="class_processor_1a9799b1f73561ced0b3e287dc623d10e1" compoundref="_processor_8cpp" startline="170" endline="199">onCommand</referencedby>
+        <referencedby refid="class_processor_1a5ef207789c74afa70eb20f95ca575828" compoundref="_processor_8cpp" startline="387" endline="396">onConfigurationDone</referencedby>
+        <referencedby refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="542" endline="560">onContinue</referencedby>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="398" endline="432">onDisconnect</referencedby>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="647" endline="676">onEvaluate</referencedby>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="627" endline="645">onExceptionInfo</referencedby>
+        <referencedby refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" compoundref="_processor_8cpp" startline="285" endline="296">onInitialize</referencedby>
+        <referencedby refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" compoundref="_processor_8cpp" startline="298" endline="325">onLaunch</referencedby>
+        <referencedby refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" compoundref="_processor_8cpp" startline="562" endline="577">onNext</referencedby>
+        <referencedby refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" compoundref="_processor_8cpp" startline="613" endline="625">onPause</referencedby>
+        <referencedby refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" compoundref="_processor_8cpp" startline="506" endline="523">onScopes</referencedby>
+        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="434" endline="462">onSetBreakpoints</referencedby>
+        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="478" endline="504">onStackTrace</referencedby>
+        <referencedby refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" compoundref="_processor_8cpp" startline="579" endline="594">onStepIn</referencedby>
+        <referencedby refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" compoundref="_processor_8cpp" startline="596" endline="611">onStepOut</referencedby>
+        <referencedby refid="class_processor_1a9c6554bef7c0240709dd33695728e25d" compoundref="_processor_8cpp" startline="464" endline="476">onThreads</referencedby>
+        <referencedby refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" compoundref="_processor_8cpp" startline="525" endline="540">onVariables</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1ace5ba6a40fb701821a5a92056a66d225" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename NumberType</type>
+          </param>
+        </templateparamlist>
+        <type>NumberType</type>
+        <definition>static NumberType Processor::getNumber</definition>
+        <argsstring>(const jam::JsonDocument &amp;request, const jam::Document::Element &amp;object, const juce::Identifier &amp;key)</argsstring>
+        <name>getNumber</name>
+        <qualifiedname>Processor::getNumber</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structjam_1_1Document_1_1Element" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Document::Element</ref> &amp;</type>
+          <declname>object</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classjuce_1_1Identifier" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Identifier</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="67" column="23" bodyfile="Processor.h" bodystart="67" bodyend="70"/>
+        <references refid="structjam_1_1Format_1ac6d60225b9512e5eefcf599b068f2a6f">jam::Format::getNumber</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="classjuce_1_1Identifier_1ab6f0db1de2c36cacd1a9d7280f73aeeb">juce::Identifier::toString</references>
+        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="357" endline="385">onAttach</referencedby>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="647" endline="676">onEvaluate</referencedby>
+        <referencedby refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" compoundref="_processor_8cpp" startline="506" endline="523">onScopes</referencedby>
+        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="478" endline="504">onStackTrace</referencedby>
+        <referencedby refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" compoundref="_processor_8cpp" startline="525" endline="540">onVariables</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a19cb284dd543fcd31ff08aae754ebaa3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
+        <definition>juce::String Processor::getText</definition>
+        <argsstring>(const jam::JsonDocument &amp;request, const jam::Document::Element &amp;object, const juce::Identifier &amp;key)</argsstring>
+        <name>getText</name>
+        <qualifiedname>Processor::getText</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structjam_1_1Document_1_1Element" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Document::Element</ref> &amp;</type>
+          <declname>object</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classjuce_1_1Identifier" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Identifier</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="72" column="25" bodyfile="Processor.cpp" bodystart="150" bodyend="155"/>
+        <references refid="classjam_1_1Strings_1aca02ec79e3d857bca6f9647dce6415fc">jam::Strings::fromView</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="classjuce_1_1Identifier_1ab6f0db1de2c36cacd1a9d7280f73aeeb">juce::Identifier::toString</references>
+        <referencedby refid="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" compoundref="_processor_8cpp" startline="56" endline="66">addRequest</referencedby>
+        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="357" endline="385">onAttach</referencedby>
+        <referencedby refid="class_processor_1a9799b1f73561ced0b3e287dc623d10e1" compoundref="_processor_8cpp" startline="170" endline="199">onCommand</referencedby>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="398" endline="432">onDisconnect</referencedby>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="647" endline="676">onEvaluate</referencedby>
+        <referencedby refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" compoundref="_processor_8cpp" startline="298" endline="325">onLaunch</referencedby>
+        <referencedby refid="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" compoundref="_processor_8cpp" startline="267" endline="276">onPrepare</referencedby>
+        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="434" endline="462">onSetBreakpoints</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1a01cea4d8ebd137a2673924b91e9cea3f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Processor::appendLocalsScope</definition>
+        <argsstring>(std::string &amp;json, int localsRef)</argsstring>
+        <name>appendLocalsScope</name>
+        <qualifiedname>Processor::appendLocalsScope</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>localsRef</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="74" column="17" bodyfile="Processor.cpp" bodystart="157" bodyend="168"/>
+        <references refid="structjam_1_1JsonWriter_1a6a110b64d6eacd0c9ef356b561c6ccf6">jam::JsonWriter::appendBoolean</references>
+        <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
+        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
+        <references refid="namespaceId_1ab74bced1be093ee0caf8a2a66e734bf0" compoundref="_generated_8cpp" startline="52" endline="52">Id::expensive</references>
+        <references refid="namespaceId_1ab17c6c7afce10ee78699a1e23ac7acdf">Id::name</references>
+        <references refid="namespaceId_1a8a41d6fdac2a7bef4aa8f00d16c2c307" compoundref="_generated_8cpp" startline="145" endline="145">Id::variablesReference</references>
+        <referencedby refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" compoundref="_processor_8cpp" startline="506" endline="523">onScopes</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_processor_1aa7e2b89e392988b25f5b937972f47f2d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structjam_1_1Document_1_1Element" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Document::Element</ref> &amp;</type>
+        <definition>const jam::Document::Element &amp; Processor::getArguments</definition>
+        <argsstring>(const jam::JsonDocument &amp;request)</argsstring>
+        <name>getArguments</name>
+        <qualifiedname>Processor::getArguments</qualifiedname>
+        <param>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Processor.h" line="78" column="41" bodyfile="Processor.cpp" bodystart="143" bodyend="148"/>
+        <references refid="namespaceId_1a2333fa49126557436eb1441faf72fd4f" compoundref="_generated_8cpp" startline="29" endline="29">Id::arguments</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="classjuce_1_1Identifier_1ab6f0db1de2c36cacd1a9d7280f73aeeb">juce::Identifier::toString</references>
+        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="357" endline="385">onAttach</referencedby>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="647" endline="676">onEvaluate</referencedby>
+        <referencedby refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" compoundref="_processor_8cpp" startline="298" endline="325">onLaunch</referencedby>
+        <referencedby refid="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" compoundref="_processor_8cpp" startline="267" endline="276">onPrepare</referencedby>
+        <referencedby refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" compoundref="_processor_8cpp" startline="506" endline="523">onScopes</referencedby>
+        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="434" endline="462">onSetBreakpoints</referencedby>
+        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="478" endline="504">onStackTrace</referencedby>
+        <referencedby refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" compoundref="_processor_8cpp" startline="525" endline="540">onVariables</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Engine context of the adapter. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Runs every engine call on the serial context of <ref refid="classjam_1_1AsyncUpdater" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::AsyncUpdater</ref>. Owns the debug session, the breakpoint, variable, and stop managers, the request lane, and the message lane. Writes no stdout. Stores the debug state through the model parameters.</para>
+<para>Requests arrive through addRequest and leave the lane on the engine context. Messages go into the message lane and leave it through applyMessages on the message thread. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Processor</label>
+        <link refid="class_processor"/>
+        <childnode refid="2" relation="private-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jam::AsyncUpdater</label>
+        <link refid="classjam_1_1AsyncUpdater" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Processor</label>
+        <link refid="class_processor"/>
+        <childnode refid="2" relation="private-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>model</edgelabel>
+        </childnode>
+        <childnode refid="21" relation="usage">
+          <edgelabel>session</edgelabel>
+        </childnode>
+        <childnode refid="24" relation="usage">
+          <edgelabel>breakpointManager</edgelabel>
+        </childnode>
+        <childnode refid="28" relation="usage">
+          <edgelabel>variableManager</edgelabel>
+        </childnode>
+        <childnode refid="33" relation="usage">
+          <edgelabel>stopManager</edgelabel>
+        </childnode>
+        <childnode refid="35" relation="usage">
+          <edgelabel>requests</edgelabel>
+        </childnode>
+        <childnode refid="51" relation="usage">
+          <edgelabel>messages</edgelabel>
+        </childnode>
+        <childnode refid="53" relation="usage">
+          <edgelabel>commands</edgelabel>
+        </childnode>
+        <childnode refid="54" relation="usage">
+          <edgelabel>cancellations</edgelabel>
+        </childnode>
+        <childnode refid="27" relation="usage">
+          <edgelabel>targetProgram</edgelabel>
+        </childnode>
+      </node>
+      <node id="8">
+        <label>WHATDBGModel</label>
+        <link refid="class_w_h_a_t_d_b_g_model"/>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+        <childnode refid="20" relation="usage">
+          <edgelabel>exceptionTag</edgelabel>
+          <edgelabel>sessionTag</edgelabel>
+        </childnode>
+      </node>
+      <node id="35">
+        <label>dap::FIFO&lt; jam::JsonDocument &gt;</label>
+        <link refid="classdap_1_1_f_i_f_o"/>
+        <childnode refid="36" relation="usage">
+          <edgelabel>fifo</edgelabel>
+        </childnode>
+        <childnode refid="37" relation="usage">
+          <edgelabel>storage</edgelabel>
+        </childnode>
+      </node>
+      <node id="51">
+        <label>dap::FIFO&lt; std::string &gt;</label>
+        <link refid="classdap_1_1_f_i_f_o"/>
+        <childnode refid="36" relation="usage">
+          <edgelabel>fifo</edgelabel>
+        </childnode>
+        <childnode refid="52" relation="usage">
+          <edgelabel>storage</edgelabel>
+        </childnode>
+      </node>
+      <node id="26">
+        <label>debug::BreakpointInfo</label>
+        <link refid="structdebug_1_1_breakpoint_info"/>
+        <childnode refid="27" relation="usage">
+          <edgelabel>sourcePath</edgelabel>
+        </childnode>
+      </node>
+      <node id="24">
+        <label>debug::BreakpointManager</label>
+        <link refid="classdebug_1_1_breakpoint_manager"/>
+        <childnode refid="21" relation="usage">
+          <edgelabel>session</edgelabel>
+        </childnode>
+        <childnode refid="25" relation="usage">
+          <edgelabel>breakpoints</edgelabel>
+        </childnode>
+      </node>
+      <node id="21">
+        <label>debug::Session</label>
+        <link refid="classdebug_1_1_session"/>
+        <childnode refid="22" relation="usage">
+          <edgelabel>events</edgelabel>
+        </childnode>
+      </node>
+      <node id="33">
+        <label>debug::StopManager</label>
+        <link refid="classdebug_1_1_stop_manager"/>
+        <childnode refid="34" relation="usage">
+          <edgelabel>stops</edgelabel>
+        </childnode>
+        <childnode refid="27" relation="usage">
+          <edgelabel>lastLoadedImageName</edgelabel>
+        </childnode>
+        <childnode refid="21" relation="usage">
+          <edgelabel>session</edgelabel>
+        </childnode>
+        <childnode refid="24" relation="usage">
+          <edgelabel>breakpointManager</edgelabel>
+        </childnode>
+        <childnode refid="28" relation="usage">
+          <edgelabel>variableManager</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>model</edgelabel>
+        </childnode>
+      </node>
+      <node id="28">
+        <label>debug::VariableManager</label>
+        <link refid="classdebug_1_1_variable_manager"/>
+        <childnode refid="21" relation="usage">
+          <edgelabel>session</edgelabel>
+        </childnode>
+        <childnode refid="29" relation="usage">
+          <edgelabel>variablesRefMap</edgelabel>
+        </childnode>
+        <childnode refid="31" relation="usage">
+          <edgelabel>frameIdMap</edgelabel>
+        </childnode>
+      </node>
+      <node id="12">
+        <label>jam::AnyMap&lt; typename TypeOfCriticalSectionToUse &gt;</label>
+        <link refid="classjam_1_1AnyMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+        <childnode refid="14" relation="usage">
+          <edgelabel>entries</edgelabel>
+        </childnode>
+        <childnode refid="15" relation="usage">
+          <edgelabel>types</edgelabel>
+        </childnode>
+      </node>
+      <node id="50">
+        <label>jam::Array&lt; jam::Document::Element * &gt;</label>
+        <link refid="classjam_1_1Array" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>jam::Array&lt; jam::Document::Property&lt; Value &gt; &gt;</label>
+        <link refid="classjam_1_1Array" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>jam::Array&lt; std::unique_ptr&lt; ObjectClass &gt; &gt;</label>
+        <link refid="classjam_1_1Array" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>jam::Array&lt; uint32_t &gt;</label>
+        <link refid="classjam_1_1Array" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jam::AsyncUpdater</label>
+        <link refid="classjam_1_1AsyncUpdater" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>shouldDeliver</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>queue</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>source</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>pool</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>work</edgelabel>
+        </childnode>
+      </node>
+      <node id="39">
+        <label>jam::Document</label>
+        <link refid="structjam_1_1Document" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="40" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+        <childnode refid="42" relation="usage">
+          <edgelabel>source</edgelabel>
+        </childnode>
+        <childnode refid="44" relation="usage">
+          <edgelabel>lineOffsets</edgelabel>
+        </childnode>
+        <childnode refid="45" relation="usage">
+          <edgelabel>root</edgelabel>
+        </childnode>
+      </node>
+      <node id="45">
+        <label>jam::Document::Element</label>
+        <link refid="structjam_1_1Document_1_1Element" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="20" relation="usage">
+          <edgelabel>id</edgelabel>
+        </childnode>
+        <childnode refid="45" relation="usage">
+          <edgelabel>firstChild</edgelabel>
+          <edgelabel>lastChild</edgelabel>
+          <edgelabel>nextSibling</edgelabel>
+          <edgelabel>parent</edgelabel>
+          <edgelabel>previousSibling</edgelabel>
+        </childnode>
+        <childnode refid="46" relation="usage">
+          <edgelabel>properties</edgelabel>
+        </childnode>
+      </node>
+      <node id="34">
+        <label>jam::Function::Map&lt; StopReason, jam::Function::pointerCapacity, jam::Strings(const juce::String &amp;)&gt;</label>
+        <link refid="structjam_1_1Function_1_1Map" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="23" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>jam::Function::Map&lt; juce::Identifier, jam::Function::pointerCapacity, void(), void(int), void(int, int), void(juce::int64, juce::int64, int), void(const juce::String &amp;)&gt;</label>
+        <link refid="structjam_1_1Function_1_1Map" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="23" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>jam::Function::Map&lt; juce::String, jam::Function::pointerCapacity, void()&gt;</label>
+        <link refid="structjam_1_1Function_1_1Map" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="23" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>jam::Function::Map&lt; juce::String, jam::Function::pointerCapacity, void(const jam::JsonDocument &amp;)&gt;</label>
+        <link refid="structjam_1_1Function_1_1Map" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="23" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>jam::HashMap&lt; KeyType, std::variant&lt; Overload&lt; KeyType, capacity, Signatures &gt;::Slot... &gt; &gt;</label>
+        <link refid="classjam_1_1HashMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="15">
+        <label>jam::HashMap&lt; juce::Identifier, jam::AnyMap::Trait &gt;</label>
+        <link refid="classjam_1_1HashMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="18">
+        <label>jam::HashMap&lt; juce::Identifier, jam::HashMap&lt; juce::Identifier, std::unique_ptr&lt; ParameterAdapter &gt; &gt; &gt;</label>
+        <link refid="classjam_1_1HashMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="14">
+        <label>jam::HashMap&lt; juce::Identifier, std::unique_ptr&lt; void, Deleter &gt; &gt;</label>
+        <link refid="classjam_1_1HashMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="19">
+        <label>jam::Instance&lt; WHATDBGModel &gt;</label>
+        <link refid="structjam_1_1Instance" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="38">
+        <label>jam::JsonDocument</label>
+        <link refid="structjam_1_1JsonDocument" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="39" relation="public-inheritance">
+        </childnode>
+        <childnode refid="47" relation="usage">
+          <edgelabel>escapes</edgelabel>
+          <edgelabel>starts</edgelabel>
+        </childnode>
+        <childnode refid="50" relation="usage">
+          <edgelabel>containers</edgelabel>
+        </childnode>
+      </node>
+      <node id="47">
+        <label>jam::LookupTable&lt; int, int, 256 &gt;</label>
+        <link refid="structjam_1_1LookupTable" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="48" relation="usage">
+          <edgelabel>defaultValue</edgelabel>
+        </childnode>
+        <childnode refid="49" relation="usage">
+          <edgelabel>slots</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>jam::Model</label>
+        <link refid="classjam_1_1Model" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+        <childnode refid="11" relation="public-inheritance">
+        </childnode>
+        <childnode refid="12" relation="usage">
+          <edgelabel>params</edgelabel>
+        </childnode>
+        <childnode refid="16" relation="usage">
+          <edgelabel>state</edgelabel>
+        </childnode>
+        <childnode refid="17" relation="usage">
+          <edgelabel>valueTreeChanging</edgelabel>
+        </childnode>
+        <childnode refid="18" relation="usage">
+          <edgelabel>adapters</edgelabel>
+        </childnode>
+      </node>
+      <node id="40">
+        <label>jam::Owner&lt; jam::Document::Element &gt;</label>
+        <link refid="classjam_1_1Owner" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="41" relation="usage">
+          <edgelabel>entries</edgelabel>
+        </childnode>
+      </node>
+      <node id="48">
+        <label>jam::Value</label>
+        <link refid="structjam_1_1Value" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="36">
+        <label>juce::AbstractFifo</label>
+        <link refid="classjuce_1_1AbstractFifo" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="17">
+        <label>juce::CriticalSection</label>
+        <link refid="classjuce_1_1CriticalSection" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="13">
+        <label>juce::DummyCriticalSection</label>
+        <link refid="classjuce_1_1DummyCriticalSection" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="20">
+        <label>juce::Identifier</label>
+        <link refid="classjuce_1_1Identifier" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+        <childnode refid="20" relation="usage">
+          <edgelabel>null</edgelabel>
+        </childnode>
+      </node>
+      <node id="27">
+        <label>juce::String</label>
+        <link refid="classjuce_1_1String" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="10">
+        <label>juce::Timer</label>
+        <link refid="classjuce_1_1Timer" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="16">
+        <label>juce::ValueTree</label>
+        <link refid="classjuce_1_1ValueTree" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="11">
+        <label>juce::ValueTree::Listener</label>
+        <link refid="classjuce_1_1ValueTree_1_1Listener" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="49">
+        <label>std::array&lt; jam::Value, static_cast&lt; size_t &gt;(Capacity)&gt;</label>
+        <childnode refid="48" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>std::atomic&lt; int &gt;</label>
+      </node>
+      <node id="43">
+        <label>std::basic_string&lt; Char &gt;</label>
+      </node>
+      <node id="30">
+        <label>std::pair&lt; int, int &gt;</label>
+      </node>
+      <node id="32">
+        <label>std::pair&lt; std::uint32_t, int &gt;</label>
+      </node>
+      <node id="42">
+        <label>std::string</label>
+        <childnode refid="43" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>std::unique_ptr&lt; std::remove_pointer_t&lt; PTP_POOL &gt;, decltype(&amp;CloseThreadpool)&gt;</label>
+      </node>
+      <node id="7">
+        <label>std::unique_ptr&lt; std::remove_pointer_t&lt; PTP_WORK &gt;, decltype(&amp;CloseThreadpoolWork)&gt;</label>
+      </node>
+      <node id="4">
+        <label>std::unique_ptr&lt; std::remove_pointer_t&lt; dispatch_queue_t &gt;, decltype(&amp;dispatch_release)&gt;</label>
+      </node>
+      <node id="5">
+        <label>std::unique_ptr&lt; std::remove_pointer_t&lt; dispatch_source_t &gt;, decltype(&amp;dispatch_release)&gt;</label>
+      </node>
+      <node id="29">
+        <label>std::unordered_map&lt; int, std::pair&lt; int, int &gt; &gt;</label>
+        <childnode refid="30" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+      </node>
+      <node id="31">
+        <label>std::unordered_map&lt; int, std::pair&lt; std::uint32_t, int &gt; &gt;</label>
+        <childnode refid="32" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+      </node>
+      <node id="25">
+        <label>std::unordered_map&lt; std::uint16_t, debug::BreakpointInfo &gt;</label>
+        <childnode refid="26" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+      </node>
+      <node id="37">
+        <label>std::vector&lt; jam::JsonDocument &gt;</label>
+        <childnode refid="38" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+      </node>
+      <node id="52">
+        <label>std::vector&lt; std::string &gt;</label>
+        <childnode refid="42" relation="usage">
+          <edgelabel>elements</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="Processor.h" line="19" column="1" bodyfile="Processor.h" bodystart="20" bodyend="163"/>
+    <listofallmembers>
+      <member refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" prot="private" virt="non-virtual"><scope>Processor</scope><name>addMessage</name></member>
+      <member refid="class_processor_1a45fe17524598b1971db9d18da20b6864" prot="private" virt="non-virtual"><scope>Processor</scope><name>addMessages</name></member>
+      <member refid="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" prot="public" virt="non-virtual"><scope>Processor</scope><name>addRequest</name></member>
+      <member refid="class_processor_1ab8672637da070c4b57ca72930ffcd355" prot="private" virt="non-virtual"><scope>Processor</scope><name>addSearchPaths</name></member>
+      <member refid="class_processor_1a01cea4d8ebd137a2673924b91e9cea3f" prot="private" virt="non-virtual"><scope>Processor</scope><name>appendLocalsScope</name></member>
+      <member refid="class_processor_1aabd2ac7253b02508ae382f78412b8f23" prot="public" virt="non-virtual"><scope>Processor</scope><name>applyMessages</name></member>
+      <member refid="classjam_1_1AsyncUpdater_1aaf5cc5205d6d58ad83e81898156d5468" prot="private" virt="non-virtual"><scope>Processor</scope><name>AsyncUpdater</name></member>
+      <member refid="class_processor_1af1b24c3e9fa50af924be538680983ad1" prot="private" virt="non-virtual"><scope>Processor</scope><name>breakpointManager</name></member>
+      <member refid="class_processor_1a6a2cba26723ddaee3adb0570feb7ba16" prot="private" virt="non-virtual"><scope>Processor</scope><name>cancellations</name></member>
+      <member refid="classjam_1_1AsyncUpdater_1a0620d36877e6791cb8c6233a55da7c15" prot="private" virt="non-virtual"><scope>Processor</scope><name>cancelPendingUpdate</name></member>
+      <member refid="class_processor_1a45a224474371f023a1c90eb8d5082f4d" prot="private" virt="non-virtual"><scope>Processor</scope><name>commands</name></member>
+      <member refid="classjam_1_1AsyncUpdater_1a65e553aa1ad69b0f78eadc1c6b812f49" prot="private" virt="non-virtual"><scope>Processor</scope><name>Context</name></member>
+      <member refid="classjam_1_1AsyncUpdater_1aea414c45457ab5c73ccc26187e771321" prot="private" virt="non-virtual"><scope>Processor</scope><name>Context</name></member>
+      <member refid="classjam_1_1AsyncUpdater_1ad2f4c3173d5031e44e60e9ad2e602eb1" prot="private" virt="non-virtual"><scope>Processor</scope><name>deliver</name></member>
+      <member refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" prot="private" virt="non-virtual"><scope>Processor</scope><name>drainProcessExited</name></member>
+      <member refid="class_processor_1ae3dd418216ebb9a28fbc82c5eb61de8b" prot="private" virt="non-virtual"><scope>Processor</scope><name>drainTerminateTimeout</name></member>
+      <member refid="class_processor_1aa7e2b89e392988b25f5b937972f47f2d" prot="private" virt="non-virtual"><scope>Processor</scope><name>getArguments</name></member>
+      <member refid="classjam_1_1AsyncUpdater_1aabfcdaae88615d762682e678b3cd07dc" prot="private" virt="non-virtual"><scope>Processor</scope><name>getContext</name></member>
+      <member refid="class_processor_1a616112bd8cbe927cec6426da3dc64d6d" prot="private" virt="non-virtual"><scope>Processor</scope><name>getEndModeForExit</name></member>
+      <member refid="class_processor_1ace5ba6a40fb701821a5a92056a66d225" prot="private" virt="non-virtual"><scope>Processor</scope><name>getNumber</name></member>
+      <member refid="class_processor_1aabc241f71309c79c1da916c072901043" prot="private" virt="non-virtual"><scope>Processor</scope><name>getRequestSeq</name></member>
+      <member refid="class_processor_1a19cb284dd543fcd31ff08aae754ebaa3" prot="private" virt="non-virtual"><scope>Processor</scope><name>getText</name></member>
+      <member refid="class_processor_1a6487194419302dd1602150479e2f0259" prot="private" virt="virtual"><scope>Processor</scope><name>handleAsyncUpdate</name></member>
+      <member refid="classjam_1_1AsyncUpdater_1a5cb7dc69689155d582f9441a1af31176" prot="private" virt="non-virtual"><scope>Processor</scope><name>handleUpdateNow</name></member>
+      <member refid="classjam_1_1AsyncUpdater_1a499099be7338729e4fc7773e45b95ad0" prot="private" virt="non-virtual"><scope>Processor</scope><name>handleUpdateNowIfNeeded</name></member>
+      <member refid="class_processor_1ad88378fbe12b6833b42fdbfb623480f0" prot="private" virt="non-virtual"><scope>Processor</scope><name>messages</name></member>
+      <member refid="class_processor_1ab57bb2626949314bad62c6f540f88a89" prot="private" virt="non-virtual"><scope>Processor</scope><name>messagesCapacity</name></member>
+      <member refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" prot="private" virt="non-virtual"><scope>Processor</scope><name>model</name></member>
+      <member refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" prot="private" virt="non-virtual"><scope>Processor</scope><name>onAttach</name></member>
+      <member refid="class_processor_1a9799b1f73561ced0b3e287dc623d10e1" prot="private" virt="non-virtual"><scope>Processor</scope><name>onCommand</name></member>
+      <member refid="class_processor_1a5ef207789c74afa70eb20f95ca575828" prot="private" virt="non-virtual"><scope>Processor</scope><name>onConfigurationDone</name></member>
+      <member refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" prot="private" virt="non-virtual"><scope>Processor</scope><name>onContinue</name></member>
+      <member refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" prot="private" virt="non-virtual"><scope>Processor</scope><name>onDisconnect</name></member>
+      <member refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" prot="private" virt="non-virtual"><scope>Processor</scope><name>onEvaluate</name></member>
+      <member refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" prot="private" virt="non-virtual"><scope>Processor</scope><name>onExceptionInfo</name></member>
+      <member refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" prot="private" virt="non-virtual"><scope>Processor</scope><name>onInitialize</name></member>
+      <member refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" prot="private" virt="non-virtual"><scope>Processor</scope><name>onLaunch</name></member>
+      <member refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" prot="private" virt="non-virtual"><scope>Processor</scope><name>onNext</name></member>
+      <member refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" prot="private" virt="non-virtual"><scope>Processor</scope><name>onPause</name></member>
+      <member refid="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" prot="private" virt="non-virtual"><scope>Processor</scope><name>onPrepare</name></member>
+      <member refid="class_processor_1a57d2c4aa25b0c6786bbce3eb3a78a4a8" prot="private" virt="non-virtual"><scope>Processor</scope><name>onReleaseResources</name></member>
+      <member refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" prot="private" virt="non-virtual"><scope>Processor</scope><name>onScopes</name></member>
+      <member refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" prot="private" virt="non-virtual"><scope>Processor</scope><name>onSetBreakpoints</name></member>
+      <member refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" prot="private" virt="non-virtual"><scope>Processor</scope><name>onStackTrace</name></member>
+      <member refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" prot="private" virt="non-virtual"><scope>Processor</scope><name>onStepIn</name></member>
+      <member refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" prot="private" virt="non-virtual"><scope>Processor</scope><name>onStepOut</name></member>
+      <member refid="class_processor_1a9c6554bef7c0240709dd33695728e25d" prot="private" virt="non-virtual"><scope>Processor</scope><name>onThreads</name></member>
+      <member refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" prot="private" virt="non-virtual"><scope>Processor</scope><name>onVariables</name></member>
+      <member refid="class_processor_1a0980d11b27754a2e50690a24ee15e38e" prot="private" virt="non-virtual"><scope>Processor</scope><name>pollTimeoutMs</name></member>
+      <member refid="classjam_1_1AsyncUpdater_1a76354dbe572fe83b8cb41660797be5f2" prot="private" virt="non-virtual"><scope>Processor</scope><name>pool</name></member>
+      <member refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" prot="public" virt="non-virtual"><scope>Processor</scope><name>prepare</name></member>
+      <member refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" prot="private" virt="non-virtual"><scope>Processor</scope><name>process</name></member>
+      <member refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" prot="public" virt="non-virtual"><scope>Processor</scope><name>Processor</name></member>
+      <member refid="classjam_1_1AsyncUpdater_1a5a2e3e5495884312117c7425cbedcf28" prot="private" virt="non-virtual"><scope>Processor</scope><name>queue</name></member>
+      <member refid="class_processor_1a24b069461f4161553899d2a8f84d3287" prot="private" virt="non-virtual"><scope>Processor</scope><name>registerEvents</name></member>
+      <member refid="class_processor_1a379381665169c712bb1aea2433b5395f" prot="private" virt="non-virtual"><scope>Processor</scope><name>releaseResources</name></member>
+      <member refid="class_processor_1ac8cb2e3ddb7497d2c58f70edfa42c86f" prot="private" virt="non-virtual"><scope>Processor</scope><name>requests</name></member>
+      <member refid="class_processor_1a0ec3c84167ef4294a0208df4a98ed0b9" prot="private" virt="non-virtual"><scope>Processor</scope><name>requestsCapacity</name></member>
+      <member refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" prot="private" virt="non-virtual"><scope>Processor</scope><name>session</name></member>
+      <member refid="class_processor_1a5429f57729737f7bd4c78a1c1d027c43" prot="private" virt="non-virtual"><scope>Processor</scope><name>setAttachedState</name></member>
+      <member refid="classjam_1_1AsyncUpdater_1ab55977e59243f4450548bc117e7b9de8" prot="private" virt="non-virtual"><scope>Processor</scope><name>shouldDeliver</name></member>
+      <member refid="classjam_1_1AsyncUpdater_1a1ba619e9584e4b84beb8c168df92501a" prot="private" virt="non-virtual"><scope>Processor</scope><name>source</name></member>
+      <member refid="class_processor_1a7fc62190e15c16603d7d061db882e6e1" prot="private" virt="non-virtual"><scope>Processor</scope><name>stopManager</name></member>
+      <member refid="class_processor_1ab47709f9dc6f2ec2c11fd2318d5f0a4b" prot="private" virt="non-virtual"><scope>Processor</scope><name>targetProgram</name></member>
+      <member refid="class_processor_1a9033907cdf0a5a33a26bba31e65a3767" prot="private" virt="non-virtual"><scope>Processor</scope><name>terminateTimeoutMs</name></member>
+      <member refid="classjam_1_1AsyncUpdater_1a7a5a720be4cc17d34eb511d2c5da71e5" prot="private" virt="non-virtual"><scope>Processor</scope><name>triggerAsyncUpdate</name></member>
+      <member refid="class_processor_1a2441c080ec1ac60ca277a4e1da1b78ce" prot="private" virt="non-virtual"><scope>Processor</scope><name>variableManager</name></member>
+      <member refid="classjam_1_1AsyncUpdater_1a7b8544fec08d301f2b6929f082aefe5b" prot="private" virt="non-virtual"><scope>Processor</scope><name>work</name></member>
+      <member refid="classjam_1_1AsyncUpdater_1abc3c3e29803507f4510fddc459571184" prot="private" virt="virtual"><scope>Processor</scope><name>~AsyncUpdater</name></member>
+      <member refid="class_processor_1a3d7c16d172be09d3bfb4df3519d21b31" prot="public" virt="non-virtual"><scope>Processor</scope><name>~Processor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

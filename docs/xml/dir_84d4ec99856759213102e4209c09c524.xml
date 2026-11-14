@@ -15,6 +15,10 @@
     <innerfile refid="_session_pretty_print_8cpp">SessionPrettyPrint.cpp</innerfile>
     <innerfile refid="_session_pretty_print__mac_8cpp">SessionPrettyPrint_mac.cpp</innerfile>
     <innerfile refid="_state_8h">State.h</innerfile>
+    <innerfile refid="_stop_manager_8cpp">StopManager.cpp</innerfile>
+    <innerfile refid="_stop_manager_8h">StopManager.h</innerfile>
+    <innerfile refid="_variable_manager_8cpp">VariableManager.cpp</innerfile>
+    <innerfile refid="_variable_manager_8h">VariableManager.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

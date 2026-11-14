@@ -119,6 +119,32 @@ function DapClient:waitForEvent (eventName, timeoutMs)
     end, timeoutMs)
 end
 
+function DapClient:getTranscript ()
+    local lines = {}
+
+    for messageIndex, message in ipairs (self.log) do
+        if message.type == "response" then
+            local line = "response " .. tostring (message.command) .. " " .. tostring (message.success)
+
+            if message.success == false then
+                line = line .. " " .. tostring (message.message)
+            end
+
+            table.insert (lines, line)
+        elseif message.type == "event" and message.event ~= "output" then
+            local line = "event " .. tostring (message.event)
+
+            if message.body ~= nil and message.body.reason ~= nil then
+                line = line .. " " .. tostring (message.body.reason)
+            end
+
+            table.insert (lines, line)
+        end
+    end
+
+    return table.concat (lines, "\n") .. (#lines > 0 and "\n" or "")
+end
+
 function DapClient:close ()
     if self.process ~= nil then
         pcall (function () self.process:write (nil) end)

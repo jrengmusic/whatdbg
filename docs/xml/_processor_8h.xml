@@ -1,0 +1,310 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_processor_8h" kind="file" language="C++">
+    <compoundname>Processor.h</compoundname>
+    <includes local="no">JuceHeader.h</includes>
+    <includes refid="_session_8h" local="yes">debug/Session.h</includes>
+    <includes refid="_breakpoint_manager_8h" local="yes">debug/BreakpointManager.h</includes>
+    <includes refid="_variable_manager_8h" local="yes">debug/VariableManager.h</includes>
+    <includes refid="_stop_manager_8h" local="yes">debug/StopManager.h</includes>
+    <includes refid="_f_i_f_o_8h" local="yes">dap/FIFO.h</includes>
+    <includes refid="_types_8h" local="yes">dap/Types.h</includes>
+    <includedby refid="_processor_8cpp" local="yes">Processor.cpp</includedby>
+    <includedby refid="_whatdbg_8h" local="yes">Whatdbg.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>Processor.h</label>
+        <link refid="_processor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>../WHATDBGModel.h</label>
+        <link refid="_w_h_a_t_d_b_g_model_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>dap/FIFO.h</label>
+        <link refid="_f_i_f_o_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>../dap/Types.h</label>
+        <link refid="_types_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>debug/BreakpointManager.h</label>
+        <link refid="_breakpoint_manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>debug/Session.h</label>
+        <link refid="_session_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>State.h</label>
+        <link refid="_state_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>debug/StopManager.h</label>
+        <link refid="_stop_manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>debug/VariableManager.h</label>
+        <link refid="_variable_manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>Files.h</label>
+        <link refid="_files_8h"/>
+      </node>
+      <node id="5">
+        <label>../generated/Generated.h</label>
+        <link refid="_generated_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>Identifiers.h</label>
+        <link refid="_identifiers_8h"/>
+      </node>
+      <node id="6">
+        <label>ProjectInfo.h</label>
+        <link refid="_project_info_8h"/>
+      </node>
+      <node id="2">
+        <label>JuceHeader.h</label>
+      </node>
+      <node id="10">
+        <label>lldb/API/LLDB.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="4">
+        <label>Main.cpp</label>
+        <link refid="_main_8cpp"/>
+      </node>
+      <node id="2">
+        <label>Processor.cpp</label>
+        <link refid="_processor_8cpp"/>
+      </node>
+      <node id="1">
+        <label>Processor.h</label>
+        <link refid="_processor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>Whatdbg.cpp</label>
+        <link refid="_whatdbg_8cpp"/>
+      </node>
+      <node id="3">
+        <label>Whatdbg.h</label>
+        <link refid="_whatdbg_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_processor" prot="public">Processor</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;JuceHeader.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_session_8h" kindref="compound">debug/Session.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_breakpoint_manager_8h" kindref="compound">debug/BreakpointManager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_variable_manager_8h" kindref="compound">debug/VariableManager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_stop_manager_8h" kindref="compound">debug/StopManager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_f_i_f_o_8h" kindref="compound">dap/FIFO.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_types_8h" kindref="compound">dap/Types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="class_processor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" kindref="member">Processor</ref><sp/>:<sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal"><sp/><ref refid="classjam_1_1AsyncUpdater" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::AsyncUpdater</ref></highlight></codeline>
+<codeline lineno="20"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" kindref="member">Processor</ref><sp/>();</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" kindref="member">~Processor</ref><sp/>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" kindref="member">prepare</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1File" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::File</ref>&amp;<sp/>sidecarDirectory);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" kindref="member">addRequest</ref><sp/>(<ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref><sp/>request);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Callback&gt;</highlight></codeline>
+<codeline lineno="52" refid="class_processor_1aabd2ac7253b02508ae382f78412b8f23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1aabd2ac7253b02508ae382f78412b8f23" kindref="member">applyMessages</ref><sp/>(Callback&amp;&amp;<sp/>callback)</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_processor_1ad88378fbe12b6833b42fdbfb623480f0" kindref="member">messages</ref>.<ref refid="classdap_1_1_f_i_f_o_1a6f8c18874abcb0e32f6b41f60bed7f14" kindref="member">applyPendingData</ref><sp/>(std::forward&lt;Callback&gt;<sp/>(callback));</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a379381665169c712bb1aea2433b5395f" kindref="member">releaseResources</ref><sp/>();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a6487194419302dd1602150479e2f0259" kindref="member">handleAsyncUpdate</ref><sp/>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" kindref="member">process</ref><sp/>();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_processor_1aabc241f71309c79c1da916c072901043" kindref="member">getRequestSeq</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>request);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>NumberType&gt;</highlight></codeline>
+<codeline lineno="67" refid="class_processor_1ace5ba6a40fb701821a5a92056a66d225" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>NumberType<sp/><ref refid="class_processor_1ace5ba6a40fb701821a5a92056a66d225" kindref="member">getNumber</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>request,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1Document_1_1Element" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Document::Element</ref>&amp;<sp/></highlight><highlight class="keywordtype">object</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1Identifier" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Identifier</ref>&amp;<sp/>key)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1Format_1ac6d60225b9512e5eefcf599b068f2a6f" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Format::getNumber&lt;NumberType&gt;</ref><sp/>(request.getView<sp/>(*request.find<sp/>(</highlight><highlight class="keywordtype">object</highlight><highlight class="normal">,<sp/><ref refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings::getView</ref><sp/>(key.<ref refid="classjuce_1_1Identifier_1ab6f0db1de2c36cacd1a9d7280f73aeeb" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">toString</ref><sp/>()))));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><ref refid="class_processor_1a19cb284dd543fcd31ff08aae754ebaa3" kindref="member">getText</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>request,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1Document_1_1Element" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Document::Element</ref>&amp;<sp/></highlight><highlight class="keywordtype">object</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1Identifier" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::Identifier</ref>&amp;<sp/>key);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a01cea4d8ebd137a2673924b91e9cea3f" kindref="member">appendLocalsScope</ref><sp/>(std::string&amp;<sp/>json,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>localsRef);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a5429f57729737f7bd4c78a1c1d027c43" kindref="member">setAttachedState</ref><sp/>(std::uint32_t<sp/>pid);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1Document_1_1Element" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Document::Element</ref>&amp;<sp/><ref refid="class_processor_1aa7e2b89e392988b25f5b937972f47f2d" kindref="member">getArguments</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>request);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a9799b1f73561ced0b3e287dc623d10e1" kindref="member">onCommand</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" kindref="member">onPrepare</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a57d2c4aa25b0c6786bbce3eb3a78a4a8" kindref="member">onReleaseResources</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" kindref="member">onInitialize</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" kindref="member">onLaunch</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" kindref="member">onAttach</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1ab8672637da070c4b57ca72930ffcd355" kindref="member">addSearchPaths</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>cwd);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a5ef207789c74afa70eb20f95ca575828" kindref="member">onConfigurationDone</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" kindref="member">onDisconnect</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isTerminate);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" kindref="member">onSetBreakpoints</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a9c6554bef7c0240709dd33695728e25d" kindref="member">onThreads</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" kindref="member">onStackTrace</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" kindref="member">onScopes</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" kindref="member">onVariables</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" kindref="member">onContinue</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" kindref="member">onNext</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" kindref="member">onStepIn</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" kindref="member">onStepOut</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" kindref="member">onPause</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" kindref="member">onEvaluate</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" kindref="member">onExceptionInfo</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;<sp/>document);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a24b069461f4161553899d2a8f84d3287" kindref="member">registerEvents</ref><sp/>();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" kindref="member">drainProcessExited</ref><sp/>();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1ae3dd418216ebb9a28fbc82c5eb61de8b" kindref="member">drainTerminateTimeout</ref><sp/>();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" kindref="member">addMessage</ref><sp/>(std::string<sp/>json);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a45fe17524598b1971db9d18da20b6864" kindref="member">addMessages</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjam_1_1Strings" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref>&amp;<sp/><ref refid="class_processor_1ad88378fbe12b6833b42fdbfb623480f0" kindref="member">messages</ref>);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90a" kindref="member">debug::EndMode</ref><sp/><ref refid="class_processor_1a616112bd8cbe927cec6426da3dc64d6d" kindref="member">getEndModeForExit</ref><sp/>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_w_h_a_t_d_b_g_model" kindref="compound">WHATDBGModel</ref>&amp;<sp/><ref refid="class_processor_1a6f3e24d04b5a8abfd0b4745112b68e4e" kindref="member">model</ref><sp/>{<sp/>*<ref refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">WHATDBGModel::getInstance</ref>()<sp/>};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_session" kindref="compound">debug::Session</ref><sp/><ref refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" kindref="member">session</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="class_processor_1af1b24c3e9fa50af924be538680983ad1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_breakpoint_manager" kindref="compound">debug::BreakpointManager</ref><sp/><ref refid="class_processor_1af1b24c3e9fa50af924be538680983ad1" kindref="member">breakpointManager</ref><sp/>{<sp/><ref refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" kindref="member">session</ref><sp/>};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="class_processor_1a2441c080ec1ac60ca277a4e1da1b78ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_variable_manager" kindref="compound">debug::VariableManager</ref><sp/><ref refid="class_processor_1a2441c080ec1ac60ca277a4e1da1b78ce" kindref="member">variableManager</ref><sp/>{<sp/><ref refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" kindref="member">session</ref><sp/>};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="class_processor_1a7fc62190e15c16603d7d061db882e6e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdebug_1_1_stop_manager" kindref="compound">debug::StopManager</ref><sp/><ref refid="class_processor_1a7fc62190e15c16603d7d061db882e6e1" kindref="member">stopManager</ref><sp/>{<sp/><ref refid="class_processor_1a74d8d03b6a8d0336c1a2066e49324bbb" kindref="member">session</ref>,<sp/><ref refid="class_processor_1af1b24c3e9fa50af924be538680983ad1" kindref="member">breakpointManager</ref>,<sp/><ref refid="class_processor_1a2441c080ec1ac60ca277a4e1da1b78ce" kindref="member">variableManager</ref><sp/>};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="class_processor_1a0ec3c84167ef4294a0208df4a98ed0b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_processor_1a0ec3c84167ef4294a0208df4a98ed0b9" kindref="member">requestsCapacity</ref><sp/>{<sp/>64<sp/>};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="class_processor_1ac8cb2e3ddb7497d2c58f70edfa42c86f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdap_1_1_f_i_f_o" kindref="compound">dap::FIFO&lt;jam::JsonDocument&gt;</ref><sp/><ref refid="class_processor_1ac8cb2e3ddb7497d2c58f70edfa42c86f" kindref="member">requests</ref><sp/>{<sp/><ref refid="class_processor_1a0ec3c84167ef4294a0208df4a98ed0b9" kindref="member">requestsCapacity</ref><sp/>};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="class_processor_1ab57bb2626949314bad62c6f540f88a89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_processor_1ab57bb2626949314bad62c6f540f88a89" kindref="member">messagesCapacity</ref><sp/>{<sp/>4096<sp/>};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="class_processor_1ad88378fbe12b6833b42fdbfb623480f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classdap_1_1_f_i_f_o" kindref="compound">dap::FIFO&lt;std::string&gt;</ref><sp/><ref refid="class_processor_1ad88378fbe12b6833b42fdbfb623480f0" kindref="member">messages</ref><sp/>{<sp/><ref refid="class_processor_1ab57bb2626949314bad62c6f540f88a89" kindref="member">messagesCapacity</ref><sp/>};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="class_processor_1a45a224474371f023a1c90eb8d5082f4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1Function_1_1Map" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::Map</ref>&lt;<ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>,<sp/><ref refid="structjam_1_1Function_1ae0c82daeeeb7f4c4eaf062d55601f5cd" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::pointerCapacity</ref>,<sp/>void<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>&amp;)&gt;<sp/><ref refid="class_processor_1a45a224474371f023a1c90eb8d5082f4d" kindref="member">commands</ref>;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="class_processor_1a6a2cba26723ddaee3adb0570feb7ba16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structjam_1_1Function_1_1Map" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::Map</ref>&lt;<ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref>,<sp/><ref refid="structjam_1_1Function_1ae0c82daeeeb7f4c4eaf062d55601f5cd" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Function::pointerCapacity</ref>,<sp/>void<sp/>()&gt;<sp/><ref refid="class_processor_1a6a2cba26723ddaee3adb0570feb7ba16" kindref="member">cancellations</ref>;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="class_processor_1a9033907cdf0a5a33a26bba31e65a3767" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint32_t<sp/><ref refid="class_processor_1a9033907cdf0a5a33a26bba31e65a3767" kindref="member">terminateTimeoutMs</ref><sp/>{<sp/>5000<sp/>};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="class_processor_1a0980d11b27754a2e50690a24ee15e38e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint32_t<sp/><ref refid="class_processor_1a0980d11b27754a2e50690a24ee15e38e" kindref="member">pollTimeoutMs</ref><sp/>{<sp/>50<sp/>};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="class_processor_1ab47709f9dc6f2ec2c11fd2318d5f0a4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><ref refid="class_processor_1ab47709f9dc6f2ec2c11fd2318d5f0a4b" kindref="member">targetProgram</ref>;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="juce__PlatformDefs_8h_1a851b02724a8158a7f746c66b5758b3dd" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR</ref><sp/>(<ref refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" kindref="member">Processor</ref>)</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">};</highlight></codeline>
+    </programlisting>
+    <location file="Processor.h"/>
+  </compounddef>
+</doxygen>

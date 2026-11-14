@@ -2,28 +2,26 @@
 #include <JuceHeader.h>
 #include <windows.h>
 #include <dbgeng.h>
+#include "State.h"
 
 namespace debug
 {
 
-/** Receives debug output from the target process via dbgeng.
+/** Receives debug output from dbgeng: the target's console text and the engine's own text.
  *
- *  Registered with IDebugClient5::SetOutputCallbacks. Implements
- *  IDebugOutputCallbacks2 because dbgeng routes output through Output2 when
- *  the callback object QIs for IDebugOutputCallbacks2.
+ *  Registered with IDebugClient5::SetOutputCallbacks. Implements IDebugOutputCallbacks2,
+ *  and its GetInterestMask requests DEBUG_OUTCBI_ANY_FORMAT, so dbgeng calls Output2.
+ *  Output2 fires Id::console on Session::events for text that carries the
+ *  DEBUG_OUTPUT_DEBUGGEE mask bit.
  *
- *  When the target writes to OutputDebugString, Output2 is called with
- *  DEBUG_OUTCBI_DML or DEBUG_OUTCBI_ANY_FORMAT. The text is forwarded to
- *  State::debuggeeOutputText and State::hasDebuggeeOutput is set so that
- *  the main loop can emit a DAP output event.
- *
- *  @note Registered and unregistered by Session::initialize and Session::shutdown.
+ *  @note Owned by Session as a member. setDebugInterfaces registers it, and shutdown
+ *        unregisters it.
  */
 class OutputCallbacks : public IDebugOutputCallbacks,
                         public IDebugOutputCallbacks2
 {
 public:
-    OutputCallbacks () = default;
+    explicit OutputCallbacks (Events& newEvents);
 
     /** @name IUnknown */
     ///@{
@@ -38,8 +36,8 @@ public:
      *
      *  @return Updated reference count.
      *
-     *  @note This object is stack-allocated inside Session; the reference count
-     *        is managed manually but the object is never deleted via Release.
+     *  @note This object is a member of Session. The reference count is managed
+     *        manually, and the object is never deleted through Release.
      */
     STDMETHOD_ (ULONG, Release) () override;
 
@@ -58,10 +56,9 @@ public:
     /** @name IDebugOutputCallbacks */
     ///@{
 
-    /** Receive plain-text debug output (legacy callback path).
+    /** Receives plain-text debug output.
      *
-     *  Called by dbgeng for output routed through the non-DML path. Writes
-     *  the text to debug::Log; does not forward it to State.
+     *  Writes the text to debug::Log in debug builds. Fires no event.
      *
      *  @param mask  Output mask bits (e.g. DEBUG_OUTPUT_NORMAL, DEBUG_OUTPUT_ERROR).
      *  @param text  Null-terminated output text.
@@ -74,24 +71,23 @@ public:
     /** @name IDebugOutputCallbacks2 */
     ///@{
 
-    /** Report which output categories this callback is interested in.
+    /** Reports which output formats this callback is interested in.
      *
-     *  Sets the mask to DEBUG_OUTCBI_ANY_FORMAT so that all output types are
-     *  routed through Output2, bypassing the legacy Output callback.
+     *  Sets the mask to DEBUG_OUTCBI_ANY_FORMAT.
      *
      *  @param mask  Receives the interest mask bitmask.
      *  @return S_OK always.
      */
     STDMETHOD (GetInterestMask) (PULONG mask) override;
 
-    /** Receive rich debug output including OutputDebugString from the target.
+    /** Receives output in every format. Fires Id::console for debuggee text.
      *
-     *  Called by dbgeng when the callback QIs for IDebugOutputCallbacks2 and
-     *  has set an interest mask. Captures target output into State.
+     *  When which is DEBUG_OUTCB_TEXT and the mask in arg has DEBUG_OUTPUT_DEBUGGEE,
+     *  the text is fired as Id::console on Session::events. Other output is ignored.
      *
-     *  @param which  Output type (DEBUG_OUTCBI_*).
-     *  @param flags  Output flags.
-     *  @param arg    Type-specific argument (e.g. address for memory output).
+     *  @param which  Output type (DEBUG_OUTCB_*). Only DEBUG_OUTCB_TEXT is handled.
+     *  @param flags  Output flags. Not used.
+     *  @param arg    Type-specific argument. For DEBUG_OUTCB_TEXT, the output mask.
      *  @param text   Null-terminated wide output text.
      *  @return S_OK always.
      */
@@ -100,38 +96,41 @@ public:
     ///@}
 
 private:
-    /** COM reference count, tracked by AddRef/Release. Never reaches zero in
-     *  practice — this object is stack-allocated inside Session and never deleted.
-     */
+    /** COM reference count, tracked by AddRef/Release. This object is a member of Session and is never deleted. */
     ULONG refCount { 1 };
+
+    Events& events;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OutputCallbacks)
 };
 
 //==============================================================================
 
-/** Receives debug lifecycle events from dbgeng.
+/** Receives process, exception, breakpoint, and module-load events from dbgeng.
  *
- *  Registered with IDebugClient5::SetEventCallbacks. Handles the full set of
- *  IDebugEventCallbacks methods. Each callback writes its state into debug::State
- *  rather than acting immediately, so that the main thread processes all state
- *  changes in Whatdbg::processDeferredEvents without COM re-entrancy concerns.
+ *  Registered with IDebugClient5::SetEventCallbacks. Each handled callback fires an
+ *  event on Session::events and returns a status that tells dbgeng whether to keep
+ *  the target stopped. Callbacks run on the engine context, inside WaitForEvent.
  *
- *  Key events and their State effects:
- *  - Breakpoint     → sets stopReason breakpoint and breakpointEngineId.
- *  - Exception      → EXCEPTION_BREAKPOINT sets stopReason initialBreak while launching,
- *                     pause while isPausePending, and exception otherwise. Other codes
- *                     set stopReason exception on a second-chance notification.
- *  - LoadModule     → sets stopReason moduleLoad and lastLoadedImageName, unless a step is pending.
- *  - ExitProcess    → sets hasProcessExited, processExitCode
- *  - CreateProcess  → sets targetProcessId
+ *  Events that each callback fires:
+ *  - Breakpoint     → breakpoint, with the engine breakpoint id. Returns DEBUG_STATUS_BREAK.
+ *  - Exception      → EXCEPTION_BREAKPOINT fires initialBreak while launching, pause while
+ *                     isPausePending, and exception otherwise. Other codes fire exception
+ *                     on a second-chance notification only.
+ *  - LoadModule     → moduleLoad, with the image name, unless a step is pending.
+ *  - ExitProcess    → exited, with the exit code.
+ *  - CreateProcess  → targetProcessId, with the process id.
  *
- *  @note Registered and unregistered by Session::initialize and Session::shutdown.
+ *  GetInterestMask selects the breakpoint, exception, create-process, exit-process, and
+ *  load-module events. dbgeng never invokes the other methods.
+ *
+ *  @note Owned by Session as a member. setDebugInterfaces registers it, and shutdown
+ *        unregisters it.
  */
 class EventCallbacks : public IDebugEventCallbacks
 {
 public:
-    EventCallbacks () = default;
+    explicit EventCallbacks (Events& newEvents);
 
     /** @name IUnknown */
     ///@{
@@ -175,11 +174,9 @@ public:
      */
     STDMETHOD (GetInterestMask) (PULONG mask) override;
 
-    /** Called when a user-registered breakpoint is hit.
+    /** Called when a user-registered breakpoint is hit. Fires breakpoint with the engine id.
      *
-     *  Sets stopReason to breakpoint and breakpointEngineId, and sets executionState
-     *  to stopped. EXCEPTION_BREAKPOINT events, including the initial loader break,
-     *  go to Exception instead.
+     *  EXCEPTION_BREAKPOINT events, including the initial loader break, go to Exception instead.
      *
      *  @param bp  Pointer to the IDebugBreakpoint that was hit.
      *  @return DEBUG_STATUS_BREAK to keep the target stopped.
@@ -189,11 +186,11 @@ public:
     /** Called when an exception occurs in the target.
      *
      *  Dispatches on exception code. EXCEPTION_BREAKPOINT goes to onBreakpoint: while
-     *  launching it sets stopReason initialBreak, while isPausePending it sets pause,
-     *  and otherwise (an int3 after launch) it sets exception, exceptionCode, and
-     *  exceptionAddress. The MSVC thread-name exception is passed to the target. Other
-     *  codes go to onUnknownException, which passes a first-chance exception to the
-     *  target and sets exception on a second-chance exception.
+     *  launching it fires initialBreak, while isPausePending it fires pause, and otherwise
+     *  (an int3 after launch) it fires exception with the code and the address. The MSVC
+     *  thread-name exception is passed to the target. Other codes go to onUnknownException,
+     *  which passes a first-chance exception to the target and fires exception on a
+     *  second-chance exception.
      *
      *  @param exception    Exception record describing the exception.
      *  @param firstChance  Non-zero if this is the first-chance notification.
@@ -220,7 +217,7 @@ public:
      */
     STDMETHOD (ExitThread) (ULONG exitCode) override;
 
-    /** Called when the target process is created (after a launch or attach).
+    /** Called when the target process is created (after a launch or attach). Fires targetProcessId with the process id.
      *
      *  @param imageFileHandle    Handle to the process image file.
      *  @param handle            Handle to the new process.
@@ -241,10 +238,7 @@ public:
                                ULONG64 initialThreadHandle, ULONG64 threadDataOffset,
                                ULONG64 startOffset) override;
 
-    /** Called when the target process exits.
-     *
-     *  Sets State::hasProcessExited and State::processExitCode so that
-     *  processDeferredEvents can emit DAP exited and terminated events.
+    /** Called when the target process exits. Fires exited with the exit code.
      *
      *  @param exitCode  Exit code of the process.
      *  @return DEBUG_STATUS_NO_CHANGE.
@@ -253,10 +247,10 @@ public:
 
     /** Called when a DLL or EXE is loaded into the target.
      *
-     *  Stops the target so the main loop can resolve pending breakpoints against the
-     *  new module. While a step is pending the method records nothing and returns
-     *  DEBUG_STATUS_NO_CHANGE. Otherwise it sets stopReason to moduleLoad and records
-     *  the image name in State::lastLoadedImageName.
+     *  While a step is pending the method fires nothing and returns DEBUG_STATUS_NO_CHANGE.
+     *  Otherwise it fires moduleLoad with the image name and returns DEBUG_STATUS_BREAK.
+     *  StopManager then resolves pending breakpoints against the new module and resumes the
+     *  target.
      *
      *  @param imageFileHandle  Handle to the module image file.
      *  @param baseOffset       Base load address of the module.
@@ -273,8 +267,6 @@ public:
 
     /** Required IDebugEventCallbacks override; never invoked. DEBUG_EVENT_UNLOAD_MODULE
      *  is not in the GetInterestMask result, so dbgeng never calls this method.
-     *  Breakpoints in unloaded modules become unresolved automatically and will
-     *  be re-resolved when the module reloads.
      *
      *  @param imageBaseName  Base name of the unloaded module.
      *  @param baseOffset     Base address the module was loaded at.
@@ -330,10 +322,10 @@ public:
     ///@}
 
 private:
-    /** COM reference count, tracked by AddRef/Release. Never reaches zero in
-     *  practice — this object is stack-allocated inside Session and never deleted.
-     */
+    /** COM reference count, tracked by AddRef/Release. This object is a member of Session and is never deleted. */
     ULONG refCount { 1 };
+
+    Events& events;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (EventCallbacks)
 };

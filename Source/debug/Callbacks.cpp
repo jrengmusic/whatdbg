@@ -4,7 +4,7 @@
  *  Implements the IDebugEventCallbacks, IDebugOutputCallbacks, and IDebugOutputCallbacks2
  *  methods declared in Callbacks.h, the exception handlers that EventCallbacks::Exception
  *  dispatches to, and getExceptionName. dbgeng invokes the callbacks during WaitForEvent
- *  on the main thread. They write stop state into State and never write to stdout.
+ *  on the engine context. They fire events on Session::events. None writes to stdout.
  */
 
 #include <JuceHeader.h>
@@ -19,34 +19,33 @@ static constexpr DWORD msvcThreadNameException { 0x406D1388 };
 // Exception callbacks
 //==============================================================================
 
-static HRESULT onBreakpoint (const DWORD& /*exceptionCode*/, debug::State* state, PEXCEPTION_RECORD64 exception, ULONG /*firstChance*/)
+static HRESULT onBreakpoint (const DWORD& /*exceptionCode*/, WHATDBGModel* model, debug::Events& events, PEXCEPTION_RECORD64 exception, ULONG /*firstChance*/)
 {
-    if (state->executionState == debug::ExecutionState::launching)
+    if (static_cast<debug::ExecutionState> (model->getParameter<jam::Parameter<int>> (model->sessionTag, Id::executionState)->getValue ()) == debug::ExecutionState::launching)
     {
-        state->stopReason = debug::StopReason::initialBreak;
+        events.get (Id::initialBreak);
     }
-    else if (state->isPausePending)
+    else if (model->getParameter<jam::Parameter<int>> (model->sessionTag, Id::isPausePending)->getValue () != 0)
     {
-        state->isPausePending = false;
-        state->stopReason     = debug::StopReason::pause;
+        events.get (Id::pause);
     }
     else
     {
-        state->stopReason       = debug::StopReason::exception;
-        state->exceptionCode    = static_cast<std::uint32_t> (exception->ExceptionCode);
-        state->exceptionAddress = static_cast<std::uint64_t> (exception->ExceptionAddress);
+        events.get (Id::exception,
+                    static_cast<juce::int64> (static_cast<std::uint32_t> (exception->ExceptionCode)),
+                    static_cast<juce::int64> (exception->ExceptionAddress),
+                    0);
     }
 
-    state->executionState = debug::ExecutionState::stopped;
     return DEBUG_STATUS_BREAK;
 }
 
-static HRESULT onThreadName (const DWORD& /*exceptionCode*/, debug::State* /*state*/, PEXCEPTION_RECORD64 /*exception*/, ULONG /*firstChance*/)
+static HRESULT onThreadName (const DWORD& /*exceptionCode*/, WHATDBGModel* /*model*/, debug::Events& /*events*/, PEXCEPTION_RECORD64 /*exception*/, ULONG /*firstChance*/)
 {
     return DEBUG_STATUS_GO_NOT_HANDLED;
 }
 
-static HRESULT onUnknownException (const DWORD& /*exceptionCode*/, debug::State* state, PEXCEPTION_RECORD64 exception, ULONG firstChance)
+static HRESULT onUnknownException (const DWORD& /*exceptionCode*/, WHATDBGModel* /*model*/, debug::Events& events, PEXCEPTION_RECORD64 exception, ULONG firstChance)
 {
     HRESULT result { DEBUG_STATUS_BREAK };
 
@@ -56,10 +55,10 @@ static HRESULT onUnknownException (const DWORD& /*exceptionCode*/, debug::State*
     }
     else
     {
-        state->stopReason          = debug::StopReason::exception;
-        state->exceptionCode       = static_cast<std::uint32_t> (exception->ExceptionCode);
-        state->exceptionAddress    = static_cast<std::uint64_t> (exception->ExceptionAddress);
-        state->executionState      = debug::ExecutionState::stopped;
+        events.get (Id::exception,
+                    static_cast<juce::int64> (static_cast<std::uint32_t> (exception->ExceptionCode)),
+                    static_cast<juce::int64> (exception->ExceptionAddress),
+                    0);
     }
 
     return result;
@@ -105,6 +104,11 @@ juce::String getExceptionName (std::uint32_t code, bool isMachException) noexcep
     }
 
     return result;
+}
+
+OutputCallbacks::OutputCallbacks (Events& newEvents)
+    : events { newEvents }
+{
 }
 
 //==============================================================================
@@ -183,13 +187,16 @@ HRESULT OutputCallbacks::Output2 (ULONG which, ULONG flags, ULONG64 arg, PCWSTR 
 
         if (isDebuggeeOutput)
         {
-            auto* state { State::getInstance () };
-            state->debuggeeOutputText += juce::String (text);
-            state->hasDebuggeeOutput = true;
+            events.get (Id::console, juce::String (text));
         }
     }
 
     return S_OK;
+}
+
+EventCallbacks::EventCallbacks (Events& newEvents)
+    : events { newEvents }
+{
 }
 
 //==============================================================================
@@ -243,15 +250,12 @@ HRESULT EventCallbacks::GetInterestMask (PULONG mask)
 
 HRESULT EventCallbacks::Breakpoint (PDEBUG_BREAKPOINT bp)
 {
-    auto* state { State::getInstance () };
     jassert (bp != nullptr);
 
     ULONG engineId { 0 };
     bp->GetId (&engineId);
 
-    state->stopReason = StopReason::breakpoint;
-    state->breakpointEngineId = static_cast<std::int32_t> (engineId);
-    state->executionState = ExecutionState::stopped;
+    events.get (Id::breakpoint, static_cast<int> (engineId));
 
 #if JUCE_DEBUG
     jam::debug::Log::write ("WHATDBG: Breakpoint hit, engineId=" + juce::String (engineId));
@@ -269,7 +273,7 @@ HRESULT EventCallbacks::Exception (PEXCEPTION_RECORD64 exception, ULONG firstCha
 #endif
 
     static const auto exceptions ([] {
-        jam::Function::Map<DWORD, jam::Function::pointerCapacity, HRESULT (debug::State*, PEXCEPTION_RECORD64, ULONG)> exceptions;
+        jam::Function::Map<DWORD, jam::Function::pointerCapacity, HRESULT (WHATDBGModel*, debug::Events&, PEXCEPTION_RECORD64, ULONG)> exceptions;
 
         exceptions.add (EXCEPTION_BREAKPOINT,    onBreakpoint);
         exceptions.add (msvcThreadNameException, onThreadName);
@@ -281,10 +285,10 @@ HRESULT EventCallbacks::Exception (PEXCEPTION_RECORD64 exception, ULONG firstCha
     if (exceptionEntry != exceptions.end ())
     {
         const auto& [exceptionKey, exceptionCallback] { *exceptionEntry };
-        return exceptionCallback (exceptionKey, State::getInstance (), exception, firstChance);
+        return exceptionCallback (exceptionKey, WHATDBGModel::getInstance (), events, exception, firstChance);
     }
 
-    return onUnknownException (exception->ExceptionCode, State::getInstance (), exception, firstChance);
+    return onUnknownException (exception->ExceptionCode, WHATDBGModel::getInstance (), events, exception, firstChance);
 }
 
 HRESULT EventCallbacks::CreateThread (ULONG64 /*handle*/, ULONG64 /*dataOffset*/, ULONG64 /*startOffset*/)
@@ -307,7 +311,7 @@ HRESULT EventCallbacks::CreateProcess (ULONG64 /*imageFileHandle*/, ULONG64 hand
     const HANDLE processHandle { reinterpret_cast<HANDLE> (static_cast<ULONG_PTR> (handle)) };
     const DWORD pid { GetProcessId (processHandle) };
 
-    State::getInstance ()->targetProcessId = static_cast<ULONG> (pid);
+    events.get (Id::targetProcessId, static_cast<int> (pid));
 
 #if JUCE_DEBUG
     jam::debug::Log::write (juce::String ("WHATDBG: CreateProcess: ")
@@ -323,10 +327,7 @@ HRESULT EventCallbacks::ExitProcess (ULONG exitCode)
 #if JUCE_DEBUG
     jam::debug::Log::write ("WHATDBG: ExitProcess: code=" + juce::String (static_cast<unsigned long> (exitCode)));
 #endif
-    auto* state { State::getInstance () };
-    state->executionState = ExecutionState::exited;
-    state->processExitCode = static_cast<int> (exitCode);
-    state->hasProcessExited = true;
+    events.get (Id::exited, static_cast<int> (exitCode));
     return DEBUG_STATUS_NO_CHANGE;
 }
 
@@ -334,18 +335,17 @@ HRESULT EventCallbacks::LoadModule (ULONG64 /*imageFileHandle*/, ULONG64 /*baseO
                                     ULONG /*moduleSize*/, PCSTR moduleName, PCSTR imageName,
                                     ULONG /*checkSum*/, ULONG /*timeDateStamp*/)
 {
-    auto* state { State::getInstance () };
+    auto* model { WHATDBGModel::getInstance () };
 #if JUCE_DEBUG
     jam::debug::Log::write (juce::String ("WHATDBG: LoadModule: ")
                              + (moduleName != nullptr ? moduleName : "(null)")
                              + " (" + (imageName != nullptr ? imageName : "(null)") + ")");
 #endif
 
-    if (state->isStepPending)
+    if (model->getParameter<jam::Parameter<int>> (model->sessionTag, Id::isStepPending)->getValue () != 0)
         return DEBUG_STATUS_NO_CHANGE;
 
-    state->stopReason = StopReason::moduleLoad;
-    state->lastLoadedImageName = imageName != nullptr ? juce::String (imageName) : juce::String ();
+    events.get (Id::moduleLoad, imageName != nullptr ? juce::String (imageName) : juce::String ());
     return DEBUG_STATUS_BREAK;
 }
 

@@ -19,7 +19,7 @@
 !include "WinCore.nsh"
 
 !define PRODUCT "whatdbg"
-!define VERSION "0.1.0"
+!define VERSION "0.0.1"
 !define PUBLISHER "Jubilant Research of Eclectic Novelty Generation"
 !define COMPANY "JRENG"
 !define THUMBPRINT "8274AC1EA9DEA10AEFF7FD683D5E2BC4B5FAAAF1"
