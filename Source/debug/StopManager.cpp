@@ -21,6 +21,7 @@ StopManager::StopManager (Session& newSession, BreakpointManager& newBreakpointM
     stops.add (StopReason::breakpoint,   [this] (const StopReason&, const juce::String&) { return drainBreakpointHit (); });
     stops.add (StopReason::step,         [this] (const StopReason&, const juce::String&) { return drainStepCompleted (); });
     stops.add (StopReason::pause,        [this] (const StopReason&, const juce::String&) { return drainPauseCompleted (); });
+    stops.add (StopReason::breakIn,      [this] (const StopReason&, const juce::String&) { return drainBreakIn (); });
     stops.add (StopReason::exception,    [this] (const StopReason&, const juce::String&) { return drainExceptionStopped (); });
 
     registerEvents ();
@@ -38,6 +39,13 @@ void StopManager::registerEvents ()
     {
         model.storeValue (model.sessionTag, Id::isPausePending, 0);
         model.storeValue (model.sessionTag, Id::stopReason, static_cast<int> (StopReason::pause));
+        model.storeValue (model.sessionTag, Id::executionState, static_cast<int> (ExecutionState::stopped));
+    });
+
+    session.events.add (Id::breakIn, [this] (const juce::Identifier&)
+    {
+        model.storeValue (model.sessionTag, Id::isBreakInPending, 0);
+        model.storeValue (model.sessionTag, Id::stopReason, static_cast<int> (StopReason::breakIn));
         model.storeValue (model.sessionTag, Id::executionState, static_cast<int> (ExecutionState::stopped));
     });
 
@@ -153,6 +161,15 @@ jam::Strings StopManager::drainModuleLoaded ()
     session.resume ();
 
     return messages;
+}
+
+jam::Strings StopManager::drainBreakIn ()
+{
+    model.storeValue (model.sessionTag, Id::stopReason, static_cast<int> (StopReason::none));
+
+    resumeExecution ();
+
+    return jam::Strings {};
 }
 
 jam::Strings StopManager::drainExceptionStopped ()

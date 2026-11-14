@@ -1,6 +1,5 @@
 #pragma once
 #include <JuceHeader.h>
-#include <windows.h>
 #include <dbgeng.h>
 
 namespace debug

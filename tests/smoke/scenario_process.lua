@@ -1,10 +1,11 @@
+local DapClient = require ("dap_client")
 local Report = require ("report")
 local ScenarioRunner = require ("scenario_runner")
 local BreakpointScenarios = require ("scenario_breakpoint")
 local TerminateScenarios = require ("scenario_terminate")
 
 local function runToLaunched (client, report, launchArguments)
-    client:send ("initialize", { adapterID = "whatdbg-smoke" })
+    client:send ("initialize", DapClient.initializeArguments)
     local initializeResponse = client:waitForResponse ("initialize")
     report:check ("initialize response success=true", initializeResponse ~= nil and initializeResponse.success == true)
 
@@ -29,7 +30,7 @@ local function scenarioAttach (binaryPath, fixtureWaitPath)
         local pid = waitProcess.pid
         report:check ("spawned fixture_wait pid=" .. tostring (pid), pid ~= nil and pid > 0)
 
-        client:send ("initialize", { adapterID = "whatdbg-smoke" })
+        client:send ("initialize", DapClient.initializeArguments)
         local initializeResponse = client:waitForResponse ("initialize")
         report:check ("initialize response", initializeResponse ~= nil and initializeResponse.success == true)
 
@@ -59,7 +60,7 @@ local function scenarioPause (binaryPath, fixtureWaitPath)
     local report = Report.new ("04_pause")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        runToLaunched (client, report, { program = fixtureWaitPath })
+        runToLaunched (client, report, DapClient.getLaunchArguments (fixtureWaitPath))
 
         local threadEvent = client:waitForEvent ("thread")
         report:check ("thread(started) event received", threadEvent ~= nil and threadEvent.body.reason == "started")
@@ -83,7 +84,7 @@ local function scenarioOutput (binaryPath, fixturePath, exitTimeoutMs)
     local report = Report.new ("07_output")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        runToLaunched (client, report, { program = fixturePath })
+        runToLaunched (client, report, DapClient.getLaunchArguments (fixturePath))
 
         local exitedEvent = client:waitForEvent ("exited", exitTimeoutMs)
         report:check ("exited event received", exitedEvent ~= nil)
@@ -91,22 +92,33 @@ local function scenarioOutput (binaryPath, fixturePath, exitTimeoutMs)
         local stdoutFound = false
         local stderrFound = false
 
+        local exitedIndex
+        local stdoutIndex
+        local stderrIndex
+
         for messageIndex, message in ipairs (client.log) do
+            if exitedIndex == nil and message.type == "event" and message.event == "exited" then
+                exitedIndex = messageIndex
+            end
+
             if message.type == "event" and message.event == "output" and message.body ~= nil then
                 local outputText = tostring (message.body.output)
 
-                if outputText:find ("BREAKPOINT_TARGET_A", 1, true) ~= nil then
+                if outputText:find ("BREAKPOINT_TARGET_A", 1, true) ~= nil and message.body.category == "stdout" then
                     stdoutFound = true
+                    stdoutIndex = messageIndex
                 end
 
-                if outputText:find ("BREAKPOINT_TARGET_B", 1, true) ~= nil then
+                if outputText:find ("BREAKPOINT_TARGET_B", 1, true) ~= nil and message.body.category == "stderr" then
                     stderrFound = true
+                    stderrIndex = messageIndex
                 end
             end
         end
 
-        report:check ("stdout line captured (BREAKPOINT_TARGET_A in console output)", stdoutFound)
-        report:check ("stderr line captured (BREAKPOINT_TARGET_B in console output)", stderrFound)
+        report:check ("stdout line captured (BREAKPOINT_TARGET_A, category stdout)", stdoutFound)
+        report:check ("stderr line captured (BREAKPOINT_TARGET_B, category stderr)", stderrFound)
+        report:check ("stdout and stderr lines precede the exited event", stdoutIndex ~= nil and stderrIndex ~= nil and exitedIndex ~= nil and stdoutIndex < exitedIndex and stderrIndex < exitedIndex)
     end)
 end
 
@@ -114,14 +126,14 @@ local function scenarioCrash (binaryPath, fixtureCrashPath, exitTimeoutMs)
     local report = Report.new ("08_crash")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        client:send ("initialize", { adapterID = "whatdbg-smoke" })
+        client:send ("initialize", DapClient.initializeArguments)
         local initializeResponse = client:waitForResponse ("initialize")
         report:check ("initialize response", initializeResponse ~= nil and initializeResponse.success == true)
 
         local initializedEvent = client:waitForEvent ("initialized")
         report:check ("initialized event", initializedEvent ~= nil)
 
-        client:send ("launch", { program = fixtureCrashPath })
+        client:send ("launch", DapClient.getLaunchArguments (fixtureCrashPath))
         local launchResponse = client:waitForResponse ("launch")
         report:check ("launch response", launchResponse ~= nil and launchResponse.success == true)
 
@@ -137,7 +149,8 @@ local function scenarioCrash (binaryPath, fixtureCrashPath, exitTimeoutMs)
         client:send ("exceptionInfo", { threadId = threadId })
         local exceptionInfoResponse = client:waitForResponse ("exceptionInfo")
         report:check ("exceptionInfo response success", exceptionInfoResponse ~= nil and exceptionInfoResponse.success == true)
-        report:check ("exceptionInfo exceptionId non-empty: " .. tostring (exceptionInfoResponse and exceptionInfoResponse.body.exceptionId), exceptionInfoResponse ~= nil and tostring (exceptionInfoResponse.body.exceptionId):find ("EXC_BAD_ACCESS", 1, true) ~= nil)
+        local expectedExceptionId = vim.fn.has ("win32") == 1 and "ACCESS_VIOLATION" or "EXC_BAD_ACCESS"
+        report:check ("exceptionInfo exceptionId non-empty: " .. tostring (exceptionInfoResponse and exceptionInfoResponse.body.exceptionId), exceptionInfoResponse ~= nil and tostring (exceptionInfoResponse.body.exceptionId):find (expectedExceptionId, 1, true) ~= nil)
         report:check ("exceptionInfo breakMode == 'unhandled'", exceptionInfoResponse ~= nil and exceptionInfoResponse.body.breakMode == "unhandled")
 
         client:send ("terminate", {})
@@ -149,10 +162,10 @@ local function scenarioDisconnectDetach (binaryPath, fixturePath, fixtureSourceP
     local report = Report.new ("10_disconnect_detach")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        local stoppedEvent = BreakpointScenarios.runToStoppedBreakpoint (client, report, { program = fixturePath }, fixtureSourcePath, breakpointLine)
+        local stoppedEvent = BreakpointScenarios.runToStoppedBreakpoint (client, report, DapClient.getLaunchArguments (fixturePath), fixtureSourcePath, breakpointLine)
         report:info ("stopped before disconnect, threadId=" .. tostring (stoppedEvent.body.threadId))
 
-        local debuggeePid = TerminateScenarios.findDebuggeePid (fixturePath)
+        local debuggeePid = TerminateScenarios.findDebuggeePid (client)
         report:check ("debuggee pid discovered: " .. tostring (debuggeePid), debuggeePid ~= nil)
 
         client:send ("disconnect", {})
@@ -160,13 +173,12 @@ local function scenarioDisconnectDetach (binaryPath, fixturePath, fixtureSourceP
         report:check ("disconnect response success=true", disconnectResponse ~= nil and disconnectResponse.success == true)
 
         local pidStillAlive = vim.wait (500, function ()
-            local checkResult = vim.system ({ "ps", "-o", "pid", "-p", tostring (debuggeePid) }, { text = true }):wait (2000)
-            return tostring (checkResult.stdout or ""):match (tostring (debuggeePid)) == nil
+            return not TerminateScenarios.isProcessAlive (debuggeePid)
         end, 100) == false
 
         report:check ("debuggee pid " .. tostring (debuggeePid) .. " left running after disconnect (detach, not kill)", pidStillAlive)
 
-        pcall (function () vim.system ({ "kill", "-9", tostring (debuggeePid) }):wait (2000) end)
+        pcall (function () vim.uv.kill (debuggeePid, "sigkill") end)
     end)
 end
 
@@ -174,7 +186,7 @@ local function scenarioConfigurationDoneOrder (binaryPath, fixturePath, exitTime
     local report = Report.new ("19_configuration_done_order")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        runToLaunched (client, report, { program = fixturePath })
+        runToLaunched (client, report, DapClient.getLaunchArguments (fixturePath))
 
         client:waitForEvent ("process")
         client:waitForEvent ("thread")
@@ -204,7 +216,7 @@ local function scenarioUnknownCommand (binaryPath)
     local report = Report.new ("20_unknown_command")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        client:send ("initialize", { adapterID = "whatdbg-smoke" })
+        client:send ("initialize", DapClient.initializeArguments)
         local initializeResponse = client:waitForResponse ("initialize")
         report:check ("initialize response success=true", initializeResponse ~= nil and initializeResponse.success == true)
 

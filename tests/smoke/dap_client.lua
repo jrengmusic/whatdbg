@@ -3,6 +3,13 @@ DapClient.__index = DapClient
 
 local defaultTimeoutMs = 8000
 local closeGracefulTimeoutMs = 3000
+DapClient.headlessConsole = "internalConsole"
+DapClient.initializeArguments = { adapterID = "whatdbg-smoke", supportsRunInTerminalRequest = true }
+DapClient.terminalConsole = "integratedTerminal"
+
+function DapClient.getLaunchArguments (program)
+    return { program = program, console = DapClient.headlessConsole }
+end
 
 local function encodeFrame (body)
     local content = vim.json.encode (body)
@@ -68,9 +75,32 @@ function DapClient:drainMessages ()
         end
 
         self.buffer = remaining
-        table.insert (self.messages, message)
-        table.insert (self.log, message)
+
+        if message.type == "request" and message.command == "runInTerminal" then
+            self:runInTerminal (message)
+        else
+            table.insert (self.messages, message)
+            table.insert (self.log, message)
+        end
     end
+end
+
+function DapClient:runInTerminal (request)
+    vim.schedule (function ()
+        self.terminal = vim.system (request.arguments.args, { cwd = request.arguments.cwd, env = request.arguments.env })
+
+        local seq = self.nextSeq
+        self.nextSeq = self.nextSeq + 1
+
+        self.process:write (encodeFrame ({
+            seq = seq,
+            type = "response",
+            request_seq = request.seq,
+            success = true,
+            command = "runInTerminal",
+            body = { processId = self.terminal.pid },
+        }))
+    end)
 end
 
 function DapClient:send (command, arguments)
@@ -149,6 +179,10 @@ function DapClient:close ()
     if self.process ~= nil then
         pcall (function () self.process:write (nil) end)
         pcall (function () self.process:wait (closeGracefulTimeoutMs) end)
+    end
+
+    if self.terminal ~= nil then
+        pcall (function () self.terminal:kill (9) end)
     end
 end
 

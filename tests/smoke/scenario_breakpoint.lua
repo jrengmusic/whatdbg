@@ -1,8 +1,9 @@
+local DapClient = require ("dap_client")
 local Report = require ("report")
 local ScenarioRunner = require ("scenario_runner")
 
 local function runToStoppedBreakpoint (client, report, launchArguments, fixtureSourcePath, breakpointLine)
-    client:send ("initialize", { adapterID = "whatdbg-smoke" })
+    client:send ("initialize", DapClient.initializeArguments)
     local initializeResponse = client:waitForResponse ("initialize")
     report:check ("initialize response success=true", initializeResponse ~= nil and initializeResponse.success == true)
 
@@ -36,7 +37,7 @@ local function scenarioLaunchBpContinue (binaryPath, fixturePath, fixtureSourceP
     local report = Report.new ("01_launch_bp_continue")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        runToStoppedBreakpoint (client, report, { program = fixturePath }, fixtureSourcePath, breakpointLine)
+        runToStoppedBreakpoint (client, report, DapClient.getLaunchArguments (fixturePath), fixtureSourcePath, breakpointLine)
 
         client:send ("threads", {})
         local threadsResponse = client:waitForResponse ("threads")
@@ -63,7 +64,7 @@ local function scenarioStep (binaryPath, fixturePath, fixtureSourcePath, breakpo
     local report = Report.new ("03_step")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        local stoppedEvent = runToStoppedBreakpoint (client, report, { program = fixturePath }, fixtureSourcePath, breakpointLine)
+        local stoppedEvent = runToStoppedBreakpoint (client, report, DapClient.getLaunchArguments (fixturePath), fixtureSourcePath, breakpointLine)
         local threadId = stoppedEvent.body.threadId
 
         client:send ("next", { threadId = threadId })
@@ -107,7 +108,7 @@ local function scenarioVariables (binaryPath, fixturePath, fixtureSourcePath, br
     local report = Report.new ("05_variables")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        local stoppedEvent = runToStoppedBreakpoint (client, report, { program = fixturePath }, fixtureSourcePath, breakpointLine)
+        local stoppedEvent = runToStoppedBreakpoint (client, report, DapClient.getLaunchArguments (fixturePath), fixtureSourcePath, breakpointLine)
         local threadId = stoppedEvent.body.threadId
 
         client:send ("stackTrace", { threadId = threadId })
@@ -149,7 +150,7 @@ local function scenarioEvaluate (binaryPath, fixturePath, fixtureSourcePath, bre
     local report = Report.new ("06_evaluate")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        local stoppedEvent = runToStoppedBreakpoint (client, report, { program = fixturePath }, fixtureSourcePath, breakpointLine)
+        local stoppedEvent = runToStoppedBreakpoint (client, report, DapClient.getLaunchArguments (fixturePath), fixtureSourcePath, breakpointLine)
         local threadId = stoppedEvent.body.threadId
 
         client:send ("stackTrace", { threadId = threadId })
@@ -174,7 +175,7 @@ local function scenarioStepInOut (binaryPath, fixturePath, fixtureSourcePath, br
     local report = Report.new ("11_step_in_out")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        local stoppedEvent = runToStoppedBreakpoint (client, report, { program = fixturePath }, fixtureSourcePath, breakpointLine)
+        local stoppedEvent = runToStoppedBreakpoint (client, report, DapClient.getLaunchArguments (fixturePath), fixtureSourcePath, breakpointLine)
         local threadId = stoppedEvent.body.threadId
 
         client:send ("next", { threadId = threadId })
@@ -211,7 +212,7 @@ local function scenarioBreakpointWhileRunning (binaryPath, fixtureWaitPath, wait
     local ProcessScenarios = require ("scenario_process")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        ProcessScenarios.runToLaunched (client, report, { program = fixtureWaitPath })
+        ProcessScenarios.runToLaunched (client, report, DapClient.getLaunchArguments (fixtureWaitPath))
         client:waitForEvent ("thread")
 
         client:send ("setBreakpoints", {
@@ -233,7 +234,7 @@ local function scenarioBreakpointRemoveAndWindow (binaryPath, fixturePath, fixtu
     local report = Report.new ("15_breakpoint_remove_and_window")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        local stoppedEvent = runToStoppedBreakpoint (client, report, { program = fixturePath }, fixtureSourcePath, breakpointLine)
+        local stoppedEvent = runToStoppedBreakpoint (client, report, DapClient.getLaunchArguments (fixturePath), fixtureSourcePath, breakpointLine)
         local threadId = stoppedEvent.body.threadId
 
         client:send ("setBreakpoints", {
@@ -268,7 +269,7 @@ local function scenarioPauseContinueBreakpoint (binaryPath, fixtureWaitPath, wai
     local ProcessScenarios = require ("scenario_process")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        ProcessScenarios.runToLaunched (client, report, { program = fixtureWaitPath })
+        ProcessScenarios.runToLaunched (client, report, DapClient.getLaunchArguments (fixtureWaitPath))
 
         local threadEvent = client:waitForEvent ("thread")
         local threadId = threadEvent.body.threadId
@@ -299,11 +300,11 @@ local function scenarioPendingBreakpoint (binaryPath, fixtureLoadPath, moduleSou
     local report = Report.new ("21_pending_breakpoint")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        client:send ("initialize", { adapterID = "whatdbg-smoke" })
+        client:send ("initialize", DapClient.initializeArguments)
         client:waitForResponse ("initialize")
         client:waitForEvent ("initialized")
 
-        client:send ("launch", { program = fixtureLoadPath })
+        client:send ("launch", DapClient.getLaunchArguments (fixtureLoadPath))
         local launchResponse = client:waitForResponse ("launch")
         report:check ("launch response success=true", launchResponse ~= nil and launchResponse.success == true)
 

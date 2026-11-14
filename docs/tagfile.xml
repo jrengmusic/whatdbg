@@ -214,10 +214,24 @@
     <namespace>ProjectInfo</namespace>
   </compound>
   <compound kind="file">
+    <name>Launcher.cpp</name>
+    <path></path>
+    <filename>_launcher_8cpp.html</filename>
+    <includes id="_launcher_8h" name="Launcher.h" local="yes" import="no" module="no" objc="no">Launcher.h</includes>
+    <includes id="_generated_8h" name="Generated.h" local="yes" import="no" module="no" objc="no">generated/Generated.h</includes>
+  </compound>
+  <compound kind="file">
+    <name>Launcher.h</name>
+    <path></path>
+    <filename>_launcher_8h.html</filename>
+    <class kind="class">Launcher</class>
+  </compound>
+  <compound kind="file">
     <name>Main.cpp</name>
     <path></path>
     <filename>_main_8cpp.html</filename>
     <includes id="_whatdbg_8h" name="Whatdbg.h" local="yes" import="no" module="no" objc="no">Whatdbg.h</includes>
+    <includes id="_launcher_8h" name="Launcher.h" local="yes" import="no" module="no" objc="no">Launcher.h</includes>
     <includes id="_generated_8h" name="Generated.h" local="yes" import="no" module="no" objc="no">generated/Generated.h</includes>
     <member kind="function" static="yes">
       <type>static juce::File</type>
@@ -267,6 +281,13 @@
       <anchorfile>_main_8cpp.html</anchorfile>
       <anchor>add6b6f05c094e4962cae19cb82b3a06e</anchor>
       <arglist>(const char *programPath)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static int</type>
+      <name>runLauncher</name>
+      <anchorfile>_main_8cpp.html</anchorfile>
+      <anchor>a1ee175e4ac85212af9d1afec8473b7b3</anchor>
+      <arglist>(const juce::ArgumentList &amp;arguments)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
@@ -457,13 +478,6 @@
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">
-      <type>std::pair&lt; std::uint64_t, std::uint16_t &gt;</type>
-      <name>getBreakpointOffset</name>
-      <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
-      <anchor>a5ddc2c795c2ea490eb4c5d0465f549fe</anchor>
-      <arglist>(const juce::String &amp;sourcePath, std::uint16_t requestedLine) noexcept</arglist>
-    </member>
-    <member kind="function" protection="private">
       <type>void</type>
       <name>setBreakpointLocation</name>
       <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
@@ -517,13 +531,6 @@
       <name>nextDapId</name>
       <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
       <anchor>a898cff5d67b7f533cf38e8ccbf31a136</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="private" static="yes">
-      <type>static constexpr std::uint32_t</type>
-      <name>lineSearchWindow</name>
-      <anchorfile>classdebug_1_1_breakpoint_manager.html</anchorfile>
-      <anchor>a3638bb735288fd17822939bdbaac0108</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -838,6 +845,87 @@
     </member>
   </compound>
   <compound kind="class">
+    <name>Launcher</name>
+    <filename>class_launcher.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>Launcher</name>
+      <anchorfile>class_launcher.html</anchorfile>
+      <anchor>a2a7846008f307a53f65b510ba23787de</anchor>
+      <arglist>(const juce::String &amp;newCommFile, const juce::StringArray &amp;newLaunchTarget)</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>run</name>
+      <anchorfile>class_launcher.html</anchorfile>
+      <anchor>a725a3958001b044eb14d96569b77f115</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>sendPid</name>
+      <anchorfile>class_launcher.html</anchorfile>
+      <anchor>a5321ca455c727f3180428c67f53731d3</anchor>
+      <arglist>(std::uint32_t processId)</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>sendError</name>
+      <anchorfile>class_launcher.html</anchorfile>
+      <anchor>a7e4c99bb3017c6566241551e1a3b65ed</anchor>
+      <arglist>(const juce::String &amp;text)</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>writeLine</name>
+      <anchorfile>class_launcher.html</anchorfile>
+      <anchor>a99a034a1529dd0619e6e4e244acaac17</anchor>
+      <arglist>(const std::string &amp;line)</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>std::string</type>
+      <name>getLine</name>
+      <anchorfile>class_launcher.html</anchorfile>
+      <anchor>a9b3454cf968a72631c18d0ba6a40ca4d</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private" static="yes">
+      <type>static bool</type>
+      <name>isAttached</name>
+      <anchorfile>class_launcher.html</anchorfile>
+      <anchor>a15339e99eff42dc61d6772b3c36a79b4</anchor>
+      <arglist>(const std::string &amp;line)</arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>juce::String</type>
+      <name>commFile</name>
+      <anchorfile>class_launcher.html</anchorfile>
+      <anchor>a78ad078c3b33429905efe42e2434a461</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>juce::StringArray</type>
+      <name>launchTarget</name>
+      <anchorfile>class_launcher.html</anchorfile>
+      <anchor>a22833621fb3bd85e49c3e5e4a0236db2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>std::unique_ptr&lt; FILE, decltype(&amp;fclose)&gt;</type>
+      <name>readFifo</name>
+      <anchorfile>class_launcher.html</anchorfile>
+      <anchor>aae7877068a4f4f250f2203ea4c08369c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private" static="yes">
+      <type>static constexpr int</type>
+      <name>failedLaunchExitCode</name>
+      <anchorfile>class_launcher.html</anchorfile>
+      <anchor>acaefa076045ad11b8ccf653f7e807290</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>debug::Loader</name>
     <filename>classdebug_1_1_loader.html</filename>
     <member kind="function">
@@ -1060,6 +1148,13 @@
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">
+      <type>bool</type>
+      <name>isPolling</name>
+      <anchorfile>class_processor.html</anchorfile>
+      <anchor>aa519050b3bc4dedaa3a81d51138cb25f</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function" protection="private">
       <type>void</type>
       <name>setAttachedState</name>
       <anchorfile>class_processor.html</anchorfile>
@@ -1072,6 +1167,27 @@
       <anchorfile>class_processor.html</anchorfile>
       <anchor>a9799b1f73561ced0b3e287dc623d10e1</anchor>
       <arglist>(const jam::JsonDocument &amp;document)</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>onRunInTerminal</name>
+      <anchorfile>class_processor.html</anchorfile>
+      <anchor>abb3695ba57fea2803c9dfcf37e7f6240</anchor>
+      <arglist>(const jam::JsonDocument &amp;document)</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>onRequest</name>
+      <anchorfile>class_processor.html</anchorfile>
+      <anchor>a9af86630f17983504d894a6ab50de2be</anchor>
+      <arglist>(jam::JsonDocument &amp;&amp;request)</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>applyPendingRequests</name>
+      <anchorfile>class_processor.html</anchorfile>
+      <anchor>af56ddffd93cd4c15a34f5cea21e46661</anchor>
+      <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
@@ -1100,6 +1216,20 @@
       <anchorfile>class_processor.html</anchorfile>
       <anchor>aa886ddeb67c969bcaecb3e1844ab9f79</anchor>
       <arglist>(const jam::JsonDocument &amp;document)</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>launchInConsole</name>
+      <anchorfile>class_processor.html</anchorfile>
+      <anchor>a1c7c3524b82bf7df9f07ff1717970da2</anchor>
+      <arglist>(int seq, const juce::String &amp;program, const juce::String &amp;cwd)</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>launchInTerminal</name>
+      <anchorfile>class_processor.html</anchorfile>
+      <anchor>a28403704dc0835af3681e56345b85d2e</anchor>
+      <arglist>(int seq, const juce::String &amp;program, const juce::String &amp;console, const juce::String &amp;cwd)</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
@@ -1222,6 +1352,20 @@
     </member>
     <member kind="function" protection="private">
       <type>void</type>
+      <name>registerLauncherEvents</name>
+      <anchorfile>class_processor.html</anchorfile>
+      <anchor>a0d99918b0acbc30b8cc7f6fc524a7bd2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>registerOutputEvents</name>
+      <anchorfile>class_processor.html</anchorfile>
+      <anchor>a964f0cfae95557ad5237e30fafe0e404</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
       <name>drainProcessExited</name>
       <anchorfile>class_processor.html</anchorfile>
       <anchor>ac13b3d40eaebb4fcad6b533e49eeec41</anchor>
@@ -1240,6 +1384,13 @@
       <anchorfile>class_processor.html</anchorfile>
       <anchor>aa59ddffd02b0dd2153c87009c38d7bc8</anchor>
       <arglist>(std::string json)</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>addLaunchErrorResponse</name>
+      <anchorfile>class_processor.html</anchorfile>
+      <anchor>a85d762de429f761d1ca7931efb1b4d5c</anchor>
+      <arglist>(const juce::String &amp;text)</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
@@ -1330,6 +1481,20 @@
       <name>requests</name>
       <anchorfile>class_processor.html</anchorfile>
       <anchor>ac8cb2e3ddb7497d2c58f70edfa42c86f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>dap::FIFO&lt; jam::JsonDocument &gt;</type>
+      <name>pendingRequests</name>
+      <anchorfile>class_processor.html</anchorfile>
+      <anchor>aa3a337b14f8073980ccbc8a6a4f2aae8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>juce::Array&lt; juce::Identifier &gt;</type>
+      <name>deferrals</name>
+      <anchorfile>class_processor.html</anchorfile>
+      <anchor>a6f5edeb97756bdb7924b835ee452d447</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private">
@@ -1482,6 +1647,13 @@
       <arglist>(const juce::String &amp;program) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>juce::String</type>
+      <name>createCommFile</name>
+      <anchorfile>classdebug_1_1_session.html</anchorfile>
+      <anchor>aa9caba28f79faae7696bc16f80f01b80</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>bool</type>
       <name>attach</name>
       <anchorfile>classdebug_1_1_session.html</anchorfile>
@@ -1531,18 +1703,18 @@
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
-      <type>debug::OffsetStatus</type>
-      <name>getOffsetStatus</name>
+      <type>void</type>
+      <name>drainOutput</name>
       <anchorfile>classdebug_1_1_session.html</anchorfile>
-      <anchor>a67c0ee92be68d968c2a06fe71450ae9c</anchor>
-      <arglist>(const juce::String &amp;filePath, std::uint16_t line) noexcept</arglist>
+      <anchor>a40050bf4c1c83fbc5d06acc65df561f5</anchor>
+      <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
-      <type>std::uint64_t</type>
-      <name>getOffset</name>
+      <type>void</type>
+      <name>drainLauncherOutput</name>
       <anchorfile>classdebug_1_1_session.html</anchorfile>
-      <anchor>a0ce414498b79753ddb4ab796548decce</anchor>
-      <arglist>(const juce::String &amp;filePath, std::uint16_t line) noexcept</arglist>
+      <anchor>a550a1129e2afd0f14f72b60f96c5c449</anchor>
+      <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type>std::optional&lt; std::int32_t &gt;</type>
@@ -1653,8 +1825,8 @@
       <type>juce::String</type>
       <name>evaluateExpression</name>
       <anchorfile>classdebug_1_1_session.html</anchorfile>
-      <anchor>a15f2549ebb9c9ea74349ba4ae7a46c6a</anchor>
-      <arglist>(const juce::String &amp;expression, int frameIndex) noexcept</arglist>
+      <anchor>a42dae8d83b1aa51056caad8c4d595874</anchor>
+      <arglist>(const juce::String &amp;expression, int frameIndex, bool isHover) noexcept</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -1693,6 +1865,20 @@
     </member>
     <member kind="function" protection="private">
       <type>void</type>
+      <name>sendDidAttach</name>
+      <anchorfile>classdebug_1_1_session.html</anchorfile>
+      <anchor>ab17bfa72486464b873a658e0ecf6e40a</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>attachLaunchTarget</name>
+      <anchorfile>classdebug_1_1_session.html</anchorfile>
+      <anchor>ae0cff8943c2cdbd0906c0d3516addddf</anchor>
+      <arglist>(std::uint32_t processId) noexcept</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
       <name>cacheFrameVariables</name>
       <anchorfile>classdebug_1_1_session.html</anchorfile>
       <anchor>a74164f64332a9f0d56d430a7e39b6337</anchor>
@@ -1704,6 +1890,13 @@
       <anchorfile>classdebug_1_1_session.html</anchorfile>
       <anchor>a8c839b8c18d56cf2952df599fc1f2e3d</anchor>
       <arglist>(std::string &amp;json, lldb::SBFrame frame, int frameId) noexcept</arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>jam::AsyncOutputStream</type>
+      <name>launcherOutput</name>
+      <anchorfile>classdebug_1_1_session.html</anchorfile>
+      <anchor>a8ded1b57303165500c8e11796467b703</anchor>
+      <arglist></arglist>
     </member>
     <member kind="variable" protection="private">
       <type>lldb::SBDebugger</type>
@@ -1752,6 +1945,13 @@
       <name>cachedFrameIndex</name>
       <anchorfile>classdebug_1_1_session.html</anchorfile>
       <anchor>a0bd79a8d99f82d892b7e4b5792cbee04</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>juce::File</type>
+      <name>commFile</name>
+      <anchorfile>classdebug_1_1_session.html</anchorfile>
+      <anchor>a7e5ddceec0223930cf152a9e67f91fd6</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -1812,6 +2012,13 @@
       <name>drainModuleLoaded</name>
       <anchorfile>classdebug_1_1_stop_manager.html</anchorfile>
       <anchor>ab35e144bdf9bf196392632e3b5c5b84c</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>jam::Strings</type>
+      <name>drainBreakIn</name>
+      <anchorfile>classdebug_1_1_stop_manager.html</anchorfile>
+      <anchor>a573bbe1668776da7f0c144e90f3b0849</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function" protection="private">
@@ -2193,6 +2400,13 @@
     </member>
     <member kind="function">
       <type>void</type>
+      <name>appendMessageMembers</name>
+      <anchorfile>namespacedap.html</anchorfile>
+      <anchor>a302bfbcf89b497410095e68de509a548</anchor>
+      <arglist>(std::string &amp;json, std::string_view type)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
       <name>appendResponseMembers</name>
       <anchorfile>namespacedap.html</anchorfile>
       <anchor>acf6d5af6f8b52ae276176784f8255ee7</anchor>
@@ -2204,6 +2418,13 @@
       <anchorfile>namespacedap.html</anchorfile>
       <anchor>abef24a43f953f76738d1403d3abb17eb</anchor>
       <arglist>(std::string &amp;json, std::string_view event)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>appendRequestMembers</name>
+      <anchorfile>namespacedap.html</anchorfile>
+      <anchor>a9017bb074f243c44e03c5884a4704e9a</anchor>
+      <arglist>(std::string &amp;json, std::string_view command)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -2253,6 +2474,13 @@
       <anchorfile>namespacedap.html</anchorfile>
       <anchor>a53abc2258fa27148ee3a3e7e2116d3a6</anchor>
       <arglist>(std::string &amp;json)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>appendRunInTerminalArguments</name>
+      <anchorfile>namespacedap.html</anchorfile>
+      <anchor>a84f7acdd9b2452c53428cd5360edbd1f</anchor>
+      <arglist>(std::string &amp;json, const juce::Identifier &amp;type, const juce::String &amp;cwd, const juce::StringArray &amp;args)</arglist>
     </member>
     <member kind="function">
       <type>std::string</type>
@@ -2311,6 +2539,13 @@
       <arglist>(std::string &amp;json, std::string_view event, const Function &amp;appendBody)</arglist>
     </member>
     <member kind="function">
+      <type>void</type>
+      <name>appendRequest</name>
+      <anchorfile>namespacedap.html</anchorfile>
+      <anchor>a1a49a406f7bc8ed527a5d1e9999994f6</anchor>
+      <arglist>(std::string &amp;json, std::string_view command, const Function &amp;appendArguments)</arglist>
+    </member>
+    <member kind="function">
       <type>jam::JsonDocument</type>
       <name>getRequest</name>
       <anchorfile>namespacedap.html</anchorfile>
@@ -2337,10 +2572,10 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>jam::Function::Map&lt; juce::Identifier, jam::Function::pointerCapacity, void(), void(int), void(int, int), void(juce::int64, juce::int64, int), void(const juce::String &amp;)&gt;</type>
+      <type>jam::Function::Map&lt; juce::Identifier, jam::Function::pointerCapacity, void(), void(int), void(int, int), void(juce::int64, juce::int64, int), void(const juce::String &amp;), void(std::string_view)&gt;</type>
       <name>Events</name>
       <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>afb8f56694e0d51f128a832c3a0c91042</anchor>
+      <anchor>a9de5674d30937ca1c5c07c56d85f34e0</anchor>
       <arglist></arglist>
     </member>
     <member kind="enumeration">
@@ -2378,16 +2613,7 @@
       <enumvalue file="namespacedebug.html" anchor="a3d1ff6297f0a624ceee5d58abb16c3d1a2764ca9d34e90313978d044f27ae433b">step</enumvalue>
       <enumvalue file="namespacedebug.html" anchor="a3d1ff6297f0a624ceee5d58abb16c3d1aec1b81965109165de6b38cd92c1e39f9">pause</enumvalue>
       <enumvalue file="namespacedebug.html" anchor="a3d1ff6297f0a624ceee5d58abb16c3d1a42552b1f133f9f8eb406d4f306ea9fd1">exception</enumvalue>
-    </member>
-    <member kind="enumeration">
-      <type></type>
-      <name>OffsetStatus</name>
-      <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>a70f5cdb96a2acee8efad379b7ddd2b0e</anchor>
-      <arglist></arglist>
-      <enumvalue file="namespacedebug.html" anchor="a70f5cdb96a2acee8efad379b7ddd2b0ea6cfe61694ee1bb13ae719d47c2f80b7a">found</enumvalue>
-      <enumvalue file="namespacedebug.html" anchor="a70f5cdb96a2acee8efad379b7ddd2b0ea5ccf4d5c325b7db68777f400f66fd1b1">notFound</enumvalue>
-      <enumvalue file="namespacedebug.html" anchor="a70f5cdb96a2acee8efad379b7ddd2b0eae64262c3b87ee801f8f096c390dfae8d">engineBusy</enumvalue>
+      <enumvalue file="namespacedebug.html" anchor="a3d1ff6297f0a624ceee5d58abb16c3d1aab24be7604ee125adbc423eb916746ef">breakIn</enumvalue>
     </member>
     <member kind="function" static="yes">
       <type>static juce::String</type>
@@ -2502,11 +2728,11 @@
       <arglist>(debug::Events &amp;events, lldb::SBEvent &amp;event) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
-      <type>static lldb::SBLineEntry</type>
-      <name>getLineEntry</name>
+      <type>static juce::File</type>
+      <name>getDidAttachFile</name>
       <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>ae1ad323362d43c9c1a534c76584e2d41</anchor>
-      <arglist>(lldb::SBTarget &amp;target, const juce::String &amp;filePath, std::uint16_t line) noexcept</arglist>
+      <anchor>acd0bfcd07f3164b8dd0db830ff0f63f5</anchor>
+      <arglist>(const juce::File &amp;commFile) noexcept</arglist>
     </member>
     <member kind="function">
       <type>juce::String</type>
@@ -2562,6 +2788,13 @@
       <name>wakeEventMask</name>
       <anchorfile>namespacedebug.html</anchorfile>
       <anchor>ab0a6e6add77bf779720e6bd1a359a87c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr int</type>
+      <name>commFileBufferSize</name>
+      <anchorfile>namespacedebug.html</anchorfile>
+      <anchor>aaa0f604f43df5fdc671d741f03aa5e7b</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" static="yes">

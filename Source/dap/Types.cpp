@@ -19,12 +19,17 @@ int nextSeq () noexcept
     return value;
 }
 
-void appendResponseMembers (std::string& json, int requestSeq, std::string_view command, bool isSuccess)
+void appendMessageMembers (std::string& json, std::string_view type)
 {
     jam::JsonWriter::appendKey (json, Id::seq);
     jam::Format::appendDecimal (json, nextSeq ());
     jam::JsonWriter::appendKey (json, Id::type);
-    jam::JsonWriter::appendString (json, jam::Strings::getView (Id::response.toString ()));
+    jam::JsonWriter::appendString (json, type);
+}
+
+void appendResponseMembers (std::string& json, int requestSeq, std::string_view command, bool isSuccess)
+{
+    appendMessageMembers (json, jam::Strings::getView (Id::response.toString ()));
     jam::JsonWriter::appendKey (json, Id::requestSeq);
     jam::Format::appendDecimal (json, requestSeq);
     jam::JsonWriter::appendKey (json, Id::command);
@@ -35,12 +40,16 @@ void appendResponseMembers (std::string& json, int requestSeq, std::string_view 
 
 void appendEventMembers (std::string& json, std::string_view event)
 {
-    jam::JsonWriter::appendKey (json, Id::seq);
-    jam::Format::appendDecimal (json, nextSeq ());
-    jam::JsonWriter::appendKey (json, Id::type);
-    jam::JsonWriter::appendString (json, jam::Strings::getView (Id::event.toString ()));
+    appendMessageMembers (json, jam::Strings::getView (Id::event.toString ()));
     jam::JsonWriter::appendKey (json, Id::event);
     jam::JsonWriter::appendString (json, event);
+}
+
+void appendRequestMembers (std::string& json, std::string_view command)
+{
+    appendMessageMembers (json, jam::Strings::getView (Id::request.toString ()));
+    jam::JsonWriter::appendKey (json, Id::command);
+    jam::JsonWriter::appendString (json, command);
 }
 
 void appendResponse (std::string& json, int requestSeq, std::string_view command, bool isSuccess)
@@ -75,12 +84,7 @@ jam::JsonDocument getRequest (std::string_view command)
 
     jam::JsonWriter::appendObject (json, [command] (std::string& members)
     {
-        jam::JsonWriter::appendKey (members, Id::seq);
-        jam::Format::appendDecimal (members, nextSeq ());
-        jam::JsonWriter::appendKey (members, Id::type);
-        jam::JsonWriter::appendString (members, jam::Strings::getView (Id::request.toString ()));
-        jam::JsonWriter::appendKey (members, Id::command);
-        jam::JsonWriter::appendString (members, command);
+        appendRequestMembers (members, command);
     });
 
     return std::move (*jam::JsonDocument::parse (std::move (json)));
@@ -158,6 +162,28 @@ void appendCapabilities (std::string& json)
         jam::JsonWriter::appendKey (json, capabilityName);
         jam::JsonWriter::appendBoolean (json, isSupported);
     }
+}
+
+void appendRunInTerminalArguments (std::string& json, const juce::Identifier& type, const juce::String& cwd, const juce::StringArray& args)
+{
+    jam::JsonWriter::appendKey (json, Id::kind);
+    jam::JsonWriter::appendString (json, jam::Strings::getView (type.toString ()));
+
+    if (cwd.isNotEmpty ())
+    {
+        jam::JsonWriter::appendKey (json, Id::cwd);
+        jam::JsonWriter::appendString (json, jam::Strings::getView (cwd));
+    }
+
+    jam::JsonWriter::appendKey (json, Id::args);
+    jam::JsonWriter::appendArray (json, [&args] (std::string& elements)
+    {
+        for (const auto& element : args)
+        {
+            jam::JsonWriter::appendSeparator (elements);
+            jam::JsonWriter::appendString (elements, jam::Strings::getView (element));
+        }
+    });
 }
 
 std::string getStoppedEvent (std::string_view reason, int threadId)

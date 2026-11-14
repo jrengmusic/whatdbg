@@ -1,3 +1,4 @@
+local DapClient = require ("dap_client")
 local Report = require ("report")
 local ScenarioRunner = require ("scenario_runner")
 local BreakpointScenarios = require ("scenario_breakpoint")
@@ -6,7 +7,7 @@ local function scenarioStructChildren (binaryPath, fixturePath, fixtureSourcePat
     local report = Report.new ("12_struct_children")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        local stoppedEvent = BreakpointScenarios.runToStoppedBreakpoint (client, report, { program = fixturePath }, fixtureSourcePath, breakpointLine)
+        local stoppedEvent = BreakpointScenarios.runToStoppedBreakpoint (client, report, DapClient.getLaunchArguments (fixturePath), fixtureSourcePath, breakpointLine)
         local threadId = stoppedEvent.body.threadId
 
         client:send ("stackTrace", { threadId = threadId })
@@ -49,7 +50,7 @@ local function scenarioThreadFrames (binaryPath, fixturePath, fixtureSourcePath,
     local report = Report.new ("13_thread_frames")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        local stoppedEvent = BreakpointScenarios.runToStoppedBreakpoint (client, report, { program = fixturePath }, fixtureSourcePath, breakpointLine)
+        local stoppedEvent = BreakpointScenarios.runToStoppedBreakpoint (client, report, DapClient.getLaunchArguments (fixturePath), fixtureSourcePath, breakpointLine)
         local stoppedThreadId = stoppedEvent.body.threadId
 
         client:send ("threads", {})
@@ -89,7 +90,7 @@ local function scenarioEvaluateFail (binaryPath, fixturePath, fixtureSourcePath,
     local report = Report.new ("17_evaluate_fail")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        local stoppedEvent = BreakpointScenarios.runToStoppedBreakpoint (client, report, { program = fixturePath }, fixtureSourcePath, breakpointLine)
+        local stoppedEvent = BreakpointScenarios.runToStoppedBreakpoint (client, report, DapClient.getLaunchArguments (fixturePath), fixtureSourcePath, breakpointLine)
         local threadId = stoppedEvent.body.threadId
 
         client:send ("stackTrace", { threadId = threadId })
@@ -111,7 +112,7 @@ local function scenarioInnerFrame (binaryPath, fixturePath, fixtureSourcePath, i
     local report = Report.new ("18_inner_frame")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        local stoppedEvent = BreakpointScenarios.runToStoppedBreakpoint (client, report, { program = fixturePath }, fixtureSourcePath, innerLine)
+        local stoppedEvent = BreakpointScenarios.runToStoppedBreakpoint (client, report, DapClient.getLaunchArguments (fixturePath), fixtureSourcePath, innerLine)
         local threadId = stoppedEvent.body.threadId
 
         client:send ("stackTrace", { threadId = threadId })

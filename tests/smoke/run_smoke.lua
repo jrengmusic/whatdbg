@@ -5,6 +5,7 @@ local BreakpointScenarios = require ("scenario_breakpoint")
 local ProcessScenarios = require ("scenario_process")
 local TerminateScenarios = require ("scenario_terminate")
 local InspectScenarios = require ("scenario_inspect")
+local TerminalScenarios = require ("scenario_terminal")
 local ScenarioRunner = require ("scenario_runner")
 
 local binaryPath = arg[1]
@@ -44,7 +45,6 @@ end
 local breakpointLine = findBreakpointLine (fixtureSourcePath, breakpointMarker)
 local innerLine = findBreakpointLine (fixtureSourcePath, "SMOKE_INNER_LINE")
 local emptyLine = findBreakpointLine (fixtureSourcePath, "SMOKE_EMPTY_LINE")
-local secondLine = findBreakpointLine (fixtureSourcePath, "SMOKE_SECOND_LINE")
 
 local fixtureDirectory = vim.fn.fnamemodify (fixtureSourcePath, ":h")
 local buildDirectory = vim.fn.fnamemodify (fixturePath, ":h")
@@ -79,6 +79,7 @@ local reports = {
     ProcessScenarios.scenarioConfigurationDoneOrder (binaryPath, fixturePath, exitTimeoutMs),
     ProcessScenarios.scenarioUnknownCommand (binaryPath),
     BreakpointScenarios.scenarioPendingBreakpoint (binaryPath, fixtureLoadPath, moduleSourcePath, moduleLine, exitTimeoutMs),
+    TerminalScenarios.scenarioRunInTerminal (binaryPath, fixturePath, fixtureSourcePath, breakpointLine, exitTimeoutMs),
 }
 
 print ("== SMOKE REPORT ==")

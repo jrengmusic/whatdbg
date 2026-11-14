@@ -27,101 +27,21 @@ bool BreakpointManager::hasUnresolvedBreakpoints () const noexcept
     });
 }
 
-std::pair<std::uint64_t, std::uint16_t> BreakpointManager::getBreakpointOffset (
-    const juce::String& sourcePath,
-    std::uint16_t       requestedLine) noexcept
-{
-#if JUCE_DEBUG
-    jam::debug::Log::write ("WHATDBG: getBreakpointOffset attempting " + sourcePath + ":"
-                             + juce::String (static_cast<unsigned long> (requestedLine)));
-#endif
-
-    std::uint64_t offset       { 0 };
-    std::uint16_t resolvedLine { 0 };
-    bool          isBusy       { false };
-
-    for (std::uint32_t delta { 0 }; delta <= lineSearchWindow and offset == 0 and not isBusy; ++delta)
-    {
-        const std::uint16_t candidate { static_cast<std::uint16_t> (requestedLine + delta) };
-        const OffsetStatus  status    { session.getOffsetStatus (sourcePath, candidate) };
-
-        isBusy = status == OffsetStatus::engineBusy;
-
-#if JUCE_DEBUG
-        if (isBusy)
-        {
-            jam::debug::Log::write ("WHATDBG: getOffsetStatus returned E_UNEXPECTED -- symbol engine not ready");
-        }
-#endif
-
-        if (status == OffsetStatus::found)
-        {
-            offset       = session.getOffset (sourcePath, candidate);
-            resolvedLine = candidate;
-
-#if JUCE_DEBUG
-            jam::debug::Log::write ("WHATDBG: resolved " + sourcePath + ":"
-                                     + juce::String (static_cast<unsigned long> (candidate)) + " -> 0x"
-                                     + juce::String::toHexString (static_cast<unsigned long long> (offset)));
-#endif
-        }
-
-#if JUCE_DEBUG
-        if (status == OffsetStatus::notFound and delta == 0)
-        {
-            jam::debug::Log::write ("WHATDBG: getOffsetStatus notFound for " + sourcePath + ":"
-                                     + juce::String (static_cast<unsigned long> (candidate)));
-        }
-#endif
-    }
-
-    const bool isResolved { offset != 0 };
-
-#if JUCE_DEBUG
-    if (not isResolved)
-    {
-        jam::debug::Log::write ("WHATDBG: getBreakpointOffset failed for " + sourcePath + ":"
-                                 + juce::String (static_cast<unsigned long> (requestedLine)) + " (and "
-                                 + juce::String (static_cast<unsigned long> (lineSearchWindow))
-                                 + " lines forward) -- pending");
-    }
-    else
-    {
-        jam::debug::Log::write ("WHATDBG: resolved offset for " + sourcePath + ":"
-                                 + juce::String (static_cast<unsigned long> (resolvedLine))
-                                 + " offset=0x"
-                                 + juce::String::toHexString (static_cast<unsigned long long> (offset)));
-    }
-#endif
-
-    return { offset, resolvedLine };
-}
-
 void BreakpointManager::setBreakpointLocation (BreakpointInfo& entryInfo) noexcept
 {
-    const auto [offset, candidateResolvedLine] { getBreakpointOffset (entryInfo.sourcePath, entryInfo.line) };
+    const auto location { session.addBreakpointByLocation (entryInfo.sourcePath, entryInfo.line) };
 
-    if (offset != 0)
+    if (location.has_value ())
     {
-        const std::optional<std::int32_t> engineId { session.addBreakpoint (offset) };
-
-        if (engineId.has_value ())
-        {
-            entryInfo.engineId     = engineId;
-            entryInfo.resolvedLine = candidateResolvedLine;
+        const auto [engineId, resolvedLine] { *location };
+        entryInfo.engineId     = engineId;
+        entryInfo.resolvedLine = resolvedLine;
 
 #if JUCE_DEBUG
-            jam::debug::Log::write ("WHATDBG: breakpoint set dapId="
-                                     + juce::String (static_cast<unsigned long> (entryInfo.dapId))
-                                     + " line=" + juce::String (static_cast<unsigned long> (candidateResolvedLine))
-                                     + " engineId=" + juce::String (*engineId));
-#endif
-        }
-#if JUCE_DEBUG
-        else
-        {
-            jam::debug::Log::write ("WHATDBG: addBreakpoint failed");
-        }
+        jam::debug::Log::write ("WHATDBG: breakpoint set dapId="
+                                 + juce::String (static_cast<unsigned long> (entryInfo.dapId))
+                                 + " line=" + juce::String (static_cast<unsigned long> (resolvedLine))
+                                 + " engineId=" + juce::String (engineId));
 #endif
     }
 }
@@ -186,13 +106,6 @@ static juce::String normalizePath (const juce::String& path) noexcept
     return path.replace ("\\", "/");
 }
 
-#if JUCE_WINDOWS
-static juce::String toWindowsPath (const juce::String& path) noexcept
-{
-    return path.replace ("/", "\\");
-}
-#endif
-
 std::unordered_map<std::uint16_t, std::uint16_t> BreakpointManager::removeOrphanedBreakpoints (
     const juce::String&               normalizedKey,
     const std::vector<std::uint16_t>& requestedLines)
@@ -228,30 +141,17 @@ void BreakpointManager::addBreakpoint (const juce::String& rawSourcePath,
                                        std::uint16_t       line,
                                        std::uint16_t       dapId)
 {
-   #if JUCE_WINDOWS
-    const juce::String nativePath { toWindowsPath (rawSourcePath) };
-   #else
-    const juce::String nativePath { rawSourcePath };
-   #endif
-
-    const auto location { session.addBreakpointByLocation (nativePath, line) };
-
     BreakpointInfo info {};
     info.dapId      = dapId;
-    info.sourcePath = nativePath;
+    info.sourcePath = rawSourcePath;
     info.line       = line;
 
-    if (location.has_value ())
-    {
-        const auto [engineId, resolvedLine] { *location };
-        info.engineId     = engineId;
-        info.resolvedLine = resolvedLine;
-    }
+    setBreakpointLocation (info);
 
 #if JUCE_DEBUG
     if (not info.engineId.has_value ())
     {
-        jam::debug::Log::write ("WHATDBG: breakpoint pending (module not loaded) " + nativePath + ":"
+        jam::debug::Log::write ("WHATDBG: breakpoint pending (module not loaded) " + rawSourcePath + ":"
                                  + juce::String (line) + " dapId="
                                  + juce::String (static_cast<unsigned long> (dapId)));
     }

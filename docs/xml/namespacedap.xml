@@ -26,12 +26,62 @@
         <location file="dap/Types.cpp" line="11" column="5" bodyfile="dap/Types.cpp" bodystart="11" bodyend="20" declfile="dap/Types.h" declline="14" declcolumn="5"/>
         <references refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140">jam::Instance&lt; WHATDBGModel &gt;::getInstance</references>
         <references refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" compoundref="_types_8cpp" startline="11" endline="20">nextSeq</references>
-        <references refid="namespaceId_1a9f27da94bef79dc7fdd99088951c5d07" compoundref="_generated_8cpp" startline="68" endline="68">Id::nextSequenceNumber</references>
-        <referencedby refid="namespacedap_1abef24a43f953f76738d1403d3abb17eb" compoundref="_types_8cpp" startline="36" endline="44">appendEventMembers</referencedby>
-        <referencedby refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" compoundref="_types_8cpp" startline="22" endline="34">appendResponseMembers</referencedby>
-        <referencedby refid="namespacedap_1a4b62e7b9e343cb73546db4dad1299062" compoundref="_types_8cpp" startline="72" endline="87">getRequest</referencedby>
-        <referencedby refid="namespacedap_1a026ee303448d3d1778a79fc03e223438" compoundref="_types_8h" startline="107" endline="124">getRequest</referencedby>
+        <references refid="namespaceId_1a9f27da94bef79dc7fdd99088951c5d07" compoundref="_generated_8cpp" startline="85" endline="85">Id::nextSequenceNumber</references>
+        <referencedby refid="namespacedap_1a302bfbcf89b497410095e68de509a548" compoundref="_types_8cpp" startline="22" endline="28">appendMessageMembers</referencedby>
         <referencedby refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" compoundref="_types_8cpp" startline="11" endline="20">nextSeq</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacedap_1a302bfbcf89b497410095e68de509a548" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void dap::appendMessageMembers</definition>
+        <argsstring>(std::string &amp;json, std::string_view type)</argsstring>
+        <name>appendMessageMembers</name>
+        <qualifiedname>dap::appendMessageMembers</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Append the seq and type members that the response, event, and request objects share. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each call takes the next sequence number through nextSeq. The caller opens and closes the object.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output text that receives the members. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Message type: request, response, or event. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/Types.cpp" line="22" column="6" bodyfile="dap/Types.cpp" bodystart="22" bodyend="28" declfile="dap/Types.h" declline="52" declcolumn="6"/>
+        <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="namespacedap_1a302bfbcf89b497410095e68de509a548" compoundref="_types_8cpp" startline="22" endline="28">appendMessageMembers</references>
+        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
+        <references refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" compoundref="_types_8cpp" startline="11" endline="20">nextSeq</references>
+        <references refid="namespaceId_1abdf0cd1b922dc9e184b37465a4c92e9c" compoundref="_generated_8cpp" startline="104" endline="104">Id::seq</references>
+        <references refid="namespaceId_1ab4956db6d5e735af8b4e202830ac73f7">Id::type</references>
+        <referencedby refid="namespacedap_1abef24a43f953f76738d1403d3abb17eb" compoundref="_types_8cpp" startline="41" endline="46">appendEventMembers</referencedby>
+        <referencedby refid="namespacedap_1a302bfbcf89b497410095e68de509a548" compoundref="_types_8cpp" startline="22" endline="28">appendMessageMembers</referencedby>
+        <referencedby refid="namespacedap_1a9017bb074f243c44e03c5884a4704e9a" compoundref="_types_8cpp" startline="48" endline="53">appendRequestMembers</referencedby>
+        <referencedby refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" compoundref="_types_8cpp" startline="30" endline="39">appendResponseMembers</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -97,24 +147,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.cpp" line="22" column="6" bodyfile="dap/Types.cpp" bodystart="22" bodyend="34" declfile="dap/Types.h" declline="25" declcolumn="6"/>
+        <location file="dap/Types.cpp" line="30" column="6" bodyfile="dap/Types.cpp" bodystart="30" bodyend="39" declfile="dap/Types.h" declline="25" declcolumn="6"/>
         <references refid="structjam_1_1JsonWriter_1a6a110b64d6eacd0c9ef356b561c6ccf6">jam::JsonWriter::appendBoolean</references>
         <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
         <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
-        <references refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" compoundref="_types_8cpp" startline="22" endline="34">appendResponseMembers</references>
+        <references refid="namespacedap_1a302bfbcf89b497410095e68de509a548" compoundref="_types_8cpp" startline="22" endline="28">appendMessageMembers</references>
+        <references refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" compoundref="_types_8cpp" startline="30" endline="39">appendResponseMembers</references>
         <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
         <references refid="namespaceId_1a1538a142ed265f60c8fcf1703a106a7d">Id::command</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
-        <references refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" compoundref="_types_8cpp" startline="11" endline="20">nextSeq</references>
-        <references refid="namespaceId_1a5c863dd1e25e392e3170e8ef2468688c" compoundref="_generated_8cpp" startline="80" endline="80">Id::requestSeq</references>
-        <references refid="namespaceId_1a027a3e8fffcb394673c7894068573660" compoundref="_generated_8cpp" startline="81" endline="81">Id::response</references>
-        <references refid="namespaceId_1abdf0cd1b922dc9e184b37465a4c92e9c" compoundref="_generated_8cpp" startline="85" endline="85">Id::seq</references>
-        <references refid="namespaceId_1afd9551a6c98ce5a1f9179ec52657af6b" compoundref="_generated_8cpp" startline="101" endline="101">Id::success</references>
-        <references refid="namespaceId_1ab4956db6d5e735af8b4e202830ac73f7">Id::type</references>
-        <referencedby refid="namespacedap_1ab92cf7854c6b2dbc40d249b04d8e276e" compoundref="_types_8cpp" startline="54" endline="62">appendErrorResponse</referencedby>
-        <referencedby refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">appendResponse</referencedby>
-        <referencedby refid="namespacedap_1a091a5bef8652985ca095c5d8873da6f5" compoundref="_types_8h" startline="46" endline="54">appendResponse</referencedby>
-        <referencedby refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" compoundref="_types_8cpp" startline="22" endline="34">appendResponseMembers</referencedby>
+        <references refid="namespaceId_1a5c863dd1e25e392e3170e8ef2468688c" compoundref="_generated_8cpp" startline="98" endline="98">Id::requestSeq</references>
+        <references refid="namespaceId_1a027a3e8fffcb394673c7894068573660" compoundref="_generated_8cpp" startline="99" endline="99">Id::response</references>
+        <references refid="namespaceId_1afd9551a6c98ce5a1f9179ec52657af6b" compoundref="_generated_8cpp" startline="120" endline="120">Id::success</references>
+        <referencedby refid="namespacedap_1ab92cf7854c6b2dbc40d249b04d8e276e" compoundref="_types_8cpp" startline="63" endline="71">appendErrorResponse</referencedby>
+        <referencedby refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="55" endline="61">appendResponse</referencedby>
+        <referencedby refid="namespacedap_1a091a5bef8652985ca095c5d8873da6f5" compoundref="_types_8h" startline="64" endline="72">appendResponse</referencedby>
+        <referencedby refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" compoundref="_types_8cpp" startline="30" endline="39">appendResponseMembers</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1abef24a43f953f76738d1403d3abb17eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -156,19 +204,68 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.cpp" line="36" column="6" bodyfile="dap/Types.cpp" bodystart="36" bodyend="44" declfile="dap/Types.h" declline="34" declcolumn="6"/>
-        <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
-        <references refid="namespacedap_1abef24a43f953f76738d1403d3abb17eb" compoundref="_types_8cpp" startline="36" endline="44">appendEventMembers</references>
+        <location file="dap/Types.cpp" line="41" column="6" bodyfile="dap/Types.cpp" bodystart="41" bodyend="46" declfile="dap/Types.h" declline="34" declcolumn="6"/>
+        <references refid="namespacedap_1abef24a43f953f76738d1403d3abb17eb" compoundref="_types_8cpp" startline="41" endline="46">appendEventMembers</references>
         <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="namespacedap_1a302bfbcf89b497410095e68de509a548" compoundref="_types_8cpp" startline="22" endline="28">appendMessageMembers</references>
         <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
         <references refid="namespaceId_1a284906d9fb5561baff5ca41b4c5f91c2">Id::event</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
-        <references refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" compoundref="_types_8cpp" startline="11" endline="20">nextSeq</references>
-        <references refid="namespaceId_1abdf0cd1b922dc9e184b37465a4c92e9c" compoundref="_generated_8cpp" startline="85" endline="85">Id::seq</references>
-        <references refid="namespaceId_1ab4956db6d5e735af8b4e202830ac73f7">Id::type</references>
-        <referencedby refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="64" endline="70">appendEvent</referencedby>
-        <referencedby refid="namespacedap_1ad6158862d04add2ed2457780c3218ff7" compoundref="_types_8h" startline="82" endline="90">appendEvent</referencedby>
-        <referencedby refid="namespacedap_1abef24a43f953f76738d1403d3abb17eb" compoundref="_types_8cpp" startline="36" endline="44">appendEventMembers</referencedby>
+        <referencedby refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="73" endline="79">appendEvent</referencedby>
+        <referencedby refid="namespacedap_1ad6158862d04add2ed2457780c3218ff7" compoundref="_types_8h" startline="100" endline="108">appendEvent</referencedby>
+        <referencedby refid="namespacedap_1abef24a43f953f76738d1403d3abb17eb" compoundref="_types_8cpp" startline="41" endline="46">appendEventMembers</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacedap_1a9017bb074f243c44e03c5884a4704e9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void dap::appendRequestMembers</definition>
+        <argsstring>(std::string &amp;json, std::string_view command)</argsstring>
+        <name>appendRequestMembers</name>
+        <qualifiedname>dap::appendRequestMembers</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>command</declname>
+        </param>
+        <briefdescription>
+<para>Append the members of a request object: seq, type, and command. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The caller opens and closes the object.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output text that receives the members. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>command</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>DAP command name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/Types.cpp" line="48" column="6" bodyfile="dap/Types.cpp" bodystart="48" bodyend="53" declfile="dap/Types.h" declline="43" declcolumn="6"/>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="namespacedap_1a302bfbcf89b497410095e68de509a548" compoundref="_types_8cpp" startline="22" endline="28">appendMessageMembers</references>
+        <references refid="namespacedap_1a9017bb074f243c44e03c5884a4704e9a" compoundref="_types_8cpp" startline="48" endline="53">appendRequestMembers</references>
+        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
+        <references refid="namespaceId_1a1538a142ed265f60c8fcf1703a106a7d">Id::command</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1af4e71980bee2a5365b2626999eb5bf71" compoundref="_generated_8cpp" startline="97" endline="97">Id::request</references>
+        <referencedby refid="namespacedap_1a1a49a406f7bc8ed527a5d1e9999994f6" compoundref="_types_8h" startline="125" endline="133">appendRequest</referencedby>
+        <referencedby refid="namespacedap_1a9017bb074f243c44e03c5884a4704e9a" compoundref="_types_8cpp" startline="48" endline="53">appendRequestMembers</referencedby>
+        <referencedby refid="namespacedap_1a4b62e7b9e343cb73546db4dad1299062" compoundref="_types_8cpp" startline="81" endline="91">getRequest</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1a7b8aaaf08897d1545f485905b818c572" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -233,29 +330,30 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.cpp" line="46" column="6" bodyfile="dap/Types.cpp" bodystart="46" bodyend="52" declfile="dap/Types.h" declline="63" declcolumn="6"/>
+        <location file="dap/Types.cpp" line="55" column="6" bodyfile="dap/Types.cpp" bodystart="55" bodyend="61" declfile="dap/Types.h" declline="81" declcolumn="6"/>
         <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
-        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">appendResponse</references>
-        <references refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" compoundref="_types_8cpp" startline="22" endline="34">appendResponseMembers</references>
-        <referencedby refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">appendResponse</referencedby>
-        <referencedby refid="namespacedap_1a091a5bef8652985ca095c5d8873da6f5" compoundref="_types_8h" startline="46" endline="54">appendResponse</referencedby>
-        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="357" endline="385">Processor::onAttach</referencedby>
-        <referencedby refid="class_processor_1a5ef207789c74afa70eb20f95ca575828" compoundref="_processor_8cpp" startline="387" endline="396">Processor::onConfigurationDone</referencedby>
-        <referencedby refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="542" endline="560">Processor::onContinue</referencedby>
-        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="398" endline="432">Processor::onDisconnect</referencedby>
-        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="647" endline="676">Processor::onEvaluate</referencedby>
-        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="627" endline="645">Processor::onExceptionInfo</referencedby>
-        <referencedby refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" compoundref="_processor_8cpp" startline="285" endline="296">Processor::onInitialize</referencedby>
-        <referencedby refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" compoundref="_processor_8cpp" startline="298" endline="325">Processor::onLaunch</referencedby>
-        <referencedby refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" compoundref="_processor_8cpp" startline="562" endline="577">Processor::onNext</referencedby>
-        <referencedby refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" compoundref="_processor_8cpp" startline="613" endline="625">Processor::onPause</referencedby>
-        <referencedby refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" compoundref="_processor_8cpp" startline="506" endline="523">Processor::onScopes</referencedby>
-        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="434" endline="462">Processor::onSetBreakpoints</referencedby>
-        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="478" endline="504">Processor::onStackTrace</referencedby>
-        <referencedby refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" compoundref="_processor_8cpp" startline="579" endline="594">Processor::onStepIn</referencedby>
-        <referencedby refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" compoundref="_processor_8cpp" startline="596" endline="611">Processor::onStepOut</referencedby>
-        <referencedby refid="class_processor_1a9c6554bef7c0240709dd33695728e25d" compoundref="_processor_8cpp" startline="464" endline="476">Processor::onThreads</referencedby>
-        <referencedby refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" compoundref="_processor_8cpp" startline="525" endline="540">Processor::onVariables</referencedby>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="55" endline="61">appendResponse</references>
+        <references refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" compoundref="_types_8cpp" startline="30" endline="39">appendResponseMembers</references>
+        <referencedby refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="55" endline="61">appendResponse</referencedby>
+        <referencedby refid="namespacedap_1a091a5bef8652985ca095c5d8873da6f5" compoundref="_types_8h" startline="64" endline="72">appendResponse</referencedby>
+        <referencedby refid="class_processor_1a1c7c3524b82bf7df9f07ff1717970da2" compoundref="_processor_8cpp" startline="418" endline="437">Processor::launchInConsole</referencedby>
+        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="484" endline="512">Processor::onAttach</referencedby>
+        <referencedby refid="class_processor_1a5ef207789c74afa70eb20f95ca575828" compoundref="_processor_8cpp" startline="514" endline="523">Processor::onConfigurationDone</referencedby>
+        <referencedby refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="669" endline="687">Processor::onContinue</referencedby>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="525" endline="559">Processor::onDisconnect</referencedby>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="774" endline="805">Processor::onEvaluate</referencedby>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="754" endline="772">Processor::onExceptionInfo</referencedby>
+        <referencedby refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" compoundref="_processor_8cpp" startline="386" endline="399">Processor::onInitialize</referencedby>
+        <referencedby refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" compoundref="_processor_8cpp" startline="689" endline="704">Processor::onNext</referencedby>
+        <referencedby refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" compoundref="_processor_8cpp" startline="740" endline="752">Processor::onPause</referencedby>
+        <referencedby refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" compoundref="_processor_8cpp" startline="633" endline="650">Processor::onScopes</referencedby>
+        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="561" endline="589">Processor::onSetBreakpoints</referencedby>
+        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="605" endline="631">Processor::onStackTrace</referencedby>
+        <referencedby refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" compoundref="_processor_8cpp" startline="706" endline="721">Processor::onStepIn</referencedby>
+        <referencedby refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" compoundref="_processor_8cpp" startline="723" endline="738">Processor::onStepOut</referencedby>
+        <referencedby refid="class_processor_1a9c6554bef7c0240709dd33695728e25d" compoundref="_processor_8cpp" startline="591" endline="603">Processor::onThreads</referencedby>
+        <referencedby refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" compoundref="_processor_8cpp" startline="652" endline="667">Processor::onVariables</referencedby>
+        <referencedby refid="class_processor_1a0d99918b0acbc30b8cc7f6fc524a7bd2" compoundref="_processor_8cpp" startline="182" endline="202">Processor::registerLauncherEvents</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1ab92cf7854c6b2dbc40d249b04d8e276e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -320,18 +418,20 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.cpp" line="54" column="6" bodyfile="dap/Types.cpp" bodystart="54" bodyend="62" declfile="dap/Types.h" declline="72" declcolumn="6"/>
-        <references refid="namespacedap_1ab92cf7854c6b2dbc40d249b04d8e276e" compoundref="_types_8cpp" startline="54" endline="62">appendErrorResponse</references>
+        <location file="dap/Types.cpp" line="63" column="6" bodyfile="dap/Types.cpp" bodystart="63" bodyend="71" declfile="dap/Types.h" declline="90" declcolumn="6"/>
+        <references refid="namespacedap_1ab92cf7854c6b2dbc40d249b04d8e276e" compoundref="_types_8cpp" startline="63" endline="71">appendErrorResponse</references>
         <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
         <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
-        <references refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" compoundref="_types_8cpp" startline="22" endline="34">appendResponseMembers</references>
+        <references refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" compoundref="_types_8cpp" startline="30" endline="39">appendResponseMembers</references>
         <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
         <references refid="namespaceId_1a0e0b9ef1fb687c4c7c73d2bd7213ac01">Id::message</references>
-        <referencedby refid="namespacedap_1ab92cf7854c6b2dbc40d249b04d8e276e" compoundref="_types_8cpp" startline="54" endline="62">appendErrorResponse</referencedby>
-        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="357" endline="385">Processor::onAttach</referencedby>
-        <referencedby refid="class_processor_1a9799b1f73561ced0b3e287dc623d10e1" compoundref="_processor_8cpp" startline="170" endline="199">Processor::onCommand</referencedby>
-        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="647" endline="676">Processor::onEvaluate</referencedby>
-        <referencedby refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" compoundref="_processor_8cpp" startline="298" endline="325">Processor::onLaunch</referencedby>
+        <referencedby refid="class_processor_1a85d762de429f761d1ca7931efb1b4d5c" compoundref="_processor_8cpp" startline="292" endline="298">Processor::addLaunchErrorResponse</referencedby>
+        <referencedby refid="namespacedap_1ab92cf7854c6b2dbc40d249b04d8e276e" compoundref="_types_8cpp" startline="63" endline="71">appendErrorResponse</referencedby>
+        <referencedby refid="class_processor_1a1c7c3524b82bf7df9f07ff1717970da2" compoundref="_processor_8cpp" startline="418" endline="437">Processor::launchInConsole</referencedby>
+        <referencedby refid="class_processor_1a28403704dc0835af3681e56345b85d2e" compoundref="_processor_8cpp" startline="439" endline="461">Processor::launchInTerminal</referencedby>
+        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="484" endline="512">Processor::onAttach</referencedby>
+        <referencedby refid="class_processor_1a9799b1f73561ced0b3e287dc623d10e1" compoundref="_processor_8cpp" startline="250" endline="273">Processor::onCommand</referencedby>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="774" endline="805">Processor::onEvaluate</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -372,24 +472,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.cpp" line="64" column="6" bodyfile="dap/Types.cpp" bodystart="64" bodyend="70" declfile="dap/Types.h" declline="97" declcolumn="6"/>
-        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="64" endline="70">appendEvent</references>
-        <references refid="namespacedap_1abef24a43f953f76738d1403d3abb17eb" compoundref="_types_8cpp" startline="36" endline="44">appendEventMembers</references>
+        <location file="dap/Types.cpp" line="73" column="6" bodyfile="dap/Types.cpp" bodystart="73" bodyend="79" declfile="dap/Types.h" declline="115" declcolumn="6"/>
+        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="73" endline="79">appendEvent</references>
+        <references refid="namespacedap_1abef24a43f953f76738d1403d3abb17eb" compoundref="_types_8cpp" startline="41" endline="46">appendEventMembers</references>
         <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
-        <referencedby refid="namespacedap_1a2252839c7eb64619f5c79f9b0875ab18" compoundref="_types_8cpp" startline="89" endline="106">appendBreakpointChangedEvent</referencedby>
-        <referencedby refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="64" endline="70">appendEvent</referencedby>
-        <referencedby refid="namespacedap_1ad6158862d04add2ed2457780c3218ff7" compoundref="_types_8h" startline="82" endline="90">appendEvent</referencedby>
-        <referencedby refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" compoundref="_processor_8cpp" startline="215" endline="242">Processor::drainProcessExited</referencedby>
-        <referencedby refid="namespacedap_1aa487f84892d5c501840a4dbae03b7800" compoundref="_types_8cpp" startline="211" endline="225">getExceptionOutputEvent</referencedby>
-        <referencedby refid="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" compoundref="_types_8cpp" startline="188" endline="209">getExceptionStoppedEvent</referencedby>
-        <referencedby refid="namespacedap_1a36ecaf74c4e93e9b1d9f4325dea08262" compoundref="_types_8cpp" startline="248" endline="261">getOutputEvent</referencedby>
-        <referencedby refid="namespacedap_1aff116122c81f4bb50a0e85ec69b7f2b8" compoundref="_types_8cpp" startline="227" endline="246">getProcessEvent</referencedby>
-        <referencedby refid="namespacedap_1a336d8b131f80128060f5206c3c233455" compoundref="_types_8cpp" startline="163" endline="178">getStoppedEvent</referencedby>
-        <referencedby refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" compoundref="_processor_8cpp" startline="285" endline="296">Processor::onInitialize</referencedby>
-        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="180" endline="210">debug::StopManager::resumeAfterInitialBreak</referencedby>
+        <referencedby refid="namespacedap_1a2252839c7eb64619f5c79f9b0875ab18" compoundref="_types_8cpp" startline="93" endline="110">appendBreakpointChangedEvent</referencedby>
+        <referencedby refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="73" endline="79">appendEvent</referencedby>
+        <referencedby refid="namespacedap_1ad6158862d04add2ed2457780c3218ff7" compoundref="_types_8h" startline="100" endline="108">appendEvent</referencedby>
+        <referencedby refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" compoundref="_processor_8cpp" startline="314" endline="343">Processor::drainProcessExited</referencedby>
+        <referencedby refid="namespacedap_1aa487f84892d5c501840a4dbae03b7800" compoundref="_types_8cpp" startline="237" endline="251">getExceptionOutputEvent</referencedby>
+        <referencedby refid="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" compoundref="_types_8cpp" startline="214" endline="235">getExceptionStoppedEvent</referencedby>
+        <referencedby refid="namespacedap_1a36ecaf74c4e93e9b1d9f4325dea08262" compoundref="_types_8cpp" startline="274" endline="287">getOutputEvent</referencedby>
+        <referencedby refid="namespacedap_1aff116122c81f4bb50a0e85ec69b7f2b8" compoundref="_types_8cpp" startline="253" endline="272">getProcessEvent</referencedby>
+        <referencedby refid="namespacedap_1a336d8b131f80128060f5206c3c233455" compoundref="_types_8cpp" startline="189" endline="204">getStoppedEvent</referencedby>
+        <referencedby refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" compoundref="_processor_8cpp" startline="386" endline="399">Processor::onInitialize</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="197" endline="227">debug::StopManager::resumeAfterInitialBreak</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1a4b62e7b9e343cb73546db4dad1299062" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref></type>
+        <type><ref refid="structjam_1_1JsonDocument" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref></type>
         <definition>jam::JsonDocument dap::getRequest</definition>
         <argsstring>(std::string_view command)</argsstring>
         <name>getRequest</name>
@@ -417,23 +517,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.cpp" line="72" column="19" bodyfile="dap/Types.cpp" bodystart="72" bodyend="87" declfile="dap/Types.h" declline="131" declcolumn="19"/>
-        <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
-        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <location file="dap/Types.cpp" line="81" column="19" bodyfile="dap/Types.cpp" bodystart="81" bodyend="91" declfile="dap/Types.h" declline="157" declcolumn="19"/>
         <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
-        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
-        <references refid="namespaceId_1a1538a142ed265f60c8fcf1703a106a7d">Id::command</references>
-        <references refid="namespacedap_1a4b62e7b9e343cb73546db4dad1299062" compoundref="_types_8cpp" startline="72" endline="87">getRequest</references>
-        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
-        <references refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" compoundref="_types_8cpp" startline="11" endline="20">nextSeq</references>
+        <references refid="namespacedap_1a9017bb074f243c44e03c5884a4704e9a" compoundref="_types_8cpp" startline="48" endline="53">appendRequestMembers</references>
+        <references refid="namespacedap_1a4b62e7b9e343cb73546db4dad1299062" compoundref="_types_8cpp" startline="81" endline="91">getRequest</references>
         <references refid="structjam_1_1JsonDocument_1a1343aea261139b22b9cc95844519d8cb">jam::JsonDocument::parse</references>
-        <references refid="namespaceId_1af4e71980bee2a5365b2626999eb5bf71" compoundref="_generated_8cpp" startline="79" endline="79">Id::request</references>
-        <references refid="namespaceId_1abdf0cd1b922dc9e184b37465a4c92e9c" compoundref="_generated_8cpp" startline="85" endline="85">Id::seq</references>
-        <references refid="namespaceId_1ab4956db6d5e735af8b4e202830ac73f7">Id::type</references>
-        <referencedby refid="namespacedap_1a4b62e7b9e343cb73546db4dad1299062" compoundref="_types_8cpp" startline="72" endline="87">getRequest</referencedby>
-        <referencedby refid="namespacedap_1a026ee303448d3d1778a79fc03e223438" compoundref="_types_8h" startline="107" endline="124">getRequest</referencedby>
-        <referencedby refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" compoundref="_processor_8cpp" startline="45" endline="54">Processor::prepare</referencedby>
-        <referencedby refid="class_processor_1a379381665169c712bb1aea2433b5395f" compoundref="_processor_8cpp" startline="68" endline="73">Processor::releaseResources</referencedby>
+        <referencedby refid="namespacedap_1a4b62e7b9e343cb73546db4dad1299062" compoundref="_types_8cpp" startline="81" endline="91">getRequest</referencedby>
+        <referencedby refid="namespacedap_1a026ee303448d3d1778a79fc03e223438" compoundref="_types_8h" startline="143" endline="150">getRequest</referencedby>
+        <referencedby refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" compoundref="_processor_8cpp" startline="52" endline="61">Processor::prepare</referencedby>
+        <referencedby refid="class_processor_1a379381665169c712bb1aea2433b5395f" compoundref="_processor_8cpp" startline="75" endline="80">Processor::releaseResources</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1a2252839c7eb64619f5c79f9b0875ab18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -486,23 +578,23 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.cpp" line="89" column="6" bodyfile="dap/Types.cpp" bodystart="89" bodyend="106" declfile="dap/Types.h" declline="139" declcolumn="6"/>
+        <location file="dap/Types.cpp" line="93" column="6" bodyfile="dap/Types.cpp" bodystart="93" bodyend="110" declfile="dap/Types.h" declline="165" declcolumn="6"/>
         <references refid="structjam_1_1JsonWriter_1a6a110b64d6eacd0c9ef356b561c6ccf6">jam::JsonWriter::appendBoolean</references>
-        <references refid="namespacedap_1a2252839c7eb64619f5c79f9b0875ab18" compoundref="_types_8cpp" startline="89" endline="106">appendBreakpointChangedEvent</references>
+        <references refid="namespacedap_1a2252839c7eb64619f5c79f9b0875ab18" compoundref="_types_8cpp" startline="93" endline="110">appendBreakpointChangedEvent</references>
         <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
-        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="64" endline="70">appendEvent</references>
+        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="73" endline="79">appendEvent</references>
         <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
         <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
         <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
-        <references refid="namespaceId_1af9dbaff7db603045adf88ac0306e8720" compoundref="_generated_8cpp" startline="32" endline="32">Id::breakpoint</references>
-        <references refid="namespaceId_1a1857d223be40f2fc4ee200b4a9fae742" compoundref="_generated_8cpp" startline="37" endline="37">Id::changed</references>
+        <references refid="namespaceId_1af9dbaff7db603045adf88ac0306e8720" compoundref="_generated_8cpp" startline="34" endline="34">Id::breakpoint</references>
+        <references refid="namespaceId_1a1857d223be40f2fc4ee200b4a9fae742" compoundref="_generated_8cpp" startline="39" endline="39">Id::changed</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
         <references refid="namespaceId_1a3f6204ca8d39b2591e10dc6cf112e0fc">Id::id</references>
         <references refid="namespaceId_1a9acf3e231e632c1b02ad3a0d4c0fc008">Id::line</references>
-        <references refid="namespaceId_1a9b4ec5e66274c360356c8239b90e81a1" compoundref="_generated_8cpp" startline="77" endline="77">Id::reason</references>
-        <references refid="namespaceId_1a7fa0c881c6a81271d5354c60266306eb" compoundref="_generated_8cpp" startline="146" endline="146">Id::verified</references>
-        <referencedby refid="namespacedap_1a2252839c7eb64619f5c79f9b0875ab18" compoundref="_types_8cpp" startline="89" endline="106">appendBreakpointChangedEvent</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" compoundref="_breakpoint_manager_8cpp" startline="363" endline="390">debug::BreakpointManager::onSymbolsLoaded</referencedby>
+        <references refid="namespaceId_1a9b4ec5e66274c360356c8239b90e81a1" compoundref="_generated_8cpp" startline="95" endline="95">Id::reason</references>
+        <references refid="namespaceId_1a7fa0c881c6a81271d5354c60266306eb" compoundref="_generated_8cpp" startline="166" endline="166">Id::verified</references>
+        <referencedby refid="namespacedap_1a2252839c7eb64619f5c79f9b0875ab18" compoundref="_types_8cpp" startline="93" endline="110">appendBreakpointChangedEvent</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" compoundref="_breakpoint_manager_8cpp" startline="263" endline="290">debug::BreakpointManager::onSymbolsLoaded</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1aba2a832f89ae6f80a41bc63c1e7c99f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -555,15 +647,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.cpp" line="108" column="6" bodyfile="dap/Types.cpp" bodystart="108" bodyend="117" declfile="dap/Types.h" declline="147" declcolumn="6"/>
+        <location file="dap/Types.cpp" line="112" column="6" bodyfile="dap/Types.cpp" bodystart="112" bodyend="121" declfile="dap/Types.h" declline="173" declcolumn="6"/>
         <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
         <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
-        <references refid="namespacedap_1aba2a832f89ae6f80a41bc63c1e7c99f8" compoundref="_types_8cpp" startline="108" endline="117">appendSource</references>
+        <references refid="namespacedap_1aba2a832f89ae6f80a41bc63c1e7c99f8" compoundref="_types_8cpp" startline="112" endline="121">appendSource</references>
         <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
         <references refid="namespaceId_1ab17c6c7afce10ee78699a1e23ac7acdf">Id::name</references>
         <references refid="namespaceId_1ac0d6bb21fb6eb483624e52f9002294ab">Id::path</references>
-        <referencedby refid="namespacedap_1aba2a832f89ae6f80a41bc63c1e7c99f8" compoundref="_types_8cpp" startline="108" endline="117">appendSource</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a8c839b8c18d56cf2952df599fc1f2e3d" compoundref="_session__mac_8cpp" startline="666" endline="695">debug::Session::appendStackFrame</referencedby>
+        <referencedby refid="namespacedap_1aba2a832f89ae6f80a41bc63c1e7c99f8" compoundref="_types_8cpp" startline="112" endline="121">appendSource</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a8c839b8c18d56cf2952df599fc1f2e3d" compoundref="_session__mac_8cpp" startline="717" endline="746">debug::Session::appendStackFrame</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -593,43 +685,121 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.cpp" line="119" column="6" bodyfile="dap/Types.cpp" bodystart="119" bodyend="161" declfile="dap/Types.h" declline="155" declcolumn="6"/>
+        <location file="dap/Types.cpp" line="123" column="6" bodyfile="dap/Types.cpp" bodystart="123" bodyend="165" declfile="dap/Types.h" declline="181" declcolumn="6"/>
         <references refid="structjam_1_1JsonWriter_1a6a110b64d6eacd0c9ef356b561c6ccf6">jam::JsonWriter::appendBoolean</references>
-        <references refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="119" endline="161">appendCapabilities</references>
+        <references refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">appendCapabilities</references>
         <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
-        <references refid="namespaceId_1aa5dae72a45efd2ae14703e43a219e4e4" compoundref="_generated_8cpp" startline="102" endline="102">Id::supportsBreakpointLocationsRequest</references>
-        <references refid="namespaceId_1a4c0a81356361f2e980db8dd43f9bcded" compoundref="_generated_8cpp" startline="103" endline="103">Id::supportsCancelRequest</references>
-        <references refid="namespaceId_1afa6eda7d3bbb3dcca14ef2c02949d5ef" compoundref="_generated_8cpp" startline="104" endline="104">Id::supportsClipboardContext</references>
-        <references refid="namespaceId_1a14f6bb9bc077d1da0177225710262d27" compoundref="_generated_8cpp" startline="105" endline="105">Id::supportsCompletionsRequest</references>
-        <references refid="namespaceId_1a010446bdf8cedb0863ae1da3ea4e470f" compoundref="_generated_8cpp" startline="106" endline="106">Id::supportsConditionalBreakpoints</references>
-        <references refid="namespaceId_1a7ebbf479c9f42e50c9754b189857ed76" compoundref="_generated_8cpp" startline="107" endline="107">Id::supportsConfigurationDoneRequest</references>
-        <references refid="namespaceId_1a9b1901b34c14f2cba0ff5968ab0c1524" compoundref="_generated_8cpp" startline="108" endline="108">Id::supportsDataBreakpoints</references>
-        <references refid="namespaceId_1a4a98348a9d8f70cd30830f5eec40995a" compoundref="_generated_8cpp" startline="109" endline="109">Id::supportsDelayedStackTraceLoading</references>
-        <references refid="namespaceId_1a6f8025ac20b0a086fe2c5c5d1a1ba2e2" compoundref="_generated_8cpp" startline="110" endline="110">Id::supportsDisassembleRequest</references>
-        <references refid="namespaceId_1a6ea17ec232227e0f9176823839b1d8e0" compoundref="_generated_8cpp" startline="111" endline="111">Id::supportsEvaluateForHovers</references>
-        <references refid="namespaceId_1a4bdcb50de748035a0015096b0f40658c" compoundref="_generated_8cpp" startline="112" endline="112">Id::supportsExceptionFilterOptions</references>
-        <references refid="namespaceId_1aca79713955eb7ff806318783265fdd9e" compoundref="_generated_8cpp" startline="113" endline="113">Id::supportsExceptionInfoRequest</references>
-        <references refid="namespaceId_1a3a3f7e7362a1b9ce2328a6fad2970916" compoundref="_generated_8cpp" startline="114" endline="114">Id::supportsExceptionOptions</references>
-        <references refid="namespaceId_1abea679aad4c96f96cd29086a7fc1e61c" compoundref="_generated_8cpp" startline="115" endline="115">Id::supportsFunctionBreakpoints</references>
-        <references refid="namespaceId_1a24a01dd64c8be21c687be36f1464d23f" compoundref="_generated_8cpp" startline="116" endline="116">Id::supportsGotoTargetsRequest</references>
-        <references refid="namespaceId_1a506e7e6afad1109edfd882b514e6f336" compoundref="_generated_8cpp" startline="117" endline="117">Id::supportsHitConditionalBreakpoints</references>
-        <references refid="namespaceId_1a3f508e2859ebfa4dea1f92b2f6b6eedc" compoundref="_generated_8cpp" startline="118" endline="118">Id::supportsInstructionBreakpoints</references>
-        <references refid="namespaceId_1aedd5f2be168f4b5664e7cb2fa4f05934" compoundref="_generated_8cpp" startline="119" endline="119">Id::supportsLoadedSourcesRequest</references>
-        <references refid="namespaceId_1a9c48b94665d616c340493586500f95e2" compoundref="_generated_8cpp" startline="120" endline="120">Id::supportsLogPoints</references>
-        <references refid="namespaceId_1af88f33a6de8a626f058d3c774072cd39" compoundref="_generated_8cpp" startline="121" endline="121">Id::supportsModulesRequest</references>
-        <references refid="namespaceId_1a380e78313fb38dc27125a8508a6eb4f7" compoundref="_generated_8cpp" startline="122" endline="122">Id::supportsReadMemoryRequest</references>
-        <references refid="namespaceId_1abb5272c966dab7c5d8326db8fb125ed7" compoundref="_generated_8cpp" startline="123" endline="123">Id::supportsRestartFrame</references>
-        <references refid="namespaceId_1a701d0452e7f7c6fea291dd3860fcba5b" compoundref="_generated_8cpp" startline="124" endline="124">Id::supportsSetExpression</references>
-        <references refid="namespaceId_1a51a5d63890fc15d6de2f6ac5d8cd3d60" compoundref="_generated_8cpp" startline="125" endline="125">Id::supportsSetVariable</references>
-        <references refid="namespaceId_1a0bf4ad83e66e63e755d01d93f9ec5254" compoundref="_generated_8cpp" startline="126" endline="126">Id::supportsStepBack</references>
-        <references refid="namespaceId_1ab191f850384ada1cb292828cfe003d52" compoundref="_generated_8cpp" startline="127" endline="127">Id::supportsStepInTargetsRequest</references>
-        <references refid="namespaceId_1a31b91cd8f19a4b1a46ca791f60f5e1da" compoundref="_generated_8cpp" startline="128" endline="128">Id::supportsSteppingGranularity</references>
-        <references refid="namespaceId_1ac0fada849e672289dfd55df1d6a6c25b" compoundref="_generated_8cpp" startline="129" endline="129">Id::supportsTerminateRequest</references>
-        <references refid="namespaceId_1a11fd484a7e9ec74c23e249d9b1a1e339" compoundref="_generated_8cpp" startline="130" endline="130">Id::supportsTerminateThreadsRequest</references>
-        <references refid="namespaceId_1ad7f75d4b07e47e4197cea6f4c69078c6" compoundref="_generated_8cpp" startline="131" endline="131">Id::supportsValueFormattingOptions</references>
-        <references refid="namespaceId_1a69fdba943abf810e2df6c39ddfcdd5a6" compoundref="_generated_8cpp" startline="132" endline="132">Id::supportTerminateDebuggee</references>
-        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="119" endline="161">appendCapabilities</referencedby>
-        <referencedby refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" compoundref="_processor_8cpp" startline="285" endline="296">Processor::onInitialize</referencedby>
+        <references refid="namespaceId_1aa5dae72a45efd2ae14703e43a219e4e4" compoundref="_generated_8cpp" startline="121" endline="121">Id::supportsBreakpointLocationsRequest</references>
+        <references refid="namespaceId_1a4c0a81356361f2e980db8dd43f9bcded" compoundref="_generated_8cpp" startline="122" endline="122">Id::supportsCancelRequest</references>
+        <references refid="namespaceId_1afa6eda7d3bbb3dcca14ef2c02949d5ef" compoundref="_generated_8cpp" startline="123" endline="123">Id::supportsClipboardContext</references>
+        <references refid="namespaceId_1a14f6bb9bc077d1da0177225710262d27" compoundref="_generated_8cpp" startline="124" endline="124">Id::supportsCompletionsRequest</references>
+        <references refid="namespaceId_1a010446bdf8cedb0863ae1da3ea4e470f" compoundref="_generated_8cpp" startline="125" endline="125">Id::supportsConditionalBreakpoints</references>
+        <references refid="namespaceId_1a7ebbf479c9f42e50c9754b189857ed76" compoundref="_generated_8cpp" startline="126" endline="126">Id::supportsConfigurationDoneRequest</references>
+        <references refid="namespaceId_1a9b1901b34c14f2cba0ff5968ab0c1524" compoundref="_generated_8cpp" startline="127" endline="127">Id::supportsDataBreakpoints</references>
+        <references refid="namespaceId_1a4a98348a9d8f70cd30830f5eec40995a" compoundref="_generated_8cpp" startline="128" endline="128">Id::supportsDelayedStackTraceLoading</references>
+        <references refid="namespaceId_1a6f8025ac20b0a086fe2c5c5d1a1ba2e2" compoundref="_generated_8cpp" startline="129" endline="129">Id::supportsDisassembleRequest</references>
+        <references refid="namespaceId_1a6ea17ec232227e0f9176823839b1d8e0" compoundref="_generated_8cpp" startline="130" endline="130">Id::supportsEvaluateForHovers</references>
+        <references refid="namespaceId_1a4bdcb50de748035a0015096b0f40658c" compoundref="_generated_8cpp" startline="131" endline="131">Id::supportsExceptionFilterOptions</references>
+        <references refid="namespaceId_1aca79713955eb7ff806318783265fdd9e" compoundref="_generated_8cpp" startline="132" endline="132">Id::supportsExceptionInfoRequest</references>
+        <references refid="namespaceId_1a3a3f7e7362a1b9ce2328a6fad2970916" compoundref="_generated_8cpp" startline="133" endline="133">Id::supportsExceptionOptions</references>
+        <references refid="namespaceId_1abea679aad4c96f96cd29086a7fc1e61c" compoundref="_generated_8cpp" startline="134" endline="134">Id::supportsFunctionBreakpoints</references>
+        <references refid="namespaceId_1a24a01dd64c8be21c687be36f1464d23f" compoundref="_generated_8cpp" startline="135" endline="135">Id::supportsGotoTargetsRequest</references>
+        <references refid="namespaceId_1a506e7e6afad1109edfd882b514e6f336" compoundref="_generated_8cpp" startline="136" endline="136">Id::supportsHitConditionalBreakpoints</references>
+        <references refid="namespaceId_1a3f508e2859ebfa4dea1f92b2f6b6eedc" compoundref="_generated_8cpp" startline="137" endline="137">Id::supportsInstructionBreakpoints</references>
+        <references refid="namespaceId_1aedd5f2be168f4b5664e7cb2fa4f05934" compoundref="_generated_8cpp" startline="138" endline="138">Id::supportsLoadedSourcesRequest</references>
+        <references refid="namespaceId_1a9c48b94665d616c340493586500f95e2" compoundref="_generated_8cpp" startline="139" endline="139">Id::supportsLogPoints</references>
+        <references refid="namespaceId_1af88f33a6de8a626f058d3c774072cd39" compoundref="_generated_8cpp" startline="140" endline="140">Id::supportsModulesRequest</references>
+        <references refid="namespaceId_1a380e78313fb38dc27125a8508a6eb4f7" compoundref="_generated_8cpp" startline="141" endline="141">Id::supportsReadMemoryRequest</references>
+        <references refid="namespaceId_1abb5272c966dab7c5d8326db8fb125ed7" compoundref="_generated_8cpp" startline="142" endline="142">Id::supportsRestartFrame</references>
+        <references refid="namespaceId_1a701d0452e7f7c6fea291dd3860fcba5b" compoundref="_generated_8cpp" startline="144" endline="144">Id::supportsSetExpression</references>
+        <references refid="namespaceId_1a51a5d63890fc15d6de2f6ac5d8cd3d60" compoundref="_generated_8cpp" startline="145" endline="145">Id::supportsSetVariable</references>
+        <references refid="namespaceId_1a0bf4ad83e66e63e755d01d93f9ec5254" compoundref="_generated_8cpp" startline="146" endline="146">Id::supportsStepBack</references>
+        <references refid="namespaceId_1ab191f850384ada1cb292828cfe003d52" compoundref="_generated_8cpp" startline="147" endline="147">Id::supportsStepInTargetsRequest</references>
+        <references refid="namespaceId_1a31b91cd8f19a4b1a46ca791f60f5e1da" compoundref="_generated_8cpp" startline="148" endline="148">Id::supportsSteppingGranularity</references>
+        <references refid="namespaceId_1ac0fada849e672289dfd55df1d6a6c25b" compoundref="_generated_8cpp" startline="149" endline="149">Id::supportsTerminateRequest</references>
+        <references refid="namespaceId_1a11fd484a7e9ec74c23e249d9b1a1e339" compoundref="_generated_8cpp" startline="150" endline="150">Id::supportsTerminateThreadsRequest</references>
+        <references refid="namespaceId_1ad7f75d4b07e47e4197cea6f4c69078c6" compoundref="_generated_8cpp" startline="151" endline="151">Id::supportsValueFormattingOptions</references>
+        <references refid="namespaceId_1a69fdba943abf810e2df6c39ddfcdd5a6" compoundref="_generated_8cpp" startline="152" endline="152">Id::supportTerminateDebuggee</references>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">appendCapabilities</referencedby>
+        <referencedby refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" compoundref="_processor_8cpp" startline="386" endline="399">Processor::onInitialize</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacedap_1a84f7acdd9b2452c53428cd5360edbd1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void dap::appendRunInTerminalArguments</definition>
+        <argsstring>(std::string &amp;json, const juce::Identifier &amp;type, const juce::String &amp;cwd, const juce::StringArray &amp;args)</argsstring>
+        <name>appendRunInTerminalArguments</name>
+        <qualifiedname>dap::appendRunInTerminalArguments</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classjuce_1_1Identifier" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::Identifier</ref> &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>cwd</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classjuce_1_1StringArray" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::StringArray</ref> &amp;</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+<para>Append the members of the arguments object of a runInTerminal request: kind, cwd, and args. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The caller opens and closes the object. cwd is written only when it is not empty.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output text that receives the members. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Terminal type that the client uses, such as external or integrated. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cwd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Working directory of the target. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Command line of the <ref refid="class_launcher" kindref="compound">Launcher</ref>, one element for each argument. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/Types.cpp" line="167" column="6" bodyfile="dap/Types.cpp" bodystart="167" bodyend="187" declfile="dap/Types.h" declline="192" declcolumn="6"/>
+        <references refid="structjam_1_1JsonWriter_1a7fe57d041d1f26d4458f3827333f7d77">jam::JsonWriter::appendArray</references>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="namespacedap_1a84f7acdd9b2452c53428cd5360edbd1f" compoundref="_types_8cpp" startline="167" endline="187">appendRunInTerminalArguments</references>
+        <references refid="structjam_1_1JsonWriter_1acf8da4810f6b5cb1ee80660149a2db25">jam::JsonWriter::appendSeparator</references>
+        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
+        <references refid="namespaceId_1ae69c5ff7f8f1211fbe16112f66411786" compoundref="_generated_8cpp" startline="29" endline="29">Id::args</references>
+        <references refid="namespaceId_1aaa176511f935b3f59bdf9fd186beb8a3">Id::cwd</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1a0b34f9abc212e24db3f8ab42517a3c6b" compoundref="_generated_8cpp" startline="79" endline="79">Id::kind</references>
+        <references refid="classjuce_1_1Identifier_1ab6f0db1de2c36cacd1a9d7280f73aeeb">juce::Identifier::toString</references>
+        <referencedby refid="namespacedap_1a84f7acdd9b2452c53428cd5360edbd1f" compoundref="_types_8cpp" startline="167" endline="187">appendRunInTerminalArguments</referencedby>
+        <referencedby refid="class_processor_1a28403704dc0835af3681e56345b85d2e" compoundref="_processor_8cpp" startline="439" endline="461">Processor::launchInTerminal</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1a336d8b131f80128060f5206c3c233455" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -672,34 +842,34 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.cpp" line="163" column="13" bodyfile="dap/Types.cpp" bodystart="163" bodyend="178" declfile="dap/Types.h" declline="163" declcolumn="13"/>
+        <location file="dap/Types.cpp" line="189" column="13" bodyfile="dap/Types.cpp" bodystart="189" bodyend="204" declfile="dap/Types.h" declline="200" declcolumn="13"/>
         <references refid="namespaceId_1a97fc0e281a26b7bd0b33f00ba7f88286" compoundref="_generated_8cpp" startline="28" endline="28">Id::allThreadsStopped</references>
         <references refid="structjam_1_1JsonWriter_1a6a110b64d6eacd0c9ef356b561c6ccf6">jam::JsonWriter::appendBoolean</references>
         <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
-        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="64" endline="70">appendEvent</references>
+        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="73" endline="79">appendEvent</references>
         <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
         <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
-        <references refid="namespacedap_1a336d8b131f80128060f5206c3c233455" compoundref="_types_8cpp" startline="163" endline="178">getStoppedEvent</references>
+        <references refid="namespacedap_1a336d8b131f80128060f5206c3c233455" compoundref="_types_8cpp" startline="189" endline="204">getStoppedEvent</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
-        <references refid="namespaceId_1a9b4ec5e66274c360356c8239b90e81a1" compoundref="_generated_8cpp" startline="77" endline="77">Id::reason</references>
-        <references refid="namespaceId_1a424c0eeb2bdbe8f028b0daaa017604f0" compoundref="_generated_8cpp" startline="99" endline="99">Id::stopped</references>
-        <references refid="namespaceId_1a340842661a4b1de835c5c21978bdb2c7" compoundref="_generated_8cpp" startline="140" endline="140">Id::threadId</references>
-        <referencedby refid="classdebug_1_1_stop_manager_1ae491549724477f1c2457f0005f4e11e2" compoundref="_stop_manager_8cpp" startline="131" endline="144">debug::StopManager::drainPauseCompleted</referencedby>
-        <referencedby refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" compoundref="_stop_manager_8cpp" startline="115" endline="129">debug::StopManager::drainStepCompleted</referencedby>
-        <referencedby refid="namespacedap_1a336d8b131f80128060f5206c3c233455" compoundref="_types_8cpp" startline="163" endline="178">getStoppedEvent</referencedby>
+        <references refid="namespaceId_1a9b4ec5e66274c360356c8239b90e81a1" compoundref="_generated_8cpp" startline="95" endline="95">Id::reason</references>
+        <references refid="namespaceId_1a424c0eeb2bdbe8f028b0daaa017604f0" compoundref="_generated_8cpp" startline="118" endline="118">Id::stopped</references>
+        <references refid="namespaceId_1a340842661a4b1de835c5c21978bdb2c7" compoundref="_generated_8cpp" startline="160" endline="160">Id::threadId</references>
+        <referencedby refid="classdebug_1_1_stop_manager_1ae491549724477f1c2457f0005f4e11e2" compoundref="_stop_manager_8cpp" startline="139" endline="152">debug::StopManager::drainPauseCompleted</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" compoundref="_stop_manager_8cpp" startline="123" endline="137">debug::StopManager::drainStepCompleted</referencedby>
+        <referencedby refid="namespacedap_1a336d8b131f80128060f5206c3c233455" compoundref="_types_8cpp" startline="189" endline="204">getStoppedEvent</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1a0323f66302b491c9ca350484ec955f68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
+        <type><ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
         <definition>juce::String dap::getExceptionDescription</definition>
         <argsstring>(juce::int64 exceptionCode, juce::int64 exceptionAddress)</argsstring>
         <name>getExceptionDescription</name>
         <qualifiedname>dap::getExceptionDescription</qualifiedname>
         <param>
-          <type><ref refid="namespacejuce_1a6afa306885ea6220ef17d2a02cfa7f0a" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::int64</ref></type>
+          <type><ref refid="namespacejuce_1a6afa306885ea6220ef17d2a02cfa7f0a" kindref="member" external="D:/Poems/JUCE/docs/tagfile.xml">juce::int64</ref></type>
           <declname>exceptionCode</declname>
         </param>
         <param>
-          <type><ref refid="namespacejuce_1a6afa306885ea6220ef17d2a02cfa7f0a" kindref="member" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::int64</ref></type>
+          <type><ref refid="namespacejuce_1a6afa306885ea6220ef17d2a02cfa7f0a" kindref="member" external="D:/Poems/JUCE/docs/tagfile.xml">juce::int64</ref></type>
           <declname>exceptionAddress</declname>
         </param>
         <briefdescription>
@@ -729,12 +899,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.cpp" line="180" column="14" bodyfile="dap/Types.cpp" bodystart="180" bodyend="186" declfile="dap/Types.h" declline="171" declcolumn="14"/>
-        <references refid="namespacedap_1a0323f66302b491c9ca350484ec955f68" compoundref="_types_8cpp" startline="180" endline="186">getExceptionDescription</references>
+        <location file="dap/Types.cpp" line="206" column="14" bodyfile="dap/Types.cpp" bodystart="206" bodyend="212" declfile="dap/Types.h" declline="208" declcolumn="14"/>
+        <references refid="namespacedap_1a0323f66302b491c9ca350484ec955f68" compoundref="_types_8cpp" startline="206" endline="212">getExceptionDescription</references>
         <references refid="classjuce_1_1String_1a949625c3152cfe177035772a5ff08559">juce::String::toHexString</references>
-        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="158" endline="178">debug::StopManager::drainExceptionStopped</referencedby>
-        <referencedby refid="namespacedap_1a0323f66302b491c9ca350484ec955f68" compoundref="_types_8cpp" startline="180" endline="186">getExceptionDescription</referencedby>
-        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="627" endline="645">Processor::onExceptionInfo</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="175" endline="195">debug::StopManager::drainExceptionStopped</referencedby>
+        <referencedby refid="namespacedap_1a0323f66302b491c9ca350484ec955f68" compoundref="_types_8cpp" startline="206" endline="212">getExceptionDescription</referencedby>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="754" endline="772">Processor::onExceptionInfo</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -743,11 +913,11 @@
         <name>getExceptionStoppedEvent</name>
         <qualifiedname>dap::getExceptionStoppedEvent</qualifiedname>
         <param>
-          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>exceptionName</declname>
         </param>
         <param>
-          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>description</declname>
         </param>
         <param>
@@ -789,23 +959,23 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.cpp" line="188" column="13" bodyfile="dap/Types.cpp" bodystart="188" bodyend="209" declfile="dap/Types.h" declline="180" declcolumn="13"/>
+        <location file="dap/Types.cpp" line="214" column="13" bodyfile="dap/Types.cpp" bodystart="214" bodyend="235" declfile="dap/Types.h" declline="217" declcolumn="13"/>
         <references refid="namespaceId_1a97fc0e281a26b7bd0b33f00ba7f88286" compoundref="_generated_8cpp" startline="28" endline="28">Id::allThreadsStopped</references>
         <references refid="structjam_1_1JsonWriter_1a6a110b64d6eacd0c9ef356b561c6ccf6">jam::JsonWriter::appendBoolean</references>
         <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
-        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="64" endline="70">appendEvent</references>
+        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="73" endline="79">appendEvent</references>
         <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
         <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
         <references refid="namespaceId_1a05b934be148d8892c4fde1315f44c8f4">Id::description</references>
-        <references refid="namespaceId_1a7d17b52a35c76be4fb253d49def99a67" compoundref="_generated_8cpp" startline="44" endline="44">Id::exception</references>
-        <references refid="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" compoundref="_types_8cpp" startline="188" endline="209">getExceptionStoppedEvent</references>
+        <references refid="namespaceId_1a7d17b52a35c76be4fb253d49def99a67" compoundref="_generated_8cpp" startline="50" endline="50">Id::exception</references>
+        <references refid="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" compoundref="_types_8cpp" startline="214" endline="235">getExceptionStoppedEvent</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
-        <references refid="namespaceId_1a9b4ec5e66274c360356c8239b90e81a1" compoundref="_generated_8cpp" startline="77" endline="77">Id::reason</references>
-        <references refid="namespaceId_1a424c0eeb2bdbe8f028b0daaa017604f0" compoundref="_generated_8cpp" startline="99" endline="99">Id::stopped</references>
+        <references refid="namespaceId_1a9b4ec5e66274c360356c8239b90e81a1" compoundref="_generated_8cpp" startline="95" endline="95">Id::reason</references>
+        <references refid="namespaceId_1a424c0eeb2bdbe8f028b0daaa017604f0" compoundref="_generated_8cpp" startline="118" endline="118">Id::stopped</references>
         <references refid="namespaceId_1a287c150cdfda5a8e2deb30b6d987d638">Id::text</references>
-        <references refid="namespaceId_1a340842661a4b1de835c5c21978bdb2c7" compoundref="_generated_8cpp" startline="140" endline="140">Id::threadId</references>
-        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="158" endline="178">debug::StopManager::drainExceptionStopped</referencedby>
-        <referencedby refid="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" compoundref="_types_8cpp" startline="188" endline="209">getExceptionStoppedEvent</referencedby>
+        <references refid="namespaceId_1a340842661a4b1de835c5c21978bdb2c7" compoundref="_generated_8cpp" startline="160" endline="160">Id::threadId</references>
+        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="175" endline="195">debug::StopManager::drainExceptionStopped</referencedby>
+        <referencedby refid="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" compoundref="_types_8cpp" startline="214" endline="235">getExceptionStoppedEvent</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1aa487f84892d5c501840a4dbae03b7800" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -814,11 +984,11 @@
         <name>getExceptionOutputEvent</name>
         <qualifiedname>dap::getExceptionOutputEvent</qualifiedname>
         <param>
-          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>exceptionName</declname>
         </param>
         <param>
-          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>description</declname>
         </param>
         <briefdescription>
@@ -848,17 +1018,17 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.cpp" line="211" column="13" bodyfile="dap/Types.cpp" bodystart="211" bodyend="225" declfile="dap/Types.h" declline="188" declcolumn="13"/>
-        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="64" endline="70">appendEvent</references>
+        <location file="dap/Types.cpp" line="237" column="13" bodyfile="dap/Types.cpp" bodystart="237" bodyend="251" declfile="dap/Types.h" declline="225" declcolumn="13"/>
+        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="73" endline="79">appendEvent</references>
         <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
         <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
-        <references refid="namespaceId_1ad19f6a6a53952f2bacc843fbe7fa6252" compoundref="_generated_8cpp" startline="36" endline="36">Id::category</references>
-        <references refid="namespacedap_1aa487f84892d5c501840a4dbae03b7800" compoundref="_types_8cpp" startline="211" endline="225">getExceptionOutputEvent</references>
+        <references refid="namespaceId_1ad19f6a6a53952f2bacc843fbe7fa6252" compoundref="_generated_8cpp" startline="38" endline="38">Id::category</references>
+        <references refid="namespacedap_1aa487f84892d5c501840a4dbae03b7800" compoundref="_types_8cpp" startline="237" endline="251">getExceptionOutputEvent</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
-        <references refid="namespaceId_1a3c8da0c68c021ababf62dc69bef9488a" compoundref="_identifiers_8h" startline="74">Id::output</references>
-        <references refid="namespaceId_1a7c7348e9f7d639ded9f3bf11241d4bd9" compoundref="_generated_8cpp" startline="92" endline="92">Id::standardError</references>
-        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="158" endline="178">debug::StopManager::drainExceptionStopped</referencedby>
-        <referencedby refid="namespacedap_1aa487f84892d5c501840a4dbae03b7800" compoundref="_types_8cpp" startline="211" endline="225">getExceptionOutputEvent</referencedby>
+        <references refid="namespaceId_1a3c8da0c68c021ababf62dc69bef9488a" compoundref="_identifiers_8h" startline="91">Id::output</references>
+        <references refid="namespaceId_1a7c7348e9f7d639ded9f3bf11241d4bd9" compoundref="_generated_8cpp" startline="111" endline="111">Id::standardError</references>
+        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="175" endline="195">debug::StopManager::drainExceptionStopped</referencedby>
+        <referencedby refid="namespacedap_1aa487f84892d5c501840a4dbae03b7800" compoundref="_types_8cpp" startline="237" endline="251">getExceptionOutputEvent</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1aff116122c81f4bb50a0e85ec69b7f2b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -867,7 +1037,7 @@
         <name>getProcessEvent</name>
         <qualifiedname>dap::getProcessEvent</qualifiedname>
         <param>
-          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>name</declname>
         </param>
         <param>
@@ -913,22 +1083,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.cpp" line="227" column="13" bodyfile="dap/Types.cpp" bodystart="227" bodyend="246" declfile="dap/Types.h" declline="197" declcolumn="13"/>
+        <location file="dap/Types.cpp" line="253" column="13" bodyfile="dap/Types.cpp" bodystart="253" bodyend="272" declfile="dap/Types.h" declline="234" declcolumn="13"/>
         <references refid="structjam_1_1JsonWriter_1a6a110b64d6eacd0c9ef356b561c6ccf6">jam::JsonWriter::appendBoolean</references>
         <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
-        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="64" endline="70">appendEvent</references>
+        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="73" endline="79">appendEvent</references>
         <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
         <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
-        <references refid="namespacedap_1aff116122c81f4bb50a0e85ec69b7f2b8" compoundref="_types_8cpp" startline="227" endline="246">getProcessEvent</references>
+        <references refid="namespacedap_1aff116122c81f4bb50a0e85ec69b7f2b8" compoundref="_types_8cpp" startline="253" endline="272">getProcessEvent</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
-        <references refid="namespaceId_1a7829a3d7043d046e95be43aa739fcb75" compoundref="_generated_8cpp" startline="60" endline="60">Id::isLocalProcess</references>
+        <references refid="namespaceId_1a7829a3d7043d046e95be43aa739fcb75" compoundref="_generated_8cpp" startline="73" endline="73">Id::isLocalProcess</references>
         <references refid="namespaceId_1ab17c6c7afce10ee78699a1e23ac7acdf">Id::name</references>
-        <references refid="namespaceId_1af70caa33d97ae32bb25fbe40b32f44b8" compoundref="_generated_8cpp" startline="74" endline="74">Id::process</references>
-        <references refid="namespaceId_1a311af3bbc4a090e4559c3ae6bd0e9325" compoundref="_generated_8cpp" startline="95" endline="95">Id::startMethod</references>
-        <references refid="namespaceId_1ad2c88d15d874c946c2ae101f40a16c85" compoundref="_generated_8cpp" startline="133" endline="133">Id::systemProcessId</references>
-        <referencedby refid="namespacedap_1aff116122c81f4bb50a0e85ec69b7f2b8" compoundref="_types_8cpp" startline="227" endline="246">getProcessEvent</referencedby>
-        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="357" endline="385">Processor::onAttach</referencedby>
-        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="180" endline="210">debug::StopManager::resumeAfterInitialBreak</referencedby>
+        <references refid="namespaceId_1af70caa33d97ae32bb25fbe40b32f44b8" compoundref="_generated_8cpp" startline="91" endline="91">Id::process</references>
+        <references refid="namespaceId_1a311af3bbc4a090e4559c3ae6bd0e9325" compoundref="_generated_8cpp" startline="114" endline="114">Id::startMethod</references>
+        <references refid="namespaceId_1ad2c88d15d874c946c2ae101f40a16c85" compoundref="_generated_8cpp" startline="153" endline="153">Id::systemProcessId</references>
+        <referencedby refid="namespacedap_1aff116122c81f4bb50a0e85ec69b7f2b8" compoundref="_types_8cpp" startline="253" endline="272">getProcessEvent</referencedby>
+        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="484" endline="512">Processor::onAttach</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="197" endline="227">debug::StopManager::resumeAfterInitialBreak</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1a36ecaf74c4e93e9b1d9f4325dea08262" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -953,7 +1123,7 @@
 <parametername>category</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>DAP output category. <ref refid="class_processor" kindref="compound">Processor</ref> passes the name of the <ref refid="namespaceId" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">Id</ref> that fired the stream event. </para>
+<para>DAP output category. <ref refid="class_processor" kindref="compound">Processor</ref> passes the name of the <ref refid="namespaceId" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">Id</ref> that fired the stream event. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -971,15 +1141,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.cpp" line="248" column="13" bodyfile="dap/Types.cpp" bodystart="248" bodyend="261" declfile="dap/Types.h" declline="205" declcolumn="13"/>
-        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="64" endline="70">appendEvent</references>
+        <location file="dap/Types.cpp" line="274" column="13" bodyfile="dap/Types.cpp" bodystart="274" bodyend="287" declfile="dap/Types.h" declline="242" declcolumn="13"/>
+        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="73" endline="79">appendEvent</references>
         <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
         <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
-        <references refid="namespaceId_1ad19f6a6a53952f2bacc843fbe7fa6252" compoundref="_generated_8cpp" startline="36" endline="36">Id::category</references>
-        <references refid="namespacedap_1a36ecaf74c4e93e9b1d9f4325dea08262" compoundref="_types_8cpp" startline="248" endline="261">getOutputEvent</references>
+        <references refid="namespaceId_1ad19f6a6a53952f2bacc843fbe7fa6252" compoundref="_generated_8cpp" startline="38" endline="38">Id::category</references>
+        <references refid="namespacedap_1a36ecaf74c4e93e9b1d9f4325dea08262" compoundref="_types_8cpp" startline="274" endline="287">getOutputEvent</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
-        <references refid="namespaceId_1a3c8da0c68c021ababf62dc69bef9488a" compoundref="_identifiers_8h" startline="74">Id::output</references>
-        <referencedby refid="namespacedap_1a36ecaf74c4e93e9b1d9f4325dea08262" compoundref="_types_8cpp" startline="248" endline="261">getOutputEvent</referencedby>
+        <references refid="namespaceId_1a3c8da0c68c021ababf62dc69bef9488a" compoundref="_identifiers_8h" startline="91">Id::output</references>
+        <referencedby refid="namespacedap_1a36ecaf74c4e93e9b1d9f4325dea08262" compoundref="_types_8cpp" startline="274" endline="287">getOutputEvent</referencedby>
+        <referencedby refid="class_processor_1a964f0cfae95557ad5237e30fafe0e404" compoundref="_processor_8cpp" startline="204" endline="216">Processor::registerOutputEvents</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1a091a5bef8652985ca095c5d8873da6f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -1070,11 +1241,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.h" line="46" column="6" bodyfile="dap/Types.h" bodystart="46" bodyend="54"/>
+        <location file="dap/Types.h" line="64" column="6" bodyfile="dap/Types.h" bodystart="64" bodyend="72"/>
         <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
         <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
-        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="46" endline="52">appendResponse</references>
-        <references refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" compoundref="_types_8cpp" startline="22" endline="34">appendResponseMembers</references>
+        <references refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" compoundref="_types_8cpp" startline="55" endline="61">appendResponse</references>
+        <references refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" compoundref="_types_8cpp" startline="30" endline="39">appendResponseMembers</references>
         <references refid="namespaceId_1ac27768ba6b5854a0ceb8c78bbde739b7">Id::body</references>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1ad6158862d04add2ed2457780c3218ff7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -1142,12 +1313,87 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.h" line="82" column="6" bodyfile="dap/Types.h" bodystart="82" bodyend="90"/>
-        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="64" endline="70">appendEvent</references>
-        <references refid="namespacedap_1abef24a43f953f76738d1403d3abb17eb" compoundref="_types_8cpp" startline="36" endline="44">appendEventMembers</references>
+        <location file="dap/Types.h" line="100" column="6" bodyfile="dap/Types.h" bodystart="100" bodyend="108"/>
+        <references refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" compoundref="_types_8cpp" startline="73" endline="79">appendEvent</references>
+        <references refid="namespacedap_1abef24a43f953f76738d1403d3abb17eb" compoundref="_types_8cpp" startline="41" endline="46">appendEventMembers</references>
         <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
         <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
         <references refid="namespaceId_1ac27768ba6b5854a0ceb8c78bbde739b7">Id::body</references>
+      </memberdef>
+      <memberdef kind="function" id="namespacedap_1a1a49a406f7bc8ed527a5d1e9999994f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Function</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void dap::appendRequest</definition>
+        <argsstring>(std::string &amp;json, std::string_view command, const Function &amp;appendArguments)</argsstring>
+        <name>appendRequest</name>
+        <qualifiedname>dap::appendRequest</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>command</declname>
+        </param>
+        <param>
+          <type>const Function &amp;</type>
+          <declname>appendArguments</declname>
+        </param>
+        <briefdescription>
+<para>Append a request object that has an arguments object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Function</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable that takes a std::string&amp; and appends the argument members. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output text that receives the request object. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>command</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>DAP command name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>appendArguments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Appends the members of the arguments object. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dap/Types.h" line="125" column="6" bodyfile="dap/Types.h" bodystart="125" bodyend="133"/>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
+        <references refid="namespacedap_1a1a49a406f7bc8ed527a5d1e9999994f6" compoundref="_types_8h" startline="125" endline="133">appendRequest</references>
+        <references refid="namespacedap_1a9017bb074f243c44e03c5884a4704e9a" compoundref="_types_8cpp" startline="48" endline="53">appendRequestMembers</references>
+        <references refid="namespaceId_1a2333fa49126557436eb1441faf72fd4f" compoundref="_generated_8cpp" startline="30" endline="30">Id::arguments</references>
+        <referencedby refid="namespacedap_1a1a49a406f7bc8ed527a5d1e9999994f6" compoundref="_types_8h" startline="125" endline="133">appendRequest</referencedby>
+        <referencedby refid="namespacedap_1a026ee303448d3d1778a79fc03e223438" compoundref="_types_8h" startline="143" endline="150">getRequest</referencedby>
+        <referencedby refid="class_processor_1a28403704dc0835af3681e56345b85d2e" compoundref="_processor_8cpp" startline="439" endline="461">Processor::launchInTerminal</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedap_1a026ee303448d3d1778a79fc03e223438" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -1155,7 +1401,7 @@
             <type>typename Function</type>
           </param>
         </templateparamlist>
-        <type><ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref></type>
+        <type><ref refid="structjam_1_1JsonDocument" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref></type>
         <definition>jam::JsonDocument dap::getRequest</definition>
         <argsstring>(std::string_view command, const Function &amp;appendArguments)</argsstring>
         <name>getRequest</name>
@@ -1204,20 +1450,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="dap/Types.h" line="107" column="19" bodyfile="dap/Types.h" bodystart="107" bodyend="124"/>
-        <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
-        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
-        <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
-        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
-        <references refid="namespaceId_1a2333fa49126557436eb1441faf72fd4f" compoundref="_generated_8cpp" startline="29" endline="29">Id::arguments</references>
-        <references refid="namespaceId_1a1538a142ed265f60c8fcf1703a106a7d">Id::command</references>
-        <references refid="namespacedap_1a4b62e7b9e343cb73546db4dad1299062" compoundref="_types_8cpp" startline="72" endline="87">getRequest</references>
-        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
-        <references refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" compoundref="_types_8cpp" startline="11" endline="20">nextSeq</references>
+        <location file="dap/Types.h" line="143" column="19" bodyfile="dap/Types.h" bodystart="143" bodyend="150"/>
+        <references refid="namespacedap_1a1a49a406f7bc8ed527a5d1e9999994f6" compoundref="_types_8h" startline="125" endline="133">appendRequest</references>
+        <references refid="namespacedap_1a4b62e7b9e343cb73546db4dad1299062" compoundref="_types_8cpp" startline="81" endline="91">getRequest</references>
         <references refid="structjam_1_1JsonDocument_1a1343aea261139b22b9cc95844519d8cb">jam::JsonDocument::parse</references>
-        <references refid="namespaceId_1af4e71980bee2a5365b2626999eb5bf71" compoundref="_generated_8cpp" startline="79" endline="79">Id::request</references>
-        <references refid="namespaceId_1abdf0cd1b922dc9e184b37465a4c92e9c" compoundref="_generated_8cpp" startline="85" endline="85">Id::seq</references>
-        <references refid="namespaceId_1ab4956db6d5e735af8b4e202830ac73f7">Id::type</references>
       </memberdef>
     </sectiondef>
     <briefdescription>

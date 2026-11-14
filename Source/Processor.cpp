@@ -12,6 +12,7 @@ Processor::Processor ()
 {
     commands.add (Id::initialize, [this] (const juce::String&, const jam::JsonDocument& document) { onInitialize (document); });
     commands.add (Id::launch, [this] (const juce::String&, const jam::JsonDocument& document) { onLaunch (document); });
+    commands.add (Id::runInTerminal, [this] (const juce::String&, const jam::JsonDocument& document) { onRunInTerminal (document); });
     commands.add (Id::attach, [this] (const juce::String&, const jam::JsonDocument& document) { onAttach (document); });
     commands.add (Id::configurationDone, [this] (const juce::String&, const jam::JsonDocument& document) { onConfigurationDone (document); });
     commands.add (Id::disconnect, [this] (const juce::String&, const jam::JsonDocument& document) { onDisconnect (document, false); });
@@ -34,7 +35,13 @@ Processor::Processor ()
     cancellations.add (Id::disconnect, [this] (const juce::String&) { session.cancel (); });
     cancellations.add (Id::terminate, [this] (const juce::String&) { session.cancel (); });
 
+#if JUCE_WINDOWS
+    deferrals.add (Id::setBreakpoints);
+#endif
+
     registerEvents ();
+    registerLauncherEvents ();
+    registerOutputEvents ();
 }
 
 Processor::~Processor ()
@@ -79,25 +86,67 @@ void Processor::handleAsyncUpdate ()
 
 void Processor::process ()
 {
-    requests.applyPendingData ([this] (const jam::JsonDocument& request) { onCommand (request); });
+    requests.applyPendingData ([this] (jam::JsonDocument&& request) { onRequest (std::move (request)); });
 
-    if (static_cast<debug::ExecutionState> (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::executionState)->getValue ()) == debug::ExecutionState::running
-        or static_cast<debug::ExecutionState> (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::executionState)->getValue ()) == debug::ExecutionState::launching
-        or model.getParameter<jam::Parameter<int64_t>> (model.sessionTag, Id::terminateDeadlineMs)->getValue () != 0)
+    if (isPolling ())
     {
         session.pollEvents (pollTimeoutMs);
+    }
+    else
+    {
+        session.drainLauncherOutput ();
+    }
+
+    if (static_cast<debug::StopReason> (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::stopReason)->getValue ()) != debug::StopReason::none)
+    {
+        applyPendingRequests ();
     }
 
     addMessages (stopManager.onStop (targetProgram));
     drainTerminateTimeout ();
 
-    if (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::isRunning)->getValue () != 0
-        and (static_cast<debug::ExecutionState> (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::executionState)->getValue ()) == debug::ExecutionState::running
-             or static_cast<debug::ExecutionState> (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::executionState)->getValue ()) == debug::ExecutionState::launching
-             or model.getParameter<jam::Parameter<int64_t>> (model.sessionTag, Id::terminateDeadlineMs)->getValue () != 0))
+    if (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::isRunning)->getValue () != 0 and isPolling ())
     {
         triggerAsyncUpdate ();
     }
+}
+
+bool Processor::isPolling () const
+{
+    const auto executionState { static_cast<debug::ExecutionState> (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::executionState)->getValue ()) };
+
+    return executionState == debug::ExecutionState::running
+           or executionState == debug::ExecutionState::launching
+           or model.getParameter<jam::Parameter<int64_t>> (model.sessionTag, Id::terminateDeadlineMs)->getValue () != 0;
+}
+
+void Processor::onRequest (jam::JsonDocument&& request)
+{
+    const juce::String command { getText (request, *request.getRoot ()->firstChild, Id::command) };
+    const auto executionState { static_cast<debug::ExecutionState> (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::executionState)->getValue ()) };
+    const bool isRunning { executionState == debug::ExecutionState::running };
+    const bool isDeferred { deferrals.contains (juce::Identifier { command })
+                            and (isRunning or executionState == debug::ExecutionState::launching) };
+
+    if (isDeferred)
+    {
+        if (isRunning and model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::isBreakInPending)->getValue () == 0)
+        {
+            model.storeValue (model.sessionTag, Id::isBreakInPending, 1);
+            session.interrupt (static_cast<std::uint32_t> (model.getParameter<jam::Parameter<int64_t>> (model.sessionTag, Id::targetProcessId)->getValue ()));
+        }
+
+        pendingRequests.write (std::move (request));
+    }
+    else
+    {
+        onCommand (request);
+    }
+}
+
+void Processor::applyPendingRequests ()
+{
+    pendingRequests.applyPendingData ([this] (jam::JsonDocument&& request) { onCommand (request); });
 }
 
 void Processor::registerEvents ()
@@ -109,6 +158,7 @@ void Processor::registerEvents ()
 
     session.events.add<int> (Id::exited, [this] (const juce::Identifier&, int exitCode)
     {
+        session.drainOutput ();
         model.storeValue (model.sessionTag, Id::processExitCode, exitCode);
         drainProcessExited ();
     });
@@ -127,11 +177,41 @@ void Processor::registerEvents ()
     {
         addMessages (breakpointManager.onBreakpointLocationFound (engineId, static_cast<std::uint16_t> (line)));
     });
+}
 
-    for (const auto& id : { Id::console, Id::standardOutput, Id::standardError })
-        session.events.add<const juce::String&> (id, [this] (const juce::Identifier& key, const juce::String& text)
+void Processor::registerLauncherEvents ()
+{
+    session.events.add (Id::runInTerminal, [this] (const juce::Identifier&)
+    {
+        triggerAsyncUpdate ();
+    });
+
+    session.events.add<int> (Id::didAttach, [this] (const juce::Identifier&, int processId)
+    {
+        std::string json;
+
+        setAttachedState (static_cast<std::uint32_t> (processId));
+        dap::appendResponse (json, model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::launchSequenceNumber)->getValue (), jam::Strings::getView (Id::launch.toString ()), true);
+        addMessage (std::move (json));
+    });
+
+    session.events.add<const juce::String&> (Id::error, [this] (const juce::Identifier&, const juce::String& text)
+    {
+        addLaunchErrorResponse (text);
+    });
+}
+
+void Processor::registerOutputEvents ()
+{
+    session.events.add<const juce::String&> (Id::console, [this] (const juce::Identifier& key, const juce::String& text)
+    {
+        addMessage (dap::getOutputEvent (jam::Strings::getView (key.toString ()), jam::Strings::getView (text)));
+    });
+
+    for (const auto& id : { Id::standardOutput, Id::standardError })
+        session.events.add<std::string_view> (id, [this] (const juce::Identifier& key, std::string_view text)
         {
-            addMessage (dap::getOutputEvent (jam::Strings::getView (key.toString ()), jam::Strings::getView (text)));
+            addMessage (dap::getOutputEvent (jam::Strings::getView (key.toString ()), text));
         });
 }
 
@@ -169,33 +249,52 @@ void Processor::appendLocalsScope (std::string& json, int localsRef)
 
 void Processor::onCommand (const jam::JsonDocument& document)
 {
-    const auto& message { *document.getRoot ()->firstChild };
-    const juce::String type { getText (document, message, Id::type) };
-
-    if (type.compare (Id::request.toString ()) == 0)
-    {
-        const juce::String command { getText (document, message, Id::command) };
-        const int seq { getRequestSeq (document) };
+    const juce::String command { getText (document, *document.getRoot ()->firstChild, Id::command) };
+    const int seq { getRequestSeq (document) };
 
 #if JUCE_DEBUG
-        jam::debug::Log::write ("[Whatdbg] command=" + command + " seq=" + juce::String (seq));
+    jam::debug::Log::write ("[Whatdbg] command=" + command + " seq=" + juce::String (seq));
 #endif
 
-        const auto commandEntry { commands.find (command) };
+    const auto commandEntry { commands.find (command) };
 
-        if (commandEntry != commands.end ())
-        {
-            const auto& [commandName, commandCallback] { *commandEntry };
-            commandCallback (commandName, document);
-        }
-        else
-        {
-            std::string json;
-
-            dap::appendErrorResponse (json, seq, jam::Strings::getView (command), "Unknown command");
-            addMessage (std::move (json));
-        }
+    if (commandEntry != commands.end ())
+    {
+        const auto& [commandName, commandCallback] { *commandEntry };
+        commandCallback (commandName, document);
     }
+    else
+    {
+        std::string json;
+
+        dap::appendErrorResponse (json, seq, jam::Strings::getView (command), "Unknown command");
+        addMessage (std::move (json));
+    }
+}
+
+void Processor::onRunInTerminal (const jam::JsonDocument& document)
+{
+    const auto& message { *document.getRoot ()->firstChild };
+    const auto* isSuccess { document.find (message, jam::Strings::getView (Id::success.toString ())) };
+
+    if (isSuccess != nullptr and not document.getBoolean (*isSuccess))
+    {
+        const juce::String text { "runInTerminal failed: " + getText (document, message, Id::message) };
+
+#if JUCE_DEBUG
+        jam::debug::Log::write ("[Whatdbg] " + text);
+#endif
+
+        addLaunchErrorResponse (text);
+    }
+}
+
+void Processor::addLaunchErrorResponse (const juce::String& text)
+{
+    std::string json;
+
+    dap::appendErrorResponse (json, model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::launchSequenceNumber)->getValue (), jam::Strings::getView (Id::launch.toString ()), jam::Strings::getView (text));
+    addMessage (std::move (json));
 }
 
 void Processor::addMessage (std::string json)
@@ -214,6 +313,8 @@ void Processor::addMessages (const jam::Strings& messages)
 
 void Processor::drainProcessExited ()
 {
+    applyPendingRequests ();
+
     if (static_cast<debug::ExecutionState> (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::executionState)->getValue ()) != debug::ExecutionState::exited)
     {
 #if JUCE_DEBUG
@@ -285,8 +386,10 @@ void Processor::onReleaseResources (const jam::JsonDocument&)
 void Processor::onInitialize (const jam::JsonDocument& document)
 {
     const int seq { getRequestSeq (document) };
+    const auto* supportsRunInTerminal { document.find (getArguments (document), jam::Strings::getView (Id::supportsRunInTerminalRequest.toString ())) };
     std::string json;
 
+    model.storeValue (model.sessionTag, Id::isRunInTerminalSupported, supportsRunInTerminal != nullptr and document.getBoolean (*supportsRunInTerminal) ? 1 : 0);
     dap::appendResponse (json, seq, jam::Strings::getView (Id::initialize.toString ()), true, &dap::appendCapabilities);
     addMessage (std::move (json));
 
@@ -300,17 +403,26 @@ void Processor::onLaunch (const jam::JsonDocument& document)
     const int seq { getRequestSeq (document) };
     const auto& arguments { getArguments (document) };
     const juce::String program { getText (document, arguments, Id::program) };
-    std::string json;
+    const juce::String console { getText (document, arguments, Id::console) };
 
 #if JUCE_DEBUG
     jam::debug::Log::write ("[Whatdbg] launch: " + program);
 #endif
 
+    if (console.isNotEmpty () and juce::Identifier { console } == Id::internalConsole)
+        launchInConsole (seq, program, getText (document, arguments, Id::cwd));
+    else
+        launchInTerminal (seq, program, console, getText (document, arguments, Id::cwd));
+}
+
+void Processor::launchInConsole (int seq, const juce::String& program, const juce::String& cwd)
+{
+    std::string json;
     const bool isLaunched { session.launch (program) };
 
     if (isLaunched)
     {
-        addSearchPaths (getText (document, arguments, Id::cwd));
+        addSearchPaths (cwd);
 
         model.storeValue (model.sessionTag, Id::executionState, static_cast<int> (debug::ExecutionState::launching));
         targetProgram = program;
@@ -324,21 +436,36 @@ void Processor::onLaunch (const jam::JsonDocument& document)
     addMessage (std::move (json));
 }
 
+void Processor::launchInTerminal (int seq, const juce::String& program, const juce::String& console, const juce::String& cwd)
+{
+    std::string json;
+
+    if (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::isRunInTerminalSupported)->getValue () != 0)
+    {
+        addSearchPaths (cwd);
+        targetProgram = program;
+        model.storeValue (model.sessionTag, Id::launchSequenceNumber, seq);
+
+        const juce::Identifier& type { console.isNotEmpty () and juce::Identifier { console } == Id::externalTerminal ? Id::external : Id::integrated };
+        const juce::StringArray args { juce::File::getSpecialLocation (juce::File::currentExecutableFile).getFullPathName (),
+                                       Id::commFileOption.toString (), session.createCommFile (), Id::launchTargetOption.toString (), program };
+
+        dap::appendRequest (json, jam::Strings::getView (Id::runInTerminal.toString ()), [&cwd, &args, &type] (std::string& arguments) { dap::appendRunInTerminalArguments (arguments, type, cwd, args); });
+    }
+    else
+    {
+        dap::appendErrorResponse (json, seq, jam::Strings::getView (Id::launch.toString ()), "Client does not support runInTerminal; set console to internalConsole");
+    }
+
+    addMessage (std::move (json));
+}
+
 void Processor::addSearchPaths (const juce::String& cwd)
 {
-#if JUCE_WINDOWS
-    session.appendSymbolPath ("srv*");
-#endif
-
     if (cwd.isNotEmpty ())
     {
-#if JUCE_WINDOWS
-        session.appendSourcePath (cwd.replace ("/", "\\"));
-        session.appendSymbolPath (cwd.replace ("/", "\\"));
-#else
         session.appendSourcePath (cwd);
         session.appendSymbolPath (cwd);
-#endif
     }
 }
 
@@ -649,7 +776,7 @@ void Processor::onEvaluate (const jam::JsonDocument& document)
     const int seq { getRequestSeq (document) };
     const auto& arguments { getArguments (document) };
     const juce::String expression { getText (document, arguments, Id::expression) };
-    const int frameId { document.contains (arguments, jam::Strings::getView (Id::frameId.toString ())) ? getNumber<int> (document, arguments, Id::frameId) : 0 };
+    const int frameId { getNumber<int> (document, arguments, Id::frameId) };
     const bool isHover { document.contains (arguments, jam::Strings::getView (Id::context.toString ()))
                          and juce::Identifier { getText (document, arguments, Id::context) } == Id::hover };
 

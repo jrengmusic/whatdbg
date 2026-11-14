@@ -25,16 +25,31 @@ static HRESULT onBreakpoint (const DWORD& /*exceptionCode*/, WHATDBGModel* model
     {
         events.get (Id::initialBreak);
     }
-    else if (model->getParameter<jam::Parameter<int>> (model->sessionTag, Id::isPausePending)->getValue () != 0)
-    {
-        events.get (Id::pause);
-    }
     else
     {
-        events.get (Id::exception,
-                    static_cast<juce::int64> (static_cast<std::uint32_t> (exception->ExceptionCode)),
-                    static_cast<juce::int64> (exception->ExceptionAddress),
-                    0);
+        static const std::array<std::pair<juce::Identifier, juce::Identifier>, 2> pendingEvents { {
+            { Id::isPausePending, Id::pause },
+            { Id::isBreakInPending, Id::breakIn }
+        } };
+
+        const auto pending { std::find_if (pendingEvents.begin (), pendingEvents.end (), [model] (const auto& pendingEvent)
+        {
+            const auto& [pendingId, eventId] { pendingEvent };
+            return model->getParameter<jam::Parameter<int>> (model->sessionTag, pendingId)->getValue () != 0;
+        }) };
+
+        if (pending != pendingEvents.end ())
+        {
+            const auto& [pendingId, eventId] { *pending };
+            events.get (eventId);
+        }
+        else
+        {
+            events.get (Id::exception,
+                        static_cast<juce::int64> (static_cast<std::uint32_t> (exception->ExceptionCode)),
+                        static_cast<juce::int64> (exception->ExceptionAddress),
+                        0);
+        }
     }
 
     return DEBUG_STATUS_BREAK;

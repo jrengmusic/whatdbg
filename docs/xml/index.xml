@@ -11,7 +11,6 @@
     <member refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" kind="variable"><name>session</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" kind="variable"><name>breakpoints</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1a898cff5d67b7f533cf38e8ccbf31a136" kind="variable"><name>nextDapId</name></member>
-    <member refid="classdebug_1_1_breakpoint_manager_1a3638bb735288fd17822939bdbaac0108" kind="variable"><name>lineSearchWindow</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1af44310e6631d8debd0dcd5160d87ea76" kind="function"><name>BreakpointManager</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" kind="function"><name>onSetBreakpoints</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" kind="function"><name>onModuleLoad</name></member>
@@ -20,7 +19,6 @@
     <member refid="classdebug_1_1_breakpoint_manager_1a9525971c019e19a407a92e985ad46325" kind="function"><name>onBreakpointLocationFound</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1aa0f454ef4ed091ed8772c35b395deefa" kind="function"><name>hasUnresolvedBreakpoints</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" kind="function"><name>onSymbolsLoaded</name></member>
-    <member refid="classdebug_1_1_breakpoint_manager_1a5ddc2c795c2ea490eb4c5d0465f549fe" kind="function"><name>getBreakpointOffset</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1a857430dcd1c0812d31898288a8d0f4dc" kind="function"><name>setBreakpointLocation</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1a17b4dc2b534dafca568e5cd8b607284c" kind="function"><name>removeOrphanedBreakpoints</name></member>
     <member refid="classdebug_1_1_breakpoint_manager_1a3cbdc59939bab61c6de38a6c0d7c4bd3" kind="function"><name>addBreakpoint</name></member>
@@ -57,6 +55,19 @@
     <member refid="classdap_1_1_f_i_f_o_1ac033965014165a3902df7915b8013d6b" kind="function"><name>write</name></member>
     <member refid="classdap_1_1_f_i_f_o_1a6f8c18874abcb0e32f6b41f60bed7f14" kind="function"><name>applyPendingData</name></member>
   </compound>
+  <compound refid="class_launcher" kind="class"><name>Launcher</name>
+    <member refid="class_launcher_1acaefa076045ad11b8ccf653f7e807290" kind="variable"><name>failedLaunchExitCode</name></member>
+    <member refid="class_launcher_1a78ad078c3b33429905efe42e2434a461" kind="variable"><name>commFile</name></member>
+    <member refid="class_launcher_1a22833621fb3bd85e49c3e5e4a0236db2" kind="variable"><name>launchTarget</name></member>
+    <member refid="class_launcher_1aae7877068a4f4f250f2203ea4c08369c" kind="variable"><name>readFifo</name></member>
+    <member refid="class_launcher_1a2a7846008f307a53f65b510ba23787de" kind="function"><name>Launcher</name></member>
+    <member refid="class_launcher_1a725a3958001b044eb14d96569b77f115" kind="function"><name>run</name></member>
+    <member refid="class_launcher_1a5321ca455c727f3180428c67f53731d3" kind="function"><name>sendPid</name></member>
+    <member refid="class_launcher_1a7e4c99bb3017c6566241551e1a3b65ed" kind="function"><name>sendError</name></member>
+    <member refid="class_launcher_1a99a034a1529dd0619e6e4e244acaac17" kind="function"><name>writeLine</name></member>
+    <member refid="class_launcher_1a9b3454cf968a72631c18d0ba6a40ca4d" kind="function"><name>getLine</name></member>
+    <member refid="class_launcher_1a15339e99eff42dc61d6772b3c36a79b4" kind="function"><name>isAttached</name></member>
+  </compound>
   <compound refid="classdebug_1_1_loader" kind="class"><name>debug::Loader</name>
     <member refid="classdebug_1_1_loader_1ad3b8ed8285fa9cb19a7f61aa40048916" kind="typedef"><name>DebugCreateFn</name></member>
     <member refid="classdebug_1_1_loader_1a8a730cb0b007bf2f0f1b8ebc800cc3e6" kind="variable"><name>dbgengModule</name></member>
@@ -84,6 +95,8 @@
     <member refid="class_processor_1a2441c080ec1ac60ca277a4e1da1b78ce" kind="variable"><name>variableManager</name></member>
     <member refid="class_processor_1a7fc62190e15c16603d7d061db882e6e1" kind="variable"><name>stopManager</name></member>
     <member refid="class_processor_1ac8cb2e3ddb7497d2c58f70edfa42c86f" kind="variable"><name>requests</name></member>
+    <member refid="class_processor_1aa3a337b14f8073980ccbc8a6a4f2aae8" kind="variable"><name>pendingRequests</name></member>
+    <member refid="class_processor_1a6f5edeb97756bdb7924b835ee452d447" kind="variable"><name>deferrals</name></member>
     <member refid="class_processor_1ad88378fbe12b6833b42fdbfb623480f0" kind="variable"><name>messages</name></member>
     <member refid="class_processor_1a45a224474371f023a1c90eb8d5082f4d" kind="variable"><name>commands</name></member>
     <member refid="class_processor_1a6a2cba26723ddaee3adb0570feb7ba16" kind="variable"><name>cancellations</name></member>
@@ -100,12 +113,18 @@
     <member refid="class_processor_1a379381665169c712bb1aea2433b5395f" kind="function"><name>releaseResources</name></member>
     <member refid="class_processor_1a6487194419302dd1602150479e2f0259" kind="function"><name>handleAsyncUpdate</name></member>
     <member refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" kind="function"><name>process</name></member>
+    <member refid="class_processor_1aa519050b3bc4dedaa3a81d51138cb25f" kind="function"><name>isPolling</name></member>
     <member refid="class_processor_1a5429f57729737f7bd4c78a1c1d027c43" kind="function"><name>setAttachedState</name></member>
     <member refid="class_processor_1a9799b1f73561ced0b3e287dc623d10e1" kind="function"><name>onCommand</name></member>
+    <member refid="class_processor_1abb3695ba57fea2803c9dfcf37e7f6240" kind="function"><name>onRunInTerminal</name></member>
+    <member refid="class_processor_1a9af86630f17983504d894a6ab50de2be" kind="function"><name>onRequest</name></member>
+    <member refid="class_processor_1af56ddffd93cd4c15a34f5cea21e46661" kind="function"><name>applyPendingRequests</name></member>
     <member refid="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" kind="function"><name>onPrepare</name></member>
     <member refid="class_processor_1a57d2c4aa25b0c6786bbce3eb3a78a4a8" kind="function"><name>onReleaseResources</name></member>
     <member refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" kind="function"><name>onInitialize</name></member>
     <member refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" kind="function"><name>onLaunch</name></member>
+    <member refid="class_processor_1a1c7c3524b82bf7df9f07ff1717970da2" kind="function"><name>launchInConsole</name></member>
+    <member refid="class_processor_1a28403704dc0835af3681e56345b85d2e" kind="function"><name>launchInTerminal</name></member>
     <member refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" kind="function"><name>onAttach</name></member>
     <member refid="class_processor_1ab8672637da070c4b57ca72930ffcd355" kind="function"><name>addSearchPaths</name></member>
     <member refid="class_processor_1a5ef207789c74afa70eb20f95ca575828" kind="function"><name>onConfigurationDone</name></member>
@@ -123,9 +142,12 @@
     <member refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" kind="function"><name>onEvaluate</name></member>
     <member refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" kind="function"><name>onExceptionInfo</name></member>
     <member refid="class_processor_1a24b069461f4161553899d2a8f84d3287" kind="function"><name>registerEvents</name></member>
+    <member refid="class_processor_1a0d99918b0acbc30b8cc7f6fc524a7bd2" kind="function"><name>registerLauncherEvents</name></member>
+    <member refid="class_processor_1a964f0cfae95557ad5237e30fafe0e404" kind="function"><name>registerOutputEvents</name></member>
     <member refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" kind="function"><name>drainProcessExited</name></member>
     <member refid="class_processor_1ae3dd418216ebb9a28fbc82c5eb61de8b" kind="function"><name>drainTerminateTimeout</name></member>
     <member refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" kind="function"><name>addMessage</name></member>
+    <member refid="class_processor_1a85d762de429f761d1ca7931efb1b4d5c" kind="function"><name>addLaunchErrorResponse</name></member>
     <member refid="class_processor_1a45fe17524598b1971db9d18da20b6864" kind="function"><name>addMessages</name></member>
     <member refid="class_processor_1a616112bd8cbe927cec6426da3dc64d6d" kind="function"><name>getEndModeForExit</name></member>
     <member refid="class_processor_1aabc241f71309c79c1da916c072901043" kind="function"><name>getRequestSeq</name></member>
@@ -146,6 +168,7 @@
   </compound>
   <compound refid="classdebug_1_1_session" kind="class"><name>debug::Session</name>
     <member refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" kind="variable"><name>events</name></member>
+    <member refid="classdebug_1_1_session_1a8ded1b57303165500c8e11796467b703" kind="variable"><name>launcherOutput</name></member>
     <member refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" kind="variable"><name>debugger</name></member>
     <member refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" kind="variable"><name>listener</name></member>
     <member refid="classdebug_1_1_session_1a0f54d0f1673664de2ec62a342b93e35b" kind="variable"><name>broadcaster</name></member>
@@ -153,10 +176,12 @@
     <member refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" kind="variable"><name>process</name></member>
     <member refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" kind="variable"><name>cachedFrameVariables</name></member>
     <member refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" kind="variable"><name>cachedFrameIndex</name></member>
+    <member refid="classdebug_1_1_session_1a7e5ddceec0223930cf152a9e67f91fd6" kind="variable"><name>commFile</name></member>
     <member refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf" kind="function"><name>Session</name></member>
     <member refid="classdebug_1_1_session_1a2ae6441e2bb4fa3f6a616a6f8b0ce8d5" kind="function"><name>~Session</name></member>
     <member refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" kind="function"><name>initialize</name></member>
     <member refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" kind="function"><name>launch</name></member>
+    <member refid="classdebug_1_1_session_1aa9caba28f79faae7696bc16f80f01b80" kind="function"><name>createCommFile</name></member>
     <member refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" kind="function"><name>attach</name></member>
     <member refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" kind="function"><name>resume</name></member>
     <member refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" kind="function"><name>pollEvents</name></member>
@@ -164,8 +189,8 @@
     <member refid="classdebug_1_1_session_1ae55ea009e277df6240ced7cfdf1521f3" kind="function"><name>wake</name></member>
     <member refid="classdebug_1_1_session_1a3db51b94ef908f06ebe53b4f18f5fa01" kind="function"><name>cancel</name></member>
     <member refid="classdebug_1_1_session_1a1012896227c475931dc65fbb9ff3342c" kind="function"><name>resetCancel</name></member>
-    <member refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" kind="function"><name>getOffsetStatus</name></member>
-    <member refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" kind="function"><name>getOffset</name></member>
+    <member refid="classdebug_1_1_session_1a40050bf4c1c83fbc5d06acc65df561f5" kind="function"><name>drainOutput</name></member>
+    <member refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" kind="function"><name>drainLauncherOutput</name></member>
     <member refid="classdebug_1_1_session_1a02ef270b151bab75f4e20a5a48d84d41" kind="function"><name>addBreakpoint</name></member>
     <member refid="classdebug_1_1_session_1a0afce30b5eb95c22083d1516c3422d52" kind="function"><name>addBreakpointByLocation</name></member>
     <member refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" kind="function"><name>removeBreakpoint</name></member>
@@ -181,11 +206,13 @@
     <member refid="classdebug_1_1_session_1aa25453f6ff0703dd42e955e72d68e5e3" kind="function"><name>appendStackFrames</name></member>
     <member refid="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" kind="function"><name>applyToLocals</name></member>
     <member refid="classdebug_1_1_session_1a44d91c600d53774ef810614e1f663f15" kind="function"><name>applyToVariableChildren</name></member>
-    <member refid="classdebug_1_1_session_1a15f2549ebb9c9ea74349ba4ae7a46c6a" kind="function"><name>evaluateExpression</name></member>
+    <member refid="classdebug_1_1_session_1a42dae8d83b1aa51056caad8c4d595874" kind="function"><name>evaluateExpression</name></member>
     <member refid="classdebug_1_1_session_1a926bbe2e4990905cf784fce5cfadc135" kind="function"><name>appendThreads</name></member>
     <member refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" kind="function"><name>getEventThreadSystemId</name></member>
     <member refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" kind="function"><name>setCurrentThreadBySystemId</name></member>
     <member refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" kind="function"><name>resetSymbolGroupCache</name></member>
+    <member refid="classdebug_1_1_session_1ab17bfa72486464b873a658e0ecf6e40a" kind="function"><name>sendDidAttach</name></member>
+    <member refid="classdebug_1_1_session_1ae0cff8943c2cdbd0906c0d3516addddf" kind="function"><name>attachLaunchTarget</name></member>
     <member refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" kind="function"><name>cacheFrameVariables</name></member>
     <member refid="classdebug_1_1_session_1a8c839b8c18d56cf2952df599fc1f2e3d" kind="function"><name>appendStackFrame</name></member>
   </compound>
@@ -204,6 +231,7 @@
     <member refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" kind="function"><name>drainStepCompleted</name></member>
     <member refid="classdebug_1_1_stop_manager_1ae491549724477f1c2457f0005f4e11e2" kind="function"><name>drainPauseCompleted</name></member>
     <member refid="classdebug_1_1_stop_manager_1ab35e144bdf9bf196392632e3b5c5b84c" kind="function"><name>drainModuleLoaded</name></member>
+    <member refid="classdebug_1_1_stop_manager_1a573bbe1668776da7f0c144e90f3b0849" kind="function"><name>drainBreakIn</name></member>
     <member refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" kind="function"><name>drainExceptionStopped</name></member>
     <member refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" kind="function"><name>resumeAfterInitialBreak</name></member>
     <member refid="classdebug_1_1_stop_manager_1a11cf2cbc87df89b6ac71d2c9192cda02" kind="function"><name>resumeExecution</name></member>
@@ -258,8 +286,10 @@
   </compound>
   <compound refid="namespacedap" kind="namespace"><name>dap</name>
     <member refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" kind="function"><name>nextSeq</name></member>
+    <member refid="namespacedap_1a302bfbcf89b497410095e68de509a548" kind="function"><name>appendMessageMembers</name></member>
     <member refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" kind="function"><name>appendResponseMembers</name></member>
     <member refid="namespacedap_1abef24a43f953f76738d1403d3abb17eb" kind="function"><name>appendEventMembers</name></member>
+    <member refid="namespacedap_1a9017bb074f243c44e03c5884a4704e9a" kind="function"><name>appendRequestMembers</name></member>
     <member refid="namespacedap_1a7b8aaaf08897d1545f485905b818c572" kind="function"><name>appendResponse</name></member>
     <member refid="namespacedap_1ab92cf7854c6b2dbc40d249b04d8e276e" kind="function"><name>appendErrorResponse</name></member>
     <member refid="namespacedap_1a746c587ede8916be9ae4b54c83bbfdbf" kind="function"><name>appendEvent</name></member>
@@ -267,6 +297,7 @@
     <member refid="namespacedap_1a2252839c7eb64619f5c79f9b0875ab18" kind="function"><name>appendBreakpointChangedEvent</name></member>
     <member refid="namespacedap_1aba2a832f89ae6f80a41bc63c1e7c99f8" kind="function"><name>appendSource</name></member>
     <member refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" kind="function"><name>appendCapabilities</name></member>
+    <member refid="namespacedap_1a84f7acdd9b2452c53428cd5360edbd1f" kind="function"><name>appendRunInTerminalArguments</name></member>
     <member refid="namespacedap_1a336d8b131f80128060f5206c3c233455" kind="function"><name>getStoppedEvent</name></member>
     <member refid="namespacedap_1a0323f66302b491c9ca350484ec955f68" kind="function"><name>getExceptionDescription</name></member>
     <member refid="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" kind="function"><name>getExceptionStoppedEvent</name></member>
@@ -275,6 +306,7 @@
     <member refid="namespacedap_1a36ecaf74c4e93e9b1d9f4325dea08262" kind="function"><name>getOutputEvent</name></member>
     <member refid="namespacedap_1a091a5bef8652985ca095c5d8873da6f5" kind="function"><name>appendResponse</name></member>
     <member refid="namespacedap_1ad6158862d04add2ed2457780c3218ff7" kind="function"><name>appendEvent</name></member>
+    <member refid="namespacedap_1a1a49a406f7bc8ed527a5d1e9999994f6" kind="function"><name>appendRequest</name></member>
     <member refid="namespacedap_1a026ee303448d3d1778a79fc03e223438" kind="function"><name>getRequest</name></member>
   </compound>
   <compound refid="namespacedebug" kind="namespace"><name>debug</name>
@@ -296,15 +328,13 @@
     <member refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a2764ca9d34e90313978d044f27ae433b" kind="enumvalue"><name>step</name></member>
     <member refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1aec1b81965109165de6b38cd92c1e39f9" kind="enumvalue"><name>pause</name></member>
     <member refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a42552b1f133f9f8eb406d4f306ea9fd1" kind="enumvalue"><name>exception</name></member>
-    <member refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0e" kind="enum"><name>OffsetStatus</name></member>
-    <member refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea6cfe61694ee1bb13ae719d47c2f80b7a" kind="enumvalue"><name>found</name></member>
-    <member refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea5ccf4d5c325b7db68777f400f66fd1b1" kind="enumvalue"><name>notFound</name></member>
-    <member refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0eae64262c3b87ee801f8f096c390dfae8d" kind="enumvalue"><name>engineBusy</name></member>
+    <member refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1aab24be7604ee125adbc423eb916746ef" kind="enumvalue"><name>breakIn</name></member>
     <member refid="namespacedebug_1aee0526408c2ffc82c78a9e7ed793c19e" kind="typedef"><name>BreakpointLocation</name></member>
-    <member refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kind="typedef"><name>Events</name></member>
+    <member refid="namespacedebug_1a9de5674d30937ca1c5c07c56d85f34e0" kind="typedef"><name>Events</name></member>
     <member refid="namespacedebug_1a843227e19ef74b48d7cbb77acd10a09d" kind="variable"><name>stdioReadBufferSize</name></member>
     <member refid="namespacedebug_1a96e6155ab83215a136891405e91e92c0" kind="variable"><name>allEventsMask</name></member>
     <member refid="namespacedebug_1ab0a6e6add77bf779720e6bd1a359a87c" kind="variable"><name>wakeEventMask</name></member>
+    <member refid="namespacedebug_1aaa0f604f43df5fdc671d741f03aa5e7b" kind="variable"><name>commFileBufferSize</name></member>
     <member refid="namespacedebug_1a5b5f90069d08b7599b5af986d92889d6" kind="variable"><name>maxStackFrames</name></member>
     <member refid="namespacedebug_1ad59b60cb019c5f6433812ad6a56ecac8" kind="function"><name>normalizePath</name></member>
     <member refid="namespacedebug_1a5f8bae060639d0487513b79a1e7ad204" kind="function"><name>shouldSkipSymbol</name></member>
@@ -322,7 +352,7 @@
     <member refid="namespacedebug_1abb112a9371b352c87b37197fb1d2f591" kind="function"><name>onProcessStateRunning</name></member>
     <member refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" kind="function"><name>onProcessEvent</name></member>
     <member refid="namespacedebug_1a27b0e00372dec0855774d4ac0eba3c10" kind="function"><name>onBreakpointEvent</name></member>
-    <member refid="namespacedebug_1ae1ad323362d43c9c1a534c76584e2d41" kind="function"><name>getLineEntry</name></member>
+    <member refid="namespacedebug_1acd0bfcd07f3164b8dd0db830ff0f63f5" kind="function"><name>getDidAttachFile</name></member>
     <member refid="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" kind="function"><name>getExceptionName</name></member>
     <member refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" kind="function"><name>getDisplayValue</name></member>
     <member refid="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" kind="function"><name>applyToVariable</name></member>
@@ -398,6 +428,10 @@
   </compound>
   <compound refid="_project_info_8h" kind="file"><name>ProjectInfo.h</name>
   </compound>
+  <compound refid="_launcher_8cpp" kind="file"><name>Launcher.cpp</name>
+  </compound>
+  <compound refid="_launcher_8h" kind="file"><name>Launcher.h</name>
+  </compound>
   <compound refid="_main_8cpp" kind="file"><name>Main.cpp</name>
     <member refid="_main_8cpp_1a755bf4a1b1440c4dae1f2367d4ce4710" kind="variable"><name>sidecarDirName</name></member>
     <member refid="_main_8cpp_1a05de6c31938aca69cf8183b9015febf1" kind="variable"><name>dbgengSubdir</name></member>
@@ -411,6 +445,7 @@
     <member refid="_main_8cpp_1a72e656306a62f770baf4bd3d99f79156" kind="function"><name>getOrCreateSidecar</name></member>
     <member refid="_main_8cpp_1a4a9530d5c1cf1abc329ad14ed1d96872" kind="function"><name>execWithSidecar</name></member>
     <member refid="_main_8cpp_1add6b6f05c094e4962cae19cb82b3a06e" kind="function"><name>runAdapter</name></member>
+    <member refid="_main_8cpp_1a1ee175e4ac85212af9d1afec8473b7b3" kind="function"><name>runLauncher</name></member>
     <member refid="_main_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" kind="function"><name>main</name></member>
   </compound>
   <compound refid="_processor_8cpp" kind="file"><name>Processor.cpp</name>

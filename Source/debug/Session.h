@@ -3,8 +3,6 @@
 #include "State.h"
 
 #if JUCE_WINDOWS
-#include <windows.h>
-#include <wrl/client.h>
 #include <dbgeng.h>
 #include "Loader.h"
 #include "Callbacks.h"
@@ -54,15 +52,17 @@ using BreakpointLocation = jam::Union<std::int32_t,     // engineId
  *  Ownership (Windows):
  *  - Owns the Loader that loaded dbgeng.dll.
  *  - Owns OutputCallbacks and EventCallbacks registered with IDebugClient5.
- *  - Owns all COM interface ComPtrs; releases them in ~Session.
+ *  - Owns all COM interface pointers, held as juce::ComSmartPtr. shutdown releases them,
+ *    and ~Session calls shutdown.
  *
  *  Ownership (macOS):
  *  - Owns the SBDebugger, SBListener, SBTarget, and SBProcess instances for
  *    the lifetime of the session.
  *
  *  @note The engine context runs every method, except wake and cancel. The reader thread
- *        calls wake and cancel through Processor::addRequest. On Windows, COM is initialized
- *        in multithreaded mode by initialize().
+ *        calls wake and cancel through Processor::addRequest. On Windows, the output stream
+ *        callbacks of launchCaptured also call wake. On Windows, initialize() initializes COM
+ *        in multithreaded mode.
  */
 class Session
 {
@@ -75,11 +75,12 @@ public:
 
     /** Prepare the debug engine for use. Must succeed before any other Session method.
      *
-     *  Windows: CoInitializeEx (multithreaded), loads dbgeng.dll from sidecarDir via
-     *  Loader, calls DebugCreate to obtain IDebugClient5, QueryInterface for
-     *  IDebugControl4/IDebugSymbols3/IDebugDataSpaces4/IDebugSystemObjects, registers
-     *  OutputCallbacks and EventCallbacks, sets source-level code level for stepping,
-     *  and enables the initial-break engine option. On failure it calls shutdown(EndMode::passive).
+     *  Windows: initializes COM through jam::ScopedComInitialiser (multithreaded), loads
+     *  dbgeng.dll from sidecarDir via Loader, calls DebugCreate to obtain IDebugClient5,
+     *  QueryInterface for IDebugControl4/IDebugSymbols3/IDebugDataSpaces4/IDebugSystemObjects,
+     *  registers OutputCallbacks and EventCallbacks, sets the output mask, adds source-line
+     *  symbol loading, sets source-level code level for stepping, appends the srv* symbol
+     *  path, and enables the initial-break engine option. On failure it calls shutdown(EndMode::passive).
      *
      *  macOS: SBDebugger::Initialize/Create (async mode), redirects the debugger's own
      *  stdin to /dev/null so liblldb does not compete with the DAP reader thread for
@@ -92,23 +93,38 @@ public:
      */
     bool initialize (const juce::File& sidecarDir) noexcept;
 
-    /** Launch a process for debugging, stopped before user code runs.
+    /** Launch a process for debugging. macOS stops it at its entry point. Windows resumes it on attach.
      *
-     *  Windows calls IDebugClient5::CreateProcess2 and returns immediately — it does
-     *  NOT call WaitForEvent, so the caller must poll via pollEvents() to receive the
-     *  initial CreateProcess and loader-breakpoint events.
+     *  Windows creates the process suspended, with its standard output and error on pipes
+     *  (see launchCaptured), then attaches to it with the resume flag and no initial break.
+     *  It does not call WaitForEvent. The caller polls with pollEvents() to receive the
+     *  engine events.
      *
      *  macOS creates the target, starts listening for its events, then calls
      *  SBTarget::Launch with eLaunchFlagDebug | eLaunchFlagStopAtEntry. On success the
      *  target and process members are populated, and the session fires the targetProcessId
      *  event. The caller still polls via pollEvents() for the resulting stop event.
      *
-     *  @param program  Full path to the executable to launch.
+     *  @param program  Full path to the executable to launch. Windows resolves it to a native
+     *                  path and quotes it when it contains a space.
      *  @return true if the launch call succeeded.
      *
-     *  @note The process is stopped before running any code until the first pollEvents call.
+     *  @note On macOS the process stays at its entry point until resume is called. On Windows the
+     *        process runs once the attach completes.
      */
     bool launch (const juce::String& program) noexcept;
+
+    /** Creates the channel that the Launcher uses to send its process ID and to get the attach reply.
+     *
+     *  Windows creates a duplex overlapped named pipe, keeps a duplicate of it in launcherInput, and
+     *  opens launcherOutput on the pipe. The name is the pipe name followed by the process ID.
+     *  macOS creates two FIFOs in the temporary folder: the channel, and the channel with the
+     *  didAttach extension. It opens launcherOutput on the channel. On both platforms, the
+     *  runInTerminal event fires when the channel has bytes to read.
+     *
+     *  @return The channel name. The adapter passes it to the Launcher as the comm file argument.
+     */
+    juce::String createCommFile () noexcept;
 
     /** Attach to a running process by OS process ID.
      *
@@ -127,25 +143,28 @@ public:
 
     /** Resume execution after a break.
      *
-     *  Windows calls IDebugControl4::SetExecutionStatus(DEBUG_STATUS_GO). macOS calls
-     *  SBProcess::Continue.
+     *  Windows calls disableBreakpointAtInstruction, then IDebugControl4::SetExecutionStatus with
+     *  DEBUG_STATUS_STEP_INTO when a breakpoint was disabled, and with DEBUG_STATUS_GO otherwise.
+     *  macOS calls SBProcess::Continue.
      */
     void resume () noexcept;
 
     /** Poll for debug events with a timeout.
      *
      *  Processor::process calls it on the engine context while the target runs or
-     *  launches, or while a terminate deadline is pending. Windows calls
-     *  IDebugControl4::WaitForEvent with timeoutMs. dbgeng invokes the callbacks in
-     *  Callbacks.cpp during that call. Afterwards, E_UNEXPECTED from the wait fires the
-     *  terminated event, and S_OK with a step pending fires the step event. macOS calls
+     *  launches, or while a terminate deadline is pending. Windows skips the wait when
+     *  isWakePending is set. Otherwise it calls IDebugControl4::WaitForEvent, with timeoutMs
+     *  while a terminate deadline is set and an infinite timeout otherwise. dbgeng invokes the
+     *  callbacks in Callbacks.cpp during that call. Afterwards, E_UNEXPECTED from the wait fires
+     *  the terminated event. S_OK with a stepped breakpoint calls applySteppedBreakpoint. S_OK
+     *  with a step pending fires the step event. macOS calls
      *  SBListener::WaitForEvent, which only accepts whole-second timeouts, so timeoutMs
      *  is rounded up to the next second before the wait. Each timeoutMs from 1 to 1000
      *  waits one second. A process event goes to the stop-reason dispatch. A breakpoint
      *  event of type LocationsAdded or LocationsResolved fires breakpointLocationFound.
      *
-     *  @param timeoutMs  Maximum time to wait in milliseconds. On macOS, 0 is a
-     *                    non-blocking poll.
+     *  @param timeoutMs  Maximum time to wait in milliseconds. Windows uses it only while a
+     *                    terminate deadline is set. On macOS, 0 is a non-blocking poll.
      */
     void pollEvents (std::uint32_t timeoutMs) noexcept;
 
@@ -160,20 +179,23 @@ public:
      *               - EndMode::detach    — target is alive; leave it running after detach
      *               - EndMode::passive   — target has already exited; release state only
      *
-     *  Windows calls IDebugClient5::EndSession with the dbgeng flag corresponding
-     *  to mode, unregisters OutputCallbacks and EventCallbacks, releases all COM
-     *  interface pointers, and calls CoUninitialize if this Session owns the COM
-     *  apartment. macOS signals or detaches the process per mode, then destroys
-     *  and terminates the SBDebugger.
+     *  Windows closes standardOutput, standardError, and launcherOutput, calls
+     *  IDebugClient5::EndSession with the dbgeng flag corresponding to mode, unregisters
+     *  OutputCallbacks and EventCallbacks, releases all COM interface pointers, and resets
+     *  comInitialiser, which uninitializes COM. macOS closes launcherOutput, deletes the
+     *  channel files, signals or detaches the process per mode, then destroys and terminates
+     *  the SBDebugger.
      *
      *  @note Callers must pass an explicit mode. The destructor passes EndMode::passive.
      *        Processor::getEndModeForExit returns EndMode::passive when the target has exited.
      */
     void shutdown (EndMode mode) noexcept;
 
-    /** Wakes a blocked pollEvents. Called on the reader thread, from Processor::addRequest.
+    /** Wakes a blocked pollEvents. Called on the reader thread, from Processor::addRequest,
+     *  and on Windows from the output stream callbacks of launchCaptured.
      *
-     *  macOS broadcasts the wake event on the listener. Windows does nothing.
+     *  Windows sets isWakePending. When isWaiting is set, it calls IDebugControl4::SetInterrupt
+     *  with DEBUG_INTERRUPT_EXIT. macOS broadcasts the wake event on the listener.
      */
     void wake () noexcept;
 
@@ -189,46 +211,32 @@ public:
      */
     void resetCancel () noexcept;
 
+    /** Sends the output of the target to the client as output events.
+     *
+     *  Windows reads the standard output stream and the standard error stream until each one
+     *  returns no bytes. macOS reads the standard output and the standard error of the process
+     *  until each one returns no bytes. pollEvents calls it before and after each wait.
+     */
+    void drainOutput () noexcept;
+
+    /** Reads the first message from the launch channel, acts on it, and closes the channel.
+     *
+     *  A pid message calls attachLaunchTarget. An error message fires the error event with its text.
+     *  The channel closes after that message. macOS also deletes the channel files.
+     *
+     *  Processor::process calls it when the engine does not poll.
+     */
+    void drainLauncherOutput () noexcept;
+
     /** Dispatch map that reports engine events to Processor and StopManager.
      *
-     *  Both register their handlers in their constructors. The session fires an event
-     *  with events.get, on the engine context.
+     *  Both register their handlers in their constructors. The engine context fires most
+     *  events with events.get. The launch channel fires runInTerminal from its stream
+     *  callback, on both platforms.
      */
     Events events;
 
     // ── Breakpoint API (used by BreakpointManager) ─────────────────────
-
-    /** Resolve a source file path and line number to a resolution status.
-     *
-     *  Windows calls IDebugSymbols3::GetOffsetByLine, first against the full path,
-     *  then against the basename with a stored-path match. It distinguishes a
-     *  transient engine error (E_UNEXPECTED, engineBusy) from a genuine miss.
-     *
-     *  macOS searches every compile unit of every loaded module for a matching line
-     *  entry (FindLineEntryIndex); liblldb has no transient-busy signal, so this side
-     *  never returns engineBusy.
-     *
-     *  @param filePath  Path to the source file (backslash-form on Windows, forward-slash on macOS).
-     *  @param line      One-based source line number.
-     *  @return OffsetStatus::found      — symbol found; getOffset() returns the address.
-     *          OffsetStatus::notFound   — no code at this line or module not loaded.
-     *          OffsetStatus::engineBusy — Windows only: engine transient error; retry later.
-     */
-    debug::OffsetStatus getOffsetStatus (const juce::String& filePath,
-                                         std::uint16_t       line) noexcept;
-
-    /** Resolve a source file path and line number to a target virtual address.
-     *
-     *  Windows performs the same lookup as getOffsetStatus and returns the resolved
-     *  offset. macOS performs the same compile-unit search as getOffsetStatus and
-     *  returns SBLineEntry::GetStartAddress resolved to a load address via the target.
-     *
-     *  @param filePath  Path to the source file (backslash-form on Windows, forward-slash on macOS).
-     *  @param line      One-based source line number.
-     *  @return Resolved virtual address, or 0 when there is none.
-     */
-    std::uint64_t getOffset (const juce::String& filePath,
-                             std::uint16_t       line) noexcept;
 
     /** Create a code breakpoint at the given virtual address.
      *
@@ -244,14 +252,15 @@ public:
 
     /** Create a breakpoint by source file and line.
      *
-     *  Cross-platform entry: Windows wraps the existing
-     *  `getOffsetStatus` / `getOffset` → `addBreakpoint (offset)` chain; macOS
+     *  Cross-platform entry: Windows calls IDebugSymbols3::GetSourceEntriesByLine with
+     *  DEBUG_GSEL_ALLOW_HIGHER and DEBUG_GSEL_NEAREST_ONLY, then calls addBreakpoint with the
+     *  offset of the first entry; macOS
      *  delegates to `SBTarget::BreakpointCreateByLocation`, which lets
      *  liblldb track pending locations itself and auto-resolve as modules
      *  load (no adapter-side retry loop).
      *
-     *  @param filePath  Source file path, in the path form the target platform
-     *                   expects (backslash-form on Windows, forward-slash on macOS).
+     *  @param filePath  Source file path as the DAP client sent it. Windows resolves it to a
+     *                   full native path against the working directory, macOS uses it as is.
      *  @param line      Requested line (1-based, matching DAP).
      *  @return BreakpointLocation packing (engineId, resolvedLine), or an empty
      *          optional when no location was found or BP creation failed.
@@ -277,8 +286,7 @@ public:
      *
      *  Windows executes ".reload /f" with the basename of imageName, via
      *  IDebugControl4::Execute. BreakpointManager::onModuleLoad calls it after a module
-     *  loads. macOS is a no-op. liblldb loads a module's symbols during module-load
-     *  handling, so this always returns ok().
+     *  loads. macOS ignores imageName and returns ok().
      *
      *  @param imageName  The image file name (basename or full path) as reported
      *                    by the moduleLoad event. Unused on macOS.
@@ -298,7 +306,8 @@ public:
 
     /** Step over one source line without entering function calls.
      *
-     *  Windows calls IDebugControl4::SetExecutionStatus(DEBUG_STATUS_STEP_OVER); requires
+     *  Windows first disables a breakpoint at the current instruction, then calls
+     *  IDebugControl4::SetExecutionStatus(DEBUG_STATUS_STEP_OVER); requires
      *  source-level code level, set during initialize. macOS calls
      *  SBThread::StepOver(eOnlyDuringStepping) on the selected thread.
      *
@@ -310,7 +319,8 @@ public:
 
     /** Step into the next function call on the current source line.
      *
-     *  Windows calls IDebugControl4::SetExecutionStatus(DEBUG_STATUS_STEP_INTO); requires
+     *  Windows first disables a breakpoint at the current instruction, then calls
+     *  IDebugControl4::SetExecutionStatus(DEBUG_STATUS_STEP_INTO); requires
      *  source-level code level, set during initialize. macOS calls
      *  SBThread::StepInto on the selected thread.
      *
@@ -320,7 +330,8 @@ public:
 
     /** Step out of the current function to its call site.
      *
-     *  Windows executes the "gu" (go up) command via IDebugControl4::Execute. macOS
+     *  Windows first disables a breakpoint at the current instruction, then executes the
+     *  "gu" (go up) command via IDebugControl4::Execute. macOS
      *  calls SBThread::StepOutOfFrame on the thread's selected frame.
      *
      *  @note The step completes asynchronously, as described for stepOver.
@@ -358,32 +369,31 @@ public:
 
     /** Append a path to the symbol search path.
      *
-     *  Windows calls IDebugSymbols3::AppendSymbolPath — the appended path is searched
-     *  in addition to any path set at initialization time. macOS runs the LLDB command
-     *  "settings append target.debug-file-search-paths <path>" via HandleCommand, which
-     *  is likewise additive.
+     *  Windows resolves path to a full native path against the working directory, then passes
+     *  it to IDebugSymbols3::AppendSymbolPath. macOS appends path to the LLDB command
+     *  "settings append target.debug-file-search-paths" and runs it through HandleCommand.
      *
-     *  @param path  Semicolon-delimited symbol path to append (e.g. "C:\\Symbols;srv*") on
-     *               Windows; a single filesystem path on macOS.
+     *  @param path  Windows: a path, resolved to a full native path against the working directory.
+     *               macOS: a path, appended to the LLDB command as given.
      */
     void appendSymbolPath (const juce::String& path) noexcept;
 
     /** Append a path to the source search path.
      *
-     *  Windows calls IDebugSymbols3::AppendSourcePath, which is additive. macOS has no
-     *  additive source search path — it runs the LLDB command
-     *  "settings set target.source-map \".\" \"<path>\"", which remaps "." to path and
-     *  replaces the full source map on every call; current callers invoke it once.
+     *  Windows resolves path to a full native path against the working directory, then passes
+     *  it to IDebugSymbols3::AppendSourcePath. macOS runs the LLDB command
+     *  "settings set target.source-map" through HandleCommand, with "." and path as its two arguments.
      *
-     *  @param path  Semicolon-delimited source path to append on Windows; a single
-     *               filesystem path to remap "." to on macOS.
+     *  @param path  Windows: a path, resolved to a full native path against the working directory.
+     *               macOS: a path, used as the target of the remap of ".".
      */
     void appendSourcePath (const juce::String& path) noexcept;
 
     /** Appends the stack frames of the current thread to json, as DAP stack frame objects.
      *
      *  Windows walks the call stack up to maxFrames deep using
-     *  IDebugControl4::GetStackTrace and resolves each frame to source file, line, and
+     *  IDebugControl4::GetStackTrace, or GetContextStackTrace for an unreported thread. It
+     *  resolves each frame to source file, line, and
      *  function name via IDebugSymbols3::GetNameByOffset and GetLineByOffset. macOS
      *  reads SBThread::GetNumFrames and each SBFrame's function name and SBLineEntry
      *  directly, clamped to the real stack depth.
@@ -453,15 +463,12 @@ public:
      *  macOS first reads the expression as a variable path with
      *  SBFrame::GetValueForVariablePath, which needs no expression parser. Only when that
      *  fails, and the request is not a hover, it calls SBFrame::EvaluateExpression. The
-     *  parser looks up an unknown name in every loaded module, which took seconds in a
-     *  large host, and an editor sends a hover for each word under the cursor. The
      *  SBValue is formatted the same way as applyToLocals. A result is returned only
      *  when the SBValue is valid and its SBError reports success.
      *
      *  @param expression  C++ expression string to evaluate (e.g. "myVar->field").
      *  @param frameIndex  Zero-based stack frame index for symbol resolution context.
-     *  @param isHover     True when the DAP request context is "hover". Windows ignores
-     *                     it, because AddSymbol never runs an expression parser.
+     *  @param isHover     True when the DAP request context is "hover". Windows ignores it.
      *  @return Formatted result string, or an empty string when the evaluation fails.
      *          Processor::onEvaluate sends the error response for an empty string.
      *
@@ -474,7 +481,8 @@ public:
      *
      *  Windows uses IDebugSystemObjects::GetNumberThreads and GetThreadIdsByIndex to
      *  list all threads, and resolves each name with GetThreadDescription. A thread with
-     *  no description is named "Thread " followed by its id. macOS uses
+     *  no description is named "Thread " followed by its id. Then Windows appends the threads
+     *  that dbgeng does not report, see appendUnreportedThreads. macOS uses
      *  SBProcess::GetNumThreads and GetThreadAtIndex, and reads each SBThread ID and name.
      *
      *  Each appended thread object has these fields:
@@ -501,28 +509,49 @@ public:
 
     /** Set the current debug context to the thread with the given OS thread ID.
      *
-     *  Windows looks up the dbgeng internal thread index for systemId and calls
-     *  IDebugSystemObjects::SetCurrentThreadId. macOS calls
+     *  Windows looks up the dbgeng internal thread index for systemId. When dbgeng reports the
+     *  thread, Windows calls IDebugSystemObjects::SetCurrentThreadId. Otherwise it records systemId
+     *  as the unreported thread, which setScope and appendStackFrames read. macOS calls
      *  SBProcess::SetSelectedThreadByID directly with systemId. All subsequent symbol
      *  queries (applyToLocals, appendStackFrames, evaluateExpression) operate on this
      *  thread's context.
      *
      *  @param systemId  OS system thread ID to make current.
      *
-     *  @note Must be called while the target is stopped. On Windows, an id that dbgeng
-     *        does not know is ignored, and 0 fails an assert.
+     *  @note Must be called while the target is stopped. On Windows, 0 fails an assert.
      */
     void setCurrentThreadBySystemId (std::uint32_t systemId) noexcept;
 
     /** Discards the cached symbol group (Windows) or the cached frame variables (macOS).
      *
      *  The cache is keyed on frame index, and a stop changes the program counter, so the
-     *  cache must be discarded. VariableManager::resetVariablesState calls it. shutdown calls
-     *  it too.
+     *  cache must be discarded. VariableManager::resetVariablesState calls it. On Windows,
+     *  shutdown calls it too.
      */
     void resetSymbolGroupCache () noexcept;
 
 private:
+    /** Writes the didAttach message to the launch channel. The Launcher reads it as the adapter's reply.
+     *
+     *  Windows writes the line through launcherInput, and waits when the write is pending. macOS
+     *  opens the didAttach FIFO without blocking, writes the line, and closes the FIFO.
+     */
+    void sendDidAttach () noexcept;
+
+    /** Attaches to the target that the Launcher reported, then sends the reply.
+     *
+     *  Windows calls attachSuspended. On success it calls sendDidAttach and fires the didAttach event.
+     *  macOS sets the debugger to synchronous mode, attaches, calls sendDidAttach, and resumes the
+     *  process. It fires didAttach, then sets the debugger back to asynchronous mode. On failure,
+     *  both platforms fire the error event with the text "Failed to attach to the target process".
+     *
+     *  @param processId  OS process ID of the target that the Launcher reported.
+     */
+    void attachLaunchTarget (std::uint32_t processId) noexcept;
+
+    /** Reads the launch channel. createCommFile opens it, and drainLauncherOutput reads and closes it. */
+    jam::AsyncOutputStream launcherOutput;
+
 #if JUCE_WINDOWS
     /** Return the symbol group for the given frame, creating or updating it as needed.
      *
@@ -531,9 +560,53 @@ private:
      *
      *  @param frameIndex  Zero-based stack frame index.
      *  @return Pointer to the symbol group, or nullptr on failure. Lifetime is managed
-     *          by the cachedSymbolGroup ComPtr.
+     *          by cachedSymbolGroup, a juce::ComSmartPtr.
      */
     IDebugSymbolGroup2* getOrCreateSymbolGroup (int frameIndex) noexcept;
+
+    /** Sets the debug scope to one stack frame.
+     *
+     *  When unreportedThreadId is set, the call walks the stack of that thread from its CONTEXT
+     *  records, and sets the scope from the record of the frame. When the walk does not reach the
+     *  frame, the scope does not change. Otherwise the call sets the scope by frame index.
+     *
+     *  @param frameIndex  Zero-based stack frame index (0 = innermost frame).
+     */
+    void setScope (int frameIndex) noexcept;
+
+    /** Returns the engine ID of the enabled breakpoint at the instruction of the innermost frame.
+     *
+     *  Scans every breakpoint. A match has the instruction offset of the innermost frame and has
+     *  the enabled flag set.
+     *
+     *  @return The engine breakpoint ID, or an empty optional when no frame or no enabled breakpoint matches.
+     */
+    std::optional<std::int32_t> getBreakpointAtInstruction () noexcept;
+
+    /** Disables the enabled breakpoint at the current instruction, and records its engine ID.
+     *
+     *  Makes the event thread current and resets the scope. When an enabled breakpoint sits at the
+     *  instruction, it clears the enabled flag and stores the engine ID in steppedBreakpointEngineId.
+     *  resume, stepOver, stepInto, and stepOut call it.
+     */
+    void disableBreakpointAtInstruction () noexcept;
+
+    /** Re-enables the breakpoint that disableBreakpointAtInstruction disabled.
+     *
+     *  Clears steppedBreakpointEngineId. When no stop reason is set and no step is pending, it
+     *  resumes the target with IDebugControl4::SetExecutionStatus and DEBUG_STATUS_GO. pollEvents
+     *  calls it when a wait returns S_OK.
+     */
+    void applySteppedBreakpoint () noexcept;
+
+    /** Appends the threads of the target process that dbgeng does not report, as DAP thread objects.
+     *
+     *  Walks a Toolhelp thread snapshot. Each thread of the target process that dbgeng does not find
+     *  is named "Thread " followed by its ID. appendThreads calls it after the reported threads.
+     *
+     *  @param json  Output text that receives the thread objects.
+     */
+    void appendUnreportedThreads (std::string& json) noexcept;
 
     void appendStackFrame (std::string& json, const DEBUG_STACK_FRAME& stackFrame, int frameId) noexcept;
 
@@ -543,9 +616,7 @@ private:
 
     /** Load dbgeng.dll via loader and obtain an IDebugClient5 pointer.
      *
-     *  Calls CoInitializeEx (multithreaded) first, recording in isComOwned
-     *  whether this call newly initialized the apartment, then loads the
-     *  sidecar DLL and resolves DebugCreate through it.
+     *  Loads the sidecar DLL and resolves DebugCreate through it.
      *
      *  @param sidecarDir  Directory containing the extracted dbgeng sidecar DLLs.
      *  @return the IDebugClient5 pointer on success, or nullptr on failure.
@@ -564,9 +635,47 @@ private:
      *
      *  Registers outputCallbacks and eventCallbacks with client, sets the output
      *  mask, enables source-line symbol loading, sets source-level code level for
-     *  stepping, and enables the initial-break engine option.
+     *  stepping, appends the srv* symbol path, and enables the initial-break engine option.
      */
     void setDebugInterfaces () noexcept;
+
+    /** Starts the target suspended, with its standard output and error on pipes, and attaches to it.
+     *
+     *  Sets each output stream to call wake when bytes are ready, and opens each stream on a named
+     *  pipe. Creates the target with the client ends of the pipes as its standard handles. Calls
+     *  attachSuspended on the target. When attachSuspended fails, terminates the target with exit code 1.
+     *
+     *  @param commandLine  Native command line of the target.
+     *  @return The HRESULT of attachSuspended, or E_FAIL when the target was not created.
+     */
+    HRESULT launchCaptured (const juce::String& commandLine) noexcept;
+
+    /** Attaches the engine to a process with the resume-process flag and without an initial break.
+     *
+     *  @param processId  OS process ID of the target.
+     *  @return The HRESULT of IDebugClient5::AttachProcess.
+     */
+    HRESULT attachSuspended (std::uint32_t processId) noexcept;
+
+    /** The COM apartment that initialize opens. shutdown resets it, which uninitializes COM. */
+    std::optional<jam::ScopedComInitialiser> comInitialiser;
+
+    /** True while pollEvents waits in WaitForEvent. wake reads it to decide whether to interrupt the wait. */
+    std::atomic<bool> isWaiting { false };
+
+    /** Set by wake. pollEvents clears it, and skips WaitForEvent when it was set. */
+    std::atomic<bool> isWakePending { false };
+
+    /** Reads the standard output pipe of the target. drainOutput forwards its bytes as output events. */
+    jam::AsyncOutputStream standardOutput;
+
+    /** Reads the standard error pipe of the target. drainOutput forwards its bytes as output events. */
+    jam::AsyncOutputStream standardError;
+
+    /** Write end of the launch channel, a duplicate of the pipe that createCommFile creates.
+     *  sendDidAttach writes to it. drainLauncherOutput resets it.
+     */
+    std::unique_ptr<void, decltype (&CloseHandle)> launcherInput { nullptr, &CloseHandle };
 
     /** Loads dbgeng.dll from the sidecar directory and exposes DebugCreate. */
     Loader loader;
@@ -580,34 +689,37 @@ private:
     EventCallbacks eventCallbacks { events };
 
     /** Root dbgeng interface obtained from DebugCreate; source of every other interface. */
-    Microsoft::WRL::ComPtr<IDebugClient5> client;
+    juce::ComSmartPtr<IDebugClient5> client;
 
     /** Execution control — resume, step, WaitForEvent, engine options. */
-    Microsoft::WRL::ComPtr<IDebugControl4> control;
+    juce::ComSmartPtr<IDebugControl4> control;
 
     /** Symbol resolution — offsets, symbol groups, search paths. */
-    Microsoft::WRL::ComPtr<IDebugSymbols3> symbols;
+    juce::ComSmartPtr<IDebugSymbols3> symbols;
 
     /** Target virtual-memory access — used to read target strings. */
-    Microsoft::WRL::ComPtr<IDebugDataSpaces4> dataSpaces;
+    juce::ComSmartPtr<IDebugDataSpaces4> dataSpaces;
 
     /** Thread and event-thread queries. */
-    Microsoft::WRL::ComPtr<IDebugSystemObjects> systemObjects;
+    juce::ComSmartPtr<IDebugSystemObjects> systemObjects;
 
     /** Symbol group for the frame identified by cachedFrameIndex, rebuilt by
      *  getOrCreateSymbolGroup when the requested frame index changes.
      */
-    Microsoft::WRL::ComPtr<IDebugSymbolGroup2> cachedSymbolGroup;
+    juce::ComSmartPtr<IDebugSymbolGroup2> cachedSymbolGroup;
 
     /** Frame index cachedSymbolGroup was built for, or -1 when no group is cached. */
     int cachedFrameIndex { -1 };
 
-    /** True if this Session called CoInitializeEx and therefore owns the COM apartment.
-     *
-     *  When true, shutdown() calls CoUninitialize. When false (COM was already
-     *  initialized by the caller), shutdown() skips CoUninitialize.
+    /** System ID of a thread that dbgeng does not report, set by setCurrentThreadBySystemId.
+     *  Zero when dbgeng reports the current thread.
      */
-    bool isComOwned { false };
+    std::uint32_t unreportedThreadId { 0 };
+
+    /** Engine ID of the breakpoint that disableBreakpointAtInstruction disabled. Empty when none.
+     *  applySteppedBreakpoint re-enables it and clears it.
+     */
+    std::optional<std::int32_t> steppedBreakpointEngineId;
 #endif
 
 #if JUCE_MAC
@@ -644,6 +756,8 @@ private:
 
     /** Frame index cachedFrameVariables was built for, or -1 when no cache is valid. */
     int cachedFrameIndex { -1 };
+
+    juce::File commFile;
 #endif
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Session)

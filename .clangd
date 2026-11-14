@@ -1,48 +1,78 @@
 CompileFlags:
-  CompilationDatabase: /Users/jreng/Documents/Poems/dev/whatdbg
+  CompilationDatabase: D:/Poems/dev/whatdbg
   Remove: [--target=*]
   Add:
-    - -DCAST_COMMIT=\"c04f504\"
+    - -TP
+    - -DCAST_COMMIT=\"ffb74f5\"
     - -DDEBUG=1
     - -DDONT_SET_USING_JUCE_NAMESPACE=1
+    - -DJUCE_CORE_INCLUDE_COM_SMART_PTR=1
+    - -DJUCE_CORE_INCLUDE_NATIVE_HEADERS=1
     - -DJUCE_DONT_DECLARE_PROJECTINFO=1
     - -DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1
-    - -DJUCE_IN_APP_PURCHASES=0
+    - -DJUCE_MODULE_AVAILABLE_jam_animation=1
     - -DJUCE_MODULE_AVAILABLE_jam_core=1
+    - -DJUCE_MODULE_AVAILABLE_jam_data_structures=1
+    - -DJUCE_MODULE_AVAILABLE_jam_document=1
+    - -DJUCE_MODULE_AVAILABLE_jam_freetype=1
+    - -DJUCE_MODULE_AVAILABLE_jam_graphics=1
+    - -DJUCE_MODULE_AVAILABLE_jam_gui=1
+    - -DJUCE_MODULE_AVAILABLE_jam_markdown=1
+    - -DJUCE_MODULE_AVAILABLE_jam_markdown_graphics=1
+    - -DJUCE_MODULE_AVAILABLE_jam_mermaid_diagram=1
+    - -DJUCE_MODULE_AVAILABLE_jam_style=1
+    - -DJUCE_MODULE_AVAILABLE_jam_terminal=1
+    - -DJUCE_MODULE_AVAILABLE_jam_tui=1
+    - -DJUCE_MODULE_AVAILABLE_jam_web=1
+    - -DJUCE_MODULE_AVAILABLE_juce_animation=1
+    - -DJUCE_MODULE_AVAILABLE_juce_audio_basics=1
+    - -DJUCE_MODULE_AVAILABLE_juce_audio_processors=1
+    - -DJUCE_MODULE_AVAILABLE_juce_audio_processors_headless=1
     - -DJUCE_MODULE_AVAILABLE_juce_core=1
     - -DJUCE_MODULE_AVAILABLE_juce_data_structures=1
     - -DJUCE_MODULE_AVAILABLE_juce_events=1
     - -DJUCE_MODULE_AVAILABLE_juce_graphics=1
+    - -DJUCE_MODULE_AVAILABLE_juce_gui_basics=1
+    - -DJUCE_MODULE_AVAILABLE_juce_gui_extra=1
     - -DJUCE_STANDALONE_APPLICATION=1
     - -DJUCE_TARGET_HAS_BINARY_DATA=1
+    - -D_CONSOLE=1
     - -D_DEBUG=1
-    - -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Debug/whatdbg_artefacts/JuceLibraryCode
-    - -I/Users/jreng/Documents/Poems/dev/whatdbg/../jam
-    - -I/Users/jreng/Documents/Poems/dev/whatdbg/Source/generated
-    - -I/Users/jreng/Documents/Poems/dev/whatdbg/Resources/macos/include
-    - -I/Users/jreng/Documents/Poems/JUCE/modules
-    - -I/Users/jreng/Documents/Poems/dev/whatdbg/Builds/Debug/juce_binarydata_whatdbg_BinaryData/JuceLibraryCode
-    - -std=c++17
-    - -arch
-    - arm64
-    - -mmacosx-version-min=12.0
+    - -D_WIN32_IE=0x0A00
+    - -ID:\Poems\dev\whatdbg\Builds\Debug\whatdbg_artefacts\JuceLibraryCode
+    - -ID:\Poems\dev\whatdbg\..\jam
+    - -ID:\Poems\dev\whatdbg\Source\generated
+    - -ID:\Poems\dev\whatdbg\Resources\macos\include
+    - -ID:\Poems\dev\whatdbg\..\jam\jam_freetype\freetype\include
+    - -IC:\Users\jreng\AppData\Local\cast\juce\0e197aa8b93883283f6bdff42b344a9081bc7b4c7da42014d955e2c31b6b0617\modules\juce_graphics\fonts\harfbuzz
+    - -IC:\Users\jreng\AppData\Local\cast\juce\0e197aa8b93883283f6bdff42b344a9081bc7b4c7da42014d955e2c31b6b0617\modules
+    - -IC:\Users\jreng\AppData\Local\cast\juce\0e197aa8b93883283f6bdff42b344a9081bc7b4c7da42014d955e2c31b6b0617\modules\juce_audio_processors_headless\format_types\VST3_SDK
+    - -IC:\Users\jreng\AppData\Local\cast\juce\0e197aa8b93883283f6bdff42b344a9081bc7b4c7da42014d955e2c31b6b0617\modules\juce_audio_processors_headless\format_types\LV2_SDK
+    - -IC:\Users\jreng\AppData\Local\cast\juce\0e197aa8b93883283f6bdff42b344a9081bc7b4c7da42014d955e2c31b6b0617\modules\juce_audio_processors_headless\format_types\LV2_SDK\lv2
+    - -IC:\Users\jreng\AppData\Local\cast\juce\0e197aa8b93883283f6bdff42b344a9081bc7b4c7da42014d955e2c31b6b0617\modules\juce_audio_processors_headless\format_types\LV2_SDK\serd
+    - -IC:\Users\jreng\AppData\Local\cast\juce\0e197aa8b93883283f6bdff42b344a9081bc7b4c7da42014d955e2c31b6b0617\modules\juce_audio_processors_headless\format_types\LV2_SDK\sord
+    - -IC:\Users\jreng\AppData\Local\cast\juce\0e197aa8b93883283f6bdff42b344a9081bc7b4c7da42014d955e2c31b6b0617\modules\juce_audio_processors_headless\format_types\LV2_SDK\sord\src
+    - -IC:\Users\jreng\AppData\Local\cast\juce\0e197aa8b93883283f6bdff42b344a9081bc7b4c7da42014d955e2c31b6b0617\modules\juce_audio_processors_headless\format_types\LV2_SDK\sratom
+    - -IC:\Users\jreng\AppData\Local\cast\juce\0e197aa8b93883283f6bdff42b344a9081bc7b4c7da42014d955e2c31b6b0617\modules\juce_audio_processors_headless\format_types\LV2_SDK\lilv
+    - -IC:\Users\jreng\AppData\Local\cast\juce\0e197aa8b93883283f6bdff42b344a9081bc7b4c7da42014d955e2c31b6b0617\modules\juce_audio_processors_headless\format_types\LV2_SDK\lilv\src
+    - -ID:\Poems\dev\whatdbg\..\jam\jam_style\.
+    - -ID:\Poems\dev\whatdbg\..\jam\jam_web\.
+    - -ID:\Poems\dev\whatdbg\Builds\Debug\juce_binarydata_whatdbg_BinaryData\JuceLibraryCode
+    - /DWIN32
+    - -std:c++17
+    - -MTd
+    - -Zi
+    - -Xclang
+    - -fno-pch-timestamp
     - -Wno-shadow
     - -Wno-unused-parameter
     - -Wno-float-equal
     - -Wno-sign-conversion
     - -Wno-switch-enum
     - -Wno-implicit-float-conversion
-    - -O0
-    - -g
-    - -Winvalid-pch
-    - -Xclang
-    - -include-pch
-    - -Xclang
-    - /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Debug/CMakeFiles/whatdbg.dir/cmake_pch.hxx.pch
-    - -Xclang
-    - -include
-    - -Xclang
-    - /Users/jreng/Documents/Poems/dev/whatdbg/Builds/Debug/CMakeFiles/whatdbg.dir/cmake_pch.hxx
+    - /Z7
+    - --
+    - D:\Poems\dev\whatdbg\Source\Launcher.cpp
 Diagnostics:
   MissingIncludes: None
   UnusedIncludes: None

@@ -23,6 +23,9 @@
 #include <csignal>
 
 #if JUCE_MAC
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 namespace debug
 {
@@ -63,6 +66,7 @@ static void onExceptionStop (const lldb::StopReason& /*stopReason*/, debug::Even
 static constexpr std::size_t stdioReadBufferSize { 1024 };
 static constexpr std::uint32_t allEventsMask { ~0u };
 static constexpr std::uint32_t wakeEventMask { 1u << 0 };
+static constexpr int commFileBufferSize { 4096 };
 
 static void drainProcessStdio (debug::Events& events,
                                lldb::SBProcess& process,
@@ -80,8 +84,7 @@ static void drainProcessStdio (debug::Events& events,
         if (bytesRead > 0)
         {
             events.get (isStderr ? Id::standardError : Id::standardOutput,
-                        juce::String (juce::CharPointer_UTF8 (buffer),
-                                      juce::CharPointer_UTF8 (buffer + bytesRead)));
+                        std::string_view { buffer, bytesRead });
         }
     }
     while (bytesRead > 0);
@@ -273,6 +276,95 @@ bool Session::launch (const juce::String& program) noexcept
     return target.IsValid () and process.IsValid ();
 }
 
+static juce::File getDidAttachFile (const juce::File& commFile) noexcept
+{
+    return commFile.withFileExtension (Id::didAttach.toString ());
+}
+
+juce::String Session::createCommFile () noexcept
+{
+    commFile = juce::File::getSpecialLocation (juce::File::tempDirectory).getNonexistentChildFile ("whatdbg-run-in-terminal", "");
+
+    const juce::String path { commFile.getFullPathName () };
+    const bool isCreated { mkfifo (path.toRawUTF8 (), S_IRUSR | S_IWUSR) == 0
+                           and mkfifo (getDidAttachFile (commFile).getFullPathName ().toRawUTF8 (), S_IRUSR | S_IWUSR) == 0 };
+    jassert (isCreated);
+    juce::ignoreUnused (isCreated);
+
+    launcherOutput.onBytesReady = [this] (int) { events.get (Id::runInTerminal); };
+
+    const bool isOpen { launcherOutput.open (::open (path.toRawUTF8 (), O_RDWR | O_NONBLOCK), nullptr, commFileBufferSize) };
+    jassert (isOpen);
+    juce::ignoreUnused (isOpen);
+
+    return path;
+}
+
+void Session::sendDidAttach () noexcept
+{
+    std::string line;
+
+    jam::JsonWriter::appendObject (line, [] (std::string& members)
+    {
+        jam::JsonWriter::appendKey (members, Id::kind);
+        jam::JsonWriter::appendString (members, jam::Strings::getView (Id::didAttach.toString ()));
+    });
+    line += '\n';
+
+    const int fd { ::open (getDidAttachFile (commFile).getFullPathName ().toRawUTF8 (), O_WRONLY | O_NONBLOCK) };
+    jassert (fd >= 0);
+
+    const auto bytesWritten { ::write (fd, line.data (), line.size ()) };
+    jassert (bytesWritten == static_cast<decltype (bytesWritten)> (line.size ()));
+    juce::ignoreUnused (bytesWritten);
+
+    ::close (fd);
+}
+
+void Session::attachLaunchTarget (std::uint32_t processId) noexcept
+{
+    debugger.SetAsync (false);
+
+    if (attach (processId))
+    {
+        sendDidAttach ();
+        process.Continue ();
+        events.get (Id::didAttach, static_cast<int> (processId));
+    }
+    else
+    {
+        events.get (Id::error, juce::String { "Failed to attach to the target process" });
+    }
+
+    debugger.SetAsync (true);
+}
+
+void Session::drainLauncherOutput () noexcept
+{
+    for (auto view { launcherOutput.read () }; view.has_value () and not view->empty (); view = launcherOutput.read ())
+    {
+        const auto document { jam::JsonDocument::parse (view->substr (0, view->find ('\n'))) };
+        jassert (document != nullptr);
+
+        const auto& message { *document->getRoot ()->firstChild };
+        const juce::Identifier type { jam::Strings::fromView (document->getString (*document->find (message, jam::Strings::getView (Id::kind.toString ())))) };
+
+        if (type == Id::pid)
+        {
+            attachLaunchTarget (jam::Format::getNumber<std::uint32_t> (document->getView (*document->find (message, jam::Strings::getView (Id::pid.toString ())))));
+        }
+        else if (type == Id::error)
+        {
+            events.get (Id::error, jam::Strings::fromView (document->getString (*document->find (message, jam::Strings::getView (Id::error.toString ())))));
+        }
+
+        launcherOutput.close ();
+
+        for (const auto& file : { commFile, getDidAttachFile (commFile) })
+            file.deleteFile ();
+    }
+}
+
 bool Session::attach (std::uint32_t processId) noexcept
 {
     target = debugger.CreateTarget ("");
@@ -337,6 +429,15 @@ void Session::resetCancel () noexcept
 {
 }
 
+void Session::drainOutput () noexcept
+{
+    static constexpr bool isStandardOutput { false };
+    static constexpr bool isStandardError  { true };
+
+    drainProcessStdio (events, process, isStandardOutput);
+    drainProcessStdio (events, process, isStandardError);
+}
+
 void Session::terminateDebuggee (std::uint32_t processId) noexcept
 {
     juce::ignoreUnused (processId);
@@ -358,6 +459,11 @@ void Session::terminateDebuggee (std::uint32_t processId) noexcept
 
 void Session::shutdown (EndMode mode) noexcept
 {
+    launcherOutput.close ();
+
+    for (const auto& file : { commFile, getDidAttachFile (commFile) })
+        file.deleteFile ();
+
     // Idempotent: after the first call the debugger is invalid, so a second call
     // does nothing and does not terminate the SB subsystem twice.
     if (debugger.IsValid ())
@@ -450,61 +556,6 @@ juce::Result Session::removeBreakpoint (std::int32_t engineId) noexcept
     const bool removed { target.BreakpointDelete (engineId) };
     return removed ? juce::Result::ok ()
                    : juce::Result::fail ("BreakpointDelete failed");
-}
-
-static lldb::SBLineEntry getLineEntry (lldb::SBTarget&     target,
-                                       const juce::String& filePath,
-                                       std::uint16_t       line) noexcept
-{
-    lldb::SBFileSpec fileSpec { filePath.toRawUTF8 (), true };
-    lldb::SBLineEntry lineEntry;
-    bool found { false };
-
-    const std::uint32_t numModules { target.GetNumModules () };
-
-    for (std::uint32_t moduleIndex { 0 }; moduleIndex < numModules and not found; ++moduleIndex)
-    {
-        auto moduleRef { target.GetModuleAtIndex (moduleIndex) };
-        const std::uint32_t numUnits { moduleRef.GetNumCompileUnits () };
-
-        for (std::uint32_t unitIndex { 0 }; unitIndex < numUnits and not found; ++unitIndex)
-        {
-            auto compileUnit { moduleRef.GetCompileUnitAtIndex (unitIndex) };
-            const std::uint32_t entryIndex {
-                compileUnit.FindLineEntryIndex (0, line, &fileSpec) };
-
-            if (entryIndex != UINT32_MAX)
-            {
-                auto candidateEntry { compileUnit.GetLineEntryAtIndex (entryIndex) };
-
-                if (candidateEntry.IsValid ())
-                {
-                    lineEntry = candidateEntry;
-                    found     = true;
-                }
-            }
-        }
-    }
-
-    return lineEntry;
-}
-
-debug::OffsetStatus Session::getOffsetStatus (const juce::String& filePath,
-                                              std::uint16_t       line) noexcept
-{
-    return getLineEntry (target, filePath, line).IsValid ()
-               ? debug::OffsetStatus::found
-               : debug::OffsetStatus::notFound;
-}
-
-std::uint64_t Session::getOffset (const juce::String& filePath,
-                                  std::uint16_t       line) noexcept
-{
-    auto lineEntry { getLineEntry (target, filePath, line) };
-
-    return lineEntry.IsValid ()
-               ? static_cast<std::uint64_t> (lineEntry.GetStartAddress ().GetLoadAddress (target))
-               : 0;
 }
 
 juce::Result Session::loadModuleSymbols (const juce::String& imageName) noexcept

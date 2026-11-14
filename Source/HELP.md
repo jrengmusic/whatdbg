@@ -11,6 +11,9 @@ DAP debug adapter for native C/C++ targets.
 ```
   whatdbg            start the adapter; it speaks DAP on stdin/stdout
   whatdbg --help     print this text and exit
+  whatdbg --comm-file <path> --launch-target <program>
+                     launcher mode: the runInTerminal request runs it in the
+                     client's terminal; the adapter attaches to <program>
 ```
 
 ## PROTOCOL
@@ -32,8 +35,12 @@ DAP debug adapter for native C/C++ targets.
 
 ```
   -> initialize                          <- capabilities, initialized event
-  -> launch {"program":"/path/to/bin","cwd":"/src/root"}
+  -> launch {"program":"/path/to/bin","cwd":"/src/root","console":"internalConsole"}
      (cwd is optional; it seeds symbol and source search paths)
+     (console is optional; "internalConsole" runs the program with no window
+     and sends its stdout/stderr as output events; any other value, or
+     no value, sends the runInTerminal reverse request: "integratedTerminal" or
+     "externalTerminal" when the client supports runInTerminal)
   -> setBreakpoints {"source":{"path":...},"breakpoints":[{"line":N}]}
   -> configurationDone                   <- process event (name,
      systemProcessId, startMethod "launch"), thread event ("started");
@@ -51,8 +58,7 @@ DAP debug adapter for native C/C++ targets.
 
 ```
   <- stopped    reason "breakpoint" | "step" | "pause" | "exception"
-  <- output     debuggee stdout/stderr (macOS); OutputDebugString/DBG
-                (Windows)
+  <- output     debuggee stdout/stderr; OutputDebugString/DBG (Windows)
   <- exited, terminated   when the target ends
 ```
 

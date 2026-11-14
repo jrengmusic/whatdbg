@@ -45,12 +45,12 @@ Features apply to both Windows and macOS unless noted.
 - Correct thread context for variables at any frame
 
 **Debug Output Capture**
-- Windows: `DBG()` and `OutputDebugString()` from the target appear in nvim-dap
+- Windows: `DBG()` and `OutputDebugString()` from the target appear in nvim-dap. With `console = "internalConsole"`, the target's stdout and stderr appear there too
 - macOS: the target's own stdout/stderr streams are drained and forwarded to nvim-dap
 - Engine noise filtered -- only debuggee output forwarded
 
 **Architecture**
-- Two-thread model on both platforms: main thread owns the debug engine + DAP, stdin thread is a FIFO buffer
+- One-way data flow on both platforms: the stdin reader thread feeds a request lane; the engine context (`Processor`) owns the debug engine; the message thread writes stdout
 - Sidecar debug engine embedded in the binary via JUCE BinaryData, extracted at runtime -- no external dependencies
 - Debug-only file logging (`#if JUCE_DEBUG`) -- zero overhead in Release
 - BLESSED-compliant: no bail-out guards, RAII resource management, named constants, dispatch table
@@ -174,9 +174,13 @@ dap.configurations.cpp = {
 }
 ```
 
-whatdbg reads `cwd` (source/symbol search path) and `pid` (attach target) from the
-DAP arguments — `sourcePath`, `symbolPath`, and `processId` are not read by
-`Source/WhatdbgHandlers.cpp` and have no effect if supplied.
+whatdbg reads `cwd` (source/symbol search path), `console` (launch), and `pid`
+(attach target) from the DAP arguments — `sourcePath`, `symbolPath`, and
+`processId` are not read by `Source/Processor.cpp` and have no effect if supplied.
+
+`console = "internalConsole"` runs the program with no window and forwards its
+stdout and stderr to nvim-dap. Any other value, or no value, runs the program in
+the client's terminal through the DAP `runInTerminal` request (nvim-dap supports it).
 
 ### DAW plugin debugging (Windows -- JUCE + DAW)
 
@@ -197,10 +201,13 @@ Launch DAW, load your plugin, set breakpoints in plugin code, hit them.
 ## Testing
 
 `tests/smoke/` runs whatdbg end-to-end through an nvim-headless Lua DAP client
-(`run_smoke.lua`, driving `scenario_breakpoint.lua`, `scenario_process.lua`, and
-`scenario_terminate.lua` against three fixture binaries). Ten scenarios cover
-launch+breakpoint, step, attach, pause, variables, evaluate, output, crash,
-terminate-without-zombie, and disconnect-detach.
+(`run_smoke.lua`, driving `scenario_breakpoint.lua`, `scenario_process.lua`,
+`scenario_terminate.lua`, `scenario_inspect.lua`, and `scenario_terminal.lua` against
+the fixtures `fixture`, `fixture_wait`, `fixture_crash`, `fixture_module`, and
+`fixture_load`). 22 scenarios cover launch, breakpoints, stepping, attach, pause,
+variables, evaluate, output, crash, terminate, disconnect, threads, pending
+breakpoints, and `runInTerminal`. Each one is compared with its transcript in
+`baseline/<platform>/`.
 
 ---
 

@@ -50,10 +50,10 @@ public:
         }
     }
 
-    /** Calls callback with every message that is ready, in write order, then clears each slot.
+    /** Calls callback with every message that is ready, in write order. The slot is reset after each call.
      *
-     *  @tparam Callback  Callable that takes a const MessageType&.
-     *  @param callback   Receives each ready message.
+     *  @tparam Callback  Callable that takes a MessageType&&.
+     *  @param callback   Receives each ready message by rvalue.
      */
     template <typename Callback>
     void applyPendingData (Callback&& callback)
@@ -62,7 +62,7 @@ public:
 
         scope.forEach ([this, &callback] (int index)
         {
-            callback (std::as_const (storage.at (static_cast<size_t> (index))));
+            callback (std::move (storage.at (static_cast<size_t> (index))));
             storage.at (static_cast<size_t> (index)) = MessageType {};
         });
     }

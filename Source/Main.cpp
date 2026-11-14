@@ -1,15 +1,17 @@
 /** @file Main.cpp
- *  @brief Entry point of whatdbg: the help page, the macOS re-exec, and the JUCE startup.
+ *  @brief Entry point of whatdbg: the help page, the launcher mode, the macOS re-exec, and the JUCE startup.
  *
  *  Startup sequence:
  *  1. --help: render the help page to stdout and return.
- *  2. [macOS] Without the re-exec marker, extract liblldb.dylib and re-exec the
+ *  2. --comm-file and --launch-target: run the Launcher and return its exit code. The
+ *     adapter does not start. The client runs this command in a terminal (Processor::launchInTerminal).
+ *  3. [macOS] Without the re-exec marker, extract liblldb.dylib and re-exec the
  *     process with DYLD_LIBRARY_PATH set to the sidecar folder, so that dyld
  *     resolves the liblldb SB API symbols on the second invocation.
- *  3. [Debug builds] Open whatdbg.log in the config folder and install the crash
+ *  4. [Debug builds] Open whatdbg.log in the config folder and install the crash
  *     and terminate handlers.
- *  4. Extract the sidecar binaries into the sidecar folder.
- *  5. Call JUCEApplicationBase::main with the program path and the sidecar path.
+ *  5. Extract the sidecar binaries into the sidecar folder.
+ *  6. Call JUCEApplicationBase::main with the program path and the sidecar path.
  *     JUCE then calls Whatdbg::initialise.
  *
  *  Sidecar folders, under userApplicationDataDirectory/whatdbg:
@@ -19,6 +21,7 @@
 #include <JuceHeader.h>
 #include <BinaryData.h>
 #include "Whatdbg.h"
+#include "Launcher.h"
 #include "generated/Generated.h"
 
 #if JUCE_MAC
@@ -215,9 +218,21 @@ static int runAdapter (const char* programPath)
     return exitCode;
 }
 
+static int runLauncher (const juce::ArgumentList& arguments)
+{
+    juce::StringArray launchTarget;
+
+    for (int i { arguments.indexOfOption (Id::launchTargetOption.toString ()) + 1 }; i < arguments.size (); ++i)
+        launchTarget.add (arguments[i].text);
+
+    return Launcher { arguments[arguments.indexOfOption (Id::commFileOption.toString ()) + 1].text, launchTarget }.run ();
+}
+
 int main (int argc, char* argv[])
 {
-    if (juce::ArgumentList (argc, argv).containsOption ("--help"))
+    const juce::ArgumentList arguments (argc, argv);
+
+    if (arguments.containsOption ("--help"))
     {
 #ifdef _WIN32
         SetConsoleOutputCP (CP_UTF8);
@@ -232,6 +247,9 @@ int main (int argc, char* argv[])
         fwrite (frame.getData(), sizeof (char), frame.getDataSize(), stdout);
         return 0;
     }
+
+    if (arguments.containsOption (Id::commFileOption.toString ()) and arguments.containsOption (Id::launchTargetOption.toString ()))
+        return runLauncher (arguments);
 
 #if JUCE_MAC
     if (getenv (reexecMarker) == nullptr)

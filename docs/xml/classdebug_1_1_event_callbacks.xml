@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="142" column="5"/>
+        <location file="debug/Callbacks.h" line="141" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a22dafc139ec5e6b0729c08370d50fdfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -52,7 +52,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="148" column="5"/>
+        <location file="debug/Callbacks.h" line="147" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_event_callbacks_1a9e6fefe242b068cd4317c5005fb2174b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>STDMETHOD</type>
@@ -96,7 +96,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="158" column="5"/>
+        <location file="debug/Callbacks.h" line="157" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1a9e6fefe242b068cd4317c5005fb2174b">QueryInterface</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1a9e6fefe242b068cd4317c5005fb2174b">QueryInterface</referencedby>
       </memberdef>
@@ -133,7 +133,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="175" column="5"/>
+        <location file="debug/Callbacks.h" line="174" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1af20e2b9b120f323f4552f55e3902cd4d">GetInterestMask</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1af20e2b9b120f323f4552f55e3902cd4d">GetInterestMask</referencedby>
       </memberdef>
@@ -168,7 +168,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="184" column="5"/>
+        <location file="debug/Callbacks.h" line="183" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1af733324938bfd61f1199ae4896a719c8">Breakpoint</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1af733324938bfd61f1199ae4896a719c8">Breakpoint</referencedby>
       </memberdef>
@@ -214,7 +214,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="200" column="5"/>
+        <location file="debug/Callbacks.h" line="199" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1aef32a24e120836a6cb6da34f39a3fa6a">Exception</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1aef32a24e120836a6cb6da34f39a3fa6a">Exception</referencedby>
       </memberdef>
@@ -272,7 +272,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="210" column="5"/>
+        <location file="debug/Callbacks.h" line="209" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1afec3d85563766979717b676ec3c2bbfa">CreateThread</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1afec3d85563766979717b676ec3c2bbfa">CreateThread</referencedby>
       </memberdef>
@@ -306,7 +306,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="218" column="5"/>
+        <location file="debug/Callbacks.h" line="217" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1ac3d9c55b970d3ac7bb7755fcf69b289a">ExitThread</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1ac3d9c55b970d3ac7bb7755fcf69b289a">ExitThread</referencedby>
       </memberdef>
@@ -460,7 +460,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="235" column="5"/>
+        <location file="debug/Callbacks.h" line="234" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1a413822966c447b5f87722b3e0aa5be0a">CreateProcess</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1a413822966c447b5f87722b3e0aa5be0a">CreateProcess</referencedby>
       </memberdef>
@@ -494,7 +494,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="246" column="5"/>
+        <location file="debug/Callbacks.h" line="245" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1ad35e8d11e029719ffe99c130b2219dd8">ExitProcess</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1ad35e8d11e029719ffe99c130b2219dd8">ExitProcess</referencedby>
       </memberdef>
@@ -600,7 +600,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="264" column="5"/>
+        <location file="debug/Callbacks.h" line="263" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1a658f76fa3f83a3784738b3da38f930dd">LoadModule</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1a658f76fa3f83a3784738b3da38f930dd">LoadModule</referencedby>
       </memberdef>
@@ -646,7 +646,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="275" column="5"/>
+        <location file="debug/Callbacks.h" line="274" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1a29ebb784233f0152eae24ab5655b5573">UnloadModule</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1a29ebb784233f0152eae24ab5655b5573">UnloadModule</referencedby>
       </memberdef>
@@ -692,7 +692,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="284" column="5"/>
+        <location file="debug/Callbacks.h" line="283" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1aab0f7b83e2c9e1a318b68cb9202c6612">SystemError</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1aab0f7b83e2c9e1a318b68cb9202c6612">SystemError</referencedby>
       </memberdef>
@@ -726,7 +726,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="292" column="5"/>
+        <location file="debug/Callbacks.h" line="291" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1a1d2b155dcad0ec91f1d6a687dc86b23d">SessionStatus</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1a1d2b155dcad0ec91f1d6a687dc86b23d">SessionStatus</referencedby>
       </memberdef>
@@ -772,7 +772,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="302" column="5"/>
+        <location file="debug/Callbacks.h" line="301" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1a3e011387931e6f7dd8c7b0a126f68260">ChangeDebuggeeState</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1a3e011387931e6f7dd8c7b0a126f68260">ChangeDebuggeeState</referencedby>
       </memberdef>
@@ -818,7 +818,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="311" column="5"/>
+        <location file="debug/Callbacks.h" line="310" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1ac0febd27da577e72f6b335c99cedfa0d">ChangeEngineState</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1ac0febd27da577e72f6b335c99cedfa0d">ChangeEngineState</referencedby>
       </memberdef>
@@ -864,7 +864,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="320" column="5"/>
+        <location file="debug/Callbacks.h" line="319" column="5"/>
         <references refid="classdebug_1_1_event_callbacks_1a3980117444c9d20a5c83f7b80966dfd6">ChangeSymbolState</references>
         <referencedby refid="classdebug_1_1_event_callbacks_1a3980117444c9d20a5c83f7b80966dfd6">ChangeSymbolState</referencedby>
       </memberdef>
@@ -885,10 +885,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="326" column="11" bodyfile="debug/Callbacks.h" bodystart="326" bodyend="326"/>
+        <location file="debug/Callbacks.h" line="325" column="11" bodyfile="debug/Callbacks.h" bodystart="325" bodyend="325"/>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_event_callbacks_1acd699a43499bbfe7020314de3c18fa34" prot="private" static="no" mutable="no">
-        <type><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">Events</ref> &amp;</type>
+        <type><ref refid="namespacedebug_1a9de5674d30937ca1c5c07c56d85f34e0" kindref="member">Events</ref> &amp;</type>
         <definition>Events&amp; debug::EventCallbacks::events</definition>
         <argsstring></argsstring>
         <name>events</name>
@@ -899,7 +899,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="328" column="12" bodyfile="debug/Callbacks.h" bodystart="328" bodyend="-1"/>
+        <location file="debug/Callbacks.h" line="327" column="12" bodyfile="debug/Callbacks.h" bodystart="327" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -910,7 +910,7 @@
         <name>EventCallbacks</name>
         <qualifiedname>debug::EventCallbacks::EventCallbacks</qualifiedname>
         <param>
-          <type><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">Events</ref> &amp;</type>
+          <type><ref refid="namespacedebug_1a9de5674d30937ca1c5c07c56d85f34e0" kindref="member">Events</ref> &amp;</type>
           <declname>newEvents</declname>
         </param>
         <briefdescription>
@@ -919,7 +919,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Callbacks.h" line="133" column="14"/>
+        <location file="debug/Callbacks.h" line="132" column="14"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -927,7 +927,7 @@
     </briefdescription>
     <detaileddescription>
 <para>Registered with IDebugClient5::SetEventCallbacks. Each handled callback fires an event on <ref refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" kindref="member">Session::events</ref> and returns a status that tells dbgeng whether to keep the target stopped. Callbacks run on the engine context, inside WaitForEvent.</para>
-<para><ref refid="namespacedebug_1afb8f56694e0d51f128a832c3a0c91042" kindref="member">Events</ref> that each callback fires:<itemizedlist>
+<para><ref refid="namespacedebug_1a9de5674d30937ca1c5c07c56d85f34e0" kindref="member">Events</ref> that each callback fires:<itemizedlist>
 <listitem><para>Breakpoint → breakpoint, with the engine breakpoint id. Returns DEBUG_STATUS_BREAK.</para>
 </listitem><listitem><para>Exception → EXCEPTION_BREAKPOINT fires initialBreak while launching, pause while isPausePending, and exception otherwise. Other codes fire exception on a second-chance notification only.</para>
 </listitem><listitem><para>LoadModule → moduleLoad, with the image name, unless a step is pending.</para>
@@ -965,17 +965,17 @@
         </childnode>
       </node>
       <node id="3">
-        <label>jam::Function::Map&lt; juce::Identifier, jam::Function::pointerCapacity, void(), void(int), void(int, int), void(juce::int64, juce::int64, int), void(const juce::String &amp;)&gt;</label>
-        <link refid="structjam_1_1Function_1_1Map" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <label>jam::Function::Map&lt; juce::Identifier, jam::Function::pointerCapacity, void(), void(int), void(int, int), void(juce::int64, juce::int64, int), void(const juce::String &amp;), void(std::string_view)&gt;</label>
+        <link refid="structjam_1_1Function_1_1Map" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
         <childnode refid="4" relation="public-inheritance">
         </childnode>
       </node>
       <node id="4">
         <label>jam::HashMap&lt; KeyType, std::variant&lt; Overload&lt; KeyType, capacity, Signatures &gt;::Slot... &gt; &gt;</label>
-        <link refid="classjam_1_1HashMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <link refid="classjam_1_1HashMap" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
       </node>
     </collaborationgraph>
-    <location file="debug/Callbacks.h" line="130" column="1" bodyfile="debug/Callbacks.h" bodystart="131" bodyend="331"/>
+    <location file="debug/Callbacks.h" line="129" column="1" bodyfile="debug/Callbacks.h" bodystart="130" bodyend="330"/>
     <listofallmembers>
       <member refid="classdebug_1_1_event_callbacks_1af733324938bfd61f1199ae4896a719c8" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>Breakpoint</name></member>
       <member refid="classdebug_1_1_event_callbacks_1a3e011387931e6f7dd8c7b0a126f68260" prot="public" virt="non-virtual"><scope>debug::EventCallbacks</scope><name>ChangeDebuggeeState</name></member>

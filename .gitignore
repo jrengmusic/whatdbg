@@ -3,3 +3,4 @@ Builds/
 dist/
 tests/smoke/build/
 .DS_Store
+.cache/

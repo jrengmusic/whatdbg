@@ -1,0 +1,386 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="class_launcher" kind="class" language="C++" prot="public">
+    <compoundname>Launcher</compoundname>
+    <includes refid="_launcher_8h" local="no">Launcher.h</includes>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="class_launcher_1acaefa076045ad11b8ccf653f7e807290" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int Launcher::failedLaunchExitCode</definition>
+        <argsstring></argsstring>
+        <name>failedLaunchExitCode</name>
+        <qualifiedname>Launcher::failedLaunchExitCode</qualifiedname>
+        <initializer>{ 1 }</initializer>
+        <briefdescription>
+<para>Exit code that run returns when the target does not start or does not attach. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Launcher.h" line="74" column="26" bodyfile="Launcher.h" bodystart="74" bodyend="74"/>
+        <referencedby refid="class_launcher_1a725a3958001b044eb14d96569b77f115" compoundref="_launcher_8cpp" startline="147" endline="167">run</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_launcher_1a78ad078c3b33429905efe42e2434a461" prot="private" static="no" mutable="no">
+        <type><ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
+        <definition>juce::String Launcher::commFile</definition>
+        <argsstring></argsstring>
+        <name>commFile</name>
+        <qualifiedname>Launcher::commFile</qualifiedname>
+        <briefdescription>
+<para>Channel name from the adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Windows opens it as a pipe. macOS writes to it, and reads the reply from the FIFO with the didAttach extension. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Launcher.h" line="79" column="18" bodyfile="Launcher.h" bodystart="79" bodyend="-1"/>
+        <referencedby refid="class_launcher_1a2a7846008f307a53f65b510ba23787de" compoundref="_launcher_8cpp" startline="11" endline="19">Launcher</referencedby>
+        <referencedby refid="class_launcher_1a725a3958001b044eb14d96569b77f115" compoundref="_launcher_8cpp" startline="147" endline="167">run</referencedby>
+        <referencedby refid="class_launcher_1a99a034a1529dd0619e6e4e244acaac17" compoundref="_launcher_8cpp" startline="53" endline="74">writeLine</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="class_launcher_1a22833621fb3bd85e49c3e5e4a0236db2" prot="private" static="no" mutable="no">
+        <type><ref refid="classjuce_1_1StringArray" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::StringArray</ref></type>
+        <definition>juce::StringArray Launcher::launchTarget</definition>
+        <argsstring></argsstring>
+        <name>launchTarget</name>
+        <qualifiedname>Launcher::launchTarget</qualifiedname>
+        <briefdescription>
+<para>Target program and its arguments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Windows joins them with spaces into one command line. macOS passes them to execvp. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Launcher.h" line="84" column="23" bodyfile="Launcher.h" bodystart="84" bodyend="-1"/>
+        <referencedby refid="class_launcher_1a2a7846008f307a53f65b510ba23787de" compoundref="_launcher_8cpp" startline="11" endline="19">Launcher</referencedby>
+        <referencedby refid="class_launcher_1a725a3958001b044eb14d96569b77f115" compoundref="_launcher_8cpp" startline="147" endline="167">run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="class_launcher_1aae7877068a4f4f250f2203ea4c08369c" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; FILE, decltype(&amp;fclose)&gt;</type>
+        <definition>std::unique_ptr&lt;FILE, decltype (&amp;fclose)&gt; Launcher::readFifo</definition>
+        <argsstring></argsstring>
+        <name>readFifo</name>
+        <qualifiedname>Launcher::readFifo</qualifiedname>
+        <initializer>{ nullptr, &amp;fclose }</initializer>
+        <briefdescription>
+<para>Stream of the reply FIFO that run opens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>run closes it before execvp. macOS only. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Launcher.h" line="93" column="21" bodyfile="Launcher.h" bodystart="93" bodyend="93"/>
+        <referencedby refid="class_launcher_1a9b3454cf968a72631c18d0ba6a40ca4d" compoundref="_launcher_8cpp" startline="76" endline="94">getLine</referencedby>
+        <referencedby refid="class_launcher_1a725a3958001b044eb14d96569b77f115" compoundref="_launcher_8cpp" startline="147" endline="167">run</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_launcher_1a2a7846008f307a53f65b510ba23787de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Launcher::Launcher</definition>
+        <argsstring>(const juce::String &amp;newCommFile, const juce::StringArray &amp;newLaunchTarget)</argsstring>
+        <name>Launcher</name>
+        <qualifiedname>Launcher::Launcher</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>newCommFile</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classjuce_1_1StringArray" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::StringArray</ref> &amp;</type>
+          <declname>newLaunchTarget</declname>
+        </param>
+        <briefdescription>
+<para>Stores the channel name and the target command line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Windows, an element that contains a space and does not start with a quote is quoted.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newCommFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Channel name from the adapter: a pipe name on Windows, a FIFO path on macOS. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>newLaunchTarget</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target program and its arguments, one element for each. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Launcher.h" line="19" column="5" bodyfile="Launcher.cpp" bodystart="11" bodyend="19"/>
+        <references refid="class_launcher_1a78ad078c3b33429905efe42e2434a461" compoundref="_launcher_8h" startline="79">commFile</references>
+        <references refid="class_launcher_1a22833621fb3bd85e49c3e5e4a0236db2" compoundref="_launcher_8h" startline="84">launchTarget</references>
+      </memberdef>
+      <memberdef kind="function" id="class_launcher_1a725a3958001b044eb14d96569b77f115" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int Launcher::run</definition>
+        <argsstring>()</argsstring>
+        <name>run</name>
+        <qualifiedname>Launcher::run</qualifiedname>
+        <briefdescription>
+<para>Starts the target and returns its exit code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Windows creates the target suspended, sends its process ID, and reads the reply. When the reply says didAttach, it waits for the target to exit. Otherwise it terminates the target. When the target cannot be created, it sends an error message. macOS opens the reply FIFO, sends the process ID of this process, and reads the reply. When the reply says didAttach, it closes the reply FIFO and replaces this process with the target. When execvp fails, it prints the error.</para>
+<para><simplesect kind="return"><para>The exit code of the target on Windows. failedLaunchExitCode when the target does not start or does not attach, and when execvp fails on macOS. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Launcher.h" line="33" column="9" bodyfile="Launcher.cpp" bodystart="147" bodyend="167"/>
+        <references refid="class_launcher_1a78ad078c3b33429905efe42e2434a461" compoundref="_launcher_8h" startline="79">commFile</references>
+        <references refid="namespaceId_1aea223155c87dc5e79cfa8ff02d95461b" compoundref="_generated_8cpp" startline="46" endline="46">Id::didAttach</references>
+        <references refid="class_launcher_1acaefa076045ad11b8ccf653f7e807290" compoundref="_launcher_8h" startline="74" endline="74">failedLaunchExitCode</references>
+        <references refid="classjuce_1_1File_1a515fa016b189068f365cc875e241e2a1">juce::File::getFullPathName</references>
+        <references refid="class_launcher_1a9b3454cf968a72631c18d0ba6a40ca4d" compoundref="_launcher_8cpp" startline="76" endline="94">getLine</references>
+        <references refid="class_launcher_1a15339e99eff42dc61d6772b3c36a79b4" compoundref="_launcher_8cpp" startline="96" endline="108">isAttached</references>
+        <references refid="class_launcher_1a22833621fb3bd85e49c3e5e4a0236db2" compoundref="_launcher_8h" startline="84">launchTarget</references>
+        <references refid="class_launcher_1aae7877068a4f4f250f2203ea4c08369c" compoundref="_launcher_8h" startline="93" endline="93">readFifo</references>
+        <references refid="class_launcher_1a5321ca455c727f3180428c67f53731d3" compoundref="_launcher_8cpp" startline="21" endline="35">sendPid</references>
+        <references refid="classjuce_1_1String_1a276c7c57f1d1a2fc76a8b47aed0823e7">juce::String::toRawUTF8</references>
+        <references refid="classjuce_1_1File_1ac31f041a838c7fdde643ef556aa4e785">juce::File::withFileExtension</references>
+        <referencedby refid="_main_8cpp_1a1ee175e4ac85212af9d1afec8473b7b3" compoundref="_main_8cpp" startline="221" endline="229">runLauncher</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_launcher_1a5321ca455c727f3180428c67f53731d3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Launcher::sendPid</definition>
+        <argsstring>(std::uint32_t processId)</argsstring>
+        <name>sendPid</name>
+        <qualifiedname>Launcher::sendPid</qualifiedname>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>processId</declname>
+        </param>
+        <briefdescription>
+<para>Writes the process ID message: a JSON object with kind pid and the process ID, on one line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On macOS the target replaces this process, so the ID names the target after execvp.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>processId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Process ID of the target. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Launcher.h" line="42" column="10" bodyfile="Launcher.cpp" bodystart="21" bodyend="35"/>
+        <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
+        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1a0b34f9abc212e24db3f8ab42517a3c6b" compoundref="_generated_8cpp" startline="79" endline="79">Id::kind</references>
+        <references refid="namespaceId_1a4778dd29d53d85279bd3353399326859" compoundref="_generated_8cpp" startline="89" endline="89">Id::pid</references>
+        <references refid="class_launcher_1a99a034a1529dd0619e6e4e244acaac17" compoundref="_launcher_8cpp" startline="53" endline="74">writeLine</references>
+        <referencedby refid="class_launcher_1a725a3958001b044eb14d96569b77f115" compoundref="_launcher_8cpp" startline="147" endline="167">run</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_launcher_1a7e4c99bb3017c6566241551e1a3b65ed" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Launcher::sendError</definition>
+        <argsstring>(const juce::String &amp;text)</argsstring>
+        <name>sendError</name>
+        <qualifiedname>Launcher::sendError</qualifiedname>
+        <param>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Writes the error message: a JSON object with kind error and the text, on one line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Failure text that the adapter shows in the failed launch response. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Launcher.h" line="48" column="10" bodyfile="Launcher.cpp" bodystart="37" bodyend="51"/>
+        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
+        <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
+        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
+        <references refid="namespaceId_1a8b7636944e9a0c1d9e4f9d73660b14d8" compoundref="_generated_8cpp" startline="48" endline="48">Id::error</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1a0b34f9abc212e24db3f8ab42517a3c6b" compoundref="_generated_8cpp" startline="79" endline="79">Id::kind</references>
+        <references refid="class_launcher_1a99a034a1529dd0619e6e4e244acaac17" compoundref="_launcher_8cpp" startline="53" endline="74">writeLine</references>
+      </memberdef>
+      <memberdef kind="function" id="class_launcher_1a99a034a1529dd0619e6e4e244acaac17" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Launcher::writeLine</definition>
+        <argsstring>(const std::string &amp;line)</argsstring>
+        <name>writeLine</name>
+        <qualifiedname>Launcher::writeLine</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+<para>Writes one line to the channel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Windows writes to the pipe. macOS opens the FIFO for writing, writes the line, and closes the FIFO.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes to write. The callers include the trailing newline. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Launcher.h" line="55" column="10" bodyfile="Launcher.cpp" bodystart="53" bodyend="74"/>
+        <references refid="class_launcher_1a78ad078c3b33429905efe42e2434a461" compoundref="_launcher_8h" startline="79">commFile</references>
+        <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
+        <referencedby refid="class_launcher_1a7e4c99bb3017c6566241551e1a3b65ed" compoundref="_launcher_8cpp" startline="37" endline="51">sendError</referencedby>
+        <referencedby refid="class_launcher_1a5321ca455c727f3180428c67f53731d3" compoundref="_launcher_8cpp" startline="21" endline="35">sendPid</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="class_launcher_1a9b3454cf968a72631c18d0ba6a40ca4d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string Launcher::getLine</definition>
+        <argsstring>()</argsstring>
+        <name>getLine</name>
+        <qualifiedname>Launcher::getLine</qualifiedname>
+        <briefdescription>
+<para>Reads one line from the channel and returns it without the newline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reads one byte at a time until a newline, the end of the channel, or a read error.</para>
+<para><simplesect kind="return"><para>The line text. Empty when the channel ends before any byte arrives. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Launcher.h" line="63" column="17" bodyfile="Launcher.cpp" bodystart="76" bodyend="94"/>
+        <references refid="class_launcher_1aae7877068a4f4f250f2203ea4c08369c" compoundref="_launcher_8h" startline="93" endline="93">readFifo</references>
+        <referencedby refid="class_launcher_1a725a3958001b044eb14d96569b77f115" compoundref="_launcher_8cpp" startline="147" endline="167">run</referencedby>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_launcher_1a15339e99eff42dc61d6772b3c36a79b4" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Launcher::isAttached</definition>
+        <argsstring>(const std::string &amp;line)</argsstring>
+        <name>isAttached</name>
+        <qualifiedname>Launcher::isAttached</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+<para>Tells whether a reply line is the didAttach message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>line</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reply line from the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the kind member of the JSON object is didAttach. false when the line does not parse as JSON, or when kind has another value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Launcher.h" line="71" column="17" bodyfile="Launcher.cpp" bodystart="96" bodyend="108"/>
+        <references refid="namespaceId_1aea223155c87dc5e79cfa8ff02d95461b" compoundref="_generated_8cpp" startline="46" endline="46">Id::didAttach</references>
+        <references refid="classjam_1_1Strings_1aca02ec79e3d857bca6f9647dce6415fc">jam::Strings::fromView</references>
+        <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
+        <references refid="namespaceId_1a0b34f9abc212e24db3f8ab42517a3c6b" compoundref="_generated_8cpp" startline="79" endline="79">Id::kind</references>
+        <references refid="structjam_1_1JsonDocument_1a1343aea261139b22b9cc95844519d8cb">jam::JsonDocument::parse</references>
+        <references refid="classjuce_1_1Identifier_1ab6f0db1de2c36cacd1a9d7280f73aeeb">juce::Identifier::toString</references>
+        <referencedby refid="class_launcher_1a725a3958001b044eb14d96569b77f115" compoundref="_launcher_8cpp" startline="147" endline="167">run</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runs in the terminal that the client opens for a launch. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Sends the process ID of the target through the launch channel, then reads the reply of the adapter. It runs the target only when the reply says that the adapter attached. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>Launcher</label>
+        <link refid="class_launcher"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>commFile</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>launchTarget</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>readFifo</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>juce::Array&lt; juce::String &gt;</label>
+        <link refid="classjuce_1_1Array" external="D:/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="2">
+        <label>juce::String</label>
+        <link refid="classjuce_1_1String" external="D:/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="3">
+        <label>juce::StringArray</label>
+        <link refid="classjuce_1_1StringArray" external="D:/Poems/JUCE/docs/tagfile.xml"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>strings</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>std::unique_ptr&lt; FILE, decltype(&amp;fclose)&gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="Launcher.h" line="9" column="1" bodyfile="Launcher.h" bodystart="10" bodyend="97"/>
+    <listofallmembers>
+      <member refid="class_launcher_1a78ad078c3b33429905efe42e2434a461" prot="private" virt="non-virtual"><scope>Launcher</scope><name>commFile</name></member>
+      <member refid="class_launcher_1acaefa076045ad11b8ccf653f7e807290" prot="private" virt="non-virtual"><scope>Launcher</scope><name>failedLaunchExitCode</name></member>
+      <member refid="class_launcher_1a9b3454cf968a72631c18d0ba6a40ca4d" prot="private" virt="non-virtual"><scope>Launcher</scope><name>getLine</name></member>
+      <member refid="class_launcher_1a15339e99eff42dc61d6772b3c36a79b4" prot="private" virt="non-virtual"><scope>Launcher</scope><name>isAttached</name></member>
+      <member refid="class_launcher_1a2a7846008f307a53f65b510ba23787de" prot="public" virt="non-virtual"><scope>Launcher</scope><name>Launcher</name></member>
+      <member refid="class_launcher_1a22833621fb3bd85e49c3e5e4a0236db2" prot="private" virt="non-virtual"><scope>Launcher</scope><name>launchTarget</name></member>
+      <member refid="class_launcher_1aae7877068a4f4f250f2203ea4c08369c" prot="private" virt="non-virtual"><scope>Launcher</scope><name>readFifo</name></member>
+      <member refid="class_launcher_1a725a3958001b044eb14d96569b77f115" prot="public" virt="non-virtual"><scope>Launcher</scope><name>run</name></member>
+      <member refid="class_launcher_1a7e4c99bb3017c6566241551e1a3b65ed" prot="private" virt="non-virtual"><scope>Launcher</scope><name>sendError</name></member>
+      <member refid="class_launcher_1a5321ca455c727f3180428c67f53731d3" prot="private" virt="non-virtual"><scope>Launcher</scope><name>sendPid</name></member>
+      <member refid="class_launcher_1a99a034a1529dd0619e6e4e244acaac17" prot="private" virt="non-virtual"><scope>Launcher</scope><name>writeLine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

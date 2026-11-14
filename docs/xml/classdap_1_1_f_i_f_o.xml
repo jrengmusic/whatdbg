@@ -10,7 +10,7 @@
     </templateparamlist>
     <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classdap_1_1_f_i_f_o_1ace568881ac9e495dc08cb63fddf33042" prot="private" static="no" mutable="no">
-        <type><ref refid="classjuce_1_1AbstractFifo" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::AbstractFifo</ref></type>
+        <type><ref refid="classjuce_1_1AbstractFifo" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::AbstractFifo</ref></type>
         <definition>juce::AbstractFifo dap::FIFO&lt; MessageType &gt;::fifo</definition>
         <argsstring></argsstring>
         <name>fifo</name>
@@ -131,10 +131,11 @@
         <references refid="classdap_1_1_f_i_f_o_1ab5738b3996ee9f3e04b48478db5394a6" compoundref="_f_i_f_o_8h" startline="32" endline="35">dap::FIFO&lt; MessageType &gt;::getFreeSpace</references>
         <references refid="classdap_1_1_f_i_f_o_1a0b3988b9045ff0f5d0a3100abdce3375" compoundref="_f_i_f_o_8h" startline="72">dap::FIFO&lt; MessageType &gt;::storage</references>
         <references refid="classjuce_1_1AbstractFifo_1a2dc58dfc859a387548cafaeab8fafa26">juce::AbstractFifo::write</references>
-        <referencedby refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="201" endline="205">Processor::addMessage</referencedby>
-        <referencedby refid="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" compoundref="_processor_8cpp" startline="56" endline="66">Processor::addRequest</referencedby>
-        <referencedby refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" compoundref="_processor_8cpp" startline="45" endline="54">Processor::prepare</referencedby>
-        <referencedby refid="class_processor_1a379381665169c712bb1aea2433b5395f" compoundref="_processor_8cpp" startline="68" endline="73">Processor::releaseResources</referencedby>
+        <referencedby refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="300" endline="304">Processor::addMessage</referencedby>
+        <referencedby refid="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" compoundref="_processor_8cpp" startline="63" endline="73">Processor::addRequest</referencedby>
+        <referencedby refid="class_processor_1a9af86630f17983504d894a6ab50de2be" compoundref="_processor_8cpp" startline="123" endline="145">Processor::onRequest</referencedby>
+        <referencedby refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" compoundref="_processor_8cpp" startline="52" endline="61">Processor::prepare</referencedby>
+        <referencedby refid="class_processor_1a379381665169c712bb1aea2433b5395f" compoundref="_processor_8cpp" startline="75" endline="80">Processor::releaseResources</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdap_1_1_f_i_f_o_1a6f8c18874abcb0e32f6b41f60bed7f14" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
@@ -152,15 +153,16 @@
           <declname>callback</declname>
         </param>
         <briefdescription>
-<para>Calls callback with every message that is ready, in write order, then clears each slot. </para>
+<para>Calls callback with every message that is ready, in write order. </para>
         </briefdescription>
         <detaileddescription>
+<para>The slot is reset after each call.</para>
 <para><parameterlist kind="templateparam"><parameteritem>
 <parameternamelist>
 <parametername>Callback</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Callable that takes a const MessageType&amp;. </para>
+<para>Callable that takes a MessageType&amp;&amp;. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -169,7 +171,7 @@
 <parametername>callback</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Receives each ready message. </para>
+<para>Receives each ready message by rvalue. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -183,11 +185,12 @@
         <references refid="classjuce_1_1AbstractFifo_1ac488e02a186317cf5de7c6ed2f22e3c3">juce::AbstractFifo::read</references>
         <references refid="classdap_1_1_f_i_f_o_1a0b3988b9045ff0f5d0a3100abdce3375" compoundref="_f_i_f_o_8h" startline="72">dap::FIFO&lt; MessageType &gt;::storage</references>
         <referencedby refid="class_processor_1aabd2ac7253b02508ae382f78412b8f23" compoundref="_processor_8h" startline="52" endline="55">Processor::applyMessages</referencedby>
-        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="80" endline="101">Processor::process</referencedby>
+        <referencedby refid="class_processor_1af56ddffd93cd4c15a34f5cea21e46661" compoundref="_processor_8cpp" startline="147" endline="150">Processor::applyPendingRequests</referencedby>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="87" endline="112">Processor::process</referencedby>
       </memberdef>
     </sectiondef>
     <briefdescription>
-<para>Fixed-capacity lane for one reader and one writer, built on <ref refid="classjuce_1_1AbstractFifo" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::AbstractFifo</ref>. </para>
+<para>Fixed-capacity lane for one reader and one writer, built on <ref refid="classjuce_1_1AbstractFifo" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::AbstractFifo</ref>. </para>
     </briefdescription>
     <detaileddescription>
 <para>The lane holds MessageType values in preallocated slots. Each slot is cleared after it is read. A write to a full lane asserts and drops the message.</para>
@@ -215,7 +218,7 @@
       </node>
       <node id="2">
         <label>juce::AbstractFifo</label>
-        <link refid="classjuce_1_1AbstractFifo" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+        <link refid="classjuce_1_1AbstractFifo" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
       <node id="3">
         <label>std::vector&lt; MessageType &gt;</label>

@@ -26,17 +26,20 @@ enum class ExecutionState : int
  *  set it back to none when they run. drainInitialBreak does so only after
  *  configurationDone is set.
  *
- *  Writers, by value:
+ *  Writers, by value. StopManager stores each value in the handler of its event. Each
+ *  entry names the code that fires that event.
  *  - none:         The default, and the value that the drains store.
- *  - initialBreak: Callbacks.cpp onBreakpoint while launching; Session_mac
- *                  onProcessStateStopped while launching; Processor::setAttachedState on macOS.
- *  - moduleLoad:   Callbacks.cpp LoadModule, when no step is pending.
- *  - breakpoint:   Callbacks.cpp Breakpoint; Session_mac onBreakpointStop.
+ *  - initialBreak: StopManager initialBreak handler. Callbacks.cpp onBreakpoint while launching;
+ *                  Session_mac onProcessStateStopped while launching; Processor::setAttachedState on macOS.
+ *  - moduleLoad:   StopManager moduleLoad handler. Callbacks.cpp LoadModule, when no step is pending.
+ *  - breakpoint:   StopManager breakpoint handler. Callbacks.cpp Breakpoint; Session_mac onBreakpointStop.
  *  - step:         Session::pollEvents on Windows, and Session_mac onStepStop. StopManager
  *                  stores it only when stopReason is none.
- *  - pause:        Callbacks.cpp onBreakpoint while isPausePending; Session_mac onInterruptStop.
- *  - exception:    Callbacks.cpp onBreakpoint and onUnknownException (second chance);
- *                  Session_mac onSignalStop and onExceptionStop.
+ *  - pause:        StopManager pause handler. Callbacks.cpp onBreakpoint while isPausePending;
+ *                  Session_mac onInterruptStop.
+ *  - exception:    StopManager exception handler. Callbacks.cpp onBreakpoint and onUnknownException
+ *                  (second chance); Session_mac onSignalStop and onExceptionStop.
+ *  - breakIn:      StopManager breakIn handler.
  */
 enum class StopReason
 {
@@ -46,22 +49,8 @@ enum class StopReason
     breakpoint,
     step,
     pause,
-    exception
-};
-
-/** Outcome of a Session::getOffsetStatus call.
- *
- *  - found      — symbol found; Session::getOffset returns the resolved address.
- *  - notFound   — symbol not resolvable (no code at this line, or module not loaded).
- *  - engineBusy — Windows only: dbgeng transient error (E_UNEXPECTED); caller should
- *                 retry later. liblldb resolves synchronously and never returns this.
- */
-enum class OffsetStatus
-{
-    found,      ///< Symbol found; Session::getOffset returns the resolved address.
-    notFound,   ///< Symbol not resolvable (no code at this line, or module not loaded).
-    engineBusy  ///< Windows only: dbgeng transient error (E_UNEXPECTED); caller should
-                ///< retry later. liblldb resolves synchronously and never returns this.
+    exception,
+    breakIn
 };
 
 /** Dispatch map of the engine events, keyed by juce::Identifier.
@@ -69,7 +58,7 @@ enum class OffsetStatus
  *  Session fires an event with Session::events.get. Processor and StopManager register
  *  handlers with add. The payload of an event is one of the argument lists in the type.
  */
-using Events = jam::Function::Map<juce::Identifier, jam::Function::pointerCapacity, void (), void (int), void (int, int), void (juce::int64, juce::int64, int), void (const juce::String&)>;
+using Events = jam::Function::Map<juce::Identifier, jam::Function::pointerCapacity, void (), void (int), void (int, int), void (juce::int64, juce::int64, int), void (const juce::String&), void (std::string_view)>;
 
 /** Translate a platform-native exception or signal code to a name.
  *

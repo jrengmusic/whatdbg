@@ -45,8 +45,8 @@ public:
 
     /** Hands each queued DAP message to callback, in write order. Called on the message thread.
      *
-     *  @tparam Callback  Callable that takes a const std::string&.
-     *  @param callback   Receives each message. The lane clears the slot after the call.
+     *  @tparam Callback  Callable that takes a std::string&&.
+     *  @param callback   Receives each message by rvalue. The lane resets the slot after the call.
      */
     template <typename Callback>
     void applyMessages (Callback&& callback)
@@ -61,12 +61,16 @@ private:
 
     void process ();
 
+    bool isPolling () const;
+
     static int getRequestSeq (const jam::JsonDocument& request);
 
     template <typename NumberType>
     static NumberType getNumber (const jam::JsonDocument& request, const jam::Document::Element& object, const juce::Identifier& key)
     {
-        return jam::Format::getNumber<NumberType> (request.getView (*request.find (object, jam::Strings::getView (key.toString ()))));
+        const auto* value { request.find (object, jam::Strings::getView (key.toString ())) };
+
+        return value != nullptr ? jam::Format::getNumber<NumberType> (request.getView (*value)) : NumberType {};
     }
 
     static juce::String getText (const jam::JsonDocument& request, const jam::Document::Element& object, const juce::Identifier& key);
@@ -79,6 +83,31 @@ private:
 
     void onCommand (const jam::JsonDocument& document);
 
+    /** Handles the client reply to the runInTerminal request.
+     *
+     *  A reply with success set to false logs the failure and sends a failed launch response.
+     *  A successful reply does nothing.
+     *
+     *  @param document  Reply document from the client.
+     */
+    void onRunInTerminal (const jam::JsonDocument& document);
+
+    /** Routes one DAP request from the request lane.
+     *
+     *  On Windows, a request whose command is in deferrals waits while the target runs or launches.
+     *  When the target runs and no break-in is pending, the call sets the break-in flag and interrupts
+     *  the target. Every other request runs at once.
+     *
+     *  @param request  Request document moved from the request lane.
+     */
+    void onRequest (jam::JsonDocument&& request);
+
+    /** Runs the deferred requests in arrival order.
+     *
+     *  process calls it when a stop reason is set. drainProcessExited calls it when the process exits.
+     */
+    void applyPendingRequests ();
+
     void onPrepare (const jam::JsonDocument& document);
 
     void onReleaseResources (const jam::JsonDocument& document);
@@ -86,6 +115,30 @@ private:
     void onInitialize (const jam::JsonDocument& document);
 
     void onLaunch (const jam::JsonDocument& document);
+
+    /** Starts the target with Session::launch, for the internalConsole setting.
+     *
+     *  On success it adds the search paths, sets the launching state, and records the target
+     *  program. It sends a successful launch response. On failure it sends a failed launch response.
+     *
+     *  @param seq      Sequence number of the launch request.
+     *  @param program  Program path from the launch arguments.
+     *  @param cwd      Working directory. Adds the search paths when not empty.
+     */
+    void launchInConsole (int seq, const juce::String& program, const juce::String& cwd);
+
+    /** Starts the target in a terminal that the client opens, with a runInTerminal reverse request.
+     *
+     *  Stores the sequence number, so the launch response is sent after the Launcher attaches.
+     *  When the client does not support runInTerminal, it sends a failed launch response.
+     *
+     *  @param seq      Sequence number of the launch request.
+     *  @param program  Program path from the launch arguments.
+     *  @param console  Console setting. externalTerminal selects an external terminal. Any other
+     *                  value selects the integrated terminal.
+     *  @param cwd      Working directory. Adds the search paths and sends it to the client when not empty.
+     */
+    void launchInTerminal (int seq, const juce::String& program, const juce::String& console, const juce::String& cwd);
 
     void onAttach (const jam::JsonDocument& document);
 
@@ -121,11 +174,28 @@ private:
 
     void registerEvents ();
 
+    /** Registers the handlers for the launch channel: runInTerminal, didAttach, and error.
+     *
+     *  runInTerminal triggers the engine context, which reads the channel when the engine does
+     *  not poll. didAttach sets the attached state and sends the successful launch response.
+     *  error sends a failed launch response that carries its text.
+     */
+    void registerLauncherEvents ();
+
+    /** Registers the handlers that send the console, standardOutput, and standardError events as DAP output events. */
+    void registerOutputEvents ();
+
     void drainProcessExited ();
 
     void drainTerminateTimeout ();
 
     void addMessage (std::string json);
+
+    /** Adds a failed launch response that carries the sequence number stored by launchInTerminal.
+     *
+     *  @param text  Failure text for the message member.
+     */
+    void addLaunchErrorResponse (const juce::String& text);
 
     void addMessages (const jam::Strings& messages);
 
@@ -144,6 +214,14 @@ private:
     static constexpr int requestsCapacity { 64 };
 
     dap::FIFO<jam::JsonDocument> requests { requestsCapacity };
+
+    /** Requests that onRequest deferred. applyPendingRequests runs them in arrival order. */
+    dap::FIFO<jam::JsonDocument> pendingRequests { requestsCapacity };
+
+    /** Command names that onRequest defers while the target runs or launches. Windows adds
+     *  setBreakpoints. macOS adds none.
+     */
+    juce::Array<juce::Identifier> deferrals;
 
     static constexpr int messagesCapacity { 4096 };
 

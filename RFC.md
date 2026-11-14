@@ -1,7 +1,7 @@
 # RFC: TUI/CLI Debuggee Terminal Attachment
 
-**Status:** Draft — pre-flight research, not yet planned or approved.
-**Origin:** ARCHITECT question during MACHINIST session (nvim build-only keymap task) — surfaced a gap in whatdbg's terminal handling for CLI/TUI debuggees. Captured here per RFC Fidelity Protocol; no scope decided yet.
+**Status:** Implemented — Option B (`runInTerminal`) on both platforms, by `PLAN-windows-conformance-audit.md` Steps 14-17. ARCHITECT: *"Include"*, *"B on both platforms"*.
+**Origin:** ARCHITECT question during MACHINIST session (nvim build-only keymap task) — surfaced a gap in whatdbg's terminal handling for CLI/TUI debuggees. Captured here per RFC Fidelity Protocol; no scope was decided when the RFC was written.
 
 ---
 
@@ -52,5 +52,5 @@ whatdbg currently gives a launched debuggee's stdio a real terminal on Windows, 
 
 ## 5. Non-Goals (this RFC)
 
-- No implementation performed. No PLAN.md written. No code touched in `Source/`.
+- When the RFC was written: no implementation, no PLAN.md, no code touched in `Source/`. Implemented later by `PLAN-windows-conformance-audit.md` Steps 14-17.
 - No recommendation between Option A and B — both are correct-direction candidates; the tradeoff (external window vs. integrated split, implementation size) is ARCHITECT's call.

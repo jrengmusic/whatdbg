@@ -49,6 +49,8 @@ private:
 
     jam::Strings drainModuleLoaded ();
 
+    jam::Strings drainBreakIn ();
+
     jam::Strings drainExceptionStopped ();
 
     jam::Strings resumeAfterInitialBreak (const juce::String& targetProgram);

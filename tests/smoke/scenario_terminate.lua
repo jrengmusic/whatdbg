@@ -1,11 +1,20 @@
+local DapClient = require ("dap_client")
 local Report = require ("report")
 local ScenarioRunner = require ("scenario_runner")
 local BreakpointScenarios = require ("scenario_breakpoint")
 
-local function findDebuggeePid (fixturePath)
-    local pgrepResult = vim.system ({ "pgrep", "-f", fixturePath .. "$" }, { text = true }):wait (2000)
-    local firstLine = tostring (pgrepResult.stdout or ""):match ("(%d+)")
-    return firstLine and tonumber (firstLine) or nil
+local function findDebuggeePid (client)
+    for messageIndex, message in ipairs (client.log) do
+        if message.type == "event" and message.event == "process" then
+            return message.body.systemProcessId
+        end
+    end
+
+    return nil
+end
+
+local function isProcessAlive (processId)
+    return vim.uv.kill (processId, 0) == 0
 end
 
 local function countZombies (parentPid)
@@ -27,38 +36,42 @@ local function scenarioTerminateNoZombie (binaryPath, fixturePath, fixtureSource
     local report = Report.new ("09_terminate_no_zombie")
 
     return ScenarioRunner.runScenario (report, binaryPath, function (client)
-        BreakpointScenarios.runToStoppedBreakpoint (client, report, { program = fixturePath }, fixtureSourcePath, breakpointLine)
+        BreakpointScenarios.runToStoppedBreakpoint (client, report, DapClient.getLaunchArguments (fixturePath), fixtureSourcePath, breakpointLine)
 
-        local debuggeePid = findDebuggeePid (fixturePath)
+        local debuggeePid = findDebuggeePid (client)
         report:check ("debuggee pid discovered: " .. tostring (debuggeePid), debuggeePid ~= nil)
 
-        local zombieCountBefore = countZombies (client.process.pid)
-        report:info ("zombie count before terminate: " .. tostring (zombieCountBefore))
+        local isWindows = vim.fn.has ("win32") == 1
+        local zombieCountBefore = nil
+
+        if isWindows then
+            report:info ("zombie check not applicable on Windows")
+        else
+            zombieCountBefore = countZombies (client.process.pid)
+            report:info ("zombie count before terminate: " .. tostring (zombieCountBefore))
+        end
 
         client:send ("terminate", {})
         local terminateResponse = client:waitForResponse ("terminate")
         report:check ("terminate response success=true", terminateResponse ~= nil and terminateResponse.success == true)
 
         local pidGone = vim.wait (5000, function ()
-            local checkResult = vim.system ({ "ps", "-o", "pid,ppid,stat", "-p", tostring (debuggeePid) }, { text = true }):wait (2000)
-            local outputLines = tostring (checkResult.stdout or "")
-            return outputLines:match (tostring (debuggeePid)) == nil
+            return not isProcessAlive (debuggeePid)
         end, 100)
 
         report:check ("debuggee pid " .. tostring (debuggeePid) .. " is gone from process table", pidGone == true)
 
-        local finalCheck = vim.system ({ "ps", "-o", "pid,ppid,stat", "-p", tostring (debuggeePid) }, { text = true }):wait (2000)
-        local finalOutput = tostring (finalCheck.stdout or "")
-        report:check ("no zombie stat for debuggee pid (STAT does not contain Z)", finalOutput:match ("Z") == nil)
-
-        local zombieCountAfter = countZombies (client.process.pid)
-        report:info ("zombie count after terminate: " .. tostring (zombieCountAfter))
-        report:check ("zombie count did not rise (" .. tostring (zombieCountBefore) .. " -> " .. tostring (zombieCountAfter) .. ")", zombieCountAfter <= zombieCountBefore)
+        if not isWindows then
+            local zombieCountAfter = countZombies (client.process.pid)
+            report:info ("zombie count after terminate: " .. tostring (zombieCountAfter))
+            report:check ("zombie count did not rise (" .. tostring (zombieCountBefore) .. " -> " .. tostring (zombieCountAfter) .. ")", zombieCountAfter <= zombieCountBefore)
+        end
     end)
 end
 
 return {
     findDebuggeePid = findDebuggeePid,
+    isProcessAlive = isProcessAlive,
     countZombies = countZombies,
     scenarioTerminateNoZombie = scenarioTerminateNoZombie,
 }

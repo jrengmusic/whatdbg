@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="_launcher_8h" kind="file" language="C++">
+    <compoundname>Launcher.h</compoundname>
+    <includes local="no">JuceHeader.h</includes>
+    <includedby refid="_launcher_8cpp" local="yes">Launcher.cpp</includedby>
+    <includedby refid="_main_8cpp" local="yes">Main.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>Launcher.h</label>
+        <link refid="_launcher_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>JuceHeader.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>Launcher.cpp</label>
+        <link refid="_launcher_8cpp"/>
+      </node>
+      <node id="1">
+        <label>Launcher.h</label>
+        <link refid="_launcher_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Main.cpp</label>
+        <link refid="_main_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_launcher" prot="public">Launcher</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;JuceHeader.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9" refid="class_launcher" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_launcher_1a2a7846008f307a53f65b510ba23787de" kindref="member">Launcher</ref></highlight></codeline>
+<codeline lineno="10"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_launcher_1a2a7846008f307a53f65b510ba23787de" kindref="member">Launcher</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/>newCommFile,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1StringArray" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::StringArray</ref>&amp;<sp/>newLaunchTarget);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_launcher_1a725a3958001b044eb14d96569b77f115" kindref="member">run</ref><sp/>();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_launcher_1a5321ca455c727f3180428c67f53731d3" kindref="member">sendPid</ref><sp/>(std::uint32_t<sp/>processId);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_launcher_1a7e4c99bb3017c6566241551e1a3b65ed" kindref="member">sendError</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref>&amp;<sp/><ref refid="namespacetext" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">text</ref>);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_launcher_1a99a034a1529dd0619e6e4e244acaac17" kindref="member">writeLine</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>line);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_launcher_1a9b3454cf968a72631c18d0ba6a40ca4d" kindref="member">getLine</ref><sp/>();</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_launcher_1a15339e99eff42dc61d6772b3c36a79b4" kindref="member">isAttached</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>line);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="class_launcher_1acaefa076045ad11b8ccf653f7e807290" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_launcher_1acaefa076045ad11b8ccf653f7e807290" kindref="member">failedLaunchExitCode</ref><sp/>{<sp/>1<sp/>};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="class_launcher_1a78ad078c3b33429905efe42e2434a461" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref><sp/><ref refid="class_launcher_1a78ad078c3b33429905efe42e2434a461" kindref="member">commFile</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="class_launcher_1a22833621fb3bd85e49c3e5e4a0236db2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classjuce_1_1StringArray" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::StringArray</ref><sp/><ref refid="class_launcher_1a22833621fb3bd85e49c3e5e4a0236db2" kindref="member">launchTarget</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_WINDOWS</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;void,<sp/></highlight><highlight class="keyword">decltype</highlight><highlight class="normal"><sp/>(&amp;CloseHandle)&gt;<sp/>pipe<sp/>{<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>&amp;CloseHandle<sp/>};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>JUCE_MAC</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="class_launcher_1aae7877068a4f4f250f2203ea4c08369c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;FILE,<sp/></highlight><highlight class="keyword">decltype</highlight><highlight class="normal"><sp/>(&amp;fclose)&gt;<sp/><ref refid="class_launcher_1aae7877068a4f4f250f2203ea4c08369c" kindref="member">readFifo</ref><sp/>{<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>&amp;fclose<sp/>};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="juce__PlatformDefs_8h_1a851b02724a8158a7f746c66b5758b3dd" kindref="member" external="D:/Poems/JUCE/docs/tagfile.xml">JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR</ref><sp/>(<ref refid="class_launcher" kindref="compound">Launcher</ref>)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+    </programlisting>
+    <location file="Launcher.h"/>
+  </compounddef>
+</doxygen>

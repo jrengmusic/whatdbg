@@ -5,101 +5,103 @@
     <includedby refid="_generated_8h" local="yes">generated/Generated.h</includedby>
     <invincdepgraph>
       <node id="3">
+        <label>Launcher.cpp</label>
+        <link refid="_launcher_8cpp"/>
+      </node>
+      <node id="4">
         <label>Main.cpp</label>
         <link refid="_main_8cpp"/>
       </node>
-      <node id="14">
+      <node id="15">
         <label>Processor.cpp</label>
         <link refid="_processor_8cpp"/>
       </node>
-      <node id="13">
+      <node id="14">
         <label>Processor.h</label>
         <link refid="_processor_8h"/>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="9">
-        <label>WHATDBGModel.cpp</label>
-        <link refid="_w_h_a_t_d_b_g_model_8cpp"/>
-      </node>
-      <node id="4">
-        <label>WHATDBGModel.h</label>
-        <link refid="_w_h_a_t_d_b_g_model_8h"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="6">
-        <label>Whatdbg.cpp</label>
-        <link refid="_whatdbg_8cpp"/>
-      </node>
-      <node id="5">
-        <label>Whatdbg.h</label>
-        <link refid="_whatdbg_8h"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="7">
-        <label>dap/Types.cpp</label>
-        <link refid="_types_8cpp"/>
+      <node id="10">
+        <label>WHATDBGModel.cpp</label>
+        <link refid="_w_h_a_t_d_b_g_model_8cpp"/>
       </node>
-      <node id="25">
-        <label>dap/Types.h</label>
-        <link refid="_types_8h"/>
-        <childnode refid="13" relation="include">
+      <node id="5">
+        <label>WHATDBGModel.h</label>
+        <link refid="_w_h_a_t_d_b_g_model_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>Whatdbg.cpp</label>
+        <link refid="_whatdbg_8cpp"/>
+      </node>
+      <node id="6">
+        <label>Whatdbg.h</label>
+        <link refid="_whatdbg_8h"/>
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
       </node>
-      <node id="16">
-        <label>debug/BreakpointManager.cpp</label>
-        <link refid="_breakpoint_manager_8cpp"/>
+      <node id="8">
+        <label>dap/Types.cpp</label>
+        <link refid="_types_8cpp"/>
       </node>
-      <node id="15">
-        <label>debug/BreakpointManager.h</label>
-        <link refid="_breakpoint_manager_8h"/>
-        <childnode refid="13" relation="include">
+      <node id="26">
+        <label>dap/Types.h</label>
+        <link refid="_types_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
-      <node id="10">
+      <node id="17">
+        <label>debug/BreakpointManager.cpp</label>
+        <link refid="_breakpoint_manager_8cpp"/>
+      </node>
+      <node id="16">
+        <label>debug/BreakpointManager.h</label>
+        <link refid="_breakpoint_manager_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
         <label>debug/Callbacks.cpp</label>
         <link refid="_callbacks_8cpp"/>
       </node>
-      <node id="11">
+      <node id="12">
         <label>debug/Callbacks.h</label>
         <link refid="_callbacks_8h"/>
       </node>
-      <node id="19">
+      <node id="20">
         <label>debug/Session.cpp</label>
         <link refid="_session_8cpp"/>
       </node>
-      <node id="12">
+      <node id="13">
         <label>debug/Session.h</label>
         <link refid="_session_8h"/>
-        <childnode refid="13" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
@@ -107,66 +109,68 @@
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
         <childnode refid="23" relation="include">
         </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
       </node>
-      <node id="20">
+      <node id="21">
         <label>debug/SessionPrettyPrint.cpp</label>
         <link refid="_session_pretty_print_8cpp"/>
       </node>
-      <node id="21">
+      <node id="22">
         <label>debug/SessionPrettyPrint_mac.cpp</label>
         <link refid="_session_pretty_print__mac_8cpp"/>
       </node>
-      <node id="22">
+      <node id="23">
         <label>debug/Session_mac.cpp</label>
         <link refid="_session__mac_8cpp"/>
       </node>
-      <node id="8">
+      <node id="9">
         <label>debug/State.h</label>
         <link refid="_state_8h"/>
-        <childnode refid="9" relation="include">
-        </childnode>
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-      </node>
-      <node id="18">
-        <label>debug/StopManager.cpp</label>
-        <link refid="_stop_manager_8cpp"/>
-      </node>
-      <node id="17">
-        <label>debug/StopManager.h</label>
-        <link refid="_stop_manager_8h"/>
         <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
       </node>
-      <node id="24">
+      <node id="19">
+        <label>debug/StopManager.cpp</label>
+        <link refid="_stop_manager_8cpp"/>
+      </node>
+      <node id="18">
+        <label>debug/StopManager.h</label>
+        <link refid="_stop_manager_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
         <label>debug/VariableManager.cpp</label>
         <link refid="_variable_manager_8cpp"/>
       </node>
-      <node id="23">
+      <node id="24">
         <label>debug/VariableManager.h</label>
         <link refid="_variable_manager_8h"/>
-        <childnode refid="13" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="24" relation="include">
+        <childnode refid="25" relation="include">
         </childnode>
       </node>
-      <node id="26">
+      <node id="27">
         <label>generated/Generated.cpp</label>
         <link refid="_generated_8cpp"/>
       </node>
@@ -177,11 +181,13 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
         </childnode>
       </node>
       <node id="1">

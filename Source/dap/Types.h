@@ -33,6 +33,24 @@ void appendResponseMembers (std::string& json, int requestSeq, std::string_view 
  */
 void appendEventMembers (std::string& json, std::string_view event);
 
+/** Append the members of a request object: seq, type, and command.
+ *
+ *  The caller opens and closes the object.
+ *
+ *  @param json     Output text that receives the members.
+ *  @param command  DAP command name.
+ */
+void appendRequestMembers (std::string& json, std::string_view command);
+
+/** Append the seq and type members that the response, event, and request objects share.
+ *
+ *  Each call takes the next sequence number through nextSeq. The caller opens and closes the object.
+ *
+ *  @param json  Output text that receives the members.
+ *  @param type  Message type: request, response, or event.
+ */
+void appendMessageMembers (std::string& json, std::string_view type);
+
 /** Append a response object that has a body.
  *
  *  @tparam Function  Callable that takes a std::string& and appends the body members.
@@ -96,6 +114,24 @@ void appendEvent (std::string& json, std::string_view event, const Function& app
  */
 void appendEvent (std::string& json, std::string_view event);
 
+/** Append a request object that has an arguments object.
+ *
+ *  @tparam Function        Callable that takes a std::string& and appends the argument members.
+ *  @param json             Output text that receives the request object.
+ *  @param command          DAP command name.
+ *  @param appendArguments  Appends the members of the arguments object.
+ */
+template <typename Function>
+void appendRequest (std::string& json, std::string_view command, const Function& appendArguments)
+{
+    jam::JsonWriter::appendObject (json, [command, &appendArguments] (std::string& members)
+    {
+        appendRequestMembers (members, command);
+        jam::JsonWriter::appendKey (members, Id::arguments);
+        jam::JsonWriter::appendObject (members, appendArguments);
+    });
+}
+
 /** Return a request document with a command and an arguments object.
  *
  *  @tparam Function       Callable that takes a std::string& and appends the argument members.
@@ -108,17 +144,7 @@ jam::JsonDocument getRequest (std::string_view command, const Function& appendAr
 {
     std::string json;
 
-    jam::JsonWriter::appendObject (json, [command, &appendArguments] (std::string& members)
-    {
-        jam::JsonWriter::appendKey (members, Id::seq);
-        jam::Format::appendDecimal (members, nextSeq ());
-        jam::JsonWriter::appendKey (members, Id::type);
-        jam::JsonWriter::appendString (members, jam::Strings::getView (Id::request.toString ()));
-        jam::JsonWriter::appendKey (members, Id::command);
-        jam::JsonWriter::appendString (members, command);
-        jam::JsonWriter::appendKey (members, Id::arguments);
-        jam::JsonWriter::appendObject (members, appendArguments);
-    });
+    appendRequest (json, command, appendArguments);
 
     return std::move (*jam::JsonDocument::parse (std::move (json)));
 }
@@ -153,6 +179,17 @@ void appendSource (std::string& json, std::string_view name, std::string_view pa
  *  @param json  Output text that receives the flags.
  */
 void appendCapabilities (std::string& json);
+
+/** Append the members of the arguments object of a runInTerminal request: kind, cwd, and args.
+ *
+ *  The caller opens and closes the object. cwd is written only when it is not empty.
+ *
+ *  @param json  Output text that receives the members.
+ *  @param type  Terminal type that the client uses, such as external or integrated.
+ *  @param cwd   Working directory of the target.
+ *  @param args  Command line of the Launcher, one element for each argument.
+ */
+void appendRunInTerminalArguments (std::string& json, const juce::Identifier& type, const juce::String& cwd, const juce::StringArray& args);
 
 /** Return a stopped event for a stop reason on one thread, with allThreadsStopped set to true.
  *

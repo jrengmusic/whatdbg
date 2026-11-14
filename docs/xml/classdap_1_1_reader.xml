@@ -6,7 +6,7 @@
     <includes refid="_reader_8h" local="no">Reader.h</includes>
     <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="classdap_1_1_reader_1a0ef303bd98005399605d1038933691d8" prot="public" static="no" mutable="no">
-        <type>std::function&lt; void(<ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>)&gt;</type>
+        <type>std::function&lt; void(<ref refid="structjam_1_1JsonDocument" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref>)&gt;</type>
         <definition>std::function&lt;void (jam::JsonDocument)&gt; dap::Reader::onMessage</definition>
         <argsstring></argsstring>
         <name>onMessage</name>
@@ -142,7 +142,7 @@
         <referencedby refid="classdap_1_1_reader_1aa88b7cbd5562aace1eb2d91b0638fb26" compoundref="_reader_8cpp" startline="88" endline="114">run</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdap_1_1_reader_1aba0f829f2291b384cc47a5d8183d3cae" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>std::unique_ptr&lt; <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &gt;</type>
+        <type>std::unique_ptr&lt; <ref refid="structjam_1_1JsonDocument" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &gt;</type>
         <definition>std::unique_ptr&lt; jam::JsonDocument &gt; dap::Reader::readMessage</definition>
         <argsstring>(int contentLength)</argsstring>
         <name>readMessage</name>
@@ -164,7 +164,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>the parsed document from <ref refid="structjam_1_1JsonDocument_1a1343aea261139b22b9cc95844519d8cb" kindref="member" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument::parse</ref> when stdin is still good, otherwise nullptr. </para>
+<simplesect kind="return"><para>the parsed document from <ref refid="structjam_1_1JsonDocument_1a1343aea261139b22b9cc95844519d8cb" kindref="member" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument::parse</ref> when stdin is still good, otherwise nullptr. </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -194,7 +194,7 @@
       </node>
       <node id="2">
         <label>juce::Thread</label>
-        <link refid="classjuce_1_1Thread" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+        <link refid="classjuce_1_1Thread" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
@@ -206,7 +206,7 @@
       </node>
       <node id="2">
         <label>juce::Thread</label>
-        <link refid="classjuce_1_1Thread" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+        <link refid="classjuce_1_1Thread" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
     </collaborationgraph>
     <location file="dap/Reader.h" line="19" column="1" bodyfile="dap/Reader.h" bodystart="20" bodyend="66"/>

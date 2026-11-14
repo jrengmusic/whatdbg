@@ -143,12 +143,15 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 
 ## macro
 
-+--------------------+---------------------------------+-----------------------------------------+
-| name               | value                           | description                             |
-+====================+=================================+=========================================+
-| useJuceNamespace   | DONT_SET_USING_JUCE_NAMESPACE=1 | No using namespace juce in JuceHeader.h |
-| declareProjectInfo | JUCE_DONT_DECLARE_PROJECTINFO=1 | No auto-generated ProjectInfo namespace |
-+--------------------+---------------------------------+-----------------------------------------+
++------------------------------+----------------------------------------------------------------+-----------------------------------------+
+| name                         | value                                                          | description                             |
++==============================+================================================================+=========================================+
+| useJuceNamespace             | DONT_SET_USING_JUCE_NAMESPACE=1                                | No using namespace juce in JuceHeader.h |
+| declareProjectInfo           | JUCE_DONT_DECLARE_PROJECTINFO=1                                | No auto-generated ProjectInfo namespace |
+| win32Ie                      | `$<$<PLATFORM_ID:Windows>:_WIN32_IE=0x0A00>`                   | Windows IE platform version             |
+| juceCoreIncludeNativeHeaders | `$<$<PLATFORM_ID:Windows>:JUCE_CORE_INCLUDE_NATIVE_HEADERS=1>` | Native platform headers in juce_core    |
+| juceCoreIncludeComSmartPtr   | `$<$<PLATFORM_ID:Windows>:JUCE_CORE_INCLUDE_COM_SMART_PTR=1>`  | Windows COM smart pointer helpers       |
++------------------------------+----------------------------------------------------------------+-----------------------------------------+
 
 ## include
 

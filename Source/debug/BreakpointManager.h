@@ -14,10 +14,7 @@ namespace debug
  */
 struct BreakpointInfo
 {
-    /** Source path in backend-native form for Session::getOffsetStatus /
-     *  BreakpointManager::getBreakpointOffset (backslash-separated on Windows,
-     *  forward-slash on macOS).
-     */
+    /** Source path as the DAP client sent it. Session converts it to the native form. */
     juce::String  sourcePath;
 
     /** DAP-assigned breakpoint ID, reported to the client in the setBreakpoints response. */
@@ -136,26 +133,11 @@ private:
      */
     jam::Strings onSymbolsLoaded ();
 
-    /** Resolves sourcePath:requestedLine to a target offset, without creating an engine breakpoint.
-     *
-     *  Tries Session::getOffsetStatus and Session::getOffset on the requested line, then on
-     *  each of the next lineSearchWindow lines, until one resolves. The search stops at an
-     *  engineBusy status. The caller passes the returned offset to Session::addBreakpoint.
-     *
-     *  @param sourcePath     Backend-native source path for the engine's breakpoint query.
-     *  @param requestedLine  One-based source line number from the client.
-     *  @return The offset and the line that resolved. The offset is 0 when nothing resolved.
-     */
-    std::pair<std::uint64_t, std::uint16_t> getBreakpointOffset (const juce::String& sourcePath,
-                                                                  std::uint16_t       requestedLine) noexcept;
-
     /** Resolve entryInfo's pending breakpoint location and update it in place.
      *
-     *  Calls getBreakpointOffset to resolve entryInfo.sourcePath:entryInfo.line
-     *  to a target offset, then creates the engine breakpoint via
-     *  Session::addBreakpoint. On success, writes engineId and resolvedLine
-     *  into entryInfo. No-op if resolution or breakpoint creation fails —
-     *  entryInfo is left unchanged. Called by onSymbolsLoaded for each unresolved entry.
+     *  Calls Session::addBreakpointByLocation with entryInfo.sourcePath and entryInfo.line.
+     *  On success, writes engineId and resolvedLine into entryInfo. When the session returns
+     *  no location, entryInfo is left unchanged. Called by onSymbolsLoaded for each unresolved entry.
      *
      *  @param entryInfo  Breakpoint entry to resolve and update in place.
      */
@@ -182,7 +164,7 @@ private:
      *
      *  Resolves via Session::addBreakpointByLocation and records the entry in the
      *  primary registry under dapId. An entry whose location is not found keeps an
-     *  empty engineId. On Windows the path is converted to backslash form first.
+     *  empty engineId.
      *
      *  @param rawSourcePath  Raw source path from the DAP client.
      *  @param line           Requested one-based source line number.
@@ -216,9 +198,6 @@ private:
 
     /** Next DAP breakpoint ID to assign. Starts at 1. The type is std::uint16_t, so it wraps after 65535. */
     std::uint16_t nextDapId { 1 };
-
-    /** Number of lines forward of the requested line to search when exact resolution fails. */
-    static constexpr std::uint32_t lineSearchWindow { 4 };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BreakpointManager)
 };

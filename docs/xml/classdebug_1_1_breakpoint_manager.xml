@@ -18,14 +18,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="212" column="13" bodyfile="debug/BreakpointManager.h" bodystart="212" bodyend="-1"/>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a3cbdc59939bab61c6de38a6c0d7c4bd3" compoundref="_breakpoint_manager_8cpp" startline="227" endline="261">addBreakpoint</referencedby>
+        <location file="debug/BreakpointManager.h" line="194" column="13" bodyfile="debug/BreakpointManager.h" bodystart="194" bodyend="-1"/>
         <referencedby refid="classdebug_1_1_breakpoint_manager_1af44310e6631d8debd0dcd5160d87ea76" compoundref="_breakpoint_manager_8cpp" startline="16" endline="19">BreakpointManager</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a5ddc2c795c2ea490eb4c5d0465f549fe" compoundref="_breakpoint_manager_8cpp" startline="30" endline="98">getBreakpointOffset</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" compoundref="_breakpoint_manager_8cpp" startline="337" endline="348">onModuleLoad</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" compoundref="_breakpoint_manager_8cpp" startline="350" endline="361">onReload</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a17b4dc2b534dafca568e5cd8b607284c" compoundref="_breakpoint_manager_8cpp" startline="196" endline="225">removeOrphanedBreakpoints</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a857430dcd1c0812d31898288a8d0f4dc" compoundref="_breakpoint_manager_8cpp" startline="100" endline="127">setBreakpointLocation</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" compoundref="_breakpoint_manager_8cpp" startline="237" endline="248">onModuleLoad</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" compoundref="_breakpoint_manager_8cpp" startline="250" endline="261">onReload</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a17b4dc2b534dafca568e5cd8b607284c" compoundref="_breakpoint_manager_8cpp" startline="109" endline="138">removeOrphanedBreakpoints</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a857430dcd1c0812d31898288a8d0f4dc" compoundref="_breakpoint_manager_8cpp" startline="30" endline="47">setBreakpointLocation</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; std::uint16_t, <ref refid="structdebug_1_1_breakpoint_info" kindref="compound">BreakpointInfo</ref> &gt;</type>
@@ -40,14 +38,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="215" column="24" bodyfile="debug/BreakpointManager.h" bodystart="215" bodyend="-1"/>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a3cbdc59939bab61c6de38a6c0d7c4bd3" compoundref="_breakpoint_manager_8cpp" startline="227" endline="261">addBreakpoint</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1abdcf6c332786965d57904ca771da4b1b" compoundref="_breakpoint_manager_8cpp" startline="129" endline="157">appendBreakpointStoppedEvent</referencedby>
+        <location file="debug/BreakpointManager.h" line="197" column="24" bodyfile="debug/BreakpointManager.h" bodystart="197" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a3cbdc59939bab61c6de38a6c0d7c4bd3" compoundref="_breakpoint_manager_8cpp" startline="140" endline="161">addBreakpoint</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1abdcf6c332786965d57904ca771da4b1b" compoundref="_breakpoint_manager_8cpp" startline="49" endline="77">appendBreakpointStoppedEvent</referencedby>
         <referencedby refid="classdebug_1_1_breakpoint_manager_1aa0f454ef4ed091ed8772c35b395deefa" compoundref="_breakpoint_manager_8cpp" startline="21" endline="28">hasUnresolvedBreakpoints</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a9525971c019e19a407a92e985ad46325" compoundref="_breakpoint_manager_8cpp" startline="159" endline="182">onBreakpointLocationFound</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="309" endline="335">onSetBreakpoints</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" compoundref="_breakpoint_manager_8cpp" startline="363" endline="390">onSymbolsLoaded</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a17b4dc2b534dafca568e5cd8b607284c" compoundref="_breakpoint_manager_8cpp" startline="196" endline="225">removeOrphanedBreakpoints</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a9525971c019e19a407a92e985ad46325" compoundref="_breakpoint_manager_8cpp" startline="79" endline="102">onBreakpointLocationFound</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="209" endline="235">onSetBreakpoints</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" compoundref="_breakpoint_manager_8cpp" startline="263" endline="290">onSymbolsLoaded</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a17b4dc2b534dafca568e5cd8b607284c" compoundref="_breakpoint_manager_8cpp" startline="109" endline="138">removeOrphanedBreakpoints</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_breakpoint_manager_1a898cff5d67b7f533cf38e8ccbf31a136" prot="private" static="no" mutable="no">
         <type>std::uint16_t</type>
@@ -64,27 +62,8 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="218" column="19" bodyfile="debug/BreakpointManager.h" bodystart="218" bodyend="218"/>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="309" endline="335">onSetBreakpoints</referencedby>
-      </memberdef>
-    </sectiondef>
-    <sectiondef kind="private-static-attrib">
-      <memberdef kind="variable" id="classdebug_1_1_breakpoint_manager_1a3638bb735288fd17822939bdbaac0108" prot="private" static="yes" constexpr="yes" mutable="no">
-        <type>std::uint32_t</type>
-        <definition>std::uint32_t debug::BreakpointManager::lineSearchWindow</definition>
-        <argsstring></argsstring>
-        <name>lineSearchWindow</name>
-        <qualifiedname>debug::BreakpointManager::lineSearchWindow</qualifiedname>
-        <initializer>{ 4 }</initializer>
-        <briefdescription>
-<para>Number of lines forward of the requested line to search when exact resolution fails. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="221" column="36" bodyfile="debug/BreakpointManager.h" bodystart="221" bodyend="221"/>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a5ddc2c795c2ea490eb4c5d0465f549fe" compoundref="_breakpoint_manager_8cpp" startline="30" endline="98">getBreakpointOffset</referencedby>
+        <location file="debug/BreakpointManager.h" line="200" column="19" bodyfile="debug/BreakpointManager.h" bodystart="200" bodyend="200"/>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="209" endline="235">onSetBreakpoints</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -115,8 +94,8 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="62" column="14" bodyfile="debug/BreakpointManager.cpp" bodystart="16" bodyend="19"/>
-        <references refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" compoundref="_breakpoint_manager_8h" startline="212">session</references>
+        <location file="debug/BreakpointManager.h" line="59" column="14" bodyfile="debug/BreakpointManager.cpp" bodystart="16" bodyend="19"/>
+        <references refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" compoundref="_breakpoint_manager_8h" startline="194">session</references>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -129,15 +108,15 @@
           <declname>json</declname>
         </param>
         <param>
-          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>rawSourcePath</declname>
         </param>
         <param>
-          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
           <declname>document</declname>
         </param>
         <param>
-          <type>const <ref refid="structjam_1_1Document_1_1Element" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Document::Element</ref> *</type>
+          <type>const <ref refid="structjam_1_1Document_1_1Element" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::Document::Element</ref> *</type>
           <declname>requestedBreakpoints</declname>
         </param>
         <briefdescription>
@@ -182,26 +161,26 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="78" column="10" bodyfile="debug/BreakpointManager.cpp" bodystart="309" bodyend="335"/>
-        <references refid="classdebug_1_1_breakpoint_manager_1a3cbdc59939bab61c6de38a6c0d7c4bd3" compoundref="_breakpoint_manager_8cpp" startline="227" endline="261">addBreakpoint</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a5f2aae3ed3cf48d9827df97ea3fc1661" compoundref="_breakpoint_manager_8cpp" startline="263" endline="291">appendBreakpoint</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" compoundref="_breakpoint_manager_8h" startline="215">breakpoints</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1abfcd3f818ede254902698eda6c8dda0f" compoundref="_breakpoint_manager_8cpp" startline="293" endline="307">getRequestedLines</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a898cff5d67b7f533cf38e8ccbf31a136" compoundref="_breakpoint_manager_8h" startline="218" endline="218">nextDapId</references>
-        <references refid="namespacedebug_1ad59b60cb019c5f6433812ad6a56ecac8" compoundref="_breakpoint_manager_8cpp" startline="184" endline="187">debug::normalizePath</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="309" endline="335">onSetBreakpoints</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a17b4dc2b534dafca568e5cd8b607284c" compoundref="_breakpoint_manager_8cpp" startline="196" endline="225">removeOrphanedBreakpoints</references>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="309" endline="335">onSetBreakpoints</referencedby>
-        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="434" endline="462">Processor::onSetBreakpoints</referencedby>
+        <location file="debug/BreakpointManager.h" line="75" column="10" bodyfile="debug/BreakpointManager.cpp" bodystart="209" bodyend="235"/>
+        <references refid="classdebug_1_1_breakpoint_manager_1a3cbdc59939bab61c6de38a6c0d7c4bd3" compoundref="_breakpoint_manager_8cpp" startline="140" endline="161">addBreakpoint</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a5f2aae3ed3cf48d9827df97ea3fc1661" compoundref="_breakpoint_manager_8cpp" startline="163" endline="191">appendBreakpoint</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" compoundref="_breakpoint_manager_8h" startline="197">breakpoints</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1abfcd3f818ede254902698eda6c8dda0f" compoundref="_breakpoint_manager_8cpp" startline="193" endline="207">getRequestedLines</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a898cff5d67b7f533cf38e8ccbf31a136" compoundref="_breakpoint_manager_8h" startline="200" endline="200">nextDapId</references>
+        <references refid="namespacedebug_1ad59b60cb019c5f6433812ad6a56ecac8" compoundref="_breakpoint_manager_8cpp" startline="104" endline="107">debug::normalizePath</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="209" endline="235">onSetBreakpoints</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a17b4dc2b534dafca568e5cd8b607284c" compoundref="_breakpoint_manager_8cpp" startline="109" endline="138">removeOrphanedBreakpoints</references>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="209" endline="235">onSetBreakpoints</referencedby>
+        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="561" endline="589">Processor::onSetBreakpoints</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classjam_1_1Strings" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
+        <type><ref refid="classjam_1_1Strings" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
         <definition>jam::Strings debug::BreakpointManager::onModuleLoad</definition>
         <argsstring>(const juce::String &amp;imageName)</argsstring>
         <name>onModuleLoad</name>
         <qualifiedname>debug::BreakpointManager::onModuleLoad</qualifiedname>
         <param>
-          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>imageName</declname>
         </param>
         <briefdescription>
@@ -224,17 +203,17 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="92" column="18" bodyfile="debug/BreakpointManager.cpp" bodystart="337" bodyend="348"/>
+        <location file="debug/BreakpointManager.h" line="89" column="18" bodyfile="debug/BreakpointManager.cpp" bodystart="237" bodyend="248"/>
         <references refid="classdebug_1_1_breakpoint_manager_1aa0f454ef4ed091ed8772c35b395deefa" compoundref="_breakpoint_manager_8cpp" startline="21" endline="28">hasUnresolvedBreakpoints</references>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" compoundref="_breakpoint_manager_8cpp" startline="337" endline="348">onModuleLoad</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" compoundref="_breakpoint_manager_8cpp" startline="363" endline="390">onSymbolsLoaded</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" compoundref="_breakpoint_manager_8h" startline="212">session</references>
-        <referencedby refid="classdebug_1_1_stop_manager_1ab35e144bdf9bf196392632e3b5c5b84c" compoundref="_stop_manager_8cpp" startline="146" endline="156">debug::StopManager::drainModuleLoaded</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" compoundref="_breakpoint_manager_8cpp" startline="337" endline="348">onModuleLoad</referencedby>
+        <references refid="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" compoundref="_breakpoint_manager_8cpp" startline="237" endline="248">onModuleLoad</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" compoundref="_breakpoint_manager_8cpp" startline="263" endline="290">onSymbolsLoaded</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" compoundref="_breakpoint_manager_8h" startline="194">session</references>
+        <referencedby refid="classdebug_1_1_stop_manager_1ab35e144bdf9bf196392632e3b5c5b84c" compoundref="_stop_manager_8cpp" startline="154" endline="164">debug::StopManager::drainModuleLoaded</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" compoundref="_breakpoint_manager_8cpp" startline="237" endline="248">onModuleLoad</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classjam_1_1Strings" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
+        <type><ref refid="classjam_1_1Strings" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
         <definition>jam::Strings debug::BreakpointManager::onReload</definition>
         <argsstring>()</argsstring>
         <name>onReload</name>
@@ -250,16 +229,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="103" column="18" bodyfile="debug/BreakpointManager.cpp" bodystart="350" bodyend="361"/>
+        <location file="debug/BreakpointManager.h" line="100" column="18" bodyfile="debug/BreakpointManager.cpp" bodystart="250" bodyend="261"/>
         <references refid="classdebug_1_1_breakpoint_manager_1aa0f454ef4ed091ed8772c35b395deefa" compoundref="_breakpoint_manager_8cpp" startline="21" endline="28">hasUnresolvedBreakpoints</references>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" compoundref="_breakpoint_manager_8cpp" startline="350" endline="361">onReload</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" compoundref="_breakpoint_manager_8cpp" startline="363" endline="390">onSymbolsLoaded</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" compoundref="_breakpoint_manager_8h" startline="212">session</references>
-        <referencedby refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" compoundref="_stop_manager_8cpp" startline="115" endline="129">debug::StopManager::drainStepCompleted</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" compoundref="_breakpoint_manager_8cpp" startline="350" endline="361">onReload</referencedby>
-        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="434" endline="462">Processor::onSetBreakpoints</referencedby>
-        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="180" endline="210">debug::StopManager::resumeAfterInitialBreak</referencedby>
+        <references refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" compoundref="_breakpoint_manager_8cpp" startline="250" endline="261">onReload</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" compoundref="_breakpoint_manager_8cpp" startline="263" endline="290">onSymbolsLoaded</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" compoundref="_breakpoint_manager_8h" startline="194">session</references>
+        <referencedby refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" compoundref="_stop_manager_8cpp" startline="123" endline="137">debug::StopManager::drainStepCompleted</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" compoundref="_breakpoint_manager_8cpp" startline="250" endline="261">onReload</referencedby>
+        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="561" endline="589">Processor::onSetBreakpoints</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="197" endline="227">debug::StopManager::resumeAfterInitialBreak</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_breakpoint_manager_1abdcf6c332786965d57904ca771da4b1b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -313,14 +292,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="114" column="10" bodyfile="debug/BreakpointManager.cpp" bodystart="129" bodyend="157"/>
-        <references refid="classdebug_1_1_breakpoint_manager_1abdcf6c332786965d57904ca771da4b1b" compoundref="_breakpoint_manager_8cpp" startline="129" endline="157">appendBreakpointStoppedEvent</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" compoundref="_breakpoint_manager_8h" startline="215">breakpoints</references>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1abdcf6c332786965d57904ca771da4b1b" compoundref="_breakpoint_manager_8cpp" startline="129" endline="157">appendBreakpointStoppedEvent</referencedby>
-        <referencedby refid="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" compoundref="_stop_manager_8cpp" startline="100" endline="113">debug::StopManager::drainBreakpointHit</referencedby>
+        <location file="debug/BreakpointManager.h" line="111" column="10" bodyfile="debug/BreakpointManager.cpp" bodystart="49" bodyend="77"/>
+        <references refid="classdebug_1_1_breakpoint_manager_1abdcf6c332786965d57904ca771da4b1b" compoundref="_breakpoint_manager_8cpp" startline="49" endline="77">appendBreakpointStoppedEvent</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" compoundref="_breakpoint_manager_8h" startline="197">breakpoints</references>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1abdcf6c332786965d57904ca771da4b1b" compoundref="_breakpoint_manager_8cpp" startline="49" endline="77">appendBreakpointStoppedEvent</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" compoundref="_stop_manager_8cpp" startline="108" endline="121">debug::StopManager::drainBreakpointHit</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_breakpoint_manager_1a9525971c019e19a407a92e985ad46325" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classjam_1_1Strings" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
+        <type><ref refid="classjam_1_1Strings" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
         <definition>jam::Strings debug::BreakpointManager::onBreakpointLocationFound</definition>
         <argsstring>(std::int32_t engineId, std::uint16_t resolvedLine)</argsstring>
         <name>onBreakpointLocationFound</name>
@@ -361,11 +340,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="126" column="18" bodyfile="debug/BreakpointManager.cpp" bodystart="159" bodyend="182"/>
-        <references refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" compoundref="_breakpoint_manager_8h" startline="215">breakpoints</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a9525971c019e19a407a92e985ad46325" compoundref="_breakpoint_manager_8cpp" startline="159" endline="182">onBreakpointLocationFound</references>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a9525971c019e19a407a92e985ad46325" compoundref="_breakpoint_manager_8cpp" startline="159" endline="182">onBreakpointLocationFound</referencedby>
-        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="103" endline="136">Processor::registerEvents</referencedby>
+        <location file="debug/BreakpointManager.h" line="123" column="18" bodyfile="debug/BreakpointManager.cpp" bodystart="79" bodyend="102"/>
+        <references refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" compoundref="_breakpoint_manager_8h" startline="197">breakpoints</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a9525971c019e19a407a92e985ad46325" compoundref="_breakpoint_manager_8cpp" startline="79" endline="102">onBreakpointLocationFound</references>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a9525971c019e19a407a92e985ad46325" compoundref="_breakpoint_manager_8cpp" startline="79" endline="102">onBreakpointLocationFound</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="152" endline="180">Processor::registerEvents</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -382,13 +361,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="131" column="10" bodyfile="debug/BreakpointManager.cpp" bodystart="21" bodyend="28"/>
-        <references refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" compoundref="_breakpoint_manager_8h" startline="215">breakpoints</references>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" compoundref="_breakpoint_manager_8cpp" startline="337" endline="348">onModuleLoad</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" compoundref="_breakpoint_manager_8cpp" startline="350" endline="361">onReload</referencedby>
+        <location file="debug/BreakpointManager.h" line="128" column="10" bodyfile="debug/BreakpointManager.cpp" bodystart="21" bodyend="28"/>
+        <references refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" compoundref="_breakpoint_manager_8h" startline="197">breakpoints</references>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" compoundref="_breakpoint_manager_8cpp" startline="237" endline="248">onModuleLoad</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" compoundref="_breakpoint_manager_8cpp" startline="250" endline="261">onReload</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classjam_1_1Strings" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
+        <type><ref refid="classjam_1_1Strings" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
         <definition>jam::Strings debug::BreakpointManager::onSymbolsLoaded</definition>
         <argsstring>()</argsstring>
         <name>onSymbolsLoaded</name>
@@ -403,70 +382,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="137" column="18" bodyfile="debug/BreakpointManager.cpp" bodystart="363" bodyend="390"/>
+        <location file="debug/BreakpointManager.h" line="134" column="18" bodyfile="debug/BreakpointManager.cpp" bodystart="263" bodyend="290"/>
         <references refid="classjam_1_1Strings_1a9223c1bf16916a52b122ae7e9d871f50">jam::Strings::add</references>
-        <references refid="namespacedap_1a2252839c7eb64619f5c79f9b0875ab18" compoundref="_types_8cpp" startline="89" endline="106">dap::appendBreakpointChangedEvent</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" compoundref="_breakpoint_manager_8h" startline="215">breakpoints</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" compoundref="_breakpoint_manager_8cpp" startline="363" endline="390">onSymbolsLoaded</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a857430dcd1c0812d31898288a8d0f4dc" compoundref="_breakpoint_manager_8cpp" startline="100" endline="127">setBreakpointLocation</references>
+        <references refid="namespacedap_1a2252839c7eb64619f5c79f9b0875ab18" compoundref="_types_8cpp" startline="93" endline="110">dap::appendBreakpointChangedEvent</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" compoundref="_breakpoint_manager_8h" startline="197">breakpoints</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" compoundref="_breakpoint_manager_8cpp" startline="263" endline="290">onSymbolsLoaded</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a857430dcd1c0812d31898288a8d0f4dc" compoundref="_breakpoint_manager_8cpp" startline="30" endline="47">setBreakpointLocation</references>
         <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" compoundref="_breakpoint_manager_8cpp" startline="337" endline="348">onModuleLoad</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" compoundref="_breakpoint_manager_8cpp" startline="350" endline="361">onReload</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" compoundref="_breakpoint_manager_8cpp" startline="363" endline="390">onSymbolsLoaded</referencedby>
-      </memberdef>
-      <memberdef kind="function" id="classdebug_1_1_breakpoint_manager_1a5ddc2c795c2ea490eb4c5d0465f549fe" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
-        <type>std::pair&lt; std::uint64_t, std::uint16_t &gt;</type>
-        <definition>std::pair&lt; std::uint64_t, std::uint16_t &gt; debug::BreakpointManager::getBreakpointOffset</definition>
-        <argsstring>(const juce::String &amp;sourcePath, std::uint16_t requestedLine) noexcept</argsstring>
-        <name>getBreakpointOffset</name>
-        <qualifiedname>debug::BreakpointManager::getBreakpointOffset</qualifiedname>
-        <param>
-          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
-          <declname>sourcePath</declname>
-        </param>
-        <param>
-          <type>std::uint16_t</type>
-          <declname>requestedLine</declname>
-        </param>
-        <briefdescription>
-<para>Resolves sourcePath:requestedLine to a target offset, without creating an engine breakpoint. </para>
-        </briefdescription>
-        <detaileddescription>
-<para>Tries <ref refid="classdebug_1_1_session_1a67c0ee92be68d968c2a06fe71450ae9c" kindref="member">Session::getOffsetStatus</ref> and <ref refid="classdebug_1_1_session_1a0ce414498b79753ddb4ab796548decce" kindref="member">Session::getOffset</ref> on the requested line, then on each of the next lineSearchWindow lines, until one resolves. The search stops at an engineBusy status. The caller passes the returned offset to <ref refid="classdebug_1_1_session_1a02ef270b151bab75f4e20a5a48d84d41" kindref="member">Session::addBreakpoint</ref>.</para>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>sourcePath</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Backend-native source path for the engine&apos;s breakpoint query. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>requestedLine</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>One-based source line number from the client. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>The offset and the line that resolved. The offset is 0 when nothing resolved. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="149" column="15" bodyfile="debug/BreakpointManager.cpp" bodystart="30" bodyend="98"/>
-        <references refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0eae64262c3b87ee801f8f096c390dfae8d" compoundref="_state_8h" startline="63">debug::engineBusy</references>
-        <references refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea6cfe61694ee1bb13ae719d47c2f80b7a" compoundref="_state_8h" startline="61">debug::found</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a5ddc2c795c2ea490eb4c5d0465f549fe" compoundref="_breakpoint_manager_8cpp" startline="30" endline="98">getBreakpointOffset</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a3638bb735288fd17822939bdbaac0108" compoundref="_breakpoint_manager_8h" startline="221" endline="221">lineSearchWindow</references>
-        <references refid="namespacedebug_1a70f5cdb96a2acee8efad379b7ddd2b0ea5ccf4d5c325b7db68777f400f66fd1b1" compoundref="_state_8h" startline="62">debug::notFound</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" compoundref="_breakpoint_manager_8h" startline="212">session</references>
-        <references refid="classjuce_1_1String_1a949625c3152cfe177035772a5ff08559">juce::String::toHexString</references>
-        <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a5ddc2c795c2ea490eb4c5d0465f549fe" compoundref="_breakpoint_manager_8cpp" startline="30" endline="98">getBreakpointOffset</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a857430dcd1c0812d31898288a8d0f4dc" compoundref="_breakpoint_manager_8cpp" startline="100" endline="127">setBreakpointLocation</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" compoundref="_breakpoint_manager_8cpp" startline="237" endline="248">onModuleLoad</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" compoundref="_breakpoint_manager_8cpp" startline="250" endline="261">onReload</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" compoundref="_breakpoint_manager_8cpp" startline="263" endline="290">onSymbolsLoaded</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_breakpoint_manager_1a857430dcd1c0812d31898288a8d0f4dc" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -482,7 +407,7 @@
 <para>Resolve entryInfo&apos;s pending breakpoint location and update it in place. </para>
         </briefdescription>
         <detaileddescription>
-<para>Calls getBreakpointOffset to resolve entryInfo.sourcePath:entryInfo.line to a target offset, then creates the engine breakpoint via <ref refid="classdebug_1_1_session_1a02ef270b151bab75f4e20a5a48d84d41" kindref="member">Session::addBreakpoint</ref>. On success, writes engineId and resolvedLine into entryInfo. No-op if resolution or breakpoint creation fails — entryInfo is left unchanged. Called by onSymbolsLoaded for each unresolved entry.</para>
+<para>Calls <ref refid="classdebug_1_1_session_1a0afce30b5eb95c22083d1516c3422d52" kindref="member">Session::addBreakpointByLocation</ref> with entryInfo.sourcePath and entryInfo.line. On success, writes engineId and resolvedLine into entryInfo. When the session returns no location, entryInfo is left unchanged. Called by onSymbolsLoaded for each unresolved entry.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>entryInfo</parametername>
@@ -496,13 +421,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="162" column="10" bodyfile="debug/BreakpointManager.cpp" bodystart="100" bodyend="127"/>
-        <references refid="classdebug_1_1_breakpoint_manager_1a5ddc2c795c2ea490eb4c5d0465f549fe" compoundref="_breakpoint_manager_8cpp" startline="30" endline="98">getBreakpointOffset</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" compoundref="_breakpoint_manager_8h" startline="212">session</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a857430dcd1c0812d31898288a8d0f4dc" compoundref="_breakpoint_manager_8cpp" startline="100" endline="127">setBreakpointLocation</references>
+        <location file="debug/BreakpointManager.h" line="144" column="10" bodyfile="debug/BreakpointManager.cpp" bodystart="30" bodyend="47"/>
+        <references refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" compoundref="_breakpoint_manager_8h" startline="194">session</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a857430dcd1c0812d31898288a8d0f4dc" compoundref="_breakpoint_manager_8cpp" startline="30" endline="47">setBreakpointLocation</references>
         <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" compoundref="_breakpoint_manager_8cpp" startline="363" endline="390">onSymbolsLoaded</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a857430dcd1c0812d31898288a8d0f4dc" compoundref="_breakpoint_manager_8cpp" startline="100" endline="127">setBreakpointLocation</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a3cbdc59939bab61c6de38a6c0d7c4bd3" compoundref="_breakpoint_manager_8cpp" startline="140" endline="161">addBreakpoint</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a5c33f0f430c34ef2e30399cbf5e2a9b0" compoundref="_breakpoint_manager_8cpp" startline="263" endline="290">onSymbolsLoaded</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a857430dcd1c0812d31898288a8d0f4dc" compoundref="_breakpoint_manager_8cpp" startline="30" endline="47">setBreakpointLocation</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_breakpoint_manager_1a17b4dc2b534dafca568e5cd8b607284c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; std::uint16_t, std::uint16_t &gt;</type>
@@ -511,7 +436,7 @@
         <name>removeOrphanedBreakpoints</name>
         <qualifiedname>debug::BreakpointManager::removeOrphanedBreakpoints</qualifiedname>
         <param>
-          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>normalizedKey</declname>
         </param>
         <param>
@@ -546,15 +471,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="177" column="24" bodyfile="debug/BreakpointManager.cpp" bodystart="196" bodyend="225"/>
-        <references refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" compoundref="_breakpoint_manager_8h" startline="215">breakpoints</references>
+        <location file="debug/BreakpointManager.h" line="159" column="24" bodyfile="debug/BreakpointManager.cpp" bodystart="109" bodyend="138"/>
+        <references refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" compoundref="_breakpoint_manager_8h" startline="197">breakpoints</references>
         <references refid="classjuce_1_1String_1ae9c98d84e716c102f00330b3f1ccd4be">juce::String::compare</references>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
-        <references refid="namespacedebug_1ad59b60cb019c5f6433812ad6a56ecac8" compoundref="_breakpoint_manager_8cpp" startline="184" endline="187">debug::normalizePath</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a17b4dc2b534dafca568e5cd8b607284c" compoundref="_breakpoint_manager_8cpp" startline="196" endline="225">removeOrphanedBreakpoints</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" compoundref="_breakpoint_manager_8h" startline="212">session</references>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="309" endline="335">onSetBreakpoints</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a17b4dc2b534dafca568e5cd8b607284c" compoundref="_breakpoint_manager_8cpp" startline="196" endline="225">removeOrphanedBreakpoints</referencedby>
+        <references refid="namespacedebug_1ad59b60cb019c5f6433812ad6a56ecac8" compoundref="_breakpoint_manager_8cpp" startline="104" endline="107">debug::normalizePath</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a17b4dc2b534dafca568e5cd8b607284c" compoundref="_breakpoint_manager_8cpp" startline="109" endline="138">removeOrphanedBreakpoints</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" compoundref="_breakpoint_manager_8h" startline="194">session</references>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="209" endline="235">onSetBreakpoints</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a17b4dc2b534dafca568e5cd8b607284c" compoundref="_breakpoint_manager_8cpp" startline="109" endline="138">removeOrphanedBreakpoints</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_breakpoint_manager_1a3cbdc59939bab61c6de38a6c0d7c4bd3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -563,7 +488,7 @@
         <name>addBreakpoint</name>
         <qualifiedname>debug::BreakpointManager::addBreakpoint</qualifiedname>
         <param>
-          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>rawSourcePath</declname>
         </param>
         <param>
@@ -578,7 +503,7 @@
 <para>Create and register a new breakpoint for a single requested line. </para>
         </briefdescription>
         <detaileddescription>
-<para>Resolves via <ref refid="classdebug_1_1_session_1a0afce30b5eb95c22083d1516c3422d52" kindref="member">Session::addBreakpointByLocation</ref> and records the entry in the primary registry under dapId. An entry whose location is not found keeps an empty engineId. On Windows the path is converted to backslash form first.</para>
+<para>Resolves via <ref refid="classdebug_1_1_session_1a0afce30b5eb95c22083d1516c3422d52" kindref="member">Session::addBreakpointByLocation</ref> and records the entry in the primary registry under dapId. An entry whose location is not found keeps an empty engineId.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>rawSourcePath</parametername>
@@ -608,13 +533,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="191" column="10" bodyfile="debug/BreakpointManager.cpp" bodystart="227" bodyend="261"/>
-        <references refid="classdebug_1_1_breakpoint_manager_1a3cbdc59939bab61c6de38a6c0d7c4bd3" compoundref="_breakpoint_manager_8cpp" startline="227" endline="261">addBreakpoint</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" compoundref="_breakpoint_manager_8h" startline="215">breakpoints</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" compoundref="_breakpoint_manager_8h" startline="212">session</references>
+        <location file="debug/BreakpointManager.h" line="173" column="10" bodyfile="debug/BreakpointManager.cpp" bodystart="140" bodyend="161"/>
+        <references refid="classdebug_1_1_breakpoint_manager_1a3cbdc59939bab61c6de38a6c0d7c4bd3" compoundref="_breakpoint_manager_8cpp" startline="140" endline="161">addBreakpoint</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" compoundref="_breakpoint_manager_8h" startline="197">breakpoints</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a857430dcd1c0812d31898288a8d0f4dc" compoundref="_breakpoint_manager_8cpp" startline="30" endline="47">setBreakpointLocation</references>
         <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a3cbdc59939bab61c6de38a6c0d7c4bd3" compoundref="_breakpoint_manager_8cpp" startline="227" endline="261">addBreakpoint</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="309" endline="335">onSetBreakpoints</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a3cbdc59939bab61c6de38a6c0d7c4bd3" compoundref="_breakpoint_manager_8cpp" startline="140" endline="161">addBreakpoint</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="209" endline="235">onSetBreakpoints</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_breakpoint_manager_1abfcd3f818ede254902698eda6c8dda0f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::uint16_t &gt;</type>
@@ -623,11 +548,11 @@
         <name>getRequestedLines</name>
         <qualifiedname>debug::BreakpointManager::getRequestedLines</qualifiedname>
         <param>
-          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
+          <type>const <ref refid="structjam_1_1JsonDocument" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::JsonDocument</ref> &amp;</type>
           <declname>document</declname>
         </param>
         <param>
-          <type>const <ref refid="structjam_1_1Document_1_1Element" kindref="compound" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml">jam::Document::Element</ref> *</type>
+          <type>const <ref refid="structjam_1_1Document_1_1Element" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::Document::Element</ref> *</type>
           <declname>requestedBreakpoints</declname>
         </param>
         <briefdescription>
@@ -636,15 +561,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="195" column="17" bodyfile="debug/BreakpointManager.cpp" bodystart="293" bodyend="307"/>
+        <location file="debug/BreakpointManager.h" line="177" column="17" bodyfile="debug/BreakpointManager.cpp" bodystart="193" bodyend="207"/>
         <references refid="structjam_1_1JsonDocument_1a45103ee564c7f108c853a96bdd09a0ab">jam::JsonDocument::find</references>
         <references refid="structjam_1_1Format_1ac6d60225b9512e5eefcf599b068f2a6f">jam::Format::getNumber</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1abfcd3f818ede254902698eda6c8dda0f" compoundref="_breakpoint_manager_8cpp" startline="293" endline="307">getRequestedLines</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1abfcd3f818ede254902698eda6c8dda0f" compoundref="_breakpoint_manager_8cpp" startline="193" endline="207">getRequestedLines</references>
         <references refid="structjam_1_1Document_1a87bb9275594c8b0da70139d14782597d">jam::Document::getView</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
         <references refid="namespaceId_1a9acf3e231e632c1b02ad3a0d4c0fc008">Id::line</references>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1abfcd3f818ede254902698eda6c8dda0f" compoundref="_breakpoint_manager_8cpp" startline="293" endline="307">getRequestedLines</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="309" endline="335">onSetBreakpoints</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1abfcd3f818ede254902698eda6c8dda0f" compoundref="_breakpoint_manager_8cpp" startline="193" endline="207">getRequestedLines</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="209" endline="235">onSetBreakpoints</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_breakpoint_manager_1a5f2aae3ed3cf48d9827df97ea3fc1661" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -661,7 +586,7 @@
           <declname>info</declname>
         </param>
         <param>
-          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
+          <type>const <ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref> &amp;</type>
           <declname>rawSourcePath</declname>
         </param>
         <briefdescription>
@@ -698,9 +623,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/BreakpointManager.h" line="207" column="10" bodyfile="debug/BreakpointManager.cpp" bodystart="263" bodyend="291"/>
+        <location file="debug/BreakpointManager.h" line="189" column="10" bodyfile="debug/BreakpointManager.cpp" bodystart="163" bodyend="191"/>
         <references refid="structjam_1_1JsonWriter_1a6a110b64d6eacd0c9ef356b561c6ccf6">jam::JsonWriter::appendBoolean</references>
-        <references refid="classdebug_1_1_breakpoint_manager_1a5f2aae3ed3cf48d9827df97ea3fc1661" compoundref="_breakpoint_manager_8cpp" startline="263" endline="291">appendBreakpoint</references>
+        <references refid="classdebug_1_1_breakpoint_manager_1a5f2aae3ed3cf48d9827df97ea3fc1661" compoundref="_breakpoint_manager_8cpp" startline="163" endline="191">appendBreakpoint</references>
         <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
         <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
         <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
@@ -711,10 +636,10 @@
         <references refid="namespaceId_1a9acf3e231e632c1b02ad3a0d4c0fc008">Id::line</references>
         <references refid="namespaceId_1a0e0b9ef1fb687c4c7c73d2bd7213ac01">Id::message</references>
         <references refid="namespaceId_1ac0d6bb21fb6eb483624e52f9002294ab">Id::path</references>
-        <references refid="namespaceId_1a0373df11a0741f497b13b791d42c06e9" compoundref="_identifiers_8h" startline="93">Id::source</references>
-        <references refid="namespaceId_1a7fa0c881c6a81271d5354c60266306eb" compoundref="_generated_8cpp" startline="146" endline="146">Id::verified</references>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a5f2aae3ed3cf48d9827df97ea3fc1661" compoundref="_breakpoint_manager_8cpp" startline="263" endline="291">appendBreakpoint</referencedby>
-        <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="309" endline="335">onSetBreakpoints</referencedby>
+        <references refid="namespaceId_1a0373df11a0741f497b13b791d42c06e9" compoundref="_identifiers_8h" startline="112">Id::source</references>
+        <references refid="namespaceId_1a7fa0c881c6a81271d5354c60266306eb" compoundref="_generated_8cpp" startline="166" endline="166">Id::verified</references>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a5f2aae3ed3cf48d9827df97ea3fc1661" compoundref="_breakpoint_manager_8cpp" startline="163" endline="191">appendBreakpoint</referencedby>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="209" endline="235">onSetBreakpoints</referencedby>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -731,10 +656,10 @@
 <para>The manager holds a reference to <ref refid="classdebug_1_1_session" kindref="compound">Session</ref> (does not own it). <ref refid="classdebug_1_1_session" kindref="compound">Session</ref> must outlive <ref refid="classdebug_1_1_breakpoint_manager" kindref="compound">BreakpointManager</ref>. </para>
     </detaileddescription>
     <collaborationgraph>
-      <node id="6">
+      <node id="9">
         <label>debug::BreakpointInfo</label>
         <link refid="structdebug_1_1_breakpoint_info"/>
-        <childnode refid="7" relation="usage">
+        <childnode refid="10" relation="usage">
           <edgelabel>sourcePath</edgelabel>
         </childnode>
       </node>
@@ -744,7 +669,7 @@
         <childnode refid="2" relation="usage">
           <edgelabel>session</edgelabel>
         </childnode>
-        <childnode refid="5" relation="usage">
+        <childnode refid="8" relation="usage">
           <edgelabel>breakpoints</edgelabel>
         </childnode>
       </node>
@@ -754,39 +679,57 @@
         <childnode refid="3" relation="usage">
           <edgelabel>events</edgelabel>
         </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>launcherOutput</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>commFile</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jam::AsyncOutputStream</label>
+        <link refid="classjam_1_1AsyncOutputStream" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>native</edgelabel>
+        </childnode>
       </node>
       <node id="3">
-        <label>jam::Function::Map&lt; juce::Identifier, jam::Function::pointerCapacity, void(), void(int), void(int, int), void(juce::int64, juce::int64, int), void(const juce::String &amp;)&gt;</label>
-        <link refid="structjam_1_1Function_1_1Map" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <label>jam::Function::Map&lt; juce::Identifier, jam::Function::pointerCapacity, void(), void(int), void(int, int), void(juce::int64, juce::int64, int), void(const juce::String &amp;), void(std::string_view)&gt;</label>
+        <link refid="structjam_1_1Function_1_1Map" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
         <childnode refid="4" relation="public-inheritance">
         </childnode>
       </node>
       <node id="4">
         <label>jam::HashMap&lt; KeyType, std::variant&lt; Overload&lt; KeyType, capacity, Signatures &gt;::Slot... &gt; &gt;</label>
-        <link refid="classjam_1_1HashMap" external="/Users/jreng/Documents/Poems/dev/jam/docs/tagfile.xml"/>
+        <link refid="classjam_1_1HashMap" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
       </node>
       <node id="7">
-        <label>juce::String</label>
-        <link refid="classjuce_1_1String" external="/Users/jreng/Documents/Poems/JUCE/docs/tagfile.xml"/>
+        <label>juce::File</label>
+        <link refid="classjuce_1_1File" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
-      <node id="5">
+      <node id="10">
+        <label>juce::String</label>
+        <link refid="classjuce_1_1String" external="D:/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="6">
+        <label>std::unique_ptr&lt; Native &gt;</label>
+      </node>
+      <node id="8">
         <label>std::unordered_map&lt; std::uint16_t, debug::BreakpointInfo &gt;</label>
-        <childnode refid="6" relation="usage">
+        <childnode refid="9" relation="usage">
           <edgelabel>elements</edgelabel>
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="debug/BreakpointManager.h" line="55" column="1" bodyfile="debug/BreakpointManager.h" bodystart="56" bodyend="224"/>
+    <location file="debug/BreakpointManager.h" line="52" column="1" bodyfile="debug/BreakpointManager.h" bodystart="53" bodyend="203"/>
     <listofallmembers>
       <member refid="classdebug_1_1_breakpoint_manager_1a3cbdc59939bab61c6de38a6c0d7c4bd3" prot="private" virt="non-virtual"><scope>debug::BreakpointManager</scope><name>addBreakpoint</name></member>
       <member refid="classdebug_1_1_breakpoint_manager_1a5f2aae3ed3cf48d9827df97ea3fc1661" prot="private" virt="non-virtual"><scope>debug::BreakpointManager</scope><name>appendBreakpoint</name></member>
       <member refid="classdebug_1_1_breakpoint_manager_1abdcf6c332786965d57904ca771da4b1b" prot="public" virt="non-virtual"><scope>debug::BreakpointManager</scope><name>appendBreakpointStoppedEvent</name></member>
       <member refid="classdebug_1_1_breakpoint_manager_1af44310e6631d8debd0dcd5160d87ea76" prot="public" virt="non-virtual"><scope>debug::BreakpointManager</scope><name>BreakpointManager</name></member>
       <member refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" prot="private" virt="non-virtual"><scope>debug::BreakpointManager</scope><name>breakpoints</name></member>
-      <member refid="classdebug_1_1_breakpoint_manager_1a5ddc2c795c2ea490eb4c5d0465f549fe" prot="private" virt="non-virtual"><scope>debug::BreakpointManager</scope><name>getBreakpointOffset</name></member>
       <member refid="classdebug_1_1_breakpoint_manager_1abfcd3f818ede254902698eda6c8dda0f" prot="private" virt="non-virtual"><scope>debug::BreakpointManager</scope><name>getRequestedLines</name></member>
       <member refid="classdebug_1_1_breakpoint_manager_1aa0f454ef4ed091ed8772c35b395deefa" prot="private" virt="non-virtual"><scope>debug::BreakpointManager</scope><name>hasUnresolvedBreakpoints</name></member>
-      <member refid="classdebug_1_1_breakpoint_manager_1a3638bb735288fd17822939bdbaac0108" prot="private" virt="non-virtual"><scope>debug::BreakpointManager</scope><name>lineSearchWindow</name></member>
       <member refid="classdebug_1_1_breakpoint_manager_1a898cff5d67b7f533cf38e8ccbf31a136" prot="private" virt="non-virtual"><scope>debug::BreakpointManager</scope><name>nextDapId</name></member>
       <member refid="classdebug_1_1_breakpoint_manager_1a9525971c019e19a407a92e985ad46325" prot="public" virt="non-virtual"><scope>debug::BreakpointManager</scope><name>onBreakpointLocationFound</name></member>
       <member refid="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" prot="public" virt="non-virtual"><scope>debug::BreakpointManager</scope><name>onModuleLoad</name></member>
