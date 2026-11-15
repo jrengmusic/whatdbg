@@ -47,10 +47,6 @@ InstallDir "$PROFILE\.local\bin"
 !finalize '"${SIGNTOOL}" sign /sha1 ${THUMBPRINT} /fd SHA256 "%1"' = 0
 !uninstfinalize '"${SIGNTOOL}" sign /sha1 ${THUMBPRINT} /fd SHA256 "%1"' = 0
 
-!define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP "${RESOURCES}\header.bmp"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "${RESOURCES}\welcome.bmp"
-
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "${LICENSE}"
 !insertmacro MUI_PAGE_INSTFILES
