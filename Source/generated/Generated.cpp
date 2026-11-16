@@ -83,7 +83,6 @@ namespace Id
     const juce::Identifier moduleLoad                         { juce::String::fromUTF8 ("moduleLoad") };
     const juce::Identifier next                               { juce::String::fromUTF8 ("next") };
     const juce::Identifier nextSequenceNumber                 { juce::String::fromUTF8 ("nextSequenceNumber") };
-    const juce::Identifier numMessages                        { juce::String::fromUTF8 ("numMessages") };
     const juce::Identifier output                             { juce::String::fromUTF8 ("output") };
     const juce::Identifier pause                              { juce::String::fromUTF8 ("pause") };
     const juce::Identifier pid                                { juce::String::fromUTF8 ("pid") };

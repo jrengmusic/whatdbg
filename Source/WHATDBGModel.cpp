@@ -25,7 +25,6 @@ WHATDBGModel::WHATDBGModel ()
     createAndAddParameter<jam::Parameter<int>> (sessionRow, Id::launchSequenceNumber, 0);
     createAndAddParameter<jam::Parameter<int>> (sessionRow, Id::breakpointEngineId, 0);
     createAndAddParameter<jam::Parameter<int>> (sessionRow, Id::nextSequenceNumber, 1);
-    createAndAddParameter<jam::Parameter<int>> (sessionRow, Id::numMessages, 0);
     createAndAddParameter<jam::Parameter<int>> (sessionRow, Id::adapterExitCode, 0);
     createAndAddParameter<jam::Parameter<int64_t>> (exceptionRow, Id::exceptionCode, int64_t { 0 });
     createAndAddParameter<jam::Parameter<int64_t>> (exceptionRow, Id::exceptionAddress, int64_t { 0 });

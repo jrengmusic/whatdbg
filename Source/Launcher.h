@@ -56,7 +56,9 @@ private:
 
     /** Reads one line from the channel and returns it without the newline.
      *
-     *  Reads one byte at a time until a newline, the end of the channel, or a read error.
+     *  Reads one byte at a time. On macOS, when fgetc fails with EINTR, the function clears the error and reads again.
+     *  On macOS, reading stops at a newline, at the end of the channel, or at another read error.
+     *  On Windows, reading stops at a newline or at a failed read.
      *
      *  @return The line text. Empty when the channel ends before any byte arrives.
      */

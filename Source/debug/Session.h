@@ -59,19 +59,26 @@ using BreakpointLocation = jam::Union<std::int32_t,     // engineId
  *  - Owns the SBDebugger, SBListener, SBTarget, and SBProcess instances for
  *    the lifetime of the session.
  *
- *  @note The engine context runs every method, except wake and cancel. The reader thread
- *        calls wake and cancel through Processor::addRequest. On Windows, the output stream
- *        callbacks of launchCaptured also call wake. On Windows, initialize() initializes COM
+ *  @note The engine context runs every method, except wake. Processor calls cancel on the
+ *        engine context, from applyPendingRequests. The readiness callbacks call wake.
+ *        Processor calls it from its stdin callback. On macOS, the standard error stream calls
+ *        it. On Windows, the output streams call it. On Windows, initialize() initializes COM
  *        in multithreaded mode.
  */
 class Session
 {
 public:
     /** Creates a session with no engine objects. initialize creates them. */
-    Session () = default;
+    Session ();
 
     /** Calls shutdown with EndMode::passive. */
     ~Session ();
+
+    /** Longest period, in milliseconds, of the readiness clock of each jam::AsyncOutputStream.
+     *
+     *  Session passes it to each stream that it opens. Processor passes it to StdioServer::open.
+     */
+    static constexpr double maximumPeriodMilliseconds { 1.0 };
 
     /** Prepare the debug engine for use. Must succeed before any other Session method.
      *
@@ -82,9 +89,10 @@ public:
      *  symbol loading, sets source-level code level for stepping, appends the srv* symbol
      *  path, and enables the initial-break engine option. On failure it calls shutdown(EndMode::passive).
      *
-     *  macOS: SBDebugger::Initialize/Create (async mode), redirects the debugger's own
-     *  stdin to /dev/null so liblldb does not compete with the DAP reader thread for
-     *  whatdbg's stdin, and captures the SBListener.
+     *  macOS: SBDebugger::Initialize and Create, then SetAsync(true). It sets
+     *  target.process.stop-on-exec to false. It redirects the debugger input to /dev/null,
+     *  so liblldb does not read the DAP frames on stdin. It captures the SBListener and adds
+     *  the wake broadcaster to it.
      *
      *  @param sidecarDir  Directory containing extracted dbgeng sidecar DLLs. Unused on macOS.
      *  @return true if the engine is ready for launch/attach.
@@ -100,10 +108,12 @@ public:
      *  It does not call WaitForEvent. The caller polls with pollEvents() to receive the
      *  engine events.
      *
-     *  macOS creates the target, starts listening for its events, then calls
-     *  SBTarget::Launch with eLaunchFlagDebug | eLaunchFlagStopAtEntry. On success the
-     *  target and process members are populated, and the session fires the targetProcessId
-     *  event. The caller still polls via pollEvents() for the resulting stop event.
+     *  macOS creates the target and starts listening for its events. It creates a FIFO at a
+     *  nonexistent child of the temporary folder, named whatdbg-stderr. It opens the FIFO and
+     *  starts standardError on it. It redirects the target standard error to the FIFO with an
+     *  open-file action. Then it calls SBTarget::Launch with eLaunchFlagDebug | eLaunchFlagStopAtEntry.
+     *  On success the target and process members are populated, and the session fires the
+     *  targetProcessId event. The caller still polls via pollEvents() for the resulting stop event.
      *
      *  @param program  Full path to the executable to launch. Windows resolves it to a native
      *                  path and quotes it when it contains a space.
@@ -179,27 +189,35 @@ public:
      *               - EndMode::detach    — target is alive; leave it running after detach
      *               - EndMode::passive   — target has already exited; release state only
      *
-     *  Windows closes standardOutput, standardError, and launcherOutput, calls
-     *  IDebugClient5::EndSession with the dbgeng flag corresponding to mode, unregisters
-     *  OutputCallbacks and EventCallbacks, releases all COM interface pointers, and resets
-     *  comInitialiser, which uninitializes COM. macOS closes launcherOutput, deletes the
-     *  channel files, signals or detaches the process per mode, then destroys and terminates
-     *  the SBDebugger.
+     *  Windows closes standardOutput, standardError, and launcherOutput, and resets the pipe handles.
+     *  It calls IDebugClient5::EndSession with the dbgeng flag that corresponds to mode.
+     *  It unregisters OutputCallbacks and EventCallbacks, and releases all COM interface pointers.
+     *  It resets the symbol group cache, then resets comInitialiser, which uninitializes COM.
+     *  macOS closes launcherOutput and standardError, and closes their file descriptors.
+     *  It deletes the channel files and the standard error FIFO.
+     *  When the debugger is valid, detach detaches the process.
+     *  For terminate, it sends SIGKILL and resumes the process.
+     *  For passive, it does nothing to the process.
+     *  Then it destroys and terminates the SBDebugger.
      *
      *  @note Callers must pass an explicit mode. The destructor passes EndMode::passive.
      *        Processor::getEndModeForExit returns EndMode::passive when the target has exited.
      */
     void shutdown (EndMode mode) noexcept;
 
-    /** Wakes a blocked pollEvents. Called on the reader thread, from Processor::addRequest,
-     *  and on Windows from the output stream callbacks of launchCaptured.
+    /** Wakes a blocked pollEvents.
+     *
+     *  Processor calls it from its stdin callback. The output streams call it when they report readiness.
+     *  On macOS, cancel calls it too.
      *
      *  Windows sets isWakePending. When isWaiting is set, it calls IDebugControl4::SetInterrupt
      *  with DEBUG_INTERRUPT_EXIT. macOS broadcasts the wake event on the listener.
      */
     void wake () noexcept;
 
-    /** Requests interruption of the engine wait. Called on the reader thread, for disconnect and terminate requests.
+    /** Requests interruption of the engine wait.
+     *
+     *  Processor calls it on the engine context, from applyPendingRequests, for disconnect and terminate requests.
      *
      *  Windows calls IDebugControl4::SetInterrupt with DEBUG_INTERRUPT_EXIT. macOS calls wake.
      */
@@ -214,8 +232,9 @@ public:
     /** Sends the output of the target to the client as output events.
      *
      *  Windows reads the standard output stream and the standard error stream until each one
-     *  returns no bytes. macOS reads the standard output and the standard error of the process
-     *  until each one returns no bytes. pollEvents calls it before and after each wait.
+     *  returns no bytes. macOS reads the process standard output and the standard error FIFO
+     *  until each one returns no bytes. On Windows, pollEvents calls it before and after each wait.
+     *  On macOS, pollEvents calls it after the wait. The exited event handler of Processor also calls it.
      */
     void drainOutput () noexcept;
 
@@ -541,16 +560,43 @@ private:
     /** Attaches to the target that the Launcher reported, then sends the reply.
      *
      *  Windows calls attachSuspended. On success it calls sendDidAttach and fires the didAttach event.
-     *  macOS sets the debugger to synchronous mode, attaches, calls sendDidAttach, and resumes the
-     *  process. It fires didAttach, then sets the debugger back to asynchronous mode. On failure,
+     *  macOS sets the debugger to synchronous mode, attaches, and calls sendDidAttach. It fires
+     *  didAttach, then sets the debugger back to asynchronous mode. It does not resume the process. On failure,
      *  both platforms fire the error event with the text "Failed to attach to the target process".
      *
      *  @param processId  OS process ID of the target that the Launcher reported.
      */
     void attachLaunchTarget (std::uint32_t processId) noexcept;
 
-    /** Reads the launch channel. createCommFile opens it, and drainLauncherOutput reads and closes it. */
+    /** Reports when the launch channel has bytes to read. It reads no bytes.
+     *
+     *  createCommFile opens it, and its callback fires runInTerminal. drainLauncherOutput closes it after the first message.
+     */
     jam::AsyncOutputStream launcherOutput;
+
+    /** Holds the bytes that drainLauncherOutput reads from the launch channel.
+     *
+     *  The bytes stay in the ring until a newline arrives.
+     */
+    jam::TerminalFIFO launcherBytes;
+
+    /** Reports when the standard error of the target has bytes to read. It reads no bytes.
+     *
+     *  launch on macOS and launchCaptured on Windows set its onBytesReady callback to call wake.
+     *  drainOutput reads the bytes through standardErrorBytes.
+     */
+    jam::AsyncOutputStream standardError;
+
+    /** Holds the bytes of the standard error of the target. drainOutput forwards them as standardError events. */
+    jam::TerminalFIFO standardErrorBytes;
+
+#if JUCE_MAC
+    /** File descriptor of the launch channel. createCommFile opens it. drainLauncherOutput and shutdown close it. */
+    std::optional<int> launcherHandle;
+
+    /** File descriptor of the standard error FIFO. launch opens it. drainOutput reads it. shutdown closes it. */
+    std::optional<int> standardErrorHandle;
+#endif
 
 #if JUCE_WINDOWS
     /** Return the symbol group for the given frame, creating or updating it as needed.
@@ -666,11 +712,20 @@ private:
     /** Set by wake. pollEvents clears it, and skips WaitForEvent when it was set. */
     std::atomic<bool> isWakePending { false };
 
-    /** Reads the standard output pipe of the target. drainOutput forwards its bytes as output events. */
+    /** Reports when the standard output of the target has bytes to read. It reads no bytes.
+     *
+     *  launchCaptured sets its onBytesReady callback to call wake. drainOutput reads the bytes through standardOutputBytes.
+     */
     jam::AsyncOutputStream standardOutput;
 
-    /** Reads the standard error pipe of the target. drainOutput forwards its bytes as output events. */
-    jam::AsyncOutputStream standardError;
+    /** Holds the bytes of the standard output of the target. drainOutput forwards them as standardOutput events. */
+    jam::TerminalFIFO standardOutputBytes;
+
+    std::unique_ptr<void, decltype (&CloseHandle)> standardOutputPipe { nullptr, &CloseHandle };
+
+    std::unique_ptr<void, decltype (&CloseHandle)> standardErrorPipe { nullptr, &CloseHandle };
+
+    std::unique_ptr<void, decltype (&CloseHandle)> launcherPipe { nullptr, &CloseHandle };
 
     /** Write end of the launch channel, a duplicate of the pipe that createCommFile creates.
      *  sendDidAttach writes to it. drainLauncherOutput resets it.
@@ -741,6 +796,7 @@ private:
     /** Listens for process, target, and breakpoint events; polled by pollEvents. */
     lldb::SBListener listener;
 
+    /** Carries the wake event. initialize adds it to the listener. wake broadcasts it, which wakes a blocked pollEvents. */
     lldb::SBBroadcaster broadcaster { "whatdbg" };
 
     /** The debug target created by launch or attach. */
@@ -757,7 +813,14 @@ private:
     /** Frame index cachedFrameVariables was built for, or -1 when no cache is valid. */
     int cachedFrameIndex { -1 };
 
+    /** FIFO of the launch channel, created in the temporary folder by createCommFile.
+     *
+     *  sendDidAttach writes to the FIFO with the didAttach extension. shutdown and drainLauncherOutput delete both FIFOs.
+     */
     juce::File commFile;
+
+    /** FIFO that carries the standard error of the target. launch creates it, and shutdown deletes it. */
+    juce::File standardErrorFile;
 #endif
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Session)

@@ -86,8 +86,15 @@ std::string Launcher::getLine ()
 #endif
 
 #if JUCE_MAC
-    for (int character { fgetc (readFifo.get ()) }; character != EOF and character != '\n'; character = fgetc (readFifo.get ()))
-        line.push_back (static_cast<char> (character));
+    for (int character { fgetc (readFifo.get ()) };
+         character != '\n' and (character != EOF or (ferror (readFifo.get ()) != 0 and errno == EINTR));
+         character = fgetc (readFifo.get ()))
+    {
+        if (character == EOF)
+            clearerr (readFifo.get ());
+        else
+            line.push_back (static_cast<char> (character));
+    }
 #endif
 
     return line;

@@ -8,7 +8,8 @@
  *  interrupt, breakpoint resolution, thread queries, stack trace, locals, child
  *  variables, and expression evaluation, with file-local helpers for symbol formatting.
  *
- *  Threading model: the engine context runs every call except wake and cancel. dbgeng
+ *  Threading model: the engine context runs every call except wake. The stdin callback of
+ *  Processor and the output streams call wake. dbgeng
  *  invokes the callbacks in Callbacks.cpp during WaitForEvent, on the engine context.
  *  The callbacks fire events on Session::events.
  *
@@ -26,6 +27,15 @@
 
 namespace debug
 {
+
+static constexpr int outputPipeSize { 4096 };
+
+Session::Session ()
+{
+    launcherBytes.prepare (outputPipeSize);
+    standardOutputBytes.prepare (outputPipeSize);
+    standardErrorBytes.prepare (outputPipeSize);
+}
 
 Session::~Session ()
 {
@@ -89,16 +99,19 @@ void Session::setDebugInterfaces () noexcept
 
 void Session::drainOutput () noexcept
 {
-    const std::array<std::pair<jam::AsyncOutputStream*, juce::Identifier>, 2> outputs { {
-        { &standardOutput, Id::standardOutput },
-        { &standardError, Id::standardError }
-    } };
+    while (standardOutputBytes.writeFromTerminalTTY (standardOutputPipe.get ()) > 0)
+        standardOutputBytes.applyPendingData ([this] (const char* data, int size)
+        {
+            events.get (Id::standardOutput, std::string_view { data, static_cast<size_t> (size) });
+            return size;
+        });
 
-    for (const auto& [outputStream, eventId] : outputs)
-    {
-        for (auto view { outputStream->read () }; view.has_value () and not view->empty (); view = outputStream->read ())
-            events.get (eventId, *view);
-    }
+    while (standardErrorBytes.writeFromTerminalTTY (standardErrorPipe.get ()) > 0)
+        standardErrorBytes.applyPendingData ([this] (const char* data, int size)
+        {
+            events.get (Id::standardError, std::string_view { data, static_cast<size_t> (size) });
+            return size;
+        });
 }
 
 bool Session::initialize (const juce::File& sidecarDir) noexcept
@@ -181,8 +194,6 @@ static std::pair<std::vector<DEBUG_STACK_FRAME>, std::vector<CONTEXT>> getContex
 
     return { std::move (stackFrames), std::move (frameContexts) };
 }
-
-static constexpr int outputPipeSize { 4096 };
 
 static juce::String getOutputPipeName (const jam::AsyncOutputStream& stream)
 {
@@ -277,20 +288,20 @@ HRESULT Session::launchCaptured (const juce::String& commandLine) noexcept
 
     const juce::String outputPipeName { getOutputPipeName (standardOutput) };
     const juce::String errorPipeName { getOutputPipeName (standardError) };
-    const std::array<std::pair<jam::AsyncOutputStream*, const juce::String*>, 2> streams { {
-        { &standardOutput, &outputPipeName },
-        { &standardError, &errorPipeName }
-    } };
 
-    for (const auto& [outputStream, pipeName] : streams)
-    {
-        outputStream->onBytesReady = [this] (int) { wake (); };
-        const HANDLE pipe { createPipe (*pipeName, PIPE_ACCESS_INBOUND | FILE_FLAG_OVERLAPPED | FILE_FLAG_FIRST_PIPE_INSTANCE) };
-        jassert (pipe != INVALID_HANDLE_VALUE);
-        const bool isOpen { outputStream->open (pipe, nullptr, outputPipeSize) };
-        jassert (isOpen);
-        juce::ignoreUnused (isOpen);
-    }
+    standardOutput.onBytesReady = [this] (int) { wake (); };
+    standardOutputPipe.reset (createPipe (outputPipeName, PIPE_ACCESS_INBOUND | FILE_FLAG_OVERLAPPED | FILE_FLAG_FIRST_PIPE_INSTANCE));
+    jassert (standardOutputPipe.get () != INVALID_HANDLE_VALUE);
+    const bool isOutputOpen { standardOutput.open (standardOutputPipe.get (), nullptr, outputPipeSize, maximumPeriodMilliseconds) };
+    jassert (isOutputOpen);
+    juce::ignoreUnused (isOutputOpen);
+
+    standardError.onBytesReady = [this] (int) { wake (); };
+    standardErrorPipe.reset (createPipe (errorPipeName, PIPE_ACCESS_INBOUND | FILE_FLAG_OVERLAPPED | FILE_FLAG_FIRST_PIPE_INSTANCE));
+    jassert (standardErrorPipe.get () != INVALID_HANDLE_VALUE);
+    const bool isErrorOpen { standardError.open (standardErrorPipe.get (), nullptr, outputPipeSize, maximumPeriodMilliseconds) };
+    jassert (isErrorOpen);
+    juce::ignoreUnused (isErrorOpen);
 
     const auto process (createSuspendedProcess (commandLine, outputPipeName, errorPipeName));
     HRESULT result { E_FAIL };
@@ -341,9 +352,10 @@ juce::String Session::createCommFile () noexcept
     jassert (isDuplicated);
     juce::ignoreUnused (isDuplicated);
     launcherInput.reset (duplicate);
+    launcherPipe.reset (pipe);
     launcherOutput.onBytesReady = [this] (int) { events.get (Id::runInTerminal); };
 
-    const bool isOpen { launcherOutput.open (pipe, nullptr, outputPipeSize) };
+    const bool isOpen { launcherOutput.open (launcherPipe.get (), nullptr, outputPipeSize, maximumPeriodMilliseconds) };
     jassert (isOpen);
     juce::ignoreUnused (isOpen);
 
@@ -387,25 +399,37 @@ void Session::attachLaunchTarget (std::uint32_t processId) noexcept
 
 void Session::drainLauncherOutput () noexcept
 {
-    for (auto view { launcherOutput.read () }; view.has_value () and not view->empty (); view = launcherOutput.read ())
+    if (launcherPipe != nullptr)
     {
-        const auto document { jam::JsonDocument::parse (view->substr (0, view->find ('\n'))) };
-        jassert (document != nullptr);
+        launcherBytes.writeFromTerminalTTY (launcherPipe.get ());
 
-        const auto& message { *document->getRoot ()->firstChild };
-        const juce::Identifier type { jam::Strings::fromView (document->getString (*document->find (message, jam::Strings::getView (Id::kind.toString ())))) };
-
-        if (type == Id::pid)
+        launcherBytes.applyPendingData ([this] (const char* data, int size)
         {
-            attachLaunchTarget (jam::Format::getNumber<std::uint32_t> (document->getView (*document->find (message, jam::Strings::getView (Id::pid.toString ())))));
-        }
-        else if (type == Id::error)
-        {
-            events.get (Id::error, jam::Strings::fromView (document->getString (*document->find (message, jam::Strings::getView (Id::error.toString ())))));
-        }
+            const std::string_view view { data, static_cast<size_t> (size) };
 
-        launcherOutput.close ();
-        launcherInput.reset ();
+            if (view.find ('\n') == std::string_view::npos) return 0;
+
+            const auto document { jam::JsonDocument::read (view.substr (0, view.find ('\n'))) };
+            jassert (document != nullptr);
+
+            const auto& message { *document->getRoot ()->firstChild };
+            const juce::Identifier type { jam::Strings::fromView (document->getString (*document->find (message, jam::Strings::getView (Id::kind.toString ())))) };
+
+            if (type == Id::pid)
+            {
+                attachLaunchTarget (jam::Format::getNumber<std::uint32_t> (document->getView (*document->find (message, jam::Strings::getView (Id::pid.toString ())))));
+            }
+            else if (type == Id::error)
+            {
+                events.get (Id::error, jam::Strings::fromView (document->getString (*document->find (message, jam::Strings::getView (Id::error.toString ())))));
+            }
+
+            launcherOutput.close ();
+            launcherInput.reset ();
+            launcherPipe.reset ();
+
+            return size;
+        });
     }
 }
 
@@ -561,6 +585,9 @@ void Session::shutdown (EndMode mode) noexcept
     standardOutput.close ();
     standardError.close ();
     launcherOutput.close ();
+    standardOutputPipe.reset ();
+    standardErrorPipe.reset ();
+    launcherPipe.reset ();
 
     if (client != nullptr)
     {

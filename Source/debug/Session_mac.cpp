@@ -9,9 +9,9 @@
  *  lookup, thread and frame queries, variable inspection, expression evaluation, and
  *  getExceptionName.
  *
- *  Threading model: the engine context makes every SB API call, except wake and cancel,
- *  which the reader thread calls. pollEvents drives the event handlers, which fire
- *  events on Session::events.
+ *  Threading model: the engine context makes every SB API call, except wake. The stdin
+ *  callback of Processor and the standard error stream call wake. pollEvents drives the
+ *  event handlers, which fire events on Session::events.
  *
  *  Lifecycle: initialize → (launch | attach) → pollEvents loop → shutdown.
  */
@@ -68,23 +68,18 @@ static constexpr std::uint32_t allEventsMask { ~0u };
 static constexpr std::uint32_t wakeEventMask { 1u << 0 };
 static constexpr int commFileBufferSize { 4096 };
 
-static void drainProcessStdio (debug::Events& events,
-                               lldb::SBProcess& process,
-                               bool isStderr) noexcept
+static void drainProcessStdio (debug::Events& events, lldb::SBProcess& process) noexcept
 {
     char buffer [stdioReadBufferSize];
     std::size_t bytesRead { 0 };
 
     do
     {
-        bytesRead = isStderr
-            ? process.GetSTDERR (buffer, sizeof (buffer))
-            : process.GetSTDOUT (buffer, sizeof (buffer));
+        bytesRead = process.GetSTDOUT (buffer, sizeof (buffer));
 
         if (bytesRead > 0)
         {
-            events.get (isStderr ? Id::standardError : Id::standardOutput,
-                        std::string_view { buffer, bytesRead });
+            events.get (Id::standardOutput, std::string_view { buffer, bytesRead });
         }
     }
     while (bytesRead > 0);
@@ -166,9 +161,6 @@ static void onProcessEvent (WHATDBGModel* model,
                             lldb::SBProcess& process,
                             lldb::SBEvent& event) noexcept
 {
-    static constexpr bool isStandardOutput { false };
-    static constexpr bool isStandardError  { true };
-
     static const auto processStates ([] {
         jam::Function::Map<lldb::StateType, jam::Function::pointerCapacity, void (WHATDBGModel*, debug::Events&, lldb::SBProcess&, lldb::SBEvent&)> processStates;
 
@@ -180,18 +172,6 @@ static void onProcessEvent (WHATDBGModel* model,
         processStates.add (lldb::eStateStepping,  onProcessStateRunning);
         return processStates;
     } ());
-
-    const std::uint32_t mask { event.GetType () };
-
-    if ((mask bitand lldb::SBProcess::eBroadcastBitSTDOUT) != 0)
-    {
-        drainProcessStdio (events, process, isStandardOutput);
-    }
-
-    if ((mask bitand lldb::SBProcess::eBroadcastBitSTDERR) != 0)
-    {
-        drainProcessStdio (events, process, isStandardError);
-    }
 
     const auto processState { lldb::SBProcess::GetStateFromEvent (event) };
     const auto processStateEntry { processStates.find (processState) };
@@ -226,6 +206,12 @@ static void onBreakpointEvent (debug::Events& events, lldb::SBEvent& event) noex
     }
 }
 
+Session::Session ()
+{
+    launcherBytes.prepare (commFileBufferSize);
+    standardErrorBytes.prepare (static_cast<int> (stdioReadBufferSize));
+}
+
 Session::~Session ()
 {
     shutdown (EndMode::passive);
@@ -239,9 +225,15 @@ bool Session::initialize (const juce::File& sidecarDir) noexcept
     debugger = lldb::SBDebugger::Create (false);
     debugger.SetAsync (true);
 
-    // Redirect the debugger's own stdin to /dev/null. Mirrors
-    // lldb-dap DAP::ConfigureIO — prevents liblldb from competing with the
-    // DAP reader thread for whatdbg's stdin.
+    static constexpr const char* stopOnExecVariable { "target.process.stop-on-exec" };
+    static constexpr const char* stopOnExecValue { "false" };
+
+    const lldb::SBError stopOnExecResult { lldb::SBDebugger::SetInternalVariable (stopOnExecVariable, stopOnExecValue, debugger.GetInstanceName ()) };
+    jassert (stopOnExecResult.Success ());
+    juce::ignoreUnused (stopOnExecResult);
+
+    // Redirect the debugger's own input to /dev/null. jam::StdioServer reads the DAP
+    // frames from stdin, so liblldb must not read stdin.
     FILE* nullInput { std::fopen ("/dev/null", "r") };
     jassert (nullInput != nullptr);
     debugger.SetInputFile (lldb::SBFile (nullInput, true));
@@ -263,6 +255,25 @@ bool Session::launch (const juce::String& program) noexcept
         lldb::SBLaunchInfo launchInfo { nullptr };
         launchInfo.SetLaunchFlags (lldb::eLaunchFlagDebug
                                  | lldb::eLaunchFlagStopAtEntry);
+
+        standardErrorFile = juce::File::getSpecialLocation (juce::File::tempDirectory).getNonexistentChildFile ("whatdbg-stderr", "");
+
+        const juce::String standardErrorPath { standardErrorFile.getFullPathName () };
+        const bool isCreated { mkfifo (standardErrorPath.toRawUTF8 (), S_IRUSR | S_IWUSR) == 0 };
+        jassert (isCreated);
+        juce::ignoreUnused (isCreated);
+
+        standardError.onBytesReady = [this] (int) { wake (); };
+
+        standardErrorHandle.emplace (::open (standardErrorPath.toRawUTF8 (), O_RDWR | O_NONBLOCK));
+
+        const bool isOpen { standardError.open (*standardErrorHandle, nullptr, static_cast<int> (stdioReadBufferSize), maximumPeriodMilliseconds) };
+        jassert (isOpen);
+        juce::ignoreUnused (isOpen);
+
+        const bool isRedirected { launchInfo.AddOpenFileAction (STDERR_FILENO, standardErrorPath.toRawUTF8 (), false, true) };
+        jassert (isRedirected);
+        juce::ignoreUnused (isRedirected);
 
         lldb::SBError error;
         process = target.Launch (launchInfo, error);
@@ -293,7 +304,9 @@ juce::String Session::createCommFile () noexcept
 
     launcherOutput.onBytesReady = [this] (int) { events.get (Id::runInTerminal); };
 
-    const bool isOpen { launcherOutput.open (::open (path.toRawUTF8 (), O_RDWR | O_NONBLOCK), nullptr, commFileBufferSize) };
+    launcherHandle.emplace (::open (path.toRawUTF8 (), O_RDWR | O_NONBLOCK));
+
+    const bool isOpen { launcherOutput.open (*launcherHandle, nullptr, commFileBufferSize, maximumPeriodMilliseconds) };
     jassert (isOpen);
     juce::ignoreUnused (isOpen);
 
@@ -328,7 +341,6 @@ void Session::attachLaunchTarget (std::uint32_t processId) noexcept
     if (attach (processId))
     {
         sendDidAttach ();
-        process.Continue ();
         events.get (Id::didAttach, static_cast<int> (processId));
     }
     else
@@ -341,27 +353,40 @@ void Session::attachLaunchTarget (std::uint32_t processId) noexcept
 
 void Session::drainLauncherOutput () noexcept
 {
-    for (auto view { launcherOutput.read () }; view.has_value () and not view->empty (); view = launcherOutput.read ())
+    if (launcherHandle.has_value ())
     {
-        const auto document { jam::JsonDocument::parse (view->substr (0, view->find ('\n'))) };
-        jassert (document != nullptr);
+        launcherBytes.writeFromTerminalTTY (*launcherHandle);
 
-        const auto& message { *document->getRoot ()->firstChild };
-        const juce::Identifier type { jam::Strings::fromView (document->getString (*document->find (message, jam::Strings::getView (Id::kind.toString ())))) };
-
-        if (type == Id::pid)
+        launcherBytes.applyPendingData ([this] (const char* data, int size)
         {
-            attachLaunchTarget (jam::Format::getNumber<std::uint32_t> (document->getView (*document->find (message, jam::Strings::getView (Id::pid.toString ())))));
-        }
-        else if (type == Id::error)
-        {
-            events.get (Id::error, jam::Strings::fromView (document->getString (*document->find (message, jam::Strings::getView (Id::error.toString ())))));
-        }
+            const std::string_view view { data, static_cast<size_t> (size) };
 
-        launcherOutput.close ();
+            if (view.find ('\n') == std::string_view::npos) return 0;
 
-        for (const auto& file : { commFile, getDidAttachFile (commFile) })
-            file.deleteFile ();
+            const auto document { jam::JsonDocument::read (view.substr (0, view.find ('\n'))) };
+            jassert (document != nullptr);
+
+            const auto& message { *document->getRoot ()->firstChild };
+            const juce::Identifier type { jam::Strings::fromView (document->getString (*document->find (message, jam::Strings::getView (Id::kind.toString ())))) };
+
+            if (type == Id::pid)
+            {
+                attachLaunchTarget (jam::Format::getNumber<std::uint32_t> (document->getView (*document->find (message, jam::Strings::getView (Id::pid.toString ())))));
+            }
+            else if (type == Id::error)
+            {
+                events.get (Id::error, jam::Strings::fromView (document->getString (*document->find (message, jam::Strings::getView (Id::error.toString ())))));
+            }
+
+            launcherOutput.close ();
+            ::close (*launcherHandle);
+            launcherHandle.reset ();
+
+            for (const auto& file : { commFile, getDidAttachFile (commFile) })
+                file.deleteFile ();
+
+            return size;
+        });
     }
 }
 
@@ -413,6 +438,8 @@ void Session::pollEvents (std::uint32_t timeoutMs) noexcept
             onBreakpointEvent (events, event);
         }
     }
+
+    drainOutput ();
 }
 
 void Session::wake () noexcept
@@ -431,11 +458,17 @@ void Session::resetCancel () noexcept
 
 void Session::drainOutput () noexcept
 {
-    static constexpr bool isStandardOutput { false };
-    static constexpr bool isStandardError  { true };
+    drainProcessStdio (events, process);
 
-    drainProcessStdio (events, process, isStandardOutput);
-    drainProcessStdio (events, process, isStandardError);
+    if (standardErrorHandle.has_value ())
+    {
+        while (standardErrorBytes.writeFromTerminalTTY (*standardErrorHandle) > 0)
+            standardErrorBytes.applyPendingData ([this] (const char* data, int size)
+            {
+                events.get (Id::standardError, std::string_view { data, static_cast<size_t> (size) });
+                return size;
+            });
+    }
 }
 
 void Session::terminateDebuggee (std::uint32_t processId) noexcept
@@ -461,7 +494,21 @@ void Session::shutdown (EndMode mode) noexcept
 {
     launcherOutput.close ();
 
-    for (const auto& file : { commFile, getDidAttachFile (commFile) })
+    if (launcherHandle.has_value ())
+    {
+        ::close (*launcherHandle);
+        launcherHandle.reset ();
+    }
+
+    standardError.close ();
+
+    if (standardErrorHandle.has_value ())
+    {
+        ::close (*standardErrorHandle);
+        standardErrorHandle.reset ();
+    }
+
+    for (const auto& file : { commFile, getDidAttachFile (commFile), standardErrorFile })
         file.deleteFile ();
 
     // Idempotent: after the first call the debugger is invalid, so a second call

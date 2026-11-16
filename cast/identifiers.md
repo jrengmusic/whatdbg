@@ -75,7 +75,6 @@
 | @id  | moduleLoad                         | `moduleLoad`                         |             |
 | @id  | next                               | `next`                               |             |
 | @id  | nextSequenceNumber                 | `nextSequenceNumber`                 |             |
-| @id  | numMessages                        | `numMessages`                        |             |
 | @id  | output                             | `output`                             |             |
 | @id  | pause                              | `pause`                              |             |
 | @id  | pid                                | `pid`                                |             |

@@ -5,8 +5,8 @@
 /** Model of the adapter: one value tree with a session row and an exception row.
  *
  *  Each parameter is a value of the debug state. The engine context writes most
- *  parameters with storeValue. The numMessages and isRunning parameters use setValue,
- *  so that the message thread receives them at once.
+ *  parameters with storeValue. The isRunning parameter uses setValue, so that the message
+ *  thread receives it at once.
  */
 class WHATDBGModel
     : public jam::Model

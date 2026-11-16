@@ -7,9 +7,9 @@
 
 **Status:** Active
 
-**Last Updated:** 2026-11-14
+**Last Updated:** 2026-11-16
 
-**Version:** 0.7.0
+**Version:** 0.8.0
 
 ---
 
@@ -22,9 +22,9 @@ whatdbg is a cross-platform DAP (Debug Adapter Protocol) debug adapter for C/C++
 ### Architecture Philosophy
 
 - **JUCE-native:** Leverage JUCE's battle-tested infrastructure. No hand-rolled abstractions, no manual callbacks, no manual threading primitives.
-- **Audio processor shape:** `Whatdbg` is main. It owns the Model, the processor, the writer, and the reader, and it listens on the message thread. `Processor` owns the engine atoms on its own serial context and runs each request and each stop there. The engine context is the hot path; the message thread is the traffic orchestrator.
+- **Audio processor shape:** `Whatdbg` is main. It owns the Model and the processor, and it listens on the message thread. `Processor` owns the stdio server (`jam::StdioServer`). `Processor` owns the engine atoms on its own serial context and runs each request and each stop there. The engine context is the hot path; the message thread is the traffic orchestrator.
 - **SSOT:** `WHATDBGModel` (a `jam::Model`) holds every scalar of the session state. The registries live in the atom that owns them (`VariableManager`, `BreakpointManager`).
-- **One-way data flow:** stdin → `dap::Reader` → `requests` lane → engine context → `messages` lane and Model parameters → message thread → stdout.
+- **One-way data flow:** stdin → readiness context → `jam::StdioServer` input ring → engine context (`applyPendingRequests`, `onRequest`, `onCommand`) → `addMessage` → `jam::StdioServer` output ring → stdout. Model parameters flow from the engine context to the message thread.
 
 ### Technology Stack
 
@@ -48,9 +48,9 @@ whatdbg is a cross-platform DAP (Debug Adapter Protocol) debug adapter for C/C++
 
 | Thread | Owns | Never does |
 |---|---|---|
-| Message thread (the main thread, the JUCE message loop) | `Whatdbg`, `WHATDBGModel`, `dap::Writer`, stdout | an engine call |
-| Engine context (`Processor`, a `jam::AsyncUpdater` context) | `debug::Session`, `debug::BreakpointManager`, `debug::VariableManager`, `debug::StopManager`, the `commands` table | a write to stdout; a touch of the `juce::ValueTree` |
-| Reader thread (`dap::Reader`, a `juce::Thread`) | stdin | anything else, except `Processor::addRequest`, which calls `session.wake ()` and `session.cancel ()` |
+| Message thread (the main thread, the JUCE message loop) | `Whatdbg`, `WHATDBGModel`, `Processor::prepare` and `Processor::releaseResources` (each writes one request into the `requests` mailbox and calls `handleUpdateNow`), the `isRunning` listener | an engine call; a write to stdout |
+| Engine context (`Processor`, the `jam::AsyncUpdater` serial context) | `debug::Session`, `debug::BreakpointManager`, `debug::VariableManager`, `debug::StopManager`, the `commands` and `cancellations` tables, `applyPendingRequests`, `addMessage` | a touch of the `juce::ValueTree` |
+| Stdin readiness context (the default context, `nullptr`, of the `jam::AsyncOutputStream` in `jam::StdioServer`) | the read of stdin into the input ring | anything else |
 
 The engine context is the serial context of `jam::AsyncUpdater`: a serial GCD queue on macOS, a thread pool with one thread on Windows (`jam_AsyncUpdater.h:18-21`). Each engine call, `Session::initialize` and `Session::shutdown` included, runs on it. DbgEng: "Clients are specific to the thread that created them. Calls from other threads fail immediately."
 
@@ -58,23 +58,28 @@ The engine context is the serial context of `jam::AsyncUpdater`: a serial GCD qu
 
 `Whatdbg` derives from `juce::JUCEApplicationBase`. `runAdapter` (`Main.cpp`) sets `juce::JUCEApplicationBase::createInstance` and calls `juce::JUCEApplicationBase::main` with the sidecar path as the one parameter. `JUCEApplicationBase::main` creates `NSApp` on macOS (`juce_ApplicationBase.cpp:243`), makes the `ScopedJuceInitialiser_GUI`, creates `Whatdbg`, calls `initialise`, and runs `runDispatchLoop` (`:263-282`). On macOS `runDispatchLoop` is `[NSApp run]` (`juce_MessageManager_mac.mm:323-351`), so a loop with no `NSApp` returns at once. The application object is the only way to start it. `--help` and the macOS re-exec run in `main` before the application.
 
-### The lanes
+### The rings and the mailbox
 
-`dap::FIFO<MessageType>` (`Source/dap/FIFO.h`) is a `juce::AbstractFifo` with a `std::vector<MessageType>` storage, sized at construction. A write to a full lane asserts and does not write the message; a Release build then drops it with no signal.
+Each tick of the readiness context reads stdin straight into the input ring. `Processor` then calls `triggerAsyncUpdate` and `session.wake`, through the `onBytesReady` callback of `jam::StdioServer` (`Processor.cpp:22-26`). The end of stdin does not end the run. The run ends when the engine context sets `Id::isRunning` to 0 (section End).
 
-| Lane | Type | Capacity | Writer | Reader |
+| Transport | Type | Capacity | Writer | Reader |
 |---|---|---|---|---|
-| `requests` | `dap::FIFO<jam::JsonDocument>` | 64 | message thread (`prepare`, `releaseResources`), then the reader thread | engine context (`process`) |
-| `messages` | `dap::FIFO<std::string>` | 4096 | engine context (`addMessage`) | message thread (`applyMessages`) |
+| input ring | `jam::TerminalFIFO` in `jam::StdioServer` | `Processor::bufferSize` (1 MiB) | readiness context | engine context |
+| output ring | `jam::TerminalFIFO` in `jam::StdioServer` | 1 MiB | engine context | engine context (the flush drains it to stdout) |
+| `requests` | `jam::Mailbox<jam::JsonDocument>` | one slot | message thread (`prepare`, `releaseResources`) | engine context (`process`) |
+| Session rings | `jam::TerminalFIFO`: `launcherBytes` and `standardErrorBytes` (both platforms), `standardOutputBytes` (Windows) | | engine context (`writeFromTerminalTTY (Handle)`) | engine context (`applyPendingData`) |
 
-The `requests` lane has three writers in sequence, never two at one time: `prepare` writes before `reader.start ()`; then only the reader thread writes; `releaseResources` writes after the reader stopped.
+`process` first reads the input ring through `applyPendingRequests` (`Processor.cpp:132-149`). `jam::StdioProtocol::applyMessages` gives each complete `Content-Length` body as a view in the ring. `jam::JsonDocument::read` parses the body in place. The callback runs the `cancellations` entry for `disconnect` and `terminate`, then calls `onRequest`. `onRequest` runs the command at once, or, for a deferred command, interrupts the running target. The callback returns `false` for a deferred request, so `applyMessages` stops at its frame. The deferred frame and every later frame stay in the ring, in arrival order, until the target stops. An incomplete frame also stays in the ring. `process` then runs the request in the `requests` mailbox (`Processor.cpp:70-71`).
+
+`addMessage` writes the `Content-Length` header and the body into the output ring and flushes it to stdout. It never touches the `juce::ValueTree`. The readiness callbacks of the `Session` rings only notify: the stderr stream calls `wake` (`Session_mac.cpp:267`), and the launcher stream reports `Id::runInTerminal` (`Session_mac.cpp:306`). The engine context fills and reads those rings.
 
 ### Thread Safety Rules
 
-- The engine context makes every engine call. The message thread makes none.
-- The reader thread calls only `Processor::addRequest`. Its two engine calls are `Session::wake` and `Session::cancel`, the engine's own any-thread calls: `SetInterrupt` "can be called at any time and from any thread"; on macOS a broadcast to the listener.
+- The engine context makes every engine call. The message thread makes none and writes no stdout.
+- The readiness context calls `triggerAsyncUpdate` and `session.wake`. It calls no other `Processor` function.
+- `Session::wake` and `Session::cancel` are the engine's own any-thread calls: `SetInterrupt` "can be called at any time and from any thread"; on macOS a broadcast to the listener.
 - `Parameter::store`, `getValue`, and `Model::storeValue` are lock-free on any thread (`jam_Model.h:14`). `flush`, the tree, and the attachments are message-thread only (`jam_Model.h:15-16`).
-- Only `Id::numMessages` and `Id::isRunning` use `setValue`, which reaches the message thread through `jam::Model::ParameterAttachment`. Each other parameter uses `storeValue`.
+- Only `Id::isRunning` uses `setValue`, which reaches the message thread through `jam::Model::ParameterAttachment`. Each other parameter uses `storeValue`.
 - On Windows the COM callbacks fire synchronously inside `WaitForEvent`, on the engine context.
 
 ---
@@ -103,9 +108,8 @@ Whatdbg (juce::JUCEApplicationBase; main, message thread)
     |       +-- debug::BreakpointManager (DAP-to-engine breakpoint registry)
     |       +-- debug::VariableManager (frameId and variablesReference registry)
     |       +-- debug::StopManager (the stops table and the stop drains)
-    |       +-- dap::FIFO requests, dap::FIFO messages
-    +-- dap::Writer (stdout, message thread)
-    +-- dap::Reader (stdin thread)
+    |       +-- jam::Mailbox requests
+    |       +-- jam::StdioServer stdio (input and output rings, stdin readiness; the last member)
 dap::Types (DAP message builders over jam::JsonWriter)
 ```
 
@@ -113,11 +117,11 @@ dap::Types (DAP message builders over jam::JsonWriter)
 
 | Module | Location | Responsibility |
 |--------|----------|----------------|
-| Whatdbg | `Source/Whatdbg.h/.cpp` | Main. `juce::JUCEApplicationBase` and `juce::ValueTree::Listener`. Owns `WHATDBGModel`, `Processor`, `dap::Writer`, `dap::Reader`, the `events` map, and two attachments (`numMessagesAttachment`, `isRunningAttachment`). `initialise` calls `processor.prepare` and `reader.start`. Two `events` entries: `Id::numMessages` drains the `messages` lane to the writer; `Id::isRunning` at 0 sets the application return value from `Id::adapterExitCode` and calls `quit`. |
+| Whatdbg | `Source/Whatdbg.h/.cpp` | Main. `juce::JUCEApplicationBase` and `juce::ValueTree::Listener`. Holds `model`, `processor`, `events`, and `isRunningAttachment`, in that order. One `events` entry: `Id::isRunning` at 0 sets the application return value from `Id::adapterExitCode` and calls `quit`. `initialise` calls `processor.prepare`. |
 | WHATDBGModel | `Source/WHATDBGModel.h/.cpp` | `jam::Model` and `jam::Instance<WHATDBGModel>`. Root `Id::whatdbg`; rows `sessionTag` (`Id::session`) and `exceptionTag` (`Id::exception`). The constructor creates every parameter and stops the Model timer. |
-| Processor | `Source/Processor.h/.cpp` | `private jam::AsyncUpdater`. Owns the atoms and both lanes. `prepare` and `releaseResources` write a request and wait in `handleUpdateNow`. `addRequest` (reader thread) runs the `cancellations` entry, writes the `requests` lane, triggers the context, and wakes the session. `process` runs each request, polls the engine, runs the stop drain, and checks the terminate deadline. Holds the eighteen DAP command bodies, `onPrepare`, `onReleaseResources`, `drainProcessExited`, `drainTerminateTimeout`, `getEndModeForExit`, and the engine `events` entries that are no stop. |
+| Processor | `Source/Processor.h/.cpp` | `private jam::AsyncUpdater`. Owns the atoms, the `requests` mailbox, and `stdio` (`jam::StdioServer`), the last member, so that its readiness callback stops before every member it touches. `prepare` and `releaseResources` write one request and wait in `handleUpdateNow`; `prepare` then opens `stdio`, and `releaseResources` first closes it. `process` reads the input ring through `applyPendingRequests`, runs the request, polls the engine, runs the stop drain, and checks the terminate deadline. `applyPendingRequests` frames, parses, cancels, and calls `onRequest`; it leaves a deferred frame in the ring. `addMessage` writes one frame to the output ring. Holds the eighteen DAP command bodies, `onPrepare`, `onReleaseResources`, `drainProcessExited`, `drainTerminateTimeout`, `getEndModeForExit`, and the engine `events` entries that are no stop. |
 | debug::Session | `Source/debug/Session.h` | Cross-platform engine wrapper interface. `ComPtr<T>` (Windows) or SB API value types (macOS) behind one shared header. `events` is the `debug::Events` map through which the native code reports. |
-| debug::Session (Win) | `Source/debug/Session.cpp` | initialize, launch, attach, resume, pollEvents, shutdown, wake (no statement), cancel (`SetInterrupt (DEBUG_INTERRUPT_EXIT)`), resetCancel (`GetInterrupt`), stepping, thread ops, breakpoint API, symbol path, variable inspection, expression evaluation. |
+| debug::Session (Win) | `Source/debug/Session.cpp` | initialize, launch, attach, resume, pollEvents, shutdown, wake (stores `isWakePending`, and calls `SetInterrupt (DEBUG_INTERRUPT_EXIT)` while `isWaiting`), cancel (`SetInterrupt (DEBUG_INTERRUPT_EXIT)`), resetCancel (`GetInterrupt`), stepping, thread ops, breakpoint API, symbol path, variable inspection, expression evaluation. |
 | debug::Session pretty-print (Win) | `Source/debug/SessionPrettyPrint.cpp` | Formatters declared in `PrettyPrint.h`: prettyPrint, formatSymbolValue, stripDecimalPrefix, readTargetString, findChildByName, getChildValueText. |
 | debug::Session (mac) | `Source/debug/Session_mac.cpp` | liblldb SB API: initialize, launch, attach, resume, pollEvents, shutdown, wake (`broadcaster.BroadcastEventByType (wakeEventMask)`), cancel (`wake`), resetCancel (no statement), stepping, thread ops, breakpoint API, variable inspection, expression evaluation. |
 | debug::Session pretty-print (mac) | `Source/debug/SessionPrettyPrint_mac.cpp` | Type formatters for juce::String, unique_ptr, and filtered types via SB API. |
@@ -128,9 +132,8 @@ dap::Types (DAP message builders over jam::JsonWriter)
 | debug::StopManager | `Source/debug/StopManager.h/.cpp` | The `stops` table keyed by `StopReason`, the six stop drains, and the stop `events` entries. `onStop (targetProgram)` returns the DAP messages of the current stop. |
 | debug::Callbacks | `Source/debug/Callbacks.h/.cpp` | COM callback classes. Report through `Session::events` during `WaitForEvent`. [Windows only] |
 | debug::Loader | `Source/debug/Loader.h/.cpp` | LoadLibrary from sidecar path, resolve DebugCreate. [Windows only] |
-| dap::Reader | `Source/dap/Reader.h/.cpp` | `juce::Thread`. Reads stdin, parses Content-Length framing into `jam::JsonDocument`, and calls `onMessage`. Holds no lane. |
-| dap::Writer | `Source/dap/Writer.h/.cpp` | `writeMessage (std::string_view)`: the Content-Length frame to stdout. |
-| dap::FIFO | `Source/dap/FIFO.h` | The lane template. |
+| jam::StdioServer | `jam/jam_terminal/display/jam_StdioServer.h/.cpp` | A `juce::OutputStream` over two `jam::TerminalFIFO` rings and one `jam::AsyncOutputStream` on stdin. `open (context, bufferSize, maximumPeriodMilliseconds)`, `applyPendingData`, `write`, `flush`. `onBytesReady` receives the read result. |
+| jam::TerminalFIFO | `jam/jam_terminal/processor/jam_TerminalFIFO.h/.cpp` | The byte ring with one writer and one reader. `writeFromTerminalTTY (Handle)` and `writePendingData (Handle)` read and write a stdio handle. |
 | dap::Types | `Source/dap/Types.h/.cpp` | DAP message builders over `jam::JsonWriter`: `appendResponse`, `appendErrorResponse`, `appendEvent`, `appendBreakpointChangedEvent`, `appendSource`, `appendCapabilities`, `getRequest`, `getStoppedEvent`, `getExceptionStoppedEvent`, `getExceptionOutputEvent`, `getProcessEvent`, `getOutputEvent`, `getExceptionDescription`. `nextSeq` reads and stores `Id::nextSequenceNumber`. |
 | Help page | `Source/HELP.md`, `jam::TerminalPage` (`jam/jam_tui/page/jam_TerminalPage.h/.cpp`) | `whatdbg --help` parses `HELP.md` with `jam::MarkdownDocument`, paints it through `jam::TerminalPage`, a `juce::Component` that paints with the terminal graphics context, and writes the frame to stdout. The style sheet is `jam/jam_tui/page/style.css`, embedded as BinaryData. |
 
@@ -141,11 +144,11 @@ dap::Types (DAP message builders over jam::JsonWriter)
 ### DAP Request (stdin to stdout)
 
 ```
-stdin -> [Reader thread] -> onMessage -> Processor::addRequest -> requests lane
-      -> [engine context] process -> onCommand -> commands table -> on<Command>
-      -> addMessage -> messages lane, setValue (Id::numMessages)
-      -> [message thread] attachment -> model.flush -> Whatdbg events (Id::numMessages)
-      -> processor.applyMessages -> writer.writeMessage -> stdout
+stdin -> [readiness context] AsyncOutputStream tick -> StdioServer input ring
+      -> onBytesReady -> triggerAsyncUpdate, session.wake
+      -> [engine context] process -> applyPendingRequests -> stdio.applyPendingData -> StdioProtocol::applyMessages
+      -> JsonDocument::read -> cancellations -> onRequest -> onCommand -> commands table -> on<Command>
+      -> addMessage -> StdioServer output ring -> flush -> stdout
 ```
 
 ### Debug Event (engine to stdout)
@@ -155,9 +158,9 @@ stdin -> [Reader thread] -> onMessage -> Processor::addRequest -> requests lane
 [macOS]   session.pollEvents -> onProcessEvent / onBreakpointEvent (Session_mac.cpp) -> session.events.get (Id::...)
                                        |
           StopManager entries: model.storeValue (stopReason, payload)
-          Processor entries: exit, running, output, breakpoint location -> messages lane
+          Processor entries: exit, running, output, breakpoint location -> output ring
                                        |
-          process: stopManager.onStop (targetProgram) -> one stop drain -> messages lane
+          process: stopManager.onStop (targetProgram) -> one stop drain -> output ring
 ```
 
 The `events` entries, by key:
@@ -222,8 +225,10 @@ evaluate -> Session::evaluateExpression -> SBFrame::EvaluateExpression on the fr
 
 ```
 [Windows] OutputCallbacks::Output2 -> session.events.get (Id::console, text)
-[macOS]   drainProcessStdio (Session_mac.cpp) reads GetSTDOUT / GetSTDERR
-          -> session.events.get (Id::standardOutput or Id::standardError, text)
+[macOS]   launch opens the FIFO whatdbg-stderr and redirects the target's stderr to it (AddOpenFileAction)
+          drainOutput (Session_mac.cpp, at the end of each pollEvents):
+            drainProcessStdio reads GetSTDOUT -> session.events.get (Id::standardOutput, text)
+            standardErrorBytes.writeFromTerminalTTY (FIFO) -> session.events.get (Id::standardError, text)
 -> Processor entry -> one DAP output event for each report
 ```
 
@@ -245,32 +250,37 @@ evaluate -> Session::evaluateExpression -> SBFrame::EvaluateExpression on the fr
 
 ```
 Processor::process ()
-    1. requests.applyPendingData -> onCommand (request)
-    2. when executionState is running or launching, or a terminate deadline is pending:
+    1. applyPendingRequests ()                         // the input ring -> onRequest -> onCommand
+    2. the request in the requests mailbox -> onCommand (request)
+    3. when executionState is running or launching, or a terminate deadline is pending:
            session.pollEvents (pollTimeoutMs)          // 50 ms; macOS rounds up to 1 s
-    3. addMessages (stopManager.onStop (targetProgram))  // one stop drain, by stopReason
-    4. drainTerminateTimeout ()
-    5. when isRunning is not 0 and (executionState is running or launching,
+       otherwise:
+           session.drainLauncherOutput ()
+    4. when stopReason is not none: applyPendingRequests ()   // the deferred frames run
+    5. addMessages (stopManager.onStop (targetProgram))  // one stop drain, by stopReason
+    6. drainTerminateTimeout ()
+    7. when isRunning is not 0 and (executionState is running or launching,
        or a terminate deadline is pending): triggerAsyncUpdate ()
 ```
 
-While the target is stopped and no terminate is pending, statement 5 queues nothing, and the context has no work. The next request starts it. On macOS `Session::wake` ends a `pollEvents` wait at once when a request arrives while the target runs.
+While the target is stopped and no terminate is pending, statement 7 queues nothing, and the context has no work. The next request starts it. On macOS `Session::wake` ends a `pollEvents` wait at once when a request arrives while the target runs.
 
 `stopReason` holds one stop cause at a time, so one drain runs per tick. `drainBreakpointHit` asks `BreakpointManager::appendBreakpointStoppedEvent` for the stopped event. That event has `reason: "step"` when no registry entry holds the engine id, as for the internal stepOut breakpoint.
 
 ### Start
 
 1. `Whatdbg::initialise` calls `processor.prepare (sidecarDirectory)`.
-2. `prepare` writes `dap::getRequest (prepare)` to `requests` and waits in `handleUpdateNow`.
+2. `prepare` writes `dap::getRequest (prepare)` to the `requests` mailbox and waits in `handleUpdateNow`.
 3. On the context, `onPrepare` calls `session.initialize`. On failure it stores `1` to `Id::adapterExitCode` and sets `Id::isRunning` to 0.
-4. `initialise` calls `reader.start ()`. The message loop then runs.
+4. When `Id::isRunning` is not 0, `prepare` opens `stdio`. The readiness context then reads stdin, and the message loop runs.
 
 ### End
 
 1. A drain, `onDisconnect`, or `onPrepare` sets `Id::isRunning` to 0 on the context.
 2. The attachment posts one message. On the message thread the flush changes the tree, and the `Id::isRunning` entry sets the return value and calls `quit`.
-3. The members of `Whatdbg` die in reverse order: the attachments, the reader (its thread stops), the writer, the processor.
-4. `~Processor` calls `releaseResources`: `cancelPendingUpdate`, a `releaseResources` request, and `handleUpdateNow`. On the context `onReleaseResources` calls `session.shutdown (getEndModeForExit ())` and stores `ExecutionState::idle`.
+3. The members of `Whatdbg` die in reverse order: `isRunningAttachment`, `events`, `processor`, and `model`. Inside `Processor`, `stdio` dies first, so its readiness callback stops before every member it touches.
+4. The end of stdin does not end the run. A `terminate` or `disconnect` that arrives before it still sends its `exited` and `terminated` events.
+5. `~Processor` calls `releaseResources`: `stdio.close`, `cancelPendingUpdate`, a `releaseResources` request, and `handleUpdateNow`. On the context `process` first runs the frames still in the input ring, then the request. `onReleaseResources` calls `session.shutdown (getEndModeForExit ())` and stores `ExecutionState::idle`.
 
 ---
 
@@ -292,7 +302,6 @@ While the target is stopped and no terminate is pending, statement 5 queues noth
 | SESSION | `Id::isPausePending` | int | 0 |
 | SESSION | `Id::breakpointEngineId` | int | 0 |
 | SESSION | `Id::nextSequenceNumber` | int | 1 |
-| SESSION | `Id::numMessages` | int | 0 |
 | SESSION | `Id::adapterExitCode` | int | 0 |
 | EXCEPTION | `Id::exceptionCode` | int64 | 0 |
 | EXCEPTION | `Id::exceptionAddress` | int64 | 0 |
@@ -317,22 +326,22 @@ A `bool` or an enum is a `jam::Parameter<int>`. A `uint32` or a `uint64` is a `j
 
 **Context:** The old record (version 0.6.0 of this document) held three threading decisions: two threads with no event-driven delivery, AbstractFifo stdin buffering, and no JUCE message loop. The first design had three threads (stdin, COM, message) with callAsync notifications. The record names four failure causes: COM thread isolation issues, callback flooding, message thread starvation, and timing bugs. The two-thread loop that replaced it polled the engine, slept 10 ms for each pass of a stopped target, and on macOS made a request wait for the poll to end, up to 1 s.
 
-**Decision:** whatdbg has the shape of an audio processor. `Whatdbg` is main, a `juce::JUCEApplicationBase` on the JUCE message loop. It owns `WHATDBGModel`, `Processor`, `dap::Writer`, and `dap::Reader`. `Processor` owns the atoms on its `jam::AsyncUpdater` context and runs each request and each stop there. The threads, the lanes, and the one-way flow are those of section Threading Model.
+**Decision:** whatdbg has the shape of an audio processor. `Whatdbg` is main, a `juce::JUCEApplicationBase` on the JUCE message loop. It owns `WHATDBGModel` and `Processor`. `Processor` owns `jam::StdioServer` and the atoms on its `jam::AsyncUpdater` context and runs each request and each stop there. The threads, the rings, the mailbox, and the one-way flow are those of section Threading Model.
 
 **Rationale:**
 - ARCHITECT, on the thread owner of the engine: *"crossplatform. lldb, dbgeng should be at its own hot path lock free path this is isomporhic to audio thread, which how we design eve, end with audio architecture discipline, the traffic orchestrator state machine with jam::Model is at message thread"*.
 - ARCHITECT, on the shape: *"exactly. the shape, the principle, the contract, not derived. those layers are ENCAPSULATION."* and *"EVEProcessor is `main`, owner of all hot path"*.
-- ARCHITECT, on event latency: *"Send at once"*. A message reaches the message thread at once through `setValue` and `jam::Model::ParameterAttachment`.
+- ARCHITECT, on event latency: *"Send at once"*. `Id::isRunning` reaches the message thread at once through `setValue` and `jam::Model::ParameterAttachment`.
 - The four failure causes, each answered:
 
 | Cause | Answer |
 |---|---|
 | COM thread isolation issues | The engine context is one thread on Windows: minimum 1, maximum 1. Each engine call, `initialize` and `shutdown` included, runs on it. |
-| callback flooding | `juce::AsyncUpdater::triggerAsyncUpdate` posts one message while one is pending. One flush drains each message of the lane. |
-| message thread starvation | The message thread makes no engine call and no engine wait. It writes stdout only. |
-| timing bugs | One context writes the `messages` lane, so it is the one author of the DAP order. |
+| callback flooding | `juce::AsyncUpdater::triggerAsyncUpdate` posts one message while one is pending. One tick of the engine context reads each frame in the input ring. |
+| message thread starvation | The message thread makes no engine call, no engine wait, and no stdout write. |
+| timing bugs | One context writes the output ring, so it is the one author of the DAP order. |
 
-- The timings of the smoke suite under scout, Release, macOS: `epoch` median 4.5387e10 ns (±0.12%) against 6.2698e10 ns (±0.327%) before the rewrite; `user` 2.376e9 ns (±0.49%) against 2.169e9 ns (±2.07%); `system` 1.643e9 ns (±0.84%) against 1.563e9 ns (±1.58%). Reports: `benchmark/smoke-report.md`, `benchmark/smoke-report-baseline.md`.
+- The timings of the smoke suite under scout, Release, macOS, 22 scenarios: `epoch` median 4.7929e10 ns (±0.096%) against 6.2698e10 ns before the rewrite; `user` 6.884e9 ns (±0.077%) against 2.169e9 ns; `system` 1.840e9 ns (±0.146%) against 1.563e9 ns. Reports: `benchmark/smoke-report.md`, `benchmark/smoke-report-baseline.md`. The sample report `benchmark/smoke-sample-report.md` puts the most samples in liblldb frames.
 
 ### Decision: Dispatch Table for DAP Commands
 
@@ -367,7 +376,7 @@ A `bool` or an enum is a `jam::Parameter<int>`. A `uint32` or a `uint64` is a `j
 - `detach` — releases the debuggee, which keeps running. Windows: `DEBUG_END_ACTIVE_DETACH`. macOS: `process.Detach()`.
 - `passive` — the target has already exited; releases session state only.
 
-The reader thread calls `session.cancel ()` for `disconnect` and `terminate`, before it writes the request to the lane. Windows: `SetInterrupt (DEBUG_INTERRUPT_EXIT)` forces a running `WaitForEvent` to return. The first statement of `onDisconnect` is `session.resetCancel ()`, so `terminateDebuggee` and `shutdown` run with no interrupt registered.
+The engine context calls `session.cancel ()` for `disconnect` and `terminate` in `applyPendingRequests`, before `onRequest`. The readiness callback has already called `session.wake ()`. Windows: `SetInterrupt (DEBUG_INTERRUPT_EXIT)` forces a running `WaitForEvent` to return. The first statement of `onDisconnect` is `session.resetCancel ()`, so `terminateDebuggee` and `shutdown` run with no interrupt registered.
 
 `onDisconnect` sends the response, then the kill or the detach. On the kill path it sets `executionState` to `running` and stores a terminate deadline of 5 s, so the context keeps polling for the exit event. A kill that the engine reports first as a signal stop sets `executionState` to `stopped`; the pending deadline keeps the context polling (`process`, statements 2 and 5), so the exit event that follows is observed: the client receives `stopped` (reason `exception`) for the signal, then `exited` and `terminated`. On an attach session the engine reports the exit only, and the client receives `exited` and `terminated`. `drainTerminateTimeout` ends the session only when no exit event arrives before the deadline. `Session::shutdown` runs in `onReleaseResources`, via `getEndModeForExit()`. `~Session` calls it again, and the `debugger.IsValid()` test makes that second call a no-op.
 
@@ -430,9 +439,9 @@ whatdbg/
     Source/
         Main.cpp                        Entry point: --help, sidecar extraction, re-exec trampoline (macOS), runAdapter
         HELP.md                         The --help page
-        Whatdbg.h / .cpp                Main: JUCEApplicationBase, Model listener, lane drain to stdout
+        Whatdbg.h / .cpp                Main: JUCEApplicationBase, Model listener, isRunning quit
         WHATDBGModel.h / .cpp           The Model: SESSION and EXCEPTION rows
-        Processor.h / .cpp              Engine context: lanes, commands table, command bodies, process
+        Processor.h / .cpp              Engine context: stdio rings, requests mailbox, commands table, command bodies, process
         generated/                      GENERATED — do not edit
             ProjectInfo.h, Generated.h / .cpp, Identifiers.h, Files.h
         debug/
@@ -449,13 +458,10 @@ whatdbg/
             VariableManager.h / .cpp    frameId and variablesReference registry
             StopManager.h / .cpp        Stops table and stop drains
         dap/
-            Reader.h / .cpp             stdin thread
-            Writer.h / .cpp             stdout frames
-            FIFO.h                      The lane template
             Types.h / .cpp              DAP message builders, nextSeq
     tests/
         smoke/
-            run_smoke.lua               Orchestrator — nvim-headless Lua driver, 21 scenarios
+            run_smoke.lua               Orchestrator — nvim-headless Lua driver, 22 scenarios
             scenario_runner.lua         Runs one scenario, compares its transcript with the baseline
             scenario_breakpoint.lua     Launch+breakpoint, step, variables, evaluate, breakpoint scenarios
             scenario_process.lua        Attach, pause, output, crash, disconnect-detach, order, unknown-command scenarios
@@ -511,8 +517,8 @@ whatdbg/
 | WaitForEvent | Blocking dbgeng call (Windows) that processes debug events. |
 | SSOT | Single Source of Truth. |
 | Engine context | The serial context of `Processor`'s `jam::AsyncUpdater`. Every engine call runs on it. |
-| Lane | A `dap::FIFO`: `requests` into the engine context, `messages` out of it. |
-| FIFO | First In First Out queue. AbstractFifo + std::vector. |
+| Ring | A `jam::TerminalFIFO` byte ring: the `jam::StdioServer` input and output, and the Session rings. |
+| Mailbox | A `jam::Mailbox`, one slot. |
 | SPSC | Single Producer Single Consumer. |
 | prettyPrint | Per-type value formatter for juce::String, std::string, std::unique_ptr, std::vector. |
 | dispatch table | `commands`, a `jam::Function::Map<juce::String, jam::Function::pointerCapacity, void (const jam::JsonDocument&)>`, in `Processor`. `onCommand` looks up the DAP command name. |
@@ -536,6 +542,7 @@ whatdbg/
 | 0.5.0 | 2026-09-02 | COUNSELOR | Build moved to `cast` (`project-info.md`, `cast/spell.md`, `cast/cmake.cast`); `jam::Context` replaced by `jam::Instance`; `Log.h` replaced by `jam::debug::Log`; `BreakpointInfo` collapsed and `BreakpointLocation` added; Session out-parameters removed; `getOffsetByLine` split into `getOffsetStatus` and `getOffset` |
 | 0.6.0 | 2026-09-03 | COUNSELOR | Corrected this document against the codebase: main loop, module map, and data-flow diagrams rewritten cross-platform; macOS zombie-termination fix documented under Terminate vs Disconnect; stepping/pause/multi-thread sections given macOS equivalents |
 | 0.7.0 | 2026-11-14 | COUNSELOR | Audio processor shape: `Whatdbg` (JUCEApplicationBase) on the message loop, `WHATDBGModel`, `Processor` on the engine context, the `requests` and `messages` lanes, `VariableManager`, `StopManager`, `dap::Writer`, `dap::FIFO`, `Session::wake/cancel/resetCancel`; the State class, the hand-written loop, and the three old threading decisions replaced by one decision; the help page (`jam::TerminalPage`) |
+| 0.8.0 | 2026-11-16 | COUNSELOR | stdio moved to `jam::StdioServer` in jam_terminal over two `jam::TerminalFIFO` rings and `jam::AsyncOutputStream` readiness; `dap::Reader`, `dap::Writer` and `dap::FIFO` deleted; the engine context reads frames in place and writes frames to the output ring; prepare and releaseResources go through `jam::Mailbox`; deferred requests stay in the input ring; the macOS target stderr goes through a FIFO |
 
 ---
 

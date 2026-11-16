@@ -1,36 +1,12 @@
 /** @file Processor.cpp
  *  @brief Engine-context side of the adapter: the command table, the request handlers, the engine event handlers, and the poll loop.
- *
- *  Every function here runs on the serial context of jam::AsyncUpdater. process() drains
- *  the request lane, polls the engine while the target runs or launches or a terminate
- *  deadline is pending, and then asks StopManager for the stop messages.
  */
 
 #include "Processor.h"
 
 Processor::Processor ()
 {
-    commands.add (Id::initialize, [this] (const juce::String&, const jam::JsonDocument& document) { onInitialize (document); });
-    commands.add (Id::launch, [this] (const juce::String&, const jam::JsonDocument& document) { onLaunch (document); });
-    commands.add (Id::runInTerminal, [this] (const juce::String&, const jam::JsonDocument& document) { onRunInTerminal (document); });
-    commands.add (Id::attach, [this] (const juce::String&, const jam::JsonDocument& document) { onAttach (document); });
-    commands.add (Id::configurationDone, [this] (const juce::String&, const jam::JsonDocument& document) { onConfigurationDone (document); });
-    commands.add (Id::disconnect, [this] (const juce::String&, const jam::JsonDocument& document) { onDisconnect (document, false); });
-    commands.add (Id::terminate, [this] (const juce::String&, const jam::JsonDocument& document) { onDisconnect (document, true); });
-    commands.add (Id::setBreakpoints, [this] (const juce::String&, const jam::JsonDocument& document) { onSetBreakpoints (document); });
-    commands.add (Id::threads, [this] (const juce::String&, const jam::JsonDocument& document) { onThreads (document); });
-    commands.add (Id::stackTrace, [this] (const juce::String&, const jam::JsonDocument& document) { onStackTrace (document); });
-    commands.add (Id::scopes, [this] (const juce::String&, const jam::JsonDocument& document) { onScopes (document); });
-    commands.add (Id::variables, [this] (const juce::String&, const jam::JsonDocument& document) { onVariables (document); });
-    commands.add (Id::continueCommand, [this] (const juce::String&, const jam::JsonDocument& document) { onContinue (document); });
-    commands.add (Id::next, [this] (const juce::String&, const jam::JsonDocument& document) { onNext (document); });
-    commands.add (Id::stepIn, [this] (const juce::String&, const jam::JsonDocument& document) { onStepIn (document); });
-    commands.add (Id::stepOut, [this] (const juce::String&, const jam::JsonDocument& document) { onStepOut (document); });
-    commands.add (Id::pause, [this] (const juce::String&, const jam::JsonDocument& document) { onPause (document); });
-    commands.add (Id::evaluate, [this] (const juce::String&, const jam::JsonDocument& document) { onEvaluate (document); });
-    commands.add (Id::exceptionInfo, [this] (const juce::String&, const jam::JsonDocument& document) { onExceptionInfo (document); });
-    commands.add (Id::prepare, [this] (const juce::String&, const jam::JsonDocument& document) { onPrepare (document); });
-    commands.add (Id::releaseResources, [this] (const juce::String&, const jam::JsonDocument& document) { onReleaseResources (document); });
+    registerCommands ();
 
     cancellations.add (Id::disconnect, [this] (const juce::String&) { session.cancel (); });
     cancellations.add (Id::terminate, [this] (const juce::String&) { session.cancel (); });
@@ -42,6 +18,12 @@ Processor::Processor ()
     registerEvents ();
     registerLauncherEvents ();
     registerOutputEvents ();
+
+    stdio.onBytesReady = [this] (int)
+    {
+        triggerAsyncUpdate ();
+        session.wake ();
+    };
 }
 
 Processor::~Processor ()
@@ -51,31 +33,28 @@ Processor::~Processor ()
 
 void Processor::prepare (const juce::File& sidecarDirectory)
 {
-    requests.write (dap::getRequest (jam::Strings::getView (Id::prepare.toString ()), [&sidecarDirectory] (std::string& arguments)
+    std::unique_ptr<jam::JsonDocument> superseded { requests.write (std::make_unique<jam::JsonDocument> (dap::getRequest (jam::Strings::getView (Id::prepare.toString ()), [&sidecarDirectory] (std::string& arguments)
     {
         jam::JsonWriter::appendKey (arguments, Id::path);
         jam::JsonWriter::appendString (arguments, jam::Strings::getView (sidecarDirectory.getFullPathName ()));
-    }));
+    })).release ()) };
 
     handleUpdateNow ();
-}
 
-void Processor::addRequest (jam::JsonDocument request)
-{
-    const juce::String command { getText (request, *request.getRoot ()->firstChild, Id::command) };
-
-    if (cancellations.contains (command))
-        cancellations.get (command);
-
-    requests.write (std::move (request));
-    triggerAsyncUpdate ();
-    session.wake ();
+    if (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::isRunning)->getValue () != 0)
+    {
+        const bool isOpen { stdio.open (nullptr, bufferSize, debug::Session::maximumPeriodMilliseconds) };
+        jassert (isOpen);
+        juce::ignoreUnused (isOpen);
+    }
 }
 
 void Processor::releaseResources ()
 {
+    stdio.close ();
     cancelPendingUpdate ();
-    requests.write (dap::getRequest (jam::Strings::getView (Id::releaseResources.toString ())));
+    std::unique_ptr<jam::JsonDocument> superseded { requests.write (std::make_unique<jam::JsonDocument> (dap::getRequest (jam::Strings::getView (Id::releaseResources.toString ()))).release ()) };
+
     handleUpdateNow ();
 }
 
@@ -86,7 +65,10 @@ void Processor::handleAsyncUpdate ()
 
 void Processor::process ()
 {
-    requests.applyPendingData ([this] (jam::JsonDocument&& request) { onRequest (std::move (request)); });
+    applyPendingRequests ();
+
+    if (std::unique_ptr<jam::JsonDocument> request { requests.read () }; request != nullptr)
+        onCommand (*request);
 
     if (isPolling ())
     {
@@ -120,23 +102,26 @@ bool Processor::isPolling () const
            or model.getParameter<jam::Parameter<int64_t>> (model.sessionTag, Id::terminateDeadlineMs)->getValue () != 0;
 }
 
-void Processor::onRequest (jam::JsonDocument&& request)
+bool Processor::isDeferred (const jam::JsonDocument& request) const
 {
     const juce::String command { getText (request, *request.getRoot ()->firstChild, Id::command) };
     const auto executionState { static_cast<debug::ExecutionState> (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::executionState)->getValue ()) };
-    const bool isRunning { executionState == debug::ExecutionState::running };
-    const bool isDeferred { deferrals.contains (juce::Identifier { command })
-                            and (isRunning or executionState == debug::ExecutionState::launching) };
 
-    if (isDeferred)
+    return deferrals.contains (juce::Identifier { command })
+           and (executionState == debug::ExecutionState::running or executionState == debug::ExecutionState::launching);
+}
+
+void Processor::onRequest (const jam::JsonDocument& request)
+{
+    if (isDeferred (request))
     {
+        const bool isRunning { static_cast<debug::ExecutionState> (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::executionState)->getValue ()) == debug::ExecutionState::running };
+
         if (isRunning and model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::isBreakInPending)->getValue () == 0)
         {
             model.storeValue (model.sessionTag, Id::isBreakInPending, 1);
             session.interrupt (static_cast<std::uint32_t> (model.getParameter<jam::Parameter<int64_t>> (model.sessionTag, Id::targetProcessId)->getValue ()));
         }
-
-        pendingRequests.write (std::move (request));
     }
     else
     {
@@ -146,7 +131,46 @@ void Processor::onRequest (jam::JsonDocument&& request)
 
 void Processor::applyPendingRequests ()
 {
-    pendingRequests.applyPendingData ([this] (jam::JsonDocument&& request) { onCommand (request); });
+    stdio.applyPendingData ([this] (const char* data, int size)
+    {
+        return jam::StdioProtocol::applyMessages (data, size, [this] (std::string_view body)
+        {
+            const auto request { jam::JsonDocument::read (body) };
+            jassert (request != nullptr);
+            const juce::String command { getText (*request, *request->getRoot ()->firstChild, Id::command) };
+
+            if (cancellations.contains (command))
+                cancellations.get (command);
+
+            onRequest (*request);
+            return not isDeferred (*request);
+        });
+    });
+}
+
+void Processor::registerCommands ()
+{
+    commands.add (Id::initialize, [this] (const juce::String&, const jam::JsonDocument& document) { onInitialize (document); });
+    commands.add (Id::launch, [this] (const juce::String&, const jam::JsonDocument& document) { onLaunch (document); });
+    commands.add (Id::runInTerminal, [this] (const juce::String&, const jam::JsonDocument& document) { onRunInTerminal (document); });
+    commands.add (Id::attach, [this] (const juce::String&, const jam::JsonDocument& document) { onAttach (document); });
+    commands.add (Id::configurationDone, [this] (const juce::String&, const jam::JsonDocument& document) { onConfigurationDone (document); });
+    commands.add (Id::disconnect, [this] (const juce::String&, const jam::JsonDocument& document) { onDisconnect (document, false); });
+    commands.add (Id::terminate, [this] (const juce::String&, const jam::JsonDocument& document) { onDisconnect (document, true); });
+    commands.add (Id::setBreakpoints, [this] (const juce::String&, const jam::JsonDocument& document) { onSetBreakpoints (document); });
+    commands.add (Id::threads, [this] (const juce::String&, const jam::JsonDocument& document) { onThreads (document); });
+    commands.add (Id::stackTrace, [this] (const juce::String&, const jam::JsonDocument& document) { onStackTrace (document); });
+    commands.add (Id::scopes, [this] (const juce::String&, const jam::JsonDocument& document) { onScopes (document); });
+    commands.add (Id::variables, [this] (const juce::String&, const jam::JsonDocument& document) { onVariables (document); });
+    commands.add (Id::continueCommand, [this] (const juce::String&, const jam::JsonDocument& document) { onContinue (document); });
+    commands.add (Id::next, [this] (const juce::String&, const jam::JsonDocument& document) { onNext (document); });
+    commands.add (Id::stepIn, [this] (const juce::String&, const jam::JsonDocument& document) { onStepIn (document); });
+    commands.add (Id::stepOut, [this] (const juce::String&, const jam::JsonDocument& document) { onStepOut (document); });
+    commands.add (Id::pause, [this] (const juce::String&, const jam::JsonDocument& document) { onPause (document); });
+    commands.add (Id::evaluate, [this] (const juce::String&, const jam::JsonDocument& document) { onEvaluate (document); });
+    commands.add (Id::exceptionInfo, [this] (const juce::String&, const jam::JsonDocument& document) { onExceptionInfo (document); });
+    commands.add (Id::prepare, [this] (const juce::String&, const jam::JsonDocument& document) { onPrepare (document); });
+    commands.add (Id::releaseResources, [this] (const juce::String&, const jam::JsonDocument& document) { onReleaseResources (document); });
 }
 
 void Processor::registerEvents ()
@@ -192,7 +216,7 @@ void Processor::registerLauncherEvents ()
 
         setAttachedState (static_cast<std::uint32_t> (processId));
         dap::appendResponse (json, model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::launchSequenceNumber)->getValue (), jam::Strings::getView (Id::launch.toString ()), true);
-        addMessage (std::move (json));
+        addMessage (json);
     });
 
     session.events.add<const juce::String&> (Id::error, [this] (const juce::Identifier&, const juce::String& text)
@@ -268,7 +292,7 @@ void Processor::onCommand (const jam::JsonDocument& document)
         std::string json;
 
         dap::appendErrorResponse (json, seq, jam::Strings::getView (command), "Unknown command");
-        addMessage (std::move (json));
+        addMessage (json);
     }
 }
 
@@ -294,20 +318,19 @@ void Processor::addLaunchErrorResponse (const juce::String& text)
     std::string json;
 
     dap::appendErrorResponse (json, model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::launchSequenceNumber)->getValue (), jam::Strings::getView (Id::launch.toString ()), jam::Strings::getView (text));
-    addMessage (std::move (json));
+    addMessage (json);
 }
 
-void Processor::addMessage (std::string json)
+void Processor::addMessage (std::string_view json)
 {
-    messages.write (std::move (json));
-    model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::numMessages)->setValue (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::numMessages)->getValue () + 1);
+    jam::StdioProtocol::writeMessage (stdio, json);
 }
 
 void Processor::addMessages (const jam::Strings& messages)
 {
     for (int index { 0 }; index < messages.size (); ++index)
     {
-        addMessage (std::string (messages.getView (index)));
+        addMessage (messages.getView (index));
     }
 }
 
@@ -330,11 +353,11 @@ void Processor::drainProcessExited ()
             jam::Format::appendDecimal (body, static_cast<int> (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::processExitCode)->getValue ()));
         });
 
-        addMessage (std::move (json));
+        addMessage (json);
 
         json.clear ();
         dap::appendEvent (json, jam::Strings::getView (Id::terminated.toString ()));
-        addMessage (std::move (json));
+        addMessage (json);
 
         model.storeValue (model.sessionTag, Id::executionState, static_cast<int> (debug::ExecutionState::exited));
         model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::isRunning)->setValue (0);
@@ -391,11 +414,11 @@ void Processor::onInitialize (const jam::JsonDocument& document)
 
     model.storeValue (model.sessionTag, Id::isRunInTerminalSupported, supportsRunInTerminal != nullptr and document.getBoolean (*supportsRunInTerminal) ? 1 : 0);
     dap::appendResponse (json, seq, jam::Strings::getView (Id::initialize.toString ()), true, &dap::appendCapabilities);
-    addMessage (std::move (json));
+    addMessage (json);
 
     json.clear ();
     dap::appendEvent (json, jam::Strings::getView (Id::initialized.toString ()));
-    addMessage (std::move (json));
+    addMessage (json);
 }
 
 void Processor::onLaunch (const jam::JsonDocument& document)
@@ -433,7 +456,7 @@ void Processor::launchInConsole (int seq, const juce::String& program, const juc
         dap::appendErrorResponse (json, seq, jam::Strings::getView (Id::launch.toString ()), "Failed to launch process");
     }
 
-    addMessage (std::move (json));
+    addMessage (json);
 }
 
 void Processor::launchInTerminal (int seq, const juce::String& program, const juce::String& console, const juce::String& cwd)
@@ -457,7 +480,7 @@ void Processor::launchInTerminal (int seq, const juce::String& program, const ju
         dap::appendErrorResponse (json, seq, jam::Strings::getView (Id::launch.toString ()), "Client does not support runInTerminal; set console to internalConsole");
     }
 
-    addMessage (std::move (json));
+    addMessage (json);
 }
 
 void Processor::addSearchPaths (const juce::String& cwd)
@@ -501,13 +524,13 @@ void Processor::onAttach (const jam::JsonDocument& document)
         setAttachedState (pid);
 
         dap::appendResponse (json, seq, jam::Strings::getView (Id::attach.toString ()), true);
-        addMessage (std::move (json));
+        addMessage (json);
         addMessage (dap::getProcessEvent ("pid " + juce::String (pid), pid, jam::Strings::getView (Id::attach.toString ())));
     }
     else
     {
         dap::appendErrorResponse (json, seq, jam::Strings::getView (Id::attach.toString ()), "Failed to attach");
-        addMessage (std::move (json));
+        addMessage (json);
     }
 }
 
@@ -519,7 +542,7 @@ void Processor::onConfigurationDone (const jam::JsonDocument& document)
     std::string json;
 
     dap::appendResponse (json, seq, jam::Strings::getView (Id::configurationDone.toString ()), true);
-    addMessage (std::move (json));
+    addMessage (json);
 }
 
 void Processor::onDisconnect (const jam::JsonDocument& document, bool isTerminate)
@@ -537,7 +560,7 @@ void Processor::onDisconnect (const jam::JsonDocument& document, bool isTerminat
     std::string json;
 
     dap::appendResponse (json, seq, jam::Strings::getView (command), true);
-    addMessage (std::move (json));
+    addMessage (json);
 
     const bool isDebuggeeAlive { static_cast<debug::ExecutionState> (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::executionState)->getValue ()) != debug::ExecutionState::idle
                               and static_cast<debug::ExecutionState> (model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::executionState)->getValue ()) != debug::ExecutionState::exited };
@@ -584,7 +607,7 @@ void Processor::onSetBreakpoints (const jam::JsonDocument& document)
         });
     });
 
-    addMessage (std::move (json));
+    addMessage (json);
     addMessages (breakpointManager.onReload ());
 }
 
@@ -599,7 +622,7 @@ void Processor::onThreads (const jam::JsonDocument& document)
         jam::JsonWriter::appendArray (body, [this] (std::string& elements) { session.appendThreads (elements); });
     });
 
-    addMessage (std::move (json));
+    addMessage (json);
 }
 
 void Processor::onStackTrace (const jam::JsonDocument& document)
@@ -627,7 +650,7 @@ void Processor::onStackTrace (const jam::JsonDocument& document)
         jam::Format::appendDecimal (body, frameCount);
     });
 
-    addMessage (std::move (json));
+    addMessage (json);
 }
 
 void Processor::onScopes (const jam::JsonDocument& document)
@@ -646,7 +669,7 @@ void Processor::onScopes (const jam::JsonDocument& document)
         jam::JsonWriter::appendArray (body, [localsRef] (std::string& elements) { appendLocalsScope (elements, localsRef); });
     });
 
-    addMessage (std::move (json));
+    addMessage (json);
 }
 
 void Processor::onVariables (const jam::JsonDocument& document)
@@ -663,7 +686,7 @@ void Processor::onVariables (const jam::JsonDocument& document)
         jam::JsonWriter::appendArray (body, [this, ref] (std::string& elements) { variableManager.onVariables (elements, ref); });
     });
 
-    addMessage (std::move (json));
+    addMessage (json);
 }
 
 void Processor::onContinue (const jam::JsonDocument& document)
@@ -683,7 +706,7 @@ void Processor::onContinue (const jam::JsonDocument& document)
         jam::JsonWriter::appendBoolean (body, true);
     });
 
-    addMessage (std::move (json));
+    addMessage (json);
 }
 
 void Processor::onNext (const jam::JsonDocument& document)
@@ -700,7 +723,7 @@ void Processor::onNext (const jam::JsonDocument& document)
     std::string json;
 
     dap::appendResponse (json, seq, jam::Strings::getView (Id::next.toString ()), true);
-    addMessage (std::move (json));
+    addMessage (json);
 }
 
 void Processor::onStepIn (const jam::JsonDocument& document)
@@ -717,7 +740,7 @@ void Processor::onStepIn (const jam::JsonDocument& document)
     std::string json;
 
     dap::appendResponse (json, seq, jam::Strings::getView (Id::stepIn.toString ()), true);
-    addMessage (std::move (json));
+    addMessage (json);
 }
 
 void Processor::onStepOut (const jam::JsonDocument& document)
@@ -734,7 +757,7 @@ void Processor::onStepOut (const jam::JsonDocument& document)
     std::string json;
 
     dap::appendResponse (json, seq, jam::Strings::getView (Id::stepOut.toString ()), true);
-    addMessage (std::move (json));
+    addMessage (json);
 }
 
 void Processor::onPause (const jam::JsonDocument& document)
@@ -748,7 +771,7 @@ void Processor::onPause (const jam::JsonDocument& document)
     std::string json;
 
     dap::appendResponse (json, seq, jam::Strings::getView (Id::pause.toString ()), true);
-    addMessage (std::move (json));
+    addMessage (json);
 }
 
 void Processor::onExceptionInfo (const jam::JsonDocument& document)
@@ -768,7 +791,7 @@ void Processor::onExceptionInfo (const jam::JsonDocument& document)
         jam::JsonWriter::appendString (body, jam::Strings::getView (Id::unhandled.toString ()));
     });
 
-    addMessage (std::move (json));
+    addMessage (json);
 }
 
 void Processor::onEvaluate (const jam::JsonDocument& document)
@@ -801,5 +824,5 @@ void Processor::onEvaluate (const jam::JsonDocument& document)
             jam::Strings::getView ("Could not evaluate: " + expression));
     }
 
-    addMessage (std::move (json));
+    addMessage (json);
 }

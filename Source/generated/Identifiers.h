@@ -87,7 +87,6 @@ extern const juce::Identifier launchTargetOption;
 extern const juce::Identifier moduleLoad;
 extern const juce::Identifier next;
 extern const juce::Identifier nextSequenceNumber;
-extern const juce::Identifier numMessages;
 extern const juce::Identifier output;
 extern const juce::Identifier pause;
 extern const juce::Identifier pid;

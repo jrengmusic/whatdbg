@@ -2,26 +2,13 @@
 #include <JuceHeader.h>
 #include "WHATDBGModel.h"
 #include "Processor.h"
-#include "dap/Writer.h"
-#include "dap/Reader.h"
 
-/** Application object of the adapter. Runs on the JUCE message thread.
- *
- *  Owns the model, the engine context (Processor), the stdout writer, and the stdin
- *  reader. The message thread writes stdout and makes no engine call. Processor owns
- *  the engine context. The reader thread calls Processor::addRequest through onMessage.
- *
- *  Members are destroyed in reverse declaration order, so the reader is destroyed
- *  before the processor.
- */
 class Whatdbg : public juce::JUCEApplicationBase,
                 private juce::ValueTree::Listener
 {
 public:
-    /** Creates the model listener, the two parameter attachments, and the reader route. */
     Whatdbg ();
 
-    /** Removes the model listener. */
     ~Whatdbg () override;
 
     /** Returns the project name from ProjectInfo.
@@ -42,14 +29,6 @@ public:
      */
     bool moreThanOneInstanceAllowed () override;
 
-    /** Prepares the engine context with the sidecar folder and starts the reader.
-     *
-     *  The sidecar folder is the first command-line parameter that Main.cpp passes to
-     *  JUCEApplicationBase::main. The reader starts only when the isRunning parameter is
-     *  not zero.
-     *
-     *  @param commandLine  Command-line text that JUCE passes. Not used.
-     */
     void initialise (const juce::String& commandLine) override;
 
     /** Does nothing. The member destructors release the session. */
@@ -79,22 +58,24 @@ public:
     void unhandledException (const std::exception* exception, const juce::String& sourceFilename, int lineNumber) override;
 
 private:
+    /** Calls the handler that registerEvents added for the changed property, when one exists.
+     *
+     *  @param tree      The value tree of the changed property. The handler receives it.
+     *  @param property  The changed property. Its identifier selects the handler.
+     */
     void valueTreePropertyChanged (juce::ValueTree& tree, const juce::Identifier& property) override;
 
     void registerEvents ();
 
+    /** The model. Its parameters hold the debug state, and the attachments and the handlers read them. */
     WHATDBGModel model;
 
     Processor processor;
 
-    dap::Writer writer;
-
-    dap::Reader reader;
-
+    /** The handlers of model property changes, keyed by property identifier. */
     jam::Function::Map<juce::Identifier, jam::Function::pointerCapacity, void (const juce::ValueTree&)> events;
 
-    std::unique_ptr<jam::Model::ParameterAttachment> numMessagesAttachment;
-
+    /** Calls model.flush when the isRunning parameter changes. */
     std::unique_ptr<jam::Model::ParameterAttachment> isRunningAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Whatdbg)

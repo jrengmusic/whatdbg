@@ -25,29 +25,25 @@
 
 ## Core Principles
 
-1. **Threads, one way:**
+1. **Three threads, one way:**
 
    | Thread | Owns | Never does |
    |---|---|---|
-   | Message thread (the main thread, the JUCE message loop) | `Whatdbg`, `WHATDBGModel`, `dap::Writer`, stdout | an engine call |
-   | Engine context (`Processor`) | `Session`, `BreakpointManager`, `VariableManager`, `StopManager`, the `commands` table | a write to stdout; a touch of the `juce::ValueTree` |
-   | Reader thread (`dap::Reader`) | stdin | anything else, except `session.wake ()` and `session.cancel ()` |
-   | `jam::AsyncOutputStream` callback (Windows default thread pool; macOS GCD global queue) | nothing | anything else, except `session.wake ()` for the debuggee output and `events.get (runInTerminal)`, which calls `triggerAsyncUpdate ()`, for the launcher channel |
+   | Message thread (the main thread, the JUCE message loop) | `Whatdbg`, `WHATDBGModel`, `Processor::prepare`, `Processor::releaseResources`, the `isRunning` listener | an engine call; a write to stdout |
+   | Engine context (`Processor`, the `jam::AsyncUpdater` serial context) | `Session`, `BreakpointManager`, `VariableManager`, `StopManager`, the `commands` and `cancellations` tables, the stdout frames (`addMessage`) | a touch of the `juce::ValueTree` |
+   | Stdin readiness context (the default context of the `jam::AsyncOutputStream` in `jam::StdioServer`) | the read of stdin into the input ring | anything else |
 
-   The data flows one way: stdin → Reader → `requests` lane → engine context → `messages` lane and Model parameters → message thread → stdout.
+   The data flows one way: stdin → readiness context → `jam::StdioServer` input ring → engine context (`applyPendingRequests`, `onRequest`, `onCommand`) → `addMessage` → `jam::StdioServer` output ring → stdout. Model parameters flow from the engine context to the message thread.
 2. **Engine events:** the platform backend (COM callbacks on Windows, `pollEvents` on macOS) reports through `Session::events`, keyed by `Id::`:
 
    | Key | Owner | Effect |
    |---|---|---|
-   | `initialBreak`, `pause`, `breakIn`, `exception`, `breakpoint`, `step`, `moduleLoad` | `StopManager` | stores `stopReason` and its payload in the Model; `process` then runs one stop drain |
+   | `initialBreak`, `pause`, `exception`, `breakpoint`, `step`, `moduleLoad` | `StopManager` | stores `stopReason` and its payload in the Model; `process` then runs one stop drain |
    | `targetProcessId` | `Processor` | stores `targetProcessId` |
    | `exited`, `terminated` | `Processor` | `drainProcessExited`: `exited` and `terminated` events |
    | `running` | `Processor` | `executionState = running` |
    | `breakpointLocationFound` | `Processor` | `BreakpointManager::onBreakpointLocationFound` events |
    | `console`, `standardOutput`, `standardError` | `Processor` | one `output` event for each report |
-   | `runInTerminal` | `Processor` | `triggerAsyncUpdate`; the engine context then drains the launcher channel |
-   | `didAttach` | `Processor` | `setAttachedState`, then the `launch` response |
-   | `error` | `Processor` | the `launch` error response |
 
    The backend never writes to stdout.
 3. **Sidecar Isolation:** Debug engine DLLs/dylibs are extracted from BinaryData at startup. LoadLibrary/dlopen from extracted path ensures deterministic version. On macOS, a re-exec trampoline sets DYLD_LIBRARY_PATH before the second invocation.
@@ -63,24 +59,14 @@
 **User Flow (Happy Path), Windows:**
 1. User starts debug session in nvim-dap with launch configuration
 2. whatdbg receives DAP `launch` request with program path
-3. For `console: "internalConsole"`, whatdbg creates the process suspended with `CreateProcessW` (`CREATE_NO_WINDOW`, `STARTF_USESTDHANDLES`, stdout and stderr on two named pipes read by `jam::AsyncOutputStream`), then calls `AttachProcess` with `DEBUG_ATTACH_INVASIVE_RESUME_PROCESS | DEBUG_ATTACH_INVASIVE_NO_INITIAL_BREAK`. For any other `console` value, whatdbg runs the program through the `runInTerminal` reverse request (Feature 1, runInTerminal flow)
-4. DAW launches with no window (`internalConsole`) or in a terminal of the client (other values)
+3. whatdbg calls `CreateProcess2` with `DEBUG_ONLY_THIS_PROCESS | CREATE_NEW_CONSOLE`
+4. DAW launches in a new console window
 5. whatdbg captures PID from `CreateProcess` callback via `GetProcessId(handle)`
 6. Initial `EXCEPTION_BREAKPOINT` (INT3) fires — whatdbg holds target stopped
 7. User's DAP client sends `configurationDone`
 8. whatdbg emits DAP `process` event with `name` (the program path), `systemProcessId`, `isLocalProcess: true`, and `startMethod: "launch"`
 9. whatdbg resumes target, emits DAP `thread` event with `reason: "started"`
 10. DAW loads normally, user works with it
-
-**User Flow (Happy Path), runInTerminal, both platforms (`console` other than `internalConsole`):**
-1. The client advertised `supportsRunInTerminalRequest: true` in `initialize`. whatdbg stores it in the Model row `isRunInTerminalSupported`
-2. whatdbg creates the comm channel. Windows: the duplex named pipe `\\.\pipe\whatdbg-run-in-terminal-<pid>`. macOS: the FIFOs `<path>` and `<path>.didAttach` in the temporary folder
-3. whatdbg sends the reverse request `runInTerminal` with `kind` (`external` for `externalTerminal`, otherwise `integrated`), `cwd`, and `args` = `[<whatdbg path>, "--comm-file", <path>, "--launch-target", <program>]`
-4. The client runs `args`. whatdbg in launcher mode (`Launcher`) creates the program and writes `{"kind":"pid","pid":N}` on the comm channel. Windows: the program is created suspended. macOS: the launcher sends its own pid
-5. whatdbg reads the line (`jam::AsyncOutputStream`, event driven) and attaches to the pid. Windows: `AttachProcess` with `DEBUG_ATTACH_INVASIVE_RESUME_PROCESS | DEBUG_ATTACH_INVASIVE_NO_INITIAL_BREAK`; the engine resumes the program at attach. macOS: a synchronous attach
-6. whatdbg writes `{"kind":"didAttach"}` to the launcher and sends the `launch` response. macOS: the launcher then calls `execvp`, and whatdbg continues past the exec stop
-7. The launcher waits for the program and exits with its exit code
-8. Errors: a client without the capability gets the `launch` error "Client does not support runInTerminal; set console to internalConsole". A failed `runInTerminal` response gives the `launch` error "runInTerminal failed: <message>". A failed attach gives "Failed to attach to the target process". A launcher that cannot create the program writes `{"kind":"error","error":…}`, and its text becomes the `launch` error
 
 **User Flow (Happy Path), macOS:**
 1. User starts debug session in nvim-dap with launch configuration
@@ -95,7 +81,7 @@
 
 **Edge Cases:**
 - Program path with spaces: quoted automatically (`"C:\Program Files\..."`) on Windows; macOS passes argv entries unquoted through `SBLaunchInfo`
-- Program not found: `CreateProcessW` (Windows) / `target.Launch` (macOS) returns failure, DAP error response sent
+- Program not found: `CreateProcess2` (Windows) / `target.Launch` (macOS) returns failure, DAP error response sent
 - Target crashes during launch: exit is observed via the platform's own event path (Windows `ExitProcess` callback, macOS `onProcessStateStopped`/`eStateExited`), DAP `exited` + `terminated` events emitted; no `process` event is sent — the session never reaches the initial-break resume, and there is no live process to identify
 
 **Error Handling:**
@@ -128,7 +114,7 @@
 **User Flow (Happy Path):**
 1. User sets breakpoint in a source file via nvim-dap
 2. DAP `setBreakpoints` request received with source path and line numbers
-3. whatdbg calls `Session::addBreakpointByLocation`. Windows: one `IDebugSymbols::GetSourceEntriesByLine` call (`DEBUG_GSEL_ALLOW_HIGHER | DEBUG_GSEL_NEAREST_ONLY`), then `addBreakpoint` at the entry offset; the resolved line is the entry's `StartLine`. macOS: `getLineEntry`, then `addBreakpoint`
+3. whatdbg calls `Session::addBreakpointByLocation`, which internally calls `getOffsetStatus`, then `getOffset`, then `addBreakpoint` on both platforms
 4. If resolved: response has `verified: true`
 5. If not resolved (module not loaded yet): the registry entry keeps an empty `engineId`, response has `verified: false`
 6. When a module loads: pending BPs are retried — Windows via the `LoadModule` callback after a per-module `.reload /f`; macOS via `onBreakpointEvent` (locations resolved or added), which reports `Session::events (breakpointLocationFound)`; the `Processor` entry calls `BreakpointManager::onBreakpointLocationFound`
@@ -137,23 +123,22 @@
 **Deferred Resolution:**
 - BPs set before module load: `engineId` is empty, resolved once the owning module loads
 - Windows: BPs set after module load call `forceReloadAllSymbols()` (global `.reload /f`) once, then retry
-- Resolution strategy: Windows asks dbgeng for the nearest source entry at or after the requested line in the requested file (`GetSourceEntriesByLine`, `Session.cpp`). `Session` converts the path to its native form first (`getNativePath`). macOS resolves via `getLineEntry` (`Session_mac.cpp`, file-local `static`), which scans every loaded module's compile units with `SBCompileUnit::FindLineEntryIndex` against an `SBFileSpec` for the requested path.
+- Resolution strategy: `getSourceOffset` (`Source/debug/Session.cpp`, a file-local `static` function — not a `Session` member) tries the full Windows path first. If that fails it retries with the basename, then matches the stored PDB path against the requested path before it returns the address. `Session` owns this match. The caller does not re-check it. macOS resolves via `getLineEntry` (`Session_mac.cpp`, file-local `static`), which scans every loaded module's compile units with `SBCompileUnit::FindLineEntryIndex` against an `SBFileSpec` for the requested path.
 - `BreakpointManager::hasUnresolvedBreakpoints()` (private) is the one truth for unresolved work. It derives the answer from the registry.
 
 **Edge Cases:**
 - BP on function signature line: resolves to first executable line inside body (PDB/MSVC behavior)
-- BP on blank/comment line: Windows resolves to the nearest higher line with code (`DEBUG_GSEL_ALLOW_HIGHER | DEBUG_GSEL_NEAREST_ONLY`)
+- BP on blank/comment line: `lineSearchWindow` (4 lines) searches nearby executable lines
 - Module with `!` in name (e.g., "JRENG! Filter Strip"): `juce::String::quoted()` handles dbgeng command parsing
 - Plugin removed and re-added: `UnloadModule` + `LoadModule` — pending BPs re-resolve on new `LoadModule`
 - BP removed while unresolved: `removeOrphanedBreakpoints` erases it from the registry
-- `setBreakpoints` while the target runs or launches (Windows): the request moves to the `pendingRequests` lane. While the target runs, the first such request stores `isBreakInPending` and calls `Session::interrupt` (`DebugBreakProcess`). The next stop applies the lane; the break-in stop then resumes with no `stopped` event. The process exit also applies the lane
 
 **Error Handling:**
 
 | Condition | User Sees | System Action |
 |-----------|-----------|---------------|
 | Source file not in any loaded module | `verified: false`, pending message | Registry entry keeps an empty `engineId` |
-| `GetSourceEntriesByLine` fails or finds no entry | BP stays unresolved | Registry entry keeps an empty `engineId` |
+| `getOffsetStatus` E_UNEXPECTED | BP stays unresolved | `engineBusy` stops the line search, no crash |
 | Module load storm (100+ modules) | Brief delay during startup | Per-module `.reload /f` (not global) |
 
 ---
@@ -163,7 +148,7 @@
 **User Flow (Happy Path), Windows:**
 1. Target stopped at breakpoint or after pause
 2. User presses F10 (next), F11 (stepIn), or stepOut keybinding
-3. whatdbg selects the event thread and disables the breakpoint at the frame 0 instruction, if one is enabled there (`Session::disableBreakpointAtInstruction`). Then it calls `SetExecutionStatus(STEP_OVER/STEP_INTO)` or `Execute("gu")` for stepOut. The next completed wait enables the breakpoint again (`DbgEng.h:8078-8093`: engine breakpoint management in multithreaded code can cause "spurious single-step exceptions")
+3. whatdbg calls `SetExecutionStatus(STEP_OVER/STEP_INTO)` or `Execute("gu")` for stepOut
 4. `SetCodeLevel(DEBUG_LEVEL_SOURCE)` ensures source-level stepping (not instruction-level)
 5. `Session::pollEvents` sees `WaitForEvent` return `S_OK` while `Id::isStepPending` is set and reports `events (step)`; the `StopManager` entry sets `Id::stopReason` to `step` when no other stop set it
 6. DAP `stopped` event emitted with `reason: "step"`
@@ -325,13 +310,6 @@ by this document's audit pass; treat as untested until confirmed against `tests/
 4. The `Processor` entry emits one DAP `output` event with `category: "console"` for each report
 5. Message appears in nvim-dap REPL panel
 
-**User Flow (Happy Path), Windows, stdout and stderr (`console: "internalConsole"`):**
-1. Target writes to stdout or stderr
-2. The write completes the pending overlapped `ReadFile` of its `jam::AsyncOutputStream`; the thread-pool wait on the read event calls `Session::wake`
-3. `Session::drainOutput` (called from `pollEvents` before and after the wait, and from the `Processor` entry of `exited` before the `exited` event) reads each stream and reports `Session::events (standardOutput or standardError, text)`
-4. The `Processor` entry emits one DAP `output` event with category `"stdout"`/`"stderr"` for each report
-5. Message appears in nvim-dap REPL panel
-
 **User Flow (Happy Path), macOS:**
 1. Target writes to stdout or stderr
 2. `drainProcessStdio` (`Session_mac.cpp`, called from `pollEvents`) polls `SBProcess::GetSTDOUT`/`GetSTDERR`
@@ -365,7 +343,6 @@ by this document's audit pass; treat as untested until confirmed against `tests/
 - `VariableManager::onScopes` decodes frameId → threadSystemId, sets thread context
 - `VariableManager::onVariables` restores from `lastScopesThreadId`
 - Stopped events use `getEventThreadSystemId()` for the real event thread's OS TID
-- Windows: a thread that dbgeng has not reported yet comes from a Toolhelp snapshot (`appendUnreportedThreads`). Selecting it stores `unreportedThreadId`, and its stack and scope come from the thread context (`getContextStackTrace`)
 
 ---
 
@@ -375,8 +352,8 @@ by this document's audit pass; treat as untested until confirmed against `tests/
 - `terminate` command, or `disconnect` with `terminateDebuggee: true` — kills the target process. Windows: `DEBUG_END_ACTIVE_TERMINATE`. macOS: `process.Signal (SIGKILL)` followed by `resume()`, so the kill's exit event is observed through the normal `pollEvents` path rather than torn down blind (see the zombie-termination fix below).
 - `disconnect` without `terminateDebuggee` — detaches, target continues running. Windows: `DEBUG_END_ACTIVE_DETACH`. macOS: `process.Detach()`.
 
-**Two call sites, same `EndMode`:** the reader thread calls `Session::cancel` for
-`disconnect` and `terminate` before it writes the request. `Processor::onDisconnect`
+**Two call sites, same `EndMode`:** `Processor::applyRequests`, on the engine context,
+calls `Session::cancel` for `disconnect` and `terminate` before it calls `onRequest`. `Processor::onDisconnect`
 first calls `Session::resetCancel`, sends the response, then sends the kill/detach
 signal and moves `executionState` to `running` with a 5 s terminate deadline, so the
 engine context keeps polling for the debuggee's exit, also after a kill that the
@@ -433,7 +410,7 @@ uses — before the session is torn down. `Session::shutdown` also guards
 ## Architecture Constraints
 
 - No bail-out guards — positive nested checks; result returns (the value determined at that point) are correct and preferred, per MANIFESTO **E**
-- No raw owning pointers — `juce::ComSmartPtr<T>` for COM objects (Windows); liblldb SB API value types own their own lifetime (macOS)
+- No raw owning pointers — `ComPtr<T>` for COM objects (Windows); liblldb SB API value types own their own lifetime (macOS)
 - No magic numbers — named constants
 - `not`/`and`/`or` — never `!`/`&&`/`||`
 - Brace initialization everywhere
@@ -462,23 +439,23 @@ A user can, on both Windows and macOS unless noted:
 - [x] Disconnect and leave the target running (both platforms)
 
 The system:
-- [x] Windows: compiles with clang-cl through `cast cast/spell.md`; `tests/smoke` passes
-      22/22 against `baseline/windows/` (2026-11-15)
+- [ ] Windows: compiles with MSVC — the Windows code of the audio-architecture rewrite
+      (2026-11-14) is not yet compiled; ARCHITECT builds and runs it on Windows
+      (PLAN Part 7 Step 5)
 - [x] macOS: compiles with Xcode clang
 - [x] Follows BLESSED principles throughout
 - [x] Header doxygen present across `Source/Whatdbg.h`, `WHATDBGModel.h`,
       `Processor.h`, `debug/State.h`, `debug/Session.h`, `debug/BreakpointManager.h`,
       `debug/VariableManager.h`, `debug/StopManager.h`, `debug/Callbacks.h`,
-      `debug/Loader.h`, `debug/PrettyPrint.h`, `dap/Reader.h`, `dap/Writer.h`,
-      `dap/FIFO.h`, `dap/Types.h`. The members added on 2026-11-15 (`Launcher`, the runInTerminal path) get their doxygen in the post-audit pass
+      `debug/Loader.h`, `debug/PrettyPrint.h`, `dap/Types.h`; the project doxygen
+      run gives no warning
 - [x] Has debug-only file logging (zero overhead in Release)
 - [x] Handles module load storms without freezing (per-module reload, Windows)
 - [x] Caches symbol groups for stepping performance (Windows; liblldb owns
       equivalent caching internally on macOS)
-- [x] `tests/smoke/` — 22 scenarios (`run_smoke.lua`, `scenario_breakpoint.lua`,
-      `scenario_process.lua`, `scenario_terminate.lua`, `scenario_inspect.lua`,
-      `scenario_terminal.lua`), each compared with its transcript baseline. Scenario
-      `22_run_in_terminal` has no macOS baseline yet. On macOS all 21 sequence checks pass in
+- [x] `tests/smoke/` — 21 scenarios (`run_smoke.lua`, `scenario_breakpoint.lua`,
+      `scenario_process.lua`, `scenario_terminate.lua`, `scenario_inspect.lua`), each
+      compared with its transcript baseline. On macOS all 21 sequence checks pass in
       ten of ten runs; scenario `17_evaluate_fail` fails its two evaluate checks
       (`evaluate notAVariable` gives `success=true`), as it did before the rewrite
 
