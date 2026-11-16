@@ -7,7 +7,6 @@ event process
 event thread started
 event breakpoint changed
 event breakpoint changed
-event breakpoint changed
 event stopped breakpoint
 response continue true
 event exited

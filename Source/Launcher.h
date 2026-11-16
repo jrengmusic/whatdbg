@@ -3,8 +3,8 @@
 
 /** Runs in the terminal that the client opens for a launch.
  *
- *  Sends the process ID of the target through the launch channel, then reads the reply of the
- *  adapter. It runs the target only when the reply says that the adapter attached.
+ *  Both platforms create the target suspended, send the target's process ID, and read the adapter's reply.
+ *  The target runs only after the debugger resumes it.
  */
 class Launcher
 {
@@ -23,19 +23,22 @@ public:
      *  Windows creates the target suspended, sends its process ID, and reads the reply. When the
      *  reply says didAttach, it waits for the target to exit. Otherwise it terminates the target.
      *  When the target cannot be created, it sends an error message.
-     *  macOS opens the reply FIFO, sends the process ID of this process, and reads the reply.
-     *  When the reply says didAttach, it closes the reply FIFO and replaces this process with the
-     *  target. When execvp fails, it prints the error.
+     *  macOS opens the reply FIFO with close-on-exec.
+     *  It spawns the target with POSIX_SPAWN_START_SUSPENDED.
+     *  It watches the exit of the target with a kqueue.
+     *  It sends the process ID of the target.
+     *  When the reply says didAttach, it waits for the exit event and returns the exit code of the target.
+     *  A target that a signal killed gives 128 plus the signal number.
+     *  Otherwise it kills the target with SIGKILL.
+     *  When the spawn fails, it sends an error message.
      *
-     *  @return The exit code of the target on Windows. failedLaunchExitCode when the target does not
-     *          start or does not attach, and when execvp fails on macOS.
+     *  @return The exit code of the target on both platforms. failedLaunchExitCode when the target does not
+     *          start or does not attach.
      */
     int run ();
 
 private:
     /** Writes the process ID message: a JSON object with kind pid and the process ID, on one line.
-     *
-     *  On macOS the target replaces this process, so the ID names the target after execvp.
      *
      *  @param processId  Process ID of the target.
      */
@@ -81,7 +84,7 @@ private:
     juce::String commFile;
 
     /** Target program and its arguments. Windows joins them with spaces into one command line.
-     *  macOS passes them to execvp.
+     *  macOS passes them to posix_spawnp.
      */
     juce::StringArray launchTarget;
 
@@ -91,7 +94,9 @@ private:
 #endif
 
 #if JUCE_MAC
-    /** Stream of the reply FIFO that run opens. run closes it before execvp. macOS only. */
+    /** Stream of the reply FIFO that run opens with close-on-exec, so the target does not inherit it.
+     *  Closed when the member is destroyed. macOS only.
+     */
     std::unique_ptr<FILE, decltype (&fclose)> readFifo { nullptr, &fclose };
 #endif
 

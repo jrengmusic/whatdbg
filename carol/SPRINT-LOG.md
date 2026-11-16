@@ -112,6 +112,77 @@
 
 ## SPRINT HISTORY
 
+## Sprint 36: jam::AsyncUpdater owns the native events — no native type in a public signature; the macOS launcher starts the target suspended ✅
+
+**Date:** 2026-11-17
+**Duration:** one session, continued across several context compactions
+**Scope:** `ling/PLAN-async-updater-events.md` Steps 1-9, for jam (jam_core, jam_terminal), eve and whatdbg. Then the whatdbg launcher and the smoke baseline, which ARCHITECT added after the audit. ARCHITECT's rulings: *"FIX THE CONTRACT VIOLATIONS"*; *"why is our AsyncUpdater not simply wrap juce::ThreadPool and manage the events, whatever we need without needed to poke native OS API and create our own branch?"*; the AskUserQuestion answer **"Updater owns events"**; *"follow established pattern VERBATIM"*; *"FULLY EVENT DRIVEN. no manual callbacks, no manual state machine management, use framework API to its fullest extent. DESIGN BY CONTRACT. NO HANDROLL"*; *"exact same result at runtime"*; *"as long as the runtime result and speed on parity with old binary"*; *"windows will conform when we get there"*; *"make it RAII … why by hand?"*; *"we cant wrap this sprint if whatdbg unresolved. investigate"*; the AskUserQuestion answer **"Baseline + launcher"**; on the launcher wait: *"what's the most DETERMINISTIC? most BLESSED approach?"*, then `/go`.
+
+### Agents Participated
+- COUNSELOR: the plan, every brief, the validation of each return by read, the audit filter, the whatdbg CPU investigation, the scout manifests, the doxygen validation and corrections, this log.
+- Pathfinder (haiku): the inventory reads, the scout runs (EVE replay and live, whatdbg smoke, the test-22 split, the baseline record), the doxygen passes.
+- Engineer (haiku): the jam, eve and whatdbg code steps, the audit fixes, the launcher change.
+- Librarian (haiku): the lldb `darwin-debug` launch path, the debugserver attach and resume path, the XNU `ptrace`, `wait4`, `reap_child_locked` and `EVFILT_PROC` sources.
+- Auditor (opus): one audit of jam, eve and whatdbg — 22 findings.
+
+### Files Modified (36 total: jam 22, eve 7, whatdbg 6, ling 1, by `git status`)
+- jam `jam_core/concurrency/jam_AsyncUpdater.h`, `.cpp` — the `Context` alias and the native members leave the header. `struct Native` holds the GCD queue and DATA_OR source (macOS), or the one-thread pool and work (Windows). `getContext()` returns `AsyncUpdater*`. The new nested event API: `Handle`, `Source` (readiness of one handle with its own one-shot timer: `open`, `close`, `arm`, `startTimer`, `onReady`, `onTimer`), `Signal` (macOS: `open`, `close`, `onSignal`), `Work` (`open`, `close`, `submit`, `onWork`). Each native body moved from its consumer. Each destructor calls `close()`.
+- jam `jam_core/jam_core.mm:1`, `jam_terminal/jam_terminal.mm:1` — `#define OS_OBJECT_USE_OBJC 0` deleted. Each file is its unity include only.
+- jam `jam_terminal/tty/jam_AsyncOutputStream.h`, `native/jam_AsyncOutputStream_mac.cpp`, `native/jam_AsyncOutputStream_windows.cpp` — `using Handle = AsyncUpdater::Handle;`; `open (Handle, AsyncUpdater*, int, double)`; each Native holds an `AsyncUpdater::Source` and keeps the clock logic of HEAD. Windows: `~Native()` deleted; the member `juce::ErasedScopeGuard readCancellation` (`_windows.cpp:169-184`) cancels and waits for the overlapped read, and member destruction orders it after `source` (audit finding 3, ARCHITECT: *"make it RAII"*).
+- jam `jam_terminal/tty/jam_TerminalTTY.h`, `native/jam_TerminalTTY_posix.h`, `.cpp`, `native/jam_TerminalTTY_windows.h`, `.cpp` — `open` takes `AsyncUpdater*`; Windows `resizeWork` becomes `AsyncUpdater::Work`, `writeWait` becomes `AsyncUpdater::Source` on `writeEvent`.
+- jam `jam_terminal/display/jam_TerminalDisplay.h`, `native/jam_TerminalDisplay_posix.h`, `.cpp`, `native/jam_TerminalDisplay_windows.h`, `.cpp` — `open` takes `AsyncUpdater*`; `addSources`, `resizeSource` and `cancelled` become one `AsyncUpdater::Signal resize`; `<dispatch/dispatch.h>` leaves the posix header.
+- jam `jam_terminal/display/jam_StdioServer.h`, `.cpp` — `open` takes `AsyncUpdater*`.
+- jam `jam_terminal/display/jam_StdioProtocol.h:30` — `@param callback` added (doxygen warning at `:23`).
+- jam `jam_audio_devices/audio_io/jam_VirtualDevice.h:99-101` — doxygen of `getContext`.
+- jam `jam_subprocess/subprocess/native/jam_ChildProcess_posix.cpp:6` — one include (a DCF edit outside the named file set).
+- eve `Source/TerminalMemoryTTY.h`, `.cpp` — `open (jam::AsyncUpdater*, …)`; `dispatch_async_f` becomes an `AsyncUpdater::Work`; `~TerminalMemoryTTY() { close(); }` and `close() { tty->close(); cancelPendingUpdate(); }`, the sibling pattern of `jam_TerminalTTY_posix.cpp:173-176`, `jam_TerminalDisplay_posix.cpp:9-12` and `jam_VirtualDevice.cpp:8-11`; `tty` stays at its HEAD position (first member).
+- eve `Source/EVETerminalProcessor.cpp` — the `applyNames` change (a DCF edit outside the named file set).
+- eve `benchmark/live-report.md`, `live-samples.md`, `replay-report.md`, `replay-samples.md` — scout outputs.
+- whatdbg `Source/Launcher.cpp:4-14` — macOS includes `<spawn.h>`, `<signal.h>`, `<sys/event.h>`, `<sys/wait.h>` and `extern char** environ;` (the sibling `jam_ChildProcess_posix.cpp:8`); `<cstring>` removed.
+- whatdbg `Source/Launcher.cpp:158-221` — macOS `run`: the reply FIFO opens with `O_CLOEXEC` (`:166`); `posix_spawnp` with `POSIX_SPAWN_START_SUSPENDED`, the attributes released by `juce::ErasedScopeGuard attributesDestroy` (`:174-182`); a kqueue `EVFILT_PROC` watch with `NOTE_EXIT | NOTE_EXITSTATUS` is registered before `sendPid` (`:187-198`); after `didAttach`, one blocking `kevent` gives the exit status, and a signal gives `signalExitBase` 128 plus the signal number (the jam `ChildProcess` mapping, `jam_ChildProcess_posix.cpp:42`, `:107-111`); otherwise `SIGKILL`; a spawn failure sends the error. `execvp` is gone.
+- whatdbg `Source/Launcher.h` — the class, `run`, `sendPid`, `launchTarget` and `readFifo` doxygen state the suspended spawn and the kqueue wait; no `execvp` remains.
+- whatdbg `tests/smoke/baseline/macos/22_run_in_terminal.txt` — one `event breakpoint changed` line deleted. The old flow attached to the whatdbg image before the exec, which gave a third location event. The new sequence equals the direct launch (`01_launch_bp_continue.txt:8-9`).
+- whatdbg `benchmark/smoke-report-baseline.md` — recorded again for the 22-scenario workload: 7 epochs, epoch 4.7065e10 ns, user 1.993e9 ns, system 1.120e9 ns (17-11-2026 02:43).
+- whatdbg `benchmark/smoke-report.md` — scout output.
+- whatdbg `carol/SPRINT-LOG.md` — the Sprint 35 lines that stated the `OS_OBJECT_USE_OBJC` define as a fix are corrected (Step 9.1); this entry.
+- ling `PLAN-async-updater-events.md` — the locked plan.
+
+### Alignment Check
+- [x] BLESSED principles followed
+- [x] NAMES.md adhered
+- [x] MANIFESTO.md principles applied
+- [ ] Windows code (`jam_AsyncUpdater.cpp` Windows blocks, `jam_AsyncOutputStream_windows.cpp`, `jam_TerminalTTY_windows.*`, `jam_TerminalDisplay_windows.*`) is not compiled on this macOS host. ARCHITECT: *"windows will conform when we get there"*.
+
+### Problems Solved
+- The link fault that the define hid: `AsyncUpdater::Context` was `dispatch_queue_t` in public `open` signatures, so a `.mm` definition and a `.cpp` call mangled differently. No native type is in a public signature now, and both defines are gone.
+- Every native event object (READ, TIMER and SIGNAL sources, pool waits, timers and work) has one owner, a nested RAII class of `jam::AsyncUpdater`. The consumers create no native object.
+- Audit: 22 findings, each resolved by a read-checked fix or rejected with the read that refutes it. Findings 11-13 were plan-text corrections. Finding 3 is the `readCancellation` RAII member.
+- Doxygen pass findings: F1 rejected (`jam_TerminalTTY_windows.cpp:751`, the jassert is the precondition form); F2 rejected (the zero count matches HEAD, `jam_TerminalTTY_posix.h:33`); F3 accepted (the TerminalMemoryTTY destruction order).
+- whatdbg CPU. The old 21-scenario baseline measured a different workload. Scenario 22, added in d17013b, made the HEAD user time 6.884e9 ns. The cause was the macOS launcher: it sent its own pid and called `execvp` only after `didAttach`, so lldb attached to the 90.7 MB whatdbg image (which embeds liblldb). It now starts the target suspended and sends the target pid, as Windows does (`Launcher.cpp:127-132`). debugserver itself spawns suspended, then attaches with `PT_ATTACHEXC` (llvm `MachProcess.mm:3723`, `:3672`).
+- The launcher wait. `PT_ATTACHEXC` makes the debugger the parent of the target (XNU `mach_process.c:285-292`), so `waitpid` in the launcher returns ECHILD (`kern_exit.c:2926`, `:3080-3082`). debugserver reaps the target (llvm `DNB.cpp:521`, `:165`, `:271`). The reap returns the target to the launcher and posts the exit event (`kern_exit.c:2754-2761`). The original parent can register the kqueue watch (`kern_event.c:1125-1128`), and the event carries the exit status (`:1234-1238`).
+
+### Verification
+- whatdbg smoke (`benchmark/smoke.sh`): pass=22 fail=0.
+- whatdbg scout (`benchmark/smoke.md`, 7 epochs, Release), against the old baseline: epoch 4.6992e10 ns (−25.1%), user 2.002e9 ns (−7.7%), system 1.115e9 ns (−28.7%). HEAD on the same workload: user 6.884e9 ns.
+- whatdbg scenario 22 alone (3 epochs): user 5.068e9 ns before, 1.019e8 ns after; epoch 3.602e9 ns before, 2.737e9 ns after.
+- After each run, `ps` showed no launcher or fixture process.
+- EVE replay (Step 8): 1.623e9 ns against the Step 1 baseline 2.295e9 ns; round 4, after the TerminalMemoryTTY close fix: 1.684e9 ns, exit 0. EVE live: epoch +0.32% (p=0.34), user +0.18% (p=0.49). EVE Profile build: OK.
+- ling `benchmark/build.md`: exit 0.
+
+### State for Continuation
+- Windows build and runs are ARCHITECT's: whatdbg `benchmark/smoke-windows.md`, EVE `launch-windows*.md`.
+- KANJUT `kuassa_AsyncUpdater` is not synced. It syncs from jam through cast (jam `carol/SPRINT-LOG.md:414`).
+- END, TIT, CAKE and CAROLINE are not rebuilt against the new `AsyncUpdater` API.
+- The doxygen XML is not regenerated. ARCHITECT runs `<leader>bd`, then checks that the `jam_StdioProtocol.h:23` warning is gone.
+- The launcher no longer execs. `Session_mac.cpp:228-233` still sets `target.process.stop-on-exec` to `false`.
+- The comment edits in `Launcher.h` and `Launcher.cpp:164-165`, `:184-186` came after the last build.
+
+### Debts Paid
+- None
+
+### Debts Deferred
+- None
+
 ## Sprint 35: One stdio transport in jam — whatdbg on jam::StdioServer over TerminalFIFO rings ✅
 
 **Date:** 2026-11-16
@@ -126,7 +197,7 @@
 
 ### Files Modified (110 total: jam 80, whatdbg 30, by `git status`)
 - jam `jam_core/concurrency/jam_FIFO.h`, `jam_core/json/jam_StdioServer.h`, `.cpp` — deleted (the rejected first design); their rows in `user-modules-info.md` and includes in `jam_core.h` / `jam_core.cpp` removed.
-- jam `jam_core/jam_core.mm:1` — `#define OS_OBJECT_USE_OBJC 0`, so `dispatch_queue_t` has one definition across the `.mm` and `.cpp` units (audit 18).
+- jam `jam_core/jam_core.mm:1` — `#define OS_OBJECT_USE_OBJC 0` (audit 18). Correction: the define is a contract violation, not a fix. It hid a native type, `jam::AsyncUpdater::Context` (`dispatch_queue_t`), in public `open` signatures that plain `.cpp` units call. The next sprint removes it: `jam::AsyncUpdater` keeps its native context in a private `Native`, owns the events (`Source`, `Signal`, `Work`), and each `open` takes `const jam::AsyncUpdater*`.
 - jam `jam_core/document/jam_Document.h:944`, `:1338-1341`, `.cpp` — `arena` owns the bytes and `source` is a `std::string_view`; `getSource` returns a view. A document can borrow its source.
 - jam `jam_core/json/jam_JsonDocument.h:37-46`, `.cpp:20-29` — `read (std::string_view)` parses the caller's bytes in place, with no copy (ARCHITECT approved).
 - jam `getSource` callers take `std::string_view`: `jam_markdown/document/jam_MarkdownDocument.h`, `.cpp`, `jam_MarkdownBlockParser.cpp`, `jam_document/document/jam_ReflowDocument.cpp` (getCodepoint, getRowWidth, getRows, getCutSegments), the 36 `jam_mermaid_diagram/diagram/jam_Mermaid*.cpp|h` files, `jam_web/css/jam_Css.*`, `jam_web/html/jam_Html.*`, `jam_syntax_tree/document/jam_LanguageValidator.*`, `jam_fuzzy/finder/jam_BonusMatrix.*`, `jam_FuzzyPattern.cpp`, `jam_FuzzyPatternMatch.cpp`. `jam_core/text/jam_Strings.h:647-668` — `getView (const std::string&)` and `getView (const juce::MemoryBlock&)`.
@@ -134,7 +205,7 @@
 - jam `jam_terminal/processor/native/jam_TerminalFIFO_mac.cpp:33-67` — `::read` and `::write` bodies with the TerminalUnixTTY return codes. `native/jam_TerminalFIFO_windows.cpp` — `PeekNamedPipe`, then `ReadFile` with an `OVERLAPPED` record and `GetOverlappedResult`; `WriteFile` with `OVERLAPPED`, waited (the TerminalWindowsTTY::read pattern; audit 4).
 - jam `jam_terminal/display/jam_StdioServer.h`, `.cpp` (new) — a `juce::OutputStream` over the `input` and `output` TerminalFIFO rings and one `AsyncOutputStream` on stdin; `open`, `close`, `applyPendingData`, `write`, `flush`; `write` returns `false` when a flush leaves the full ring with no free space (`.cpp:79`).
 - jam `jam_terminal/display/jam_StdioProtocol.h`, `.cpp` (new) — `applyMessages` gives each complete Content-Length body as a view in the ring and stops at a rejected or incomplete frame; `writeMessage` writes one frame.
-- jam `jam_terminal/jam_terminal.h`, `.cpp`, `.mm` — the StdioServer and StdioProtocol includes; the `OS_OBJECT_USE_OBJC` define.
+- jam `jam_terminal/jam_terminal.h`, `.cpp`, `.mm` — the StdioServer and StdioProtocol includes; the `OS_OBJECT_USE_OBJC` define (a contract violation; the correction above applies).
 - jam `jam_core/text/jam_Format.*`, `jam_core/json/jam_JsonWriter.*`, `jam_terminal/buffers/jam_TerminalEncoder.*`, `jam_core/text/jam_AttributedChar.h` — kept from the first Sprint 35 work: `appendBytes`, the exponent split, the `openers`/`closers` lookups, `writeCodepoint` deleted for `Format::appendUtf8`.
 - `Source/Processor.h`, `.cpp` — `jam::StdioServer stdio` (the last member) and `jam::Mailbox<jam::JsonDocument> requests` for `prepare` / `releaseResources`; `applyPendingRequests` (`.cpp:132-149`) reads frames in place with `JsonDocument::read`, runs the cancellations, and leaves a deferred frame in the ring; `process` reads the ring first, then the mailbox (`:68-71`); `addMessage (std::string_view)`; `registerCommands`; `releaseResources` closes `stdio` first; the stdin callback wakes the engine (`:22-26`).
 - `Source/Whatdbg.h`, `.cpp` — `dap::Reader`, `dap::Writer` and the `numMessages` route deleted. `Source/WHATDBGModel.*`, `cast/identifiers.md`, `Source/generated/*` — `numMessages` removed.
@@ -158,7 +229,7 @@
 - The adapter exits: the HEAD `dap::Reader` closed stdin while `getline` blocked on it, so the old binary never exited. The new binary exits in 8 ms.
 - Scenario 22 (runInTerminal) passes on macOS. It had three causes: the early `Continue`, the exec stop that no table entry handled, and the `EINTR` from the attach in the Launcher read.
 - The macOS target stderr arrived as category stdout through the single pty. The FIFO now carries it as stderr.
-- Audit findings 1, 3-7, 9, 11, 13-15, 18, 21, 23-25, 33, 35 and 36 (constructor length) fixed and checked by read.
+- Audit findings 1, 3-7, 9, 11, 13-15, 18, 21, 23-25, 33, 35 and 36 (constructor length) fixed and checked by read. Correction: 18 was closed by the `OS_OBJECT_USE_OBJC` define, which is a contract violation (see the `jam_core.mm:1` line above).
 - Audit findings rejected against HEAD or EVE precedent: 8 (HEAD `Processor.cpp:268-271`), 10 (HEAD `Whatdbg.cpp:17-21`, `:99-102`), 16 (jam `TerminalTTY_posix.cpp:259-267`), 17 (HEAD `Session.cpp:290`), 22 (HEAD `Processor.cpp:125-128`), 29 (HEAD `:52-80`), 30 (HEAD `Session.cpp:99`, `:390`), 31, 32 (`jam_AsyncUpdater.cpp`), 34 (refuted by `Processor.cpp:68-71`), 36 call spacing (HEAD `:49-84`), 37 (the files were over the limits at HEAD). 19 and 20 wait for the Windows pass. 2 is the ring bound above. 26-28 resolved by the docs and doxygen pass.
 - PLAN Step 6.2 said the end of stdin sets `isRunning` to 0. That dropped the exit events of `terminate` in scenarios 04, 08, 14 and 16 (18/22). HEAD runs on after stdin closes (HEAD `Whatdbg.cpp:29-32`), so the HEAD behaviour is restored, by the ruling *"exact same result at runtime"*.
 - `StdioServer::write` looped with no progress when stdout took nothing (doxygen pass finding).

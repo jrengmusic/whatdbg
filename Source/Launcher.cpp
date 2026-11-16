@@ -5,7 +5,12 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <cerrno>
-#include <cstring>
+#include <spawn.h>
+#include <signal.h>
+#include <sys/event.h>
+#include <sys/wait.h>
+
+extern char** environ;
 #endif
 
 Launcher::Launcher (const juce::String& newCommFile, const juce::StringArray& newLaunchTarget)
@@ -153,23 +158,65 @@ int Launcher::run ()
 #if JUCE_MAC
 int Launcher::run ()
 {
+    static constexpr int signalExitBase { 128 };
+
     const juce::File readFile { juce::File (commFile).withFileExtension (Id::didAttach.toString ()) };
-    readFifo.reset (fdopen (open (readFile.getFullPathName ().toRawUTF8 (), O_RDWR), "r"));
+    // The spawned target inherits each open descriptor of this process that is not close-on-exec.
+    // The target must not hold the reply FIFO.
+    readFifo.reset (fdopen (open (readFile.getFullPathName ().toRawUTF8 (), O_RDWR | O_CLOEXEC), "r"));
     std::vector<char*> argumentPointers;
 
     for (const auto& element : launchTarget)
         argumentPointers.push_back (const_cast<char*> (element.toRawUTF8 ()));
 
     argumentPointers.push_back (nullptr);
-    sendPid (static_cast<std::uint32_t> (getpid ()));
 
-    if (isAttached (getLine ()))
+    posix_spawnattr_t attributes {};
+    posix_spawnattr_init (&attributes);
+    const juce::ErasedScopeGuard attributesDestroy { [&attributes] { posix_spawnattr_destroy (&attributes); } };
+    posix_spawnattr_setflags (&attributes, POSIX_SPAWN_START_SUSPENDED);
+
+    pid_t processId { 0 };
+    int exitCode { failedLaunchExitCode };
+
+    if (posix_spawnp (&processId, argumentPointers.front (), nullptr, &attributes, argumentPointers.data (), environ) == 0)
     {
-        readFifo.reset ();
-        execvp (argumentPointers.front (), argumentPointers.data ());
-        std::fprintf (stderr, "%s\n", strerror (errno));
+        // When the debugger attaches, the kernel makes the debugger the parent of the target.
+        // Then waitpid in this process fails, because the target is not its child.
+        // When the debugger reaps the target, the kernel gives it back and posts this exit event.
+        const int queue { kqueue () };
+        jassert (queue >= 0);
+        const juce::ErasedScopeGuard queueClose { [queue] { close (queue); } };
+
+        struct kevent exitWatch {};
+        EV_SET (&exitWatch, static_cast<uintptr_t> (processId), EVFILT_PROC, EV_ADD | EV_ONESHOT, NOTE_EXIT | NOTE_EXITSTATUS, 0, nullptr);
+
+        const bool isWatched { kevent (queue, &exitWatch, 1, nullptr, 0, nullptr) == 0 };
+        jassert (isWatched);
+        juce::ignoreUnused (isWatched);
+
+        sendPid (static_cast<std::uint32_t> (processId));
+
+        if (isAttached (getLine ()))
+        {
+            struct kevent exitEvent {};
+            const int numEvents { kevent (queue, nullptr, 0, &exitEvent, 1, nullptr) };
+            jassert (numEvents == 1);
+            juce::ignoreUnused (numEvents);
+
+            const int status { static_cast<int> (exitEvent.data) };
+            exitCode = WIFEXITED (status) ? WEXITSTATUS (status) : signalExitBase + WTERMSIG (status);
+        }
+        else
+        {
+            kill (processId, SIGKILL);
+        }
+    }
+    else
+    {
+        sendError ("Failed to launch target process");
     }
 
-    return failedLaunchExitCode;
+    return exitCode;
 }
 #endif
