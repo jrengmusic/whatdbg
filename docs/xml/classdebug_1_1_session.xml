@@ -3,6 +3,28 @@
   <compounddef id="classdebug_1_1_session" kind="class" language="C++" prot="public">
     <compoundname>debug::Session</compoundname>
     <includes refid="_session_8h" local="no">Session.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdebug_1_1_session_1ad35eb7e29f550d63f5003087e9ef305c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double debug::Session::maximumPeriodMilliseconds</definition>
+        <argsstring></argsstring>
+        <name>maximumPeriodMilliseconds</name>
+        <qualifiedname>debug::Session::maximumPeriodMilliseconds</qualifiedname>
+        <initializer>{ 1.0 }</initializer>
+        <briefdescription>
+<para>Longest period, in milliseconds, of the readiness clock of each <ref refid="classjam_1_1AsyncOutputStream" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::AsyncOutputStream</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="classdebug_1_1_session" kindref="compound">Session</ref> passes it to each stream that it opens. <ref refid="class_processor" kindref="compound">Processor</ref> passes it to StdioServer::open. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="81" column="29" bodyfile="debug/Session.h" bodystart="81" bodyend="81"/>
+        <referencedby refid="classdebug_1_1_session_1aa9caba28f79faae7696bc16f80f01b80" compoundref="_session__mac_8cpp" startline="295" endline="314">createCommFile</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="247" endline="288">launch</referencedby>
+        <referencedby refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" compoundref="_processor_8cpp" startline="34" endline="50">Processor::prepare</referencedby>
+      </memberdef>
+    </sectiondef>
     <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" prot="public" static="no" mutable="no">
         <type><ref refid="namespacedebug_1a9de5674d30937ca1c5c07c56d85f34e0" kindref="member">Events</ref></type>
@@ -18,17 +40,17 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="237" column="12" bodyfile="debug/Session.h" bodystart="237" bodyend="-1"/>
-        <referencedby refid="classdebug_1_1_session_1ae0cff8943c2cdbd0906c0d3516addddf" compoundref="_session__mac_8cpp" startline="324" endline="340">attachLaunchTarget</referencedby>
-        <referencedby refid="classdebug_1_1_session_1aa9caba28f79faae7696bc16f80f01b80" compoundref="_session__mac_8cpp" startline="284" endline="301">createCommFile</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" compoundref="_session__mac_8cpp" startline="342" endline="366">drainLauncherOutput</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a40050bf4c1c83fbc5d06acc65df561f5" compoundref="_session__mac_8cpp" startline="432" endline="439">drainOutput</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="255" endline="277">launch</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="391" endline="416">pollEvents</referencedby>
+        <location file="debug/Session.h" line="262" column="12" bodyfile="debug/Session.h" bodystart="262" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1ae0cff8943c2cdbd0906c0d3516addddf" compoundref="_session__mac_8cpp" startline="337" endline="352">attachLaunchTarget</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aa9caba28f79faae7696bc16f80f01b80" compoundref="_session__mac_8cpp" startline="295" endline="314">createCommFile</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" compoundref="_session__mac_8cpp" startline="354" endline="391">drainLauncherOutput</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a40050bf4c1c83fbc5d06acc65df561f5" compoundref="_session__mac_8cpp" startline="459" endline="472">drainOutput</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="247" endline="288">launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="416" endline="443">pollEvents</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
-        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="152" endline="180">Processor::registerEvents</referencedby>
-        <referencedby refid="class_processor_1a0d99918b0acbc30b8cc7f6fc524a7bd2" compoundref="_processor_8cpp" startline="182" endline="202">Processor::registerLauncherEvents</referencedby>
-        <referencedby refid="class_processor_1a964f0cfae95557ad5237e30fafe0e404" compoundref="_processor_8cpp" startline="204" endline="216">Processor::registerOutputEvents</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="176" endline="204">Processor::registerEvents</referencedby>
+        <referencedby refid="class_processor_1a0d99918b0acbc30b8cc7f6fc524a7bd2" compoundref="_processor_8cpp" startline="206" endline="226">Processor::registerLauncherEvents</referencedby>
+        <referencedby refid="class_processor_1a964f0cfae95557ad5237e30fafe0e404" compoundref="_processor_8cpp" startline="228" endline="240">Processor::registerOutputEvents</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -39,17 +61,111 @@
         <name>launcherOutput</name>
         <qualifiedname>debug::Session::launcherOutput</qualifiedname>
         <briefdescription>
-<para>Reads the launch channel. </para>
+<para>Reports when the launch channel has bytes to read. </para>
         </briefdescription>
         <detaileddescription>
-<para>createCommFile opens it, and drainLauncherOutput reads and closes it. </para>
+<para>It reads no bytes.</para>
+<para>macOS createCommFile opens it. Windows connectSource opens it when the <ref refid="class_launcher" kindref="compound">Launcher</ref> connects. Its callback fires runInTerminal. drainLauncherOutput closes it after the first message. shutdown closes it. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="553" column="28" bodyfile="debug/Session.h" bodystart="553" bodyend="-1"/>
-        <referencedby refid="classdebug_1_1_session_1aa9caba28f79faae7696bc16f80f01b80" compoundref="_session__mac_8cpp" startline="284" endline="301">createCommFile</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" compoundref="_session__mac_8cpp" startline="342" endline="366">drainLauncherOutput</referencedby>
-        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="460" endline="488">shutdown</referencedby>
+        <location file="debug/Session.h" line="585" column="28" bodyfile="debug/Session.h" bodystart="585" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1aa9caba28f79faae7696bc16f80f01b80" compoundref="_session__mac_8cpp" startline="295" endline="314">createCommFile</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" compoundref="_session__mac_8cpp" startline="354" endline="391">drainLauncherOutput</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="493" endline="535">shutdown</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_session_1a34de68e4434147292a30f43af5833845" prot="private" static="no" mutable="no">
+        <type><ref refid="classjam_1_1TerminalFIFO" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::TerminalFIFO</ref></type>
+        <definition>jam::TerminalFIFO debug::Session::launcherBytes</definition>
+        <argsstring></argsstring>
+        <name>launcherBytes</name>
+        <qualifiedname>debug::Session::launcherBytes</qualifiedname>
+        <briefdescription>
+<para>Holds the bytes that drainLauncherOutput reads from the launch channel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The bytes stay in the ring until a newline arrives. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="591" column="23" bodyfile="debug/Session.h" bodystart="591" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" compoundref="_session__mac_8cpp" startline="354" endline="391">drainLauncherOutput</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a67b2eaf06d253f6be6e978a39ce5fd5d" compoundref="_session__mac_8cpp" startline="209" endline="213">Session</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_session_1a4fd2c459e912284958dcc5fb0ff5bebf" prot="private" static="no" mutable="no">
+        <type><ref refid="classjam_1_1AsyncOutputStream" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::AsyncOutputStream</ref></type>
+        <definition>jam::AsyncOutputStream debug::Session::standardError</definition>
+        <argsstring></argsstring>
+        <name>standardError</name>
+        <qualifiedname>debug::Session::standardError</qualifiedname>
+        <briefdescription>
+<para>Reports when the standard error of the target has bytes to read. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>It reads no bytes.</para>
+<para>launch on macOS and launchCaptured on Windows set its onBytesReady callback to call wake. drainOutput reads the bytes through standardErrorBytes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="598" column="28" bodyfile="debug/Session.h" bodystart="598" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="247" endline="288">launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="493" endline="535">shutdown</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_session_1a8f38e59c485f35f9fa57a941aa9b9aed" prot="private" static="no" mutable="no">
+        <type><ref refid="classjam_1_1TerminalFIFO" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::TerminalFIFO</ref></type>
+        <definition>jam::TerminalFIFO debug::Session::standardErrorBytes</definition>
+        <argsstring></argsstring>
+        <name>standardErrorBytes</name>
+        <qualifiedname>debug::Session::standardErrorBytes</qualifiedname>
+        <briefdescription>
+<para>Holds the bytes of the standard error of the target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>drainOutput forwards them as standardError events. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="601" column="23" bodyfile="debug/Session.h" bodystart="601" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1a40050bf4c1c83fbc5d06acc65df561f5" compoundref="_session__mac_8cpp" startline="459" endline="472">drainOutput</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a67b2eaf06d253f6be6e978a39ce5fd5d" compoundref="_session__mac_8cpp" startline="209" endline="213">Session</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_session_1ab48af2cffc19ef5de40c1bbc4cf0388c" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt;int&gt; debug::Session::launcherHandle</definition>
+        <argsstring></argsstring>
+        <name>launcherHandle</name>
+        <qualifiedname>debug::Session::launcherHandle</qualifiedname>
+        <briefdescription>
+<para>File descriptor of the launch channel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>createCommFile opens it. drainLauncherOutput and shutdown close it. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="605" column="19" bodyfile="debug/Session.h" bodystart="605" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1aa9caba28f79faae7696bc16f80f01b80" compoundref="_session__mac_8cpp" startline="295" endline="314">createCommFile</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" compoundref="_session__mac_8cpp" startline="354" endline="391">drainLauncherOutput</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="493" endline="535">shutdown</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_session_1a5d25e42d0618126c9076797acf22fbd8" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt;int&gt; debug::Session::standardErrorHandle</definition>
+        <argsstring></argsstring>
+        <name>standardErrorHandle</name>
+        <qualifiedname>debug::Session::standardErrorHandle</qualifiedname>
+        <briefdescription>
+<para>File descriptor of the standard error FIFO. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>launch opens it. drainOutput reads it. shutdown closes it. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="608" column="19" bodyfile="debug/Session.h" bodystart="608" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1a40050bf4c1c83fbc5d06acc65df561f5" compoundref="_session__mac_8cpp" startline="459" endline="472">drainOutput</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="247" endline="288">launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="493" endline="535">shutdown</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" prot="private" static="no" mutable="no">
         <type>lldb::SBDebugger</type>
@@ -64,14 +180,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="739" column="22" bodyfile="debug/Session.h" bodystart="739" bodyend="-1"/>
-        <referencedby refid="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" compoundref="_session__mac_8cpp" startline="578" endline="585">appendSourcePath</referencedby>
-        <referencedby refid="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" compoundref="_session__mac_8cpp" startline="572" endline="576">appendSymbolPath</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="368" endline="384">attach</referencedby>
-        <referencedby refid="classdebug_1_1_session_1ae0cff8943c2cdbd0906c0d3516addddf" compoundref="_session__mac_8cpp" startline="324" endline="340">attachLaunchTarget</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="234" endline="253">initialize</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="255" endline="277">launch</referencedby>
-        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="460" endline="488">shutdown</referencedby>
+        <location file="debug/Session.h" line="828" column="22" bodyfile="debug/Session.h" bodystart="828" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" compoundref="_session__mac_8cpp" startline="625" endline="632">appendSourcePath</referencedby>
+        <referencedby refid="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" compoundref="_session__mac_8cpp" startline="619" endline="623">appendSymbolPath</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="393" endline="409">attach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ae0cff8943c2cdbd0906c0d3516addddf" compoundref="_session__mac_8cpp" startline="337" endline="352">attachLaunchTarget</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="220" endline="245">initialize</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="247" endline="288">launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="493" endline="535">shutdown</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" prot="private" static="no" mutable="no">
         <type>lldb::SBListener</type>
@@ -86,11 +202,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="742" column="22" bodyfile="debug/Session.h" bodystart="742" bodyend="-1"/>
-        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="368" endline="384">attach</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="234" endline="253">initialize</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="255" endline="277">launch</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="391" endline="416">pollEvents</referencedby>
+        <location file="debug/Session.h" line="831" column="22" bodyfile="debug/Session.h" bodystart="831" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="393" endline="409">attach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="220" endline="245">initialize</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="247" endline="288">launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="416" endline="443">pollEvents</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_session_1a0f54d0f1673664de2ec62a342b93e35b" prot="private" static="no" mutable="no">
         <type>lldb::SBBroadcaster</type>
@@ -100,14 +216,16 @@
         <qualifiedname>debug::Session::broadcaster</qualifiedname>
         <initializer>{ &quot;whatdbg&quot; }</initializer>
         <briefdescription>
+<para>Carries the wake event. </para>
         </briefdescription>
         <detaileddescription>
+<para>initialize adds it to the listener. wake broadcasts it, which wakes a blocked pollEvents. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="744" column="25" bodyfile="debug/Session.h" bodystart="744" bodyend="744"/>
-        <referencedby refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="234" endline="253">initialize</referencedby>
-        <referencedby refid="classdebug_1_1_session_1ae55ea009e277df6240ced7cfdf1521f3" compoundref="_session__mac_8cpp" startline="418" endline="421">wake</referencedby>
+        <location file="debug/Session.h" line="834" column="25" bodyfile="debug/Session.h" bodystart="834" bodyend="834"/>
+        <referencedby refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="220" endline="245">initialize</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ae55ea009e277df6240ced7cfdf1521f3" compoundref="_session__mac_8cpp" startline="445" endline="448">wake</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" prot="private" static="no" mutable="no">
         <type>lldb::SBTarget</type>
@@ -122,12 +240,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="747" column="20" bodyfile="debug/Session.h" bodystart="747" bodyend="-1"/>
-        <referencedby refid="classdebug_1_1_session_1a02ef270b151bab75f4e20a5a48d84d41" compoundref="_session__mac_8cpp" startline="514" endline="523">addBreakpoint</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a0afce30b5eb95c22083d1516c3422d52" compoundref="_session__mac_8cpp" startline="525" endline="552">addBreakpointByLocation</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="368" endline="384">attach</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="255" endline="277">launch</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" compoundref="_session__mac_8cpp" startline="554" endline="559">removeBreakpoint</referencedby>
+        <location file="debug/Session.h" line="837" column="20" bodyfile="debug/Session.h" bodystart="837" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1a02ef270b151bab75f4e20a5a48d84d41" compoundref="_session__mac_8cpp" startline="561" endline="570">addBreakpoint</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a0afce30b5eb95c22083d1516c3422d52" compoundref="_session__mac_8cpp" startline="572" endline="599">addBreakpointByLocation</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="393" endline="409">attach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="247" endline="288">launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" compoundref="_session__mac_8cpp" startline="601" endline="606">removeBreakpoint</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" prot="private" static="no" mutable="no">
         <type>lldb::SBProcess</type>
@@ -142,25 +260,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="750" column="21" bodyfile="debug/Session.h" bodystart="750" bodyend="-1"/>
-        <referencedby refid="classdebug_1_1_session_1aa25453f6ff0703dd42e955e72d68e5e3" compoundref="_session__mac_8cpp" startline="748" endline="760">appendStackFrames</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a926bbe2e4990905cf784fce5cfadc135" compoundref="_session__mac_8cpp" startline="587" endline="607">appendThreads</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="368" endline="384">attach</referencedby>
-        <referencedby refid="classdebug_1_1_session_1ae0cff8943c2cdbd0906c0d3516addddf" compoundref="_session__mac_8cpp" startline="324" endline="340">attachLaunchTarget</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session__mac_8cpp" startline="681" endline="689">cacheFrameVariables</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a40050bf4c1c83fbc5d06acc65df561f5" compoundref="_session__mac_8cpp" startline="432" endline="439">drainOutput</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a42dae8d83b1aa51056caad8c4d595874" compoundref="_session__mac_8cpp" startline="803" endline="821">evaluateExpression</referencedby>
-        <referencedby refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" compoundref="_session__mac_8cpp" startline="609" endline="614">getEventThreadSystemId</referencedby>
-        <referencedby refid="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" compoundref="_session__mac_8cpp" startline="507" endline="512">interrupt</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="255" endline="277">launch</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="391" endline="416">pollEvents</referencedby>
-        <referencedby refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="386" endline="389">resume</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="616" endline="619">setCurrentThreadBySystemId</referencedby>
-        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="460" endline="488">shutdown</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a1816fd6de2ca88d638adacef4cd0e40f" compoundref="_session__mac_8cpp" startline="495" endline="498">stepInto</referencedby>
-        <referencedby refid="classdebug_1_1_session_1af2b1a168dd413d9aec686598fa733146" compoundref="_session__mac_8cpp" startline="500" endline="505">stepOut</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a60c1171499fc598e2124c6097a96d1ee" compoundref="_session__mac_8cpp" startline="490" endline="493">stepOver</referencedby>
-        <referencedby refid="classdebug_1_1_session_1ac24c24c48d1bae46a1d5e29531076f45" compoundref="_session__mac_8cpp" startline="441" endline="458">terminateDebuggee</referencedby>
+        <location file="debug/Session.h" line="840" column="21" bodyfile="debug/Session.h" bodystart="840" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1aa25453f6ff0703dd42e955e72d68e5e3" compoundref="_session__mac_8cpp" startline="795" endline="807">appendStackFrames</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a926bbe2e4990905cf784fce5cfadc135" compoundref="_session__mac_8cpp" startline="634" endline="654">appendThreads</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="393" endline="409">attach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session__mac_8cpp" startline="728" endline="736">cacheFrameVariables</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a40050bf4c1c83fbc5d06acc65df561f5" compoundref="_session__mac_8cpp" startline="459" endline="472">drainOutput</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a42dae8d83b1aa51056caad8c4d595874" compoundref="_session__mac_8cpp" startline="850" endline="868">evaluateExpression</referencedby>
+        <referencedby refid="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" compoundref="_session__mac_8cpp" startline="656" endline="661">getEventThreadSystemId</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" compoundref="_session__mac_8cpp" startline="554" endline="559">interrupt</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="247" endline="288">launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="416" endline="443">pollEvents</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="411" endline="414">resume</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="663" endline="666">setCurrentThreadBySystemId</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="493" endline="535">shutdown</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a1816fd6de2ca88d638adacef4cd0e40f" compoundref="_session__mac_8cpp" startline="542" endline="545">stepInto</referencedby>
+        <referencedby refid="classdebug_1_1_session_1af2b1a168dd413d9aec686598fa733146" compoundref="_session__mac_8cpp" startline="547" endline="552">stepOut</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a60c1171499fc598e2124c6097a96d1ee" compoundref="_session__mac_8cpp" startline="537" endline="540">stepOver</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ac24c24c48d1bae46a1d5e29531076f45" compoundref="_session__mac_8cpp" startline="474" endline="491">terminateDebuggee</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" prot="private" static="no" mutable="no">
         <type>lldb::SBValueList</type>
@@ -175,11 +292,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="755" column="23" bodyfile="debug/Session.h" bodystart="755" bodyend="-1"/>
-        <referencedby refid="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" compoundref="_session__mac_8cpp" startline="762" endline="777">applyToLocals</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a44d91c600d53774ef810614e1f663f15" compoundref="_session__mac_8cpp" startline="779" endline="801">applyToVariableChildren</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session__mac_8cpp" startline="681" endline="689">cacheFrameVariables</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" compoundref="_session__mac_8cpp" startline="621" endline="625">resetSymbolGroupCache</referencedby>
+        <location file="debug/Session.h" line="845" column="23" bodyfile="debug/Session.h" bodystart="845" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" compoundref="_session__mac_8cpp" startline="809" endline="824">applyToLocals</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a44d91c600d53774ef810614e1f663f15" compoundref="_session__mac_8cpp" startline="826" endline="848">applyToVariableChildren</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session__mac_8cpp" startline="728" endline="736">cacheFrameVariables</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" compoundref="_session__mac_8cpp" startline="668" endline="672">resetSymbolGroupCache</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" prot="private" static="no" mutable="no">
         <type>int</type>
@@ -195,9 +312,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="758" column="9" bodyfile="debug/Session.h" bodystart="758" bodyend="758"/>
-        <referencedby refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session__mac_8cpp" startline="681" endline="689">cacheFrameVariables</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" compoundref="_session__mac_8cpp" startline="621" endline="625">resetSymbolGroupCache</referencedby>
+        <location file="debug/Session.h" line="848" column="9" bodyfile="debug/Session.h" bodystart="848" bodyend="848"/>
+        <referencedby refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session__mac_8cpp" startline="728" endline="736">cacheFrameVariables</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" compoundref="_session__mac_8cpp" startline="668" endline="672">resetSymbolGroupCache</referencedby>
       </memberdef>
       <memberdef kind="variable" id="classdebug_1_1_session_1a7e5ddceec0223930cf152a9e67f91fd6" prot="private" static="no" mutable="no">
         <type><ref refid="classjuce_1_1File" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::File</ref></type>
@@ -206,23 +323,43 @@
         <name>commFile</name>
         <qualifiedname>debug::Session::commFile</qualifiedname>
         <briefdescription>
+<para>FIFO of the launch channel, created in the temporary folder by createCommFile. </para>
         </briefdescription>
         <detaileddescription>
+<para>sendDidAttach writes to the FIFO with the didAttach extension. shutdown and drainLauncherOutput delete both FIFOs. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="760" column="16" bodyfile="debug/Session.h" bodystart="760" bodyend="-1"/>
-        <referencedby refid="classdebug_1_1_session_1aa9caba28f79faae7696bc16f80f01b80" compoundref="_session__mac_8cpp" startline="284" endline="301">createCommFile</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" compoundref="_session__mac_8cpp" startline="342" endline="366">drainLauncherOutput</referencedby>
-        <referencedby refid="classdebug_1_1_session_1ab17bfa72486464b873a658e0ecf6e40a" compoundref="_session__mac_8cpp" startline="303" endline="322">sendDidAttach</referencedby>
-        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="460" endline="488">shutdown</referencedby>
+        <location file="debug/Session.h" line="854" column="16" bodyfile="debug/Session.h" bodystart="854" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1aa9caba28f79faae7696bc16f80f01b80" compoundref="_session__mac_8cpp" startline="295" endline="314">createCommFile</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" compoundref="_session__mac_8cpp" startline="354" endline="391">drainLauncherOutput</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ab17bfa72486464b873a658e0ecf6e40a" compoundref="_session__mac_8cpp" startline="316" endline="335">sendDidAttach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="493" endline="535">shutdown</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classdebug_1_1_session_1aca52e06e99143ed35e0ef40b5d01c5d1" prot="private" static="no" mutable="no">
+        <type><ref refid="classjuce_1_1File" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::File</ref></type>
+        <definition>juce::File debug::Session::standardErrorFile</definition>
+        <argsstring></argsstring>
+        <name>standardErrorFile</name>
+        <qualifiedname>debug::Session::standardErrorFile</qualifiedname>
+        <briefdescription>
+<para>FIFO that carries the standard error of the target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>launch creates it, and shutdown deletes it. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="debug/Session.h" line="857" column="16" bodyfile="debug/Session.h" bodystart="857" bodyend="-1"/>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="247" endline="288">launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="493" endline="535">shutdown</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classdebug_1_1_session_1a67b2eaf06d253f6be6e978a39ce5fd5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>debug::Session::Session</definition>
-        <argsstring>()=default</argsstring>
+        <argsstring>()</argsstring>
         <name>Session</name>
         <qualifiedname>debug::Session::Session</qualifiedname>
         <briefdescription>
@@ -233,21 +370,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="71" column="5"/>
-        <references refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="368" endline="384">attach</references>
-        <references refid="classdebug_1_1_session_1a3db51b94ef908f06ebe53b4f18f5fa01" compoundref="_session__mac_8cpp" startline="423" endline="426">cancel</references>
-        <references refid="classdebug_1_1_session_1aa9caba28f79faae7696bc16f80f01b80" compoundref="_session__mac_8cpp" startline="284" endline="301">createCommFile</references>
-        <references refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" compoundref="_session__mac_8cpp" startline="342" endline="366">drainLauncherOutput</references>
-        <references refid="classdebug_1_1_session_1a40050bf4c1c83fbc5d06acc65df561f5" compoundref="_session__mac_8cpp" startline="432" endline="439">drainOutput</references>
-        <references refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="234" endline="253">initialize</references>
-        <references refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="255" endline="277">launch</references>
-        <references refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="391" endline="416">pollEvents</references>
-        <references refid="classdebug_1_1_session_1a1012896227c475931dc65fbb9ff3342c" compoundref="_session__mac_8cpp" startline="428" endline="430">resetCancel</references>
-        <references refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="386" endline="389">resume</references>
-        <references refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</references>
-        <references refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="460" endline="488">shutdown</references>
-        <references refid="classdebug_1_1_session_1ae55ea009e277df6240ced7cfdf1521f3" compoundref="_session__mac_8cpp" startline="418" endline="421">wake</references>
-        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+        <location file="debug/Session.h" line="72" column="5" bodyfile="debug/Session_mac.cpp" bodystart="209" bodyend="213"/>
+        <references refid="namespacedebug_1aaa0f604f43df5fdc671d741f03aa5e7b" compoundref="_session__mac_8cpp" startline="69" endline="69">debug::commFileBufferSize</references>
+        <references refid="classdebug_1_1_session_1a34de68e4434147292a30f43af5833845" compoundref="_session_8h" startline="591">launcherBytes</references>
+        <references refid="classjam_1_1TerminalFIFO_1a7ef164dbdbfd5255dc36a879fb5bde27">jam::TerminalFIFO::prepare</references>
+        <references refid="classdebug_1_1_session_1a8f38e59c485f35f9fa57a941aa9b9aed" compoundref="_session_8h" startline="601">standardErrorBytes</references>
+        <references refid="namespacedebug_1a843227e19ef74b48d7cbb77acd10a09d" compoundref="_session__mac_8cpp" startline="66" endline="66">debug::stdioReadBufferSize</references>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a2ae6441e2bb4fa3f6a616a6f8b0ce8d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -262,9 +390,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="74" column="5" bodyfile="debug/Session_mac.cpp" bodystart="229" bodyend="232"/>
+        <location file="debug/Session.h" line="75" column="5" bodyfile="debug/Session_mac.cpp" bodystart="215" bodyend="218"/>
         <references refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa831996cebc6c9bf7687e922c3437be69" compoundref="_session_8h" startline="32">debug::passive</references>
-        <references refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="460" endline="488">shutdown</references>
+        <references refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="493" endline="535">shutdown</references>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>bool</type>
@@ -282,7 +410,7 @@
         <detaileddescription>
 <para>Must succeed before any other <ref refid="classdebug_1_1_session" kindref="compound">Session</ref> method.</para>
 <para>Windows: initializes COM through <ref refid="classjam_1_1ScopedComInitialiser" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::ScopedComInitialiser</ref> (multithreaded), loads dbgeng.dll from sidecarDir via <ref refid="classdebug_1_1_loader" kindref="compound">Loader</ref>, calls DebugCreate to obtain IDebugClient5, QueryInterface for IDebugControl4/IDebugSymbols3/IDebugDataSpaces4/IDebugSystemObjects, registers <ref refid="classdebug_1_1_output_callbacks" kindref="compound">OutputCallbacks</ref> and <ref refid="classdebug_1_1_event_callbacks" kindref="compound">EventCallbacks</ref>, sets the output mask, adds source-line symbol loading, sets source-level code level for stepping, appends the srv* symbol path, and enables the initial-break engine option. On failure it calls shutdown(EndMode::passive).</para>
-<para>macOS: SBDebugger::Initialize/Create (async mode), redirects the debugger&apos;s own stdin to /dev/null so liblldb does not compete with the DAP reader thread for whatdbg&apos;s stdin, and captures the SBListener.</para>
+<para>macOS: SBDebugger::Initialize and Create, then SetAsync(true). It sets target.process.stop-on-exec to false. It redirects the debugger input to /dev/null, so liblldb does not read the DAP frames on stdin. It captures the SBListener and adds the wake broadcaster to it.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>sidecarDir</parametername>
@@ -300,14 +428,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="94" column="10" bodyfile="debug/Session_mac.cpp" bodystart="234" bodyend="253"/>
-        <references refid="classdebug_1_1_session_1a0f54d0f1673664de2ec62a342b93e35b" compoundref="_session_8h" startline="744" endline="744">broadcaster</references>
-        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="739">debugger</references>
+        <location file="debug/Session.h" line="102" column="10" bodyfile="debug/Session_mac.cpp" bodystart="220" bodyend="245"/>
+        <references refid="classdebug_1_1_session_1a0f54d0f1673664de2ec62a342b93e35b" compoundref="_session_8h" startline="834" endline="834">broadcaster</references>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="828">debugger</references>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
-        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="742">listener</references>
+        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="831">listener</references>
         <references refid="namespacedebug_1ab0a6e6add77bf779720e6bd1a359a87c" compoundref="_session__mac_8cpp" startline="68" endline="68">debug::wakeEventMask</references>
-        <referencedby refid="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" compoundref="_processor_8cpp" startline="368" endline="377">Processor::onPrepare</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+        <referencedby refid="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" compoundref="_processor_8cpp" startline="391" endline="400">Processor::onPrepare</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>bool</type>
@@ -325,7 +452,7 @@
         <detaileddescription>
 <para>macOS stops it at its entry point. Windows resumes it on attach.</para>
 <para>Windows creates the process suspended, with its standard output and error on pipes (see launchCaptured), then attaches to it with the resume flag and no initial break. It does not call WaitForEvent. The caller polls with <ref refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" kindref="member">pollEvents()</ref> to receive the engine events.</para>
-<para>macOS creates the target, starts listening for its events, then calls SBTarget::Launch with eLaunchFlagDebug | eLaunchFlagStopAtEntry. On success the target and process members are populated, and the session fires the targetProcessId event. The caller still polls via <ref refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" kindref="member">pollEvents()</ref> for the resulting stop event.</para>
+<para>macOS creates the target and starts listening for its events. It creates a FIFO at a nonexistent child of the temporary folder, named whatdbg-stderr. It opens the FIFO and starts standardError on it. It redirects the target standard error to the FIFO with an open-file action. Then it calls SBTarget::Launch with eLaunchFlagDebug | eLaunchFlagStopAtEntry. On success the target and process members are populated, and the session fires the targetProcessId event. The caller still polls via <ref refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" kindref="member">pollEvents()</ref> for the resulting stop event.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>program</parametername>
@@ -343,16 +470,26 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="115" column="10" bodyfile="debug/Session_mac.cpp" bodystart="255" bodyend="277"/>
+        <location file="debug/Session.h" line="125" column="10" bodyfile="debug/Session_mac.cpp" bodystart="247" bodyend="288"/>
         <references refid="namespacedebug_1a96e6155ab83215a136891405e91e92c0" compoundref="_session__mac_8cpp" startline="67" endline="67">debug::allEventsMask</references>
-        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="739">debugger</references>
-        <references refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" compoundref="_session_8h" startline="237">events</references>
-        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="742">listener</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
-        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="747">target</references>
-        <references refid="namespaceId_1a34ff3c25c6e302ff4a5b0a5f9b0488a7" compoundref="_generated_8cpp" startline="154" endline="154">Id::targetProcessId</references>
-        <referencedby refid="class_processor_1a1c7c3524b82bf7df9f07ff1717970da2" compoundref="_processor_8cpp" startline="418" endline="437">Processor::launchInConsole</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="828">debugger</references>
+        <references refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" compoundref="_session_8h" startline="262">events</references>
+        <references refid="classjuce_1_1File_1a7f882e7b7e4183509c2a55818de212cf">juce::File::getNonexistentChildFile</references>
+        <references refid="classjuce_1_1File_1a3e0950b0d0dbe71a8bc4a7ed3c7ab067">juce::File::getSpecialLocation</references>
+        <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
+        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="831">listener</references>
+        <references refid="classdebug_1_1_session_1ad35eb7e29f550d63f5003087e9ef305c" compoundref="_session_8h" startline="81" endline="81">maximumPeriodMilliseconds</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
+        <references refid="classdebug_1_1_session_1a4fd2c459e912284958dcc5fb0ff5bebf" compoundref="_session_8h" startline="598">standardError</references>
+        <references refid="classdebug_1_1_session_1aca52e06e99143ed35e0ef40b5d01c5d1" compoundref="_session_8h" startline="857">standardErrorFile</references>
+        <references refid="classdebug_1_1_session_1a5d25e42d0618126c9076797acf22fbd8" compoundref="_session_8h" startline="608">standardErrorHandle</references>
+        <references refid="namespacedebug_1a843227e19ef74b48d7cbb77acd10a09d" compoundref="_session__mac_8cpp" startline="66" endline="66">debug::stdioReadBufferSize</references>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="837">target</references>
+        <references refid="namespaceId_1a34ff3c25c6e302ff4a5b0a5f9b0488a7" compoundref="_generated_8cpp" startline="153" endline="153">Id::targetProcessId</references>
+        <references refid="classjuce_1_1File_1a6efe0648697f59af5952171d5e7b0317a1bef443ff73ba1e240aca5d53cec5d0f">juce::File::tempDirectory</references>
+        <references refid="classjuce_1_1String_1a276c7c57f1d1a2fc76a8b47aed0823e7">juce::String::toRawUTF8</references>
+        <references refid="classdebug_1_1_session_1ae55ea009e277df6240ced7cfdf1521f3" compoundref="_session__mac_8cpp" startline="445" endline="448">wake</references>
+        <referencedby refid="class_processor_1a1c7c3524b82bf7df9f07ff1717970da2" compoundref="_processor_8cpp" startline="441" endline="460">Processor::launchInConsole</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1aa9caba28f79faae7696bc16f80f01b80" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
@@ -364,30 +501,31 @@
 <para>Creates the channel that the <ref refid="class_launcher" kindref="compound">Launcher</ref> uses to send its process ID and to get the attach reply. </para>
         </briefdescription>
         <detaileddescription>
-<para>Windows creates a duplex overlapped named pipe, keeps a duplicate of it in launcherInput, and opens launcherOutput on the pipe. The name is the pipe name followed by the process ID. macOS creates two FIFOs in the temporary folder: the channel, and the channel with the didAttach extension. It opens launcherOutput on the channel. On both platforms, the runInTerminal event fires when the channel has bytes to read.</para>
+<para>Windows creates a duplex overlapped named pipe, and keeps a duplicate of it in launcherInput. It starts an overlapped ConnectNamedPipe on the pipe. connectSource watches connectEvent for the connect. launcherOutput opens on the pipe only after the <ref refid="class_launcher" kindref="compound">Launcher</ref> connects. A readiness source on a pipe with no client stops for good. The Windows name is the pipe name followed by the process ID. macOS creates two FIFOs in the temporary folder: the channel, and the channel with the didAttach extension. It opens launcherOutput on the channel. On both platforms, the runInTerminal event fires when the channel has bytes to read.</para>
 <para><simplesect kind="return"><para>The channel name. The adapter passes it to the <ref refid="class_launcher" kindref="compound">Launcher</ref> as the comm file argument. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="127" column="18" bodyfile="debug/Session_mac.cpp" bodystart="284" bodyend="301"/>
-        <references refid="classdebug_1_1_session_1a7e5ddceec0223930cf152a9e67f91fd6" compoundref="_session_8h" startline="760">commFile</references>
+        <location file="debug/Session.h" line="140" column="18" bodyfile="debug/Session_mac.cpp" bodystart="295" bodyend="314"/>
+        <references refid="classdebug_1_1_session_1a7e5ddceec0223930cf152a9e67f91fd6" compoundref="_session_8h" startline="854">commFile</references>
         <references refid="namespacedebug_1aaa0f604f43df5fdc671d741f03aa5e7b" compoundref="_session__mac_8cpp" startline="69" endline="69">debug::commFileBufferSize</references>
-        <references refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" compoundref="_session_8h" startline="237">events</references>
+        <references refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" compoundref="_session_8h" startline="262">events</references>
         <references refid="structjam_1_1Function_1_1Map_1af9fdde9da6fe4521cb50e87d02c974be">jam::Function::Map&lt; typename KeyType, size_t capacity, typename... Signatures &gt;::get</references>
-        <references refid="namespacedebug_1acd0bfcd07f3164b8dd0db830ff0f63f5" compoundref="_session__mac_8cpp" startline="279" endline="282">debug::getDidAttachFile</references>
+        <references refid="namespacedebug_1acd0bfcd07f3164b8dd0db830ff0f63f5" compoundref="_session__mac_8cpp" startline="290" endline="293">debug::getDidAttachFile</references>
         <references refid="classjuce_1_1File_1a515fa016b189068f365cc875e241e2a1">juce::File::getFullPathName</references>
         <references refid="classjuce_1_1File_1a7f882e7b7e4183509c2a55818de212cf">juce::File::getNonexistentChildFile</references>
         <references refid="classjuce_1_1File_1a3e0950b0d0dbe71a8bc4a7ed3c7ab067">juce::File::getSpecialLocation</references>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
-        <references refid="classdebug_1_1_session_1a8ded1b57303165500c8e11796467b703" compoundref="_session_8h" startline="553">launcherOutput</references>
+        <references refid="classdebug_1_1_session_1ab48af2cffc19ef5de40c1bbc4cf0388c" compoundref="_session_8h" startline="605">launcherHandle</references>
+        <references refid="classdebug_1_1_session_1a8ded1b57303165500c8e11796467b703" compoundref="_session_8h" startline="585">launcherOutput</references>
+        <references refid="classdebug_1_1_session_1ad35eb7e29f550d63f5003087e9ef305c" compoundref="_session_8h" startline="81" endline="81">maximumPeriodMilliseconds</references>
         <references refid="classjam_1_1AsyncOutputStream_1a9d86d700718722461bfb0bc767077d0a">jam::AsyncOutputStream::onBytesReady</references>
-        <references refid="classjam_1_1AsyncOutputStream_1a81a4ada80b15621d4a1fd1a76645e7a8">jam::AsyncOutputStream::open</references>
-        <references refid="namespaceId_1a37b6f8b775719737168e02dfa834707b" compoundref="_generated_8cpp" startline="101" endline="101">Id::runInTerminal</references>
+        <references refid="classjam_1_1AsyncOutputStream_1a9e8ef26fc9a9bcad68d10a8eb03626c4">jam::AsyncOutputStream::open</references>
+        <references refid="namespaceId_1a37b6f8b775719737168e02dfa834707b" compoundref="_generated_8cpp" startline="100" endline="100">Id::runInTerminal</references>
         <references refid="classjuce_1_1File_1a6efe0648697f59af5952171d5e7b0317a1bef443ff73ba1e240aca5d53cec5d0f">juce::File::tempDirectory</references>
-        <referencedby refid="class_processor_1a28403704dc0835af3681e56345b85d2e" compoundref="_processor_8cpp" startline="439" endline="461">Processor::launchInTerminal</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+        <referencedby refid="class_processor_1a28403704dc0835af3681e56345b85d2e" compoundref="_processor_8cpp" startline="462" endline="484">Processor::launchInTerminal</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>bool</type>
@@ -420,15 +558,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="142" column="10" bodyfile="debug/Session_mac.cpp" bodystart="368" bodyend="384"/>
+        <location file="debug/Session.h" line="155" column="10" bodyfile="debug/Session_mac.cpp" bodystart="393" bodyend="409"/>
         <references refid="namespacedebug_1a96e6155ab83215a136891405e91e92c0" compoundref="_session__mac_8cpp" startline="67" endline="67">debug::allEventsMask</references>
-        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="739">debugger</references>
-        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="742">listener</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
-        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="747">target</references>
-        <referencedby refid="classdebug_1_1_session_1ae0cff8943c2cdbd0906c0d3516addddf" compoundref="_session__mac_8cpp" startline="324" endline="340">attachLaunchTarget</referencedby>
-        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="484" endline="512">Processor::onAttach</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="828">debugger</references>
+        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="831">listener</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="837">target</references>
+        <referencedby refid="classdebug_1_1_session_1ae0cff8943c2cdbd0906c0d3516addddf" compoundref="_session__mac_8cpp" startline="337" endline="352">attachLaunchTarget</referencedby>
+        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="507" endline="535">Processor::onAttach</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -444,14 +581,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="150" column="10" bodyfile="debug/Session_mac.cpp" bodystart="386" bodyend="389"/>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
+        <location file="debug/Session.h" line="163" column="10" bodyfile="debug/Session_mac.cpp" bodystart="411" bodyend="414"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
         <referencedby refid="classdebug_1_1_stop_manager_1ab35e144bdf9bf196392632e3b5c5b84c" compoundref="_stop_manager_8cpp" startline="154" endline="164">debug::StopManager::drainModuleLoaded</referencedby>
-        <referencedby refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="669" endline="687">Processor::onContinue</referencedby>
+        <referencedby refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="692" endline="710">Processor::onContinue</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1a11cf2cbc87df89b6ac71d2c9192cda02" compoundref="_stop_manager_8cpp" startline="229" endline="233">debug::StopManager::resumeExecution</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
-        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="460" endline="488">shutdown</referencedby>
-        <referencedby refid="classdebug_1_1_session_1ac24c24c48d1bae46a1d5e29531076f45" compoundref="_session__mac_8cpp" startline="441" endline="458">terminateDebuggee</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="493" endline="535">shutdown</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ac24c24c48d1bae46a1d5e29531076f45" compoundref="_session__mac_8cpp" startline="474" endline="491">terminateDebuggee</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -481,15 +617,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="169" column="10" bodyfile="debug/Session_mac.cpp" bodystart="391" bodyend="416"/>
-        <references refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" compoundref="_session_8h" startline="237">events</references>
+        <location file="debug/Session.h" line="182" column="10" bodyfile="debug/Session_mac.cpp" bodystart="416" bodyend="443"/>
+        <references refid="classdebug_1_1_session_1a40050bf4c1c83fbc5d06acc65df561f5" compoundref="_session__mac_8cpp" startline="459" endline="472">drainOutput</references>
+        <references refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" compoundref="_session_8h" startline="262">events</references>
         <references refid="structjam_1_1Instance_1ad5d2bbb58e37d8d260b428b334823140">jam::Instance&lt; WHATDBGModel &gt;::getInstance</references>
-        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="742">listener</references>
-        <references refid="namespacedebug_1a27b0e00372dec0855774d4ac0eba3c10" compoundref="_session__mac_8cpp" startline="206" endline="227">debug::onBreakpointEvent</references>
-        <references refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="164" endline="204">debug::onProcessEvent</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
-        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="87" endline="112">Processor::process</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+        <references refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" compoundref="_session_8h" startline="831">listener</references>
+        <references refid="namespacedebug_1a27b0e00372dec0855774d4ac0eba3c10" compoundref="_session__mac_8cpp" startline="186" endline="207">debug::onBreakpointEvent</references>
+        <references refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="159" endline="184">debug::onProcessEvent</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="66" endline="94">Processor::process</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -520,27 +656,30 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-Windows closes standardOutput, standardError, and launcherOutput, calls IDebugClient5::EndSession with the dbgeng flag corresponding to mode, unregisters <ref refid="classdebug_1_1_output_callbacks" kindref="compound">OutputCallbacks</ref> and <ref refid="classdebug_1_1_event_callbacks" kindref="compound">EventCallbacks</ref>, releases all COM interface pointers, and resets comInitialiser, which uninitializes COM. macOS closes launcherOutput, deletes the channel files, signals or detaches the process per mode, then destroys and terminates the SBDebugger.</para>
+Windows closes standardOutput and standardError, then connectSource, then launcherOutput. When a connect has not completed, it cancels that connect and waits for it to end. Then it resets standardOutputPipe, standardErrorPipe, launcherInput, launcherPipe, and connectEvent. It calls IDebugClient5::EndSession with the dbgeng flag that corresponds to mode. It unregisters <ref refid="classdebug_1_1_output_callbacks" kindref="compound">OutputCallbacks</ref> and <ref refid="classdebug_1_1_event_callbacks" kindref="compound">EventCallbacks</ref>, and releases all COM interface pointers. It resets the symbol group cache, then resets comInitialiser, which uninitializes COM. macOS closes launcherOutput and standardError, and closes their file descriptors. It deletes the channel files and the standard error FIFO. When the debugger is valid, detach detaches the process. For terminate, it sends SIGKILL and resumes the process. For passive, it does nothing to the process. Then it destroys and terminates the SBDebugger.</para>
 <para><simplesect kind="note"><para>Callers must pass an explicit mode. The destructor passes <ref refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa831996cebc6c9bf7687e922c3437be69" kindref="member">EndMode::passive</ref>. <ref refid="class_processor_1a616112bd8cbe927cec6426da3dc64d6d" kindref="member">Processor::getEndModeForExit</ref> returns <ref refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa831996cebc6c9bf7687e922c3437be69" kindref="member">EndMode::passive</ref> when the target has exited. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="192" column="10" bodyfile="debug/Session_mac.cpp" bodystart="460" bodyend="488"/>
-        <references refid="classdebug_1_1_session_1a7e5ddceec0223930cf152a9e67f91fd6" compoundref="_session_8h" startline="760">commFile</references>
-        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="739">debugger</references>
+        <location file="debug/Session.h" line="211" column="10" bodyfile="debug/Session_mac.cpp" bodystart="493" bodyend="535"/>
+        <references refid="classdebug_1_1_session_1a7e5ddceec0223930cf152a9e67f91fd6" compoundref="_session_8h" startline="854">commFile</references>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="828">debugger</references>
         <references refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aab6bc015ea9587c510c9017988e94e60d" compoundref="_session_8h" startline="31">debug::detach</references>
-        <references refid="namespacedebug_1acd0bfcd07f3164b8dd0db830ff0f63f5" compoundref="_session__mac_8cpp" startline="279" endline="282">debug::getDidAttachFile</references>
+        <references refid="namespacedebug_1acd0bfcd07f3164b8dd0db830ff0f63f5" compoundref="_session__mac_8cpp" startline="290" endline="293">debug::getDidAttachFile</references>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
-        <references refid="classdebug_1_1_session_1a8ded1b57303165500c8e11796467b703" compoundref="_session_8h" startline="553">launcherOutput</references>
+        <references refid="classdebug_1_1_session_1ab48af2cffc19ef5de40c1bbc4cf0388c" compoundref="_session_8h" startline="605">launcherHandle</references>
+        <references refid="classdebug_1_1_session_1a8ded1b57303165500c8e11796467b703" compoundref="_session_8h" startline="585">launcherOutput</references>
         <references refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa831996cebc6c9bf7687e922c3437be69" compoundref="_session_8h" startline="32">debug::passive</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
-        <references refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="386" endline="389">resume</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
+        <references refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="411" endline="414">resume</references>
+        <references refid="classdebug_1_1_session_1a4fd2c459e912284958dcc5fb0ff5bebf" compoundref="_session_8h" startline="598">standardError</references>
+        <references refid="classdebug_1_1_session_1aca52e06e99143ed35e0ef40b5d01c5d1" compoundref="_session_8h" startline="857">standardErrorFile</references>
+        <references refid="classdebug_1_1_session_1a5d25e42d0618126c9076797acf22fbd8" compoundref="_session_8h" startline="608">standardErrorHandle</references>
         <references refid="namespacedebug_1aab09b241f8fb72619277ebf5bf0ec90aa1459e53d3fbaa95cebaf90860dd7a259" compoundref="_session_8h" startline="30">debug::terminate</references>
-        <referencedby refid="class_processor_1a57d2c4aa25b0c6786bbce3eb3a78a4a8" compoundref="_processor_8cpp" startline="379" endline="384">Processor::onReleaseResources</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a2ae6441e2bb4fa3f6a616a6f8b0ce8d5" compoundref="_session__mac_8cpp" startline="229" endline="232">~Session</referencedby>
+        <referencedby refid="class_processor_1a57d2c4aa25b0c6786bbce3eb3a78a4a8" compoundref="_processor_8cpp" startline="402" endline="407">Processor::onReleaseResources</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a2ae6441e2bb4fa3f6a616a6f8b0ce8d5" compoundref="_session__mac_8cpp" startline="215" endline="218">~Session</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1ae55ea009e277df6240ced7cfdf1521f3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -552,17 +691,17 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
 <para>Wakes a blocked pollEvents. </para>
         </briefdescription>
         <detaileddescription>
-<para>Called on the reader thread, from <ref refid="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" kindref="member">Processor::addRequest</ref>, and on Windows from the output stream callbacks of launchCaptured.</para>
+<para><ref refid="class_processor" kindref="compound">Processor</ref> calls it from its stdin callback. The output streams call it when they report readiness. On macOS, cancel calls it too.</para>
 <para>Windows sets isWakePending. When isWaiting is set, it calls IDebugControl4::SetInterrupt with DEBUG_INTERRUPT_EXIT. macOS broadcasts the wake event on the listener. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="200" column="10" bodyfile="debug/Session_mac.cpp" bodystart="418" bodyend="421"/>
-        <references refid="classdebug_1_1_session_1a0f54d0f1673664de2ec62a342b93e35b" compoundref="_session_8h" startline="744" endline="744">broadcaster</references>
+        <location file="debug/Session.h" line="221" column="10" bodyfile="debug/Session_mac.cpp" bodystart="445" bodyend="448"/>
+        <references refid="classdebug_1_1_session_1a0f54d0f1673664de2ec62a342b93e35b" compoundref="_session_8h" startline="834" endline="834">broadcaster</references>
         <references refid="namespacedebug_1ab0a6e6add77bf779720e6bd1a359a87c" compoundref="_session__mac_8cpp" startline="68" endline="68">debug::wakeEventMask</references>
-        <referencedby refid="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" compoundref="_processor_8cpp" startline="63" endline="73">Processor::addRequest</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a3db51b94ef908f06ebe53b4f18f5fa01" compoundref="_session__mac_8cpp" startline="423" endline="426">cancel</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a3db51b94ef908f06ebe53b4f18f5fa01" compoundref="_session__mac_8cpp" startline="450" endline="453">cancel</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="247" endline="288">launch</referencedby>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="7" endline="27">Processor::Processor</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a3db51b94ef908f06ebe53b4f18f5fa01" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -574,15 +713,14 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
 <para>Requests interruption of the engine wait. </para>
         </briefdescription>
         <detaileddescription>
-<para>Called on the reader thread, for disconnect and terminate requests.</para>
+<para><ref refid="class_processor" kindref="compound">Processor</ref> calls it on the engine context, from applyPendingRequests, for disconnect and terminate requests.</para>
 <para>Windows calls IDebugControl4::SetInterrupt with DEBUG_INTERRUPT_EXIT. macOS calls wake. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="206" column="10" bodyfile="debug/Session_mac.cpp" bodystart="423" bodyend="426"/>
-        <references refid="classdebug_1_1_session_1ae55ea009e277df6240ced7cfdf1521f3" compoundref="_session__mac_8cpp" startline="418" endline="421">wake</references>
-        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="11" endline="45">Processor::Processor</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+        <location file="debug/Session.h" line="229" column="10" bodyfile="debug/Session_mac.cpp" bodystart="450" bodyend="453"/>
+        <references refid="classdebug_1_1_session_1ae55ea009e277df6240ced7cfdf1521f3" compoundref="_session__mac_8cpp" startline="445" endline="448">wake</references>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="7" endline="27">Processor::Processor</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a1012896227c475931dc65fbb9ff3342c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -598,9 +736,8 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="212" column="10" bodyfile="debug/Session_mac.cpp" bodystart="428" bodyend="430"/>
-        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="525" endline="559">Processor::onDisconnect</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+        <location file="debug/Session.h" line="235" column="10" bodyfile="debug/Session_mac.cpp" bodystart="455" bodyend="457"/>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="548" endline="582">Processor::onDisconnect</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a40050bf4c1c83fbc5d06acc65df561f5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -612,16 +749,22 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
 <para>Sends the output of the target to the client as output events. </para>
         </briefdescription>
         <detaileddescription>
-<para>Windows reads the standard output stream and the standard error stream until each one returns no bytes. macOS reads the standard output and the standard error of the process until each one returns no bytes. pollEvents calls it before and after each wait. </para>
+<para>Windows reads the standard output stream and the standard error stream until each one returns no bytes. macOS reads the process standard output and the standard error FIFO until each one returns no bytes. On Windows, pollEvents calls it before and after each wait. On macOS, pollEvents calls it after the wait. The exited event handler of <ref refid="class_processor" kindref="compound">Processor</ref> also calls it. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="220" column="10" bodyfile="debug/Session_mac.cpp" bodystart="432" bodyend="439"/>
-        <references refid="namespacedebug_1a3af2678f62d76ed2b0c10881b60fb4bc" compoundref="_session__mac_8cpp" startline="71" endline="91">debug::drainProcessStdio</references>
-        <references refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" compoundref="_session_8h" startline="237">events</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
-        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="152" endline="180">Processor::registerEvents</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+        <location file="debug/Session.h" line="244" column="10" bodyfile="debug/Session_mac.cpp" bodystart="459" bodyend="472"/>
+        <references refid="classjam_1_1TerminalFIFO_1a0a0d3705483c1517ba301ae21fcd1336">jam::TerminalFIFO::applyPendingData</references>
+        <references refid="namespacedebug_1aa9ddd2d513c873736fd7cd93cb5f0c2f" compoundref="_session__mac_8cpp" startline="71" endline="86">debug::drainProcessStdio</references>
+        <references refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" compoundref="_session_8h" startline="262">events</references>
+        <references refid="structjam_1_1Function_1_1Map_1af9fdde9da6fe4521cb50e87d02c974be">jam::Function::Map&lt; typename KeyType, size_t capacity, typename... Signatures &gt;::get</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
+        <references refid="namespaceId_1a7c7348e9f7d639ded9f3bf11241d4bd9" compoundref="_generated_8cpp" startline="110" endline="110">Id::standardError</references>
+        <references refid="classdebug_1_1_session_1a8f38e59c485f35f9fa57a941aa9b9aed" compoundref="_session_8h" startline="601">standardErrorBytes</references>
+        <references refid="classdebug_1_1_session_1a5d25e42d0618126c9076797acf22fbd8" compoundref="_session_8h" startline="608">standardErrorHandle</references>
+        <references refid="classjam_1_1TerminalFIFO_1a8caec82f188461236ed7c3ebf8a3466b">jam::TerminalFIFO::writeFromTerminalTTY</references>
+        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="416" endline="443">pollEvents</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="176" endline="204">Processor::registerEvents</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -633,30 +776,32 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
 <para>Reads the first message from the launch channel, acts on it, and closes the channel. </para>
         </briefdescription>
         <detaileddescription>
-<para>A pid message calls attachLaunchTarget. An error message fires the error event with its text. The channel closes after that message. macOS also deletes the channel files.</para>
+<para>A pid message calls attachLaunchTarget. An error message fires the error event with its text. On Windows, it closes connectSource first. The close waits for a connect callback that still opens launcherOutput. The channel closes after that message. macOS also deletes the channel files.</para>
 <para><ref refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" kindref="member">Processor::process</ref> calls it when the engine does not poll. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="229" column="10" bodyfile="debug/Session_mac.cpp" bodystart="342" bodyend="366"/>
-        <references refid="classdebug_1_1_session_1ae0cff8943c2cdbd0906c0d3516addddf" compoundref="_session__mac_8cpp" startline="324" endline="340">attachLaunchTarget</references>
+        <location file="debug/Session.h" line="254" column="10" bodyfile="debug/Session_mac.cpp" bodystart="354" bodyend="391"/>
+        <references refid="classjam_1_1TerminalFIFO_1a0a0d3705483c1517ba301ae21fcd1336">jam::TerminalFIFO::applyPendingData</references>
+        <references refid="classdebug_1_1_session_1ae0cff8943c2cdbd0906c0d3516addddf" compoundref="_session__mac_8cpp" startline="337" endline="352">attachLaunchTarget</references>
         <references refid="classjam_1_1AsyncOutputStream_1aa9499cce030f6b69269ba0419dc4f92a">jam::AsyncOutputStream::close</references>
-        <references refid="classdebug_1_1_session_1a7e5ddceec0223930cf152a9e67f91fd6" compoundref="_session_8h" startline="760">commFile</references>
+        <references refid="classdebug_1_1_session_1a7e5ddceec0223930cf152a9e67f91fd6" compoundref="_session_8h" startline="854">commFile</references>
         <references refid="namespaceId_1a8b7636944e9a0c1d9e4f9d73660b14d8" compoundref="_generated_8cpp" startline="48" endline="48">Id::error</references>
-        <references refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" compoundref="_session_8h" startline="237">events</references>
+        <references refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" compoundref="_session_8h" startline="262">events</references>
         <references refid="classjam_1_1Strings_1aca02ec79e3d857bca6f9647dce6415fc">jam::Strings::fromView</references>
         <references refid="structjam_1_1Function_1_1Map_1af9fdde9da6fe4521cb50e87d02c974be">jam::Function::Map&lt; typename KeyType, size_t capacity, typename... Signatures &gt;::get</references>
-        <references refid="namespacedebug_1acd0bfcd07f3164b8dd0db830ff0f63f5" compoundref="_session__mac_8cpp" startline="279" endline="282">debug::getDidAttachFile</references>
+        <references refid="namespacedebug_1acd0bfcd07f3164b8dd0db830ff0f63f5" compoundref="_session__mac_8cpp" startline="290" endline="293">debug::getDidAttachFile</references>
         <references refid="structjam_1_1Format_1ac6d60225b9512e5eefcf599b068f2a6f">jam::Format::getNumber</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
         <references refid="namespaceId_1a0b34f9abc212e24db3f8ab42517a3c6b" compoundref="_generated_8cpp" startline="79" endline="79">Id::kind</references>
-        <references refid="classdebug_1_1_session_1a8ded1b57303165500c8e11796467b703" compoundref="_session_8h" startline="553">launcherOutput</references>
-        <references refid="structjam_1_1Document_1a367d65133f164cf9421ff0c3ddf2bbf6">jam::Document::parse</references>
-        <references refid="namespaceId_1a4778dd29d53d85279bd3353399326859" compoundref="_generated_8cpp" startline="89" endline="89">Id::pid</references>
-        <references refid="classjam_1_1AsyncOutputStream_1a9810233b2418401ffc2d9b6195e31820">jam::AsyncOutputStream::read</references>
+        <references refid="classdebug_1_1_session_1a34de68e4434147292a30f43af5833845" compoundref="_session_8h" startline="591">launcherBytes</references>
+        <references refid="classdebug_1_1_session_1ab48af2cffc19ef5de40c1bbc4cf0388c" compoundref="_session_8h" startline="605">launcherHandle</references>
+        <references refid="classdebug_1_1_session_1a8ded1b57303165500c8e11796467b703" compoundref="_session_8h" startline="585">launcherOutput</references>
+        <references refid="namespaceId_1a4778dd29d53d85279bd3353399326859" compoundref="_generated_8cpp" startline="88" endline="88">Id::pid</references>
+        <references refid="structjam_1_1JsonDocument_1a90799dd13771233d118011eb2f2fdf85">jam::JsonDocument::read</references>
         <references refid="classjuce_1_1Identifier_1ab6f0db1de2c36cacd1a9d7280f73aeeb">juce::Identifier::toString</references>
-        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="87" endline="112">Processor::process</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf">Session</referencedby>
+        <references refid="classjam_1_1TerminalFIFO_1a8caec82f188461236ed7c3ebf8a3466b">jam::TerminalFIFO::writeFromTerminalTTY</references>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="66" endline="94">Processor::process</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a02ef270b151bab75f4e20a5a48d84d41" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>std::optional&lt; std::int32_t &gt;</type>
@@ -688,8 +833,8 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="251" column="19" bodyfile="debug/Session_mac.cpp" bodystart="514" bodyend="523"/>
-        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="747">target</references>
+        <location file="debug/Session.h" line="276" column="19" bodyfile="debug/Session_mac.cpp" bodystart="561" bodyend="570"/>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="837">target</references>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a0afce30b5eb95c22083d1516c3422d52" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>std::optional&lt; <ref refid="namespacedebug_1aee0526408c2ffc82c78a9e7ed793c19e" kindref="member">BreakpointLocation</ref> &gt;</type>
@@ -733,9 +878,9 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="270" column="19" bodyfile="debug/Session_mac.cpp" bodystart="525" bodyend="552"/>
+        <location file="debug/Session.h" line="295" column="19" bodyfile="debug/Session_mac.cpp" bodystart="572" bodyend="599"/>
         <references refid="structjam_1_1Union_1a1ea5d51075b691d9e08a751836b4cd88">jam::Union&lt; std::int32_t, std::uint16_t &gt;::pack</references>
-        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="747">target</references>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="837">target</references>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="classjuce_1_1Result" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::Result</ref></type>
@@ -767,10 +912,10 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="283" column="18" bodyfile="debug/Session_mac.cpp" bodystart="554" bodyend="559"/>
+        <location file="debug/Session.h" line="308" column="18" bodyfile="debug/Session_mac.cpp" bodystart="601" bodyend="606"/>
         <references refid="classjuce_1_1Result_1a27205a4dc7a973aebd1976270867be80">juce::Result::fail</references>
         <references refid="classjuce_1_1Result_1ac2133128eeba510367bfe1b83383ae0f">juce::Result::ok</references>
-        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="747">target</references>
+        <references refid="classdebug_1_1_session_1a38a1f0d34033a042845854f216b3a994" compoundref="_session_8h" startline="837">target</references>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a244b110c3c6cfa7e9371f2f6b5b61203" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="classjuce_1_1Result" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::Result</ref></type>
@@ -802,7 +947,7 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="295" column="18" bodyfile="debug/Session_mac.cpp" bodystart="561" bodyend="565"/>
+        <location file="debug/Session.h" line="320" column="18" bodyfile="debug/Session_mac.cpp" bodystart="608" bodyend="612"/>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
         <references refid="classjuce_1_1Result_1ac2133128eeba510367bfe1b83383ae0f">juce::Result::ok</references>
       </memberdef>
@@ -823,7 +968,7 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="305" column="18" bodyfile="debug/Session_mac.cpp" bodystart="567" bodyend="570"/>
+        <location file="debug/Session.h" line="330" column="18" bodyfile="debug/Session_mac.cpp" bodystart="614" bodyend="617"/>
         <references refid="classjuce_1_1Result_1ac2133128eeba510367bfe1b83383ae0f">juce::Result::ok</references>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a60c1171499fc598e2124c6097a96d1ee" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -843,9 +988,9 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="318" column="10" bodyfile="debug/Session_mac.cpp" bodystart="490" bodyend="493"/>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
-        <referencedby refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" compoundref="_processor_8cpp" startline="689" endline="704">Processor::onNext</referencedby>
+        <location file="debug/Session.h" line="343" column="10" bodyfile="debug/Session_mac.cpp" bodystart="537" bodyend="540"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
+        <referencedby refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" compoundref="_processor_8cpp" startline="712" endline="727">Processor::onNext</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a1816fd6de2ca88d638adacef4cd0e40f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -864,9 +1009,9 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="329" column="10" bodyfile="debug/Session_mac.cpp" bodystart="495" bodyend="498"/>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
-        <referencedby refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" compoundref="_processor_8cpp" startline="706" endline="721">Processor::onStepIn</referencedby>
+        <location file="debug/Session.h" line="354" column="10" bodyfile="debug/Session_mac.cpp" bodystart="542" bodyend="545"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
+        <referencedby refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" compoundref="_processor_8cpp" startline="729" endline="744">Processor::onStepIn</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1af2b1a168dd413d9aec686598fa733146" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -885,9 +1030,9 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="339" column="10" bodyfile="debug/Session_mac.cpp" bodystart="500" bodyend="505"/>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
-        <referencedby refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" compoundref="_processor_8cpp" startline="723" endline="738">Processor::onStepOut</referencedby>
+        <location file="debug/Session.h" line="364" column="10" bodyfile="debug/Session_mac.cpp" bodystart="547" bodyend="552"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
+        <referencedby refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" compoundref="_processor_8cpp" startline="746" endline="761">Processor::onStepOut</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -917,11 +1062,11 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="350" column="10" bodyfile="debug/Session_mac.cpp" bodystart="507" bodyend="512"/>
+        <location file="debug/Session.h" line="375" column="10" bodyfile="debug/Session_mac.cpp" bodystart="554" bodyend="559"/>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
-        <referencedby refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" compoundref="_processor_8cpp" startline="740" endline="752">Processor::onPause</referencedby>
-        <referencedby refid="class_processor_1a9af86630f17983504d894a6ab50de2be" compoundref="_processor_8cpp" startline="123" endline="145">Processor::onRequest</referencedby>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
+        <referencedby refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" compoundref="_processor_8cpp" startline="763" endline="775">Processor::onPause</referencedby>
+        <referencedby refid="class_processor_1af90b813821839e15e8321c4817c07bf9" compoundref="_processor_8cpp" startline="114" endline="130">Processor::onRequest</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1ac24c24c48d1bae46a1d5e29531076f45" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -953,12 +1098,12 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="368" column="10" bodyfile="debug/Session_mac.cpp" bodystart="441" bodyend="458"/>
+        <location file="debug/Session.h" line="393" column="10" bodyfile="debug/Session_mac.cpp" bodystart="474" bodyend="491"/>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
-        <references refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="386" endline="389">resume</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
+        <references refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="411" endline="414">resume</references>
         <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
-        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="525" endline="559">Processor::onDisconnect</referencedby>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="548" endline="582">Processor::onDisconnect</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1af9887fd2d4f3e2f90a08a484ea953e3c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -988,9 +1133,9 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="379" column="10" bodyfile="debug/Session_mac.cpp" bodystart="572" bodyend="576"/>
-        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="739">debugger</references>
-        <referencedby refid="class_processor_1ab8672637da070c4b57ca72930ffcd355" compoundref="_processor_8cpp" startline="463" endline="470">Processor::addSearchPaths</referencedby>
+        <location file="debug/Session.h" line="404" column="10" bodyfile="debug/Session_mac.cpp" bodystart="619" bodyend="623"/>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="828">debugger</references>
+        <referencedby refid="class_processor_1ab8672637da070c4b57ca72930ffcd355" compoundref="_processor_8cpp" startline="486" endline="493">Processor::addSearchPaths</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1ad856217672ddc790f06f8127f220c90d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -1020,9 +1165,9 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="390" column="10" bodyfile="debug/Session_mac.cpp" bodystart="578" bodyend="585"/>
-        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="739">debugger</references>
-        <referencedby refid="class_processor_1ab8672637da070c4b57ca72930ffcd355" compoundref="_processor_8cpp" startline="463" endline="470">Processor::addSearchPaths</referencedby>
+        <location file="debug/Session.h" line="415" column="10" bodyfile="debug/Session_mac.cpp" bodystart="625" bodyend="632"/>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="828">debugger</references>
+        <referencedby refid="class_processor_1ab8672637da070c4b57ca72930ffcd355" compoundref="_processor_8cpp" startline="486" endline="493">Processor::addSearchPaths</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1aa25453f6ff0703dd42e955e72d68e5e3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>int</type>
@@ -1089,10 +1234,10 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="420" column="9" bodyfile="debug/Session_mac.cpp" bodystart="748" bodyend="760"/>
-        <references refid="classdebug_1_1_session_1a8c839b8c18d56cf2952df599fc1f2e3d" compoundref="_session__mac_8cpp" startline="717" endline="746">appendStackFrame</references>
+        <location file="debug/Session.h" line="445" column="9" bodyfile="debug/Session_mac.cpp" bodystart="795" bodyend="807"/>
+        <references refid="classdebug_1_1_session_1a8c839b8c18d56cf2952df599fc1f2e3d" compoundref="_session__mac_8cpp" startline="764" endline="793">appendStackFrame</references>
         <references refid="namespacejuce_1a31dc5897289f074362c29fe54016f2dd">juce::jmin</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
         <referencedby refid="classdebug_1_1_variable_manager_1a29ae314c6fd001ecf45635d9e6dc2810" compoundref="_variable_manager_8cpp" startline="28" endline="38">debug::VariableManager::onStackTrace</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -1138,10 +1283,10 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="438" column="10" bodyfile="debug/Session_mac.cpp" bodystart="762" bodyend="777"/>
-        <references refid="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" compoundref="_session__mac_8cpp" startline="708" endline="715">debug::applyToVariable</references>
-        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="755">cachedFrameVariables</references>
-        <references refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session__mac_8cpp" startline="681" endline="689">cacheFrameVariables</references>
+        <location file="debug/Session.h" line="463" column="10" bodyfile="debug/Session_mac.cpp" bodystart="809" bodyend="824"/>
+        <references refid="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" compoundref="_session__mac_8cpp" startline="755" endline="762">debug::applyToVariable</references>
+        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="845">cachedFrameVariables</references>
+        <references refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session__mac_8cpp" startline="728" endline="736">cacheFrameVariables</references>
         <references refid="namespacedebug_1a5f8bae060639d0487513b79a1e7ad204" compoundref="_pretty_print_8h" startline="24" endline="30">debug::shouldSkipSymbol</references>
         <referencedby refid="classdebug_1_1_variable_manager_1a39c321a2a70e965d5f89bed3cf80974a" compoundref="_variable_manager_8cpp" startline="88" endline="107">debug::VariableManager::appendVariables</referencedby>
       </memberdef>
@@ -1200,10 +1345,10 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="455" column="10" bodyfile="debug/Session_mac.cpp" bodystart="779" bodyend="801"/>
-        <references refid="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" compoundref="_session__mac_8cpp" startline="708" endline="715">debug::applyToVariable</references>
-        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="755">cachedFrameVariables</references>
-        <references refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session__mac_8cpp" startline="681" endline="689">cacheFrameVariables</references>
+        <location file="debug/Session.h" line="480" column="10" bodyfile="debug/Session_mac.cpp" bodystart="826" bodyend="848"/>
+        <references refid="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" compoundref="_session__mac_8cpp" startline="755" endline="762">debug::applyToVariable</references>
+        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="845">cachedFrameVariables</references>
+        <references refid="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" compoundref="_session__mac_8cpp" startline="728" endline="736">cacheFrameVariables</references>
         <references refid="namespacedebug_1a5f8bae060639d0487513b79a1e7ad204" compoundref="_pretty_print_8h" startline="24" endline="30">debug::shouldSkipSymbol</references>
         <referencedby refid="classdebug_1_1_variable_manager_1a39c321a2a70e965d5f89bed3cf80974a" compoundref="_variable_manager_8cpp" startline="88" endline="107">debug::VariableManager::appendVariables</referencedby>
       </memberdef>
@@ -1263,10 +1408,10 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="478" column="18" bodyfile="debug/Session_mac.cpp" bodystart="803" bodyend="821"/>
-        <references refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="691" endline="705">debug::getDisplayValue</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
-        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="774" endline="805">Processor::onEvaluate</referencedby>
+        <location file="debug/Session.h" line="503" column="18" bodyfile="debug/Session_mac.cpp" bodystart="850" bodyend="868"/>
+        <references refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="738" endline="752">debug::getDisplayValue</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="797" endline="828">Processor::onEvaluate</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a926bbe2e4990905cf784fce5cfadc135" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -1303,16 +1448,16 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="496" column="10" bodyfile="debug/Session_mac.cpp" bodystart="587" bodyend="607"/>
-        <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
-        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
-        <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
-        <references refid="structjam_1_1JsonWriter_1acf8da4810f6b5cb1ee80660149a2db25">jam::JsonWriter::appendSeparator</references>
-        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
+        <location file="debug/Session.h" line="521" column="10" bodyfile="debug/Session_mac.cpp" bodystart="634" bodyend="654"/>
+        <references refid="structjam_1_1Format_1a6588bb82effb3fb3138073257057463f">jam::Format::appendDecimal</references>
+        <references refid="structjam_1_1JsonWriter_1a3dd6115b3b48e6a722a2c5bcae0cd70e">jam::JsonWriter::appendKey</references>
+        <references refid="structjam_1_1JsonWriter_1af7e36be58d2d47daf877904d7c6d77e1">jam::JsonWriter::appendObject</references>
+        <references refid="structjam_1_1JsonWriter_1a938044cd32b406999b22e51819ee102d">jam::JsonWriter::appendSeparator</references>
+        <references refid="structjam_1_1JsonWriter_1ae7b63750554be1dd1d7bdec0545d14ec">jam::JsonWriter::appendString</references>
         <references refid="namespaceId_1a3f6204ca8d39b2591e10dc6cf112e0fc">Id::id</references>
         <references refid="namespaceId_1ab17c6c7afce10ee78699a1e23ac7acdf">Id::name</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
-        <referencedby refid="class_processor_1a9c6554bef7c0240709dd33695728e25d" compoundref="_processor_8cpp" startline="591" endline="603">Processor::onThreads</referencedby>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
+        <referencedby refid="class_processor_1a9c6554bef7c0240709dd33695728e25d" compoundref="_processor_8cpp" startline="614" endline="626">Processor::onThreads</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1added27241e7e56cb23e1c114de9264f0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>std::uint32_t</type>
@@ -1331,8 +1476,8 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="508" column="19" bodyfile="debug/Session_mac.cpp" bodystart="609" bodyend="614"/>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
+        <location file="debug/Session.h" line="533" column="19" bodyfile="debug/Session_mac.cpp" bodystart="656" bodyend="661"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
         <referencedby refid="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" compoundref="_stop_manager_8cpp" startline="108" endline="121">debug::StopManager::drainBreakpointHit</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="175" endline="195">debug::StopManager::drainExceptionStopped</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1ae491549724477f1c2457f0005f4e11e2" compoundref="_stop_manager_8cpp" startline="139" endline="152">debug::StopManager::drainPauseCompleted</referencedby>
@@ -1369,9 +1514,9 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="523" column="10" bodyfile="debug/Session_mac.cpp" bodystart="616" bodyend="619"/>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
-        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="605" endline="631">Processor::onStackTrace</referencedby>
+        <location file="debug/Session.h" line="548" column="10" bodyfile="debug/Session_mac.cpp" bodystart="663" bodyend="666"/>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
+        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="628" endline="654">Processor::onStackTrace</referencedby>
         <referencedby refid="classdebug_1_1_variable_manager_1a7106ef722eac53731b410153ec46d41c" compoundref="_variable_manager_8cpp" startline="78" endline="86">debug::VariableManager::onVariables</referencedby>
         <referencedby refid="classdebug_1_1_variable_manager_1afb5fdaf8c1eb869e54d7f33644cd3439" compoundref="_variable_manager_8cpp" startline="40" endline="61">debug::VariableManager::selectFrameFromId</referencedby>
       </memberdef>
@@ -1389,9 +1534,9 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="531" column="10" bodyfile="debug/Session_mac.cpp" bodystart="621" bodyend="625"/>
-        <references refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" compoundref="_session_8h" startline="758" endline="758">cachedFrameIndex</references>
-        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="755">cachedFrameVariables</references>
+        <location file="debug/Session.h" line="556" column="10" bodyfile="debug/Session_mac.cpp" bodystart="668" bodyend="672"/>
+        <references refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" compoundref="_session_8h" startline="848" endline="848">cachedFrameIndex</references>
+        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="845">cachedFrameVariables</references>
         <referencedby refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" compoundref="_variable_manager_8cpp" startline="18" endline="26">debug::VariableManager::resetVariablesState</referencedby>
       </memberdef>
     </sectiondef>
@@ -1411,17 +1556,17 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="539" column="10" bodyfile="debug/Session_mac.cpp" bodystart="303" bodyend="322"/>
-        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
-        <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
-        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
-        <references refid="classdebug_1_1_session_1a7e5ddceec0223930cf152a9e67f91fd6" compoundref="_session_8h" startline="760">commFile</references>
+        <location file="debug/Session.h" line="564" column="10" bodyfile="debug/Session_mac.cpp" bodystart="316" bodyend="335"/>
+        <references refid="structjam_1_1JsonWriter_1a3dd6115b3b48e6a722a2c5bcae0cd70e">jam::JsonWriter::appendKey</references>
+        <references refid="structjam_1_1JsonWriter_1af7e36be58d2d47daf877904d7c6d77e1">jam::JsonWriter::appendObject</references>
+        <references refid="structjam_1_1JsonWriter_1ae7b63750554be1dd1d7bdec0545d14ec">jam::JsonWriter::appendString</references>
+        <references refid="classdebug_1_1_session_1a7e5ddceec0223930cf152a9e67f91fd6" compoundref="_session_8h" startline="854">commFile</references>
         <references refid="namespaceId_1aea223155c87dc5e79cfa8ff02d95461b" compoundref="_generated_8cpp" startline="46" endline="46">Id::didAttach</references>
-        <references refid="namespacedebug_1acd0bfcd07f3164b8dd0db830ff0f63f5" compoundref="_session__mac_8cpp" startline="279" endline="282">debug::getDidAttachFile</references>
+        <references refid="namespacedebug_1acd0bfcd07f3164b8dd0db830ff0f63f5" compoundref="_session__mac_8cpp" startline="290" endline="293">debug::getDidAttachFile</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
         <references refid="namespaceId_1a0b34f9abc212e24db3f8ab42517a3c6b" compoundref="_generated_8cpp" startline="79" endline="79">Id::kind</references>
-        <referencedby refid="classdebug_1_1_session_1ae0cff8943c2cdbd0906c0d3516addddf" compoundref="_session__mac_8cpp" startline="324" endline="340">attachLaunchTarget</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ae0cff8943c2cdbd0906c0d3516addddf" compoundref="_session__mac_8cpp" startline="337" endline="352">attachLaunchTarget</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1ae0cff8943c2cdbd0906c0d3516addddf" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -1437,7 +1582,7 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
 <para>Attaches to the target that the <ref refid="class_launcher" kindref="compound">Launcher</ref> reported, then sends the reply. </para>
         </briefdescription>
         <detaileddescription>
-<para>Windows calls attachSuspended. On success it calls sendDidAttach and fires the didAttach event. macOS sets the debugger to synchronous mode, attaches, calls sendDidAttach, and resumes the process. It fires didAttach, then sets the debugger back to asynchronous mode. On failure, both platforms fire the error event with the text &quot;Failed to attach to the target process&quot;.</para>
+<para>Windows calls attachSuspended. On success it calls sendDidAttach and fires the didAttach event. macOS sets the debugger to synchronous mode, attaches, and calls sendDidAttach. It fires didAttach, then sets the debugger back to asynchronous mode. It does not resume the process. On failure, both platforms fire the error event with the text &quot;Failed to attach to the target process&quot;.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>processId</parametername>
@@ -1451,15 +1596,14 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="550" column="10" bodyfile="debug/Session_mac.cpp" bodystart="324" bodyend="340"/>
-        <references refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="368" endline="384">attach</references>
-        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="739">debugger</references>
+        <location file="debug/Session.h" line="575" column="10" bodyfile="debug/Session_mac.cpp" bodystart="337" bodyend="352"/>
+        <references refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="393" endline="409">attach</references>
+        <references refid="classdebug_1_1_session_1a922702df9f8dcd9fa5309289ed094198" compoundref="_session_8h" startline="828">debugger</references>
         <references refid="namespaceId_1aea223155c87dc5e79cfa8ff02d95461b" compoundref="_generated_8cpp" startline="46" endline="46">Id::didAttach</references>
         <references refid="namespaceId_1a8b7636944e9a0c1d9e4f9d73660b14d8" compoundref="_generated_8cpp" startline="48" endline="48">Id::error</references>
-        <references refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" compoundref="_session_8h" startline="237">events</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
-        <references refid="classdebug_1_1_session_1ab17bfa72486464b873a658e0ecf6e40a" compoundref="_session__mac_8cpp" startline="303" endline="322">sendDidAttach</references>
-        <referencedby refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" compoundref="_session__mac_8cpp" startline="342" endline="366">drainLauncherOutput</referencedby>
+        <references refid="classdebug_1_1_session_1a81f6eec8b52b3becaada99d133d8840f" compoundref="_session_8h" startline="262">events</references>
+        <references refid="classdebug_1_1_session_1ab17bfa72486464b873a658e0ecf6e40a" compoundref="_session__mac_8cpp" startline="316" endline="335">sendDidAttach</references>
+        <referencedby refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" compoundref="_session__mac_8cpp" startline="354" endline="391">drainLauncherOutput</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a74164f64332a9f0d56d430a7e39b6337" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -1489,12 +1633,12 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="734" column="10" bodyfile="debug/Session_mac.cpp" bodystart="681" bodyend="689"/>
-        <references refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" compoundref="_session_8h" startline="758" endline="758">cachedFrameIndex</references>
-        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="755">cachedFrameVariables</references>
-        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="750">process</references>
-        <referencedby refid="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" compoundref="_session__mac_8cpp" startline="762" endline="777">applyToLocals</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a44d91c600d53774ef810614e1f663f15" compoundref="_session__mac_8cpp" startline="779" endline="801">applyToVariableChildren</referencedby>
+        <location file="debug/Session.h" line="823" column="10" bodyfile="debug/Session_mac.cpp" bodystart="728" bodyend="736"/>
+        <references refid="classdebug_1_1_session_1a0bd79a8d99f82d892b7e4b5792cbee04" compoundref="_session_8h" startline="848" endline="848">cachedFrameIndex</references>
+        <references refid="classdebug_1_1_session_1abd8c2f389b2c71687b37402ed0a1ccfe" compoundref="_session_8h" startline="845">cachedFrameVariables</references>
+        <references refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" compoundref="_session_8h" startline="840">process</references>
+        <referencedby refid="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" compoundref="_session__mac_8cpp" startline="809" endline="824">applyToLocals</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a44d91c600d53774ef810614e1f663f15" compoundref="_session__mac_8cpp" startline="826" endline="848">applyToVariableChildren</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_session_1a8c839b8c18d56cf2952df599fc1f2e3d" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -1520,21 +1664,21 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session.h" line="736" column="10" bodyfile="debug/Session_mac.cpp" bodystart="717" bodyend="746"/>
-        <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
-        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
-        <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
-        <references refid="structjam_1_1JsonWriter_1acf8da4810f6b5cb1ee80660149a2db25">jam::JsonWriter::appendSeparator</references>
+        <location file="debug/Session.h" line="825" column="10" bodyfile="debug/Session_mac.cpp" bodystart="764" bodyend="793"/>
+        <references refid="structjam_1_1Format_1a6588bb82effb3fb3138073257057463f">jam::Format::appendDecimal</references>
+        <references refid="structjam_1_1JsonWriter_1a3dd6115b3b48e6a722a2c5bcae0cd70e">jam::JsonWriter::appendKey</references>
+        <references refid="structjam_1_1JsonWriter_1af7e36be58d2d47daf877904d7c6d77e1">jam::JsonWriter::appendObject</references>
+        <references refid="structjam_1_1JsonWriter_1a938044cd32b406999b22e51819ee102d">jam::JsonWriter::appendSeparator</references>
         <references refid="namespacedap_1aba2a832f89ae6f80a41bc63c1e7c99f8" compoundref="_types_8cpp" startline="112" endline="121">dap::appendSource</references>
-        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
+        <references refid="structjam_1_1JsonWriter_1ae7b63750554be1dd1d7bdec0545d14ec">jam::JsonWriter::appendString</references>
         <references refid="namespaceId_1af2239fe8341ea76506105b6ce8f3b749" compoundref="_generated_8cpp" startline="40" endline="40">Id::column</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
         <references refid="namespaceId_1a3f6204ca8d39b2591e10dc6cf112e0fc">Id::id</references>
         <references refid="classjuce_1_1String_1af5084463343819f82187154ccb62ea3a">juce::String::isNotEmpty</references>
         <references refid="namespaceId_1a9acf3e231e632c1b02ad3a0d4c0fc008">Id::line</references>
         <references refid="namespaceId_1ab17c6c7afce10ee78699a1e23ac7acdf">Id::name</references>
-        <references refid="namespaceId_1a0373df11a0741f497b13b791d42c06e9" compoundref="_identifiers_8h" startline="112">Id::source</references>
-        <referencedby refid="classdebug_1_1_session_1aa25453f6ff0703dd42e955e72d68e5e3" compoundref="_session__mac_8cpp" startline="748" endline="760">appendStackFrames</referencedby>
+        <references refid="namespaceId_1a0373df11a0741f497b13b791d42c06e9" compoundref="_identifiers_8h" startline="111">Id::source</references>
+        <referencedby refid="classdebug_1_1_session_1aa25453f6ff0703dd42e955e72d68e5e3" compoundref="_session__mac_8cpp" startline="795" endline="807">appendStackFrames</referencedby>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1556,7 +1700,7 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
 <listitem><para>Owns the SBDebugger, SBListener, SBTarget, and SBProcess instances for the lifetime of the session.</para>
 </listitem></itemizedlist>
 </para>
-<para><simplesect kind="note"><para>The engine context runs every method, except wake and cancel. The reader thread calls wake and cancel through <ref refid="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" kindref="member">Processor::addRequest</ref>. On Windows, the output stream callbacks of launchCaptured also call wake. On Windows, <ref refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" kindref="member">initialize()</ref> initializes COM in multithreaded mode. </para>
+<para><simplesect kind="note"><para>The engine context runs every method, except wake. <ref refid="class_processor" kindref="compound">Processor</ref> calls cancel on the engine context, from applyPendingRequests. The readiness callbacks call wake. <ref refid="class_processor" kindref="compound">Processor</ref> calls it from its stdin callback. On macOS, the standard error stream calls it. On Windows, the output streams call it. On Windows, <ref refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" kindref="member">initialize()</ref> initializes COM in multithreaded mode. </para>
 </simplesect>
 </para>
     </detaileddescription>
@@ -1569,9 +1713,15 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         </childnode>
         <childnode refid="4" relation="usage">
           <edgelabel>launcherOutput</edgelabel>
+          <edgelabel>standardError</edgelabel>
         </childnode>
         <childnode refid="6" relation="usage">
+          <edgelabel>launcherBytes</edgelabel>
+          <edgelabel>standardErrorBytes</edgelabel>
+        </childnode>
+        <childnode refid="11" relation="usage">
           <edgelabel>commFile</edgelabel>
+          <edgelabel>standardErrorFile</edgelabel>
         </childnode>
       </node>
       <node id="4">
@@ -1592,14 +1742,44 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
         <link refid="classjam_1_1HashMap" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
       </node>
       <node id="6">
+        <label>jam::TerminalFIFO</label>
+        <link refid="classjam_1_1TerminalFIFO" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>fifo</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>native</edgelabel>
+        </childnode>
+      </node>
+      <node id="10">
+        <label>jam::TerminalFIFO::Native</label>
+        <link refid="structjam_1_1TerminalFIFO_1_1Native" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="8">
+        <label>juce::AbstractFifo</label>
+        <link refid="classjuce_1_1AbstractFifo" external="D:/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="11">
         <label>juce::File</label>
         <link refid="classjuce_1_1File" external="D:/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="7">
+        <label>juce::OutputStream</label>
+        <link refid="classjuce_1_1OutputStream" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
       <node id="5">
         <label>std::unique_ptr&lt; Native &gt;</label>
       </node>
+      <node id="9">
+        <label>std::unique_ptr&lt; jam::TerminalFIFO::Native &gt;</label>
+        <childnode refid="10" relation="usage">
+          <edgelabel>ptr</edgelabel>
+        </childnode>
+      </node>
     </collaborationgraph>
-    <location file="debug/Session.h" line="67" column="1" bodyfile="debug/Session.h" bodystart="68" bodyend="764"/>
+    <location file="debug/Session.h" line="68" column="1" bodyfile="debug/Session.h" bodystart="69" bodyend="861"/>
     <listofallmembers>
       <member refid="classdebug_1_1_session_1a02ef270b151bab75f4e20a5a48d84d41" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>addBreakpoint</name></member>
       <member refid="classdebug_1_1_session_1a0afce30b5eb95c22083d1516c3422d52" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>addBreakpointByLocation</name></member>
@@ -1629,9 +1809,12 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
       <member refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>initialize</name></member>
       <member refid="classdebug_1_1_session_1aa832ffd71e6bc996e0c82d6e824ac8e5" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>interrupt</name></member>
       <member refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>launch</name></member>
+      <member refid="classdebug_1_1_session_1a34de68e4434147292a30f43af5833845" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>launcherBytes</name></member>
+      <member refid="classdebug_1_1_session_1ab48af2cffc19ef5de40c1bbc4cf0388c" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>launcherHandle</name></member>
       <member refid="classdebug_1_1_session_1a8ded1b57303165500c8e11796467b703" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>launcherOutput</name></member>
       <member refid="classdebug_1_1_session_1a220e1b58a305fb7356bc036a985939d9" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>listener</name></member>
       <member refid="classdebug_1_1_session_1a244b110c3c6cfa7e9371f2f6b5b61203" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>loadModuleSymbols</name></member>
+      <member refid="classdebug_1_1_session_1ad35eb7e29f550d63f5003087e9ef305c" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>maximumPeriodMilliseconds</name></member>
       <member refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>pollEvents</name></member>
       <member refid="classdebug_1_1_session_1ae99dd46f3d5506b59110dfcf4c1ebb36" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>process</name></member>
       <member refid="classdebug_1_1_session_1a6fc1ef3a09ce06aeb98a73863697770d" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>removeBreakpoint</name></member>
@@ -1639,9 +1822,13 @@ Windows closes standardOutput, standardError, and launcherOutput, calls IDebugCl
       <member refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>resetSymbolGroupCache</name></member>
       <member refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>resume</name></member>
       <member refid="classdebug_1_1_session_1ab17bfa72486464b873a658e0ecf6e40a" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>sendDidAttach</name></member>
-      <member refid="classdebug_1_1_session_1a94822be85fcd514cb2b8d2570eaf3acf" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>Session</name></member>
+      <member refid="classdebug_1_1_session_1a67b2eaf06d253f6be6e978a39ce5fd5d" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>Session</name></member>
       <member refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>setCurrentThreadBySystemId</name></member>
       <member refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>shutdown</name></member>
+      <member refid="classdebug_1_1_session_1a4fd2c459e912284958dcc5fb0ff5bebf" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>standardError</name></member>
+      <member refid="classdebug_1_1_session_1a8f38e59c485f35f9fa57a941aa9b9aed" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>standardErrorBytes</name></member>
+      <member refid="classdebug_1_1_session_1aca52e06e99143ed35e0ef40b5d01c5d1" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>standardErrorFile</name></member>
+      <member refid="classdebug_1_1_session_1a5d25e42d0618126c9076797acf22fbd8" prot="private" virt="non-virtual"><scope>debug::Session</scope><name>standardErrorHandle</name></member>
       <member refid="classdebug_1_1_session_1a1816fd6de2ca88d638adacef4cd0e40f" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>stepInto</name></member>
       <member refid="classdebug_1_1_session_1af2b1a168dd413d9aec686598fa733146" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>stepOut</name></member>
       <member refid="classdebug_1_1_session_1a60c1171499fc598e2124c6097a96d1ee" prot="public" virt="non-virtual"><scope>debug::Session</scope><name>stepOver</name></member>

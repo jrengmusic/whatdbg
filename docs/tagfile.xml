@@ -1,27 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <tagfile doxygen_version="1.18.0">
   <compound kind="file">
-    <name>FIFO.h</name>
-    <path>dap/</path>
-    <filename>_f_i_f_o_8h.html</filename>
-    <class kind="class">dap::FIFO</class>
-    <namespace>dap</namespace>
-  </compound>
-  <compound kind="file">
-    <name>Reader.cpp</name>
-    <path>dap/</path>
-    <filename>_reader_8cpp.html</filename>
-    <includes id="_reader_8h" name="Reader.h" local="yes" import="no" module="no" objc="no">Reader.h</includes>
-    <namespace>dap</namespace>
-  </compound>
-  <compound kind="file">
-    <name>Reader.h</name>
-    <path>dap/</path>
-    <filename>_reader_8h.html</filename>
-    <class kind="class">dap::Reader</class>
-    <namespace>dap</namespace>
-  </compound>
-  <compound kind="file">
     <name>Types.cpp</name>
     <path>dap/</path>
     <filename>_types_8cpp.html</filename>
@@ -34,20 +13,6 @@
     <path>dap/</path>
     <filename>_types_8h.html</filename>
     <includes id="_generated_8h" name="Generated.h" local="yes" import="no" module="no" objc="no">../generated/Generated.h</includes>
-    <namespace>dap</namespace>
-  </compound>
-  <compound kind="file">
-    <name>Writer.cpp</name>
-    <path>dap/</path>
-    <filename>_writer_8cpp.html</filename>
-    <includes id="_writer_8h" name="Writer.h" local="yes" import="no" module="no" objc="no">Writer.h</includes>
-    <namespace>dap</namespace>
-  </compound>
-  <compound kind="file">
-    <name>Writer.h</name>
-    <path>dap/</path>
-    <filename>_writer_8h.html</filename>
-    <class kind="class">dap::Writer</class>
     <namespace>dap</namespace>
   </compound>
   <compound kind="file">
@@ -219,6 +184,13 @@
     <filename>_launcher_8cpp.html</filename>
     <includes id="_launcher_8h" name="Launcher.h" local="yes" import="no" module="no" objc="no">Launcher.h</includes>
     <includes id="_generated_8h" name="Generated.h" local="yes" import="no" module="no" objc="no">generated/Generated.h</includes>
+    <member kind="variable">
+      <type>char **</type>
+      <name>environ</name>
+      <anchorfile>_launcher_8cpp.html</anchorfile>
+      <anchor>aa006daaf11f1e2e45a6ababaf463212b</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>Launcher.h</name>
@@ -326,6 +298,13 @@
     </member>
     <member kind="variable" static="yes">
       <type>static constexpr const char *</type>
+      <name>enabledValue</name>
+      <anchorfile>_main_8cpp.html</anchorfile>
+      <anchor>a667b2d29df81f0156ee5b93e127616ba</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr const char *</type>
       <name>reexecMarker</name>
       <anchorfile>_main_8cpp.html</anchorfile>
       <anchor>afeffa852a1e56db4852ad3dcc752b5a1</anchor>
@@ -346,7 +325,6 @@
     <includes id="_breakpoint_manager_8h" name="BreakpointManager.h" local="yes" import="no" module="no" objc="no">debug/BreakpointManager.h</includes>
     <includes id="_variable_manager_8h" name="VariableManager.h" local="yes" import="no" module="no" objc="no">debug/VariableManager.h</includes>
     <includes id="_stop_manager_8h" name="StopManager.h" local="yes" import="no" module="no" objc="no">debug/StopManager.h</includes>
-    <includes id="_f_i_f_o_8h" name="FIFO.h" local="yes" import="no" module="no" objc="no">dap/FIFO.h</includes>
     <includes id="_types_8h" name="Types.h" local="yes" import="no" module="no" objc="no">dap/Types.h</includes>
     <class kind="class">Processor</class>
   </compound>
@@ -362,8 +340,6 @@
     <filename>_whatdbg_8h.html</filename>
     <includes id="_w_h_a_t_d_b_g_model_8h" name="WHATDBGModel.h" local="yes" import="no" module="no" objc="no">WHATDBGModel.h</includes>
     <includes id="_processor_8h" name="Processor.h" local="yes" import="no" module="no" objc="no">Processor.h</includes>
-    <includes id="_writer_8h" name="Writer.h" local="yes" import="no" module="no" objc="no">dap/Writer.h</includes>
-    <includes id="_reader_8h" name="Reader.h" local="yes" import="no" module="no" objc="no">dap/Reader.h</includes>
     <class kind="class">Whatdbg</class>
   </compound>
   <compound kind="file">
@@ -798,53 +774,6 @@
     </member>
   </compound>
   <compound kind="class">
-    <name>dap::FIFO</name>
-    <filename>classdap_1_1_f_i_f_o.html</filename>
-    <templarg>typename MessageType</templarg>
-    <member kind="function">
-      <type></type>
-      <name>FIFO</name>
-      <anchorfile>classdap_1_1_f_i_f_o.html</anchorfile>
-      <anchor>a6ad630b492549ab0e9d2605e54ec696d</anchor>
-      <arglist>(int capacity)</arglist>
-    </member>
-    <member kind="function">
-      <type>int</type>
-      <name>getFreeSpace</name>
-      <anchorfile>classdap_1_1_f_i_f_o.html</anchorfile>
-      <anchor>ab5738b3996ee9f3e04b48478db5394a6</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>write</name>
-      <anchorfile>classdap_1_1_f_i_f_o.html</anchorfile>
-      <anchor>ac033965014165a3902df7915b8013d6b</anchor>
-      <arglist>(MessageType message)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>applyPendingData</name>
-      <anchorfile>classdap_1_1_f_i_f_o.html</anchorfile>
-      <anchor>a6f8c18874abcb0e32f6b41f60bed7f14</anchor>
-      <arglist>(Callback &amp;&amp;callback)</arglist>
-    </member>
-    <member kind="variable" protection="private">
-      <type>juce::AbstractFifo</type>
-      <name>fifo</name>
-      <anchorfile>classdap_1_1_f_i_f_o.html</anchorfile>
-      <anchor>ace568881ac9e495dc08cb63fddf33042</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="private">
-      <type>std::vector&lt; MessageType &gt;</type>
-      <name>storage</name>
-      <anchorfile>classdap_1_1_f_i_f_o.html</anchorfile>
-      <anchor>a0b3988b9045ff0f5d0a3100abdce3375</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="class">
     <name>Launcher</name>
     <filename>class_launcher.html</filename>
     <member kind="function">
@@ -1112,20 +1041,6 @@
       <anchor>a8edea0d4e8ecf8a4ae02c9794ff654a8</anchor>
       <arglist>(const juce::File &amp;sidecarDirectory)</arglist>
     </member>
-    <member kind="function">
-      <type>void</type>
-      <name>addRequest</name>
-      <anchorfile>class_processor.html</anchorfile>
-      <anchor>aec3293e8c29b96cb2527f487286ad0b4</anchor>
-      <arglist>(jam::JsonDocument request)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>applyMessages</name>
-      <anchorfile>class_processor.html</anchorfile>
-      <anchor>aabd2ac7253b02508ae382f78412b8f23</anchor>
-      <arglist>(Callback &amp;&amp;callback)</arglist>
-    </member>
     <member kind="function" protection="private">
       <type>void</type>
       <name>releaseResources</name>
@@ -1179,8 +1094,15 @@
       <type>void</type>
       <name>onRequest</name>
       <anchorfile>class_processor.html</anchorfile>
-      <anchor>a9af86630f17983504d894a6ab50de2be</anchor>
-      <arglist>(jam::JsonDocument &amp;&amp;request)</arglist>
+      <anchor>af90b813821839e15e8321c4817c07bf9</anchor>
+      <arglist>(const jam::JsonDocument &amp;request)</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>bool</type>
+      <name>isDeferred</name>
+      <anchorfile>class_processor.html</anchorfile>
+      <anchor>a951c31df848d400fb06e0cebcb1c55f9</anchor>
+      <arglist>(const jam::JsonDocument &amp;request) const</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
@@ -1345,6 +1267,13 @@
     </member>
     <member kind="function" protection="private">
       <type>void</type>
+      <name>registerCommands</name>
+      <anchorfile>class_processor.html</anchorfile>
+      <anchor>afb36a2d6983f4722c95b7d7cd6286a09</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
       <name>registerEvents</name>
       <anchorfile>class_processor.html</anchorfile>
       <anchor>a24b069461f4161553899d2a8f84d3287</anchor>
@@ -1382,8 +1311,8 @@
       <type>void</type>
       <name>addMessage</name>
       <anchorfile>class_processor.html</anchorfile>
-      <anchor>aa59ddffd02b0dd2153c87009c38d7bc8</anchor>
-      <arglist>(std::string json)</arglist>
+      <anchor>a6ecb08d3a04f39beffd3c5c327f5199f</anchor>
+      <arglist>(std::string_view json)</arglist>
     </member>
     <member kind="function" protection="private">
       <type>void</type>
@@ -1477,20 +1406,6 @@
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private">
-      <type>dap::FIFO&lt; jam::JsonDocument &gt;</type>
-      <name>requests</name>
-      <anchorfile>class_processor.html</anchorfile>
-      <anchor>ac8cb2e3ddb7497d2c58f70edfa42c86f</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="private">
-      <type>dap::FIFO&lt; jam::JsonDocument &gt;</type>
-      <name>pendingRequests</name>
-      <anchorfile>class_processor.html</anchorfile>
-      <anchor>aa3a337b14f8073980ccbc8a6a4f2aae8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="private">
       <type>juce::Array&lt; juce::Identifier &gt;</type>
       <name>deferrals</name>
       <anchorfile>class_processor.html</anchorfile>
@@ -1498,10 +1413,10 @@
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private">
-      <type>dap::FIFO&lt; std::string &gt;</type>
-      <name>messages</name>
+      <type>jam::Mailbox&lt; jam::JsonDocument &gt;</type>
+      <name>requests</name>
       <anchorfile>class_processor.html</anchorfile>
-      <anchor>ad88378fbe12b6833b42fdbfb623480f0</anchor>
+      <anchor>a7d783335bdd038af107a66bbcdaa68e8</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private">
@@ -1525,18 +1440,18 @@
       <anchor>ab47709f9dc6f2ec2c11fd2318d5f0a4b</anchor>
       <arglist></arglist>
     </member>
-    <member kind="variable" protection="private" static="yes">
-      <type>static constexpr int</type>
-      <name>requestsCapacity</name>
+    <member kind="variable" protection="private">
+      <type>jam::StdioServer</type>
+      <name>stdio</name>
       <anchorfile>class_processor.html</anchorfile>
-      <anchor>a0ec3c84167ef4294a0208df4a98ed0b9</anchor>
+      <anchor>ad7c06ff6b53f8112a542ca647f7d2992</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private" static="yes">
       <type>static constexpr int</type>
-      <name>messagesCapacity</name>
+      <name>bufferSize</name>
       <anchorfile>class_processor.html</anchorfile>
-      <anchor>ab57bb2626949314bad62c6f540f88a89</anchor>
+      <anchor>a0548c4573a5f4eecbba047cafefe5ccc</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private" static="yes">
@@ -1555,75 +1470,14 @@
     </member>
   </compound>
   <compound kind="class">
-    <name>dap::Reader</name>
-    <filename>classdap_1_1_reader.html</filename>
-    <base protection="private">juce::Thread</base>
-    <member kind="function">
-      <type></type>
-      <name>Reader</name>
-      <anchorfile>classdap_1_1_reader.html</anchorfile>
-      <anchor>a946914e4e091be5a3742b13d6ccf600b</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>~Reader</name>
-      <anchorfile>classdap_1_1_reader.html</anchorfile>
-      <anchor>a9e3d24e83e5c326d7d53f577b9efc5b5</anchor>
-      <arglist>() override</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>start</name>
-      <anchorfile>classdap_1_1_reader.html</anchorfile>
-      <anchor>a001ba0872e35810bdb1f610e0554eec1</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="variable">
-      <type>std::function&lt; void(jam::JsonDocument)&gt;</type>
-      <name>onMessage</name>
-      <anchorfile>classdap_1_1_reader.html</anchorfile>
-      <anchor>a0ef303bd98005399605d1038933691d8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function" protection="private">
-      <type>void</type>
-      <name>stop</name>
-      <anchorfile>classdap_1_1_reader.html</anchorfile>
-      <anchor>a4ef3503bdf9aaa16b363e6261e60fc1a</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" protection="private">
-      <type>void</type>
-      <name>run</name>
-      <anchorfile>classdap_1_1_reader.html</anchorfile>
-      <anchor>aa88b7cbd5562aace1eb2d91b0638fb26</anchor>
-      <arglist>() override</arglist>
-    </member>
-    <member kind="function" protection="private">
-      <type>int</type>
-      <name>readContentLength</name>
-      <anchorfile>classdap_1_1_reader.html</anchorfile>
-      <anchor>a2ac9bd334b2534f79edfe7efc96d63db</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" protection="private">
-      <type>std::unique_ptr&lt; jam::JsonDocument &gt;</type>
-      <name>readMessage</name>
-      <anchorfile>classdap_1_1_reader.html</anchorfile>
-      <anchor>aba0f829f2291b384cc47a5d8183d3cae</anchor>
-      <arglist>(int contentLength)</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
     <name>debug::Session</name>
     <filename>classdebug_1_1_session.html</filename>
     <member kind="function">
       <type></type>
       <name>Session</name>
       <anchorfile>classdebug_1_1_session.html</anchorfile>
-      <anchor>a94822be85fcd514cb2b8d2570eaf3acf</anchor>
-      <arglist>()=default</arglist>
+      <anchor>a67b2eaf06d253f6be6e978a39ce5fd5d</anchor>
+      <arglist>()</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -1863,6 +1717,13 @@
       <anchor>a81f6eec8b52b3becaada99d133d8840f</anchor>
       <arglist></arglist>
     </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr double</type>
+      <name>maximumPeriodMilliseconds</name>
+      <anchorfile>classdebug_1_1_session.html</anchorfile>
+      <anchor>ad35eb7e29f550d63f5003087e9ef305c</anchor>
+      <arglist></arglist>
+    </member>
     <member kind="function" protection="private">
       <type>void</type>
       <name>sendDidAttach</name>
@@ -1896,6 +1757,41 @@
       <name>launcherOutput</name>
       <anchorfile>classdebug_1_1_session.html</anchorfile>
       <anchor>a8ded1b57303165500c8e11796467b703</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>jam::TerminalFIFO</type>
+      <name>launcherBytes</name>
+      <anchorfile>classdebug_1_1_session.html</anchorfile>
+      <anchor>a34de68e4434147292a30f43af5833845</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>jam::AsyncOutputStream</type>
+      <name>standardError</name>
+      <anchorfile>classdebug_1_1_session.html</anchorfile>
+      <anchor>a4fd2c459e912284958dcc5fb0ff5bebf</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>jam::TerminalFIFO</type>
+      <name>standardErrorBytes</name>
+      <anchorfile>classdebug_1_1_session.html</anchorfile>
+      <anchor>a8f38e59c485f35f9fa57a941aa9b9aed</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>std::optional&lt; int &gt;</type>
+      <name>launcherHandle</name>
+      <anchorfile>classdebug_1_1_session.html</anchorfile>
+      <anchor>ab48af2cffc19ef5de40c1bbc4cf0388c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>std::optional&lt; int &gt;</type>
+      <name>standardErrorHandle</name>
+      <anchorfile>classdebug_1_1_session.html</anchorfile>
+      <anchor>a5d25e42d0618126c9076797acf22fbd8</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private">
@@ -1952,6 +1848,13 @@
       <name>commFile</name>
       <anchorfile>classdebug_1_1_session.html</anchorfile>
       <anchor>a7e5ddceec0223930cf152a9e67f91fd6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>juce::File</type>
+      <name>standardErrorFile</name>
+      <anchorfile>classdebug_1_1_session.html</anchorfile>
+      <anchor>aca52e06e99143ed35e0ef40b5d01c5d1</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -2305,31 +2208,10 @@
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private">
-      <type>dap::Writer</type>
-      <name>writer</name>
-      <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>a6161a21c3424b62032aa98898e653fcf</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="private">
-      <type>dap::Reader</type>
-      <name>reader</name>
-      <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>a90447541f7bbae978b1d889eadfac2dc</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="private">
       <type>jam::Function::Map&lt; juce::Identifier, jam::Function::pointerCapacity, void(const juce::ValueTree &amp;)&gt;</type>
       <name>events</name>
       <anchorfile>class_whatdbg.html</anchorfile>
       <anchor>a29031ba4eb223a6dfa564e9f940c669c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="private">
-      <type>std::unique_ptr&lt; jam::Model::ParameterAttachment &gt;</type>
-      <name>numMessagesAttachment</name>
-      <anchorfile>class_whatdbg.html</anchorfile>
-      <anchor>a43a30e0525fb1c99d61da4cbf1027cc9</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private">
@@ -2367,30 +2249,9 @@
       <arglist></arglist>
     </member>
   </compound>
-  <compound kind="class">
-    <name>dap::Writer</name>
-    <filename>classdap_1_1_writer.html</filename>
-    <member kind="function">
-      <type></type>
-      <name>Writer</name>
-      <anchorfile>classdap_1_1_writer.html</anchorfile>
-      <anchor>a5a60a4139a1c3b6a6913209776cb3c24</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>writeMessage</name>
-      <anchorfile>classdap_1_1_writer.html</anchorfile>
-      <anchor>aa072c95d59fd7da80c237372916cfd02</anchor>
-      <arglist>(std::string_view json) noexcept</arglist>
-    </member>
-  </compound>
   <compound kind="namespace">
     <name>dap</name>
     <filename>namespacedap.html</filename>
-    <class kind="class">dap::FIFO</class>
-    <class kind="class">dap::Reader</class>
-    <class kind="class">dap::Writer</class>
     <member kind="function">
       <type>int</type>
       <name>nextSeq</name>
@@ -2682,8 +2543,8 @@
       <type>static void</type>
       <name>drainProcessStdio</name>
       <anchorfile>namespacedebug.html</anchorfile>
-      <anchor>a3af2678f62d76ed2b0c10881b60fb4bc</anchor>
-      <arglist>(debug::Events &amp;events, lldb::SBProcess &amp;process, bool isStderr) noexcept</arglist>
+      <anchor>aa9ddd2d513c873736fd7cd93cb5f0c2f</anchor>
+      <arglist>(debug::Events &amp;events, lldb::SBProcess &amp;process) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static void</type>
@@ -2866,13 +2727,8 @@
     <name>dap</name>
     <path>dap/</path>
     <filename>dir_8afbc8eca31bdebae5ebda6a92b18cc7.html</filename>
-    <file>FIFO.h</file>
-    <file>Reader.cpp</file>
-    <file>Reader.h</file>
     <file>Types.cpp</file>
     <file>Types.h</file>
-    <file>Writer.cpp</file>
-    <file>Writer.h</file>
   </compound>
   <compound kind="dir">
     <name>debug</name>

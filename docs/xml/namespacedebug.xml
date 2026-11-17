@@ -246,7 +246,9 @@
         <inbodydescription>
         </inbodydescription>
         <location file="debug/Session_mac.cpp" line="66" column="30" bodyfile="debug/Session_mac.cpp" bodystart="66" bodyend="66"/>
-        <referencedby refid="namespacedebug_1a3af2678f62d76ed2b0c10881b60fb4bc" compoundref="_session__mac_8cpp" startline="71" endline="91">drainProcessStdio</referencedby>
+        <referencedby refid="namespacedebug_1aa9ddd2d513c873736fd7cd93cb5f0c2f" compoundref="_session__mac_8cpp" startline="71" endline="86">drainProcessStdio</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="247" endline="288">debug::Session::launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a67b2eaf06d253f6be6e978a39ce5fd5d" compoundref="_session__mac_8cpp" startline="209" endline="213">debug::Session::Session</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacedebug_1a96e6155ab83215a136891405e91e92c0" prot="public" static="yes" constexpr="yes" mutable="no">
         <type>std::uint32_t</type>
@@ -262,8 +264,8 @@
         <inbodydescription>
         </inbodydescription>
         <location file="debug/Session_mac.cpp" line="67" column="32" bodyfile="debug/Session_mac.cpp" bodystart="67" bodyend="67"/>
-        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="368" endline="384">debug::Session::attach</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="255" endline="277">debug::Session::launch</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a55d9a0e32a47ef6686a8b102c071f6fe" compoundref="_session__mac_8cpp" startline="393" endline="409">debug::Session::attach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="247" endline="288">debug::Session::launch</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacedebug_1ab0a6e6add77bf779720e6bd1a359a87c" prot="public" static="yes" constexpr="yes" mutable="no">
         <type>std::uint32_t</type>
@@ -279,8 +281,8 @@
         <inbodydescription>
         </inbodydescription>
         <location file="debug/Session_mac.cpp" line="68" column="32" bodyfile="debug/Session_mac.cpp" bodystart="68" bodyend="68"/>
-        <referencedby refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="234" endline="253">debug::Session::initialize</referencedby>
-        <referencedby refid="classdebug_1_1_session_1ae55ea009e277df6240ced7cfdf1521f3" compoundref="_session__mac_8cpp" startline="418" endline="421">debug::Session::wake</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a9df5578465f53196e5db144251931a86" compoundref="_session__mac_8cpp" startline="220" endline="245">debug::Session::initialize</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ae55ea009e277df6240ced7cfdf1521f3" compoundref="_session__mac_8cpp" startline="445" endline="448">debug::Session::wake</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacedebug_1aaa0f604f43df5fdc671d741f03aa5e7b" prot="public" static="yes" constexpr="yes" mutable="no">
         <type>int</type>
@@ -296,7 +298,8 @@
         <inbodydescription>
         </inbodydescription>
         <location file="debug/Session_mac.cpp" line="69" column="22" bodyfile="debug/Session_mac.cpp" bodystart="69" bodyend="69"/>
-        <referencedby refid="classdebug_1_1_session_1aa9caba28f79faae7696bc16f80f01b80" compoundref="_session__mac_8cpp" startline="284" endline="301">debug::Session::createCommFile</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aa9caba28f79faae7696bc16f80f01b80" compoundref="_session__mac_8cpp" startline="295" endline="314">debug::Session::createCommFile</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a67b2eaf06d253f6be6e978a39ce5fd5d" compoundref="_session__mac_8cpp" startline="209" endline="213">debug::Session::Session</referencedby>
       </memberdef>
       <memberdef kind="variable" id="namespacedebug_1a5b5f90069d08b7599b5af986d92889d6" prot="public" static="yes" constexpr="yes" mutable="no">
         <type>int</type>
@@ -370,8 +373,8 @@
         </inbodydescription>
         <location file="debug/PrettyPrint.h" line="24" column="13" bodyfile="debug/PrettyPrint.h" bodystart="24" bodyend="30"/>
         <references refid="namespacedebug_1a5f8bae060639d0487513b79a1e7ad204" compoundref="_pretty_print_8h" startline="24" endline="30">shouldSkipSymbol</references>
-        <referencedby refid="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" compoundref="_session__mac_8cpp" startline="762" endline="777">debug::Session::applyToLocals</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a44d91c600d53774ef810614e1f663f15" compoundref="_session__mac_8cpp" startline="779" endline="801">debug::Session::applyToVariableChildren</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" compoundref="_session__mac_8cpp" startline="809" endline="824">debug::Session::applyToLocals</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a44d91c600d53774ef810614e1f663f15" compoundref="_session__mac_8cpp" startline="826" endline="848">debug::Session::applyToVariableChildren</referencedby>
         <referencedby refid="namespacedebug_1a5f8bae060639d0487513b79a1e7ad204" compoundref="_pretty_print_8h" startline="24" endline="30">shouldSkipSymbol</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1a7ac333b705ec6f55b0297b1cda1e85bd" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
@@ -460,7 +463,7 @@
         <references refid="namespacedebug_1a427707e424eb066a294bab023d93796f" compoundref="_session_pretty_print__mac_8cpp" startline="89" endline="103">prettyPrint</references>
         <references refid="namespacedebug_1a443505e3302297a42af6a43992f0fe09" compoundref="_session_pretty_print__mac_8cpp" startline="18" endline="48">prettyPrintJuceString</references>
         <references refid="namespacedebug_1a8d57f7a4aa4bbdc7490b0ae2401bd2da" compoundref="_session_pretty_print__mac_8cpp" startline="50" endline="87">prettyPrintUniquePtr</references>
-        <referencedby refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="691" endline="705">getDisplayValue</referencedby>
+        <referencedby refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="738" endline="752">getDisplayValue</referencedby>
         <referencedby refid="namespacedebug_1a427707e424eb066a294bab023d93796f" compoundref="_session_pretty_print__mac_8cpp" startline="89" endline="103">prettyPrint</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1a2e6be9ae21fb797cc0f1f00e3fcf90fb" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
@@ -490,7 +493,7 @@
         <references refid="namespaceId_1af9dbaff7db603045adf88ac0306e8720" compoundref="_generated_8cpp" startline="34" endline="34">Id::breakpoint</references>
         <references refid="namespacedebug_1a2e6be9ae21fb797cc0f1f00e3fcf90fb" compoundref="_session__mac_8cpp" startline="33" endline="36">onBreakpointStop</references>
         <referencedby refid="namespacedebug_1a2e6be9ae21fb797cc0f1f00e3fcf90fb" compoundref="_session__mac_8cpp" startline="33" endline="36">onBreakpointStop</referencedby>
-        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="93" endline="121">onStopReason</referencedby>
+        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="88" endline="116">onStopReason</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1ab801ce744621ea694d3d0ea32ea65396" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -518,9 +521,9 @@
         <location file="debug/Session_mac.cpp" line="38" column="13" bodyfile="debug/Session_mac.cpp" bodystart="38" bodyend="42"/>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
         <references refid="namespacedebug_1ab801ce744621ea694d3d0ea32ea65396" compoundref="_session__mac_8cpp" startline="38" endline="42">onStepStop</references>
-        <references refid="namespaceId_1ab239644d07a545177fb75aaa618ee23f" compoundref="_generated_8cpp" startline="115" endline="115">Id::step</references>
+        <references refid="namespaceId_1ab239644d07a545177fb75aaa618ee23f" compoundref="_generated_8cpp" startline="114" endline="114">Id::step</references>
         <referencedby refid="namespacedebug_1ab801ce744621ea694d3d0ea32ea65396" compoundref="_session__mac_8cpp" startline="38" endline="42">onStepStop</referencedby>
-        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="93" endline="121">onStopReason</referencedby>
+        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="88" endline="116">onStopReason</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1a4b4411b81b81a2aa8d7ea83e6dfddb9d" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -548,9 +551,9 @@
         <location file="debug/Session_mac.cpp" line="44" column="13" bodyfile="debug/Session_mac.cpp" bodystart="44" bodyend="48"/>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
         <references refid="namespacedebug_1a4b4411b81b81a2aa8d7ea83e6dfddb9d" compoundref="_session__mac_8cpp" startline="44" endline="48">onInterruptStop</references>
-        <references refid="namespaceId_1ad5cee4e44dc5ca86661799ba8754dd1e" compoundref="_generated_8cpp" startline="88" endline="88">Id::pause</references>
+        <references refid="namespaceId_1ad5cee4e44dc5ca86661799ba8754dd1e" compoundref="_generated_8cpp" startline="87" endline="87">Id::pause</references>
         <referencedby refid="namespacedebug_1a4b4411b81b81a2aa8d7ea83e6dfddb9d" compoundref="_session__mac_8cpp" startline="44" endline="48">onInterruptStop</referencedby>
-        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="93" endline="121">onStopReason</referencedby>
+        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="88" endline="116">onStopReason</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1a21296221342fed577c18ddbe741fa44d" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -579,7 +582,7 @@
         <references refid="namespaceId_1a7d17b52a35c76be4fb253d49def99a67" compoundref="_generated_8cpp" startline="50" endline="50">Id::exception</references>
         <references refid="namespacedebug_1a21296221342fed577c18ddbe741fa44d" compoundref="_session__mac_8cpp" startline="50" endline="56">onSignalStop</references>
         <referencedby refid="namespacedebug_1a21296221342fed577c18ddbe741fa44d" compoundref="_session__mac_8cpp" startline="50" endline="56">onSignalStop</referencedby>
-        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="93" endline="121">onStopReason</referencedby>
+        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="88" endline="116">onStopReason</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1a9652a8e4d4e6a794228ec2a9eabe2161" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -608,12 +611,12 @@
         <references refid="namespaceId_1a7d17b52a35c76be4fb253d49def99a67" compoundref="_generated_8cpp" startline="50" endline="50">Id::exception</references>
         <references refid="namespacedebug_1a9652a8e4d4e6a794228ec2a9eabe2161" compoundref="_session__mac_8cpp" startline="58" endline="64">onExceptionStop</references>
         <referencedby refid="namespacedebug_1a9652a8e4d4e6a794228ec2a9eabe2161" compoundref="_session__mac_8cpp" startline="58" endline="64">onExceptionStop</referencedby>
-        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="93" endline="121">onStopReason</referencedby>
+        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="88" endline="116">onStopReason</referencedby>
       </memberdef>
-      <memberdef kind="function" id="namespacedebug_1a3af2678f62d76ed2b0c10881b60fb4bc" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+      <memberdef kind="function" id="namespacedebug_1aa9ddd2d513c873736fd7cd93cb5f0c2f" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
         <definition>static void debug::drainProcessStdio</definition>
-        <argsstring>(debug::Events &amp;events, lldb::SBProcess &amp;process, bool isStderr) noexcept</argsstring>
+        <argsstring>(debug::Events &amp;events, lldb::SBProcess &amp;process) noexcept</argsstring>
         <name>drainProcessStdio</name>
         <qualifiedname>debug::drainProcessStdio</qualifiedname>
         <param>
@@ -624,24 +627,18 @@
           <type>lldb::SBProcess &amp;</type>
           <declname>process</declname>
         </param>
-        <param>
-          <type>bool</type>
-          <declname>isStderr</declname>
-        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="71" column="13" bodyfile="debug/Session_mac.cpp" bodystart="71" bodyend="91"/>
-        <references refid="namespacedebug_1a3af2678f62d76ed2b0c10881b60fb4bc" compoundref="_session__mac_8cpp" startline="71" endline="91">drainProcessStdio</references>
-        <references refid="namespaceId_1a7c7348e9f7d639ded9f3bf11241d4bd9" compoundref="_generated_8cpp" startline="111" endline="111">Id::standardError</references>
-        <references refid="namespaceId_1a2c09e26146778d522a60a2dbfc3520b9" compoundref="_generated_8cpp" startline="112" endline="112">Id::standardOutput</references>
+        <location file="debug/Session_mac.cpp" line="71" column="13" bodyfile="debug/Session_mac.cpp" bodystart="71" bodyend="86"/>
+        <references refid="namespacedebug_1aa9ddd2d513c873736fd7cd93cb5f0c2f" compoundref="_session__mac_8cpp" startline="71" endline="86">drainProcessStdio</references>
+        <references refid="namespaceId_1a2c09e26146778d522a60a2dbfc3520b9" compoundref="_generated_8cpp" startline="111" endline="111">Id::standardOutput</references>
         <references refid="namespacedebug_1a843227e19ef74b48d7cbb77acd10a09d" compoundref="_session__mac_8cpp" startline="66" endline="66">stdioReadBufferSize</references>
-        <referencedby refid="classdebug_1_1_session_1a40050bf4c1c83fbc5d06acc65df561f5" compoundref="_session__mac_8cpp" startline="432" endline="439">debug::Session::drainOutput</referencedby>
-        <referencedby refid="namespacedebug_1a3af2678f62d76ed2b0c10881b60fb4bc" compoundref="_session__mac_8cpp" startline="71" endline="91">drainProcessStdio</referencedby>
-        <referencedby refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="164" endline="204">onProcessEvent</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a40050bf4c1c83fbc5d06acc65df561f5" compoundref="_session__mac_8cpp" startline="459" endline="472">debug::Session::drainOutput</referencedby>
+        <referencedby refid="namespacedebug_1aa9ddd2d513c873736fd7cd93cb5f0c2f" compoundref="_session__mac_8cpp" startline="71" endline="86">drainProcessStdio</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -671,7 +668,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="93" column="13" bodyfile="debug/Session_mac.cpp" bodystart="93" bodyend="121"/>
+        <location file="debug/Session_mac.cpp" line="88" column="13" bodyfile="debug/Session_mac.cpp" bodystart="88" bodyend="116"/>
         <references refid="structjam_1_1Function_1_1Map_1ad53732bb862659c66b8112c75f437248">jam::Function::Map&lt; typename KeyType, size_t capacity, typename... Signatures &gt;::add</references>
         <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
         <references refid="namespaceId_1acaa5ed87630554a54472e27567897c48" compoundref="_generated_8cpp" startline="75" endline="75">Id::isPausePending</references>
@@ -680,10 +677,10 @@
         <references refid="namespacedebug_1a4b4411b81b81a2aa8d7ea83e6dfddb9d" compoundref="_session__mac_8cpp" startline="44" endline="48">onInterruptStop</references>
         <references refid="namespacedebug_1a21296221342fed577c18ddbe741fa44d" compoundref="_session__mac_8cpp" startline="50" endline="56">onSignalStop</references>
         <references refid="namespacedebug_1ab801ce744621ea694d3d0ea32ea65396" compoundref="_session__mac_8cpp" startline="38" endline="42">onStepStop</references>
-        <references refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="93" endline="121">onStopReason</references>
+        <references refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="88" endline="116">onStopReason</references>
         <references refid="structjam_1_1Function_1ae0c82daeeeb7f4c4eaf062d55601f5cd">jam::Function::pointerCapacity</references>
-        <referencedby refid="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" compoundref="_session__mac_8cpp" startline="123" endline="142">onProcessStateStopped</referencedby>
-        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="93" endline="121">onStopReason</referencedby>
+        <referencedby refid="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" compoundref="_session__mac_8cpp" startline="118" endline="137">onProcessStateStopped</referencedby>
+        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="88" endline="116">onStopReason</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -716,15 +713,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="123" column="13" bodyfile="debug/Session_mac.cpp" bodystart="123" bodyend="142"/>
+        <location file="debug/Session_mac.cpp" line="118" column="13" bodyfile="debug/Session_mac.cpp" bodystart="118" bodyend="137"/>
         <references refid="namespaceId_1a5920e903fac6fac03732e509917fc501" compoundref="_generated_8cpp" startline="55" endline="55">Id::executionState</references>
         <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
         <references refid="namespaceId_1a968b064271ba4315dde3cdf9edc7b1ae" compoundref="_generated_8cpp" startline="65" endline="65">Id::initialBreak</references>
         <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6afbd29b7abab1d8c7e65e9bcae8278426" compoundref="_state_8h" startline="17">launching</references>
-        <references refid="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" compoundref="_session__mac_8cpp" startline="123" endline="142">onProcessStateStopped</references>
-        <references refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="93" endline="121">onStopReason</references>
-        <referencedby refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="164" endline="204">onProcessEvent</referencedby>
-        <referencedby refid="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" compoundref="_session__mac_8cpp" startline="123" endline="142">onProcessStateStopped</referencedby>
+        <references refid="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" compoundref="_session__mac_8cpp" startline="118" endline="137">onProcessStateStopped</references>
+        <references refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="88" endline="116">onStopReason</references>
+        <referencedby refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="159" endline="184">onProcessEvent</referencedby>
+        <referencedby refid="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" compoundref="_session__mac_8cpp" startline="118" endline="137">onProcessStateStopped</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1ae3a853e11719527b9f16a798689814eb" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -757,12 +754,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="144" column="13" bodyfile="debug/Session_mac.cpp" bodystart="144" bodyend="152"/>
+        <location file="debug/Session_mac.cpp" line="139" column="13" bodyfile="debug/Session_mac.cpp" bodystart="139" bodyend="147"/>
         <references refid="namespaceId_1a893f1bea9b355beec320cbadcf9ca349" compoundref="_generated_8cpp" startline="57" endline="57">Id::exited</references>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
-        <references refid="namespacedebug_1ae3a853e11719527b9f16a798689814eb" compoundref="_session__mac_8cpp" startline="144" endline="152">onProcessStateExited</references>
-        <referencedby refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="164" endline="204">onProcessEvent</referencedby>
-        <referencedby refid="namespacedebug_1ae3a853e11719527b9f16a798689814eb" compoundref="_session__mac_8cpp" startline="144" endline="152">onProcessStateExited</referencedby>
+        <references refid="namespacedebug_1ae3a853e11719527b9f16a798689814eb" compoundref="_session__mac_8cpp" startline="139" endline="147">onProcessStateExited</references>
+        <referencedby refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="159" endline="184">onProcessEvent</referencedby>
+        <referencedby refid="namespacedebug_1ae3a853e11719527b9f16a798689814eb" compoundref="_session__mac_8cpp" startline="139" endline="147">onProcessStateExited</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1abb112a9371b352c87b37197fb1d2f591" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -795,12 +792,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="154" column="13" bodyfile="debug/Session_mac.cpp" bodystart="154" bodyend="162"/>
+        <location file="debug/Session_mac.cpp" line="149" column="13" bodyfile="debug/Session_mac.cpp" bodystart="149" bodyend="157"/>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
-        <references refid="namespacedebug_1abb112a9371b352c87b37197fb1d2f591" compoundref="_session__mac_8cpp" startline="154" endline="162">onProcessStateRunning</references>
-        <references refid="namespaceId_1a000989b688b65316ee03a14c6fec2ef6" compoundref="_generated_8cpp" startline="102" endline="102">Id::running</references>
-        <referencedby refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="164" endline="204">onProcessEvent</referencedby>
-        <referencedby refid="namespacedebug_1abb112a9371b352c87b37197fb1d2f591" compoundref="_session__mac_8cpp" startline="154" endline="162">onProcessStateRunning</referencedby>
+        <references refid="namespacedebug_1abb112a9371b352c87b37197fb1d2f591" compoundref="_session__mac_8cpp" startline="149" endline="157">onProcessStateRunning</references>
+        <references refid="namespaceId_1a000989b688b65316ee03a14c6fec2ef6" compoundref="_generated_8cpp" startline="101" endline="101">Id::running</references>
+        <referencedby refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="159" endline="184">onProcessEvent</referencedby>
+        <referencedby refid="namespacedebug_1abb112a9371b352c87b37197fb1d2f591" compoundref="_session__mac_8cpp" startline="149" endline="157">onProcessStateRunning</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -830,16 +827,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="164" column="13" bodyfile="debug/Session_mac.cpp" bodystart="164" bodyend="204"/>
+        <location file="debug/Session_mac.cpp" line="159" column="13" bodyfile="debug/Session_mac.cpp" bodystart="159" bodyend="184"/>
         <references refid="structjam_1_1Function_1_1Map_1ad53732bb862659c66b8112c75f437248">jam::Function::Map&lt; typename KeyType, size_t capacity, typename... Signatures &gt;::add</references>
-        <references refid="namespacedebug_1a3af2678f62d76ed2b0c10881b60fb4bc" compoundref="_session__mac_8cpp" startline="71" endline="91">drainProcessStdio</references>
-        <references refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="164" endline="204">onProcessEvent</references>
-        <references refid="namespacedebug_1ae3a853e11719527b9f16a798689814eb" compoundref="_session__mac_8cpp" startline="144" endline="152">onProcessStateExited</references>
-        <references refid="namespacedebug_1abb112a9371b352c87b37197fb1d2f591" compoundref="_session__mac_8cpp" startline="154" endline="162">onProcessStateRunning</references>
-        <references refid="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" compoundref="_session__mac_8cpp" startline="123" endline="142">onProcessStateStopped</references>
+        <references refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="159" endline="184">onProcessEvent</references>
+        <references refid="namespacedebug_1ae3a853e11719527b9f16a798689814eb" compoundref="_session__mac_8cpp" startline="139" endline="147">onProcessStateExited</references>
+        <references refid="namespacedebug_1abb112a9371b352c87b37197fb1d2f591" compoundref="_session__mac_8cpp" startline="149" endline="157">onProcessStateRunning</references>
+        <references refid="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" compoundref="_session__mac_8cpp" startline="118" endline="137">onProcessStateStopped</references>
         <references refid="structjam_1_1Function_1ae0c82daeeeb7f4c4eaf062d55601f5cd">jam::Function::pointerCapacity</references>
-        <referencedby refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="164" endline="204">onProcessEvent</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="391" endline="416">debug::Session::pollEvents</referencedby>
+        <referencedby refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="159" endline="184">onProcessEvent</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="416" endline="443">debug::Session::pollEvents</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1a27b0e00372dec0855774d4ac0eba3c10" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>void</type>
@@ -861,11 +857,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="206" column="13" bodyfile="debug/Session_mac.cpp" bodystart="206" bodyend="227"/>
+        <location file="debug/Session_mac.cpp" line="186" column="13" bodyfile="debug/Session_mac.cpp" bodystart="186" bodyend="207"/>
         <references refid="namespaceId_1a66e966819d6d2cf2066dd4abe20010d1" compoundref="_generated_8cpp" startline="36" endline="36">Id::breakpointLocationFound</references>
-        <references refid="namespacedebug_1a27b0e00372dec0855774d4ac0eba3c10" compoundref="_session__mac_8cpp" startline="206" endline="227">onBreakpointEvent</references>
-        <referencedby refid="namespacedebug_1a27b0e00372dec0855774d4ac0eba3c10" compoundref="_session__mac_8cpp" startline="206" endline="227">onBreakpointEvent</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="391" endline="416">debug::Session::pollEvents</referencedby>
+        <references refid="namespacedebug_1a27b0e00372dec0855774d4ac0eba3c10" compoundref="_session__mac_8cpp" startline="186" endline="207">onBreakpointEvent</references>
+        <referencedby refid="namespacedebug_1a27b0e00372dec0855774d4ac0eba3c10" compoundref="_session__mac_8cpp" startline="186" endline="207">onBreakpointEvent</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a14a9f1b159028358a6115c21592bb0d9" compoundref="_session__mac_8cpp" startline="416" endline="443">debug::Session::pollEvents</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1acd0bfcd07f3164b8dd0db830ff0f63f5" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="classjuce_1_1File" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::File</ref></type>
@@ -883,14 +879,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="279" column="19" bodyfile="debug/Session_mac.cpp" bodystart="279" bodyend="282"/>
+        <location file="debug/Session_mac.cpp" line="290" column="19" bodyfile="debug/Session_mac.cpp" bodystart="290" bodyend="293"/>
         <references refid="namespaceId_1aea223155c87dc5e79cfa8ff02d95461b" compoundref="_generated_8cpp" startline="46" endline="46">Id::didAttach</references>
-        <references refid="namespacedebug_1acd0bfcd07f3164b8dd0db830ff0f63f5" compoundref="_session__mac_8cpp" startline="279" endline="282">getDidAttachFile</references>
-        <referencedby refid="classdebug_1_1_session_1aa9caba28f79faae7696bc16f80f01b80" compoundref="_session__mac_8cpp" startline="284" endline="301">debug::Session::createCommFile</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" compoundref="_session__mac_8cpp" startline="342" endline="366">debug::Session::drainLauncherOutput</referencedby>
-        <referencedby refid="namespacedebug_1acd0bfcd07f3164b8dd0db830ff0f63f5" compoundref="_session__mac_8cpp" startline="279" endline="282">getDidAttachFile</referencedby>
-        <referencedby refid="classdebug_1_1_session_1ab17bfa72486464b873a658e0ecf6e40a" compoundref="_session__mac_8cpp" startline="303" endline="322">debug::Session::sendDidAttach</referencedby>
-        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="460" endline="488">debug::Session::shutdown</referencedby>
+        <references refid="namespacedebug_1acd0bfcd07f3164b8dd0db830ff0f63f5" compoundref="_session__mac_8cpp" startline="290" endline="293">getDidAttachFile</references>
+        <referencedby refid="classdebug_1_1_session_1aa9caba28f79faae7696bc16f80f01b80" compoundref="_session__mac_8cpp" startline="295" endline="314">debug::Session::createCommFile</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" compoundref="_session__mac_8cpp" startline="354" endline="391">debug::Session::drainLauncherOutput</referencedby>
+        <referencedby refid="namespacedebug_1acd0bfcd07f3164b8dd0db830ff0f63f5" compoundref="_session__mac_8cpp" startline="290" endline="293">getDidAttachFile</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ab17bfa72486464b873a658e0ecf6e40a" compoundref="_session__mac_8cpp" startline="316" endline="335">debug::Session::sendDidAttach</referencedby>
+        <referencedby refid="classdebug_1_1_session_1aae0c1bb004a500bd33192d03ac7f63b9" compoundref="_session__mac_8cpp" startline="493" endline="535">debug::Session::shutdown</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
@@ -935,13 +931,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="627" column="14" bodyfile="debug/Session_mac.cpp" bodystart="627" bodyend="679" declfile="debug/State.h" declline="80" declcolumn="14"/>
+        <location file="debug/Session_mac.cpp" line="674" column="14" bodyfile="debug/Session_mac.cpp" bodystart="674" bodyend="726" declfile="debug/State.h" declline="80" declcolumn="14"/>
         <references refid="classjam_1_1HashMap_1a5a46d490ce023d9b1d773eccc23a7904">jam::HashMap&lt; typename Key, typename Mapped, typename HashFn, typename KeyEqual, typename AllocatorOrContainer, typename Bucket, typename BucketContainer, bool IsSegmented &gt;::at</references>
-        <references refid="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" compoundref="_session__mac_8cpp" startline="627" endline="679">getExceptionName</references>
+        <references refid="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" compoundref="_session__mac_8cpp" startline="674" endline="726">getExceptionName</references>
         <references refid="classjuce_1_1String_1a949625c3152cfe177035772a5ff08559">juce::String::toHexString</references>
         <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="175" endline="195">debug::StopManager::drainExceptionStopped</referencedby>
-        <referencedby refid="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" compoundref="_session__mac_8cpp" startline="627" endline="679">getExceptionName</referencedby>
-        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="754" endline="772">Processor::onExceptionInfo</referencedby>
+        <referencedby refid="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" compoundref="_session__mac_8cpp" startline="674" endline="726">getExceptionName</referencedby>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="777" endline="795">Processor::onExceptionInfo</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1aae344277204d1f68ff0786c669a43957" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
@@ -963,13 +959,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="691" column="21" bodyfile="debug/Session_mac.cpp" bodystart="691" bodyend="705"/>
-        <references refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="691" endline="705">getDisplayValue</references>
+        <location file="debug/Session_mac.cpp" line="738" column="21" bodyfile="debug/Session_mac.cpp" bodystart="738" bodyend="752"/>
+        <references refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="738" endline="752">getDisplayValue</references>
         <references refid="classjuce_1_1String_1af5084463343819f82187154ccb62ea3a">juce::String::isNotEmpty</references>
         <references refid="namespacedebug_1a427707e424eb066a294bab023d93796f" compoundref="_session_pretty_print__mac_8cpp" startline="89" endline="103">prettyPrint</references>
-        <referencedby refid="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" compoundref="_session__mac_8cpp" startline="708" endline="715">applyToVariable</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a42dae8d83b1aa51056caad8c4d595874" compoundref="_session__mac_8cpp" startline="803" endline="821">debug::Session::evaluateExpression</referencedby>
-        <referencedby refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="691" endline="705">getDisplayValue</referencedby>
+        <referencedby refid="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" compoundref="_session__mac_8cpp" startline="755" endline="762">applyToVariable</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a42dae8d83b1aa51056caad8c4d595874" compoundref="_session__mac_8cpp" startline="850" endline="868">debug::Session::evaluateExpression</referencedby>
+        <referencedby refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="738" endline="752">getDisplayValue</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <templateparamlist>
@@ -1004,12 +1000,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="debug/Session_mac.cpp" line="708" column="13" bodyfile="debug/Session_mac.cpp" bodystart="708" bodyend="715"/>
-        <references refid="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" compoundref="_session__mac_8cpp" startline="708" endline="715">applyToVariable</references>
-        <references refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="691" endline="705">getDisplayValue</references>
-        <referencedby refid="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" compoundref="_session__mac_8cpp" startline="762" endline="777">debug::Session::applyToLocals</referencedby>
-        <referencedby refid="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" compoundref="_session__mac_8cpp" startline="708" endline="715">applyToVariable</referencedby>
-        <referencedby refid="classdebug_1_1_session_1a44d91c600d53774ef810614e1f663f15" compoundref="_session__mac_8cpp" startline="779" endline="801">debug::Session::applyToVariableChildren</referencedby>
+        <location file="debug/Session_mac.cpp" line="755" column="13" bodyfile="debug/Session_mac.cpp" bodystart="755" bodyend="762"/>
+        <references refid="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" compoundref="_session__mac_8cpp" startline="755" endline="762">applyToVariable</references>
+        <references refid="namespacedebug_1aae344277204d1f68ff0786c669a43957" compoundref="_session__mac_8cpp" startline="738" endline="752">getDisplayValue</references>
+        <referencedby refid="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" compoundref="_session__mac_8cpp" startline="809" endline="824">debug::Session::applyToLocals</referencedby>
+        <referencedby refid="namespacedebug_1afd758a95a808490ae01db58b21ff09ab" compoundref="_session__mac_8cpp" startline="755" endline="762">applyToVariable</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a44d91c600d53774ef810614e1f663f15" compoundref="_session__mac_8cpp" startline="826" endline="848">debug::Session::applyToVariableChildren</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1a443505e3302297a42af6a43992f0fe09" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>

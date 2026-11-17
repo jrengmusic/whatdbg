@@ -163,7 +163,7 @@
         <references refid="classdebug_1_1_variable_manager_1adf8000c5c942649ff1c38f120f699212" compoundref="_variable_manager_8h" startline="85" endline="85">lastScopesThreadId</references>
         <references refid="classdebug_1_1_variable_manager_1a56a358497bb674b37378e987ba944763" compoundref="_variable_manager_8h" startline="81" endline="81">nextFrameId</references>
         <references refid="classdebug_1_1_variable_manager_1a107152bcc6766e61c27b707ea7959109" compoundref="_variable_manager_8h" startline="77" endline="77">nextVariablesRef</references>
-        <references refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" compoundref="_session__mac_8cpp" startline="621" endline="625">debug::Session::resetSymbolGroupCache</references>
+        <references refid="classdebug_1_1_session_1a5c5046d5ee487d0d93ac0d8227b35613" compoundref="_session__mac_8cpp" startline="668" endline="672">debug::Session::resetSymbolGroupCache</references>
         <references refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" compoundref="_variable_manager_8h" startline="75">session</references>
         <references refid="classdebug_1_1_variable_manager_1a658ab9500c7bbf4619622a180ee71864" compoundref="_variable_manager_8h" startline="79">variablesRefMap</references>
         <referencedby refid="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" compoundref="_stop_manager_8cpp" startline="108" endline="121">debug::StopManager::drainBreakpointHit</referencedby>
@@ -214,12 +214,12 @@
         <inbodydescription>
         </inbodydescription>
         <location file="debug/VariableManager.h" line="38" column="9" bodyfile="debug/VariableManager.cpp" bodystart="28" bodyend="38"/>
-        <references refid="classdebug_1_1_session_1aa25453f6ff0703dd42e955e72d68e5e3" compoundref="_session__mac_8cpp" startline="748" endline="760">debug::Session::appendStackFrames</references>
+        <references refid="classdebug_1_1_session_1aa25453f6ff0703dd42e955e72d68e5e3" compoundref="_session__mac_8cpp" startline="795" endline="807">debug::Session::appendStackFrames</references>
         <references refid="classdebug_1_1_variable_manager_1a5a7a240eb0ab98f087df0bcdac9ecc1d" compoundref="_variable_manager_8h" startline="83">frameIdMap</references>
         <references refid="namespacedebug_1a5b5f90069d08b7599b5af986d92889d6" compoundref="_variable_manager_8cpp" startline="11" endline="11">debug::maxStackFrames</references>
         <references refid="classdebug_1_1_variable_manager_1a56a358497bb674b37378e987ba944763" compoundref="_variable_manager_8h" startline="81" endline="81">nextFrameId</references>
         <references refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" compoundref="_variable_manager_8h" startline="75">session</references>
-        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="605" endline="631">Processor::onStackTrace</referencedby>
+        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="628" endline="654">Processor::onStackTrace</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_variable_manager_1a3ef1621d5a704e5255a2094e800cf36f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -256,7 +256,7 @@
         <references refid="classdebug_1_1_variable_manager_1a107152bcc6766e61c27b707ea7959109" compoundref="_variable_manager_8h" startline="77" endline="77">nextVariablesRef</references>
         <references refid="classdebug_1_1_variable_manager_1afb5fdaf8c1eb869e54d7f33644cd3439" compoundref="_variable_manager_8cpp" startline="40" endline="61">selectFrameFromId</references>
         <references refid="classdebug_1_1_variable_manager_1a658ab9500c7bbf4619622a180ee71864" compoundref="_variable_manager_8h" startline="79">variablesRefMap</references>
-        <referencedby refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" compoundref="_processor_8cpp" startline="633" endline="650">Processor::onScopes</referencedby>
+        <referencedby refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" compoundref="_processor_8cpp" startline="656" endline="673">Processor::onScopes</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_variable_manager_1a7106ef722eac53731b410153ec46d41c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -302,8 +302,8 @@
         <references refid="classdebug_1_1_variable_manager_1a39c321a2a70e965d5f89bed3cf80974a" compoundref="_variable_manager_8cpp" startline="88" endline="107">appendVariables</references>
         <references refid="classdebug_1_1_variable_manager_1adf8000c5c942649ff1c38f120f699212" compoundref="_variable_manager_8h" startline="85" endline="85">lastScopesThreadId</references>
         <references refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" compoundref="_variable_manager_8h" startline="75">session</references>
-        <references refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="616" endline="619">debug::Session::setCurrentThreadBySystemId</references>
-        <referencedby refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" compoundref="_processor_8cpp" startline="652" endline="667">Processor::onVariables</referencedby>
+        <references refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="663" endline="666">debug::Session::setCurrentThreadBySystemId</references>
+        <referencedby refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" compoundref="_processor_8cpp" startline="675" endline="690">Processor::onVariables</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_variable_manager_1afb5fdaf8c1eb869e54d7f33644cd3439" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::uint32_t, int &gt;</type>
@@ -338,8 +338,8 @@
         <location file="debug/VariableManager.h" line="68" column="15" bodyfile="debug/VariableManager.cpp" bodystart="40" bodyend="61"/>
         <references refid="classdebug_1_1_variable_manager_1a5a7a240eb0ab98f087df0bcdac9ecc1d" compoundref="_variable_manager_8h" startline="83">frameIdMap</references>
         <references refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" compoundref="_variable_manager_8h" startline="75">session</references>
-        <references refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="616" endline="619">debug::Session::setCurrentThreadBySystemId</references>
-        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="774" endline="805">Processor::onEvaluate</referencedby>
+        <references refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="663" endline="666">debug::Session::setCurrentThreadBySystemId</references>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="797" endline="828">Processor::onEvaluate</referencedby>
         <referencedby refid="classdebug_1_1_variable_manager_1a3ef1621d5a704e5255a2094e800cf36f" compoundref="_variable_manager_8cpp" startline="63" endline="76">onScopes</referencedby>
       </memberdef>
     </sectiondef>
@@ -366,8 +366,8 @@
         </inbodydescription>
         <location file="debug/VariableManager.h" line="71" column="10" bodyfile="debug/VariableManager.cpp" bodystart="88" bodyend="107"/>
         <references refid="classdebug_1_1_variable_manager_1a82ca67d49aaa5603e2863eda36efed73" compoundref="_variable_manager_8cpp" startline="109" endline="131">appendVariable</references>
-        <references refid="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" compoundref="_session__mac_8cpp" startline="762" endline="777">debug::Session::applyToLocals</references>
-        <references refid="classdebug_1_1_session_1a44d91c600d53774ef810614e1f663f15" compoundref="_session__mac_8cpp" startline="779" endline="801">debug::Session::applyToVariableChildren</references>
+        <references refid="classdebug_1_1_session_1a0955ac0713de975ade91eca75bcdffc7" compoundref="_session__mac_8cpp" startline="809" endline="824">debug::Session::applyToLocals</references>
+        <references refid="classdebug_1_1_session_1a44d91c600d53774ef810614e1f663f15" compoundref="_session__mac_8cpp" startline="826" endline="848">debug::Session::applyToVariableChildren</references>
         <references refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" compoundref="_variable_manager_8h" startline="75">session</references>
         <references refid="classdebug_1_1_variable_manager_1a658ab9500c7bbf4619622a180ee71864" compoundref="_variable_manager_8h" startline="79">variablesRefMap</references>
         <referencedby refid="classdebug_1_1_variable_manager_1a7106ef722eac53731b410153ec46d41c" compoundref="_variable_manager_8cpp" startline="78" endline="86">onVariables</referencedby>
@@ -413,17 +413,17 @@
         <inbodydescription>
         </inbodydescription>
         <location file="debug/VariableManager.h" line="73" column="10" bodyfile="debug/VariableManager.cpp" bodystart="109" bodyend="131"/>
-        <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
-        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
-        <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
-        <references refid="structjam_1_1JsonWriter_1acf8da4810f6b5cb1ee80660149a2db25">jam::JsonWriter::appendSeparator</references>
-        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
+        <references refid="structjam_1_1Format_1a6588bb82effb3fb3138073257057463f">jam::Format::appendDecimal</references>
+        <references refid="structjam_1_1JsonWriter_1a3dd6115b3b48e6a722a2c5bcae0cd70e">jam::JsonWriter::appendKey</references>
+        <references refid="structjam_1_1JsonWriter_1af7e36be58d2d47daf877904d7c6d77e1">jam::JsonWriter::appendObject</references>
+        <references refid="structjam_1_1JsonWriter_1a938044cd32b406999b22e51819ee102d">jam::JsonWriter::appendSeparator</references>
+        <references refid="structjam_1_1JsonWriter_1ae7b63750554be1dd1d7bdec0545d14ec">jam::JsonWriter::appendString</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
         <references refid="namespaceId_1ab17c6c7afce10ee78699a1e23ac7acdf">Id::name</references>
         <references refid="classdebug_1_1_variable_manager_1a107152bcc6766e61c27b707ea7959109" compoundref="_variable_manager_8h" startline="77" endline="77">nextVariablesRef</references>
         <references refid="namespaceId_1ab4956db6d5e735af8b4e202830ac73f7">Id::type</references>
         <references refid="namespaceId_1aa31dd51a36cc1b369f63f498441108e8">Id::value</references>
-        <references refid="namespaceId_1a8a41d6fdac2a7bef4aa8f00d16c2c307" compoundref="_generated_8cpp" startline="165" endline="165">Id::variablesReference</references>
+        <references refid="namespaceId_1a8a41d6fdac2a7bef4aa8f00d16c2c307" compoundref="_generated_8cpp" startline="164" endline="164">Id::variablesReference</references>
         <references refid="classdebug_1_1_variable_manager_1a658ab9500c7bbf4619622a180ee71864" compoundref="_variable_manager_8h" startline="79">variablesRefMap</references>
         <referencedby refid="classdebug_1_1_variable_manager_1a39c321a2a70e965d5f89bed3cf80974a" compoundref="_variable_manager_8cpp" startline="88" endline="107">appendVariables</referencedby>
       </memberdef>
@@ -443,9 +443,15 @@
         </childnode>
         <childnode refid="5" relation="usage">
           <edgelabel>launcherOutput</edgelabel>
+          <edgelabel>standardError</edgelabel>
         </childnode>
         <childnode refid="7" relation="usage">
+          <edgelabel>launcherBytes</edgelabel>
+          <edgelabel>standardErrorBytes</edgelabel>
+        </childnode>
+        <childnode refid="12" relation="usage">
           <edgelabel>commFile</edgelabel>
+          <edgelabel>standardErrorFile</edgelabel>
         </childnode>
       </node>
       <node id="1">
@@ -454,10 +460,10 @@
         <childnode refid="2" relation="usage">
           <edgelabel>session</edgelabel>
         </childnode>
-        <childnode refid="8" relation="usage">
+        <childnode refid="13" relation="usage">
           <edgelabel>variablesRefMap</edgelabel>
         </childnode>
-        <childnode refid="10" relation="usage">
+        <childnode refid="15" relation="usage">
           <edgelabel>frameIdMap</edgelabel>
         </childnode>
       </node>
@@ -479,27 +485,57 @@
         <link refid="classjam_1_1HashMap" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
       </node>
       <node id="7">
+        <label>jam::TerminalFIFO</label>
+        <link refid="classjam_1_1TerminalFIFO" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>fifo</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>native</edgelabel>
+        </childnode>
+      </node>
+      <node id="11">
+        <label>jam::TerminalFIFO::Native</label>
+        <link refid="structjam_1_1TerminalFIFO_1_1Native" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="9">
+        <label>juce::AbstractFifo</label>
+        <link refid="classjuce_1_1AbstractFifo" external="D:/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="12">
         <label>juce::File</label>
         <link refid="classjuce_1_1File" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
-      <node id="9">
+      <node id="8">
+        <label>juce::OutputStream</label>
+        <link refid="classjuce_1_1OutputStream" external="D:/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="14">
         <label>std::pair&lt; int, int &gt;</label>
       </node>
-      <node id="11">
+      <node id="16">
         <label>std::pair&lt; std::uint32_t, int &gt;</label>
       </node>
       <node id="6">
         <label>std::unique_ptr&lt; Native &gt;</label>
       </node>
-      <node id="8">
+      <node id="10">
+        <label>std::unique_ptr&lt; jam::TerminalFIFO::Native &gt;</label>
+        <childnode refid="11" relation="usage">
+          <edgelabel>ptr</edgelabel>
+        </childnode>
+      </node>
+      <node id="13">
         <label>std::unordered_map&lt; int, std::pair&lt; int, int &gt; &gt;</label>
-        <childnode refid="9" relation="usage">
+        <childnode refid="14" relation="usage">
           <edgelabel>elements</edgelabel>
         </childnode>
       </node>
-      <node id="10">
+      <node id="15">
         <label>std::unordered_map&lt; int, std::pair&lt; std::uint32_t, int &gt; &gt;</label>
-        <childnode refid="11" relation="usage">
+        <childnode refid="16" relation="usage">
           <edgelabel>elements</edgelabel>
         </childnode>
       </node>

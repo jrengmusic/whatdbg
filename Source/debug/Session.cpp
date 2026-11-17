@@ -253,11 +253,9 @@ static auto getHandleAttributeList (std::array<HANDLE, 2>& inheritedHandles) noe
     return std::unique_ptr<std::remove_pointer_t<LPPROC_THREAD_ATTRIBUTE_LIST>, decltype (deleteList)> { attributeList, std::move (deleteList) };
 }
 
-static std::unique_ptr<void, decltype (&CloseHandle)> createSuspendedProcess (const juce::String& commandLine, const juce::String& outputPipeName, const juce::String& errorPipeName) noexcept
+static std::unique_ptr<void, decltype (&CloseHandle)> createSuspendedProcess (const juce::String& commandLine, HANDLE outputClient, HANDLE errorClient) noexcept
 {
-    const auto outputClient (createPipeClient (outputPipeName));
-    const auto errorClient (createPipeClient (errorPipeName));
-    std::array<HANDLE, 2> inheritedHandles { outputClient.get (), errorClient.get () };
+    std::array<HANDLE, 2> inheritedHandles { outputClient, errorClient };
     std::wstring commandLineBuffer { commandLine.toWideCharPointer () };
     const auto attributeList (getHandleAttributeList (inheritedHandles));
 
@@ -292,6 +290,7 @@ HRESULT Session::launchCaptured (const juce::String& commandLine) noexcept
     standardOutput.onBytesReady = [this] (int) { wake (); };
     standardOutputPipe.reset (createPipe (outputPipeName, PIPE_ACCESS_INBOUND | FILE_FLAG_OVERLAPPED | FILE_FLAG_FIRST_PIPE_INSTANCE));
     jassert (standardOutputPipe.get () != INVALID_HANDLE_VALUE);
+    const auto outputClient (createPipeClient (outputPipeName));
     const bool isOutputOpen { standardOutput.open (standardOutputPipe.get (), nullptr, outputPipeSize, maximumPeriodMilliseconds) };
     jassert (isOutputOpen);
     juce::ignoreUnused (isOutputOpen);
@@ -299,11 +298,12 @@ HRESULT Session::launchCaptured (const juce::String& commandLine) noexcept
     standardError.onBytesReady = [this] (int) { wake (); };
     standardErrorPipe.reset (createPipe (errorPipeName, PIPE_ACCESS_INBOUND | FILE_FLAG_OVERLAPPED | FILE_FLAG_FIRST_PIPE_INSTANCE));
     jassert (standardErrorPipe.get () != INVALID_HANDLE_VALUE);
+    const auto errorClient (createPipeClient (errorPipeName));
     const bool isErrorOpen { standardError.open (standardErrorPipe.get (), nullptr, outputPipeSize, maximumPeriodMilliseconds) };
     jassert (isErrorOpen);
     juce::ignoreUnused (isErrorOpen);
 
-    const auto process (createSuspendedProcess (commandLine, outputPipeName, errorPipeName));
+    const auto process (createSuspendedProcess (commandLine, outputClient.get (), errorClient.get ()));
     HRESULT result { E_FAIL };
 
     if (process != nullptr)
@@ -355,9 +355,26 @@ juce::String Session::createCommFile () noexcept
     launcherPipe.reset (pipe);
     launcherOutput.onBytesReady = [this] (int) { events.get (Id::runInTerminal); };
 
-    const bool isOpen { launcherOutput.open (launcherPipe.get (), nullptr, outputPipeSize, maximumPeriodMilliseconds) };
-    jassert (isOpen);
-    juce::ignoreUnused (isOpen);
+    connectEvent.reset (CreateEventW (nullptr, TRUE, FALSE, nullptr));
+    connectOverlapped = {};
+    connectOverlapped.hEvent = connectEvent.get ();
+
+    connectSource.onReady = [this] (int)
+    {
+        const bool isOpen { launcherOutput.open (launcherPipe.get (), nullptr, outputPipeSize, maximumPeriodMilliseconds) };
+        jassert (isOpen);
+        juce::ignoreUnused (isOpen);
+    };
+
+    const bool isSourceOpen { connectEvent != nullptr and connectSource.open (nullptr, connectEvent.get ()) };
+    jassert (isSourceOpen);
+    juce::ignoreUnused (isSourceOpen);
+
+    const BOOL isConnected { ConnectNamedPipe (launcherPipe.get (), &connectOverlapped) };
+    jassert (isConnected == FALSE and GetLastError () == ERROR_IO_PENDING);
+    juce::ignoreUnused (isConnected);
+
+    connectSource.arm ();
 
     return name;
 }
@@ -424,9 +441,11 @@ void Session::drainLauncherOutput () noexcept
                 events.get (Id::error, jam::Strings::fromView (document->getString (*document->find (message, jam::Strings::getView (Id::error.toString ())))));
             }
 
+            connectSource.close ();
             launcherOutput.close ();
             launcherInput.reset ();
             launcherPipe.reset ();
+            connectEvent.reset ();
 
             return size;
         });
@@ -584,10 +603,21 @@ void Session::shutdown (EndMode mode) noexcept
 {
     standardOutput.close ();
     standardError.close ();
+    connectSource.close ();
     launcherOutput.close ();
+
+    if (launcherPipe != nullptr and not HasOverlappedIoCompleted (&connectOverlapped))
+    {
+        DWORD numBytes { 0 };
+        CancelIoEx (launcherPipe.get (), &connectOverlapped);
+        GetOverlappedResult (launcherPipe.get (), &connectOverlapped, &numBytes, TRUE);
+    }
+
     standardOutputPipe.reset ();
     standardErrorPipe.reset ();
+    launcherInput.reset ();
     launcherPipe.reset ();
+    connectEvent.reset ();
 
     if (client != nullptr)
     {

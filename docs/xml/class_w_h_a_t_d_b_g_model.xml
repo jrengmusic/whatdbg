@@ -21,44 +21,44 @@
         <inbodydescription>
         </inbodydescription>
         <location file="WHATDBGModel.h" line="20" column="28" bodyfile="WHATDBGModel.h" bodystart="20" bodyend="20"/>
-        <referencedby refid="class_processor_1a85d762de429f761d1ca7931efb1b4d5c" compoundref="_processor_8cpp" startline="292" endline="298">Processor::addLaunchErrorResponse</referencedby>
-        <referencedby refid="class_processor_1aa59ddffd02b0dd2153c87009c38d7bc8" compoundref="_processor_8cpp" startline="300" endline="304">Processor::addMessage</referencedby>
+        <referencedby refid="class_processor_1a85d762de429f761d1ca7931efb1b4d5c" compoundref="_processor_8cpp" startline="316" endline="322">Processor::addLaunchErrorResponse</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1a573bbe1668776da7f0c144e90f3b0849" compoundref="_stop_manager_8cpp" startline="166" endline="173">debug::StopManager::drainBreakIn</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" compoundref="_stop_manager_8cpp" startline="108" endline="121">debug::StopManager::drainBreakpointHit</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="175" endline="195">debug::StopManager::drainExceptionStopped</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1a23350ca0377ae83e11468a7301a41852" compoundref="_stop_manager_8cpp" startline="97" endline="106">debug::StopManager::drainInitialBreak</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1ab35e144bdf9bf196392632e3b5c5b84c" compoundref="_stop_manager_8cpp" startline="154" endline="164">debug::StopManager::drainModuleLoaded</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1ae491549724477f1c2457f0005f4e11e2" compoundref="_stop_manager_8cpp" startline="139" endline="152">debug::StopManager::drainPauseCompleted</referencedby>
-        <referencedby refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" compoundref="_processor_8cpp" startline="314" endline="343">Processor::drainProcessExited</referencedby>
+        <referencedby refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" compoundref="_processor_8cpp" startline="337" endline="366">Processor::drainProcessExited</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" compoundref="_stop_manager_8cpp" startline="123" endline="137">debug::StopManager::drainStepCompleted</referencedby>
-        <referencedby refid="class_processor_1ae3dd418216ebb9a28fbc82c5eb61de8b" compoundref="_processor_8cpp" startline="345" endline="358">Processor::drainTerminateTimeout</referencedby>
-        <referencedby refid="class_processor_1a616112bd8cbe927cec6426da3dc64d6d" compoundref="_processor_8cpp" startline="360" endline="366">Processor::getEndModeForExit</referencedby>
-        <referencedby refid="class_whatdbg_1a33d312004e22a30ebecf90f442d9263c" compoundref="_whatdbg_8cpp" startline="55" endline="63">Whatdbg::initialise</referencedby>
-        <referencedby refid="class_processor_1aa519050b3bc4dedaa3a81d51138cb25f" compoundref="_processor_8cpp" startline="114" endline="121">Processor::isPolling</referencedby>
-        <referencedby refid="class_processor_1a1c7c3524b82bf7df9f07ff1717970da2" compoundref="_processor_8cpp" startline="418" endline="437">Processor::launchInConsole</referencedby>
-        <referencedby refid="class_processor_1a28403704dc0835af3681e56345b85d2e" compoundref="_processor_8cpp" startline="439" endline="461">Processor::launchInTerminal</referencedby>
-        <referencedby refid="class_processor_1a5ef207789c74afa70eb20f95ca575828" compoundref="_processor_8cpp" startline="514" endline="523">Processor::onConfigurationDone</referencedby>
-        <referencedby refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="669" endline="687">Processor::onContinue</referencedby>
-        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="525" endline="559">Processor::onDisconnect</referencedby>
-        <referencedby refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" compoundref="_processor_8cpp" startline="386" endline="399">Processor::onInitialize</referencedby>
-        <referencedby refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" compoundref="_processor_8cpp" startline="689" endline="704">Processor::onNext</referencedby>
-        <referencedby refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" compoundref="_processor_8cpp" startline="740" endline="752">Processor::onPause</referencedby>
-        <referencedby refid="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" compoundref="_processor_8cpp" startline="368" endline="377">Processor::onPrepare</referencedby>
-        <referencedby refid="class_processor_1a57d2c4aa25b0c6786bbce3eb3a78a4a8" compoundref="_processor_8cpp" startline="379" endline="384">Processor::onReleaseResources</referencedby>
-        <referencedby refid="class_processor_1a9af86630f17983504d894a6ab50de2be" compoundref="_processor_8cpp" startline="123" endline="145">Processor::onRequest</referencedby>
-        <referencedby refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" compoundref="_processor_8cpp" startline="706" endline="721">Processor::onStepIn</referencedby>
-        <referencedby refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" compoundref="_processor_8cpp" startline="723" endline="738">Processor::onStepOut</referencedby>
+        <referencedby refid="class_processor_1ae3dd418216ebb9a28fbc82c5eb61de8b" compoundref="_processor_8cpp" startline="368" endline="381">Processor::drainTerminateTimeout</referencedby>
+        <referencedby refid="class_processor_1a616112bd8cbe927cec6426da3dc64d6d" compoundref="_processor_8cpp" startline="383" endline="389">Processor::getEndModeForExit</referencedby>
+        <referencedby refid="class_processor_1a951c31df848d400fb06e0cebcb1c55f9" compoundref="_processor_8cpp" startline="105" endline="112">Processor::isDeferred</referencedby>
+        <referencedby refid="class_processor_1aa519050b3bc4dedaa3a81d51138cb25f" compoundref="_processor_8cpp" startline="96" endline="103">Processor::isPolling</referencedby>
+        <referencedby refid="class_processor_1a1c7c3524b82bf7df9f07ff1717970da2" compoundref="_processor_8cpp" startline="441" endline="460">Processor::launchInConsole</referencedby>
+        <referencedby refid="class_processor_1a28403704dc0835af3681e56345b85d2e" compoundref="_processor_8cpp" startline="462" endline="484">Processor::launchInTerminal</referencedby>
+        <referencedby refid="class_processor_1a5ef207789c74afa70eb20f95ca575828" compoundref="_processor_8cpp" startline="537" endline="546">Processor::onConfigurationDone</referencedby>
+        <referencedby refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="692" endline="710">Processor::onContinue</referencedby>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="548" endline="582">Processor::onDisconnect</referencedby>
+        <referencedby refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" compoundref="_processor_8cpp" startline="409" endline="422">Processor::onInitialize</referencedby>
+        <referencedby refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" compoundref="_processor_8cpp" startline="712" endline="727">Processor::onNext</referencedby>
+        <referencedby refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" compoundref="_processor_8cpp" startline="763" endline="775">Processor::onPause</referencedby>
+        <referencedby refid="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" compoundref="_processor_8cpp" startline="391" endline="400">Processor::onPrepare</referencedby>
+        <referencedby refid="class_processor_1a57d2c4aa25b0c6786bbce3eb3a78a4a8" compoundref="_processor_8cpp" startline="402" endline="407">Processor::onReleaseResources</referencedby>
+        <referencedby refid="class_processor_1af90b813821839e15e8321c4817c07bf9" compoundref="_processor_8cpp" startline="114" endline="130">Processor::onRequest</referencedby>
+        <referencedby refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" compoundref="_processor_8cpp" startline="729" endline="744">Processor::onStepIn</referencedby>
+        <referencedby refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" compoundref="_processor_8cpp" startline="746" endline="761">Processor::onStepOut</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1ae87d8d557aded2e5fa40b92f360fc887" compoundref="_stop_manager_8cpp" startline="84" endline="95">debug::StopManager::onStop</referencedby>
-        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="87" endline="112">Processor::process</referencedby>
+        <referencedby refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" compoundref="_processor_8cpp" startline="34" endline="50">Processor::prepare</referencedby>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="66" endline="94">Processor::process</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
-        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="152" endline="180">Processor::registerEvents</referencedby>
-        <referencedby refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" compoundref="_whatdbg_8cpp" startline="97" endline="112">Whatdbg::registerEvents</referencedby>
-        <referencedby refid="class_processor_1a0d99918b0acbc30b8cc7f6fc524a7bd2" compoundref="_processor_8cpp" startline="182" endline="202">Processor::registerLauncherEvents</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="176" endline="204">Processor::registerEvents</referencedby>
+        <referencedby refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" compoundref="_whatdbg_8cpp" startline="72" endline="82">Whatdbg::registerEvents</referencedby>
+        <referencedby refid="class_processor_1a0d99918b0acbc30b8cc7f6fc524a7bd2" compoundref="_processor_8cpp" startline="206" endline="226">Processor::registerLauncherEvents</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="197" endline="227">debug::StopManager::resumeAfterInitialBreak</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1a11cf2cbc87df89b6ac71d2c9192cda02" compoundref="_stop_manager_8cpp" startline="229" endline="233">debug::StopManager::resumeExecution</referencedby>
-        <referencedby refid="class_processor_1a5429f57729737f7bd4c78a1c1d027c43" compoundref="_processor_8cpp" startline="472" endline="482">Processor::setAttachedState</referencedby>
-        <referencedby refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" compoundref="_whatdbg_8cpp" startline="12" endline="33">Whatdbg::Whatdbg</referencedby>
-        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel</referencedby>
+        <referencedby refid="class_processor_1a5429f57729737f7bd4c78a1c1d027c43" compoundref="_processor_8cpp" startline="495" endline="505">Processor::setAttachedState</referencedby>
+        <referencedby refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" compoundref="_whatdbg_8cpp" startline="3" endline="13">Whatdbg::Whatdbg</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="34">WHATDBGModel</referencedby>
       </memberdef>
       <memberdef kind="variable" id="class_w_h_a_t_d_b_g_model_1acb63a9c5f8c93853d85b3688448741db" prot="public" static="no" mutable="no">
         <type>const <ref refid="classjuce_1_1Identifier" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::Identifier</ref></type>
@@ -76,9 +76,9 @@
         </inbodydescription>
         <location file="WHATDBGModel.h" line="23" column="28" bodyfile="WHATDBGModel.h" bodystart="23" bodyend="23"/>
         <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="175" endline="195">debug::StopManager::drainExceptionStopped</referencedby>
-        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="754" endline="772">Processor::onExceptionInfo</referencedby>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="777" endline="795">Processor::onExceptionInfo</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
-        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="34">WHATDBGModel</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -95,7 +95,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="WHATDBGModel.h" line="17" column="5" bodyfile="WHATDBGModel.cpp" bodystart="7" bodyend="35"/>
+        <location file="WHATDBGModel.h" line="17" column="5" bodyfile="WHATDBGModel.cpp" bodystart="7" bodyend="34"/>
         <references refid="namespaceId_1ae1bef48aa181015cc6694a397c942583" compoundref="_generated_8cpp" startline="26" endline="26">Id::adapterExitCode</references>
         <references refid="namespaceId_1a03ba296bdc142edf0768af486bac4037" compoundref="_generated_8cpp" startline="35" endline="35">Id::breakpointEngineId</references>
         <references refid="classjam_1_1Model_1ac250f7a4c969aa2d05602b9805dd63ce">jam::Model::createAndAddParameter</references>
@@ -116,21 +116,20 @@
         <references refid="classjam_1_1Model_1afbe837fa9d9c8086381333783bb1db3b">jam::Model::Model</references>
         <references refid="namespaceId_1a9f27da94bef79dc7fdd99088951c5d07" compoundref="_generated_8cpp" startline="85" endline="85">Id::nextSequenceNumber</references>
         <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" compoundref="_state_8h" startline="46">debug::none</references>
-        <references refid="namespaceId_1abd823c98b322d39f2bd65d34d8be1513" compoundref="_generated_8cpp" startline="86" endline="86">Id::numMessages</references>
-        <references refid="namespaceId_1ab94e01b9b77bf89619c249d7dae6d924" compoundref="_generated_8cpp" startline="92" endline="92">Id::processExitCode</references>
+        <references refid="namespaceId_1ab94e01b9b77bf89619c249d7dae6d924" compoundref="_generated_8cpp" startline="91" endline="91">Id::processExitCode</references>
         <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">sessionTag</references>
-        <references refid="namespaceId_1a866863bd05f02eeabe7e4f66b277a6c3" compoundref="_generated_8cpp" startline="107" endline="107">Id::shouldTerminateOnExit</references>
-        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="119" endline="119">Id::stopReason</references>
+        <references refid="namespaceId_1a866863bd05f02eeabe7e4f66b277a6c3" compoundref="_generated_8cpp" startline="106" endline="106">Id::shouldTerminateOnExit</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="118" endline="118">Id::stopReason</references>
         <references refid="classjuce_1_1Timer_1a2ff70b860a8c875658b4baa91c8bcef0">juce::Timer::stopTimer</references>
-        <references refid="namespaceId_1a34ff3c25c6e302ff4a5b0a5f9b0488a7" compoundref="_generated_8cpp" startline="154" endline="154">Id::targetProcessId</references>
-        <references refid="namespaceId_1a6deeca27da77c1f9dbf5b72db990b6fc" compoundref="_generated_8cpp" startline="157" endline="157">Id::terminateDeadlineMs</references>
+        <references refid="namespaceId_1a34ff3c25c6e302ff4a5b0a5f9b0488a7" compoundref="_generated_8cpp" startline="153" endline="153">Id::targetProcessId</references>
+        <references refid="namespaceId_1a6deeca27da77c1f9dbf5b72db990b6fc" compoundref="_generated_8cpp" startline="156" endline="156">Id::terminateDeadlineMs</references>
       </memberdef>
     </sectiondef>
     <briefdescription>
 <para>Model of the adapter: one value tree with a session row and an exception row. </para>
     </briefdescription>
     <detaileddescription>
-<para>Each parameter is a value of the debug state. The engine context writes most parameters with storeValue. The numMessages and isRunning parameters use setValue, so that the message thread receives them at once. </para>
+<para>Each parameter is a value of the debug state. The engine context writes most parameters with storeValue. The isRunning parameter uses setValue, so that the message thread receives it at once. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">

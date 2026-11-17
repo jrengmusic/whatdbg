@@ -11,6 +11,8 @@ class Launcher
 public:
     /** Stores the channel name and the target command line.
      *
+     *  On Windows, the first element is resolved to a full path against the working directory.
+     *  CreateProcessW fails with error 2 for a relative target such as build/fixture.exe.
      *  On Windows, an element that contains a space and does not start with a quote is quoted.
      *
      *  @param newCommFile      Channel name from the adapter: a pipe name on Windows, a FIFO path on macOS.

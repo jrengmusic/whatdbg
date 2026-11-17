@@ -2,20 +2,23 @@
  *  @brief Entry point of whatdbg: the help page, the launcher mode, the macOS re-exec, and the JUCE startup.
  *
  *  Startup sequence:
- *  1. --help: render the help page to stdout and return.
- *  2. --comm-file and --launch-target: run the Launcher and return its exit code. The
+ *  1. [Windows] Set _NO_DEBUG_HEAP to 1. Each target that whatdbg creates inherits the variable.
+ *     A target that starts with a debugger attached gets the Windows debug heap.
+ *     That heap checks each allocation and free, so the target runs and exits slowly.
+ *  2. --help: render the help page to stdout and return.
+ *  3. --comm-file and --launch-target: run the Launcher and return its exit code. The
  *     adapter does not start. The client runs this command in a terminal (Processor::launchInTerminal).
- *  3. [macOS] Without the re-exec marker, extract liblldb.dylib and re-exec the
+ *  4. [macOS] Without the re-exec marker, extract liblldb.dylib and re-exec the
  *     process with DYLD_LIBRARY_PATH set to the sidecar folder, so that dyld
  *     resolves the liblldb SB API symbols on the second invocation.
- *  4. [Debug builds] Open whatdbg.log in the config folder and install the crash
+ *  5. [Debug builds] Open whatdbg.log in the config folder and install the crash
  *     and terminate handlers.
- *  5. Extract the sidecar binaries into the sidecar folder.
- *  6. Call JUCEApplicationBase::main with the program path and the sidecar path.
+ *  6. Extract the sidecar binaries into the sidecar folder.
+ *  7. Call JUCEApplicationBase::main with the program path and the sidecar path.
  *     JUCE then calls Whatdbg::initialise.
  *
  *  Sidecar folders, under userApplicationDataDirectory/whatdbg:
- *  - Windows: dbgeng DLLs in dbgeng/. Loader loads them from that folder.
+ *  - Windows: dbgeng DLLs in dbgeng/. Loader loads dbgeng.dll from that folder.
  *  - macOS:   liblldb.dylib in liblldb/.
  */
 #include <JuceHeader.h>
@@ -35,9 +38,14 @@ static constexpr const char* sidecarDirName { "whatdbg" };
 static constexpr const char* dbgengSubdir   { "dbgeng" };
 static constexpr const char* liblldbSubdir  { "liblldb" };
 static constexpr const char* logFileName    { "whatdbg.log" };
+static constexpr const char* enabledValue   { "1" };
 
 #if JUCE_MAC
 static constexpr const char* reexecMarker { "WHATDBG_REEXEC" };
+#endif
+
+#if JUCE_WINDOWS
+static constexpr const char* noDebugHeapVariable { "_NO_DEBUG_HEAP" };
 #endif
 
 static juce::File getConfigDirectory () noexcept
@@ -158,7 +166,7 @@ static int execWithSidecar (char* argv[])
     if (sidecarDir != juce::File {})
     {
         setenv ("DYLD_LIBRARY_PATH", sidecarDir.getFullPathName ().toRawUTF8 (), 1);
-        setenv (reexecMarker, "1", 1);
+        setenv (reexecMarker, enabledValue, 1);
         execv (argv[0], argv);
 
         fprintf (stderr, "whatdbg: re-exec failed: %s\n", strerror (errno));
@@ -230,11 +238,17 @@ static int runLauncher (const juce::ArgumentList& arguments)
 
 int main (int argc, char* argv[])
 {
+#if JUCE_WINDOWS
+    const BOOL isSet { SetEnvironmentVariableA (noDebugHeapVariable, enabledValue) };
+    jassert (isSet);
+    juce::ignoreUnused (isSet);
+#endif
+
     const juce::ArgumentList arguments (argc, argv);
 
     if (arguments.containsOption ("--help"))
     {
-#ifdef _WIN32
+#if JUCE_WINDOWS
         SetConsoleOutputCP (CP_UTF8);
 #endif
 

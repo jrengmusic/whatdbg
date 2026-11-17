@@ -437,7 +437,7 @@ whatdbg/
     ARCHITECTURE.md
     SPEC.md
     Source/
-        Main.cpp                        Entry point: --help, sidecar extraction, re-exec trampoline (macOS), runAdapter
+        Main.cpp                        Entry point: _NO_DEBUG_HEAP for each target (Windows), --help, runLauncher, sidecar extraction, re-exec trampoline (macOS), runAdapter
         HELP.md                         The --help page
         Whatdbg.h / .cpp                Main: JUCEApplicationBase, Model listener, isRunning quit
         WHATDBGModel.h / .cpp           The Model: SESSION and EXCEPTION rows

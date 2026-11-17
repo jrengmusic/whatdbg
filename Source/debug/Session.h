@@ -126,8 +126,11 @@ public:
 
     /** Creates the channel that the Launcher uses to send its process ID and to get the attach reply.
      *
-     *  Windows creates a duplex overlapped named pipe, keeps a duplicate of it in launcherInput, and
-     *  opens launcherOutput on the pipe. The name is the pipe name followed by the process ID.
+     *  Windows creates a duplex overlapped named pipe, and keeps a duplicate of it in launcherInput.
+     *  It starts an overlapped ConnectNamedPipe on the pipe. connectSource watches connectEvent for the connect.
+     *  launcherOutput opens on the pipe only after the Launcher connects.
+     *  A readiness source on a pipe with no client stops for good.
+     *  The Windows name is the pipe name followed by the process ID.
      *  macOS creates two FIFOs in the temporary folder: the channel, and the channel with the
      *  didAttach extension. It opens launcherOutput on the channel. On both platforms, the
      *  runInTerminal event fires when the channel has bytes to read.
@@ -189,7 +192,9 @@ public:
      *               - EndMode::detach    — target is alive; leave it running after detach
      *               - EndMode::passive   — target has already exited; release state only
      *
-     *  Windows closes standardOutput, standardError, and launcherOutput, and resets the pipe handles.
+     *  Windows closes standardOutput and standardError, then connectSource, then launcherOutput.
+     *  When a connect has not completed, it cancels that connect and waits for it to end.
+     *  Then it resets standardOutputPipe, standardErrorPipe, launcherInput, launcherPipe, and connectEvent.
      *  It calls IDebugClient5::EndSession with the dbgeng flag that corresponds to mode.
      *  It unregisters OutputCallbacks and EventCallbacks, and releases all COM interface pointers.
      *  It resets the symbol group cache, then resets comInitialiser, which uninitializes COM.
@@ -241,6 +246,7 @@ public:
     /** Reads the first message from the launch channel, acts on it, and closes the channel.
      *
      *  A pid message calls attachLaunchTarget. An error message fires the error event with its text.
+     *  On Windows, it closes connectSource first. The close waits for a connect callback that still opens launcherOutput.
      *  The channel closes after that message. macOS also deletes the channel files.
      *
      *  Processor::process calls it when the engine does not poll.
@@ -570,7 +576,11 @@ private:
 
     /** Reports when the launch channel has bytes to read. It reads no bytes.
      *
-     *  createCommFile opens it, and its callback fires runInTerminal. drainLauncherOutput closes it after the first message.
+     *  macOS createCommFile opens it.
+     *  Windows connectSource opens it when the Launcher connects.
+     *  Its callback fires runInTerminal.
+     *  drainLauncherOutput closes it after the first message.
+     *  shutdown closes it.
      */
     jam::AsyncOutputStream launcherOutput;
 
@@ -687,8 +697,10 @@ private:
 
     /** Starts the target suspended, with its standard output and error on pipes, and attaches to it.
      *
-     *  Sets each output stream to call wake when bytes are ready, and opens each stream on a named
-     *  pipe. Creates the target with the client ends of the pipes as its standard handles. Calls
+     *  Sets each output stream to call wake when bytes are ready. For each pipe, it creates the server end,
+     *  then the client end, then opens the stream on the server end.
+     *  Each client end exists before its stream opens, since a readiness source with no client stops for good.
+     *  Creates the target with the client ends of the pipes as its standard handles. Calls
      *  attachSuspended on the target. When attachSuspended fails, terminates the target with exit code 1.
      *
      *  @param commandLine  Native command line of the target.
@@ -731,6 +743,28 @@ private:
      *  sendDidAttach writes to it. drainLauncherOutput resets it.
      */
     std::unique_ptr<void, decltype (&CloseHandle)> launcherInput { nullptr, &CloseHandle };
+
+    /** Manual-reset event that the system signals when the Launcher connects to launcherPipe.
+     *
+     *  createCommFile creates it, and sets it as the hEvent of connectOverlapped. It is manual reset,
+     *  so it stays signaled after the connect. drainLauncherOutput and shutdown reset it.
+     */
+    std::unique_ptr<void, decltype (&CloseHandle)> connectEvent { nullptr, &CloseHandle };
+
+    /** Overlapped record of the ConnectNamedPipe call on launcherPipe. Its hEvent is connectEvent.
+     *
+     *  createCommFile sets it up. The system updates it when the connect completes. shutdown reads it
+     *  to find a connect that has not completed. drainLauncherOutput does not change it.
+     */
+    OVERLAPPED connectOverlapped {};
+
+    /** Watches connectEvent, and opens launcherOutput on launcherPipe when the Launcher connects.
+     *
+     *  createCommFile arms it once. Each onReady needs one arm, so onReady runs once. open passes a
+     *  nullptr context, so onReady does not run on the engine context. drainLauncherOutput and shutdown
+     *  close it before they close launcherOutput.
+     */
+    jam::AsyncUpdater::Source connectSource;
 
     /** Loads dbgeng.dll from the sidecar directory and exposes DebugCreate. */
     Loader loader;

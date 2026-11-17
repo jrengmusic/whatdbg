@@ -13,16 +13,17 @@
         <name>model</name>
         <qualifiedname>Whatdbg::model</qualifiedname>
         <briefdescription>
+<para>The model. </para>
         </briefdescription>
         <detaileddescription>
+<para>Its parameters hold the debug state, and the attachments and the handlers read them. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="86" column="18" bodyfile="Whatdbg.h" bodystart="86" bodyend="-1"/>
-        <referencedby refid="class_whatdbg_1a33d312004e22a30ebecf90f442d9263c" compoundref="_whatdbg_8cpp" startline="55" endline="63">initialise</referencedby>
-        <referencedby refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" compoundref="_whatdbg_8cpp" startline="97" endline="112">registerEvents</referencedby>
-        <referencedby refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" compoundref="_whatdbg_8cpp" startline="12" endline="33">Whatdbg</referencedby>
-        <referencedby refid="class_whatdbg_1a68628d77ef7d84412d44801d9628d792" compoundref="_whatdbg_8cpp" startline="35" endline="38">~Whatdbg</referencedby>
+        <location file="Whatdbg.h" line="71" column="18" bodyfile="Whatdbg.h" bodystart="71" bodyend="-1"/>
+        <referencedby refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" compoundref="_whatdbg_8cpp" startline="72" endline="82">registerEvents</referencedby>
+        <referencedby refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" compoundref="_whatdbg_8cpp" startline="3" endline="13">Whatdbg</referencedby>
+        <referencedby refid="class_whatdbg_1a68628d77ef7d84412d44801d9628d792" compoundref="_whatdbg_8cpp" startline="15" endline="18">~Whatdbg</referencedby>
       </memberdef>
       <memberdef kind="variable" id="class_whatdbg_1aa4bc72ff3073566ee8559b68935c9649" prot="private" static="no" mutable="no">
         <type><ref refid="class_processor" kindref="compound">Processor</ref></type>
@@ -36,41 +37,8 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="88" column="15" bodyfile="Whatdbg.h" bodystart="88" bodyend="-1"/>
-        <referencedby refid="class_whatdbg_1a33d312004e22a30ebecf90f442d9263c" compoundref="_whatdbg_8cpp" startline="55" endline="63">initialise</referencedby>
-        <referencedby refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" compoundref="_whatdbg_8cpp" startline="97" endline="112">registerEvents</referencedby>
-        <referencedby refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" compoundref="_whatdbg_8cpp" startline="12" endline="33">Whatdbg</referencedby>
-      </memberdef>
-      <memberdef kind="variable" id="class_whatdbg_1a6161a21c3424b62032aa98898e653fcf" prot="private" static="no" mutable="no">
-        <type><ref refid="classdap_1_1_writer" kindref="compound">dap::Writer</ref></type>
-        <definition>dap::Writer Whatdbg::writer</definition>
-        <argsstring></argsstring>
-        <name>writer</name>
-        <qualifiedname>Whatdbg::writer</qualifiedname>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="Whatdbg.h" line="90" column="17" bodyfile="Whatdbg.h" bodystart="90" bodyend="-1"/>
-        <referencedby refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" compoundref="_whatdbg_8cpp" startline="97" endline="112">registerEvents</referencedby>
-      </memberdef>
-      <memberdef kind="variable" id="class_whatdbg_1a90447541f7bbae978b1d889eadfac2dc" prot="private" static="no" mutable="no">
-        <type><ref refid="classdap_1_1_reader" kindref="compound">dap::Reader</ref></type>
-        <definition>dap::Reader Whatdbg::reader</definition>
-        <argsstring></argsstring>
-        <name>reader</name>
-        <qualifiedname>Whatdbg::reader</qualifiedname>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="Whatdbg.h" line="92" column="17" bodyfile="Whatdbg.h" bodystart="92" bodyend="-1"/>
-        <referencedby refid="class_whatdbg_1a33d312004e22a30ebecf90f442d9263c" compoundref="_whatdbg_8cpp" startline="55" endline="63">initialise</referencedby>
-        <referencedby refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" compoundref="_whatdbg_8cpp" startline="12" endline="33">Whatdbg</referencedby>
+        <location file="Whatdbg.h" line="73" column="15" bodyfile="Whatdbg.h" bodystart="73" bodyend="-1"/>
+        <referencedby refid="class_whatdbg_1a33d312004e22a30ebecf90f442d9263c" compoundref="_whatdbg_8cpp" startline="35" endline="38">initialise</referencedby>
       </memberdef>
       <memberdef kind="variable" id="class_whatdbg_1a29031ba4eb223a6dfa564e9f940c669c" prot="private" static="no" mutable="no">
         <type><ref refid="structjam_1_1Function_1_1Map" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::Function::Map</ref>&lt; <ref refid="classjuce_1_1Identifier" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::Identifier</ref>, <ref refid="structjam_1_1Function_1ae0c82daeeeb7f4c4eaf062d55601f5cd" kindref="member" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::Function::pointerCapacity</ref>, void(const <ref refid="classjuce_1_1ValueTree" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::ValueTree</ref> &amp;)&gt;</type>
@@ -79,29 +47,15 @@
         <name>events</name>
         <qualifiedname>Whatdbg::events</qualifiedname>
         <briefdescription>
+<para>The handlers of model property changes, keyed by property identifier. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="94" column="24" bodyfile="Whatdbg.h" bodystart="94" bodyend="-1"/>
-        <referencedby refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" compoundref="_whatdbg_8cpp" startline="97" endline="112">registerEvents</referencedby>
-        <referencedby refid="class_whatdbg_1a8a13695fc4232cd076089383a4d2ca5c" compoundref="_whatdbg_8cpp" startline="91" endline="95">valueTreePropertyChanged</referencedby>
-      </memberdef>
-      <memberdef kind="variable" id="class_whatdbg_1a43a30e0525fb1c99d61da4cbf1027cc9" prot="private" static="no" mutable="no">
-        <type>std::unique_ptr&lt; <ref refid="classjam_1_1Model_1_1ParameterAttachment" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::Model::ParameterAttachment</ref> &gt;</type>
-        <definition>std::unique_ptr&lt;jam::Model::ParameterAttachment&gt; Whatdbg::numMessagesAttachment</definition>
-        <argsstring></argsstring>
-        <name>numMessagesAttachment</name>
-        <qualifiedname>Whatdbg::numMessagesAttachment</qualifiedname>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="Whatdbg.h" line="96" column="21" bodyfile="Whatdbg.h" bodystart="96" bodyend="-1"/>
-        <referencedby refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" compoundref="_whatdbg_8cpp" startline="12" endline="33">Whatdbg</referencedby>
+        <location file="Whatdbg.h" line="76" column="24" bodyfile="Whatdbg.h" bodystart="76" bodyend="-1"/>
+        <referencedby refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" compoundref="_whatdbg_8cpp" startline="72" endline="82">registerEvents</referencedby>
+        <referencedby refid="class_whatdbg_1a8a13695fc4232cd076089383a4d2ca5c" compoundref="_whatdbg_8cpp" startline="66" endline="70">valueTreePropertyChanged</referencedby>
       </memberdef>
       <memberdef kind="variable" id="class_whatdbg_1a539d7d54e4422db6892e131a5c72075b" prot="private" static="no" mutable="no">
         <type>std::unique_ptr&lt; <ref refid="classjam_1_1Model_1_1ParameterAttachment" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::Model::ParameterAttachment</ref> &gt;</type>
@@ -110,13 +64,14 @@
         <name>isRunningAttachment</name>
         <qualifiedname>Whatdbg::isRunningAttachment</qualifiedname>
         <briefdescription>
+<para>Calls model.flush when the isRunning parameter changes. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="98" column="21" bodyfile="Whatdbg.h" bodystart="98" bodyend="-1"/>
-        <referencedby refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" compoundref="_whatdbg_8cpp" startline="12" endline="33">Whatdbg</referencedby>
+        <location file="Whatdbg.h" line="79" column="21" bodyfile="Whatdbg.h" bodystart="79" bodyend="-1"/>
+        <referencedby refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" compoundref="_whatdbg_8cpp" startline="3" endline="13">Whatdbg</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -127,25 +82,18 @@
         <name>Whatdbg</name>
         <qualifiedname>Whatdbg::Whatdbg</qualifiedname>
         <briefdescription>
-<para>Creates the model listener, the two parameter attachments, and the reader route. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="22" column="5" bodyfile="Whatdbg.cpp" bodystart="12" bodyend="33"/>
+        <location file="Whatdbg.h" line="10" column="5" bodyfile="Whatdbg.cpp" bodystart="3" bodyend="13"/>
         <references refid="classjam_1_1Model_1ae5d4d70e706dcc558cf21923125a9176">jam::Model::addListener</references>
-        <references refid="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" compoundref="_processor_8cpp" startline="63" endline="73">Processor::addRequest</references>
         <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
         <references refid="namespaceId_1ad5a972b9551c4ba5c5c15a733ec48d69" compoundref="_generated_8cpp" startline="77" endline="77">Id::isRunning</references>
-        <references refid="class_whatdbg_1a539d7d54e4422db6892e131a5c72075b" compoundref="_whatdbg_8h" startline="98">isRunningAttachment</references>
-        <references refid="class_whatdbg_1ab36938a78f24cd1f670d70bd76f18273" compoundref="_whatdbg_8h" startline="86">model</references>
-        <references refid="namespaceId_1abd823c98b322d39f2bd65d34d8be1513" compoundref="_generated_8cpp" startline="86" endline="86">Id::numMessages</references>
-        <references refid="class_whatdbg_1a43a30e0525fb1c99d61da4cbf1027cc9" compoundref="_whatdbg_8h" startline="96">numMessagesAttachment</references>
-        <references refid="classdap_1_1_reader_1a0ef303bd98005399605d1038933691d8" compoundref="_reader_8h" startline="37">dap::Reader::onMessage</references>
-        <references refid="class_whatdbg_1aa4bc72ff3073566ee8559b68935c9649" compoundref="_whatdbg_8h" startline="88">processor</references>
-        <references refid="class_whatdbg_1a90447541f7bbae978b1d889eadfac2dc" compoundref="_whatdbg_8h" startline="92">reader</references>
-        <references refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" compoundref="_whatdbg_8cpp" startline="97" endline="112">registerEvents</references>
+        <references refid="class_whatdbg_1a539d7d54e4422db6892e131a5c72075b" compoundref="_whatdbg_8h" startline="79">isRunningAttachment</references>
+        <references refid="class_whatdbg_1ab36938a78f24cd1f670d70bd76f18273" compoundref="_whatdbg_8h" startline="71">model</references>
+        <references refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" compoundref="_whatdbg_8cpp" startline="72" endline="82">registerEvents</references>
         <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
       </memberdef>
       <memberdef kind="function" id="class_whatdbg_1a68628d77ef7d84412d44801d9628d792" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -155,14 +103,13 @@
         <name>~Whatdbg</name>
         <qualifiedname>Whatdbg::~Whatdbg</qualifiedname>
         <briefdescription>
-<para>Removes the model listener. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="25" column="5" bodyfile="Whatdbg.cpp" bodystart="35" bodyend="38"/>
-        <references refid="class_whatdbg_1ab36938a78f24cd1f670d70bd76f18273" compoundref="_whatdbg_8h" startline="86">model</references>
+        <location file="Whatdbg.h" line="12" column="5" bodyfile="Whatdbg.cpp" bodystart="15" bodyend="18"/>
+        <references refid="class_whatdbg_1ab36938a78f24cd1f670d70bd76f18273" compoundref="_whatdbg_8h" startline="71">model</references>
         <references refid="classjam_1_1Model_1a688b7625ae8b2a4d4d1f1643a6b3aa41">jam::Model::removeListener</references>
       </memberdef>
       <memberdef kind="function" id="class_whatdbg_1a6e397a1e3cf8f439fcace6f60215afb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
@@ -182,7 +129,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="31" column="24" bodyfile="Whatdbg.cpp" bodystart="40" bodyend="43"/>
+        <location file="Whatdbg.h" line="18" column="24" bodyfile="Whatdbg.cpp" bodystart="20" bodyend="23"/>
       </memberdef>
       <memberdef kind="function" id="class_whatdbg_1a52beab0e95094c8973145809c53213b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const <ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>
@@ -201,7 +148,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="37" column="24" bodyfile="Whatdbg.cpp" bodystart="45" bodyend="48"/>
+        <location file="Whatdbg.h" line="24" column="24" bodyfile="Whatdbg.cpp" bodystart="25" bodyend="28"/>
       </memberdef>
       <memberdef kind="function" id="class_whatdbg_1a734f8e782ff7278629baef3319066682" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -221,7 +168,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="43" column="10" bodyfile="Whatdbg.cpp" bodystart="50" bodyend="53"/>
+        <location file="Whatdbg.h" line="30" column="10" bodyfile="Whatdbg.cpp" bodystart="30" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="class_whatdbg_1a33d312004e22a30ebecf90f442d9263c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -235,34 +182,15 @@
           <declname>commandLine</declname>
         </param>
         <briefdescription>
-<para>Prepares the engine context with the sidecar folder and starts the reader. </para>
         </briefdescription>
         <detaileddescription>
-<para>The sidecar folder is the first command-line parameter that <ref refid="_main_8cpp" kindref="compound">Main.cpp</ref> passes to JUCEApplicationBase::main. The reader starts only when the isRunning parameter is not zero.</para>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>commandLine</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Command-line text that JUCE passes. Not used. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="53" column="10" bodyfile="Whatdbg.cpp" bodystart="55" bodyend="63"/>
+        <location file="Whatdbg.h" line="32" column="10" bodyfile="Whatdbg.cpp" bodystart="35" bodyend="38"/>
         <references refid="classjuce_1_1JUCEApplicationBase_1a8a2607a3fbc79cc10e9d0feda93c4856">juce::JUCEApplicationBase::getCommandLineParameterArray</references>
-        <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
-        <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
-        <references refid="namespaceId_1ad5a972b9551c4ba5c5c15a733ec48d69" compoundref="_generated_8cpp" startline="77" endline="77">Id::isRunning</references>
-        <references refid="class_whatdbg_1ab36938a78f24cd1f670d70bd76f18273" compoundref="_whatdbg_8h" startline="86">model</references>
-        <references refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" compoundref="_processor_8cpp" startline="52" endline="61">Processor::prepare</references>
-        <references refid="class_whatdbg_1aa4bc72ff3073566ee8559b68935c9649" compoundref="_whatdbg_8h" startline="88">processor</references>
-        <references refid="class_whatdbg_1a90447541f7bbae978b1d889eadfac2dc" compoundref="_whatdbg_8h" startline="92">reader</references>
-        <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
-        <references refid="classdap_1_1_reader_1a001ba0872e35810bdb1f610e0554eec1" compoundref="_reader_8cpp" startline="29" endline="36">dap::Reader::start</references>
+        <references refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" compoundref="_processor_8cpp" startline="34" endline="50">Processor::prepare</references>
+        <references refid="class_whatdbg_1aa4bc72ff3073566ee8559b68935c9649" compoundref="_whatdbg_8h" startline="73">processor</references>
       </memberdef>
       <memberdef kind="function" id="class_whatdbg_1a26962dadafd58a936a9529799cdfb501" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -279,7 +207,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="56" column="10" bodyfile="Whatdbg.cpp" bodystart="65" bodyend="67"/>
+        <location file="Whatdbg.h" line="35" column="10" bodyfile="Whatdbg.cpp" bodystart="40" bodyend="42"/>
       </memberdef>
       <memberdef kind="function" id="class_whatdbg_1abfbf0e8be70b1d12e853465a0d577f8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -309,7 +237,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="62" column="10" bodyfile="Whatdbg.cpp" bodystart="69" bodyend="71"/>
+        <location file="Whatdbg.h" line="41" column="10" bodyfile="Whatdbg.cpp" bodystart="44" bodyend="46"/>
       </memberdef>
       <memberdef kind="function" id="class_whatdbg_1a44b7a301df6a4d1fc3b1a8fdc295d42a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -325,7 +253,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="65" column="10" bodyfile="Whatdbg.cpp" bodystart="73" bodyend="76"/>
+        <location file="Whatdbg.h" line="44" column="10" bodyfile="Whatdbg.cpp" bodystart="48" bodyend="51"/>
         <references refid="classjuce_1_1JUCEApplicationBase_1ae2ba9b90c02361717d997aa26861f2c4">juce::JUCEApplicationBase::quit</references>
       </memberdef>
       <memberdef kind="function" id="class_whatdbg_1a461635937700120e6ab90679c0883295" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
@@ -342,7 +270,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="68" column="10" bodyfile="Whatdbg.cpp" bodystart="78" bodyend="80"/>
+        <location file="Whatdbg.h" line="47" column="10" bodyfile="Whatdbg.cpp" bodystart="53" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="class_whatdbg_1afd58c6c556edc63bcda7406884e4deda" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -358,7 +286,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="71" column="10" bodyfile="Whatdbg.cpp" bodystart="82" bodyend="84"/>
+        <location file="Whatdbg.h" line="50" column="10" bodyfile="Whatdbg.cpp" bodystart="57" bodyend="59"/>
       </memberdef>
       <memberdef kind="function" id="class_whatdbg_1a32283d644fe029eab8fc50e40c648dff" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -413,7 +341,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="79" column="10" bodyfile="Whatdbg.cpp" bodystart="86" bodyend="89"/>
+        <location file="Whatdbg.h" line="58" column="10" bodyfile="Whatdbg.cpp" bodystart="61" bodyend="64"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -433,14 +361,33 @@
           <declname>property</declname>
         </param>
         <briefdescription>
+<para>Calls the handler that registerEvents added for the changed property, when one exists. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tree</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value tree of the changed property. The handler receives it. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>property</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The changed property. Its identifier selects the handler. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="82" column="10" bodyfile="Whatdbg.cpp" bodystart="91" bodyend="95"/>
+        <location file="Whatdbg.h" line="66" column="10" bodyfile="Whatdbg.cpp" bodystart="66" bodyend="70"/>
         <references refid="classjam_1_1HashMap_1a62292e586b9c399c8013b9a18a5b11c8">jam::HashMap&lt; typename Key, typename Mapped, typename HashFn, typename KeyEqual, typename AllocatorOrContainer, typename Bucket, typename BucketContainer, bool IsSegmented &gt;::contains</references>
-        <references refid="class_whatdbg_1a29031ba4eb223a6dfa564e9f940c669c" compoundref="_whatdbg_8h" startline="94">events</references>
+        <references refid="class_whatdbg_1a29031ba4eb223a6dfa564e9f940c669c" compoundref="_whatdbg_8h" startline="76">events</references>
         <references refid="structjam_1_1Function_1_1Map_1af9fdde9da6fe4521cb50e87d02c974be">jam::Function::Map&lt; typename KeyType, size_t capacity, typename... Signatures &gt;::get</references>
       </memberdef>
       <memberdef kind="function" id="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -455,33 +402,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="Whatdbg.h" line="84" column="10" bodyfile="Whatdbg.cpp" bodystart="97" bodyend="112"/>
+        <location file="Whatdbg.h" line="68" column="10" bodyfile="Whatdbg.cpp" bodystart="72" bodyend="82"/>
         <references refid="namespaceId_1ae1bef48aa181015cc6694a397c942583" compoundref="_generated_8cpp" startline="26" endline="26">Id::adapterExitCode</references>
         <references refid="structjam_1_1Function_1_1Map_1ad53732bb862659c66b8112c75f437248">jam::Function::Map&lt; typename KeyType, size_t capacity, typename... Signatures &gt;::add</references>
-        <references refid="class_processor_1aabd2ac7253b02508ae382f78412b8f23" compoundref="_processor_8h" startline="52" endline="55">Processor::applyMessages</references>
-        <references refid="class_whatdbg_1a29031ba4eb223a6dfa564e9f940c669c" compoundref="_whatdbg_8h" startline="94">events</references>
+        <references refid="class_whatdbg_1a29031ba4eb223a6dfa564e9f940c669c" compoundref="_whatdbg_8h" startline="76">events</references>
         <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
         <references refid="classjuce_1_1ValueTree_1ab584e972c5f8e597f545e6321a895d06">juce::ValueTree::getProperty</references>
         <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
         <references refid="namespaceId_1ad5a972b9551c4ba5c5c15a733ec48d69" compoundref="_generated_8cpp" startline="77" endline="77">Id::isRunning</references>
-        <references refid="class_whatdbg_1ab36938a78f24cd1f670d70bd76f18273" compoundref="_whatdbg_8h" startline="86">model</references>
-        <references refid="namespaceId_1abd823c98b322d39f2bd65d34d8be1513" compoundref="_generated_8cpp" startline="86" endline="86">Id::numMessages</references>
-        <references refid="class_whatdbg_1aa4bc72ff3073566ee8559b68935c9649" compoundref="_whatdbg_8h" startline="88">processor</references>
+        <references refid="class_whatdbg_1ab36938a78f24cd1f670d70bd76f18273" compoundref="_whatdbg_8h" startline="71">model</references>
         <references refid="classjuce_1_1JUCEApplicationBase_1ae2ba9b90c02361717d997aa26861f2c4">juce::JUCEApplicationBase::quit</references>
         <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
         <references refid="classjuce_1_1JUCEApplicationBase_1aa718d56bbc1c7d7271aedbc378eeaffe">juce::JUCEApplicationBase::setApplicationReturnValue</references>
-        <references refid="classdap_1_1_writer_1aa072c95d59fd7da80c237372916cfd02" compoundref="_writer_8cpp" startline="23" endline="30">dap::Writer::writeMessage</references>
-        <references refid="class_whatdbg_1a6161a21c3424b62032aa98898e653fcf" compoundref="_whatdbg_8h" startline="90">writer</references>
-        <referencedby refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" compoundref="_whatdbg_8cpp" startline="12" endline="33">Whatdbg</referencedby>
+        <referencedby refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" compoundref="_whatdbg_8cpp" startline="3" endline="13">Whatdbg</referencedby>
       </memberdef>
     </sectiondef>
     <briefdescription>
-<para>Application object of the adapter. </para>
     </briefdescription>
     <detaileddescription>
-<para>Runs on the JUCE message thread.</para>
-<para>Owns the model, the engine context (<ref refid="class_processor" kindref="compound">Processor</ref>), the stdout writer, and the stdin reader. The message thread writes stdout and makes no engine call. <ref refid="class_processor" kindref="compound">Processor</ref> owns the engine context. The reader thread calls <ref refid="class_processor_1aec3293e8c29b96cb2527f487286ad0b4" kindref="member">Processor::addRequest</ref> through onMessage.</para>
-<para>Members are destroyed in reverse declaration order, so the reader is destroyed before the processor. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">
@@ -510,36 +448,35 @@
         <childnode refid="4" relation="usage">
           <edgelabel>model</edgelabel>
         </childnode>
-        <childnode refid="23" relation="usage">
+        <childnode refid="20" relation="usage">
           <edgelabel>session</edgelabel>
         </childnode>
-        <childnode refid="29" relation="usage">
+        <childnode refid="30" relation="usage">
           <edgelabel>breakpointManager</edgelabel>
         </childnode>
-        <childnode refid="33" relation="usage">
+        <childnode refid="34" relation="usage">
           <edgelabel>variableManager</edgelabel>
         </childnode>
-        <childnode refid="38" relation="usage">
+        <childnode refid="39" relation="usage">
           <edgelabel>stopManager</edgelabel>
         </childnode>
-        <childnode refid="40" relation="usage">
-          <edgelabel>pendingRequests</edgelabel>
-          <edgelabel>requests</edgelabel>
-        </childnode>
-        <childnode refid="56" relation="usage">
+        <childnode refid="41" relation="usage">
           <edgelabel>deferrals</edgelabel>
         </childnode>
-        <childnode refid="57" relation="usage">
-          <edgelabel>messages</edgelabel>
+        <childnode refid="42" relation="usage">
+          <edgelabel>requests</edgelabel>
         </childnode>
-        <childnode refid="59" relation="usage">
+        <childnode refid="44" relation="usage">
           <edgelabel>commands</edgelabel>
         </childnode>
-        <childnode refid="60" relation="usage">
+        <childnode refid="45" relation="usage">
           <edgelabel>cancellations</edgelabel>
         </childnode>
-        <childnode refid="32" relation="usage">
+        <childnode refid="33" relation="usage">
           <edgelabel>targetProgram</edgelabel>
+        </childnode>
+        <childnode refid="46" relation="usage">
+          <edgelabel>stdio</edgelabel>
         </childnode>
       </node>
       <node id="4">
@@ -567,112 +504,81 @@
         <childnode refid="16" relation="usage">
           <edgelabel>processor</edgelabel>
         </childnode>
-        <childnode refid="61" relation="usage">
-          <edgelabel>writer</edgelabel>
-        </childnode>
-        <childnode refid="62" relation="usage">
-          <edgelabel>reader</edgelabel>
-        </childnode>
-        <childnode refid="64" relation="usage">
+        <childnode refid="47" relation="usage">
           <edgelabel>events</edgelabel>
         </childnode>
-        <childnode refid="65" relation="usage">
+        <childnode refid="48" relation="usage">
           <edgelabel>isRunningAttachment</edgelabel>
-          <edgelabel>numMessagesAttachment</edgelabel>
         </childnode>
       </node>
-      <node id="40">
-        <label>dap::FIFO&lt; jam::JsonDocument &gt;</label>
-        <link refid="classdap_1_1_f_i_f_o"/>
-        <childnode refid="41" relation="usage">
-          <edgelabel>fifo</edgelabel>
-        </childnode>
-        <childnode refid="42" relation="usage">
-          <edgelabel>storage</edgelabel>
-        </childnode>
-      </node>
-      <node id="57">
-        <label>dap::FIFO&lt; std::string &gt;</label>
-        <link refid="classdap_1_1_f_i_f_o"/>
-        <childnode refid="41" relation="usage">
-          <edgelabel>fifo</edgelabel>
-        </childnode>
-        <childnode refid="58" relation="usage">
-          <edgelabel>storage</edgelabel>
-        </childnode>
-      </node>
-      <node id="62">
-        <label>dap::Reader</label>
-        <link refid="classdap_1_1_reader"/>
-        <childnode refid="63" relation="private-inheritance">
-        </childnode>
-      </node>
-      <node id="61">
-        <label>dap::Writer</label>
-        <link refid="classdap_1_1_writer"/>
-      </node>
-      <node id="31">
+      <node id="32">
         <label>debug::BreakpointInfo</label>
         <link refid="structdebug_1_1_breakpoint_info"/>
-        <childnode refid="32" relation="usage">
+        <childnode refid="33" relation="usage">
           <edgelabel>sourcePath</edgelabel>
         </childnode>
       </node>
-      <node id="29">
+      <node id="30">
         <label>debug::BreakpointManager</label>
         <link refid="classdebug_1_1_breakpoint_manager"/>
-        <childnode refid="23" relation="usage">
+        <childnode refid="20" relation="usage">
           <edgelabel>session</edgelabel>
         </childnode>
-        <childnode refid="30" relation="usage">
+        <childnode refid="31" relation="usage">
           <edgelabel>breakpoints</edgelabel>
         </childnode>
       </node>
-      <node id="23">
+      <node id="20">
         <label>debug::Session</label>
         <link refid="classdebug_1_1_session"/>
-        <childnode refid="24" relation="usage">
+        <childnode refid="21" relation="usage">
           <edgelabel>events</edgelabel>
         </childnode>
-        <childnode refid="26" relation="usage">
-          <edgelabel>launcherOutput</edgelabel>
-        </childnode>
-        <childnode refid="28" relation="usage">
-          <edgelabel>commFile</edgelabel>
-        </childnode>
-      </node>
-      <node id="38">
-        <label>debug::StopManager</label>
-        <link refid="classdebug_1_1_stop_manager"/>
-        <childnode refid="39" relation="usage">
-          <edgelabel>stops</edgelabel>
-        </childnode>
-        <childnode refid="32" relation="usage">
-          <edgelabel>lastLoadedImageName</edgelabel>
-        </childnode>
         <childnode refid="23" relation="usage">
-          <edgelabel>session</edgelabel>
+          <edgelabel>launcherOutput</edgelabel>
+          <edgelabel>standardError</edgelabel>
+        </childnode>
+        <childnode refid="24" relation="usage">
+          <edgelabel>launcherBytes</edgelabel>
+          <edgelabel>standardErrorBytes</edgelabel>
         </childnode>
         <childnode refid="29" relation="usage">
-          <edgelabel>breakpointManager</edgelabel>
+          <edgelabel>commFile</edgelabel>
+          <edgelabel>standardErrorFile</edgelabel>
+        </childnode>
+      </node>
+      <node id="39">
+        <label>debug::StopManager</label>
+        <link refid="classdebug_1_1_stop_manager"/>
+        <childnode refid="40" relation="usage">
+          <edgelabel>stops</edgelabel>
         </childnode>
         <childnode refid="33" relation="usage">
+          <edgelabel>lastLoadedImageName</edgelabel>
+        </childnode>
+        <childnode refid="20" relation="usage">
+          <edgelabel>session</edgelabel>
+        </childnode>
+        <childnode refid="30" relation="usage">
+          <edgelabel>breakpointManager</edgelabel>
+        </childnode>
+        <childnode refid="34" relation="usage">
           <edgelabel>variableManager</edgelabel>
         </childnode>
         <childnode refid="4" relation="usage">
           <edgelabel>model</edgelabel>
         </childnode>
       </node>
-      <node id="33">
+      <node id="34">
         <label>debug::VariableManager</label>
         <link refid="classdebug_1_1_variable_manager"/>
-        <childnode refid="23" relation="usage">
+        <childnode refid="20" relation="usage">
           <edgelabel>session</edgelabel>
         </childnode>
-        <childnode refid="34" relation="usage">
+        <childnode refid="35" relation="usage">
           <edgelabel>variablesRefMap</edgelabel>
         </childnode>
-        <childnode refid="36" relation="usage">
+        <childnode refid="37" relation="usage">
           <edgelabel>frameIdMap</edgelabel>
         </childnode>
       </node>
@@ -688,34 +594,10 @@
           <edgelabel>types</edgelabel>
         </childnode>
       </node>
-      <node id="55">
-        <label>jam::Array&lt; jam::Document::Element * &gt;</label>
-        <link refid="classjam_1_1Array" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
-        <childnode refid="8" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="51">
-        <label>jam::Array&lt; jam::Document::Property&lt; Value &gt; &gt;</label>
-        <link refid="classjam_1_1Array" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
-        <childnode refid="8" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="46">
-        <label>jam::Array&lt; std::unique_ptr&lt; ObjectClass &gt; &gt;</label>
-        <link refid="classjam_1_1Array" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
-        <childnode refid="8" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="49">
-        <label>jam::Array&lt; uint32_t &gt;</label>
-        <link refid="classjam_1_1Array" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
-        <childnode refid="8" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="26">
+      <node id="23">
         <label>jam::AsyncOutputStream</label>
         <link refid="classjam_1_1AsyncOutputStream" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
-        <childnode refid="27" relation="usage">
+        <childnode refid="19" relation="usage">
           <edgelabel>native</edgelabel>
         </childnode>
       </node>
@@ -726,82 +608,40 @@
           <edgelabel>shouldDeliver</edgelabel>
         </childnode>
         <childnode refid="19" relation="usage">
-          <edgelabel>queue</edgelabel>
+          <edgelabel>native</edgelabel>
         </childnode>
-        <childnode refid="20" relation="usage">
-          <edgelabel>source</edgelabel>
+      </node>
+      <node id="40">
+        <label>jam::Function::Map&lt; StopReason, jam::Function::pointerCapacity, jam::Strings(const juce::String &amp;)&gt;</label>
+        <link refid="structjam_1_1Function_1_1Map" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="22" relation="public-inheritance">
         </childnode>
-        <childnode refid="21" relation="usage">
-          <edgelabel>pool</edgelabel>
+      </node>
+      <node id="21">
+        <label>jam::Function::Map&lt; juce::Identifier, jam::Function::pointerCapacity, void(), void(int), void(int, int), void(juce::int64, juce::int64, int), void(const juce::String &amp;), void(std::string_view)&gt;</label>
+        <link refid="structjam_1_1Function_1_1Map" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="22" relation="public-inheritance">
         </childnode>
-        <childnode refid="22" relation="usage">
-          <edgelabel>work</edgelabel>
+      </node>
+      <node id="47">
+        <label>jam::Function::Map&lt; juce::Identifier, jam::Function::pointerCapacity, void(const juce::ValueTree &amp;)&gt;</label>
+        <link refid="structjam_1_1Function_1_1Map" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="22" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>jam::Function::Map&lt; juce::String, jam::Function::pointerCapacity, void()&gt;</label>
+        <link refid="structjam_1_1Function_1_1Map" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="22" relation="public-inheritance">
         </childnode>
       </node>
       <node id="44">
-        <label>jam::Document</label>
-        <link refid="structjam_1_1Document" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
-        <childnode refid="45" relation="usage">
-          <edgelabel>elements</edgelabel>
-        </childnode>
-        <childnode refid="47" relation="usage">
-          <edgelabel>source</edgelabel>
-        </childnode>
-        <childnode refid="49" relation="usage">
-          <edgelabel>lineOffsets</edgelabel>
-        </childnode>
-        <childnode refid="50" relation="usage">
-          <edgelabel>root</edgelabel>
-        </childnode>
-      </node>
-      <node id="50">
-        <label>jam::Document::Element</label>
-        <link refid="structjam_1_1Document_1_1Element" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
-        <childnode refid="15" relation="usage">
-          <edgelabel>id</edgelabel>
-        </childnode>
-        <childnode refid="50" relation="usage">
-          <edgelabel>firstChild</edgelabel>
-          <edgelabel>lastChild</edgelabel>
-          <edgelabel>nextSibling</edgelabel>
-          <edgelabel>parent</edgelabel>
-          <edgelabel>previousSibling</edgelabel>
-        </childnode>
-        <childnode refid="51" relation="usage">
-          <edgelabel>properties</edgelabel>
-        </childnode>
-      </node>
-      <node id="39">
-        <label>jam::Function::Map&lt; StopReason, jam::Function::pointerCapacity, jam::Strings(const juce::String &amp;)&gt;</label>
-        <link refid="structjam_1_1Function_1_1Map" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
-        <childnode refid="25" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="24">
-        <label>jam::Function::Map&lt; juce::Identifier, jam::Function::pointerCapacity, void(), void(int), void(int, int), void(juce::int64, juce::int64, int), void(const juce::String &amp;), void(std::string_view)&gt;</label>
-        <link refid="structjam_1_1Function_1_1Map" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
-        <childnode refid="25" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="64">
-        <label>jam::Function::Map&lt; juce::Identifier, jam::Function::pointerCapacity, void(const juce::ValueTree &amp;)&gt;</label>
-        <link refid="structjam_1_1Function_1_1Map" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
-        <childnode refid="25" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="60">
-        <label>jam::Function::Map&lt; juce::String, jam::Function::pointerCapacity, void()&gt;</label>
-        <link refid="structjam_1_1Function_1_1Map" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
-        <childnode refid="25" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="59">
         <label>jam::Function::Map&lt; juce::String, jam::Function::pointerCapacity, void(const jam::JsonDocument &amp;)&gt;</label>
         <link refid="structjam_1_1Function_1_1Map" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
-        <childnode refid="25" relation="public-inheritance">
+        <childnode refid="22" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="25">
+      <node id="22">
         <label>jam::HashMap&lt; KeyType, std::variant&lt; Overload&lt; KeyType, capacity, Signatures &gt;::Slot... &gt; &gt;</label>
         <link refid="classjam_1_1HashMap" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
       </node>
@@ -821,27 +661,11 @@
         <label>jam::Instance&lt; WHATDBGModel &gt;</label>
         <link refid="structjam_1_1Instance" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
       </node>
-      <node id="43">
-        <label>jam::JsonDocument</label>
-        <link refid="structjam_1_1JsonDocument" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
-        <childnode refid="44" relation="public-inheritance">
-        </childnode>
-        <childnode refid="52" relation="usage">
-          <edgelabel>escapes</edgelabel>
-          <edgelabel>starts</edgelabel>
-        </childnode>
-        <childnode refid="55" relation="usage">
-          <edgelabel>containers</edgelabel>
-        </childnode>
-      </node>
-      <node id="52">
-        <label>jam::LookupTable&lt; int, int, 256 &gt;</label>
-        <link refid="structjam_1_1LookupTable" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
-        <childnode refid="53" relation="usage">
-          <edgelabel>defaultValue</edgelabel>
-        </childnode>
-        <childnode refid="54" relation="usage">
-          <edgelabel>slots</edgelabel>
+      <node id="42">
+        <label>jam::Mailbox&lt; jam::JsonDocument &gt;</label>
+        <link refid="classjam_1_1Mailbox" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="43" relation="usage">
+          <edgelabel>slot</edgelabel>
         </childnode>
       </node>
       <node id="5">
@@ -864,65 +688,83 @@
           <edgelabel>adapters</edgelabel>
         </childnode>
       </node>
-      <node id="66">
+      <node id="49">
         <label>jam::Model::ParameterAttachment</label>
         <link refid="classjam_1_1Model_1_1ParameterAttachment" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
-        <childnode refid="67" relation="private-inheritance">
+        <childnode refid="50" relation="private-inheritance">
         </childnode>
-        <childnode refid="68" relation="private-inheritance">
+        <childnode refid="51" relation="private-inheritance">
         </childnode>
-        <childnode refid="69" relation="usage">
+        <childnode refid="52" relation="usage">
           <edgelabel>parameter</edgelabel>
         </childnode>
-        <childnode refid="72" relation="usage">
+        <childnode refid="55" relation="usage">
           <edgelabel>lastValue</edgelabel>
         </childnode>
       </node>
-      <node id="45">
-        <label>jam::Owner&lt; jam::Document::Element &gt;</label>
-        <link refid="classjam_1_1Owner" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
-        <childnode refid="46" relation="usage">
-          <edgelabel>entries</edgelabel>
-        </childnode>
-      </node>
-      <node id="69">
+      <node id="52">
         <label>jam::ParameterBase</label>
         <link refid="structjam_1_1ParameterBase" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
         <childnode refid="15" relation="usage">
           <edgelabel>id</edgelabel>
           <edgelabel>propertyId</edgelabel>
         </childnode>
-        <childnode refid="70" relation="usage">
+        <childnode refid="53" relation="usage">
           <edgelabel>needsUpdate</edgelabel>
         </childnode>
         <childnode refid="12" relation="usage">
           <edgelabel>listenerLock</edgelabel>
         </childnode>
-        <childnode refid="71" relation="usage">
+        <childnode refid="54" relation="usage">
           <edgelabel>listeners</edgelabel>
         </childnode>
       </node>
-      <node id="67">
+      <node id="50">
         <label>jam::ParameterBase::Listener</label>
         <link refid="structjam_1_1ParameterBase_1_1Listener" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
       </node>
-      <node id="53">
-        <label>jam::Value</label>
-        <link refid="structjam_1_1Value" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
+      <node id="46">
+        <label>jam::StdioServer</label>
+        <link refid="classjam_1_1StdioServer" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="25" relation="public-inheritance">
+        </childnode>
+        <childnode refid="24" relation="usage">
+          <edgelabel>input</edgelabel>
+          <edgelabel>output</edgelabel>
+        </childnode>
+        <childnode refid="23" relation="usage">
+          <edgelabel>reader</edgelabel>
+        </childnode>
       </node>
-      <node id="41">
+      <node id="24">
+        <label>jam::TerminalFIFO</label>
+        <link refid="classjam_1_1TerminalFIFO" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="25" relation="public-inheritance">
+        </childnode>
+        <childnode refid="26" relation="usage">
+          <edgelabel>fifo</edgelabel>
+        </childnode>
+        <childnode refid="27" relation="usage">
+          <edgelabel>native</edgelabel>
+        </childnode>
+      </node>
+      <node id="28">
+        <label>jam::TerminalFIFO::Native</label>
+        <link refid="structjam_1_1TerminalFIFO_1_1Native" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="26">
         <label>juce::AbstractFifo</label>
         <link refid="classjuce_1_1AbstractFifo" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
-      <node id="71">
+      <node id="54">
         <label>juce::Array&lt; jam::ParameterBase::Listener * &gt;</label>
         <link refid="classjuce_1_1Array" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
-      <node id="56">
+      <node id="41">
         <label>juce::Array&lt; juce::Identifier &gt;</label>
         <link refid="classjuce_1_1Array" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
-      <node id="68">
+      <node id="51">
         <label>juce::AsyncUpdater</label>
         <link refid="classjuce_1_1AsyncUpdater" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
@@ -934,7 +776,7 @@
         <label>juce::DummyCriticalSection</label>
         <link refid="classjuce_1_1DummyCriticalSection" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
-      <node id="28">
+      <node id="29">
         <label>juce::File</label>
         <link refid="classjuce_1_1File" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
@@ -949,13 +791,13 @@
         <label>juce::JUCEApplicationBase</label>
         <link refid="classjuce_1_1JUCEApplicationBase" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
-      <node id="32">
+      <node id="25">
+        <label>juce::OutputStream</label>
+        <link refid="classjuce_1_1OutputStream" external="D:/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="33">
         <label>juce::String</label>
         <link refid="classjuce_1_1String" external="D:/Poems/JUCE/docs/tagfile.xml"/>
-      </node>
-      <node id="63">
-        <label>juce::Thread</label>
-        <link refid="classjuce_1_1Thread" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
       <node id="6">
         <label>juce::Timer</label>
@@ -969,89 +811,60 @@
         <label>juce::ValueTree::Listener</label>
         <link refid="classjuce_1_1ValueTree_1_1Listener" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
-      <node id="72">
+      <node id="55">
         <label>juce::var</label>
         <link refid="classjuce_1_1var" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
-      <node id="54">
-        <label>std::array&lt; jam::Value, static_cast&lt; size_t &gt;(Capacity)&gt;</label>
-        <childnode refid="53" relation="usage">
-          <edgelabel>elements</edgelabel>
-        </childnode>
+      <node id="43">
+        <label>std::atomic&lt; SnapshotType * &gt;</label>
       </node>
-      <node id="70">
+      <node id="53">
         <label>std::atomic&lt; bool &gt;</label>
       </node>
       <node id="18">
         <label>std::atomic&lt; int &gt;</label>
       </node>
-      <node id="48">
-        <label>std::basic_string&lt; Char &gt;</label>
-      </node>
-      <node id="35">
+      <node id="36">
         <label>std::pair&lt; int, int &gt;</label>
       </node>
-      <node id="37">
+      <node id="38">
         <label>std::pair&lt; std::uint32_t, int &gt;</label>
       </node>
-      <node id="47">
-        <label>std::string</label>
-        <childnode refid="48" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="27">
+      <node id="19">
         <label>std::unique_ptr&lt; Native &gt;</label>
       </node>
-      <node id="65">
+      <node id="48">
         <label>std::unique_ptr&lt; jam::Model::ParameterAttachment &gt;</label>
-        <childnode refid="66" relation="usage">
+        <childnode refid="49" relation="usage">
           <edgelabel>ptr</edgelabel>
         </childnode>
       </node>
-      <node id="21">
-        <label>std::unique_ptr&lt; std::remove_pointer_t&lt; PTP_POOL &gt;, decltype(&amp;CloseThreadpool)&gt;</label>
+      <node id="27">
+        <label>std::unique_ptr&lt; jam::TerminalFIFO::Native &gt;</label>
+        <childnode refid="28" relation="usage">
+          <edgelabel>ptr</edgelabel>
+        </childnode>
       </node>
-      <node id="22">
-        <label>std::unique_ptr&lt; std::remove_pointer_t&lt; PTP_WORK &gt;, decltype(&amp;CloseThreadpoolWork)&gt;</label>
-      </node>
-      <node id="19">
-        <label>std::unique_ptr&lt; std::remove_pointer_t&lt; dispatch_queue_t &gt;, decltype(&amp;dispatch_release)&gt;</label>
-      </node>
-      <node id="20">
-        <label>std::unique_ptr&lt; std::remove_pointer_t&lt; dispatch_source_t &gt;, decltype(&amp;dispatch_release)&gt;</label>
-      </node>
-      <node id="34">
+      <node id="35">
         <label>std::unordered_map&lt; int, std::pair&lt; int, int &gt; &gt;</label>
-        <childnode refid="35" relation="usage">
+        <childnode refid="36" relation="usage">
           <edgelabel>elements</edgelabel>
         </childnode>
       </node>
-      <node id="36">
+      <node id="37">
         <label>std::unordered_map&lt; int, std::pair&lt; std::uint32_t, int &gt; &gt;</label>
-        <childnode refid="37" relation="usage">
+        <childnode refid="38" relation="usage">
           <edgelabel>elements</edgelabel>
         </childnode>
       </node>
-      <node id="30">
+      <node id="31">
         <label>std::unordered_map&lt; std::uint16_t, debug::BreakpointInfo &gt;</label>
-        <childnode refid="31" relation="usage">
-          <edgelabel>elements</edgelabel>
-        </childnode>
-      </node>
-      <node id="42">
-        <label>std::vector&lt; jam::JsonDocument &gt;</label>
-        <childnode refid="43" relation="usage">
-          <edgelabel>elements</edgelabel>
-        </childnode>
-      </node>
-      <node id="58">
-        <label>std::vector&lt; std::string &gt;</label>
-        <childnode refid="47" relation="usage">
+        <childnode refid="32" relation="usage">
           <edgelabel>elements</edgelabel>
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="Whatdbg.h" line="17" column="1" bodyfile="Whatdbg.h" bodystart="19" bodyend="101"/>
+    <location file="Whatdbg.h" line="6" column="1" bodyfile="Whatdbg.h" bodystart="8" bodyend="82"/>
     <listofallmembers>
       <member refid="class_whatdbg_1abfbf0e8be70b1d12e853465a0d577f8f" prot="public" virt="virtual"><scope>Whatdbg</scope><name>anotherInstanceStarted</name></member>
       <member refid="classjuce_1_1JUCEApplicationBase_1ac535f3e5c5a6c783efed6e8e86b341f8" prot="public" virt="virtual"><scope>Whatdbg</scope><name>backButtonPressed</name></member>
@@ -1070,10 +883,8 @@
       <member refid="classjuce_1_1JUCEApplicationBase_1a605565242eccd51d45d6bc3e6097dc9c" prot="public" virt="virtual"><scope>Whatdbg</scope><name>memoryWarningReceived</name></member>
       <member refid="class_whatdbg_1ab36938a78f24cd1f670d70bd76f18273" prot="private" virt="non-virtual"><scope>Whatdbg</scope><name>model</name></member>
       <member refid="class_whatdbg_1a734f8e782ff7278629baef3319066682" prot="public" virt="virtual"><scope>Whatdbg</scope><name>moreThanOneInstanceAllowed</name></member>
-      <member refid="class_whatdbg_1a43a30e0525fb1c99d61da4cbf1027cc9" prot="private" virt="non-virtual"><scope>Whatdbg</scope><name>numMessagesAttachment</name></member>
       <member refid="class_whatdbg_1aa4bc72ff3073566ee8559b68935c9649" prot="private" virt="non-virtual"><scope>Whatdbg</scope><name>processor</name></member>
       <member refid="classjuce_1_1JUCEApplicationBase_1ae2ba9b90c02361717d997aa26861f2c4" prot="public" virt="non-virtual"><scope>Whatdbg</scope><name>quit</name></member>
-      <member refid="class_whatdbg_1a90447541f7bbae978b1d889eadfac2dc" prot="private" virt="non-virtual"><scope>Whatdbg</scope><name>reader</name></member>
       <member refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" prot="private" virt="non-virtual"><scope>Whatdbg</scope><name>registerEvents</name></member>
       <member refid="class_whatdbg_1afd58c6c556edc63bcda7406884e4deda" prot="public" virt="virtual"><scope>Whatdbg</scope><name>resumed</name></member>
       <member refid="classjuce_1_1JUCEApplicationBase_1aa718d56bbc1c7d7271aedbc378eeaffe" prot="public" virt="non-virtual"><scope>Whatdbg</scope><name>setApplicationReturnValue</name></member>
@@ -1088,7 +899,6 @@
       <member refid="class_whatdbg_1a8a13695fc4232cd076089383a4d2ca5c" prot="private" virt="virtual"><scope>Whatdbg</scope><name>valueTreePropertyChanged</name></member>
       <member refid="classjuce_1_1ValueTree_1_1Listener_1aa46de90c3746a395792a632219e404f2" prot="private" virt="virtual"><scope>Whatdbg</scope><name>valueTreeRedirected</name></member>
       <member refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" prot="public" virt="non-virtual"><scope>Whatdbg</scope><name>Whatdbg</name></member>
-      <member refid="class_whatdbg_1a6161a21c3424b62032aa98898e653fcf" prot="private" virt="non-virtual"><scope>Whatdbg</scope><name>writer</name></member>
       <member refid="classjuce_1_1JUCEApplicationBase_1a37106bc3cb38f2385f0c2dc0bffcd674" prot="public" virt="virtual"><scope>Whatdbg</scope><name>~JUCEApplicationBase</name></member>
       <member refid="classjuce_1_1ValueTree_1_1Listener_1ab78745617b47f3b12726c0de220e8d9b" prot="private" virt="virtual"><scope>Whatdbg</scope><name>~Listener</name></member>
       <member refid="class_whatdbg_1a68628d77ef7d84412d44801d9628d792" prot="public" virt="non-virtual"><scope>Whatdbg</scope><name>~Whatdbg</name></member>

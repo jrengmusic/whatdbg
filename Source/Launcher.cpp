@@ -17,6 +17,11 @@ Launcher::Launcher (const juce::String& newCommFile, const juce::StringArray& ne
     : commFile (newCommFile), launchTarget (newLaunchTarget)
 {
 #if JUCE_WINDOWS
+    jassert (not launchTarget.isEmpty ());
+
+    auto& program { launchTarget.getReference (0) };
+    program = juce::File::getCurrentWorkingDirectory ().getChildFile (program).getFullPathName ();
+
     for (auto& element : launchTarget)
         if (element.containsChar (' ') and not element.startsWithChar ('"'))
             element = element.quoted ();

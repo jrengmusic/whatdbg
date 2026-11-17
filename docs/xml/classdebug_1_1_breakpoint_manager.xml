@@ -171,7 +171,7 @@
         <references refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="209" endline="235">onSetBreakpoints</references>
         <references refid="classdebug_1_1_breakpoint_manager_1a17b4dc2b534dafca568e5cd8b607284c" compoundref="_breakpoint_manager_8cpp" startline="109" endline="138">removeOrphanedBreakpoints</references>
         <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="209" endline="235">onSetBreakpoints</referencedby>
-        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="561" endline="589">Processor::onSetBreakpoints</referencedby>
+        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="584" endline="612">Processor::onSetBreakpoints</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classjam_1_1Strings" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
@@ -237,7 +237,7 @@
         <references refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" compoundref="_breakpoint_manager_8h" startline="194">session</references>
         <referencedby refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" compoundref="_stop_manager_8cpp" startline="123" endline="137">debug::StopManager::drainStepCompleted</referencedby>
         <referencedby refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" compoundref="_breakpoint_manager_8cpp" startline="250" endline="261">onReload</referencedby>
-        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="561" endline="589">Processor::onSetBreakpoints</referencedby>
+        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="584" endline="612">Processor::onSetBreakpoints</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="197" endline="227">debug::StopManager::resumeAfterInitialBreak</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_breakpoint_manager_1abdcf6c332786965d57904ca771da4b1b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
@@ -344,7 +344,7 @@
         <references refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" compoundref="_breakpoint_manager_8h" startline="197">breakpoints</references>
         <references refid="classdebug_1_1_breakpoint_manager_1a9525971c019e19a407a92e985ad46325" compoundref="_breakpoint_manager_8cpp" startline="79" endline="102">onBreakpointLocationFound</references>
         <referencedby refid="classdebug_1_1_breakpoint_manager_1a9525971c019e19a407a92e985ad46325" compoundref="_breakpoint_manager_8cpp" startline="79" endline="102">onBreakpointLocationFound</referencedby>
-        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="152" endline="180">Processor::registerEvents</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="176" endline="204">Processor::registerEvents</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -624,20 +624,20 @@
         <inbodydescription>
         </inbodydescription>
         <location file="debug/BreakpointManager.h" line="189" column="10" bodyfile="debug/BreakpointManager.cpp" bodystart="163" bodyend="191"/>
-        <references refid="structjam_1_1JsonWriter_1a6a110b64d6eacd0c9ef356b561c6ccf6">jam::JsonWriter::appendBoolean</references>
+        <references refid="structjam_1_1JsonWriter_1aab594580c2d8d9cab7b256c5800e29aa">jam::JsonWriter::appendBoolean</references>
         <references refid="classdebug_1_1_breakpoint_manager_1a5f2aae3ed3cf48d9827df97ea3fc1661" compoundref="_breakpoint_manager_8cpp" startline="163" endline="191">appendBreakpoint</references>
-        <references refid="structjam_1_1Format_1a331fe8c5c824937852d7a87bd6c667c9">jam::Format::appendDecimal</references>
-        <references refid="structjam_1_1JsonWriter_1af8e95b99b0d62f65b3d2885e19eaba93">jam::JsonWriter::appendKey</references>
-        <references refid="structjam_1_1JsonWriter_1a3919b829ea01c2872b22e97c708f8333">jam::JsonWriter::appendObject</references>
-        <references refid="structjam_1_1JsonWriter_1acf8da4810f6b5cb1ee80660149a2db25">jam::JsonWriter::appendSeparator</references>
-        <references refid="structjam_1_1JsonWriter_1a41ee48bba1971acba117f12c2d9d7764">jam::JsonWriter::appendString</references>
+        <references refid="structjam_1_1Format_1a6588bb82effb3fb3138073257057463f">jam::Format::appendDecimal</references>
+        <references refid="structjam_1_1JsonWriter_1a3dd6115b3b48e6a722a2c5bcae0cd70e">jam::JsonWriter::appendKey</references>
+        <references refid="structjam_1_1JsonWriter_1af7e36be58d2d47daf877904d7c6d77e1">jam::JsonWriter::appendObject</references>
+        <references refid="structjam_1_1JsonWriter_1a938044cd32b406999b22e51819ee102d">jam::JsonWriter::appendSeparator</references>
+        <references refid="structjam_1_1JsonWriter_1ae7b63750554be1dd1d7bdec0545d14ec">jam::JsonWriter::appendString</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
         <references refid="namespaceId_1a3f6204ca8d39b2591e10dc6cf112e0fc">Id::id</references>
         <references refid="namespaceId_1a9acf3e231e632c1b02ad3a0d4c0fc008">Id::line</references>
         <references refid="namespaceId_1a0e0b9ef1fb687c4c7c73d2bd7213ac01">Id::message</references>
         <references refid="namespaceId_1ac0d6bb21fb6eb483624e52f9002294ab">Id::path</references>
-        <references refid="namespaceId_1a0373df11a0741f497b13b791d42c06e9" compoundref="_identifiers_8h" startline="112">Id::source</references>
-        <references refid="namespaceId_1a7fa0c881c6a81271d5354c60266306eb" compoundref="_generated_8cpp" startline="166" endline="166">Id::verified</references>
+        <references refid="namespaceId_1a0373df11a0741f497b13b791d42c06e9" compoundref="_identifiers_8h" startline="111">Id::source</references>
+        <references refid="namespaceId_1a7fa0c881c6a81271d5354c60266306eb" compoundref="_generated_8cpp" startline="165" endline="165">Id::verified</references>
         <referencedby refid="classdebug_1_1_breakpoint_manager_1a5f2aae3ed3cf48d9827df97ea3fc1661" compoundref="_breakpoint_manager_8cpp" startline="163" endline="191">appendBreakpoint</referencedby>
         <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="209" endline="235">onSetBreakpoints</referencedby>
       </memberdef>
@@ -656,10 +656,10 @@
 <para>The manager holds a reference to <ref refid="classdebug_1_1_session" kindref="compound">Session</ref> (does not own it). <ref refid="classdebug_1_1_session" kindref="compound">Session</ref> must outlive <ref refid="classdebug_1_1_breakpoint_manager" kindref="compound">BreakpointManager</ref>. </para>
     </detaileddescription>
     <collaborationgraph>
-      <node id="9">
+      <node id="14">
         <label>debug::BreakpointInfo</label>
         <link refid="structdebug_1_1_breakpoint_info"/>
-        <childnode refid="10" relation="usage">
+        <childnode refid="15" relation="usage">
           <edgelabel>sourcePath</edgelabel>
         </childnode>
       </node>
@@ -669,7 +669,7 @@
         <childnode refid="2" relation="usage">
           <edgelabel>session</edgelabel>
         </childnode>
-        <childnode refid="8" relation="usage">
+        <childnode refid="13" relation="usage">
           <edgelabel>breakpoints</edgelabel>
         </childnode>
       </node>
@@ -681,9 +681,15 @@
         </childnode>
         <childnode refid="5" relation="usage">
           <edgelabel>launcherOutput</edgelabel>
+          <edgelabel>standardError</edgelabel>
         </childnode>
         <childnode refid="7" relation="usage">
+          <edgelabel>launcherBytes</edgelabel>
+          <edgelabel>standardErrorBytes</edgelabel>
+        </childnode>
+        <childnode refid="12" relation="usage">
           <edgelabel>commFile</edgelabel>
+          <edgelabel>standardErrorFile</edgelabel>
         </childnode>
       </node>
       <node id="5">
@@ -704,19 +710,49 @@
         <link refid="classjam_1_1HashMap" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
       </node>
       <node id="7">
+        <label>jam::TerminalFIFO</label>
+        <link refid="classjam_1_1TerminalFIFO" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>fifo</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>native</edgelabel>
+        </childnode>
+      </node>
+      <node id="11">
+        <label>jam::TerminalFIFO::Native</label>
+        <link refid="structjam_1_1TerminalFIFO_1_1Native" external="D:/Poems/dev/jam/docs/tagfile.xml"/>
+      </node>
+      <node id="9">
+        <label>juce::AbstractFifo</label>
+        <link refid="classjuce_1_1AbstractFifo" external="D:/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="12">
         <label>juce::File</label>
         <link refid="classjuce_1_1File" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
-      <node id="10">
+      <node id="8">
+        <label>juce::OutputStream</label>
+        <link refid="classjuce_1_1OutputStream" external="D:/Poems/JUCE/docs/tagfile.xml"/>
+      </node>
+      <node id="15">
         <label>juce::String</label>
         <link refid="classjuce_1_1String" external="D:/Poems/JUCE/docs/tagfile.xml"/>
       </node>
       <node id="6">
         <label>std::unique_ptr&lt; Native &gt;</label>
       </node>
-      <node id="8">
+      <node id="10">
+        <label>std::unique_ptr&lt; jam::TerminalFIFO::Native &gt;</label>
+        <childnode refid="11" relation="usage">
+          <edgelabel>ptr</edgelabel>
+        </childnode>
+      </node>
+      <node id="13">
         <label>std::unordered_map&lt; std::uint16_t, debug::BreakpointInfo &gt;</label>
-        <childnode refid="9" relation="usage">
+        <childnode refid="14" relation="usage">
           <edgelabel>elements</edgelabel>
         </childnode>
       </node>
