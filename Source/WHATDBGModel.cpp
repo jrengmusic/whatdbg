@@ -22,6 +22,7 @@ WHATDBGModel::WHATDBGModel ()
     createAndAddParameter<jam::Parameter<int>> (sessionRow, Id::isPausePending, 0);
     createAndAddParameter<jam::Parameter<int>> (sessionRow, Id::isBreakInPending, 0);
     createAndAddParameter<jam::Parameter<int>> (sessionRow, Id::isRunInTerminalSupported, 0);
+    createAndAddParameter<jam::Parameter<int>> (sessionRow, Id::isInputClosed, 0);
     createAndAddParameter<jam::Parameter<int>> (sessionRow, Id::launchSequenceNumber, 0);
     createAndAddParameter<jam::Parameter<int>> (sessionRow, Id::breakpointEngineId, 0);
     createAndAddParameter<jam::Parameter<int>> (sessionRow, Id::nextSequenceNumber, 1);

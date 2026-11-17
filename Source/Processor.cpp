@@ -19,8 +19,11 @@ Processor::Processor ()
     registerLauncherEvents ();
     registerOutputEvents ();
 
-    stdio.onBytesReady = [this] (int)
+    stdio.onBytesReady = [this] (int numRead)
     {
+        if (numRead < 0)
+            model.getRawParameterValue<int> (model.sessionTag, Id::isInputClosed)->store (1, std::memory_order_release);
+
         triggerAsyncUpdate ();
         session.wake ();
     };
@@ -66,6 +69,7 @@ void Processor::handleAsyncUpdate ()
 void Processor::process ()
 {
     applyPendingRequests ();
+    drainInputClosed ();
 
     if (std::unique_ptr<jam::JsonDocument> request { requests.read () }; request != nullptr)
         onCommand (*request);
@@ -377,6 +381,18 @@ void Processor::drainTerminateTimeout ()
         model.storeValue (model.sessionTag, Id::terminateDeadlineMs, int64_t { 0 });
         model.storeValue (model.sessionTag, Id::executionState, static_cast<int> (debug::ExecutionState::exited));
         model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::isRunning)->setValue (0);
+    }
+}
+
+void Processor::drainInputClosed ()
+{
+    if (model.getRawParameterValue<int> (model.sessionTag, Id::isInputClosed)->load (std::memory_order_acquire) != 0)
+    {
+        applyPendingRequests ();
+
+        if (model.getParameter<jam::Parameter<int64_t>> (model.sessionTag, Id::terminateDeadlineMs)->getValue () == 0
+            and model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::isBreakInPending)->getValue () == 0)
+            model.getParameter<jam::Parameter<int>> (model.sessionTag, Id::isRunning)->setValue (0);
     }
 }
 

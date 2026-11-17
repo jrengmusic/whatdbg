@@ -235,9 +235,9 @@
         <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
         <references refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" compoundref="_stop_manager_8h" startline="70" endline="70">model</references>
         <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
-        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="118" endline="118">Id::stopReason</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="119" endline="119">Id::stopReason</references>
         <references refid="classdebug_1_1_stop_manager_1aba708cf1c18f749844a203ea75644c06" compoundref="_stop_manager_8h" startline="60">stops</references>
-        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="66" endline="94">Processor::process</referencedby>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="69" endline="98">Processor::process</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -272,22 +272,22 @@
         <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a02ffbaf2c33dfa38c9f01c3546190fcd" compoundref="_state_8h" startline="47">debug::initialBreak</references>
         <references refid="namespaceId_1a968b064271ba4315dde3cdf9edc7b1ae" compoundref="_generated_8cpp" startline="65" endline="65">Id::initialBreak</references>
         <references refid="namespaceId_1a1654c72d505b706df0408cf4977957fd" compoundref="_generated_8cpp" startline="71" endline="71">Id::isBreakInPending</references>
-        <references refid="namespaceId_1aecf9e31ac41ecd0c122665be6dad624d" compoundref="_generated_8cpp" startline="74" endline="74">Id::isMachException</references>
-        <references refid="namespaceId_1acaa5ed87630554a54472e27567897c48" compoundref="_generated_8cpp" startline="75" endline="75">Id::isPausePending</references>
-        <references refid="namespaceId_1a1397f7ce0b093aa7091d5057a28bfe83" compoundref="_generated_8cpp" startline="78" endline="78">Id::isStepPending</references>
+        <references refid="namespaceId_1aecf9e31ac41ecd0c122665be6dad624d" compoundref="_generated_8cpp" startline="75" endline="75">Id::isMachException</references>
+        <references refid="namespaceId_1acaa5ed87630554a54472e27567897c48" compoundref="_generated_8cpp" startline="76" endline="76">Id::isPausePending</references>
+        <references refid="namespaceId_1a1397f7ce0b093aa7091d5057a28bfe83" compoundref="_generated_8cpp" startline="79" endline="79">Id::isStepPending</references>
         <references refid="classdebug_1_1_stop_manager_1acb929fa1ec21f69d47ff7388dc285138" compoundref="_stop_manager_8h" startline="62">lastLoadedImageName</references>
         <references refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" compoundref="_stop_manager_8h" startline="70" endline="70">model</references>
         <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a52e70aaa8740d19f45d6a5661663dd87" compoundref="_state_8h" startline="48">debug::moduleLoad</references>
-        <references refid="namespaceId_1a719fad8486076145f474dc8590e0612f" compoundref="_generated_8cpp" startline="83" endline="83">Id::moduleLoad</references>
+        <references refid="namespaceId_1a719fad8486076145f474dc8590e0612f" compoundref="_generated_8cpp" startline="84" endline="84">Id::moduleLoad</references>
         <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" compoundref="_state_8h" startline="46">debug::none</references>
         <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1aec1b81965109165de6b38cd92c1e39f9" compoundref="_state_8h" startline="51">debug::pause</references>
-        <references refid="namespaceId_1ad5cee4e44dc5ca86661799ba8754dd1e" compoundref="_generated_8cpp" startline="87" endline="87">Id::pause</references>
+        <references refid="namespaceId_1ad5cee4e44dc5ca86661799ba8754dd1e" compoundref="_generated_8cpp" startline="88" endline="88">Id::pause</references>
         <references refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" compoundref="_stop_manager_8h" startline="64">session</references>
         <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
         <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a2764ca9d34e90313978d044f27ae433b" compoundref="_state_8h" startline="50">debug::step</references>
-        <references refid="namespaceId_1ab239644d07a545177fb75aaa618ee23f" compoundref="_generated_8cpp" startline="114" endline="114">Id::step</references>
+        <references refid="namespaceId_1ab239644d07a545177fb75aaa618ee23f" compoundref="_generated_8cpp" startline="115" endline="115">Id::step</references>
         <references refid="namespacedebug_1a7fcf3c307ac2e74d561af749211343b6af0a0bfe6bc7d2c58d2989034f83183e0" compoundref="_state_8h" startline="19">debug::stopped</references>
-        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="118" endline="118">Id::stopReason</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="119" endline="119">Id::stopReason</references>
         <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
         <referencedby refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" compoundref="_stop_manager_8cpp" startline="14" endline="28">StopManager</referencedby>
       </memberdef>
@@ -315,7 +315,7 @@
         <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" compoundref="_state_8h" startline="46">debug::none</references>
         <references refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="197" endline="227">resumeAfterInitialBreak</references>
         <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
-        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="118" endline="118">Id::stopReason</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="119" endline="119">Id::stopReason</references>
         <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
         <referencedby refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" compoundref="_stop_manager_8cpp" startline="14" endline="28">StopManager</referencedby>
       </memberdef>
@@ -344,7 +344,7 @@
         <references refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" compoundref="_variable_manager_8cpp" startline="18" endline="26">debug::VariableManager::resetVariablesState</references>
         <references refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" compoundref="_stop_manager_8h" startline="64">session</references>
         <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
-        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="118" endline="118">Id::stopReason</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="119" endline="119">Id::stopReason</references>
         <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
         <references refid="classdebug_1_1_stop_manager_1a591fce037dfaadedc01275ee38b4717e" compoundref="_stop_manager_8h" startline="68">variableManager</references>
         <referencedby refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" compoundref="_stop_manager_8cpp" startline="14" endline="28">StopManager</referencedby>
@@ -374,8 +374,8 @@
         <references refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" compoundref="_variable_manager_8cpp" startline="18" endline="26">debug::VariableManager::resetVariablesState</references>
         <references refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" compoundref="_stop_manager_8h" startline="64">session</references>
         <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
-        <references refid="namespaceId_1ab239644d07a545177fb75aaa618ee23f" compoundref="_generated_8cpp" startline="114" endline="114">Id::step</references>
-        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="118" endline="118">Id::stopReason</references>
+        <references refid="namespaceId_1ab239644d07a545177fb75aaa618ee23f" compoundref="_generated_8cpp" startline="115" endline="115">Id::step</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="119" endline="119">Id::stopReason</references>
         <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
         <references refid="classdebug_1_1_stop_manager_1a591fce037dfaadedc01275ee38b4717e" compoundref="_stop_manager_8h" startline="68">variableManager</references>
         <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
@@ -400,11 +400,11 @@
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
         <references refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" compoundref="_stop_manager_8h" startline="70" endline="70">model</references>
         <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" compoundref="_state_8h" startline="46">debug::none</references>
-        <references refid="namespaceId_1ad5cee4e44dc5ca86661799ba8754dd1e" compoundref="_generated_8cpp" startline="87" endline="87">Id::pause</references>
+        <references refid="namespaceId_1ad5cee4e44dc5ca86661799ba8754dd1e" compoundref="_generated_8cpp" startline="88" endline="88">Id::pause</references>
         <references refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" compoundref="_variable_manager_8cpp" startline="18" endline="26">debug::VariableManager::resetVariablesState</references>
         <references refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" compoundref="_stop_manager_8h" startline="64">session</references>
         <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
-        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="118" endline="118">Id::stopReason</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="119" endline="119">Id::stopReason</references>
         <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
         <references refid="classdebug_1_1_stop_manager_1a591fce037dfaadedc01275ee38b4717e" compoundref="_stop_manager_8h" startline="68">variableManager</references>
         <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
@@ -432,7 +432,7 @@
         <references refid="classdebug_1_1_session_1aed762031a23079294c934e83ce792c40" compoundref="_session__mac_8cpp" startline="411" endline="414">debug::Session::resume</references>
         <references refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" compoundref="_stop_manager_8h" startline="64">session</references>
         <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
-        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="118" endline="118">Id::stopReason</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="119" endline="119">Id::stopReason</references>
         <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
         <referencedby refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" compoundref="_stop_manager_8cpp" startline="14" endline="28">StopManager</referencedby>
       </memberdef>
@@ -453,7 +453,7 @@
         <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" compoundref="_state_8h" startline="46">debug::none</references>
         <references refid="classdebug_1_1_stop_manager_1a11cf2cbc87df89b6ac71d2c9192cda02" compoundref="_stop_manager_8cpp" startline="229" endline="233">resumeExecution</references>
         <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
-        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="118" endline="118">Id::stopReason</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="119" endline="119">Id::stopReason</references>
         <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
         <referencedby refid="classdebug_1_1_stop_manager_1a8c9af005a458cbe292d33ded2e5f9c65" compoundref="_stop_manager_8cpp" startline="14" endline="28">StopManager</referencedby>
       </memberdef>
@@ -481,13 +481,13 @@
         <references refid="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" compoundref="_types_8cpp" startline="214" endline="235">dap::getExceptionStoppedEvent</references>
         <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
         <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
-        <references refid="namespaceId_1aecf9e31ac41ecd0c122665be6dad624d" compoundref="_generated_8cpp" startline="74" endline="74">Id::isMachException</references>
+        <references refid="namespaceId_1aecf9e31ac41ecd0c122665be6dad624d" compoundref="_generated_8cpp" startline="75" endline="75">Id::isMachException</references>
         <references refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" compoundref="_stop_manager_8h" startline="70" endline="70">model</references>
         <references refid="namespacedebug_1a3d1ff6297f0a624ceee5d58abb16c3d1a334c4a4c42fdb79d7ebc3e73b517e6f8" compoundref="_state_8h" startline="46">debug::none</references>
         <references refid="classdebug_1_1_variable_manager_1a6fdc0dccd77a2594503c6c86c7e5989c" compoundref="_variable_manager_8cpp" startline="18" endline="26">debug::VariableManager::resetVariablesState</references>
         <references refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" compoundref="_stop_manager_8h" startline="64">session</references>
         <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
-        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="118" endline="118">Id::stopReason</references>
+        <references refid="namespaceId_1ade1f07ee69c5f12e54a21909cfa04683" compoundref="_generated_8cpp" startline="119" endline="119">Id::stopReason</references>
         <references refid="classjam_1_1Model_1ab9d206b5e6392086ee3f494e38313852">jam::Model::storeValue</references>
         <references refid="classdebug_1_1_stop_manager_1a591fce037dfaadedc01275ee38b4717e" compoundref="_stop_manager_8h" startline="68">variableManager</references>
         <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
@@ -523,17 +523,17 @@
         <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
         <references refid="classjuce_1_1String_1af5084463343819f82187154ccb62ea3a">juce::String::isNotEmpty</references>
-        <references refid="namespaceId_1ad12cc0b46dca2c038ee89e8f594b103f" compoundref="_generated_8cpp" startline="80" endline="80">Id::launch</references>
+        <references refid="namespaceId_1ad12cc0b46dca2c038ee89e8f594b103f" compoundref="_generated_8cpp" startline="81" endline="81">Id::launch</references>
         <references refid="classdebug_1_1_stop_manager_1acd3c4e6e2ac25b936be690d01737cee9" compoundref="_stop_manager_8h" startline="70" endline="70">model</references>
         <references refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" compoundref="_breakpoint_manager_8cpp" startline="250" endline="261">debug::BreakpointManager::onReload</references>
-        <references refid="namespaceId_1a9b4ec5e66274c360356c8239b90e81a1" compoundref="_generated_8cpp" startline="94" endline="94">Id::reason</references>
+        <references refid="namespaceId_1a9b4ec5e66274c360356c8239b90e81a1" compoundref="_generated_8cpp" startline="95" endline="95">Id::reason</references>
         <references refid="classdebug_1_1_stop_manager_1a11cf2cbc87df89b6ac71d2c9192cda02" compoundref="_stop_manager_8cpp" startline="229" endline="233">resumeExecution</references>
         <references refid="classdebug_1_1_stop_manager_1ad30b88281c80d287e1ab8cc5a791d649" compoundref="_stop_manager_8h" startline="64">session</references>
         <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>
-        <references refid="namespaceId_1a74c9ddf20cf7940d0ec6bb672d75288d" compoundref="_generated_8cpp" startline="112" endline="112">Id::started</references>
-        <references refid="namespaceId_1a34ff3c25c6e302ff4a5b0a5f9b0488a7" compoundref="_generated_8cpp" startline="153" endline="153">Id::targetProcessId</references>
-        <references refid="namespaceId_1a28eba176baf8ffc44d4cdfb23b5c1786" compoundref="_generated_8cpp" startline="158" endline="158">Id::thread</references>
-        <references refid="namespaceId_1a340842661a4b1de835c5c21978bdb2c7" compoundref="_generated_8cpp" startline="159" endline="159">Id::threadId</references>
+        <references refid="namespaceId_1a74c9ddf20cf7940d0ec6bb672d75288d" compoundref="_generated_8cpp" startline="113" endline="113">Id::started</references>
+        <references refid="namespaceId_1a34ff3c25c6e302ff4a5b0a5f9b0488a7" compoundref="_generated_8cpp" startline="154" endline="154">Id::targetProcessId</references>
+        <references refid="namespaceId_1a28eba176baf8ffc44d4cdfb23b5c1786" compoundref="_generated_8cpp" startline="159" endline="159">Id::thread</references>
+        <references refid="namespaceId_1a340842661a4b1de835c5c21978bdb2c7" compoundref="_generated_8cpp" startline="160" endline="160">Id::threadId</references>
         <references refid="classjuce_1_1Identifier_1ab6f0db1de2c36cacd1a9d7280f73aeeb">juce::Identifier::toString</references>
         <references refid="structjam_1_1debug_1_1Log_1a94ec51c321e841cf75de108776e7fe71">jam::debug::Log::write</references>
         <referencedby refid="classdebug_1_1_stop_manager_1a23350ca0377ae83e11468a7301a41852" compoundref="_stop_manager_8cpp" startline="97" endline="106">drainInitialBreak</referencedby>

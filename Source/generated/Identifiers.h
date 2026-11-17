@@ -74,6 +74,7 @@ extern const juce::Identifier integratedTerminal;
 extern const juce::Identifier internalConsole;
 extern const juce::Identifier isBreakInPending;
 extern const juce::Identifier isConfigurationDone;
+extern const juce::Identifier isInputClosed;
 extern const juce::Identifier isLocalProcess;
 extern const juce::Identifier isMachException;
 extern const juce::Identifier isPausePending;

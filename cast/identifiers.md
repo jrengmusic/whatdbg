@@ -62,6 +62,7 @@
 | @id  | internalConsole                    | `internalConsole`                    |             |
 | @id  | isBreakInPending                   | `isBreakInPending`                   |             |
 | @id  | isConfigurationDone                | `isConfigurationDone`                |             |
+| @id  | isInputClosed                      | `isInputClosed`                      |             |
 | @id  | isLocalProcess                     | `isLocalProcess`                     |             |
 | @id  | isMachException                    | `isMachException`                    |             |
 | @id  | isPausePending                     | `isPausePending`                     |             |

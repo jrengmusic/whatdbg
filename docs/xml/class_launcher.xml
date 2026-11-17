@@ -199,8 +199,8 @@
         <references refid="structjam_1_1JsonWriter_1af7e36be58d2d47daf877904d7c6d77e1">jam::JsonWriter::appendObject</references>
         <references refid="structjam_1_1JsonWriter_1ae7b63750554be1dd1d7bdec0545d14ec">jam::JsonWriter::appendString</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
-        <references refid="namespaceId_1a0b34f9abc212e24db3f8ab42517a3c6b" compoundref="_generated_8cpp" startline="79" endline="79">Id::kind</references>
-        <references refid="namespaceId_1a4778dd29d53d85279bd3353399326859" compoundref="_generated_8cpp" startline="88" endline="88">Id::pid</references>
+        <references refid="namespaceId_1a0b34f9abc212e24db3f8ab42517a3c6b" compoundref="_generated_8cpp" startline="80" endline="80">Id::kind</references>
+        <references refid="namespaceId_1a4778dd29d53d85279bd3353399326859" compoundref="_generated_8cpp" startline="89" endline="89">Id::pid</references>
         <references refid="class_launcher_1a99a034a1529dd0619e6e4e244acaac17" compoundref="_launcher_8cpp" startline="63" endline="84">writeLine</references>
         <referencedby refid="class_launcher_1a725a3958001b044eb14d96569b77f115" compoundref="_launcher_8cpp" startline="164" endline="226">run</referencedby>
       </memberdef>
@@ -237,7 +237,7 @@
         <references refid="structjam_1_1JsonWriter_1ae7b63750554be1dd1d7bdec0545d14ec">jam::JsonWriter::appendString</references>
         <references refid="namespaceId_1a8b7636944e9a0c1d9e4f9d73660b14d8" compoundref="_generated_8cpp" startline="48" endline="48">Id::error</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
-        <references refid="namespaceId_1a0b34f9abc212e24db3f8ab42517a3c6b" compoundref="_generated_8cpp" startline="79" endline="79">Id::kind</references>
+        <references refid="namespaceId_1a0b34f9abc212e24db3f8ab42517a3c6b" compoundref="_generated_8cpp" startline="80" endline="80">Id::kind</references>
         <references refid="class_launcher_1a99a034a1529dd0619e6e4e244acaac17" compoundref="_launcher_8cpp" startline="63" endline="84">writeLine</references>
         <referencedby refid="class_launcher_1a725a3958001b044eb14d96569b77f115" compoundref="_launcher_8cpp" startline="164" endline="226">run</referencedby>
       </memberdef>
@@ -331,7 +331,7 @@
         <references refid="namespaceId_1aea223155c87dc5e79cfa8ff02d95461b" compoundref="_generated_8cpp" startline="46" endline="46">Id::didAttach</references>
         <references refid="classjam_1_1Strings_1aca02ec79e3d857bca6f9647dce6415fc">jam::Strings::fromView</references>
         <references refid="classjam_1_1Strings_1adfb32d159be94dc4a4004c50be876e3c">jam::Strings::getView</references>
-        <references refid="namespaceId_1a0b34f9abc212e24db3f8ab42517a3c6b" compoundref="_generated_8cpp" startline="79" endline="79">Id::kind</references>
+        <references refid="namespaceId_1a0b34f9abc212e24db3f8ab42517a3c6b" compoundref="_generated_8cpp" startline="80" endline="80">Id::kind</references>
         <references refid="structjam_1_1JsonDocument_1a1343aea261139b22b9cc95844519d8cb">jam::JsonDocument::parse</references>
         <references refid="classjuce_1_1Identifier_1ab6f0db1de2c36cacd1a9d7280f73aeeb">juce::Identifier::toString</references>
         <referencedby refid="class_launcher_1a725a3958001b044eb14d96569b77f115" compoundref="_launcher_8cpp" startline="164" endline="226">run</referencedby>

@@ -12,7 +12,8 @@ public:
     /** Registers the command, cancellation, engine event, launch channel, and output event handlers.
      *
      *  On Windows it adds setBreakpoints to the deferrals. It sets the stdin callback, which triggers
-     *  the engine context and wakes the session. The end of stdin does not end the run.
+     *  the engine context and wakes the session. At the end of stdin, the callback stores Id::isInputClosed
+     *  with release order, then notifies the engine context and the session.
      */
     Processor ();
 
@@ -42,7 +43,7 @@ private:
 
     /** Runs one pass of the adapter loop on the engine context.
      *
-     *  A pass applies the pending input, then runs the lifecycle request in requests, if one waits.
+     *  A pass applies the pending input, calls drainInputClosed, then runs the lifecycle request in requests, if one waits.
      *  It polls the engine when isPolling is true. Otherwise it drains the launch channel.
      *  It applies the pending input again when a stop reason is set.
      *  It emits the stop messages, then checks the terminate deadline.
@@ -109,7 +110,8 @@ private:
      *  A deferred request makes the protocol callback return false. The frame of that request and the
      *  later frames stay in the input ring. A request with a deferred command stays deferred while the
      *  execution state is running or launching. process calls this on each pass. process also calls it
-     *  when a stop reason is set, and drainProcessExited calls it when the process exits.
+     *  when a stop reason is set. drainProcessExited calls it when the process exits. drainInputClosed
+     *  calls it at the end of stdin.
      */
     void applyPendingRequests ();
 
@@ -210,6 +212,18 @@ private:
      */
     void drainTerminateTimeout ();
 
+    /** Clears isRunning when stdin has closed, unless a terminate or a break-in is pending.
+     *
+     *  process calls it on each pass. When isInputClosed is not 0, it applies the pending input first.
+     *  The acquire load pairs with the release store in the stdin callback.
+     *  Frames the readiness context wrote before the end of stdin are in the input ring when the pass applies them.
+     *  A pending terminate keeps the passes running, so drainProcessExited or drainTerminateTimeout can run.
+     *  The frames behind a deferred request stay in the input ring until the target stops.
+     *  A pending break-in keeps the passes running, so a later pass applies them.
+     *  It runs before the lifecycle request, so a releaseResources pass applies the pending input before session.shutdown.
+     */
+    void drainInputClosed ();
+
     /** Writes one DAP message to the stdio output.
      *
      *  jam::StdioProtocol::writeMessage writes the Content-Length header and the body, then flushes the output.
@@ -299,8 +313,8 @@ private:
      *
      *  prepare opens it, and releaseResources closes it. applyPendingRequests reads its input ring.
      *  addMessage writes its output. Its stdin callback triggers the engine context and wakes the session.
-     *  A terminate that arrives before the end of stdin still sends its exit events, so the end of stdin
-     *  does not end the run. It is the last member, so it is destroyed first.
+     *  The end of stdin ends the run through drainInputClosed, unless a terminate or a break-in is pending.
+     *  It is the last member, so it is destroyed first.
      */
     jam::StdioServer stdio;
 

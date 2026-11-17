@@ -171,7 +171,7 @@
         <references refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="209" endline="235">onSetBreakpoints</references>
         <references refid="classdebug_1_1_breakpoint_manager_1a17b4dc2b534dafca568e5cd8b607284c" compoundref="_breakpoint_manager_8cpp" startline="109" endline="138">removeOrphanedBreakpoints</references>
         <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="209" endline="235">onSetBreakpoints</referencedby>
-        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="584" endline="612">Processor::onSetBreakpoints</referencedby>
+        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="600" endline="628">Processor::onSetBreakpoints</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_breakpoint_manager_1a53dbffe8b2b58a9b6526011463e619fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classjam_1_1Strings" kindref="compound" external="D:/Poems/dev/jam/docs/tagfile.xml">jam::Strings</ref></type>
@@ -237,7 +237,7 @@
         <references refid="classdebug_1_1_breakpoint_manager_1a6cd9c766f1e4adc0effa438e29ec32d4" compoundref="_breakpoint_manager_8h" startline="194">session</references>
         <referencedby refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" compoundref="_stop_manager_8cpp" startline="123" endline="137">debug::StopManager::drainStepCompleted</referencedby>
         <referencedby refid="classdebug_1_1_breakpoint_manager_1a525d6d2732cca599b02cf83c6819fa75" compoundref="_breakpoint_manager_8cpp" startline="250" endline="261">onReload</referencedby>
-        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="584" endline="612">Processor::onSetBreakpoints</referencedby>
+        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="600" endline="628">Processor::onSetBreakpoints</referencedby>
         <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="197" endline="227">debug::StopManager::resumeAfterInitialBreak</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_breakpoint_manager_1abdcf6c332786965d57904ca771da4b1b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
@@ -344,7 +344,7 @@
         <references refid="classdebug_1_1_breakpoint_manager_1a00263c5daac7239c024c8cbdca1e135d" compoundref="_breakpoint_manager_8h" startline="197">breakpoints</references>
         <references refid="classdebug_1_1_breakpoint_manager_1a9525971c019e19a407a92e985ad46325" compoundref="_breakpoint_manager_8cpp" startline="79" endline="102">onBreakpointLocationFound</references>
         <referencedby refid="classdebug_1_1_breakpoint_manager_1a9525971c019e19a407a92e985ad46325" compoundref="_breakpoint_manager_8cpp" startline="79" endline="102">onBreakpointLocationFound</referencedby>
-        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="176" endline="204">Processor::registerEvents</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="180" endline="208">Processor::registerEvents</referencedby>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -636,8 +636,8 @@
         <references refid="namespaceId_1a9acf3e231e632c1b02ad3a0d4c0fc008">Id::line</references>
         <references refid="namespaceId_1a0e0b9ef1fb687c4c7c73d2bd7213ac01">Id::message</references>
         <references refid="namespaceId_1ac0d6bb21fb6eb483624e52f9002294ab">Id::path</references>
-        <references refid="namespaceId_1a0373df11a0741f497b13b791d42c06e9" compoundref="_identifiers_8h" startline="111">Id::source</references>
-        <references refid="namespaceId_1a7fa0c881c6a81271d5354c60266306eb" compoundref="_generated_8cpp" startline="165" endline="165">Id::verified</references>
+        <references refid="namespaceId_1a0373df11a0741f497b13b791d42c06e9" compoundref="_identifiers_8h" startline="112">Id::source</references>
+        <references refid="namespaceId_1a7fa0c881c6a81271d5354c60266306eb" compoundref="_generated_8cpp" startline="166" endline="166">Id::verified</references>
         <referencedby refid="classdebug_1_1_breakpoint_manager_1a5f2aae3ed3cf48d9827df97ea3fc1661" compoundref="_breakpoint_manager_8cpp" startline="163" endline="191">appendBreakpoint</referencedby>
         <referencedby refid="classdebug_1_1_breakpoint_manager_1a553f53a84f2ffc1f40d83399dbcb37b0" compoundref="_breakpoint_manager_8cpp" startline="209" endline="235">onSetBreakpoints</referencedby>
       </memberdef>

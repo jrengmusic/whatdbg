@@ -466,7 +466,7 @@
         <location file="Main.cpp" line="229" column="12" bodyfile="Main.cpp" bodystart="229" bodyend="237"/>
         <references refid="classjuce_1_1StringArray_1aa73d26821acfb994327d27619703c8fc">juce::StringArray::add</references>
         <references refid="namespaceId_1a2b36cef9965b16614122e5bf47bf10d9" compoundref="_generated_8cpp" startline="41" endline="41">Id::commFileOption</references>
-        <references refid="namespaceId_1ac694f2fd347da734f022af6314f27515" compoundref="_generated_8cpp" startline="82" endline="82">Id::launchTargetOption</references>
+        <references refid="namespaceId_1ac694f2fd347da734f022af6314f27515" compoundref="_generated_8cpp" startline="83" endline="83">Id::launchTargetOption</references>
         <references refid="class_launcher_1a725a3958001b044eb14d96569b77f115" compoundref="_launcher_8cpp" startline="164" endline="226">Launcher::run</references>
         <references refid="_main_8cpp_1a1ee175e4ac85212af9d1afec8473b7b3" compoundref="_main_8cpp" startline="229" endline="237">runLauncher</references>
         <referencedby refid="_main_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" compoundref="_main_8cpp" startline="239" endline="274">main</referencedby>
@@ -497,7 +497,7 @@
         <references refid="_main_8cpp_1a667b2d29df81f0156ee5b93e127616ba" compoundref="_main_8cpp" startline="41" endline="41">enabledValue</references>
         <references refid="_main_8cpp_1a4a9530d5c1cf1abc329ad14ed1d96872" compoundref="_main_8cpp" startline="160" endline="180">execWithSidecar</references>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
-        <references refid="namespaceId_1ac694f2fd347da734f022af6314f27515" compoundref="_generated_8cpp" startline="82" endline="82">Id::launchTargetOption</references>
+        <references refid="namespaceId_1ac694f2fd347da734f022af6314f27515" compoundref="_generated_8cpp" startline="83" endline="83">Id::launchTargetOption</references>
         <references refid="_main_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" compoundref="_main_8cpp" startline="239" endline="274">main</references>
         <references refid="structjam_1_1MarkdownDocument_1aafef572f4603f1b412f60f5cdf767ee3">jam::MarkdownDocument::parse</references>
         <references refid="_main_8cpp_1afeffa852a1e56db4852ad3dcc752b5a1" compoundref="_main_8cpp" startline="44" endline="44">reexecMarker</references>
@@ -505,7 +505,7 @@
         <references refid="_main_8cpp_1a1ee175e4ac85212af9d1afec8473b7b3" compoundref="_main_8cpp" startline="229" endline="237">runLauncher</references>
         <references refid="namespacefiles_1af9cee358b02a31fced5538c286eb56a1">files::styleSheet</references>
         <references refid="classjuce_1_1Identifier_1ab6f0db1de2c36cacd1a9d7280f73aeeb">juce::Identifier::toString</references>
-        <references refid="namespacefiles_1a278086d46e17b4ae72b6688a9ceddf96" compoundref="_generated_8cpp" startline="176" endline="176">files::whatdbgHelp</references>
+        <references refid="namespacefiles_1a278086d46e17b4ae72b6688a9ceddf96" compoundref="_generated_8cpp" startline="177" endline="177">files::whatdbgHelp</references>
         <referencedby refid="_main_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" compoundref="_main_8cpp" startline="239" endline="274">main</referencedby>
       </memberdef>
     </sectiondef>

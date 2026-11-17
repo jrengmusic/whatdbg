@@ -136,6 +136,7 @@
     <member refid="class_processor_1a964f0cfae95557ad5237e30fafe0e404" kind="function"><name>registerOutputEvents</name></member>
     <member refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" kind="function"><name>drainProcessExited</name></member>
     <member refid="class_processor_1ae3dd418216ebb9a28fbc82c5eb61de8b" kind="function"><name>drainTerminateTimeout</name></member>
+    <member refid="class_processor_1a471ef2434828ff4292a6e51547ae9a28" kind="function"><name>drainInputClosed</name></member>
     <member refid="class_processor_1a6ecb08d3a04f39beffd3c5c327f5199f" kind="function"><name>addMessage</name></member>
     <member refid="class_processor_1a85d762de429f761d1ca7931efb1b4d5c" kind="function"><name>addLaunchErrorResponse</name></member>
     <member refid="class_processor_1a45fe17524598b1971db9d18da20b6864" kind="function"><name>addMessages</name></member>

@@ -219,7 +219,7 @@
         <references refid="namespacedebug_1a5b5f90069d08b7599b5af986d92889d6" compoundref="_variable_manager_8cpp" startline="11" endline="11">debug::maxStackFrames</references>
         <references refid="classdebug_1_1_variable_manager_1a56a358497bb674b37378e987ba944763" compoundref="_variable_manager_8h" startline="81" endline="81">nextFrameId</references>
         <references refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" compoundref="_variable_manager_8h" startline="75">session</references>
-        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="628" endline="654">Processor::onStackTrace</referencedby>
+        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="644" endline="670">Processor::onStackTrace</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_variable_manager_1a3ef1621d5a704e5255a2094e800cf36f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -256,7 +256,7 @@
         <references refid="classdebug_1_1_variable_manager_1a107152bcc6766e61c27b707ea7959109" compoundref="_variable_manager_8h" startline="77" endline="77">nextVariablesRef</references>
         <references refid="classdebug_1_1_variable_manager_1afb5fdaf8c1eb869e54d7f33644cd3439" compoundref="_variable_manager_8cpp" startline="40" endline="61">selectFrameFromId</references>
         <references refid="classdebug_1_1_variable_manager_1a658ab9500c7bbf4619622a180ee71864" compoundref="_variable_manager_8h" startline="79">variablesRefMap</references>
-        <referencedby refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" compoundref="_processor_8cpp" startline="656" endline="673">Processor::onScopes</referencedby>
+        <referencedby refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" compoundref="_processor_8cpp" startline="672" endline="689">Processor::onScopes</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_variable_manager_1a7106ef722eac53731b410153ec46d41c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -303,7 +303,7 @@
         <references refid="classdebug_1_1_variable_manager_1adf8000c5c942649ff1c38f120f699212" compoundref="_variable_manager_8h" startline="85" endline="85">lastScopesThreadId</references>
         <references refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" compoundref="_variable_manager_8h" startline="75">session</references>
         <references refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="663" endline="666">debug::Session::setCurrentThreadBySystemId</references>
-        <referencedby refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" compoundref="_processor_8cpp" startline="675" endline="690">Processor::onVariables</referencedby>
+        <referencedby refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" compoundref="_processor_8cpp" startline="691" endline="706">Processor::onVariables</referencedby>
       </memberdef>
       <memberdef kind="function" id="classdebug_1_1_variable_manager_1afb5fdaf8c1eb869e54d7f33644cd3439" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::uint32_t, int &gt;</type>
@@ -339,7 +339,7 @@
         <references refid="classdebug_1_1_variable_manager_1a5a7a240eb0ab98f087df0bcdac9ecc1d" compoundref="_variable_manager_8h" startline="83">frameIdMap</references>
         <references refid="classdebug_1_1_variable_manager_1a0c5aeb58dd5196e230a3c954ec036e84" compoundref="_variable_manager_8h" startline="75">session</references>
         <references refid="classdebug_1_1_session_1a646480ac23e228ae454fc527e67a064d" compoundref="_session__mac_8cpp" startline="663" endline="666">debug::Session::setCurrentThreadBySystemId</references>
-        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="797" endline="828">Processor::onEvaluate</referencedby>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="813" endline="844">Processor::onEvaluate</referencedby>
         <referencedby refid="classdebug_1_1_variable_manager_1a3ef1621d5a704e5255a2094e800cf36f" compoundref="_variable_manager_8cpp" startline="63" endline="76">onScopes</referencedby>
       </memberdef>
     </sectiondef>
@@ -423,7 +423,7 @@
         <references refid="classdebug_1_1_variable_manager_1a107152bcc6766e61c27b707ea7959109" compoundref="_variable_manager_8h" startline="77" endline="77">nextVariablesRef</references>
         <references refid="namespaceId_1ab4956db6d5e735af8b4e202830ac73f7">Id::type</references>
         <references refid="namespaceId_1aa31dd51a36cc1b369f63f498441108e8">Id::value</references>
-        <references refid="namespaceId_1a8a41d6fdac2a7bef4aa8f00d16c2c307" compoundref="_generated_8cpp" startline="164" endline="164">Id::variablesReference</references>
+        <references refid="namespaceId_1a8a41d6fdac2a7bef4aa8f00d16c2c307" compoundref="_generated_8cpp" startline="165" endline="165">Id::variablesReference</references>
         <references refid="classdebug_1_1_variable_manager_1a658ab9500c7bbf4619622a180ee71864" compoundref="_variable_manager_8h" startline="79">variablesRefMap</references>
         <referencedby refid="classdebug_1_1_variable_manager_1a39c321a2a70e965d5f89bed3cf80974a" compoundref="_variable_manager_8cpp" startline="88" endline="107">appendVariables</referencedby>
       </memberdef>

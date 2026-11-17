@@ -70,6 +70,7 @@ namespace Id
     const juce::Identifier internalConsole                    { juce::String::fromUTF8 ("internalConsole") };
     const juce::Identifier isBreakInPending                   { juce::String::fromUTF8 ("isBreakInPending") };
     const juce::Identifier isConfigurationDone                { juce::String::fromUTF8 ("isConfigurationDone") };
+    const juce::Identifier isInputClosed                      { juce::String::fromUTF8 ("isInputClosed") };
     const juce::Identifier isLocalProcess                     { juce::String::fromUTF8 ("isLocalProcess") };
     const juce::Identifier isMachException                    { juce::String::fromUTF8 ("isMachException") };
     const juce::Identifier isPausePending                     { juce::String::fromUTF8 ("isPausePending") };

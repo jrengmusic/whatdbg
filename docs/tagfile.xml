@@ -1309,6 +1309,13 @@
     </member>
     <member kind="function" protection="private">
       <type>void</type>
+      <name>drainInputClosed</name>
+      <anchorfile>class_processor.html</anchorfile>
+      <anchor>a471ef2434828ff4292a6e51547ae9a28</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
       <name>addMessage</name>
       <anchorfile>class_processor.html</anchorfile>
       <anchor>a6ecb08d3a04f39beffd3c5c327f5199f</anchor>

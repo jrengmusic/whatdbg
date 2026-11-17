@@ -112,6 +112,66 @@
 
 ## SPRINT HISTORY
 
+## Sprint 38: The adapter ends its run at the end of stdin — no orphan whatdbg after its client exits ✅
+
+**Date:** 2026-11-18
+**Duration:** one session, continued across context compactions
+**Scope:** `PLAN-stdin-end.md` Steps 1-6, through `/goplan`. ARCHITECT's words: *"why it's inconsistent?"* (nvim `<leader>bb` failed after the first session); *"so no defect with current whatdbg engine on windows? wrong config? /truth"*; *"now more consistent, always open dap. but still if whatdbg has defects must be fixed"*; plan approval; *"rebuild and run smoke suite, all must be green. the harness using nvim headless"*; *"just delete whatdbg.old, why keeping old binary? this must work and replace that"*; *"never leave stale agents on bg"*.
+
+### Agents Participated
+- COUNSELOR: the nvim-dap diagnosis, the MACHINIST instructions, the plan, every brief, the read of each return, the audit filter, the F1 placement, ARCHITECTURE.md and SPEC.md, this log.
+- Pathfinder (haiku): the reads of nvim-dap, libuv and Neovim, the jam and whatdbg inventory, the scout builds, the smoke runs, the stdin-close and nvim-dap checks, the process reads, the doxygen pass and the XML regeneration.
+- Librarian (haiku): the nvim-dap terminal-buffer pool and the Neovim `requires unmodified buffer` check.
+- Engineer (haiku): Step 2, the F1/F2 fix, the end of PID 26148 and the delete of `whatdbg.old`.
+- Auditor (opus): one audit, 8 findings.
+- MACHINIST (separate session): the nvim `TermClose` autocmd in `~/.config/nvim/lua/dap/dapui_config.lua`, which deletes each `dap-type` terminal buffer when its job exits.
+
+### Files Modified (11 in the tree, plus `docs/` regenerated)
+- `cast/identifiers.md:65` — the `isInputClosed` row in the `is*` family.
+- `Source/generated/Identifiers.h`, `Source/generated/Generated.cpp` — cast output for `Id::isInputClosed`.
+- `Source/WHATDBGModel.cpp:25` — the SESSION row `Id::isInputClosed`, default 0. The flag is Model state (MANIFESTO S).
+- `Source/Processor.cpp:22-29` — the stdin callback stores 1 to `Id::isInputClosed` with release order when `numRead < 0`, then notifies as before.
+- `Source/Processor.cpp:72` — `process` calls `drainInputClosed` after `applyPendingRequests` and before the mailbox request. In the `releaseResources` pass it thus runs before `onReleaseResources` shuts the session down (audit F1).
+- `Source/Processor.cpp:387-397` — `drainInputClosed`: an acquire load of the flag, `applyPendingRequests`, then `isRunning` to 0 when `terminateDeadlineMs` is 0 and `isBreakInPending` is 0 (audit F2).
+- `Source/Processor.h` — the declaration and the doxygen of `drainInputClosed`; the constructor, `process`, `applyPendingRequests` and `stdio` docs state the end-of-stdin rule.
+- `ARCHITECTURE.md:53`, `:63`, `:72`, `:79`, `:82`, `:251-267`, `:282-286`, SESSION table — the readiness store, the memory order, the `process` statements (now 8), the End rules, and the table rows in constructor order (`isBreakInPending`, `isRunInTerminalSupported`, `launchSequenceNumber` added).
+- `SPEC.md:34`, `:36` — the readiness context owns the release store; the end-of-stdin data path.
+- `benchmark/smoke-windows-report.md`, `smoke-samples.md` — scout output.
+- `docs/` — regenerated XML and `tagfile.xml`.
+- `PLAN-stdin-end.md` — the locked plan, still at the project root.
+
+### Alignment Check
+- [x] BLESSED principles followed
+- [x] NAMES.md adhered
+- [x] MANIFESTO.md principles applied
+- [ ] macOS build and `tests/smoke` against `baseline/macos/` did not run. The change is not inside `#if JUCE_WINDOWS`.
+
+### Problems Solved
+- nvim `<leader>bb` failed after the first session with `requires unmodified buffer`. nvim-dap reuses its `[dap-terminal]` buffer (session.lua:188-229), and Neovim refuses `jobstart (term=true)` in a modified buffer. MACHINIST's `TermClose` autocmd fixes it in the nvim config. whatdbg was not the cause.
+- The adapter exit code 1 in nvim-dap is nvim-dap's own kill: libuv `TerminateProcess (h, 1)` (process.c:1304).
+- whatdbg ran on after its client exited (PID 26148, from 21:17). The end of stdin did not end the run. MANIFESTO B: no object outlives its owner. The end of stdin now ends the run, unless a terminate or a break-in is pending.
+- Audit F1: `drainInputClosed` after `session.shutdown` could reach a null `control` (Session.cpp:637-641) on a `systemRequestedQuit` path (Whatdbg.cpp:48-51). The call moved before the mailbox request.
+- Audit F2: a terminate queued behind a deferred break-in was lost. `drainInputClosed` now waits while `isBreakInPending` is set.
+- Audit F3-F8: document drift in ARCHITECTURE.md, SPEC.md and the Processor.h docs. All fixed.
+- The post-build step failed: `rm -f whatdbg.old` (CMakeLists.txt:467) cannot delete the image of a running process. PID 26148 held it. ARCHITECT's instruction ended PID 26148 and deleted `whatdbg.old`.
+
+### Verification
+- Windows `tests/smoke`: `== SUMMARY == pass=22 fail=0`, nvim headless, on the 23:42:55 binary.
+- stdin close: an idle adapter exits in 9 ms; an adapter with a running target exits in 519 ms; both with code 0.
+- Three nvim-dap sessions in a row: each ends; afterwards no whatdbg or fixture process runs.
+- Doxygen: 0 warnings, run from `docs/`.
+
+### State for Continuation
+- macOS: build and run `tests/smoke` against `baseline/macos/`. Check `Processor.cpp:22-29` and `:387-397` there.
+- `PLAN-stdin-end.md` is still at the project root.
+- The post-build step (CMakeLists.txt:467, from `cast/cmake.cast`) still fails when `whatdbg.old` belongs to a running process.
+
+### Debts Paid
+- None
+
+### Debts Deferred
+- None
+
 ## Sprint 37: Windows runInTerminal — the launch completes without a later message; the attached target exits in under a second ✅
 
 **Date:** 2026-11-17
@@ -367,36 +427,6 @@
 ### cast and scout repaired (ARCHITECT: *"don't leave cast and scout at broken state, why crash? fix it"*)
 - cast crashed before main: its generated namespace-scope comment tables copied `Id::comment` during static initialisation, and since cast commit 106685c that identifier is defined in jam's TU (`jam/generated/jam_Core.cpp:50`); cross-TU dynamic initialisation order is unspecified. ARCHITECT chose *"First-use shape in jam"*. jam `cast/code.cast:150-157` adds the `shared-hash-map` shape (a struct over `jam::HashMap` whose constructor holds the entries); cast's spell emits `map::ClangComment` … `map::SqlComment` and `map::CommentSyntax` through it into `HashMaps.h`; each read site holds `static const jam::SharedInstance<map::CommentSyntax> commentSyntax { std::in_place };` (the form of `jam_Format.cpp:850`). New cast: `--help` exit 0, rebuilds itself with no change, builds whatdbg.
 - scout could not read back its own report: an empty samples file left the table type empty (`Benchmark.h:193`), and `jam::Format::isNumber` rejected the exponent form that `juce::String (double)` writes (`jam_Format.cpp:828-846`). Fixed: the type defaults to `Id::epoch`; `Format::isNumber` accepts one exponent after today's mantissa rule (`isMantissa`); `runEpochs` validates the baseline with `jam::ConfigDocument::isValid` and fails with a diagnostic; `ProfileReport::getProfile` looks baseline zones up by `jam::Format::toType` (the typing of `ConfigDocument::getValueTree`). `benchmark/smoke-report-baseline.md` and `smoke-report.md` headings set to `## epoch`; `smoke.md` compares against the baseline again.
-
-### Debts Paid
-- None
-
-### Debts Deferred
-- None
-
-## Sprint 33: DAP JSON Through jam::JsonDocument and jam::JsonWriter ✅
-
-**Date:** 2026-11-14
-**Duration:** part of one session. `jam/carol/SPRINT-LOG.md` Sprint 187 is the primary record.
-**Scope:** `jam/PLAN-json.md` ruling 3, ARCHITECT: *"All of them"* — "whatdbg's full DAP path: DynamicObject builds replaced by JsonWriter appends, reads by JsonDocument, JSON::toString removed."
-
-### Files Modified
-- `Source/dap/Reader.h`, `.cpp` — DAP messages read through `jam::JsonDocument`.
-- `Source/dap/Types.h`, `Source/Whatdbg.h`, `.cpp`, `Source/debug/BreakpointManager.h`, `.cpp`, `Source/debug/Session.h`, `.cpp`, `Source/debug/Session_mac.cpp` — responses and events built through `jam::JsonWriter`; `juce::DynamicObject` builds and `JSON::toString` removed.
-- `cast/identifiers.md`, `cast/source.cast` (new), `cast/spell.md`, `Source/generated/*` (new) — the identifier lane and its cast output.
-- `CMakeLists.txt` — the `juce-plugin-window-size-hook.patch` row.
-
-### Alignment Check
-- [x] BLESSED principles followed
-- [x] NAMES.md adhered
-- [x] MANIFESTO.md principles applied
-- [ ] `Session.cpp` (Windows) is not compiled on this macOS host.
-
-### Problems Solved
-- whatdbg built DAP JSON through `juce::DynamicObject` and `juce::JSON`. It now uses jam's one JSON module.
-
-### State for Continuation
-- Windows build and a DAP run are not done this session.
 
 ### Debts Paid
 - None

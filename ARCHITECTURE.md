@@ -50,7 +50,7 @@ whatdbg is a cross-platform DAP (Debug Adapter Protocol) debug adapter for C/C++
 |---|---|---|
 | Message thread (the main thread, the JUCE message loop) | `Whatdbg`, `WHATDBGModel`, `Processor::prepare` and `Processor::releaseResources` (each writes one request into the `requests` mailbox and calls `handleUpdateNow`), the `isRunning` listener | an engine call; a write to stdout |
 | Engine context (`Processor`, the `jam::AsyncUpdater` serial context) | `debug::Session`, `debug::BreakpointManager`, `debug::VariableManager`, `debug::StopManager`, the `commands` and `cancellations` tables, `applyPendingRequests`, `addMessage` | a touch of the `juce::ValueTree` |
-| Stdin readiness context (the default context, `nullptr`, of the `jam::AsyncOutputStream` in `jam::StdioServer`) | the read of stdin into the input ring | anything else |
+| Stdin readiness context (the default context, `nullptr`, of the `jam::AsyncOutputStream` in `jam::StdioServer`) | the read of stdin into the input ring; at the end of stdin, the release store of `Id::isInputClosed` | anything else |
 
 The engine context is the serial context of `jam::AsyncUpdater`: a serial GCD queue on macOS, a thread pool with one thread on Windows (`jam_AsyncUpdater.h:18-21`). Each engine call, `Session::initialize` and `Session::shutdown` included, runs on it. DbgEng: "Clients are specific to the thread that created them. Calls from other threads fail immediately."
 
@@ -60,7 +60,7 @@ The engine context is the serial context of `jam::AsyncUpdater`: a serial GCD qu
 
 ### The rings and the mailbox
 
-Each tick of the readiness context reads stdin straight into the input ring. `Processor` then calls `triggerAsyncUpdate` and `session.wake`, through the `onBytesReady` callback of `jam::StdioServer` (`Processor.cpp:22-26`). The end of stdin does not end the run. The run ends when the engine context sets `Id::isRunning` to 0 (section End).
+Each tick of the readiness context reads stdin straight into the input ring. `Processor` then calls `triggerAsyncUpdate` and `session.wake`, through the `onBytesReady` callback of `jam::StdioServer` (`Processor.cpp:22-29`). At the end of stdin the read result is -1. The callback then stores 1 to `Id::isInputClosed` with release order, before it notifies. The run ends when the engine context sets `Id::isRunning` to 0 (section End).
 
 | Transport | Type | Capacity | Writer | Reader |
 |---|---|---|---|---|
@@ -69,17 +69,17 @@ Each tick of the readiness context reads stdin straight into the input ring. `Pr
 | `requests` | `jam::Mailbox<jam::JsonDocument>` | one slot | message thread (`prepare`, `releaseResources`) | engine context (`process`) |
 | Session rings | `jam::TerminalFIFO`: `launcherBytes` and `standardErrorBytes` (both platforms), `standardOutputBytes` (Windows) | | engine context (`writeFromTerminalTTY (Handle)`) | engine context (`applyPendingData`) |
 
-`process` first reads the input ring through `applyPendingRequests` (`Processor.cpp:132-149`). `jam::StdioProtocol::applyMessages` gives each complete `Content-Length` body as a view in the ring. `jam::JsonDocument::read` parses the body in place. The callback runs the `cancellations` entry for `disconnect` and `terminate`, then calls `onRequest`. `onRequest` runs the command at once, or, for a deferred command, interrupts the running target. The callback returns `false` for a deferred request, so `applyMessages` stops at its frame. The deferred frame and every later frame stay in the ring, in arrival order, until the target stops. An incomplete frame also stays in the ring. `process` then runs the request in the `requests` mailbox (`Processor.cpp:70-71`).
+`process` first reads the input ring through `applyPendingRequests` (`Processor.cpp:136-153`). `jam::StdioProtocol::applyMessages` gives each complete `Content-Length` body as a view in the ring. `jam::JsonDocument::read` parses the body in place. The callback runs the `cancellations` entry for `disconnect` and `terminate`, then calls `onRequest`. `onRequest` runs the command at once, or, for a deferred command, interrupts the running target. The callback returns `false` for a deferred request, so `applyMessages` stops at its frame. The deferred frame and every later frame stay in the ring, in arrival order, until the target stops. An incomplete frame also stays in the ring. `process` then runs `drainInputClosed` (`Processor.cpp:72`) and the request in the `requests` mailbox (`Processor.cpp:74-75`).
 
 `addMessage` writes the `Content-Length` header and the body into the output ring and flushes it to stdout. It never touches the `juce::ValueTree`. The readiness callbacks of the `Session` rings only notify: the stderr stream calls `wake` (`Session_mac.cpp:267`), and the launcher stream reports `Id::runInTerminal` (`Session_mac.cpp:306`). The engine context fills and reads those rings.
 
 ### Thread Safety Rules
 
 - The engine context makes every engine call. The message thread makes none and writes no stdout.
-- The readiness context calls `triggerAsyncUpdate` and `session.wake`. It calls no other `Processor` function.
+- The readiness context calls `triggerAsyncUpdate` and `session.wake`. It calls no other `Processor` function. At the end of stdin it also stores `Id::isInputClosed` through `getRawParameterValue`, with release order. `drainInputClosed` loads it with acquire order, so the frames that came before the end of stdin are in the input ring when the engine reads it.
 - `Session::wake` and `Session::cancel` are the engine's own any-thread calls: `SetInterrupt` "can be called at any time and from any thread"; on macOS a broadcast to the listener.
 - `Parameter::store`, `getValue`, and `Model::storeValue` are lock-free on any thread (`jam_Model.h:14`). `flush`, the tree, and the attachments are message-thread only (`jam_Model.h:15-16`).
-- Only `Id::isRunning` uses `setValue`, which reaches the message thread through `jam::Model::ParameterAttachment`. Each other parameter uses `storeValue`.
+- Only `Id::isRunning` uses `setValue`, which reaches the message thread through `jam::Model::ParameterAttachment`. `Id::isInputClosed` uses the raw atomic of `getRawParameterValue`: a release store and an acquire load. Each other parameter uses `storeValue`.
 - On Windows the COM callbacks fire synchronously inside `WaitForEvent`, on the engine context.
 
 ---
@@ -251,19 +251,22 @@ evaluate -> Session::evaluateExpression -> SBFrame::EvaluateExpression on the fr
 ```
 Processor::process ()
     1. applyPendingRequests ()                         // the input ring -> onRequest -> onCommand
-    2. the request in the requests mailbox -> onCommand (request)
-    3. when executionState is running or launching, or a terminate deadline is pending:
+    2. drainInputClosed ()                             // the end of stdin ends the run
+    3. the request in the requests mailbox -> onCommand (request)
+    4. when executionState is running or launching, or a terminate deadline is pending:
            session.pollEvents (pollTimeoutMs)          // 50 ms; macOS rounds up to 1 s
        otherwise:
            session.drainLauncherOutput ()
-    4. when stopReason is not none: applyPendingRequests ()   // the deferred frames run
-    5. addMessages (stopManager.onStop (targetProgram))  // one stop drain, by stopReason
-    6. drainTerminateTimeout ()
-    7. when isRunning is not 0 and (executionState is running or launching,
+    5. when stopReason is not none: applyPendingRequests ()   // the deferred frames run
+    6. addMessages (stopManager.onStop (targetProgram))  // one stop drain, by stopReason
+    7. drainTerminateTimeout ()
+    8. when isRunning is not 0 and (executionState is running or launching,
        or a terminate deadline is pending): triggerAsyncUpdate ()
 ```
 
-While the target is stopped and no terminate is pending, statement 7 queues nothing, and the context has no work. The next request starts it. On macOS `Session::wake` ends a `pollEvents` wait at once when a request arrives while the target runs.
+`drainInputClosed` runs before the mailbox request. Thus in the `releaseResources` pass it runs before `onReleaseResources` shuts the session down.
+
+While the target is stopped and no terminate is pending, statement 8 queues nothing, and the context has no work. The next request starts it. On macOS `Session::wake` ends a `pollEvents` wait at once when a request arrives while the target runs.
 
 `stopReason` holds one stop cause at a time, so one drain runs per tick. `drainBreakpointHit` asks `BreakpointManager::appendBreakpointStoppedEvent` for the stopped event. That event has `reason: "step"` when no registry entry holds the engine id, as for the internal stepOut breakpoint.
 
@@ -276,11 +279,11 @@ While the target is stopped and no terminate is pending, statement 7 queues noth
 
 ### End
 
-1. A drain, `onDisconnect`, or `onPrepare` sets `Id::isRunning` to 0 on the context.
+1. A drain (`drainProcessExited`, `drainTerminateTimeout`, `drainInputClosed`), `onDisconnect`, or `onPrepare` sets `Id::isRunning` to 0 on the context.
 2. The attachment posts one message. On the message thread the flush changes the tree, and the `Id::isRunning` entry sets the return value and calls `quit`.
 3. The members of `Whatdbg` die in reverse order: `isRunningAttachment`, `events`, `processor`, and `model`. Inside `Processor`, `stdio` dies first, so its readiness callback stops before every member it touches.
-4. The end of stdin does not end the run. A `terminate` or `disconnect` that arrives before it still sends its `exited` and `terminated` events.
-5. `~Processor` calls `releaseResources`: `stdio.close`, `cancelPendingUpdate`, a `releaseResources` request, and `handleUpdateNow`. On the context `process` first runs the frames still in the input ring, then the request. `onReleaseResources` calls `session.shutdown (getEndModeForExit ())` and stores `ExecutionState::idle`.
+4. The end of stdin ends the run when no terminate and no break-in are pending. `drainInputClosed` first applies the frames still in the input ring. Then, when `Id::terminateDeadlineMs` is 0 and `Id::isBreakInPending` is 0, it sets `Id::isRunning` to 0. A pending terminate keeps the run until `drainProcessExited` or `drainTerminateTimeout`. When the exit event comes first, `drainProcessExited` sends the `exited` and `terminated` events. When the deadline comes first, `drainTerminateTimeout` sets the exited state and sends no event. A pending break-in keeps the deferred frames in the ring until the target stops, and the next pass applies them.
+5. `~Processor` calls `releaseResources`: `stdio.close`, `cancelPendingUpdate`, a `releaseResources` request, and `handleUpdateNow`. On the context `process` first runs the frames still in the input ring and `drainInputClosed`, then the request. `onReleaseResources` calls `session.shutdown (getEndModeForExit ())` and stores `ExecutionState::idle`.
 
 ---
 
@@ -300,6 +303,10 @@ While the target is stopped and no terminate is pending, statement 7 queues noth
 | SESSION | `Id::isConfigurationDone` | int | 0 |
 | SESSION | `Id::isStepPending` | int | 0 |
 | SESSION | `Id::isPausePending` | int | 0 |
+| SESSION | `Id::isBreakInPending` | int | 0 |
+| SESSION | `Id::isRunInTerminalSupported` | int | 0 |
+| SESSION | `Id::isInputClosed` | int | 0 |
+| SESSION | `Id::launchSequenceNumber` | int | 0 |
 | SESSION | `Id::breakpointEngineId` | int | 0 |
 | SESSION | `Id::nextSequenceNumber` | int | 1 |
 | SESSION | `Id::adapterExitCode` | int | 0 |

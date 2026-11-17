@@ -31,9 +31,9 @@
    |---|---|---|
    | Message thread (the main thread, the JUCE message loop) | `Whatdbg`, `WHATDBGModel`, `Processor::prepare`, `Processor::releaseResources`, the `isRunning` listener | an engine call; a write to stdout |
    | Engine context (`Processor`, the `jam::AsyncUpdater` serial context) | `Session`, `BreakpointManager`, `VariableManager`, `StopManager`, the `commands` and `cancellations` tables, the stdout frames (`addMessage`) | a touch of the `juce::ValueTree` |
-   | Stdin readiness context (the default context of the `jam::AsyncOutputStream` in `jam::StdioServer`) | the read of stdin into the input ring | anything else |
+   | Stdin readiness context (the default context of the `jam::AsyncOutputStream` in `jam::StdioServer`) | the read of stdin into the input ring; at the end of stdin, the release store of `Id::isInputClosed` | anything else |
 
-   The data flows one way: stdin → readiness context → `jam::StdioServer` input ring → engine context (`applyPendingRequests`, `onRequest`, `onCommand`) → `addMessage` → `jam::StdioServer` output ring → stdout. Model parameters flow from the engine context to the message thread.
+   The data flows one way: stdin → readiness context → `jam::StdioServer` input ring → engine context (`applyPendingRequests`, `onRequest`, `onCommand`) → `addMessage` → `jam::StdioServer` output ring → stdout. Model parameters flow from the engine context to the message thread. The end of stdin flows one way too: readiness context → `Id::isInputClosed` in the Model → engine context (`drainInputClosed`) → `Id::isRunning` → message thread.
 2. **Engine events:** the platform backend (COM callbacks on Windows, `pollEvents` on macOS) reports through `Session::events`, keyed by `Id::`:
 
    | Key | Owner | Effect |

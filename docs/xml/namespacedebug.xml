@@ -521,7 +521,7 @@
         <location file="debug/Session_mac.cpp" line="38" column="13" bodyfile="debug/Session_mac.cpp" bodystart="38" bodyend="42"/>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
         <references refid="namespacedebug_1ab801ce744621ea694d3d0ea32ea65396" compoundref="_session__mac_8cpp" startline="38" endline="42">onStepStop</references>
-        <references refid="namespaceId_1ab239644d07a545177fb75aaa618ee23f" compoundref="_generated_8cpp" startline="114" endline="114">Id::step</references>
+        <references refid="namespaceId_1ab239644d07a545177fb75aaa618ee23f" compoundref="_generated_8cpp" startline="115" endline="115">Id::step</references>
         <referencedby refid="namespacedebug_1ab801ce744621ea694d3d0ea32ea65396" compoundref="_session__mac_8cpp" startline="38" endline="42">onStepStop</referencedby>
         <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="88" endline="116">onStopReason</referencedby>
       </memberdef>
@@ -551,7 +551,7 @@
         <location file="debug/Session_mac.cpp" line="44" column="13" bodyfile="debug/Session_mac.cpp" bodystart="44" bodyend="48"/>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
         <references refid="namespacedebug_1a4b4411b81b81a2aa8d7ea83e6dfddb9d" compoundref="_session__mac_8cpp" startline="44" endline="48">onInterruptStop</references>
-        <references refid="namespaceId_1ad5cee4e44dc5ca86661799ba8754dd1e" compoundref="_generated_8cpp" startline="87" endline="87">Id::pause</references>
+        <references refid="namespaceId_1ad5cee4e44dc5ca86661799ba8754dd1e" compoundref="_generated_8cpp" startline="88" endline="88">Id::pause</references>
         <referencedby refid="namespacedebug_1a4b4411b81b81a2aa8d7ea83e6dfddb9d" compoundref="_session__mac_8cpp" startline="44" endline="48">onInterruptStop</referencedby>
         <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="88" endline="116">onStopReason</referencedby>
       </memberdef>
@@ -635,7 +635,7 @@
         </inbodydescription>
         <location file="debug/Session_mac.cpp" line="71" column="13" bodyfile="debug/Session_mac.cpp" bodystart="71" bodyend="86"/>
         <references refid="namespacedebug_1aa9ddd2d513c873736fd7cd93cb5f0c2f" compoundref="_session__mac_8cpp" startline="71" endline="86">drainProcessStdio</references>
-        <references refid="namespaceId_1a2c09e26146778d522a60a2dbfc3520b9" compoundref="_generated_8cpp" startline="111" endline="111">Id::standardOutput</references>
+        <references refid="namespaceId_1a2c09e26146778d522a60a2dbfc3520b9" compoundref="_generated_8cpp" startline="112" endline="112">Id::standardOutput</references>
         <references refid="namespacedebug_1a843227e19ef74b48d7cbb77acd10a09d" compoundref="_session__mac_8cpp" startline="66" endline="66">stdioReadBufferSize</references>
         <referencedby refid="classdebug_1_1_session_1a40050bf4c1c83fbc5d06acc65df561f5" compoundref="_session__mac_8cpp" startline="459" endline="472">debug::Session::drainOutput</referencedby>
         <referencedby refid="namespacedebug_1aa9ddd2d513c873736fd7cd93cb5f0c2f" compoundref="_session__mac_8cpp" startline="71" endline="86">drainProcessStdio</referencedby>
@@ -671,7 +671,7 @@
         <location file="debug/Session_mac.cpp" line="88" column="13" bodyfile="debug/Session_mac.cpp" bodystart="88" bodyend="116"/>
         <references refid="structjam_1_1Function_1_1Map_1ad53732bb862659c66b8112c75f437248">jam::Function::Map&lt; typename KeyType, size_t capacity, typename... Signatures &gt;::add</references>
         <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
-        <references refid="namespaceId_1acaa5ed87630554a54472e27567897c48" compoundref="_generated_8cpp" startline="75" endline="75">Id::isPausePending</references>
+        <references refid="namespaceId_1acaa5ed87630554a54472e27567897c48" compoundref="_generated_8cpp" startline="76" endline="76">Id::isPausePending</references>
         <references refid="namespacedebug_1a2e6be9ae21fb797cc0f1f00e3fcf90fb" compoundref="_session__mac_8cpp" startline="33" endline="36">onBreakpointStop</references>
         <references refid="namespacedebug_1a9652a8e4d4e6a794228ec2a9eabe2161" compoundref="_session__mac_8cpp" startline="58" endline="64">onExceptionStop</references>
         <references refid="namespacedebug_1a4b4411b81b81a2aa8d7ea83e6dfddb9d" compoundref="_session__mac_8cpp" startline="44" endline="48">onInterruptStop</references>
@@ -795,7 +795,7 @@
         <location file="debug/Session_mac.cpp" line="149" column="13" bodyfile="debug/Session_mac.cpp" bodystart="149" bodyend="157"/>
         <references refid="namespacejuce_1a86deae84ff8b95d7e40214a493b3dfe0">juce::ignoreUnused</references>
         <references refid="namespacedebug_1abb112a9371b352c87b37197fb1d2f591" compoundref="_session__mac_8cpp" startline="149" endline="157">onProcessStateRunning</references>
-        <references refid="namespaceId_1a000989b688b65316ee03a14c6fec2ef6" compoundref="_generated_8cpp" startline="101" endline="101">Id::running</references>
+        <references refid="namespaceId_1a000989b688b65316ee03a14c6fec2ef6" compoundref="_generated_8cpp" startline="102" endline="102">Id::running</references>
         <referencedby refid="namespacedebug_1a043fa7438529aa581e5e62300f1cef41" compoundref="_session__mac_8cpp" startline="159" endline="184">onProcessEvent</referencedby>
         <referencedby refid="namespacedebug_1abb112a9371b352c87b37197fb1d2f591" compoundref="_session__mac_8cpp" startline="149" endline="157">onProcessStateRunning</referencedby>
       </memberdef>
@@ -937,7 +937,7 @@
         <references refid="classjuce_1_1String_1a949625c3152cfe177035772a5ff08559">juce::String::toHexString</references>
         <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="175" endline="195">debug::StopManager::drainExceptionStopped</referencedby>
         <referencedby refid="namespacedebug_1a2b622860668f5e41e30cda00fe8ff764" compoundref="_session__mac_8cpp" startline="674" endline="726">getExceptionName</referencedby>
-        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="777" endline="795">Processor::onExceptionInfo</referencedby>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="793" endline="811">Processor::onExceptionInfo</referencedby>
       </memberdef>
       <memberdef kind="function" id="namespacedebug_1aae344277204d1f68ff0786c669a43957" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="classjuce_1_1String" kindref="compound" external="D:/Poems/JUCE/docs/tagfile.xml">juce::String</ref></type>

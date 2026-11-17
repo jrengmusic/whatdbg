@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="namespacefiles" kind="namespace" language="C++">
+    <compoundname>files</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacefiles_1a278086d46e17b4ae72b6688a9ceddf96" prot="public" static="no" mutable="no">
+        <type>const juce::String</type>
+        <definition>const juce::String files::whatdbgHelp</definition>
+        <argsstring></argsstring>
+        <name>whatdbgHelp</name>
+        <qualifiedname>files::whatdbgHelp</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;HELP.md&quot;) }</initializer>
+        <briefdescription>
+<para>File names whatdbg reads: help. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rendered help text. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="177" column="20" bodyfile="generated/Generated.cpp" bodystart="177" bodyend="177" declfile="generated/Files.h" declline="30" declcolumn="27"/>
+        <referencedby refid="_main_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" compoundref="_main_8cpp" startline="239" endline="274">main</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="generated/Files.h" line="24" column="1"/>
+  </compounddef>
+</doxygen>

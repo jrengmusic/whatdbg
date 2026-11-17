@@ -90,7 +90,7 @@
         <location file="Whatdbg.h" line="10" column="5" bodyfile="Whatdbg.cpp" bodystart="3" bodyend="13"/>
         <references refid="classjam_1_1Model_1ae5d4d70e706dcc558cf21923125a9176">jam::Model::addListener</references>
         <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
-        <references refid="namespaceId_1ad5a972b9551c4ba5c5c15a733ec48d69" compoundref="_generated_8cpp" startline="77" endline="77">Id::isRunning</references>
+        <references refid="namespaceId_1ad5a972b9551c4ba5c5c15a733ec48d69" compoundref="_generated_8cpp" startline="78" endline="78">Id::isRunning</references>
         <references refid="class_whatdbg_1a539d7d54e4422db6892e131a5c72075b" compoundref="_whatdbg_8h" startline="79">isRunningAttachment</references>
         <references refid="class_whatdbg_1ab36938a78f24cd1f670d70bd76f18273" compoundref="_whatdbg_8h" startline="71">model</references>
         <references refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" compoundref="_whatdbg_8cpp" startline="72" endline="82">registerEvents</references>
@@ -189,7 +189,7 @@
         </inbodydescription>
         <location file="Whatdbg.h" line="32" column="10" bodyfile="Whatdbg.cpp" bodystart="35" bodyend="38"/>
         <references refid="classjuce_1_1JUCEApplicationBase_1a8a2607a3fbc79cc10e9d0feda93c4856">juce::JUCEApplicationBase::getCommandLineParameterArray</references>
-        <references refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" compoundref="_processor_8cpp" startline="34" endline="50">Processor::prepare</references>
+        <references refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" compoundref="_processor_8cpp" startline="37" endline="53">Processor::prepare</references>
         <references refid="class_whatdbg_1aa4bc72ff3073566ee8559b68935c9649" compoundref="_whatdbg_8h" startline="73">processor</references>
       </memberdef>
       <memberdef kind="function" id="class_whatdbg_1a26962dadafd58a936a9529799cdfb501" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
@@ -409,7 +409,7 @@
         <references refid="classjam_1_1Model_1a7ec2529e24ab07f42c0bd51be30a8529">jam::Model::getParameter</references>
         <references refid="classjuce_1_1ValueTree_1ab584e972c5f8e597f545e6321a895d06">juce::ValueTree::getProperty</references>
         <references refid="structjam_1_1Parameter_1acfdf7277d3f4499990e9624b2753f11a">jam::Parameter&lt; typename T &gt;::getValue</references>
-        <references refid="namespaceId_1ad5a972b9551c4ba5c5c15a733ec48d69" compoundref="_generated_8cpp" startline="77" endline="77">Id::isRunning</references>
+        <references refid="namespaceId_1ad5a972b9551c4ba5c5c15a733ec48d69" compoundref="_generated_8cpp" startline="78" endline="78">Id::isRunning</references>
         <references refid="class_whatdbg_1ab36938a78f24cd1f670d70bd76f18273" compoundref="_whatdbg_8h" startline="71">model</references>
         <references refid="classjuce_1_1JUCEApplicationBase_1ae2ba9b90c02361717d997aa26861f2c4">juce::JUCEApplicationBase::quit</references>
         <references refid="class_w_h_a_t_d_b_g_model_1a25941ed2ef3df8e031b8a9a048cbfd4a" compoundref="_w_h_a_t_d_b_g_model_8h" startline="20" endline="20">WHATDBGModel::sessionTag</references>

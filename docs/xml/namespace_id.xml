@@ -1,0 +1,2460 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
+  <compounddef id="namespace_id" kind="namespace" language="C++">
+    <compoundname>Id</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespace_id_1ae1bef48aa181015cc6694a397c942583" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::adapterExitCode</definition>
+        <argsstring></argsstring>
+        <name>adapterExitCode</name>
+        <qualifiedname>Id::adapterExitCode</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;adapterExitCode&quot;) }</initializer>
+        <briefdescription>
+<para>whatdbg vocabulary — the Model names, the engine events, and the words of the Debug Adapter Protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="26" column="28" bodyfile="generated/Generated.cpp" bodystart="26" bodyend="26" declfile="generated/Identifiers.h" declline="30" declcolumn="31"/>
+        <referencedby refid="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" compoundref="_processor_8cpp" startline="407" endline="416">Processor::onPrepare</referencedby>
+        <referencedby refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" compoundref="_whatdbg_8cpp" startline="72" endline="82">Whatdbg::registerEvents</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1af71142e632e3505ac92972d11ebb3ca5" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::allThreadsContinued</definition>
+        <argsstring></argsstring>
+        <name>allThreadsContinued</name>
+        <qualifiedname>Id::allThreadsContinued</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;allThreadsContinued&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="27" column="28" bodyfile="generated/Generated.cpp" bodystart="27" bodyend="27" declfile="generated/Identifiers.h" declline="31" declcolumn="31"/>
+        <referencedby refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="708" endline="726">Processor::onContinue</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a97fc0e281a26b7bd0b33f00ba7f88286" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::allThreadsStopped</definition>
+        <argsstring></argsstring>
+        <name>allThreadsStopped</name>
+        <qualifiedname>Id::allThreadsStopped</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;allThreadsStopped&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="28" column="28" bodyfile="generated/Generated.cpp" bodystart="28" bodyend="28" declfile="generated/Identifiers.h" declline="32" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" compoundref="_types_8cpp" startline="214" endline="235">dap::getExceptionStoppedEvent</referencedby>
+        <referencedby refid="namespacedap_1a336d8b131f80128060f5206c3c233455" compoundref="_types_8cpp" startline="189" endline="204">dap::getStoppedEvent</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ae69c5ff7f8f1211fbe16112f66411786" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::args</definition>
+        <argsstring></argsstring>
+        <name>args</name>
+        <qualifiedname>Id::args</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;args&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="29" column="28" bodyfile="generated/Generated.cpp" bodystart="29" bodyend="29" declfile="generated/Identifiers.h" declline="33" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a84f7acdd9b2452c53428cd5360edbd1f" compoundref="_types_8cpp" startline="167" endline="187">dap::appendRunInTerminalArguments</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a2333fa49126557436eb1441faf72fd4f" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::arguments</definition>
+        <argsstring></argsstring>
+        <name>arguments</name>
+        <qualifiedname>Id::arguments</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;arguments&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="30" column="28" bodyfile="generated/Generated.cpp" bodystart="30" bodyend="30" declfile="generated/Identifiers.h" declline="34" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a1a49a406f7bc8ed527a5d1e9999994f6" compoundref="_types_8h" startline="125" endline="133">dap::appendRequest</referencedby>
+        <referencedby refid="class_processor_1aa7e2b89e392988b25f5b937972f47f2d" compoundref="_processor_8cpp" startline="251" endline="256">Processor::getArguments</referencedby>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="564" endline="598">Processor::onDisconnect</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ad5687fa0dd037d3911f0048c85b8f830" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::attach</definition>
+        <argsstring></argsstring>
+        <name>attach</name>
+        <qualifiedname>Id::attach</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;attach&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="31" column="28" bodyfile="generated/Generated.cpp" bodystart="31" bodyend="31" declfile="generated/Identifiers.h" declline="35" declcolumn="31"/>
+        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="523" endline="551">Processor::onAttach</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ab2ea4b2c6cd0bbb5eb8b40f1c50c83aa" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::breakIn</definition>
+        <argsstring></argsstring>
+        <name>breakIn</name>
+        <qualifiedname>Id::breakIn</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;breakIn&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="32" column="28" bodyfile="generated/Generated.cpp" bodystart="32" bodyend="32" declfile="generated/Identifiers.h" declline="36" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ad9caf9316ea81f862c79ba6edcf10188" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::breakMode</definition>
+        <argsstring></argsstring>
+        <name>breakMode</name>
+        <qualifiedname>Id::breakMode</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;breakMode&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="33" column="28" bodyfile="generated/Generated.cpp" bodystart="33" bodyend="33" declfile="generated/Identifiers.h" declline="37" declcolumn="31"/>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="793" endline="811">Processor::onExceptionInfo</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1af9dbaff7db603045adf88ac0306e8720" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::breakpoint</definition>
+        <argsstring></argsstring>
+        <name>breakpoint</name>
+        <qualifiedname>Id::breakpoint</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;breakpoint&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="34" column="28" bodyfile="generated/Generated.cpp" bodystart="34" bodyend="34" declfile="generated/Identifiers.h" declline="38" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a2252839c7eb64619f5c79f9b0875ab18" compoundref="_types_8cpp" startline="93" endline="110">dap::appendBreakpointChangedEvent</referencedby>
+        <referencedby refid="namespacedebug_1a2e6be9ae21fb797cc0f1f00e3fcf90fb" compoundref="_session__mac_8cpp" startline="33" endline="36">debug::onBreakpointStop</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a03ba296bdc142edf0768af486bac4037" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::breakpointEngineId</definition>
+        <argsstring></argsstring>
+        <name>breakpointEngineId</name>
+        <qualifiedname>Id::breakpointEngineId</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;breakpointEngineId&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="35" column="28" bodyfile="generated/Generated.cpp" bodystart="35" bodyend="35" declfile="generated/Identifiers.h" declline="39" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" compoundref="_stop_manager_8cpp" startline="108" endline="121">debug::StopManager::drainBreakpointHit</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a66e966819d6d2cf2066dd4abe20010d1" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::breakpointLocationFound</definition>
+        <argsstring></argsstring>
+        <name>breakpointLocationFound</name>
+        <qualifiedname>Id::breakpointLocationFound</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;breakpointLocationFound&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="36" column="28" bodyfile="generated/Generated.cpp" bodystart="36" bodyend="36" declfile="generated/Identifiers.h" declline="40" declcolumn="31"/>
+        <referencedby refid="namespacedebug_1a27b0e00372dec0855774d4ac0eba3c10" compoundref="_session__mac_8cpp" startline="186" endline="207">debug::onBreakpointEvent</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="180" endline="208">Processor::registerEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a2909d28e5e49414abd10c6da17e0ab78" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::breakpoints</definition>
+        <argsstring></argsstring>
+        <name>breakpoints</name>
+        <qualifiedname>Id::breakpoints</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;breakpoints&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="37" column="28" bodyfile="generated/Generated.cpp" bodystart="37" bodyend="37" declfile="generated/Identifiers.h" declline="41" declcolumn="31"/>
+        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="600" endline="628">Processor::onSetBreakpoints</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ad19f6a6a53952f2bacc843fbe7fa6252" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>Id::category</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;category&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="38" column="28" bodyfile="generated/Generated.cpp" bodystart="38" bodyend="38" declfile="generated/Identifiers.h" declline="42" declcolumn="31"/>
+        <referencedby refid="namespacedap_1aa487f84892d5c501840a4dbae03b7800" compoundref="_types_8cpp" startline="237" endline="251">dap::getExceptionOutputEvent</referencedby>
+        <referencedby refid="namespacedap_1a36ecaf74c4e93e9b1d9f4325dea08262" compoundref="_types_8cpp" startline="274" endline="287">dap::getOutputEvent</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a1857d223be40f2fc4ee200b4a9fae742" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::changed</definition>
+        <argsstring></argsstring>
+        <name>changed</name>
+        <qualifiedname>Id::changed</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;changed&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="39" column="28" bodyfile="generated/Generated.cpp" bodystart="39" bodyend="39" declfile="generated/Identifiers.h" declline="43" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a2252839c7eb64619f5c79f9b0875ab18" compoundref="_types_8cpp" startline="93" endline="110">dap::appendBreakpointChangedEvent</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1af2239fe8341ea76506105b6ce8f3b749" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>Id::column</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;column&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="40" column="28" bodyfile="generated/Generated.cpp" bodystart="40" bodyend="40" declfile="generated/Identifiers.h" declline="44" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_session_1a8c839b8c18d56cf2952df599fc1f2e3d" compoundref="_session__mac_8cpp" startline="764" endline="793">debug::Session::appendStackFrame</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a2b36cef9965b16614122e5bf47bf10d9" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::commFileOption</definition>
+        <argsstring></argsstring>
+        <name>commFileOption</name>
+        <qualifiedname>Id::commFileOption</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;--comm-file&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="41" column="28" bodyfile="generated/Generated.cpp" bodystart="41" bodyend="41" declfile="generated/Identifiers.h" declline="45" declcolumn="31"/>
+        <referencedby refid="class_processor_1a28403704dc0835af3681e56345b85d2e" compoundref="_processor_8cpp" startline="478" endline="500">Processor::launchInTerminal</referencedby>
+        <referencedby refid="_main_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" compoundref="_main_8cpp" startline="239" endline="274">main</referencedby>
+        <referencedby refid="_main_8cpp_1a1ee175e4ac85212af9d1afec8473b7b3" compoundref="_main_8cpp" startline="229" endline="237">runLauncher</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1aaaa98dc4a338c9bfd2924bfee62ba46b" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::configurationDone</definition>
+        <argsstring></argsstring>
+        <name>configurationDone</name>
+        <qualifiedname>Id::configurationDone</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;configurationDone&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="42" column="28" bodyfile="generated/Generated.cpp" bodystart="42" bodyend="42" declfile="generated/Identifiers.h" declline="46" declcolumn="31"/>
+        <referencedby refid="class_processor_1a5ef207789c74afa70eb20f95ca575828" compoundref="_processor_8cpp" startline="553" endline="562">Processor::onConfigurationDone</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1adea1a2ab6acf45850b174d29a4f50ed2" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::console</definition>
+        <argsstring></argsstring>
+        <name>console</name>
+        <qualifiedname>Id::console</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;console&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="43" column="28" bodyfile="generated/Generated.cpp" bodystart="43" bodyend="43" declfile="generated/Identifiers.h" declline="47" declcolumn="31"/>
+        <referencedby refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" compoundref="_processor_8cpp" startline="440" endline="455">Processor::onLaunch</referencedby>
+        <referencedby refid="class_processor_1a964f0cfae95557ad5237e30fafe0e404" compoundref="_processor_8cpp" startline="232" endline="244">Processor::registerOutputEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ad8e86f09cfd42f1de89ec3600a3c26f5" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>Id::context</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;context&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="44" column="28" bodyfile="generated/Generated.cpp" bodystart="44" bodyend="44" declfile="generated/Identifiers.h" declline="48" declcolumn="31"/>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="813" endline="844">Processor::onEvaluate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ae2438ab1ad2671a70cc66946307484d1" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::continueCommand</definition>
+        <argsstring></argsstring>
+        <name>continueCommand</name>
+        <qualifiedname>Id::continueCommand</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;continue&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="45" column="28" bodyfile="generated/Generated.cpp" bodystart="45" bodyend="45" declfile="generated/Identifiers.h" declline="49" declcolumn="31"/>
+        <referencedby refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="708" endline="726">Processor::onContinue</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1aea223155c87dc5e79cfa8ff02d95461b" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::didAttach</definition>
+        <argsstring></argsstring>
+        <name>didAttach</name>
+        <qualifiedname>Id::didAttach</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;didAttach&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="46" column="28" bodyfile="generated/Generated.cpp" bodystart="46" bodyend="46" declfile="generated/Identifiers.h" declline="50" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_session_1ae0cff8943c2cdbd0906c0d3516addddf" compoundref="_session__mac_8cpp" startline="337" endline="352">debug::Session::attachLaunchTarget</referencedby>
+        <referencedby refid="namespacedebug_1acd0bfcd07f3164b8dd0db830ff0f63f5" compoundref="_session__mac_8cpp" startline="290" endline="293">debug::getDidAttachFile</referencedby>
+        <referencedby refid="class_launcher_1a15339e99eff42dc61d6772b3c36a79b4" compoundref="_launcher_8cpp" startline="113" endline="125">Launcher::isAttached</referencedby>
+        <referencedby refid="class_processor_1a0d99918b0acbc30b8cc7f6fc524a7bd2" compoundref="_processor_8cpp" startline="210" endline="230">Processor::registerLauncherEvents</referencedby>
+        <referencedby refid="class_launcher_1a725a3958001b044eb14d96569b77f115" compoundref="_launcher_8cpp" startline="164" endline="226">Launcher::run</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ab17bfa72486464b873a658e0ecf6e40a" compoundref="_session__mac_8cpp" startline="316" endline="335">debug::Session::sendDidAttach</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a3994698584e63be0a9cb7f7c7573401c" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::disconnect</definition>
+        <argsstring></argsstring>
+        <name>disconnect</name>
+        <qualifiedname>Id::disconnect</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;disconnect&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="47" column="28" bodyfile="generated/Generated.cpp" bodystart="47" bodyend="47" declfile="generated/Identifiers.h" declline="51" declcolumn="31"/>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="7" endline="30">Processor::Processor</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a8b7636944e9a0c1d9e4f9d73660b14d8" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>Id::error</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;error&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="48" column="28" bodyfile="generated/Generated.cpp" bodystart="48" bodyend="48" declfile="generated/Identifiers.h" declline="52" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_session_1ae0cff8943c2cdbd0906c0d3516addddf" compoundref="_session__mac_8cpp" startline="337" endline="352">debug::Session::attachLaunchTarget</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" compoundref="_session__mac_8cpp" startline="354" endline="391">debug::Session::drainLauncherOutput</referencedby>
+        <referencedby refid="class_processor_1a0d99918b0acbc30b8cc7f6fc524a7bd2" compoundref="_processor_8cpp" startline="210" endline="230">Processor::registerLauncherEvents</referencedby>
+        <referencedby refid="class_launcher_1a7e4c99bb3017c6566241551e1a3b65ed" compoundref="_launcher_8cpp" startline="47" endline="61">Launcher::sendError</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a3280247fd5138f5942e66698c30d7cf8" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::evaluate</definition>
+        <argsstring></argsstring>
+        <name>evaluate</name>
+        <qualifiedname>Id::evaluate</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;evaluate&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="49" column="28" bodyfile="generated/Generated.cpp" bodystart="49" bodyend="49" declfile="generated/Identifiers.h" declline="53" declcolumn="31"/>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="813" endline="844">Processor::onEvaluate</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a7d17b52a35c76be4fb253d49def99a67" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::exception</definition>
+        <argsstring></argsstring>
+        <name>exception</name>
+        <qualifiedname>Id::exception</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;exception&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="50" column="28" bodyfile="generated/Generated.cpp" bodystart="50" bodyend="50" declfile="generated/Identifiers.h" declline="54" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" compoundref="_types_8cpp" startline="214" endline="235">dap::getExceptionStoppedEvent</referencedby>
+        <referencedby refid="namespacedebug_1a9652a8e4d4e6a794228ec2a9eabe2161" compoundref="_session__mac_8cpp" startline="58" endline="64">debug::onExceptionStop</referencedby>
+        <referencedby refid="namespacedebug_1a21296221342fed577c18ddbe741fa44d" compoundref="_session__mac_8cpp" startline="50" endline="56">debug::onSignalStop</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1abbfc9c9f4f106c68b6cc7eab8d95d4b4" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::exceptionAddress</definition>
+        <argsstring></argsstring>
+        <name>exceptionAddress</name>
+        <qualifiedname>Id::exceptionAddress</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;exceptionAddress&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="51" column="28" bodyfile="generated/Generated.cpp" bodystart="51" bodyend="51" declfile="generated/Identifiers.h" declline="55" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="175" endline="195">debug::StopManager::drainExceptionStopped</referencedby>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="793" endline="811">Processor::onExceptionInfo</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1aef15ba1881dec10e5d27afad18e46b66" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::exceptionCode</definition>
+        <argsstring></argsstring>
+        <name>exceptionCode</name>
+        <qualifiedname>Id::exceptionCode</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;exceptionCode&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="52" column="28" bodyfile="generated/Generated.cpp" bodystart="52" bodyend="52" declfile="generated/Identifiers.h" declline="56" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="175" endline="195">debug::StopManager::drainExceptionStopped</referencedby>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="793" endline="811">Processor::onExceptionInfo</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1acf9673d92baff2b728066decb3d1a745" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::exceptionId</definition>
+        <argsstring></argsstring>
+        <name>exceptionId</name>
+        <qualifiedname>Id::exceptionId</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;exceptionId&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="53" column="28" bodyfile="generated/Generated.cpp" bodystart="53" bodyend="53" declfile="generated/Identifiers.h" declline="57" declcolumn="31"/>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="793" endline="811">Processor::onExceptionInfo</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a82dba3f14030b0bb57f3e46150805bf8" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::exceptionInfo</definition>
+        <argsstring></argsstring>
+        <name>exceptionInfo</name>
+        <qualifiedname>Id::exceptionInfo</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;exceptionInfo&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="54" column="28" bodyfile="generated/Generated.cpp" bodystart="54" bodyend="54" declfile="generated/Identifiers.h" declline="58" declcolumn="31"/>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="793" endline="811">Processor::onExceptionInfo</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a5920e903fac6fac03732e509917fc501" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::executionState</definition>
+        <argsstring></argsstring>
+        <name>executionState</name>
+        <qualifiedname>Id::executionState</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;executionState&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="55" column="28" bodyfile="generated/Generated.cpp" bodystart="55" bodyend="55" declfile="generated/Identifiers.h" declline="59" declcolumn="31"/>
+        <referencedby refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" compoundref="_processor_8cpp" startline="341" endline="370">Processor::drainProcessExited</referencedby>
+        <referencedby refid="class_processor_1ae3dd418216ebb9a28fbc82c5eb61de8b" compoundref="_processor_8cpp" startline="372" endline="385">Processor::drainTerminateTimeout</referencedby>
+        <referencedby refid="class_processor_1a616112bd8cbe927cec6426da3dc64d6d" compoundref="_processor_8cpp" startline="399" endline="405">Processor::getEndModeForExit</referencedby>
+        <referencedby refid="class_processor_1a951c31df848d400fb06e0cebcb1c55f9" compoundref="_processor_8cpp" startline="109" endline="116">Processor::isDeferred</referencedby>
+        <referencedby refid="class_processor_1aa519050b3bc4dedaa3a81d51138cb25f" compoundref="_processor_8cpp" startline="100" endline="107">Processor::isPolling</referencedby>
+        <referencedby refid="class_processor_1a1c7c3524b82bf7df9f07ff1717970da2" compoundref="_processor_8cpp" startline="457" endline="476">Processor::launchInConsole</referencedby>
+        <referencedby refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="708" endline="726">Processor::onContinue</referencedby>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="564" endline="598">Processor::onDisconnect</referencedby>
+        <referencedby refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" compoundref="_processor_8cpp" startline="728" endline="743">Processor::onNext</referencedby>
+        <referencedby refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" compoundref="_processor_8cpp" startline="779" endline="791">Processor::onPause</referencedby>
+        <referencedby refid="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" compoundref="_session__mac_8cpp" startline="118" endline="137">debug::onProcessStateStopped</referencedby>
+        <referencedby refid="class_processor_1a57d2c4aa25b0c6786bbce3eb3a78a4a8" compoundref="_processor_8cpp" startline="418" endline="423">Processor::onReleaseResources</referencedby>
+        <referencedby refid="class_processor_1af90b813821839e15e8321c4817c07bf9" compoundref="_processor_8cpp" startline="118" endline="134">Processor::onRequest</referencedby>
+        <referencedby refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" compoundref="_processor_8cpp" startline="745" endline="760">Processor::onStepIn</referencedby>
+        <referencedby refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" compoundref="_processor_8cpp" startline="762" endline="777">Processor::onStepOut</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="180" endline="208">Processor::registerEvents</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a11cf2cbc87df89b6ac71d2c9192cda02" compoundref="_stop_manager_8cpp" startline="229" endline="233">debug::StopManager::resumeExecution</referencedby>
+        <referencedby refid="class_processor_1a5429f57729737f7bd4c78a1c1d027c43" compoundref="_processor_8cpp" startline="511" endline="521">Processor::setAttachedState</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a60a61720df0f1bb8dd41cf9f90690705" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::exitCode</definition>
+        <argsstring></argsstring>
+        <name>exitCode</name>
+        <qualifiedname>Id::exitCode</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;exitCode&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="56" column="28" bodyfile="generated/Generated.cpp" bodystart="56" bodyend="56" declfile="generated/Identifiers.h" declline="60" declcolumn="31"/>
+        <referencedby refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" compoundref="_processor_8cpp" startline="341" endline="370">Processor::drainProcessExited</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a893f1bea9b355beec320cbadcf9ca349" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::exited</definition>
+        <argsstring></argsstring>
+        <name>exited</name>
+        <qualifiedname>Id::exited</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;exited&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="57" column="28" bodyfile="generated/Generated.cpp" bodystart="57" bodyend="57" declfile="generated/Identifiers.h" declline="61" declcolumn="31"/>
+        <referencedby refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" compoundref="_processor_8cpp" startline="341" endline="370">Processor::drainProcessExited</referencedby>
+        <referencedby refid="namespacedebug_1ae3a853e11719527b9f16a798689814eb" compoundref="_session__mac_8cpp" startline="139" endline="147">debug::onProcessStateExited</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="180" endline="208">Processor::registerEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ab74bced1be093ee0caf8a2a66e734bf0" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::expensive</definition>
+        <argsstring></argsstring>
+        <name>expensive</name>
+        <qualifiedname>Id::expensive</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;expensive&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="58" column="28" bodyfile="generated/Generated.cpp" bodystart="58" bodyend="58" declfile="generated/Identifiers.h" declline="62" declcolumn="31"/>
+        <referencedby refid="class_processor_1a01cea4d8ebd137a2673924b91e9cea3f" compoundref="_processor_8cpp" startline="265" endline="276">Processor::appendLocalsScope</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a6d4017aae5c6716f43f5556367b3b4b9" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::expression</definition>
+        <argsstring></argsstring>
+        <name>expression</name>
+        <qualifiedname>Id::expression</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;expression&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="59" column="28" bodyfile="generated/Generated.cpp" bodystart="59" bodyend="59" declfile="generated/Identifiers.h" declline="63" declcolumn="31"/>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="813" endline="844">Processor::onEvaluate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a7dc2cae9be34ee779869af5935086000" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::external</definition>
+        <argsstring></argsstring>
+        <name>external</name>
+        <qualifiedname>Id::external</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;external&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="60" column="28" bodyfile="generated/Generated.cpp" bodystart="60" bodyend="60" declfile="generated/Identifiers.h" declline="64" declcolumn="31"/>
+        <referencedby refid="class_processor_1a28403704dc0835af3681e56345b85d2e" compoundref="_processor_8cpp" startline="478" endline="500">Processor::launchInTerminal</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a2afe8213fdea88b9e6c3b48e734174fa" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::externalTerminal</definition>
+        <argsstring></argsstring>
+        <name>externalTerminal</name>
+        <qualifiedname>Id::externalTerminal</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;externalTerminal&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="61" column="28" bodyfile="generated/Generated.cpp" bodystart="61" bodyend="61" declfile="generated/Identifiers.h" declline="65" declcolumn="31"/>
+        <referencedby refid="class_processor_1a28403704dc0835af3681e56345b85d2e" compoundref="_processor_8cpp" startline="478" endline="500">Processor::launchInTerminal</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a48418e64354437ec9581f2da43c55b55" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::frameId</definition>
+        <argsstring></argsstring>
+        <name>frameId</name>
+        <qualifiedname>Id::frameId</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;frameId&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="62" column="28" bodyfile="generated/Generated.cpp" bodystart="62" bodyend="62" declfile="generated/Identifiers.h" declline="66" declcolumn="31"/>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="813" endline="844">Processor::onEvaluate</referencedby>
+        <referencedby refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" compoundref="_processor_8cpp" startline="672" endline="689">Processor::onScopes</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a8016a13207fb35c95eb5852f26d98743" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::hitBreakpointIds</definition>
+        <argsstring></argsstring>
+        <name>hitBreakpointIds</name>
+        <qualifiedname>Id::hitBreakpointIds</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;hitBreakpointIds&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="63" column="28" bodyfile="generated/Generated.cpp" bodystart="63" bodyend="63" declfile="generated/Identifiers.h" declline="67" declcolumn="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ac2cff7c4729de94f8f46197b096b895c" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::hover</definition>
+        <argsstring></argsstring>
+        <name>hover</name>
+        <qualifiedname>Id::hover</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;hover&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="64" column="28" bodyfile="generated/Generated.cpp" bodystart="64" bodyend="64" declfile="generated/Identifiers.h" declline="68" declcolumn="31"/>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="813" endline="844">Processor::onEvaluate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a968b064271ba4315dde3cdf9edc7b1ae" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::initialBreak</definition>
+        <argsstring></argsstring>
+        <name>initialBreak</name>
+        <qualifiedname>Id::initialBreak</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;initialBreak&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="65" column="28" bodyfile="generated/Generated.cpp" bodystart="65" bodyend="65" declfile="generated/Identifiers.h" declline="69" declcolumn="31"/>
+        <referencedby refid="namespacedebug_1a5b34e5dc08f5d482967f36c819a0213c" compoundref="_session__mac_8cpp" startline="118" endline="137">debug::onProcessStateStopped</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a8aeb3c62a45996c5a9c9000c8e6f6f65" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::initialize</definition>
+        <argsstring></argsstring>
+        <name>initialize</name>
+        <qualifiedname>Id::initialize</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;initialize&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="66" column="28" bodyfile="generated/Generated.cpp" bodystart="66" bodyend="66" declfile="generated/Identifiers.h" declline="70" declcolumn="31"/>
+        <referencedby refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" compoundref="_processor_8cpp" startline="425" endline="438">Processor::onInitialize</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a961dae6c3dba18c99afb722307c19c2e" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::initialized</definition>
+        <argsstring></argsstring>
+        <name>initialized</name>
+        <qualifiedname>Id::initialized</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;initialized&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="67" column="28" bodyfile="generated/Generated.cpp" bodystart="67" bodyend="67" declfile="generated/Identifiers.h" declline="71" declcolumn="31"/>
+        <referencedby refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" compoundref="_processor_8cpp" startline="425" endline="438">Processor::onInitialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a495c65b0bd86da7c8209e5cc86536b5f" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::integrated</definition>
+        <argsstring></argsstring>
+        <name>integrated</name>
+        <qualifiedname>Id::integrated</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;integrated&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="68" column="28" bodyfile="generated/Generated.cpp" bodystart="68" bodyend="68" declfile="generated/Identifiers.h" declline="72" declcolumn="31"/>
+        <referencedby refid="class_processor_1a28403704dc0835af3681e56345b85d2e" compoundref="_processor_8cpp" startline="478" endline="500">Processor::launchInTerminal</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1af066a50272c089c02afc64898ee7492a" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::integratedTerminal</definition>
+        <argsstring></argsstring>
+        <name>integratedTerminal</name>
+        <qualifiedname>Id::integratedTerminal</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;integratedTerminal&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="69" column="28" bodyfile="generated/Generated.cpp" bodystart="69" bodyend="69" declfile="generated/Identifiers.h" declline="73" declcolumn="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1adceefac4772418950935806308942aa7" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::internalConsole</definition>
+        <argsstring></argsstring>
+        <name>internalConsole</name>
+        <qualifiedname>Id::internalConsole</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;internalConsole&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="70" column="28" bodyfile="generated/Generated.cpp" bodystart="70" bodyend="70" declfile="generated/Identifiers.h" declline="74" declcolumn="31"/>
+        <referencedby refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" compoundref="_processor_8cpp" startline="440" endline="455">Processor::onLaunch</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a1654c72d505b706df0408cf4977957fd" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::isBreakInPending</definition>
+        <argsstring></argsstring>
+        <name>isBreakInPending</name>
+        <qualifiedname>Id::isBreakInPending</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;isBreakInPending&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="71" column="28" bodyfile="generated/Generated.cpp" bodystart="71" bodyend="71" declfile="generated/Identifiers.h" declline="75" declcolumn="31"/>
+        <referencedby refid="class_processor_1a471ef2434828ff4292a6e51547ae9a28" compoundref="_processor_8cpp" startline="387" endline="397">Processor::drainInputClosed</referencedby>
+        <referencedby refid="class_processor_1af90b813821839e15e8321c4817c07bf9" compoundref="_processor_8cpp" startline="118" endline="134">Processor::onRequest</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a1686b1851bf4fefef4b5613b05c0c8d3" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::isConfigurationDone</definition>
+        <argsstring></argsstring>
+        <name>isConfigurationDone</name>
+        <qualifiedname>Id::isConfigurationDone</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;isConfigurationDone&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="72" column="28" bodyfile="generated/Generated.cpp" bodystart="72" bodyend="72" declfile="generated/Identifiers.h" declline="76" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1a23350ca0377ae83e11468a7301a41852" compoundref="_stop_manager_8cpp" startline="97" endline="106">debug::StopManager::drainInitialBreak</referencedby>
+        <referencedby refid="class_processor_1a5ef207789c74afa70eb20f95ca575828" compoundref="_processor_8cpp" startline="553" endline="562">Processor::onConfigurationDone</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1add8168a19b42f6bbc63f8132be088c4c" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::isInputClosed</definition>
+        <argsstring></argsstring>
+        <name>isInputClosed</name>
+        <qualifiedname>Id::isInputClosed</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;isInputClosed&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="73" column="28" bodyfile="generated/Generated.cpp" bodystart="73" bodyend="73" declfile="generated/Identifiers.h" declline="77" declcolumn="31"/>
+        <referencedby refid="class_processor_1a471ef2434828ff4292a6e51547ae9a28" compoundref="_processor_8cpp" startline="387" endline="397">Processor::drainInputClosed</referencedby>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="7" endline="30">Processor::Processor</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a7829a3d7043d046e95be43aa739fcb75" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::isLocalProcess</definition>
+        <argsstring></argsstring>
+        <name>isLocalProcess</name>
+        <qualifiedname>Id::isLocalProcess</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;isLocalProcess&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="74" column="28" bodyfile="generated/Generated.cpp" bodystart="74" bodyend="74" declfile="generated/Identifiers.h" declline="78" declcolumn="31"/>
+        <referencedby refid="namespacedap_1aff116122c81f4bb50a0e85ec69b7f2b8" compoundref="_types_8cpp" startline="253" endline="272">dap::getProcessEvent</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1aecf9e31ac41ecd0c122665be6dad624d" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::isMachException</definition>
+        <argsstring></argsstring>
+        <name>isMachException</name>
+        <qualifiedname>Id::isMachException</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;isMachException&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="75" column="28" bodyfile="generated/Generated.cpp" bodystart="75" bodyend="75" declfile="generated/Identifiers.h" declline="79" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="175" endline="195">debug::StopManager::drainExceptionStopped</referencedby>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="793" endline="811">Processor::onExceptionInfo</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1acaa5ed87630554a54472e27567897c48" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::isPausePending</definition>
+        <argsstring></argsstring>
+        <name>isPausePending</name>
+        <qualifiedname>Id::isPausePending</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;isPausePending&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="76" column="28" bodyfile="generated/Generated.cpp" bodystart="76" bodyend="76" declfile="generated/Identifiers.h" declline="80" declcolumn="31"/>
+        <referencedby refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="708" endline="726">Processor::onContinue</referencedby>
+        <referencedby refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" compoundref="_processor_8cpp" startline="779" endline="791">Processor::onPause</referencedby>
+        <referencedby refid="namespacedebug_1a7e36feaf4dfb9935470b3dec0e2474f9" compoundref="_session__mac_8cpp" startline="88" endline="116">debug::onStopReason</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1aee57c311fbc5f5e904170640702aee6b" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::isRunInTerminalSupported</definition>
+        <argsstring></argsstring>
+        <name>isRunInTerminalSupported</name>
+        <qualifiedname>Id::isRunInTerminalSupported</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;isRunInTerminalSupported&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="77" column="28" bodyfile="generated/Generated.cpp" bodystart="77" bodyend="77" declfile="generated/Identifiers.h" declline="81" declcolumn="31"/>
+        <referencedby refid="class_processor_1a28403704dc0835af3681e56345b85d2e" compoundref="_processor_8cpp" startline="478" endline="500">Processor::launchInTerminal</referencedby>
+        <referencedby refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" compoundref="_processor_8cpp" startline="425" endline="438">Processor::onInitialize</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ad5a972b9551c4ba5c5c15a733ec48d69" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::isRunning</definition>
+        <argsstring></argsstring>
+        <name>isRunning</name>
+        <qualifiedname>Id::isRunning</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;isRunning&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="78" column="28" bodyfile="generated/Generated.cpp" bodystart="78" bodyend="78" declfile="generated/Identifiers.h" declline="82" declcolumn="31"/>
+        <referencedby refid="class_processor_1a471ef2434828ff4292a6e51547ae9a28" compoundref="_processor_8cpp" startline="387" endline="397">Processor::drainInputClosed</referencedby>
+        <referencedby refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" compoundref="_processor_8cpp" startline="341" endline="370">Processor::drainProcessExited</referencedby>
+        <referencedby refid="class_processor_1ae3dd418216ebb9a28fbc82c5eb61de8b" compoundref="_processor_8cpp" startline="372" endline="385">Processor::drainTerminateTimeout</referencedby>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="564" endline="598">Processor::onDisconnect</referencedby>
+        <referencedby refid="class_processor_1a6daa1391fc141ac34d6ea84d8fe23f70" compoundref="_processor_8cpp" startline="407" endline="416">Processor::onPrepare</referencedby>
+        <referencedby refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" compoundref="_processor_8cpp" startline="37" endline="53">Processor::prepare</referencedby>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="69" endline="98">Processor::process</referencedby>
+        <referencedby refid="class_whatdbg_1ad2abd312b4a7640e66f8ed8c6bf706c7" compoundref="_whatdbg_8cpp" startline="72" endline="82">Whatdbg::registerEvents</referencedby>
+        <referencedby refid="class_whatdbg_1a3437440814122d96c40b764cab8f528a" compoundref="_whatdbg_8cpp" startline="3" endline="13">Whatdbg::Whatdbg</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a1397f7ce0b093aa7091d5057a28bfe83" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::isStepPending</definition>
+        <argsstring></argsstring>
+        <name>isStepPending</name>
+        <qualifiedname>Id::isStepPending</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;isStepPending&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="79" column="28" bodyfile="generated/Generated.cpp" bodystart="79" bodyend="79" declfile="generated/Identifiers.h" declline="83" declcolumn="31"/>
+        <referencedby refid="class_processor_1ae1ecb162fa0f9c4cc71d53778f67883d" compoundref="_processor_8cpp" startline="708" endline="726">Processor::onContinue</referencedby>
+        <referencedby refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" compoundref="_processor_8cpp" startline="728" endline="743">Processor::onNext</referencedby>
+        <referencedby refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" compoundref="_processor_8cpp" startline="745" endline="760">Processor::onStepIn</referencedby>
+        <referencedby refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" compoundref="_processor_8cpp" startline="762" endline="777">Processor::onStepOut</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a0b34f9abc212e24db3f8ab42517a3c6b" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>Id::kind</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;kind&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="80" column="28" bodyfile="generated/Generated.cpp" bodystart="80" bodyend="80" declfile="generated/Identifiers.h" declline="84" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a84f7acdd9b2452c53428cd5360edbd1f" compoundref="_types_8cpp" startline="167" endline="187">dap::appendRunInTerminalArguments</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" compoundref="_session__mac_8cpp" startline="354" endline="391">debug::Session::drainLauncherOutput</referencedby>
+        <referencedby refid="class_launcher_1a15339e99eff42dc61d6772b3c36a79b4" compoundref="_launcher_8cpp" startline="113" endline="125">Launcher::isAttached</referencedby>
+        <referencedby refid="classdebug_1_1_session_1ab17bfa72486464b873a658e0ecf6e40a" compoundref="_session__mac_8cpp" startline="316" endline="335">debug::Session::sendDidAttach</referencedby>
+        <referencedby refid="class_launcher_1a7e4c99bb3017c6566241551e1a3b65ed" compoundref="_launcher_8cpp" startline="47" endline="61">Launcher::sendError</referencedby>
+        <referencedby refid="class_launcher_1a5321ca455c727f3180428c67f53731d3" compoundref="_launcher_8cpp" startline="31" endline="45">Launcher::sendPid</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ad12cc0b46dca2c038ee89e8f594b103f" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::launch</definition>
+        <argsstring></argsstring>
+        <name>launch</name>
+        <qualifiedname>Id::launch</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;launch&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="81" column="28" bodyfile="generated/Generated.cpp" bodystart="81" bodyend="81" declfile="generated/Identifiers.h" declline="85" declcolumn="31"/>
+        <referencedby refid="class_processor_1a85d762de429f761d1ca7931efb1b4d5c" compoundref="_processor_8cpp" startline="320" endline="326">Processor::addLaunchErrorResponse</referencedby>
+        <referencedby refid="class_processor_1a1c7c3524b82bf7df9f07ff1717970da2" compoundref="_processor_8cpp" startline="457" endline="476">Processor::launchInConsole</referencedby>
+        <referencedby refid="class_processor_1a28403704dc0835af3681e56345b85d2e" compoundref="_processor_8cpp" startline="478" endline="500">Processor::launchInTerminal</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+        <referencedby refid="class_processor_1a0d99918b0acbc30b8cc7f6fc524a7bd2" compoundref="_processor_8cpp" startline="210" endline="230">Processor::registerLauncherEvents</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="197" endline="227">debug::StopManager::resumeAfterInitialBreak</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a715654d240474c37a0464368e915780a" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::launchSequenceNumber</definition>
+        <argsstring></argsstring>
+        <name>launchSequenceNumber</name>
+        <qualifiedname>Id::launchSequenceNumber</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;launchSequenceNumber&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="82" column="28" bodyfile="generated/Generated.cpp" bodystart="82" bodyend="82" declfile="generated/Identifiers.h" declline="86" declcolumn="31"/>
+        <referencedby refid="class_processor_1a85d762de429f761d1ca7931efb1b4d5c" compoundref="_processor_8cpp" startline="320" endline="326">Processor::addLaunchErrorResponse</referencedby>
+        <referencedby refid="class_processor_1a28403704dc0835af3681e56345b85d2e" compoundref="_processor_8cpp" startline="478" endline="500">Processor::launchInTerminal</referencedby>
+        <referencedby refid="class_processor_1a0d99918b0acbc30b8cc7f6fc524a7bd2" compoundref="_processor_8cpp" startline="210" endline="230">Processor::registerLauncherEvents</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ac694f2fd347da734f022af6314f27515" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::launchTargetOption</definition>
+        <argsstring></argsstring>
+        <name>launchTargetOption</name>
+        <qualifiedname>Id::launchTargetOption</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;--launch-target&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="83" column="28" bodyfile="generated/Generated.cpp" bodystart="83" bodyend="83" declfile="generated/Identifiers.h" declline="87" declcolumn="31"/>
+        <referencedby refid="class_processor_1a28403704dc0835af3681e56345b85d2e" compoundref="_processor_8cpp" startline="478" endline="500">Processor::launchInTerminal</referencedby>
+        <referencedby refid="_main_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" compoundref="_main_8cpp" startline="239" endline="274">main</referencedby>
+        <referencedby refid="_main_8cpp_1a1ee175e4ac85212af9d1afec8473b7b3" compoundref="_main_8cpp" startline="229" endline="237">runLauncher</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a719fad8486076145f474dc8590e0612f" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::moduleLoad</definition>
+        <argsstring></argsstring>
+        <name>moduleLoad</name>
+        <qualifiedname>Id::moduleLoad</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;moduleLoad&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="84" column="28" bodyfile="generated/Generated.cpp" bodystart="84" bodyend="84" declfile="generated/Identifiers.h" declline="88" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a21bf10b66e1c2310e13de15732b06f08" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::next</definition>
+        <argsstring></argsstring>
+        <name>next</name>
+        <qualifiedname>Id::next</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;next&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="85" column="28" bodyfile="generated/Generated.cpp" bodystart="85" bodyend="85" declfile="generated/Identifiers.h" declline="89" declcolumn="31"/>
+        <referencedby refid="class_processor_1afaefc4bb257610f38607543e26e6bc5a" compoundref="_processor_8cpp" startline="728" endline="743">Processor::onNext</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a9f27da94bef79dc7fdd99088951c5d07" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::nextSequenceNumber</definition>
+        <argsstring></argsstring>
+        <name>nextSequenceNumber</name>
+        <qualifiedname>Id::nextSequenceNumber</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;nextSequenceNumber&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="86" column="28" bodyfile="generated/Generated.cpp" bodystart="86" bodyend="86" declfile="generated/Identifiers.h" declline="90" declcolumn="31"/>
+        <referencedby refid="namespacedap_1af10c2d4840bf9d2bd4bf68a1cf61b623" compoundref="_types_8cpp" startline="11" endline="20">dap::nextSeq</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a3c8da0c68c021ababf62dc69bef9488a" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>Id::output</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;output&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="87" column="28" bodyfile="generated/Generated.cpp" bodystart="87" bodyend="87" declfile="generated/Identifiers.h" declline="91" declcolumn="31"/>
+        <referencedby refid="namespacedap_1aa487f84892d5c501840a4dbae03b7800" compoundref="_types_8cpp" startline="237" endline="251">dap::getExceptionOutputEvent</referencedby>
+        <referencedby refid="namespacedap_1a36ecaf74c4e93e9b1d9f4325dea08262" compoundref="_types_8cpp" startline="274" endline="287">dap::getOutputEvent</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ad5cee4e44dc5ca86661799ba8754dd1e" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::pause</definition>
+        <argsstring></argsstring>
+        <name>pause</name>
+        <qualifiedname>Id::pause</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;pause&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="88" column="28" bodyfile="generated/Generated.cpp" bodystart="88" bodyend="88" declfile="generated/Identifiers.h" declline="92" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1ae491549724477f1c2457f0005f4e11e2" compoundref="_stop_manager_8cpp" startline="139" endline="152">debug::StopManager::drainPauseCompleted</referencedby>
+        <referencedby refid="namespacedebug_1a4b4411b81b81a2aa8d7ea83e6dfddb9d" compoundref="_session__mac_8cpp" startline="44" endline="48">debug::onInterruptStop</referencedby>
+        <referencedby refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" compoundref="_processor_8cpp" startline="779" endline="791">Processor::onPause</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a4778dd29d53d85279bd3353399326859" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::pid</definition>
+        <argsstring></argsstring>
+        <name>pid</name>
+        <qualifiedname>Id::pid</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;pid&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="89" column="28" bodyfile="generated/Generated.cpp" bodystart="89" bodyend="89" declfile="generated/Identifiers.h" declline="93" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_session_1a550a1129e2afd0f14f72b60f96c5c449" compoundref="_session__mac_8cpp" startline="354" endline="391">debug::Session::drainLauncherOutput</referencedby>
+        <referencedby refid="class_processor_1ac1ac024dd7335310bd7a36c2eeb6c4eb" compoundref="_processor_8cpp" startline="523" endline="551">Processor::onAttach</referencedby>
+        <referencedby refid="class_launcher_1a5321ca455c727f3180428c67f53731d3" compoundref="_launcher_8cpp" startline="31" endline="45">Launcher::sendPid</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ad2bcc22baaf85ffd3071dd02cbb33bd8" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::prepare</definition>
+        <argsstring></argsstring>
+        <name>prepare</name>
+        <qualifiedname>Id::prepare</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;prepare&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="90" column="28" bodyfile="generated/Generated.cpp" bodystart="90" bodyend="90" declfile="generated/Identifiers.h" declline="94" declcolumn="31"/>
+        <referencedby refid="class_processor_1a8edea0d4e8ecf8a4ae02c9794ff654a8" compoundref="_processor_8cpp" startline="37" endline="53">Processor::prepare</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1af70caa33d97ae32bb25fbe40b32f44b8" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::process</definition>
+        <argsstring></argsstring>
+        <name>process</name>
+        <qualifiedname>Id::process</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;process&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="91" column="28" bodyfile="generated/Generated.cpp" bodystart="91" bodyend="91" declfile="generated/Identifiers.h" declline="95" declcolumn="31"/>
+        <referencedby refid="namespacedap_1aff116122c81f4bb50a0e85ec69b7f2b8" compoundref="_types_8cpp" startline="253" endline="272">dap::getProcessEvent</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ab94e01b9b77bf89619c249d7dae6d924" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::processExitCode</definition>
+        <argsstring></argsstring>
+        <name>processExitCode</name>
+        <qualifiedname>Id::processExitCode</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;processExitCode&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="92" column="28" bodyfile="generated/Generated.cpp" bodystart="92" bodyend="92" declfile="generated/Identifiers.h" declline="96" declcolumn="31"/>
+        <referencedby refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" compoundref="_processor_8cpp" startline="341" endline="370">Processor::drainProcessExited</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="180" endline="208">Processor::registerEvents</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1aa608bf6763d1da8484593c5c3055889f" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::processId</definition>
+        <argsstring></argsstring>
+        <name>processId</name>
+        <qualifiedname>Id::processId</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;processId&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="93" column="28" bodyfile="generated/Generated.cpp" bodystart="93" bodyend="93" declfile="generated/Identifiers.h" declline="97" declcolumn="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a5baed0fe1803e5b8026fa72220c75425" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::program</definition>
+        <argsstring></argsstring>
+        <name>program</name>
+        <qualifiedname>Id::program</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;program&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="94" column="28" bodyfile="generated/Generated.cpp" bodystart="94" bodyend="94" declfile="generated/Identifiers.h" declline="98" declcolumn="31"/>
+        <referencedby refid="class_processor_1aa886ddeb67c969bcaecb3e1844ab9f79" compoundref="_processor_8cpp" startline="440" endline="455">Processor::onLaunch</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a9b4ec5e66274c360356c8239b90e81a1" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>Id::reason</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;reason&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="95" column="28" bodyfile="generated/Generated.cpp" bodystart="95" bodyend="95" declfile="generated/Identifiers.h" declline="99" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a2252839c7eb64619f5c79f9b0875ab18" compoundref="_types_8cpp" startline="93" endline="110">dap::appendBreakpointChangedEvent</referencedby>
+        <referencedby refid="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" compoundref="_types_8cpp" startline="214" endline="235">dap::getExceptionStoppedEvent</referencedby>
+        <referencedby refid="namespacedap_1a336d8b131f80128060f5206c3c233455" compoundref="_types_8cpp" startline="189" endline="204">dap::getStoppedEvent</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="197" endline="227">debug::StopManager::resumeAfterInitialBreak</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1af66536793828f41bc0211ef4dc71753b" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::releaseResources</definition>
+        <argsstring></argsstring>
+        <name>releaseResources</name>
+        <qualifiedname>Id::releaseResources</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;releaseResources&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="96" column="28" bodyfile="generated/Generated.cpp" bodystart="96" bodyend="96" declfile="generated/Identifiers.h" declline="100" declcolumn="31"/>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+        <referencedby refid="class_processor_1a379381665169c712bb1aea2433b5395f" compoundref="_processor_8cpp" startline="55" endline="62">Processor::releaseResources</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1af4e71980bee2a5365b2626999eb5bf71" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::request</definition>
+        <argsstring></argsstring>
+        <name>request</name>
+        <qualifiedname>Id::request</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;request&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="97" column="28" bodyfile="generated/Generated.cpp" bodystart="97" bodyend="97" declfile="generated/Identifiers.h" declline="101" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a9017bb074f243c44e03c5884a4704e9a" compoundref="_types_8cpp" startline="48" endline="53">dap::appendRequestMembers</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a5c863dd1e25e392e3170e8ef2468688c" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::requestSeq</definition>
+        <argsstring></argsstring>
+        <name>requestSeq</name>
+        <qualifiedname>Id::requestSeq</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;request_seq&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="98" column="28" bodyfile="generated/Generated.cpp" bodystart="98" bodyend="98" declfile="generated/Identifiers.h" declline="102" declcolumn="31"/>
+        <referencedby refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" compoundref="_types_8cpp" startline="30" endline="39">dap::appendResponseMembers</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a027a3e8fffcb394673c7894068573660" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::response</definition>
+        <argsstring></argsstring>
+        <name>response</name>
+        <qualifiedname>Id::response</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;response&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="99" column="28" bodyfile="generated/Generated.cpp" bodystart="99" bodyend="99" declfile="generated/Identifiers.h" declline="103" declcolumn="31"/>
+        <referencedby refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" compoundref="_types_8cpp" startline="30" endline="39">dap::appendResponseMembers</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a4d0c202389586ef61d84b669241a4739" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>Id::result</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;result&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="100" column="28" bodyfile="generated/Generated.cpp" bodystart="100" bodyend="100" declfile="generated/Identifiers.h" declline="104" declcolumn="31"/>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="813" endline="844">Processor::onEvaluate</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a37b6f8b775719737168e02dfa834707b" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::runInTerminal</definition>
+        <argsstring></argsstring>
+        <name>runInTerminal</name>
+        <qualifiedname>Id::runInTerminal</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;runInTerminal&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="101" column="28" bodyfile="generated/Generated.cpp" bodystart="101" bodyend="101" declfile="generated/Identifiers.h" declline="105" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_session_1aa9caba28f79faae7696bc16f80f01b80" compoundref="_session__mac_8cpp" startline="295" endline="314">debug::Session::createCommFile</referencedby>
+        <referencedby refid="class_processor_1a28403704dc0835af3681e56345b85d2e" compoundref="_processor_8cpp" startline="478" endline="500">Processor::launchInTerminal</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+        <referencedby refid="class_processor_1a0d99918b0acbc30b8cc7f6fc524a7bd2" compoundref="_processor_8cpp" startline="210" endline="230">Processor::registerLauncherEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a000989b688b65316ee03a14c6fec2ef6" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::running</definition>
+        <argsstring></argsstring>
+        <name>running</name>
+        <qualifiedname>Id::running</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;running&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="102" column="28" bodyfile="generated/Generated.cpp" bodystart="102" bodyend="102" declfile="generated/Identifiers.h" declline="106" declcolumn="31"/>
+        <referencedby refid="namespacedebug_1abb112a9371b352c87b37197fb1d2f591" compoundref="_session__mac_8cpp" startline="149" endline="157">debug::onProcessStateRunning</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="180" endline="208">Processor::registerEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a1d05f2637283005e4b2c47b82ebe3e40" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::scopes</definition>
+        <argsstring></argsstring>
+        <name>scopes</name>
+        <qualifiedname>Id::scopes</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;scopes&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="103" column="28" bodyfile="generated/Generated.cpp" bodystart="103" bodyend="103" declfile="generated/Identifiers.h" declline="107" declcolumn="31"/>
+        <referencedby refid="class_processor_1a2a6dfdbd60ed2e7984ff6695811de6f9" compoundref="_processor_8cpp" startline="672" endline="689">Processor::onScopes</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1abdf0cd1b922dc9e184b37465a4c92e9c" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::seq</definition>
+        <argsstring></argsstring>
+        <name>seq</name>
+        <qualifiedname>Id::seq</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;seq&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="104" column="28" bodyfile="generated/Generated.cpp" bodystart="104" bodyend="104" declfile="generated/Identifiers.h" declline="108" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a302bfbcf89b497410095e68de509a548" compoundref="_types_8cpp" startline="22" endline="28">dap::appendMessageMembers</referencedby>
+        <referencedby refid="class_processor_1aabc241f71309c79c1da916c072901043" compoundref="_processor_8cpp" startline="246" endline="249">Processor::getRequestSeq</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a855da654f9346359488f6a869d2553b8" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::session</definition>
+        <argsstring></argsstring>
+        <name>session</name>
+        <qualifiedname>Id::session</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;session&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="105" column="28" bodyfile="generated/Generated.cpp" bodystart="105" bodyend="105" declfile="generated/Identifiers.h" declline="109" declcolumn="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a30ce1803fbba1b42c89b803bde5eed93" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::setBreakpoints</definition>
+        <argsstring></argsstring>
+        <name>setBreakpoints</name>
+        <qualifiedname>Id::setBreakpoints</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;setBreakpoints&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="106" column="28" bodyfile="generated/Generated.cpp" bodystart="106" bodyend="106" declfile="generated/Identifiers.h" declline="110" declcolumn="31"/>
+        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="600" endline="628">Processor::onSetBreakpoints</referencedby>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="7" endline="30">Processor::Processor</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a866863bd05f02eeabe7e4f66b277a6c3" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::shouldTerminateOnExit</definition>
+        <argsstring></argsstring>
+        <name>shouldTerminateOnExit</name>
+        <qualifiedname>Id::shouldTerminateOnExit</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;shouldTerminateOnExit&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="107" column="28" bodyfile="generated/Generated.cpp" bodystart="107" bodyend="107" declfile="generated/Identifiers.h" declline="111" declcolumn="31"/>
+        <referencedby refid="class_processor_1a616112bd8cbe927cec6426da3dc64d6d" compoundref="_processor_8cpp" startline="399" endline="405">Processor::getEndModeForExit</referencedby>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="564" endline="598">Processor::onDisconnect</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a0373df11a0741f497b13b791d42c06e9" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>Id::source</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;source&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="108" column="28" bodyfile="generated/Generated.cpp" bodystart="108" bodyend="108" declfile="generated/Identifiers.h" declline="112" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a5f2aae3ed3cf48d9827df97ea3fc1661" compoundref="_breakpoint_manager_8cpp" startline="163" endline="191">debug::BreakpointManager::appendBreakpoint</referencedby>
+        <referencedby refid="classdebug_1_1_session_1a8c839b8c18d56cf2952df599fc1f2e3d" compoundref="_session__mac_8cpp" startline="764" endline="793">debug::Session::appendStackFrame</referencedby>
+        <referencedby refid="class_processor_1a1fdbe08bd06db20ac2b50b40ba765872" compoundref="_processor_8cpp" startline="600" endline="628">Processor::onSetBreakpoints</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ace959dd522e166e9cbd911cd7bbe9856" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::stackFrames</definition>
+        <argsstring></argsstring>
+        <name>stackFrames</name>
+        <qualifiedname>Id::stackFrames</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;stackFrames&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="109" column="28" bodyfile="generated/Generated.cpp" bodystart="109" bodyend="109" declfile="generated/Identifiers.h" declline="113" declcolumn="31"/>
+        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="644" endline="670">Processor::onStackTrace</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1afd40a86bfb2e61ba56c0c365d1ee7fd3" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::stackTrace</definition>
+        <argsstring></argsstring>
+        <name>stackTrace</name>
+        <qualifiedname>Id::stackTrace</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;stackTrace&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="110" column="28" bodyfile="generated/Generated.cpp" bodystart="110" bodyend="110" declfile="generated/Identifiers.h" declline="114" declcolumn="31"/>
+        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="644" endline="670">Processor::onStackTrace</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a7c7348e9f7d639ded9f3bf11241d4bd9" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::standardError</definition>
+        <argsstring></argsstring>
+        <name>standardError</name>
+        <qualifiedname>Id::standardError</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;stderr&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="111" column="28" bodyfile="generated/Generated.cpp" bodystart="111" bodyend="111" declfile="generated/Identifiers.h" declline="115" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_session_1a40050bf4c1c83fbc5d06acc65df561f5" compoundref="_session__mac_8cpp" startline="459" endline="472">debug::Session::drainOutput</referencedby>
+        <referencedby refid="namespacedap_1aa487f84892d5c501840a4dbae03b7800" compoundref="_types_8cpp" startline="237" endline="251">dap::getExceptionOutputEvent</referencedby>
+        <referencedby refid="class_processor_1a964f0cfae95557ad5237e30fafe0e404" compoundref="_processor_8cpp" startline="232" endline="244">Processor::registerOutputEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a2c09e26146778d522a60a2dbfc3520b9" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::standardOutput</definition>
+        <argsstring></argsstring>
+        <name>standardOutput</name>
+        <qualifiedname>Id::standardOutput</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;stdout&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="112" column="28" bodyfile="generated/Generated.cpp" bodystart="112" bodyend="112" declfile="generated/Identifiers.h" declline="116" declcolumn="31"/>
+        <referencedby refid="namespacedebug_1aa9ddd2d513c873736fd7cd93cb5f0c2f" compoundref="_session__mac_8cpp" startline="71" endline="86">debug::drainProcessStdio</referencedby>
+        <referencedby refid="class_processor_1a964f0cfae95557ad5237e30fafe0e404" compoundref="_processor_8cpp" startline="232" endline="244">Processor::registerOutputEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a74c9ddf20cf7940d0ec6bb672d75288d" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::started</definition>
+        <argsstring></argsstring>
+        <name>started</name>
+        <qualifiedname>Id::started</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;started&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="113" column="28" bodyfile="generated/Generated.cpp" bodystart="113" bodyend="113" declfile="generated/Identifiers.h" declline="117" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="197" endline="227">debug::StopManager::resumeAfterInitialBreak</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a311af3bbc4a090e4559c3ae6bd0e9325" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::startMethod</definition>
+        <argsstring></argsstring>
+        <name>startMethod</name>
+        <qualifiedname>Id::startMethod</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;startMethod&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="114" column="28" bodyfile="generated/Generated.cpp" bodystart="114" bodyend="114" declfile="generated/Identifiers.h" declline="118" declcolumn="31"/>
+        <referencedby refid="namespacedap_1aff116122c81f4bb50a0e85ec69b7f2b8" compoundref="_types_8cpp" startline="253" endline="272">dap::getProcessEvent</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ab239644d07a545177fb75aaa618ee23f" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::step</definition>
+        <argsstring></argsstring>
+        <name>step</name>
+        <qualifiedname>Id::step</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;step&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="115" column="28" bodyfile="generated/Generated.cpp" bodystart="115" bodyend="115" declfile="generated/Identifiers.h" declline="119" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" compoundref="_stop_manager_8cpp" startline="123" endline="137">debug::StopManager::drainStepCompleted</referencedby>
+        <referencedby refid="namespacedebug_1ab801ce744621ea694d3d0ea32ea65396" compoundref="_session__mac_8cpp" startline="38" endline="42">debug::onStepStop</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1aa4db6d6276fff66f56f45e0fd529ed69" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::stepIn</definition>
+        <argsstring></argsstring>
+        <name>stepIn</name>
+        <qualifiedname>Id::stepIn</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;stepIn&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="116" column="28" bodyfile="generated/Generated.cpp" bodystart="116" bodyend="116" declfile="generated/Identifiers.h" declline="120" declcolumn="31"/>
+        <referencedby refid="class_processor_1a11e8b89e7970451e3ef3fa039c3c9ddb" compoundref="_processor_8cpp" startline="745" endline="760">Processor::onStepIn</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a5717203d0353dedf2adbff82425768d3" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::stepOut</definition>
+        <argsstring></argsstring>
+        <name>stepOut</name>
+        <qualifiedname>Id::stepOut</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;stepOut&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="117" column="28" bodyfile="generated/Generated.cpp" bodystart="117" bodyend="117" declfile="generated/Identifiers.h" declline="121" declcolumn="31"/>
+        <referencedby refid="class_processor_1ac50b3b5146b85ce94ab5207ce3fe9ec8" compoundref="_processor_8cpp" startline="762" endline="777">Processor::onStepOut</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a424c0eeb2bdbe8f028b0daaa017604f0" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::stopped</definition>
+        <argsstring></argsstring>
+        <name>stopped</name>
+        <qualifiedname>Id::stopped</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;stopped&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="118" column="28" bodyfile="generated/Generated.cpp" bodystart="118" bodyend="118" declfile="generated/Identifiers.h" declline="122" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" compoundref="_types_8cpp" startline="214" endline="235">dap::getExceptionStoppedEvent</referencedby>
+        <referencedby refid="namespacedap_1a336d8b131f80128060f5206c3c233455" compoundref="_types_8cpp" startline="189" endline="204">dap::getStoppedEvent</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ade1f07ee69c5f12e54a21909cfa04683" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::stopReason</definition>
+        <argsstring></argsstring>
+        <name>stopReason</name>
+        <qualifiedname>Id::stopReason</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;stopReason&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="119" column="28" bodyfile="generated/Generated.cpp" bodystart="119" bodyend="119" declfile="generated/Identifiers.h" declline="123" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1a573bbe1668776da7f0c144e90f3b0849" compoundref="_stop_manager_8cpp" startline="166" endline="173">debug::StopManager::drainBreakIn</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1af7dee940f044a0d7be99ef0ebf7c9617" compoundref="_stop_manager_8cpp" startline="108" endline="121">debug::StopManager::drainBreakpointHit</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a413712232ea415e6fb8fbcd989f3b4d0" compoundref="_stop_manager_8cpp" startline="175" endline="195">debug::StopManager::drainExceptionStopped</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a23350ca0377ae83e11468a7301a41852" compoundref="_stop_manager_8cpp" startline="97" endline="106">debug::StopManager::drainInitialBreak</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1ab35e144bdf9bf196392632e3b5c5b84c" compoundref="_stop_manager_8cpp" startline="154" endline="164">debug::StopManager::drainModuleLoaded</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1ae491549724477f1c2457f0005f4e11e2" compoundref="_stop_manager_8cpp" startline="139" endline="152">debug::StopManager::drainPauseCompleted</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a53fdd79d409eebe08c237171a3af1f44" compoundref="_stop_manager_8cpp" startline="123" endline="137">debug::StopManager::drainStepCompleted</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1ae87d8d557aded2e5fa40b92f360fc887" compoundref="_stop_manager_8cpp" startline="84" endline="95">debug::StopManager::onStop</referencedby>
+        <referencedby refid="class_processor_1a4d5b69863bf9e8adaebef21f090421c0" compoundref="_processor_8cpp" startline="69" endline="98">Processor::process</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a6edd385a82ffc6225fb2afecf2836136" compoundref="_stop_manager_8cpp" startline="30" endline="82">debug::StopManager::registerEvents</referencedby>
+        <referencedby refid="class_processor_1a5429f57729737f7bd4c78a1c1d027c43" compoundref="_processor_8cpp" startline="511" endline="521">Processor::setAttachedState</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1afd9551a6c98ce5a1f9179ec52657af6b" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>Id::success</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;success&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="120" column="28" bodyfile="generated/Generated.cpp" bodystart="120" bodyend="120" declfile="generated/Identifiers.h" declline="124" declcolumn="31"/>
+        <referencedby refid="namespacedap_1acf6d5af6f8b52ae276176784f8255ee7" compoundref="_types_8cpp" startline="30" endline="39">dap::appendResponseMembers</referencedby>
+        <referencedby refid="class_processor_1abb3695ba57fea2803c9dfcf37e7f6240" compoundref="_processor_8cpp" startline="303" endline="318">Processor::onRunInTerminal</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1aa5dae72a45efd2ae14703e43a219e4e4" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsBreakpointLocationsRequest</definition>
+        <argsstring></argsstring>
+        <name>supportsBreakpointLocationsRequest</name>
+        <qualifiedname>Id::supportsBreakpointLocationsRequest</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsBreakpointLocationsRequest&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="121" column="28" bodyfile="generated/Generated.cpp" bodystart="121" bodyend="121" declfile="generated/Identifiers.h" declline="125" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a4c0a81356361f2e980db8dd43f9bcded" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsCancelRequest</definition>
+        <argsstring></argsstring>
+        <name>supportsCancelRequest</name>
+        <qualifiedname>Id::supportsCancelRequest</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsCancelRequest&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="122" column="28" bodyfile="generated/Generated.cpp" bodystart="122" bodyend="122" declfile="generated/Identifiers.h" declline="126" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1afa6eda7d3bbb3dcca14ef2c02949d5ef" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsClipboardContext</definition>
+        <argsstring></argsstring>
+        <name>supportsClipboardContext</name>
+        <qualifiedname>Id::supportsClipboardContext</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsClipboardContext&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="123" column="28" bodyfile="generated/Generated.cpp" bodystart="123" bodyend="123" declfile="generated/Identifiers.h" declline="127" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a14f6bb9bc077d1da0177225710262d27" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsCompletionsRequest</definition>
+        <argsstring></argsstring>
+        <name>supportsCompletionsRequest</name>
+        <qualifiedname>Id::supportsCompletionsRequest</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsCompletionsRequest&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="124" column="28" bodyfile="generated/Generated.cpp" bodystart="124" bodyend="124" declfile="generated/Identifiers.h" declline="128" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a010446bdf8cedb0863ae1da3ea4e470f" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsConditionalBreakpoints</definition>
+        <argsstring></argsstring>
+        <name>supportsConditionalBreakpoints</name>
+        <qualifiedname>Id::supportsConditionalBreakpoints</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsConditionalBreakpoints&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="125" column="28" bodyfile="generated/Generated.cpp" bodystart="125" bodyend="125" declfile="generated/Identifiers.h" declline="129" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a7ebbf479c9f42e50c9754b189857ed76" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsConfigurationDoneRequest</definition>
+        <argsstring></argsstring>
+        <name>supportsConfigurationDoneRequest</name>
+        <qualifiedname>Id::supportsConfigurationDoneRequest</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsConfigurationDoneRequest&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="126" column="28" bodyfile="generated/Generated.cpp" bodystart="126" bodyend="126" declfile="generated/Identifiers.h" declline="130" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a9b1901b34c14f2cba0ff5968ab0c1524" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsDataBreakpoints</definition>
+        <argsstring></argsstring>
+        <name>supportsDataBreakpoints</name>
+        <qualifiedname>Id::supportsDataBreakpoints</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsDataBreakpoints&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="127" column="28" bodyfile="generated/Generated.cpp" bodystart="127" bodyend="127" declfile="generated/Identifiers.h" declline="131" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a4a98348a9d8f70cd30830f5eec40995a" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsDelayedStackTraceLoading</definition>
+        <argsstring></argsstring>
+        <name>supportsDelayedStackTraceLoading</name>
+        <qualifiedname>Id::supportsDelayedStackTraceLoading</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsDelayedStackTraceLoading&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="128" column="28" bodyfile="generated/Generated.cpp" bodystart="128" bodyend="128" declfile="generated/Identifiers.h" declline="132" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a6f8025ac20b0a086fe2c5c5d1a1ba2e2" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsDisassembleRequest</definition>
+        <argsstring></argsstring>
+        <name>supportsDisassembleRequest</name>
+        <qualifiedname>Id::supportsDisassembleRequest</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsDisassembleRequest&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="129" column="28" bodyfile="generated/Generated.cpp" bodystart="129" bodyend="129" declfile="generated/Identifiers.h" declline="133" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a6ea17ec232227e0f9176823839b1d8e0" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsEvaluateForHovers</definition>
+        <argsstring></argsstring>
+        <name>supportsEvaluateForHovers</name>
+        <qualifiedname>Id::supportsEvaluateForHovers</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsEvaluateForHovers&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="130" column="28" bodyfile="generated/Generated.cpp" bodystart="130" bodyend="130" declfile="generated/Identifiers.h" declline="134" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a4bdcb50de748035a0015096b0f40658c" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsExceptionFilterOptions</definition>
+        <argsstring></argsstring>
+        <name>supportsExceptionFilterOptions</name>
+        <qualifiedname>Id::supportsExceptionFilterOptions</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsExceptionFilterOptions&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="131" column="28" bodyfile="generated/Generated.cpp" bodystart="131" bodyend="131" declfile="generated/Identifiers.h" declline="135" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1aca79713955eb7ff806318783265fdd9e" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsExceptionInfoRequest</definition>
+        <argsstring></argsstring>
+        <name>supportsExceptionInfoRequest</name>
+        <qualifiedname>Id::supportsExceptionInfoRequest</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsExceptionInfoRequest&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="132" column="28" bodyfile="generated/Generated.cpp" bodystart="132" bodyend="132" declfile="generated/Identifiers.h" declline="136" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a3a3f7e7362a1b9ce2328a6fad2970916" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsExceptionOptions</definition>
+        <argsstring></argsstring>
+        <name>supportsExceptionOptions</name>
+        <qualifiedname>Id::supportsExceptionOptions</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsExceptionOptions&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="133" column="28" bodyfile="generated/Generated.cpp" bodystart="133" bodyend="133" declfile="generated/Identifiers.h" declline="137" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1abea679aad4c96f96cd29086a7fc1e61c" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsFunctionBreakpoints</definition>
+        <argsstring></argsstring>
+        <name>supportsFunctionBreakpoints</name>
+        <qualifiedname>Id::supportsFunctionBreakpoints</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsFunctionBreakpoints&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="134" column="28" bodyfile="generated/Generated.cpp" bodystart="134" bodyend="134" declfile="generated/Identifiers.h" declline="138" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a24a01dd64c8be21c687be36f1464d23f" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsGotoTargetsRequest</definition>
+        <argsstring></argsstring>
+        <name>supportsGotoTargetsRequest</name>
+        <qualifiedname>Id::supportsGotoTargetsRequest</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsGotoTargetsRequest&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="135" column="28" bodyfile="generated/Generated.cpp" bodystart="135" bodyend="135" declfile="generated/Identifiers.h" declline="139" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a506e7e6afad1109edfd882b514e6f336" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsHitConditionalBreakpoints</definition>
+        <argsstring></argsstring>
+        <name>supportsHitConditionalBreakpoints</name>
+        <qualifiedname>Id::supportsHitConditionalBreakpoints</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsHitConditionalBreakpoints&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="136" column="28" bodyfile="generated/Generated.cpp" bodystart="136" bodyend="136" declfile="generated/Identifiers.h" declline="140" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a3f508e2859ebfa4dea1f92b2f6b6eedc" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsInstructionBreakpoints</definition>
+        <argsstring></argsstring>
+        <name>supportsInstructionBreakpoints</name>
+        <qualifiedname>Id::supportsInstructionBreakpoints</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsInstructionBreakpoints&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="137" column="28" bodyfile="generated/Generated.cpp" bodystart="137" bodyend="137" declfile="generated/Identifiers.h" declline="141" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1aedd5f2be168f4b5664e7cb2fa4f05934" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsLoadedSourcesRequest</definition>
+        <argsstring></argsstring>
+        <name>supportsLoadedSourcesRequest</name>
+        <qualifiedname>Id::supportsLoadedSourcesRequest</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsLoadedSourcesRequest&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="138" column="28" bodyfile="generated/Generated.cpp" bodystart="138" bodyend="138" declfile="generated/Identifiers.h" declline="142" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a9c48b94665d616c340493586500f95e2" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsLogPoints</definition>
+        <argsstring></argsstring>
+        <name>supportsLogPoints</name>
+        <qualifiedname>Id::supportsLogPoints</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsLogPoints&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="139" column="28" bodyfile="generated/Generated.cpp" bodystart="139" bodyend="139" declfile="generated/Identifiers.h" declline="143" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1af88f33a6de8a626f058d3c774072cd39" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsModulesRequest</definition>
+        <argsstring></argsstring>
+        <name>supportsModulesRequest</name>
+        <qualifiedname>Id::supportsModulesRequest</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsModulesRequest&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="140" column="28" bodyfile="generated/Generated.cpp" bodystart="140" bodyend="140" declfile="generated/Identifiers.h" declline="144" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a380e78313fb38dc27125a8508a6eb4f7" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsReadMemoryRequest</definition>
+        <argsstring></argsstring>
+        <name>supportsReadMemoryRequest</name>
+        <qualifiedname>Id::supportsReadMemoryRequest</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsReadMemoryRequest&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="141" column="28" bodyfile="generated/Generated.cpp" bodystart="141" bodyend="141" declfile="generated/Identifiers.h" declline="145" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1abb5272c966dab7c5d8326db8fb125ed7" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsRestartFrame</definition>
+        <argsstring></argsstring>
+        <name>supportsRestartFrame</name>
+        <qualifiedname>Id::supportsRestartFrame</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsRestartFrame&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="142" column="28" bodyfile="generated/Generated.cpp" bodystart="142" bodyend="142" declfile="generated/Identifiers.h" declline="146" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a5693e332dca572123439741eb23390fa" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsRunInTerminalRequest</definition>
+        <argsstring></argsstring>
+        <name>supportsRunInTerminalRequest</name>
+        <qualifiedname>Id::supportsRunInTerminalRequest</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsRunInTerminalRequest&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="143" column="28" bodyfile="generated/Generated.cpp" bodystart="143" bodyend="143" declfile="generated/Identifiers.h" declline="147" declcolumn="31"/>
+        <referencedby refid="class_processor_1a6d7ec47dd2861b544d75ae323b74a04c" compoundref="_processor_8cpp" startline="425" endline="438">Processor::onInitialize</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a701d0452e7f7c6fea291dd3860fcba5b" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsSetExpression</definition>
+        <argsstring></argsstring>
+        <name>supportsSetExpression</name>
+        <qualifiedname>Id::supportsSetExpression</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsSetExpression&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="144" column="28" bodyfile="generated/Generated.cpp" bodystart="144" bodyend="144" declfile="generated/Identifiers.h" declline="148" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a51a5d63890fc15d6de2f6ac5d8cd3d60" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsSetVariable</definition>
+        <argsstring></argsstring>
+        <name>supportsSetVariable</name>
+        <qualifiedname>Id::supportsSetVariable</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsSetVariable&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="145" column="28" bodyfile="generated/Generated.cpp" bodystart="145" bodyend="145" declfile="generated/Identifiers.h" declline="149" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a0bf4ad83e66e63e755d01d93f9ec5254" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsStepBack</definition>
+        <argsstring></argsstring>
+        <name>supportsStepBack</name>
+        <qualifiedname>Id::supportsStepBack</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsStepBack&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="146" column="28" bodyfile="generated/Generated.cpp" bodystart="146" bodyend="146" declfile="generated/Identifiers.h" declline="150" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ab191f850384ada1cb292828cfe003d52" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsStepInTargetsRequest</definition>
+        <argsstring></argsstring>
+        <name>supportsStepInTargetsRequest</name>
+        <qualifiedname>Id::supportsStepInTargetsRequest</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsStepInTargetsRequest&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="147" column="28" bodyfile="generated/Generated.cpp" bodystart="147" bodyend="147" declfile="generated/Identifiers.h" declline="151" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a31b91cd8f19a4b1a46ca791f60f5e1da" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsSteppingGranularity</definition>
+        <argsstring></argsstring>
+        <name>supportsSteppingGranularity</name>
+        <qualifiedname>Id::supportsSteppingGranularity</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsSteppingGranularity&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="148" column="28" bodyfile="generated/Generated.cpp" bodystart="148" bodyend="148" declfile="generated/Identifiers.h" declline="152" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ac0fada849e672289dfd55df1d6a6c25b" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsTerminateRequest</definition>
+        <argsstring></argsstring>
+        <name>supportsTerminateRequest</name>
+        <qualifiedname>Id::supportsTerminateRequest</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsTerminateRequest&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="149" column="28" bodyfile="generated/Generated.cpp" bodystart="149" bodyend="149" declfile="generated/Identifiers.h" declline="153" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a11fd484a7e9ec74c23e249d9b1a1e339" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsTerminateThreadsRequest</definition>
+        <argsstring></argsstring>
+        <name>supportsTerminateThreadsRequest</name>
+        <qualifiedname>Id::supportsTerminateThreadsRequest</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsTerminateThreadsRequest&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="150" column="28" bodyfile="generated/Generated.cpp" bodystart="150" bodyend="150" declfile="generated/Identifiers.h" declline="154" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ad7f75d4b07e47e4197cea6f4c69078c6" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportsValueFormattingOptions</definition>
+        <argsstring></argsstring>
+        <name>supportsValueFormattingOptions</name>
+        <qualifiedname>Id::supportsValueFormattingOptions</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportsValueFormattingOptions&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="151" column="28" bodyfile="generated/Generated.cpp" bodystart="151" bodyend="151" declfile="generated/Identifiers.h" declline="155" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a69fdba943abf810e2df6c39ddfcdd5a6" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::supportTerminateDebuggee</definition>
+        <argsstring></argsstring>
+        <name>supportTerminateDebuggee</name>
+        <qualifiedname>Id::supportTerminateDebuggee</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;supportTerminateDebuggee&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="152" column="28" bodyfile="generated/Generated.cpp" bodystart="152" bodyend="152" declfile="generated/Identifiers.h" declline="156" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a53abc2258fa27148ee3a3e7e2116d3a6" compoundref="_types_8cpp" startline="123" endline="165">dap::appendCapabilities</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ad2c88d15d874c946c2ae101f40a16c85" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::systemProcessId</definition>
+        <argsstring></argsstring>
+        <name>systemProcessId</name>
+        <qualifiedname>Id::systemProcessId</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;systemProcessId&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="153" column="28" bodyfile="generated/Generated.cpp" bodystart="153" bodyend="153" declfile="generated/Identifiers.h" declline="157" declcolumn="31"/>
+        <referencedby refid="namespacedap_1aff116122c81f4bb50a0e85ec69b7f2b8" compoundref="_types_8cpp" startline="253" endline="272">dap::getProcessEvent</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a34ff3c25c6e302ff4a5b0a5f9b0488a7" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::targetProcessId</definition>
+        <argsstring></argsstring>
+        <name>targetProcessId</name>
+        <qualifiedname>Id::targetProcessId</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;targetProcessId&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="154" column="28" bodyfile="generated/Generated.cpp" bodystart="154" bodyend="154" declfile="generated/Identifiers.h" declline="158" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_session_1a549bd404dad4a7adda65f5967541f913" compoundref="_session__mac_8cpp" startline="247" endline="288">debug::Session::launch</referencedby>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="564" endline="598">Processor::onDisconnect</referencedby>
+        <referencedby refid="class_processor_1a60d424392ea9e7f45278c950fba13ad7" compoundref="_processor_8cpp" startline="779" endline="791">Processor::onPause</referencedby>
+        <referencedby refid="class_processor_1af90b813821839e15e8321c4817c07bf9" compoundref="_processor_8cpp" startline="118" endline="134">Processor::onRequest</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="180" endline="208">Processor::registerEvents</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="197" endline="227">debug::StopManager::resumeAfterInitialBreak</referencedby>
+        <referencedby refid="class_processor_1a5429f57729737f7bd4c78a1c1d027c43" compoundref="_processor_8cpp" startline="511" endline="521">Processor::setAttachedState</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a454bb8e74650aeb46ac3d629bc2862f8" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::terminate</definition>
+        <argsstring></argsstring>
+        <name>terminate</name>
+        <qualifiedname>Id::terminate</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;terminate&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="155" column="28" bodyfile="generated/Generated.cpp" bodystart="155" bodyend="155" declfile="generated/Identifiers.h" declline="159" declcolumn="31"/>
+        <referencedby refid="class_processor_1a50c89dbf76a073f4fb491628258cf292" compoundref="_processor_8cpp" startline="7" endline="30">Processor::Processor</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a6614882ca10248277742cfdf5747023b" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::terminated</definition>
+        <argsstring></argsstring>
+        <name>terminated</name>
+        <qualifiedname>Id::terminated</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;terminated&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="156" column="28" bodyfile="generated/Generated.cpp" bodystart="156" bodyend="156" declfile="generated/Identifiers.h" declline="160" declcolumn="31"/>
+        <referencedby refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" compoundref="_processor_8cpp" startline="341" endline="370">Processor::drainProcessExited</referencedby>
+        <referencedby refid="class_processor_1a24b069461f4161553899d2a8f84d3287" compoundref="_processor_8cpp" startline="180" endline="208">Processor::registerEvents</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a6deeca27da77c1f9dbf5b72db990b6fc" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::terminateDeadlineMs</definition>
+        <argsstring></argsstring>
+        <name>terminateDeadlineMs</name>
+        <qualifiedname>Id::terminateDeadlineMs</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;terminateDeadlineMs&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="157" column="28" bodyfile="generated/Generated.cpp" bodystart="157" bodyend="157" declfile="generated/Identifiers.h" declline="161" declcolumn="31"/>
+        <referencedby refid="class_processor_1a471ef2434828ff4292a6e51547ae9a28" compoundref="_processor_8cpp" startline="387" endline="397">Processor::drainInputClosed</referencedby>
+        <referencedby refid="class_processor_1ac13b3d40eaebb4fcad6b533e49eeec41" compoundref="_processor_8cpp" startline="341" endline="370">Processor::drainProcessExited</referencedby>
+        <referencedby refid="class_processor_1ae3dd418216ebb9a28fbc82c5eb61de8b" compoundref="_processor_8cpp" startline="372" endline="385">Processor::drainTerminateTimeout</referencedby>
+        <referencedby refid="class_processor_1aa519050b3bc4dedaa3a81d51138cb25f" compoundref="_processor_8cpp" startline="100" endline="107">Processor::isPolling</referencedby>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="564" endline="598">Processor::onDisconnect</referencedby>
+        <referencedby refid="class_processor_1a57d2c4aa25b0c6786bbce3eb3a78a4a8" compoundref="_processor_8cpp" startline="418" endline="423">Processor::onReleaseResources</referencedby>
+        <referencedby refid="class_w_h_a_t_d_b_g_model_1a593ae2a36b251c5ecbff845694c90874" compoundref="_w_h_a_t_d_b_g_model_8cpp" startline="7" endline="35">WHATDBGModel::WHATDBGModel</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a07077957215e349556ebcf1e824fc5e7" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::terminateDebuggee</definition>
+        <argsstring></argsstring>
+        <name>terminateDebuggee</name>
+        <qualifiedname>Id::terminateDebuggee</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;terminateDebuggee&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="158" column="28" bodyfile="generated/Generated.cpp" bodystart="158" bodyend="158" declfile="generated/Identifiers.h" declline="162" declcolumn="31"/>
+        <referencedby refid="class_processor_1a42ea23066099c2f427fe5727a86999b2" compoundref="_processor_8cpp" startline="564" endline="598">Processor::onDisconnect</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a28eba176baf8ffc44d4cdfb23b5c1786" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::thread</definition>
+        <argsstring></argsstring>
+        <name>thread</name>
+        <qualifiedname>Id::thread</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;thread&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="159" column="28" bodyfile="generated/Generated.cpp" bodystart="159" bodyend="159" declfile="generated/Identifiers.h" declline="163" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="197" endline="227">debug::StopManager::resumeAfterInitialBreak</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a340842661a4b1de835c5c21978bdb2c7" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::threadId</definition>
+        <argsstring></argsstring>
+        <name>threadId</name>
+        <qualifiedname>Id::threadId</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;threadId&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="160" column="28" bodyfile="generated/Generated.cpp" bodystart="160" bodyend="160" declfile="generated/Identifiers.h" declline="164" declcolumn="31"/>
+        <referencedby refid="namespacedap_1a3cc8d3e9a0a173c7d0aafa0471b73731" compoundref="_types_8cpp" startline="214" endline="235">dap::getExceptionStoppedEvent</referencedby>
+        <referencedby refid="namespacedap_1a336d8b131f80128060f5206c3c233455" compoundref="_types_8cpp" startline="189" endline="204">dap::getStoppedEvent</referencedby>
+        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="644" endline="670">Processor::onStackTrace</referencedby>
+        <referencedby refid="classdebug_1_1_stop_manager_1a28aafcd2f5fca270a430feca6c263b67" compoundref="_stop_manager_8cpp" startline="197" endline="227">debug::StopManager::resumeAfterInitialBreak</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1ab9bcb45065cb87d579cfa238601236e1" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::threads</definition>
+        <argsstring></argsstring>
+        <name>threads</name>
+        <qualifiedname>Id::threads</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;threads&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="161" column="28" bodyfile="generated/Generated.cpp" bodystart="161" bodyend="161" declfile="generated/Identifiers.h" declline="165" declcolumn="31"/>
+        <referencedby refid="class_processor_1a9c6554bef7c0240709dd33695728e25d" compoundref="_processor_8cpp" startline="630" endline="642">Processor::onThreads</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a888dd716dbee4d564dc310c2970e580d" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::totalFrames</definition>
+        <argsstring></argsstring>
+        <name>totalFrames</name>
+        <qualifiedname>Id::totalFrames</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;totalFrames&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="162" column="28" bodyfile="generated/Generated.cpp" bodystart="162" bodyend="162" declfile="generated/Identifiers.h" declline="166" declcolumn="31"/>
+        <referencedby refid="class_processor_1a9f93dcec39f8e95b96c839e4f7123c27" compoundref="_processor_8cpp" startline="644" endline="670">Processor::onStackTrace</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1adf5dbac1af2d2106aa7a7792f5e24416" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::unhandled</definition>
+        <argsstring></argsstring>
+        <name>unhandled</name>
+        <qualifiedname>Id::unhandled</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;unhandled&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="163" column="28" bodyfile="generated/Generated.cpp" bodystart="163" bodyend="163" declfile="generated/Identifiers.h" declline="167" declcolumn="31"/>
+        <referencedby refid="class_processor_1aa69c050d1c22366ef2e99cf1e03e65b9" compoundref="_processor_8cpp" startline="793" endline="811">Processor::onExceptionInfo</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a289a38ab68c9df3bb102a57709e59862" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::variables</definition>
+        <argsstring></argsstring>
+        <name>variables</name>
+        <qualifiedname>Id::variables</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;variables&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="164" column="28" bodyfile="generated/Generated.cpp" bodystart="164" bodyend="164" declfile="generated/Identifiers.h" declline="168" declcolumn="31"/>
+        <referencedby refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" compoundref="_processor_8cpp" startline="691" endline="706">Processor::onVariables</referencedby>
+        <referencedby refid="class_processor_1afb36a2d6983f4722c95b7d7cd6286a09" compoundref="_processor_8cpp" startline="155" endline="178">Processor::registerCommands</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a8a41d6fdac2a7bef4aa8f00d16c2c307" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::variablesReference</definition>
+        <argsstring></argsstring>
+        <name>variablesReference</name>
+        <qualifiedname>Id::variablesReference</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;variablesReference&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="165" column="28" bodyfile="generated/Generated.cpp" bodystart="165" bodyend="165" declfile="generated/Identifiers.h" declline="169" declcolumn="31"/>
+        <referencedby refid="class_processor_1a01cea4d8ebd137a2673924b91e9cea3f" compoundref="_processor_8cpp" startline="265" endline="276">Processor::appendLocalsScope</referencedby>
+        <referencedby refid="classdebug_1_1_variable_manager_1a82ca67d49aaa5603e2863eda36efed73" compoundref="_variable_manager_8cpp" startline="109" endline="131">debug::VariableManager::appendVariable</referencedby>
+        <referencedby refid="class_processor_1abcc5411b7715d057a45415e526bfd7fe" compoundref="_processor_8cpp" startline="813" endline="844">Processor::onEvaluate</referencedby>
+        <referencedby refid="class_processor_1af27cd0ccd0080ce67fc335b824205832" compoundref="_processor_8cpp" startline="691" endline="706">Processor::onVariables</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a7fa0c881c6a81271d5354c60266306eb" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::verified</definition>
+        <argsstring></argsstring>
+        <name>verified</name>
+        <qualifiedname>Id::verified</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;verified&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="166" column="28" bodyfile="generated/Generated.cpp" bodystart="166" bodyend="166" declfile="generated/Identifiers.h" declline="170" declcolumn="31"/>
+        <referencedby refid="classdebug_1_1_breakpoint_manager_1a5f2aae3ed3cf48d9827df97ea3fc1661" compoundref="_breakpoint_manager_8cpp" startline="163" endline="191">debug::BreakpointManager::appendBreakpoint</referencedby>
+        <referencedby refid="namespacedap_1a2252839c7eb64619f5c79f9b0875ab18" compoundref="_types_8cpp" startline="93" endline="110">dap::appendBreakpointChangedEvent</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespace_id_1a6c6d3fe49b0ce0820fba5dbfef1e67f7" prot="public" static="no" mutable="no">
+        <type>const juce::Identifier</type>
+        <definition>const juce::Identifier Id::whatdbg</definition>
+        <argsstring></argsstring>
+        <name>whatdbg</name>
+        <qualifiedname>Id::whatdbg</qualifiedname>
+        <initializer>{ juce::String::fromUTF8 (&quot;whatdbg&quot;) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="generated/Generated.cpp" line="167" column="28" bodyfile="generated/Generated.cpp" bodystart="167" bodyend="167" declfile="generated/Identifiers.h" declline="171" declcolumn="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="generated/Generated.cpp" line="20" column="1"/>
+  </compounddef>
+</doxygen>
