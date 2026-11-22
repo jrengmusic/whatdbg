@@ -39,6 +39,7 @@
 | @id  | disconnect                         | `disconnect`                         |             |
 | @id  | error                              | `error`                              |             |
 | @id  | evaluate                           | `evaluate`                           |             |
+| @id  | events                             | `events`                             |             |
 | @id  | exception                          | `exception`                          |             |
 | @id  | exceptionAddress                   | `exceptionAddress`                   |             |
 | @id  | exceptionCode                      | `exceptionCode`                      |             |
@@ -73,11 +74,14 @@
 | @id  | launch                             | `launch`                             |             |
 | @id  | launchSequenceNumber               | `launchSequenceNumber`               |             |
 | @id  | launchTargetOption                 | `--launch-target`                    |             |
+| @id  | mcpOption                          | `--mcp`                              |             |
 | @id  | moduleLoad                         | `moduleLoad`                         |             |
 | @id  | next                               | `next`                               |             |
+| @id  | nextSeq                            | `nextSeq`                            |             |
 | @id  | nextSequenceNumber                 | `nextSequenceNumber`                 |             |
 | @id  | output                             | `output`                             |             |
 | @id  | pause                              | `pause`                              |             |
+| @id  | pending                            | `pending`                            |             |
 | @id  | pid                                | `pid`                                |             |
 | @id  | prepare                            | `prepare`                            |             |
 | @id  | process                            | `process`                            |             |
@@ -151,6 +155,7 @@
 | @id  | thread                             | `thread`                             |             |
 | @id  | threadId                           | `threadId`                           |             |
 | @id  | threads                            | `threads`                            |             |
+| @id  | timeoutMs                          | `timeoutMs`                          |             |
 | @id  | totalFrames                        | `totalFrames`                        |             |
 | @id  | unhandled                          | `unhandled`                          |             |
 | @id  | variables                          | `variables`                          |             |

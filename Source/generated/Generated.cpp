@@ -47,6 +47,7 @@ namespace Id
     const juce::Identifier disconnect                         { juce::String::fromUTF8 ("disconnect") };
     const juce::Identifier error                              { juce::String::fromUTF8 ("error") };
     const juce::Identifier evaluate                           { juce::String::fromUTF8 ("evaluate") };
+    const juce::Identifier events                             { juce::String::fromUTF8 ("events") };
     const juce::Identifier exception                          { juce::String::fromUTF8 ("exception") };
     const juce::Identifier exceptionAddress                   { juce::String::fromUTF8 ("exceptionAddress") };
     const juce::Identifier exceptionCode                      { juce::String::fromUTF8 ("exceptionCode") };
@@ -81,11 +82,14 @@ namespace Id
     const juce::Identifier launch                             { juce::String::fromUTF8 ("launch") };
     const juce::Identifier launchSequenceNumber               { juce::String::fromUTF8 ("launchSequenceNumber") };
     const juce::Identifier launchTargetOption                 { juce::String::fromUTF8 ("--launch-target") };
+    const juce::Identifier mcpOption                          { juce::String::fromUTF8 ("--mcp") };
     const juce::Identifier moduleLoad                         { juce::String::fromUTF8 ("moduleLoad") };
     const juce::Identifier next                               { juce::String::fromUTF8 ("next") };
+    const juce::Identifier nextSeq                            { juce::String::fromUTF8 ("nextSeq") };
     const juce::Identifier nextSequenceNumber                 { juce::String::fromUTF8 ("nextSequenceNumber") };
     const juce::Identifier output                             { juce::String::fromUTF8 ("output") };
     const juce::Identifier pause                              { juce::String::fromUTF8 ("pause") };
+    const juce::Identifier pending                            { juce::String::fromUTF8 ("pending") };
     const juce::Identifier pid                                { juce::String::fromUTF8 ("pid") };
     const juce::Identifier prepare                            { juce::String::fromUTF8 ("prepare") };
     const juce::Identifier process                            { juce::String::fromUTF8 ("process") };
@@ -159,6 +163,7 @@ namespace Id
     const juce::Identifier thread                             { juce::String::fromUTF8 ("thread") };
     const juce::Identifier threadId                           { juce::String::fromUTF8 ("threadId") };
     const juce::Identifier threads                            { juce::String::fromUTF8 ("threads") };
+    const juce::Identifier timeoutMs                          { juce::String::fromUTF8 ("timeoutMs") };
     const juce::Identifier totalFrames                        { juce::String::fromUTF8 ("totalFrames") };
     const juce::Identifier unhandled                          { juce::String::fromUTF8 ("unhandled") };
     const juce::Identifier variables                          { juce::String::fromUTF8 ("variables") };
@@ -174,7 +179,8 @@ namespace files
 
 /** @brief File names whatdbg reads: help. */
 
-const juce::String whatdbgHelp { juce::String::fromUTF8 ("HELP.md") };
+const juce::String whatdbgHelp  { juce::String::fromUTF8 ("HELP.md") };
+const juce::String whatdbgTools { juce::String::fromUTF8 ("tools.json") };
 
 /**______________________________END OF NAMESPACE______________________________*/
 }// namespace files

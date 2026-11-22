@@ -62,9 +62,7 @@ private:
     template <typename NumberType>
     static NumberType getNumber (const jam::JsonDocument& request, const jam::Document::Element& object, const juce::Identifier& key)
     {
-        const auto* value { request.find (object, jam::Strings::getView (key.toString ())) };
-
-        return value != nullptr ? jam::Format::getNumber<NumberType> (request.getView (*value)) : NumberType {};
+        return request.contains (object, jam::Strings::getView (key.toString ())) ? jam::Format::getNumber<NumberType> (request.getView (request.get (object, jam::Strings::getView (key.toString ())))) : NumberType {};
     }
 
     static juce::String getText (const jam::JsonDocument& request, const jam::Document::Element& object, const juce::Identifier& key);

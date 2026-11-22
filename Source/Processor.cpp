@@ -245,21 +245,19 @@ void Processor::registerOutputEvents ()
 
 int Processor::getRequestSeq (const jam::JsonDocument& request)
 {
-    return jam::Format::getNumber<int> (request.getView (*request.find (*request.getRoot ()->firstChild, jam::Strings::getView (Id::seq.toString ()))));
+    return jam::Format::getNumber<int> (request.getView (request.get (*request.getRoot ()->firstChild, jam::Strings::getView (Id::seq.toString ()))));
 }
 
 const jam::Document::Element& Processor::getArguments (const jam::JsonDocument& request)
 {
     const auto& message { *request.getRoot ()->firstChild };
 
-    return *request.getChildByToken (message, *request.find (message, jam::Strings::getView (Id::arguments.toString ())));
+    return *request.getChildByToken (message, request.get (message, jam::Strings::getView (Id::arguments.toString ())));
 }
 
 juce::String Processor::getText (const jam::JsonDocument& request, const jam::Document::Element& object, const juce::Identifier& key)
 {
-    const auto* value { request.find (object, jam::Strings::getView (key.toString ())) };
-
-    return value != nullptr ? jam::Strings::fromView (request.getString (*value)) : juce::String {};
+    return request.contains (object, jam::Strings::getView (key.toString ())) ? jam::Strings::fromView (request.getString (request.get (object, jam::Strings::getView (key.toString ())))) : juce::String {};
 }
 
 void Processor::appendLocalsScope (std::string& json, int localsRef)
@@ -303,9 +301,8 @@ void Processor::onCommand (const jam::JsonDocument& document)
 void Processor::onRunInTerminal (const jam::JsonDocument& document)
 {
     const auto& message { *document.getRoot ()->firstChild };
-    const auto* isSuccess { document.find (message, jam::Strings::getView (Id::success.toString ())) };
 
-    if (isSuccess != nullptr and not document.getBoolean (*isSuccess))
+    if (document.contains (message, jam::Strings::getView (Id::success.toString ())) and not document.getBoolean (document.get (message, jam::Strings::getView (Id::success.toString ()))))
     {
         const juce::String text { "runInTerminal failed: " + getText (document, message, Id::message) };
 
@@ -425,10 +422,9 @@ void Processor::onReleaseResources (const jam::JsonDocument&)
 void Processor::onInitialize (const jam::JsonDocument& document)
 {
     const int seq { getRequestSeq (document) };
-    const auto* supportsRunInTerminal { document.find (getArguments (document), jam::Strings::getView (Id::supportsRunInTerminalRequest.toString ())) };
     std::string json;
 
-    model.storeValue (model.sessionTag, Id::isRunInTerminalSupported, supportsRunInTerminal != nullptr and document.getBoolean (*supportsRunInTerminal) ? 1 : 0);
+    model.storeValue (model.sessionTag, Id::isRunInTerminalSupported, document.contains (getArguments (document), jam::Strings::getView (Id::supportsRunInTerminalRequest.toString ())) and document.getBoolean (document.get (getArguments (document), jam::Strings::getView (Id::supportsRunInTerminalRequest.toString ()))) ? 1 : 0);
     dap::appendResponse (json, seq, jam::Strings::getView (Id::initialize.toString ()), true, &dap::appendCapabilities);
     addMessage (json);
 
@@ -568,10 +564,17 @@ void Processor::onDisconnect (const jam::JsonDocument& document, bool isTerminat
     const auto& request { *document.getRoot ()->firstChild };
     const int seq { getRequestSeq (document) };
     const juce::String command { getText (document, request, Id::command) };
-    const auto* argumentsValue { document.find (request, jam::Strings::getView (Id::arguments.toString ())) };
-    const auto* terminateValue { argumentsValue != nullptr ? document.find (*document.getChildByToken (request, *argumentsValue), jam::Strings::getView (Id::terminateDebuggee.toString ())) : nullptr };
+    bool shouldTerminate { isTerminate };
 
-    model.storeValue (model.sessionTag, Id::shouldTerminateOnExit, static_cast<int> (isTerminate or (terminateValue != nullptr and document.getBoolean (*terminateValue))));
+    if (document.contains (request, jam::Strings::getView (Id::arguments.toString ())))
+    {
+        const auto& arguments { *document.getChildByToken (request, document.get (request, jam::Strings::getView (Id::arguments.toString ()))) };
+
+        if (document.contains (arguments, jam::Strings::getView (Id::terminateDebuggee.toString ())))
+            shouldTerminate = shouldTerminate or document.getBoolean (document.get (arguments, jam::Strings::getView (Id::terminateDebuggee.toString ())));
+    }
+
+    model.storeValue (model.sessionTag, Id::shouldTerminateOnExit, static_cast<int> (shouldTerminate));
 
     std::string json;
 
@@ -601,10 +604,9 @@ void Processor::onSetBreakpoints (const jam::JsonDocument& document)
 {
     const int seq { getRequestSeq (document) };
     const auto& arguments { getArguments (document) };
-    const auto& source { *document.getChildByToken (arguments, *document.find (arguments, jam::Strings::getView (Id::source.toString ()))) };
+    const auto& source { *document.getChildByToken (arguments, document.get (arguments, jam::Strings::getView (Id::source.toString ()))) };
     const juce::String sourcePath { getText (document, source, Id::path) };
-    const auto* breakpointsValue { document.find (arguments, jam::Strings::getView (Id::breakpoints.toString ())) };
-    const auto* requestedBreakpoints { breakpointsValue != nullptr ? document.getChildByToken (arguments, *breakpointsValue) : nullptr };
+    const auto* requestedBreakpoints { document.contains (arguments, jam::Strings::getView (Id::breakpoints.toString ())) ? document.getChildByToken (arguments, document.get (arguments, jam::Strings::getView (Id::breakpoints.toString ()))) : nullptr };
 
 #if JUCE_DEBUG
     jam::debug::Log::write ("[Whatdbg] setBreakpoints: " + sourcePath + " ("

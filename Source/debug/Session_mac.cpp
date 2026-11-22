@@ -367,15 +367,15 @@ void Session::drainLauncherOutput () noexcept
             jassert (document != nullptr);
 
             const auto& message { *document->getRoot ()->firstChild };
-            const juce::Identifier type { jam::Strings::fromView (document->getString (*document->find (message, jam::Strings::getView (Id::kind.toString ())))) };
+            const juce::Identifier type { jam::Strings::fromView (document->getString (document->get (message, jam::Strings::getView (Id::kind.toString ())))) };
 
             if (type == Id::pid)
             {
-                attachLaunchTarget (jam::Format::getNumber<std::uint32_t> (document->getView (*document->find (message, jam::Strings::getView (Id::pid.toString ())))));
+                attachLaunchTarget (jam::Format::getNumber<std::uint32_t> (document->getView (document->get (message, jam::Strings::getView (Id::pid.toString ())))));
             }
             else if (type == Id::error)
             {
-                events.get (Id::error, jam::Strings::fromView (document->getString (*document->find (message, jam::Strings::getView (Id::error.toString ())))));
+                events.get (Id::error, jam::Strings::fromView (document->getString (document->get (message, jam::Strings::getView (Id::error.toString ())))));
             }
 
             launcherOutput.close ();

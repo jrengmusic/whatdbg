@@ -116,9 +116,7 @@ bool Launcher::isAttached (const std::string& line)
 
     if (document != nullptr)
     {
-        const auto* type { document->find (*document->getRoot ()->firstChild, jam::Strings::getView (Id::kind.toString ())) };
-
-        return type != nullptr and juce::Identifier { jam::Strings::fromView (document->getString (*type)) } == Id::didAttach;
+        return document->contains (*document->getRoot ()->firstChild, jam::Strings::getView (Id::kind.toString ())) and juce::Identifier { jam::Strings::fromView (document->getString (document->get (*document->getRoot ()->firstChild, jam::Strings::getView (Id::kind.toString ())))) } == Id::didAttach;
     }
 
     return false;

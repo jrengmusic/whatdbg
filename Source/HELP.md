@@ -11,6 +11,7 @@ DAP debug adapter for native C/C++ targets.
 ```
   whatdbg            start the adapter; it speaks DAP on stdin/stdout
   whatdbg --help     print this text and exit
+  whatdbg --mcp      serve debug sessions as Model Context Protocol tools on stdin and stdout
   whatdbg --comm-file <path> --launch-target <program>
                      launcher mode: the runInTerminal request runs it in the
                      client's terminal; the adapter attaches to <program>

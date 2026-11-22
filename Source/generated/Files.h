@@ -27,7 +27,8 @@ namespace files
 
 /** @brief File names whatdbg reads: help. */
 
-extern const juce::String whatdbgHelp;///< Rendered help text.
+extern const juce::String whatdbgHelp; ///< Rendered help text.
+extern const juce::String whatdbgTools;///< MCP tool definitions.
 
 /**______________________________END OF NAMESPACE______________________________*/
 }// namespace files

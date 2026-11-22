@@ -25,6 +25,7 @@
 #include <BinaryData.h>
 #include "Whatdbg.h"
 #include "Launcher.h"
+#include "ToolServer.h"
 #include "generated/Generated.h"
 
 #if JUCE_MAC
@@ -236,6 +237,18 @@ static int runLauncher (const juce::ArgumentList& arguments)
     return Launcher { arguments[arguments.indexOfOption (Id::commFileOption.toString ()) + 1].text, launchTarget }.run ();
 }
 
+static juce::JUCEApplicationBase* createToolServer ()
+{
+    return new ToolServer ();
+}
+
+static int runToolServer (const char* programPath)
+{
+    const char* toolArguments[] { programPath };
+    juce::JUCEApplicationBase::createInstance = &createToolServer;
+    return juce::JUCEApplicationBase::main (static_cast<int> (std::size (toolArguments)), toolArguments);
+}
+
 int main (int argc, char* argv[])
 {
 #if JUCE_WINDOWS
@@ -264,6 +277,9 @@ int main (int argc, char* argv[])
 
     if (arguments.containsOption (Id::commFileOption.toString ()) and arguments.containsOption (Id::launchTargetOption.toString ()))
         return runLauncher (arguments);
+
+    if (arguments.containsOption (Id::mcpOption.toString ()))
+        return runToolServer (argv[0]);
 
 #if JUCE_MAC
     if (getenv (reexecMarker) == nullptr)

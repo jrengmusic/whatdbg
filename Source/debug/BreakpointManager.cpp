@@ -198,8 +198,8 @@ std::vector<std::uint16_t> BreakpointManager::getRequestedLines (const jam::Json
     {
         for (auto* requested : *requestedBreakpoints)
         {
-            const auto* line { document.find (*requested, jam::Strings::getView (Id::line.toString ())) };
-            requestedLines.push_back (static_cast<std::uint16_t> (jam::Format::getNumber<int> (document.getView (*line))));
+            const auto& line { document.get (*requested, jam::Strings::getView (Id::line.toString ())) };
+            requestedLines.push_back (static_cast<std::uint16_t> (jam::Format::getNumber<int> (document.getView (line))));
         }
     }
 

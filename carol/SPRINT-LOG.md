@@ -112,6 +112,47 @@
 
 ## SPRINT HISTORY
 
+## Sprint 39: MCP Server Mode (`whatdbg --mcp`) ✅
+
+**Date:** 2026-11-22
+**Duration:** 01:03 (`jam/carol/SPRINT-LOG.md` Sprint 188 is the primary record.)
+
+### Agents Participated
+- COUNSELOR: Part 7 (`PLAN-model-context-protocol-7-whatdbg.md`) delegation, Design by Contract Filter validation, Close 1 audit resolution, Close 2 doxygen validation, this log.
+- Engineer (inherit): linked `jam_model_context_protocol`, wrote `Source/tools.json`, `Session.h/.cpp`, `ToolServer.h/.cpp`, `Main.cpp`, `HELP.md`, and `tests/mcp/` + `benchmark/mcp.md`/`mcp.sh`; resolved Auditor findings 1, 2, and 4.
+- Pathfinder (flash): discovery reads, Close 2 doxygen pass on `Source/Session.h` and `Source/ToolServer.h`, Close 3 `scout` runs (`benchmark/mcp.md` and `benchmark/smoke.md`).
+- Auditor (inherit): Close 1 audit — 3 `whatdbg` findings reported, all 3 resolved.
+
+### Files Modified (15 total)
+- `project-info.md:133,180` — added `jam_model_context_protocol` to `## user module` and `tools` (`Source/tools.json`) to `## binary`.
+- `cast/files.md:19` — added `whatdbgTools` (`tools.json`).
+- `cast/identifiers.md:42,77,80,84,158` — added `events`, `mcpOption`, `nextSeq`, `pending`, `timeoutMs`.
+- `Source/tools.json` (new) — 18 MCP tool schemas (16 DAP commands, `launch`/`attach`, and `events`).
+- `Source/Session.h`, `Source/Session.cpp` (new) — child DAP process bridge over `jam::StdioClient` + `jam::StdioProtocol`, `jam::Model` row state, event queue with wait timer and cancellation, `const getQueuedEventsJson()`, boundary `jassert` in `open`.
+- `Source/ToolServer.h`, `Source/ToolServer.cpp` (new) — `JUCEApplicationBase` MCP stdio server registering all 18 tools on `jam::ModelContextServer` and managing per-handle `Session` ownership.
+- `Source/Main.cpp:27,239-250,279-280` — added `--mcp` dispatch (`runToolServer`) before macOS sidecar re-exec.
+- `Source/HELP.md:14` — added `whatdbg --mcp` usage line.
+- `tests/mcp/run_mcp.lua`, `tests/mcp/baseline/macos.txt`, `tests/mcp/baseline/windows.txt`, `benchmark/mcp.md`, `benchmark/mcp.sh` (new) — 10-scenario MCP suite and scout manifest.
+
+### Alignment Check
+- [x] BLESSED principles followed
+- [x] NAMES.md adhered
+- [x] MANIFESTO.md principles applied
+
+### Problems Solved
+- Exposed whatdbg DAP debugging as 18 schema-validated MCP tools without modifying the existing DAP adapter or smoke suite (ruling R12).
+- Resolved Auditor findings: made `Session::getQueuedEventsJson() const` with caller-side queue clearing (NAMES.md Rule 1); replaced 12 callback null guards with one `jassert` in `Session::open` (MANIFESTO **B** / **D**); replaced literal `eventType` with `Id::event` (MANIFESTO **S**).
+- Verified `scout whatdbg/benchmark/mcp.md` (exit 0) and `scout whatdbg/benchmark/smoke.md` (7 epochs, exit 0) on macOS.
+
+### State for Continuation
+- ARCHITECT runs `whatdbg/benchmark/mcp.md` and `whatdbg/benchmark/smoke.md` on Windows (ruling R4).
+
+### Debts Paid
+- None
+
+### Debts Deferred
+- None
+
 ## Sprint 38: The adapter ends its run at the end of stdin — no orphan whatdbg after its client exits ✅
 
 **Date:** 2026-11-18

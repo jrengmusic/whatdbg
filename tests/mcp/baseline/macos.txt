@@ -1,0 +1,10 @@
+launch ok
+setBreakpoints ok
+configurationDone ok
+events ok process,thread,stopped(breakpoint)
+stackTrace ok
+continue ok
+events ok exited,terminated
+threads error unknown session
+terminate ok
+exit 0

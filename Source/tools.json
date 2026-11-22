@@ -1,0 +1,352 @@
+{
+  "tools": [
+    {
+      "name": "launch",
+      "description": "Starts a whatdbg debug session for a program, stopped at entry, and returns {session}. Set breakpoints, then call configurationDone to run. The session ends when the program exits or on disconnect or terminate.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "program": {
+            "type": "string"
+          },
+          "cwd": {
+            "type": "string"
+          }
+        },
+        "required": ["program"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "attach",
+      "description": "Attaches a whatdbg debug session to a running process by pid, and returns {session}.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "pid": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "cwd": {
+            "type": "string"
+          }
+        },
+        "required": ["pid"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "setBreakpoints",
+      "description": "Sends the DAP setBreakpoints request to the session and returns the response body.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "string",
+            "description": "Session handle from launch or attach."
+          },
+          "source": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string"
+              }
+            },
+            "required": ["path"],
+            "additionalProperties": false
+          },
+          "breakpoints": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "line": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": ["line"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["session", "source"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "configurationDone",
+      "description": "Sends the DAP configurationDone request to the session and returns the response body.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "string",
+            "description": "Session handle from launch or attach."
+          }
+        },
+        "required": ["session"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "threads",
+      "description": "Sends the DAP threads request to the session and returns the response body.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "string",
+            "description": "Session handle from launch or attach."
+          }
+        },
+        "required": ["session"],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true
+      }
+    },
+    {
+      "name": "stackTrace",
+      "description": "Sends the DAP stackTrace request to the session and returns the response body.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "string",
+            "description": "Session handle from launch or attach."
+          },
+          "threadId": {
+            "type": "integer"
+          }
+        },
+        "required": ["session"],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true
+      }
+    },
+    {
+      "name": "scopes",
+      "description": "Sends the DAP scopes request to the session and returns the response body.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "string",
+            "description": "Session handle from launch or attach."
+          },
+          "frameId": {
+            "type": "integer"
+          }
+        },
+        "required": ["session", "frameId"],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true
+      }
+    },
+    {
+      "name": "variables",
+      "description": "Sends the DAP variables request to the session and returns the response body.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "string",
+            "description": "Session handle from launch or attach."
+          },
+          "variablesReference": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": ["session", "variablesReference"],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true
+      }
+    },
+    {
+      "name": "continue",
+      "description": "Sends the DAP continue request to the session and returns the response body.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "string",
+            "description": "Session handle from launch or attach."
+          }
+        },
+        "required": ["session"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "next",
+      "description": "Sends the DAP next request to the session and returns the response body.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "string",
+            "description": "Session handle from launch or attach."
+          }
+        },
+        "required": ["session"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "stepIn",
+      "description": "Sends the DAP stepIn request to the session and returns the response body.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "string",
+            "description": "Session handle from launch or attach."
+          }
+        },
+        "required": ["session"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "stepOut",
+      "description": "Sends the DAP stepOut request to the session and returns the response body.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "string",
+            "description": "Session handle from launch or attach."
+          }
+        },
+        "required": ["session"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "pause",
+      "description": "Sends the DAP pause request to the session and returns the response body.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "string",
+            "description": "Session handle from launch or attach."
+          }
+        },
+        "required": ["session"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "exceptionInfo",
+      "description": "Sends the DAP exceptionInfo request to the session and returns the response body.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "string",
+            "description": "Session handle from launch or attach."
+          }
+        },
+        "required": ["session"],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true
+      }
+    },
+    {
+      "name": "evaluate",
+      "description": "Sends the DAP evaluate request to the session and returns the response body.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "string",
+            "description": "Session handle from launch or attach."
+          },
+          "expression": {
+            "type": "string"
+          },
+          "frameId": {
+            "type": "integer"
+          },
+          "context": {
+            "type": "string",
+            "enum": ["repl", "hover", "watch"]
+          }
+        },
+        "required": ["session", "expression"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "disconnect",
+      "description": "Sends the DAP disconnect request to the session and returns the response body.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "string",
+            "description": "Session handle from launch or attach."
+          },
+          "terminateDebuggee": {
+            "type": "boolean"
+          }
+        },
+        "required": ["session"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "terminate",
+      "description": "Sends the DAP terminate request to the session and returns the response body.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "string",
+            "description": "Session handle from launch or attach."
+          }
+        },
+        "required": ["session"],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "events",
+      "description": "Returns the DAP events of the session in arrival order: stopped, output, process, thread, breakpoint, exited, terminated. When none is queued, waits up to timeoutMs for the first one.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "string",
+            "description": "Session handle from launch or attach."
+          },
+          "timeoutMs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 60000
+          }
+        },
+        "required": ["session", "timeoutMs"],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true
+      }
+    }
+  ]
+}
