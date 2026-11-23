@@ -1,0 +1,54 @@
+```cmake
+cmake_minimum_required(VERSION :::minimumVersion:::)
+
+project(:::targetName::: LANGUAGES NONE)
+
+include(ExternalProject)
+
+cmake_host_system_information(RESULT CAST_HOST_PROCESSOR QUERY OS_PLATFORM)
+
+set(CAST_LIBLLDB_FILE "${CMAKE_SOURCE_DIR}/:::resourceDirectory:::/${CAST_HOST_PROCESSOR}/liblldb.dylib")
+
+ExternalProject_Add(llvm
+    PREFIX :::llvmTag:::
+    URL "https://github.com/llvm/llvm-project/archive/refs/tags/:::llvmTag:::.tar.gz"
+    SOURCE_SUBDIR llvm
+    CMAKE_CACHE_ARGS
+:::[list]:::
+    BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --target liblldb
+    INSTALL_COMMAND ""
+    USES_TERMINAL_DOWNLOAD ON
+    USES_TERMINAL_CONFIGURE ON
+    USES_TERMINAL_BUILD ON
+)
+
+ExternalProject_Add_Step(llvm stage
+    COMMAND ${CMAKE_COMMAND} -DCAST_SOURCE_DIRECTORY=<SOURCE_DIR> -DCAST_BINARY_DIRECTORY=<BINARY_DIR> -DCAST_HOST_PROCESSOR=${CAST_HOST_PROCESSOR} "-DCAST_LIBLLDB_FILE=${CAST_LIBLLDB_FILE}" -P "${CMAKE_SOURCE_DIR}/stage.cmake"
+    DEPENDEES build
+    DEPENDS "${CMAKE_SOURCE_DIR}/stage.cmake"
+    BYPRODUCTS "${CAST_LIBLLDB_FILE}"
+    USES_TERMINAL ON
+)
+```
+
+```llvm-option
+        -D:::value:::
+```
+
+```stage
+set(CAST_RESOURCE_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/:::resourceDirectory:::")
+set(CAST_HEADER_DIRECTORY "${CAST_RESOURCE_DIRECTORY}/include/lldb")
+
+file(MAKE_DIRECTORY "${CAST_RESOURCE_DIRECTORY}/${CAST_HOST_PROCESSOR}" "${CAST_RESOURCE_DIRECTORY}/licenses")
+file(COPY_FILE "${CAST_BINARY_DIRECTORY}/lib/liblldb.dylib" "${CAST_LIBLLDB_FILE}")
+
+execute_process(COMMAND install_name_tool -id "@rpath/liblldb.dylib" "${CAST_LIBLLDB_FILE}" COMMAND_ERROR_IS_FATAL ANY)
+execute_process(COMMAND strip -x "${CAST_LIBLLDB_FILE}" COMMAND_ERROR_IS_FATAL ANY)
+
+file(GLOB CAST_ROOT_HEADERS "${CAST_BINARY_DIRECTORY}/include/lldb/lldb-*.h")
+file(GLOB CAST_API_HEADERS "${CAST_SOURCE_DIRECTORY}/lldb/include/lldb/API/*.h" "${CAST_BINARY_DIRECTORY}/tools/lldb/include/lldb/API/*.h")
+file(REMOVE_RECURSE "${CAST_HEADER_DIRECTORY}")
+file(COPY ${CAST_ROOT_HEADERS} DESTINATION "${CAST_HEADER_DIRECTORY}")
+file(COPY ${CAST_API_HEADERS} DESTINATION "${CAST_HEADER_DIRECTORY}/API")
+file(COPY_FILE "${CAST_SOURCE_DIRECTORY}/llvm/LICENSE.TXT" "${CAST_RESOURCE_DIRECTORY}/licenses/LLVM-LICENSE.TXT")
+```

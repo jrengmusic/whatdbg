@@ -419,3 +419,9 @@ else()
     execute_process(COMMAND gh release create "${CAST_RELEASE_TAG}" ${CAST_RELEASE_ASSETS} --repo ":::repository:::" --title "${CAST_RELEASE_TAG}" --notes-file "${CMAKE_CURRENT_LIST_DIR}/RELEASE.md" COMMAND_ERROR_IS_FATAL ANY)
 endif()
 ```
+
+```liblldb-bundle
+if(APPLE)
+    execute_process(COMMAND cast "${CMAKE_CURRENT_LIST_DIR}/:::liblldbManifest:::" COMMAND_ERROR_IS_FATAL ANY)
+endif()
+```

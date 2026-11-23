@@ -55,14 +55,6 @@ static juce::File getConfigDirectory () noexcept
                .getChildFile (sidecarDirName);
 }
 
-static juce::File getOrCreateConfigDirectory () noexcept
-{
-    const juce::File configDir { getConfigDirectory () };
-    configDir.createDirectory ();
-
-    return configDir;
-}
-
 #if JUCE_DEBUG
 static void onApplicationCrash (void* context) noexcept
 {
@@ -100,48 +92,37 @@ static void onApplicationTerminate () noexcept
 }
 #endif
 
-static juce::File getOrCreateSidecarDirectory (const char* subdir) noexcept
+static bool hasSidecarBinary (const juce::File& sidecarFile, const char* data, int size) noexcept
 {
-    const juce::File sidecarDir { getConfigDirectory ().getChildFile (subdir) };
-    sidecarDir.createDirectory ();
+    const juce::MemoryMappedFile mappedFile { sidecarFile, juce::MemoryMappedFile::readOnly };
 
-    return sidecarDir;
+    return mappedFile.getData () != nullptr
+           and mappedFile.getSize () == static_cast<size_t> (size)
+           and std::memcmp (mappedFile.getData (), data, static_cast<size_t> (size)) == 0;
 }
 
-static bool applySidecarBinary (const juce::File& sidecarDir, const char* name,
-                                const char* data, int size) noexcept
+static bool setSidecarBinary (const juce::File& sidecarDir, const char* name,
+                              const char* data, int size) noexcept
 {
-    const juce::File dest { sidecarDir.getChildFile (name) };
-    const bool shouldWrite { not dest.existsAsFile ()
-                             or dest.getSize () != static_cast<juce::int64> (size) };
+    const juce::File sidecarFile { sidecarDir.getChildFile (name) };
 
-    bool isOk { true };
-
-    if (shouldWrite)
-    {
-        juce::FileOutputStream stream { dest };
-
-        isOk = stream.openedOk () and stream.write (data, static_cast<size_t> (size));
-    }
-
-    return isOk;
+    return hasSidecarBinary (sidecarFile, data, size)
+           or sidecarFile.replaceWithData (data, static_cast<size_t> (size));
 }
 
 #if JUCE_WINDOWS
 static juce::File getOrCreateSidecar () noexcept
 {
-    const juce::File sidecarDir { getOrCreateSidecarDirectory (dbgengSubdir) };
+    const juce::File sidecarDir { jam::File::getOrCreateDirectory (getConfigDirectory (), dbgengSubdir) };
 
-    const bool wroteDbgeng  { applySidecarBinary (sidecarDir, "dbgeng.dll",
-                                                  BinaryData::dbgeng_dll, BinaryData::dbgeng_dllSize) };
-    const bool wroteDbghelp { applySidecarBinary (sidecarDir, "dbghelp.dll",
-                                                  BinaryData::dbghelp_dll, BinaryData::dbghelp_dllSize) };
-    const bool wroteDbgcore { applySidecarBinary (sidecarDir, "dbgcore.dll",
-                                                  BinaryData::dbgcore_dll, BinaryData::dbgcore_dllSize) };
-    const bool wroteSymsrv  { applySidecarBinary (sidecarDir, "symsrv.dll",
-                                                  BinaryData::symsrv_dll, BinaryData::symsrv_dllSize) };
-
-    const bool isAllOk { wroteDbgeng and wroteDbghelp and wroteDbgcore and wroteSymsrv };
+    const bool isAllOk { setSidecarBinary (sidecarDir, "dbgeng.dll",
+                                           BinaryData::dbgeng_dll, BinaryData::dbgeng_dllSize)
+                         and setSidecarBinary (sidecarDir, "dbghelp.dll",
+                                               BinaryData::dbghelp_dll, BinaryData::dbghelp_dllSize)
+                         and setSidecarBinary (sidecarDir, "dbgcore.dll",
+                                               BinaryData::dbgcore_dll, BinaryData::dbgcore_dllSize)
+                         and setSidecarBinary (sidecarDir, "symsrv.dll",
+                                               BinaryData::symsrv_dll, BinaryData::symsrv_dllSize) };
 
     return isAllOk ? sidecarDir : juce::File {};
 }
@@ -150,18 +131,16 @@ static juce::File getOrCreateSidecar () noexcept
 #if JUCE_MAC
 static juce::File getOrCreateSidecar () noexcept
 {
-    const juce::File sidecarDir { getOrCreateSidecarDirectory (liblldbSubdir) };
+    const juce::File sidecarDir { jam::File::getOrCreateDirectory (getConfigDirectory (), liblldbSubdir) };
 
-    const bool isAllOk { applySidecarBinary (sidecarDir, "liblldb.dylib",
-                                             BinaryData::liblldb_dylib, BinaryData::liblldb_dylibSize) };
+    const bool isAllOk { setSidecarBinary (sidecarDir, "liblldb.dylib",
+                                           BinaryData::liblldb_dylib, BinaryData::liblldb_dylibSize) };
 
     return isAllOk ? sidecarDir : juce::File {};
 }
 
 static int execWithSidecar (char* argv[])
 {
-    juce::ignoreUnused (getOrCreateConfigDirectory ());
-
     const juce::File sidecarDir { getOrCreateSidecar () };
 
     if (sidecarDir != juce::File {})
@@ -187,10 +166,8 @@ static int runAdapter (const char* programPath)
 {
     int exitCode { 0 };
 
-    const juce::File configDir { getOrCreateConfigDirectory () };
-
 #if JUCE_DEBUG
-    const juce::File logPath { configDir.getChildFile (logFileName) };
+    const juce::File logPath { getConfigDirectory ().getChildFile (logFileName) };
     jam::debug::Log::Scope logScope { logPath };
     juce::SystemStats::setApplicationCrashHandler (&onApplicationCrash);
     std::set_terminate (&onApplicationTerminate);
@@ -198,7 +175,11 @@ static int runAdapter (const char* programPath)
     jam::debug::Log::write ("WHATDBG: started");
 #endif
 
-    const auto sidecarDir { getOrCreateSidecar () };
+#if JUCE_MAC
+    const juce::File sidecarDir { jam::File::getOrCreateDirectory (getConfigDirectory (), liblldbSubdir) };
+#else
+    const juce::File sidecarDir { getOrCreateSidecar () };
+#endif
 
     if (sidecarDir != juce::File {})
     {

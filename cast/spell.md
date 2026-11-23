@@ -16,6 +16,7 @@
 | @Distribution    | installer/mac/distribution.xml    |
 | @Installer       | installer/win/installer.nsi       |
 | @Gh              | ../gh.cmake                       |
+| @LiblldbBundle   | ../liblldbBundle.cmake            |
 | @Release         | ../RELEASE.md                     |
 | @semicolon       | ;                                 |
 | @source          | source.cast                       |
@@ -109,6 +110,8 @@
 | - [list]: @project-info:cmake                 |                      | @cmake:gh                                     | @Gh              |
 | - [list]: @project-info:project info          |                      | - [list]: @cmake:pack-value                   |                  |
 | - [list]: @project-info:pack                  |                      |                                               |                  |
++-----------------------------------------------+----------------------+-----------------------------------------------+------------------+
+| - [list]: @project-info:cmake                 |                      | @cmake:liblldb-bundle                         | @LiblldbBundle   |
 +-----------------------------------------------+----------------------+-----------------------------------------------+------------------+
 | - [list]: @project-info:cmake                 |                      | @installer:[no-banner]release                 | @Release         |
 | - [list]: @project-info:release notes         |                      | - [list]: @installer:note                     |                  |

@@ -33,7 +33,7 @@ whatdbg is a cross-platform DAP (Debug Adapter Protocol) debug adapter for C/C++
 - **Build System:** `cast` generates `CMakeLists.txt` and `Source/generated/*` from `project-info.md` and `cast/*.md`. CMake + Ninja underneath. Do not edit `CMakeLists.txt` or `Source/generated/*` by hand.
 - **Platforms:**
   - Windows: MSVC via vcvarsall
-  - macOS: Xcode clang, native architecture (CMake reads `uname -m`; `Resources/macos/` holds an arm64 and an x86_64 sidecar)
+  - macOS: Xcode clang, native architecture (CMake reads `uname -m`; the `liblldb/` chain stages the sidecar of that architecture into `Resources/macos/`)
 - **Debug Engines:**
   - Windows: dbgeng COM API (sidecar DLLs embedded in BinaryData)
   - macOS: liblldb SB API (sidecar dylib embedded in BinaryData, per-arch)
@@ -492,18 +492,15 @@ whatdbg/
         windows/
             x64/
                 dbgeng.dll, dbghelp.dll, dbgcore.dll, symsrv.dll
-        macos/                          (Git LFS — built by build-liblldb.sh)
+        macos/                          (staged by liblldb/)
             arm64/
-                liblldb.dylib
-            x86_64/
-                liblldb.dylib
+                liblldb.dylib           (Git LFS)
             include/lldb/API/           SB API headers
             licenses/LLVM-LICENSE.TXT
-    Builds/                             (gitignored — build output + liblldb build machinery)
+    Builds/                             (gitignored — build output)
         Release/                        (CMake/Ninja build tree — Release)
         Debug/                          (CMake/Ninja build tree — Debug)
-        liblldb/                        (LLVM source clone + cmake tree)
-    build-liblldb.sh                    (pinned LLVM build — writes Builds/liblldb + Resources/macos/)
+    liblldb/                            Child cast project — ExternalProject build of the pinned LLVM liblldb, staged into Resources/macos/
     build.sh                            Copy of cast/build.sh — escape hatch for Windows builds from the MSVC shell of the host architecture.
     carol/
         SPRINT-LOG.md                   Cross-session sprint memory
@@ -519,7 +516,7 @@ whatdbg/
 | dbgeng | Windows Debug Engine COM API (the engine behind WinDbg). |
 | liblldb | LLVM's debugger library. Exposed via the SB (Scriptable Bridge) API. |
 | SB API | liblldb's public C++ interface (`lldb::SBDebugger`, `SBTarget`, `SBProcess`, etc.). |
-| Sidecar | Pinned debug engine binaries embedded in BinaryData, extracted at runtime. Windows: DLLs extracted to `~/.config/whatdbg/dbgeng/` and loaded via `LoadLibrary`. macOS: `liblldb.dylib` extracted to the sidecar folder, then the process re-execs itself with `DYLD_LIBRARY_PATH` set so dyld resolves SB API symbols. |
+| Sidecar | Pinned debug engine binaries embedded in BinaryData, extracted at runtime. Windows: DLLs extracted to `%APPDATA%\whatdbg\dbgeng\` and loaded via `LoadLibrary`. macOS: `liblldb.dylib` extracted to the sidecar folder, then the process re-execs itself with `DYLD_LIBRARY_PATH` set so dyld resolves SB API symbols. |
 | Re-exec trampoline | macOS startup pattern: `Main.cpp` extracts `liblldb.dylib`, sets `DYLD_LIBRARY_PATH`, then `execv`s itself. The second exec finds the dylib and proceeds normally. |
 | WaitForEvent | Blocking dbgeng call (Windows) that processes debug events. |
 | SSOT | Single Source of Truth. |
@@ -529,7 +526,7 @@ whatdbg/
 | SPSC | Single Producer Single Consumer. |
 | prettyPrint | Per-type value formatter for juce::String, std::string, std::unique_ptr, std::vector. |
 | dispatch table | `commands`, a `jam::Function::Map<juce::String, jam::Function::pointerCapacity, void (const jam::JsonDocument&)>`, in `Processor`. `onCommand` looks up the DAP command name. |
-| cast | Code generator. It reads `project-info.md` and `cast/*.md`. It writes `CMakeLists.txt`, `Source/generated/*`, `gh.cmake`, and `RELEASE.md`. It then runs the selected toolchain row. |
+| cast | Code generator. It reads `project-info.md` and `cast/*.md`. It writes `CMakeLists.txt`, `Source/generated/*`, `gh.cmake`, `liblldbBundle.cmake`, and `RELEASE.md`. It then runs the selected toolchain row. |
 | toolchain row | A row in the `## toolchain` table of `project-info.md`. |
 | `jam::Instance<T>` | CRTP base in jam_core. It gives `getInstance()`. `WHATDBGModel` derives from it. |
 | `jam::Union` | Packed transport type in jam_core. `BreakpointLocation` uses it. |

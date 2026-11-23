@@ -88,13 +88,13 @@ Features apply to both Windows and macOS unless noted.
 - Ninja
 - JUCE 8
 - `cast` build generator, CMake + Ninja underneath
-- liblldb.dylib built from LLVM source (see `build-liblldb.sh`)
+- liblldb.dylib built from LLVM source by the `liblldb/` cast chain
 
 ---
 
 ## Get Started
 
-`cast` builds whatdbg. It reads `project-info.md`, writes `CMakeLists.txt`, `Source/generated/ProjectInfo.h`, `gh.cmake` and `RELEASE.md`, then runs the toolchain row you select. One command generates and builds.
+`cast` builds whatdbg. It reads `project-info.md`, writes `CMakeLists.txt`, `Source/generated/ProjectInfo.h`, `gh.cmake`, `liblldbBundle.cmake` and `RELEASE.md`, then runs the toolchain row you select. One command generates and builds.
 
 Do not edit `CMakeLists.txt`. `cast` overwrites it.
 
@@ -110,11 +110,7 @@ The build targets the machine's own architecture. CMake reads `uname -m`, then p
 
 The build installs the binary to `~/.local/bin/whatdbg`.
 
-`liblldb.dylib` must exist first. Build it once:
-
-```bash
-./build-liblldb.sh
-```
+On macOS each lane runs the `liblldb/` child project first. The first lane on a machine builds all of LLVM. Later lanes rebuild `liblldb.dylib` when its pin or options change, and stage it again when the stage script changes or the staged dylib is missing.
 
 ### Windows
 
