@@ -112,7 +112,7 @@ std::string Launcher::getLine ()
 
 bool Launcher::isAttached (const std::string& line)
 {
-    const auto document (jam::JsonDocument::parse (std::string_view { line }));
+    const auto document (jam::JsonDocument::read (line));
 
     if (document != nullptr)
     {
