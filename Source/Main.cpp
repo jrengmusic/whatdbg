@@ -246,13 +246,9 @@ int main (int argc, char* argv[])
         SetConsoleOutputCP (CP_UTF8);
 #endif
 
-        juce::ScopedJuceInitialiser_GUI juceInitialiser;
-
-        jam::TerminalPage page { { BinaryData::fetcher }, jam::Strings { files::styleSheet } };
-        page.setDocument (std::move (*jam::MarkdownDocument::parse (BinaryData::getString (files::whatdbgHelp), files::whatdbgHelp)));
-        juce::MemoryOutputStream frame;
-        page.writeToStream (frame);
-        fwrite (frame.getData(), sizeof (char), frame.getDataSize(), stdout);
+        const auto [data, size] { BinaryData::fetcher (files::whatdbgHelp.toRawUTF8()) };
+        assert (data != nullptr);
+        fwrite (data, sizeof (char), static_cast<size_t> (size), stdout);
         return 0;
     }
 

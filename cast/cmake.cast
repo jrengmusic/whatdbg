@@ -106,7 +106,19 @@ set(CAST_JUCE_VERSION :::juceVersion:::)
 
 :::[list]:::
 
+:::[list]:::
+
 message(STATUS "CAST: user modules added from :::userModulePath:::")
+
+set(CAST_CORE_FRAMEWORKS "")
+
+if(APPLE)
+    get_target_property(CAST_CORE_LINK_ITEMS juce_core INTERFACE_LINK_LIBRARIES)
+    set(CAST_CORE_FRAMEWORKS "${CAST_CORE_LINK_ITEMS}")
+    list(FILTER CAST_CORE_FRAMEWORKS INCLUDE REGEX "^-framework")
+    list(FILTER CAST_CORE_LINK_ITEMS EXCLUDE REGEX "^-framework")
+    set_target_properties(juce_core PROPERTIES INTERFACE_LINK_LIBRARIES "${CAST_CORE_LINK_ITEMS}")
+endif()
 
 :::juceTargetFunction:::(${PROJECT_NAME}
     PRODUCT_NAME ":::productName:::"
@@ -147,18 +159,27 @@ file(GLOB CAST_MODULE_SOURCES
 
 set_source_files_properties(${CAST_MODULE_SOURCES} PROPERTIES SKIP_PRECOMPILE_HEADERS ON)
 
-target_compile_definitions(${PROJECT_NAME} PUBLIC
+set(CAST_COMPILE_DEFINITIONS
     CAST_COMMIT="${CAST_COMMIT_HASH}"
 :::[list]:::
 )
 
-target_include_directories(${PROJECT_NAME} PRIVATE
+target_compile_definitions(${PROJECT_NAME} PUBLIC ${CAST_COMPILE_DEFINITIONS})
+
+set(CAST_INCLUDE_DIRECTORIES
+:::[list]:::
+)
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${CAST_INCLUDE_DIRECTORIES})
+
+set(CAST_HELP_MODULES
+:::[list]:::
+:::[list]:::
 :::[list]:::
 )
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
-:::[list]:::
 :::[list]:::
 :::[list]:::
     PUBLIC
@@ -187,6 +208,66 @@ target_link_options(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Release>:${CAST_RELEASE_LINK_FLAGS}>
 )
 
+file(GLOB CAST_HELP_FILES CONFIGURE_DEPENDS
+:::[list]:::
+)
+
+juce_add_binary_data(${PROJECT_NAME}_HelpDocuments
+    NAMESPACE ":::binaryDataNamespace:::"
+    SOURCES
+        ${CAST_HELP_FILES}
+)
+
+:::juceTargetFunction:::(${PROJECT_NAME}_HelpFrames
+    PRODUCT_NAME "${PROJECT_NAME}_HelpFrames"
+    COMPANY_NAME :::companyName:::
+    NEEDS_CURL :::needsCurl:::
+    NEEDS_WEB_BROWSER :::needsWebBrowser:::
+    NEEDS_WEBVIEW2 :::needsWebview2:::
+    NEEDS_STORE_KIT :::needsStoreKit:::
+)
+
+juce_generate_juce_header(${PROJECT_NAME}_HelpFrames)
+
+target_sources(${PROJECT_NAME}_HelpFrames PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/help/HelpFrames.cpp"
+)
+
+target_compile_definitions(${PROJECT_NAME}_HelpFrames PRIVATE ${CAST_COMPILE_DEFINITIONS})
+target_include_directories(${PROJECT_NAME}_HelpFrames PRIVATE ${CAST_INCLUDE_DIRECTORIES})
+
+target_link_libraries(${PROJECT_NAME}_HelpFrames
+    PRIVATE
+        ${CAST_HELP_MODULES}
+        ${CAST_CORE_FRAMEWORKS}
+        ${PROJECT_NAME}_HelpDocuments
+        juce::juce_recommended_config_flags
+)
+
+set(CAST_FRAME_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/frames")
+file(MAKE_DIRECTORY "${CAST_FRAME_DIRECTORY}")
+set(CAST_ERASE_FRAME "erase.frame")
+set(CAST_FRAME_FILES "${CAST_FRAME_DIRECTORY}/${CAST_ERASE_FRAME}")
+
+foreach(CAST_HELP_FILE ${CAST_HELP_FILES})
+    get_filename_component(CAST_DOCUMENT_EXTENSION "${CAST_HELP_FILE}" LAST_EXT)
+
+    if(CAST_DOCUMENT_EXTENSION STREQUAL ".md")
+        get_filename_component(CAST_DOCUMENT_NAME "${CAST_HELP_FILE}" NAME)
+        get_filename_component(CAST_DOCUMENT_STEM "${CAST_HELP_FILE}" NAME_WLE)
+        list(APPEND CAST_DOCUMENT_NAMES "${CAST_DOCUMENT_NAME}")
+        list(APPEND CAST_FRAME_FILES "${CAST_FRAME_DIRECTORY}/${CAST_DOCUMENT_STEM}.frame")
+    endif()
+endforeach()
+
+add_custom_command(
+    OUTPUT ${CAST_FRAME_FILES}
+    COMMAND ${PROJECT_NAME}_HelpFrames "${CAST_FRAME_DIRECTORY}" "${CAST_ERASE_FRAME}" ${CAST_DOCUMENT_NAMES}
+    DEPENDS ${PROJECT_NAME}_HelpFrames ${CAST_HELP_FILES}
+    COMMENT "CAST: help frames"
+    VERBATIM
+)
+
 file(GLOB CAST_BINARY_FILES CONFIGURE_DEPENDS
 :::[list]:::
 )
@@ -194,6 +275,7 @@ file(GLOB CAST_BINARY_FILES CONFIGURE_DEPENDS
 juce_add_binary_data(${PROJECT_NAME}_BinaryData
     NAMESPACE ":::binaryDataNamespace:::"
     SOURCES
+        ${CAST_FRAME_FILES}
         ${CAST_BINARY_FILES}
 )
 

@@ -115,23 +115,44 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 
 ## user module
 
++--------------+-----------------------+--------------------------------------------------------------------------------------------------+
+| root         | name                  | description                                                                                      |
++==============+=======================+==================================================================================================+
+| @user-module | jam_core              | JAM Core                                                                                         |
+| @user-module | jam_document          | Universal line break and reflow (UAX #14)                                                        |
+| @user-module | jam_markdown          | Clean-room native CommonMark + GFM markdown parsing and rendering                                |
+| @user-module | jam_freetype          | Vendored FreeType font rasterization library                                                     |
+| @user-module | jam_graphics          | Graphics utilities, blur, shadows, colours, fonts, mesh                                          |
+| @user-module | jam_data_structures   | ValueTree management and data model utilities — model, parameters                                |
+| @user-module | jam_animation         | Foundation animation classes (Animator, AnimationBase, AnimationScrollingText)                   |
+| @user-module | jam_web               | HTML authored-subset and CSS Syntax Level 3 subset tokenizers and parsers                        |
+| @user-module | jam_style             | JAM Style — LookAndFeel base + ColourScheme-backed colour registry                               |
+| @user-module | jam_gui               | GUI foundation — Window, Modal, Glass                                                            |
+| @user-module | jam_mermaid_diagram   | Clean-room native mermaid diagram parsing over jam::Document producing the semantic Element tree |
+| @user-module | jam_markdown_graphics | Markdown and mermaid materialisation, layout and view component                                  |
+| @user-module | jam_terminal          | VT read-side engine, TTY, protocol vocabulary, keyboard encoding                                 |
+| @user-module | jam_tui               | Terminal user interface components, painted through the terminal graphics context                |
++--------------+-----------------------+--------------------------------------------------------------------------------------------------+
+
+## program module
+
++-------------------------+----------------------------+
+| name                    | value                      |
++=========================+============================+
+| core                    | juce_core                  |
+| dataStructures          | juce_data_structures       |
+| events                  | juce_events                |
+| jamCore                 | jam_core                   |
+| jamDataStructures       | jam_data_structures        |
+| jamTerminal             | jam_terminal               |
+| jamModelContextProtocol | jam_model_context_protocol |
++-------------------------+----------------------------+
+
+## program user module
+
 +--------------+----------------------------+-------------------------------------------------------------------------------------------------------+
 | root         | name                       | description                                                                                           |
 +==============+============================+=======================================================================================================+
-| @user-module | jam_core                   | JAM Core                                                                                              |
-| @user-module | jam_document               | Universal line break and reflow (UAX #14)                                                             |
-| @user-module | jam_markdown               | Clean-room native CommonMark + GFM markdown parsing and rendering                                     |
-| @user-module | jam_freetype               | Vendored FreeType font rasterization library                                                          |
-| @user-module | jam_graphics               | Graphics utilities, blur, shadows, colours, fonts, mesh                                               |
-| @user-module | jam_data_structures        | ValueTree management and data model utilities — model, parameters                                     |
-| @user-module | jam_animation              | Foundation animation classes (Animator, AnimationBase, AnimationScrollingText)                        |
-| @user-module | jam_web                    | HTML authored-subset and CSS Syntax Level 3 subset tokenizers and parsers                             |
-| @user-module | jam_style                  | JAM Style — LookAndFeel base + ColourScheme-backed colour registry                                    |
-| @user-module | jam_gui                    | GUI foundation — Window, Modal, Glass                                                                 |
-| @user-module | jam_mermaid_diagram        | Clean-room native mermaid diagram parsing over jam::Document producing the semantic Element tree      |
-| @user-module | jam_markdown_graphics      | Markdown and mermaid materialisation, layout and view component                                       |
-| @user-module | jam_terminal               | VT read-side engine, TTY, protocol vocabulary, keyboard encoding                                      |
-| @user-module | jam_tui                    | Terminal user interface components, painted through the terminal graphics context                     |
 | @user-module | jam_model_context_protocol | Model Context Protocol server over stdio: newline framing, JSON Schema 2020-12 validation, tool calls |
 +--------------+----------------------------+-------------------------------------------------------------------------------------------------------+
 
@@ -146,15 +167,25 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 
 ## macro
 
-+------------------------------+----------------------------------------------------------------+-----------------------------------------+
-| name                         | value                                                          | description                             |
-+==============================+================================================================+=========================================+
-| useJuceNamespace             | DONT_SET_USING_JUCE_NAMESPACE=1                                | No using namespace juce in JuceHeader.h |
-| declareProjectInfo           | JUCE_DONT_DECLARE_PROJECTINFO=1                                | No auto-generated ProjectInfo namespace |
-| win32Ie                      | `$<$<PLATFORM_ID:Windows>:_WIN32_IE=0x0A00>`                   | Windows IE platform version             |
-| juceCoreIncludeNativeHeaders | `$<$<PLATFORM_ID:Windows>:JUCE_CORE_INCLUDE_NATIVE_HEADERS=1>` | Native platform headers in juce_core    |
-| juceCoreIncludeComSmartPtr   | `$<$<PLATFORM_ID:Windows>:JUCE_CORE_INCLUDE_COM_SMART_PTR=1>`  | Windows COM smart pointer helpers       |
-+------------------------------+----------------------------------------------------------------+-----------------------------------------+
++------------------------------------+----------------------------------------------------------------------+---------------------------------------------------------------+
+| name                               | value                                                                | description                                                   |
++====================================+======================================================================+===============================================================+
+| useJuceNamespace                   | DONT_SET_USING_JUCE_NAMESPACE=1                                      | No using namespace juce in JuceHeader.h                       |
+| declareProjectInfo                 | JUCE_DONT_DECLARE_PROJECTINFO=1                                      | No auto-generated ProjectInfo namespace                       |
+| juceStrictRefCountedPointer        | JUCE_STRICT_REFCOUNTEDPOINTER=1                                      | Strict ReferenceCountedObjectPtr casting                      |
+| juceWebBrowser                     | JUCE_WEB_BROWSER=0                                                   | WebBrowserComponent support                                   |
+| juceUseCurl                        | JUCE_USE_CURL=0                                                      | libcurl for http on Linux                                     |
+| juceUseFoundation                  | JUCE_USE_FOUNDATION=0                                                | POSIX file and system functions on macOS, no Foundation       |
+| juceUseResilientMapping            | JUCE_USE_RESILIENT_MAPPING=1                                         | A read-only map of a file that becomes shorter gives no fault |
+| win32LeanAndMean                   | `$<$<PLATFORM_ID:Windows>:WIN32_LEAN_AND_MEAN=1>`                    | Exclude rarely used Windows headers                           |
+| nominmax                           | `$<$<PLATFORM_ID:Windows>:NOMINMAX=1>`                               | No Windows min/max macros                                     |
+| win32Ie                            | `$<$<PLATFORM_ID:Windows>:_WIN32_IE=0x0A00>`                         | Windows IE platform version                                   |
+| juceCoreIncludeNativeHeaders       | `$<$<PLATFORM_ID:Windows>:JUCE_CORE_INCLUDE_NATIVE_HEADERS=1>`       | Native platform headers in juce_core                          |
+| juceGraphicsIncludeDirect2dHelpers | `$<$<PLATFORM_ID:Windows>:JUCE_GRAPHICS_INCLUDE_DIRECT2D_HELPERS=1>` | Direct2D helper visibility, from the framework patch          |
+| juceCoreIncludeComSmartPtr         | `$<$<PLATFORM_ID:Windows>:JUCE_CORE_INCLUDE_COM_SMART_PTR=1>`        | Windows COM smart pointer helpers                             |
+| haveFreetype                       | HAVE_FREETYPE                                                        | FreeType font backend, consumed by juce_graphics_Harfbuzz.cpp |
+| haveUnistdH                        | `$<$<NOT:$<PLATFORM_ID:Windows>>:HAVE_UNISTD_H>`                     | POSIX unistd.h present, non-Windows                           |
++------------------------------------+----------------------------------------------------------------------+---------------------------------------------------------------+
 
 ## include
 
@@ -168,20 +199,27 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 | harfbuzz   | `${CAST_JUCE_PATH}/modules/juce_graphics/fonts/harfbuzz` |                                           |
 +------------+----------------------------------------------------------+-------------------------------------------+
 
+## help
+
++------------+-------------------------------+------------------------------------+
+| name       | value                         | description                        |
++============+===============================+====================================+
+| help       | Source/HELP.md                | Help document source               |
+| styleSheet | ../jam/jam_tui/page/style.css | Stylesheet, embedded as BinaryData |
++------------+-------------------------------+------------------------------------+
+
 ## binary
 
-+------------+-----------------------------------------------------------------------+---------------------------------------+
-| name       | value                                                                 | description                           |
-+============+=======================================================================+=======================================+
-| liblldb    | `Resources/macos/${CMAKE_OSX_ARCHITECTURES}/liblldb.dylib`            | macOS LLDB engine                     |
-| dbgeng     | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbgeng.dll`  | Windows debug engine                  |
-| dbghelp    | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbghelp.dll` | Windows symbol handling               |
-| dbgcore    | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbgcore.dll` | Windows dump core                     |
-| symsrv     | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/symsrv.dll`  | Windows symbol server client          |
-| help       | Source/HELP.md                                                        | Help document source                  |
-| styleSheet | ../jam/jam_tui/page/style.css                                         | Stylesheet, embedded as BinaryData    |
-| tools      | Source/tools.json                                                     | MCP tool list, embedded as BinaryData |
-+------------+-----------------------------------------------------------------------+---------------------------------------+
++---------+-----------------------------------------------------------------------+---------------------------------------+
+| name    | value                                                                 | description                           |
++=========+=======================================================================+=======================================+
+| liblldb | `Resources/macos/${CMAKE_OSX_ARCHITECTURES}/liblldb.dylib`            | macOS LLDB engine                     |
+| dbgeng  | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbgeng.dll`  | Windows debug engine                  |
+| dbghelp | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbghelp.dll` | Windows symbol handling               |
+| dbgcore | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/dbgcore.dll` | Windows dump core                     |
+| symsrv  | `Resources/windows/${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}/symsrv.dll`  | Windows symbol server client          |
+| tools   | Source/tools.json                                                     | MCP tool list, embedded as BinaryData |
++---------+-----------------------------------------------------------------------+---------------------------------------+
 
 ## library
 
@@ -297,6 +335,10 @@ Every field is a complete literal; nothing downstream derives, concatenates, or 
 | linkTimeCodegen         |                                | /LTCG          | linker | MSVC whole-program link-time codegen                                                                                             |
 +-------------------------+--------------------------------+----------------+--------+----------------------------------------------------------------------------------------------------------------------------------+
 | deadCodeStripping       | -dead_strip                    | /OPT:REF       | linker | Strip unreferenced functions and data                                                                                            |
++-------------------------+--------------------------------+----------------+--------+----------------------------------------------------------------------------------------------------------------------------------+
+| deadDylibStripping      | -Wl,-dead_strip_dylibs         |                | linker | Drop the libraries that no live code references.                                                                                 |
++-------------------------+--------------------------------+----------------+--------+----------------------------------------------------------------------------------------------------------------------------------+
+| exportedSymbols         | -Wl,-exported_symbol,_main     |                | linker | Export the entry point only.                                                                                                     |
 +-------------------------+--------------------------------+----------------+--------+----------------------------------------------------------------------------------------------------------------------------------+
 | identicalCodeFolding    |                                | /OPT:ICF       | linker | Fold identical COMDATs                                                                                                           |
 +-------------------------+--------------------------------+----------------+--------+----------------------------------------------------------------------------------------------------------------------------------+

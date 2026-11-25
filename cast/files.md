@@ -15,6 +15,6 @@
 +---------+--------------+--------------+-----------------------+
 | type    | name         | value        | description           |
 +=========+==============+==============+=======================+
-| @string | whatdbgHelp  | `HELP.md`    | Rendered help text.   |
+| @string | whatdbgHelp  | `HELP.frame` | Rendered help text.   |
 | @string | whatdbgTools | `tools.json` | MCP tool definitions. |
 +---------+--------------+--------------+-----------------------+
