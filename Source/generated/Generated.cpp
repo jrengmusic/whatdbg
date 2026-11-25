@@ -179,7 +179,7 @@ namespace files
 
 /** @brief File names whatdbg reads: help. */
 
-const juce::String whatdbgHelp  { juce::String::fromUTF8 ("HELP.md") };
+const juce::String whatdbgHelp  { juce::String::fromUTF8 ("HELP.frame") };
 const juce::String whatdbgTools { juce::String::fromUTF8 ("tools.json") };
 
 /**______________________________END OF NAMESPACE______________________________*/

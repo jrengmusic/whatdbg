@@ -31,5 +31,7 @@ WHATDBGModel::WHATDBGModel ()
     createAndAddParameter<jam::Parameter<int64_t>> (exceptionRow, Id::exceptionAddress, int64_t { 0 });
     createAndAddParameter<jam::Parameter<int>> (exceptionRow, Id::isMachException, 0);
 
+#if ! (JUCE_MAC && ! JUCE_USE_APPKIT)
     stopTimer ();
+#endif
 }
